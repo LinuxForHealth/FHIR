@@ -1630,9 +1630,9 @@ public class Evidence extends DomainResource {
             ValidationSupport.requireNonNull(evidence.exposureBackground, "exposureBackground");
             ValidationSupport.checkList(evidence.exposureVariant, "exposureVariant", Reference.class);
             ValidationSupport.checkList(evidence.outcome, "outcome", Reference.class);
-            ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.exposureBackground, "exposureBackground", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.exposureVariant, "exposureVariant", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(Evidence evidence) {

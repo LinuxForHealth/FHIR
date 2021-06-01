@@ -1824,7 +1824,7 @@ public class ResearchElementDefinition extends DomainResource {
             ValidationSupport.checkList(researchElementDefinition.library, "library", Canonical.class);
             ValidationSupport.requireNonNull(researchElementDefinition.type, "type");
             ValidationSupport.checkNonEmptyList(researchElementDefinition.characteristic, "characteristic", Characteristic.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(researchElementDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(ResearchElementDefinition researchElementDefinition) {
@@ -2514,7 +2514,7 @@ public class ResearchElementDefinition extends DomainResource {
                 ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
                 ValidationSupport.choiceElement(characteristic.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
                 ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
-                ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.checkValueSetBinding(characteristic.unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
                 ValidationSupport.requireValueOrChildren(characteristic);
             }
 

@@ -864,8 +864,8 @@ public class Organization extends DomainResource {
             ValidationSupport.checkList(organization.address, "address", Address.class);
             ValidationSupport.checkList(organization.contact, "contact", Contact.class);
             ValidationSupport.checkList(organization.endpoint, "endpoint", Reference.class);
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(organization.partOf, "partOf", "Organization");
+            ValidationSupport.checkReferenceType(organization.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Organization organization) {

@@ -988,9 +988,9 @@ public class Specimen extends DomainResource {
             ValidationSupport.checkList(specimen.container, "container", Container.class);
             ValidationSupport.checkList(specimen.condition, "condition", CodeableConcept.class);
             ValidationSupport.checkList(specimen.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
-            ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
-            ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
+            ValidationSupport.checkReferenceType(specimen.subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
+            ValidationSupport.checkReferenceType(specimen.parent, "parent", "Specimen");
+            ValidationSupport.checkReferenceType(specimen.request, "request", "ServiceRequest");
         }
 
         protected Builder from(Specimen specimen) {
@@ -1471,7 +1471,7 @@ public class Specimen extends DomainResource {
                 super.validate(collection);
                 ValidationSupport.choiceElement(collection.collected, "collected", DateTime.class, Period.class);
                 ValidationSupport.choiceElement(collection.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
-                ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(collection.collector, "collector", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(collection);
             }
 
@@ -1854,7 +1854,7 @@ public class Specimen extends DomainResource {
                 super.validate(processing);
                 ValidationSupport.checkList(processing.additive, "additive", Reference.class);
                 ValidationSupport.choiceElement(processing.time, "time", DateTime.class, Period.class);
-                ValidationSupport.checkReferenceType(additive, "additive", "Substance");
+                ValidationSupport.checkReferenceType(processing.additive, "additive", "Substance");
                 ValidationSupport.requireValueOrChildren(processing);
             }
 
@@ -2302,7 +2302,7 @@ public class Specimen extends DomainResource {
                 super.validate(container);
                 ValidationSupport.checkList(container.identifier, "identifier", Identifier.class);
                 ValidationSupport.choiceElement(container.additive, "additive", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(additive, "additive", "Substance");
+                ValidationSupport.checkReferenceType(container.additive, "additive", "Substance");
                 ValidationSupport.requireValueOrChildren(container);
             }
 

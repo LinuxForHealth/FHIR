@@ -1763,9 +1763,9 @@ public class RiskEvidenceSynthesis extends DomainResource {
             ValidationSupport.requireNonNull(riskEvidenceSynthesis.population, "population");
             ValidationSupport.requireNonNull(riskEvidenceSynthesis.outcome, "outcome");
             ValidationSupport.checkList(riskEvidenceSynthesis.certainty, "certainty", Certainty.class);
-            ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(riskEvidenceSynthesis.population, "population", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(riskEvidenceSynthesis.exposure, "exposure", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(riskEvidenceSynthesis.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(RiskEvidenceSynthesis riskEvidenceSynthesis) {
@@ -2547,7 +2547,7 @@ public class RiskEvidenceSynthesis extends DomainResource {
             protected void validate(RiskEstimate riskEstimate) {
                 super.validate(riskEstimate);
                 ValidationSupport.checkList(riskEstimate.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
-                ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.checkValueSetBinding(riskEstimate.unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
                 ValidationSupport.requireValueOrChildren(riskEstimate);
             }
 

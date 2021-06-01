@@ -1551,11 +1551,11 @@ public class ClaimResponse extends DomainResource {
             ValidationSupport.checkList(claimResponse.communicationRequest, "communicationRequest", Reference.class);
             ValidationSupport.checkList(claimResponse.insurance, "insurance", Insurance.class);
             ValidationSupport.checkList(claimResponse.error, "error", Error.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-            ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(request, "request", "Claim");
-            ValidationSupport.checkReferenceType(communicationRequest, "communicationRequest", "CommunicationRequest");
+            ValidationSupport.checkReferenceType(claimResponse.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(claimResponse.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(claimResponse.requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(claimResponse.request, "request", "Claim");
+            ValidationSupport.checkReferenceType(claimResponse.communicationRequest, "communicationRequest", "CommunicationRequest");
         }
 
         protected Builder from(ClaimResponse claimResponse) {
@@ -4176,8 +4176,8 @@ public class ClaimResponse extends DomainResource {
                 ValidationSupport.checkList(addItem.noteNumber, "noteNumber", PositiveInt.class);
                 ValidationSupport.checkNonEmptyList(addItem.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
                 ValidationSupport.checkList(addItem.detail, "detail", Detail.class);
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(addItem.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(addItem.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(addItem);
             }
 
@@ -6424,7 +6424,7 @@ public class ClaimResponse extends DomainResource {
             protected void validate(ProcessNote processNote) {
                 super.validate(processNote);
                 ValidationSupport.requireNonNull(processNote.text, "text");
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.checkValueSetBinding(processNote.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.requireValueOrChildren(processNote);
             }
 
@@ -6822,8 +6822,8 @@ public class ClaimResponse extends DomainResource {
                 ValidationSupport.requireNonNull(insurance.sequence, "sequence");
                 ValidationSupport.requireNonNull(insurance.focal, "focal");
                 ValidationSupport.requireNonNull(insurance.coverage, "coverage");
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-                ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.claimResponse, "claimResponse", "ClaimResponse");
                 ValidationSupport.requireValueOrChildren(insurance);
             }
 

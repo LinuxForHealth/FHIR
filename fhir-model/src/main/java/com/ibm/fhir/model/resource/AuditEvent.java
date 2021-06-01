@@ -1618,8 +1618,8 @@ public class AuditEvent extends DomainResource {
                 ValidationSupport.requireNonNull(agent.requestor, "requestor");
                 ValidationSupport.checkList(agent.policy, "policy", Uri.class);
                 ValidationSupport.checkList(agent.purposeOfUse, "purposeOfUse", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(agent.who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(agent.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(agent);
             }
 
@@ -2250,7 +2250,7 @@ public class AuditEvent extends DomainResource {
                 super.validate(source);
                 ValidationSupport.requireNonNull(source.observer, "observer");
                 ValidationSupport.checkList(source.type, "type", Coding.class);
-                ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(source.observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(source);
             }
 

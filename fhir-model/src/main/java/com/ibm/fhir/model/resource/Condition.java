@@ -1181,12 +1181,12 @@ public class Condition extends DomainResource {
             ValidationSupport.checkList(condition.stage, "stage", Stage.class);
             ValidationSupport.checkList(condition.evidence, "evidence", Evidence.class);
             ValidationSupport.checkList(condition.note, "note", Annotation.class);
-            ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
-            ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkValueSetBinding(condition.clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+            ValidationSupport.checkValueSetBinding(condition.verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(condition.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(condition.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(condition.recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(condition.asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
         }
 
         protected Builder from(Condition condition) {
@@ -1546,7 +1546,7 @@ public class Condition extends DomainResource {
             protected void validate(Stage stage) {
                 super.validate(stage);
                 ValidationSupport.checkList(stage.assessment, "assessment", Reference.class);
-                ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
+                ValidationSupport.checkReferenceType(stage.assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
                 ValidationSupport.requireValueOrChildren(stage);
             }
 

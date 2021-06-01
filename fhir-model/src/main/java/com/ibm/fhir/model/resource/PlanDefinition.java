@@ -1783,7 +1783,7 @@ public class PlanDefinition extends DomainResource {
             ValidationSupport.checkList(planDefinition.library, "library", Canonical.class);
             ValidationSupport.checkList(planDefinition.goal, "goal", Goal.class);
             ValidationSupport.checkList(planDefinition.action, "action", Action.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(planDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(PlanDefinition planDefinition) {
@@ -4069,7 +4069,7 @@ public class PlanDefinition extends DomainResource {
                 ValidationSupport.choiceElement(action.definition, "definition", Canonical.class, Uri.class);
                 ValidationSupport.checkList(action.dynamicValue, "dynamicValue", DynamicValue.class);
                 ValidationSupport.checkList(action.action, "action", PlanDefinition.Action.class);
-                ValidationSupport.checkReferenceType(subject, "subject", "Group");
+                ValidationSupport.checkReferenceType(action.subject, "subject", "Group");
                 ValidationSupport.requireValueOrChildren(action);
             }
 

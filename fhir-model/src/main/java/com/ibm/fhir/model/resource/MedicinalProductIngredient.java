@@ -600,7 +600,7 @@ public class MedicinalProductIngredient extends DomainResource {
             ValidationSupport.requireNonNull(medicinalProductIngredient.role, "role");
             ValidationSupport.checkList(medicinalProductIngredient.manufacturer, "manufacturer", Reference.class);
             ValidationSupport.checkList(medicinalProductIngredient.specifiedSubstance, "specifiedSubstance", SpecifiedSubstance.class);
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductIngredient.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(MedicinalProductIngredient medicinalProductIngredient) {

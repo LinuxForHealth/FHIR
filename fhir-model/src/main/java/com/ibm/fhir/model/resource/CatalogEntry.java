@@ -920,7 +920,7 @@ public class CatalogEntry extends DomainResource {
             ValidationSupport.checkList(catalogEntry.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class);
             ValidationSupport.checkList(catalogEntry.additionalClassification, "additionalClassification", CodeableConcept.class);
             ValidationSupport.checkList(catalogEntry.relatedEntry, "relatedEntry", RelatedEntry.class);
-            ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
+            ValidationSupport.checkReferenceType(catalogEntry.referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
         }
 
         protected Builder from(CatalogEntry catalogEntry) {
@@ -1223,7 +1223,7 @@ public class CatalogEntry extends DomainResource {
                 super.validate(relatedEntry);
                 ValidationSupport.requireNonNull(relatedEntry.relationtype, "relationtype");
                 ValidationSupport.requireNonNull(relatedEntry.item, "item");
-                ValidationSupport.checkReferenceType(item, "item", "CatalogEntry");
+                ValidationSupport.checkReferenceType(relatedEntry.item, "item", "CatalogEntry");
                 ValidationSupport.requireValueOrChildren(relatedEntry);
             }
 

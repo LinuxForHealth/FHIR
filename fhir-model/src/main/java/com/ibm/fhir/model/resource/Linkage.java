@@ -491,7 +491,7 @@ public class Linkage extends DomainResource {
         protected void validate(Linkage linkage) {
             super.validate(linkage);
             ValidationSupport.checkNonEmptyList(linkage.item, "item", Item.class);
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(linkage.author, "author", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(Linkage linkage) {

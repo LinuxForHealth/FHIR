@@ -1064,13 +1064,13 @@ public class GuidanceResponse extends DomainResource {
             ValidationSupport.checkList(guidanceResponse.note, "note", Annotation.class);
             ValidationSupport.checkList(guidanceResponse.evaluationMessage, "evaluationMessage", Reference.class);
             ValidationSupport.checkList(guidanceResponse.dataRequirement, "dataRequirement", DataRequirement.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(performer, "performer", "Device");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-            ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
-            ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
-            ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
+            ValidationSupport.checkReferenceType(guidanceResponse.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(guidanceResponse.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(guidanceResponse.performer, "performer", "Device");
+            ValidationSupport.checkReferenceType(guidanceResponse.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(guidanceResponse.evaluationMessage, "evaluationMessage", "OperationOutcome");
+            ValidationSupport.checkReferenceType(guidanceResponse.outputParameters, "outputParameters", "Parameters");
+            ValidationSupport.checkReferenceType(guidanceResponse.result, "result", "CarePlan", "RequestGroup");
         }
 
         protected Builder from(GuidanceResponse guidanceResponse) {

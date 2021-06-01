@@ -194,7 +194,7 @@ public class Id extends String {
 
         protected void validate(Id id) {
             super.validate(id);
-            ValidationSupport.checkId(value);
+            ValidationSupport.checkId(id.value);
         }
 
         protected Builder from(Id id) {

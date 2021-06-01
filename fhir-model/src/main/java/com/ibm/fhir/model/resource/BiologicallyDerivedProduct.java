@@ -849,8 +849,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
             ValidationSupport.checkList(biologicallyDerivedProduct.parent, "parent", Reference.class);
             ValidationSupport.checkList(biologicallyDerivedProduct.processing, "processing", Processing.class);
             ValidationSupport.checkList(biologicallyDerivedProduct.storage, "storage", Storage.class);
-            ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
-            ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.request, "request", "ServiceRequest");
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.parent, "parent", "BiologicallyDerivedProduct");
         }
 
         protected Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
@@ -1180,8 +1180,8 @@ public class BiologicallyDerivedProduct extends DomainResource {
             protected void validate(Collection collection) {
                 super.validate(collection);
                 ValidationSupport.choiceElement(collection.collected, "collected", DateTime.class, Period.class);
-                ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
-                ValidationSupport.checkReferenceType(source, "source", "Patient", "Organization");
+                ValidationSupport.checkReferenceType(collection.collector, "collector", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(collection.source, "source", "Patient", "Organization");
                 ValidationSupport.requireValueOrChildren(collection);
             }
 
@@ -1533,7 +1533,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
             protected void validate(Processing processing) {
                 super.validate(processing);
                 ValidationSupport.choiceElement(processing.time, "time", DateTime.class, Period.class);
-                ValidationSupport.checkReferenceType(additive, "additive", "Substance");
+                ValidationSupport.checkReferenceType(processing.additive, "additive", "Substance");
                 ValidationSupport.requireValueOrChildren(processing);
             }
 

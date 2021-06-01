@@ -1546,14 +1546,14 @@ public class DeviceRequest extends DomainResource {
             ValidationSupport.checkList(deviceRequest.supportingInfo, "supportingInfo", Reference.class);
             ValidationSupport.checkList(deviceRequest.note, "note", Annotation.class);
             ValidationSupport.checkList(deviceRequest.relevantHistory, "relevantHistory", Reference.class);
-            ValidationSupport.checkReferenceType(code, "code", "Device");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-            ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-            ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
+            ValidationSupport.checkReferenceType(deviceRequest.code, "code", "Device");
+            ValidationSupport.checkReferenceType(deviceRequest.subject, "subject", "Patient", "Group", "Location", "Device");
+            ValidationSupport.checkReferenceType(deviceRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(deviceRequest.requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(deviceRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(deviceRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(deviceRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(deviceRequest.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(DeviceRequest deviceRequest) {

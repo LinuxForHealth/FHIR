@@ -947,9 +947,9 @@ public class PaymentReconciliation extends DomainResource {
             ValidationSupport.requireNonNull(paymentReconciliation.paymentAmount, "paymentAmount");
             ValidationSupport.checkList(paymentReconciliation.detail, "detail", Detail.class);
             ValidationSupport.checkList(paymentReconciliation.processNote, "processNote", ProcessNote.class);
-            ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
-            ValidationSupport.checkReferenceType(request, "request", "Task");
-            ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentReconciliation.paymentIssuer, "paymentIssuer", "Organization");
+            ValidationSupport.checkReferenceType(paymentReconciliation.request, "request", "Task");
+            ValidationSupport.checkReferenceType(paymentReconciliation.requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(PaymentReconciliation paymentReconciliation) {
@@ -1513,9 +1513,9 @@ public class PaymentReconciliation extends DomainResource {
             protected void validate(Detail detail) {
                 super.validate(detail);
                 ValidationSupport.requireNonNull(detail.type, "type");
-                ValidationSupport.checkReferenceType(submitter, "submitter", "Practitioner", "PractitionerRole", "Organization");
-                ValidationSupport.checkReferenceType(responsible, "responsible", "PractitionerRole");
-                ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(detail.submitter, "submitter", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(detail.responsible, "responsible", "PractitionerRole");
+                ValidationSupport.checkReferenceType(detail.payee, "payee", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(detail);
             }
 

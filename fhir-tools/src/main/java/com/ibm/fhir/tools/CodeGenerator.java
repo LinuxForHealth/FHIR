@@ -816,58 +816,58 @@ public class CodeGenerator {
         }
 
         if (isUnsignedInt(structureDefinition) || isPositiveInt(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkValue", args("value", "MIN_VALUE"));
+            cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "MIN_VALUE"));
         }
 
         if (isString(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkString", args("value"));
+            cb.invoke("ValidationSupport", "checkString", args(paramName + ".value"));
         }
         if (isUri(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkUri", args("value"));
+            cb.invoke("ValidationSupport", "checkUri", args(paramName + ".value"));
         }
 
         if (isCode(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkCode", args("value"));
+            cb.invoke("ValidationSupport", "checkCode", args(paramName + ".value"));
         } else if (isId(structureDefinition)){
-            cb.invoke("ValidationSupport", "checkId", args("value"));
+            cb.invoke("ValidationSupport", "checkId", args(paramName + ".value"));
         } else if (isStringSubtype(structureDefinition)) {
             if (!STRING_PATTERN.equals(getPattern(structureDefinition))) {
-                cb.invoke("ValidationSupport", "checkValue", args("value", "PATTERN"));
+                cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "PATTERN"));
             }
         }
 
         if (isUriSubtype(structureDefinition)) {
             if (!URI_PATTERN.equals(getPattern(structureDefinition))) {
-                cb.invoke("ValidationSupport", "checkValue", args("value", "PATTERN"));
+                cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "PATTERN"));
             }
         }
 
         if (isDate(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkValueType", args("value", "LocalDate.class", "YearMonth.class", "Year.class"));
+            cb.invoke("ValidationSupport", "checkValueType", args(paramName + ".value", "LocalDate.class", "YearMonth.class", "Year.class"));
         }
 
         if (isDateTime(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkValueType", args("value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
+            cb.invoke("ValidationSupport", "checkValueType", args(paramName + ".value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
         }
 
         for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, path)) {
             if (isProhibited(elementDefinition)) {
                 String elementName = getElementName(elementDefinition, path);
                 String fieldName = getFieldName(elementName);
-                cb.invoke("ValidationSupport", "prohibited", args(fieldName, quote(elementName)));
+                cb.invoke("ValidationSupport", "prohibited", args(paramName + "." + fieldName, quote(elementName)));
             }
         }
 
         if ("Resource".equals(className) && !nested) {
-            cb.invoke("ValidationSupport", "checkId", args("id"));
+            cb.invoke("ValidationSupport", "checkId", args(paramName + ".id"));
         }
 
         if ("Element".equals(className) && !nested) {
-            cb.invoke("ValidationSupport", "checkString", args("id"));
+            cb.invoke("ValidationSupport", "checkString", args(paramName + ".id"));
         }
 
         if ("Extension".equals(className) && !nested) {
-            cb.invoke("ValidationSupport", "checkUri", args("url"));
+            cb.invoke("ValidationSupport", "checkUri", args(paramName + ".url"));
         }
 
         // Handle code/coding/codeableconcept/quantity/string/uri fields with required or maxValueSet binding
@@ -888,9 +888,9 @@ public class CodeGenerator {
                             List<JsonObject> concepts = getConcepts(valueSet);
                             if ((!concepts.isEmpty() && !"Code".equals(fieldType)) || isSyntaxValidatedValueSet(valueSet)) {
                                 if (concepts.isEmpty()) {
-                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
                                 } else {
-                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system),
                                         concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
                                 }
                             }
@@ -901,9 +901,9 @@ public class CodeGenerator {
                             List<JsonObject> concepts = getConcepts(valueSet);
                             if (!concepts.isEmpty() || isSyntaxValidatedValueSet(valueSet)) {
                                 if (concepts.isEmpty()) {
-                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
                                 } else {
-                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system),
                                         concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
                                 }
                             }
@@ -921,7 +921,7 @@ public class CodeGenerator {
                     (isChoiceElement(elementDefinition) && getChoiceTypeNames(elementDefinition).contains("Reference"))) {
                 List<String> referenceTypes = getReferenceTypes(elementDefinition);
                 if (!referenceTypes.isEmpty()) {
-                    cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
+                    cb.invoke("ValidationSupport", "checkReferenceType", args(paramName + "." + fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
                 }
             }
         }
@@ -937,7 +937,7 @@ public class CodeGenerator {
         }
 
         if (isXhtml(structureDefinition)) {
-            cb.invoke("ValidationSupport", "checkXHTMLContent", args("value"));
+            cb.invoke("ValidationSupport", "checkXHTMLContent", args(paramName + ".value"));
         }
 
         cb.end();

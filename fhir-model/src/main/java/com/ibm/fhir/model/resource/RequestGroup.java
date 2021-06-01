@@ -1219,10 +1219,10 @@ public class RequestGroup extends DomainResource {
             ValidationSupport.checkList(requestGroup.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(requestGroup.note, "note", Annotation.class);
             ValidationSupport.checkList(requestGroup.action, "action", Action.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(requestGroup.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(requestGroup.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(requestGroup.author, "author", "Device", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(requestGroup.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(RequestGroup requestGroup) {
@@ -2240,7 +2240,7 @@ public class RequestGroup extends DomainResource {
                 ValidationSupport.choiceElement(action.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
                 ValidationSupport.checkList(action.participant, "participant", Reference.class);
                 ValidationSupport.checkList(action.action, "action", RequestGroup.Action.class);
-                ValidationSupport.checkReferenceType(participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
+                ValidationSupport.checkReferenceType(action.participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
                 ValidationSupport.requireValueOrChildren(action);
             }
 

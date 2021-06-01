@@ -1100,9 +1100,9 @@ public class Composition extends DomainResource {
             ValidationSupport.checkList(composition.relatesTo, "relatesTo", RelatesTo.class);
             ValidationSupport.checkList(composition.event, "event", Event.class);
             ValidationSupport.checkList(composition.section, "section", Section.class);
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
+            ValidationSupport.checkReferenceType(composition.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(composition.author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(composition.custodian, "custodian", "Organization");
         }
 
         protected Builder from(Composition composition) {
@@ -1437,7 +1437,7 @@ public class Composition extends DomainResource {
             protected void validate(Attester attester) {
                 super.validate(attester);
                 ValidationSupport.requireNonNull(attester.mode, "mode");
-                ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(attester.party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(attester);
             }
 
@@ -1739,7 +1739,7 @@ public class Composition extends DomainResource {
                 super.validate(relatesTo);
                 ValidationSupport.requireNonNull(relatesTo.code, "code");
                 ValidationSupport.requireChoiceElement(relatesTo.target, "target", Identifier.class, Reference.class);
-                ValidationSupport.checkReferenceType(target, "target", "Composition");
+                ValidationSupport.checkReferenceType(relatesTo.target, "target", "Composition");
                 ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
@@ -2742,7 +2742,7 @@ public class Composition extends DomainResource {
                 ValidationSupport.checkList(section.author, "author", Reference.class);
                 ValidationSupport.checkList(section.entry, "entry", Reference.class);
                 ValidationSupport.checkList(section.section, "section", Composition.Section.class);
-                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+                ValidationSupport.checkReferenceType(section.author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
                 ValidationSupport.requireValueOrChildren(section);
             }
 

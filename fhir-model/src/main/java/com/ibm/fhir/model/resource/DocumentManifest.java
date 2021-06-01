@@ -919,9 +919,9 @@ public class DocumentManifest extends DomainResource {
             ValidationSupport.checkList(documentManifest.recipient, "recipient", Reference.class);
             ValidationSupport.checkNonEmptyList(documentManifest.content, "content", Reference.class);
             ValidationSupport.checkList(documentManifest.related, "related", Related.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(documentManifest.subject, "subject", "Patient", "Practitioner", "Group", "Device");
+            ValidationSupport.checkReferenceType(documentManifest.author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(documentManifest.recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
         }
 
         protected Builder from(DocumentManifest documentManifest) {

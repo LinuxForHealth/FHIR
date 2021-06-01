@@ -965,12 +965,12 @@ public class EpisodeOfCare extends DomainResource {
             ValidationSupport.checkList(episodeOfCare.referralRequest, "referralRequest", Reference.class);
             ValidationSupport.checkList(episodeOfCare.team, "team", Reference.class);
             ValidationSupport.checkList(episodeOfCare.account, "account", Reference.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-            ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
-            ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(team, "team", "CareTeam");
-            ValidationSupport.checkReferenceType(account, "account", "Account");
+            ValidationSupport.checkReferenceType(episodeOfCare.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(episodeOfCare.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(episodeOfCare.referralRequest, "referralRequest", "ServiceRequest");
+            ValidationSupport.checkReferenceType(episodeOfCare.careManager, "careManager", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(episodeOfCare.team, "team", "CareTeam");
+            ValidationSupport.checkReferenceType(episodeOfCare.account, "account", "Account");
         }
 
         protected Builder from(EpisodeOfCare episodeOfCare) {
@@ -1589,7 +1589,7 @@ public class EpisodeOfCare extends DomainResource {
             protected void validate(Diagnosis diagnosis) {
                 super.validate(diagnosis);
                 ValidationSupport.requireNonNull(diagnosis.condition, "condition");
-                ValidationSupport.checkReferenceType(condition, "condition", "Condition");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition");
                 ValidationSupport.requireValueOrChildren(diagnosis);
             }
 

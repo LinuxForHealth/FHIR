@@ -3441,7 +3441,7 @@ public class ImplementationGuide extends DomainResource {
                     ValidationSupport.requireNonNull(page.title, "title");
                     ValidationSupport.requireNonNull(page.generation, "generation");
                     ValidationSupport.checkList(page.page, "page", ImplementationGuide.Definition.Page.class);
-                    ValidationSupport.checkReferenceType(name, "name", "Binary");
+                    ValidationSupport.checkReferenceType(page.name, "name", "Binary");
                     ValidationSupport.requireValueOrChildren(page);
                 }
 

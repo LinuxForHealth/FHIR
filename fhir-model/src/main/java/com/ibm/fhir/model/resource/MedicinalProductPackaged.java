@@ -798,9 +798,9 @@ public class MedicinalProductPackaged extends DomainResource {
             ValidationSupport.checkList(medicinalProductPackaged.manufacturer, "manufacturer", Reference.class);
             ValidationSupport.checkList(medicinalProductPackaged.batchIdentifier, "batchIdentifier", BatchIdentifier.class);
             ValidationSupport.checkNonEmptyList(medicinalProductPackaged.packageItem, "packageItem", PackageItem.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct");
-            ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.subject, "subject", "MedicinalProduct");
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(MedicinalProductPackaged medicinalProductPackaged) {
@@ -1909,9 +1909,9 @@ public class MedicinalProductPackaged extends DomainResource {
                 ValidationSupport.checkList(packageItem.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
                 ValidationSupport.checkList(packageItem.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class);
                 ValidationSupport.checkList(packageItem.manufacturer, "manufacturer", Reference.class);
-                ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
-                ValidationSupport.checkReferenceType(manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
-                ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+                ValidationSupport.checkReferenceType(packageItem.device, "device", "DeviceDefinition");
+                ValidationSupport.checkReferenceType(packageItem.manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
+                ValidationSupport.checkReferenceType(packageItem.manufacturer, "manufacturer", "Organization");
                 ValidationSupport.requireValueOrChildren(packageItem);
             }
 

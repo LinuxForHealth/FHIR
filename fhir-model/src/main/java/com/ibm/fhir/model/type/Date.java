@@ -230,7 +230,7 @@ public class Date extends Element {
 
         protected void validate(Date date) {
             super.validate(date);
-            ValidationSupport.checkValueType(value, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.checkValueType(date.value, LocalDate.class, YearMonth.class, Year.class);
             ValidationSupport.requireValueOrChildren(date);
         }
 

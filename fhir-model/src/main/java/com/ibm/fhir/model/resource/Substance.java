@@ -1296,7 +1296,7 @@ public class Substance extends DomainResource {
             protected void validate(Ingredient ingredient) {
                 super.validate(ingredient);
                 ValidationSupport.requireChoiceElement(ingredient.substance, "substance", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(substance, "substance", "Substance");
+                ValidationSupport.checkReferenceType(ingredient.substance, "substance", "Substance");
                 ValidationSupport.requireValueOrChildren(ingredient);
             }
 

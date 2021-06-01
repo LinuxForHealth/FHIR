@@ -761,8 +761,8 @@ public class MedicinalProductIndication extends DomainResource {
             ValidationSupport.checkList(medicinalProductIndication.otherTherapy, "otherTherapy", OtherTherapy.class);
             ValidationSupport.checkList(medicinalProductIndication.undesirableEffect, "undesirableEffect", Reference.class);
             ValidationSupport.checkList(medicinalProductIndication.population, "population", Population.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
-            ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
+            ValidationSupport.checkReferenceType(medicinalProductIndication.subject, "subject", "MedicinalProduct", "Medication");
+            ValidationSupport.checkReferenceType(medicinalProductIndication.undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         }
 
         protected Builder from(MedicinalProductIndication medicinalProductIndication) {
@@ -1070,7 +1070,7 @@ public class MedicinalProductIndication extends DomainResource {
                 super.validate(otherTherapy);
                 ValidationSupport.requireNonNull(otherTherapy.therapyRelationshipType, "therapyRelationshipType");
                 ValidationSupport.requireChoiceElement(otherTherapy.medication, "medication", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
+                ValidationSupport.checkReferenceType(otherTherapy.medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
                 ValidationSupport.requireValueOrChildren(otherTherapy);
             }
 

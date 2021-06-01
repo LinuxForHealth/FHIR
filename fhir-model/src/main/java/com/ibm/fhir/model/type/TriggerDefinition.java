@@ -409,7 +409,7 @@ public class TriggerDefinition extends Element {
             ValidationSupport.requireNonNull(triggerDefinition.type, "type");
             ValidationSupport.choiceElement(triggerDefinition.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
             ValidationSupport.checkList(triggerDefinition.data, "data", DataRequirement.class);
-            ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
+            ValidationSupport.checkReferenceType(triggerDefinition.timing, "timing", "Schedule");
             ValidationSupport.requireValueOrChildren(triggerDefinition);
         }
 

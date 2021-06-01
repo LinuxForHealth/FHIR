@@ -1732,13 +1732,13 @@ public class Task extends DomainResource {
             ValidationSupport.checkList(task.relevantHistory, "relevantHistory", Reference.class);
             ValidationSupport.checkList(task.input, "input", Input.class);
             ValidationSupport.checkList(task.output, "output", Output.class);
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Task");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.checkReferenceType(owner, "owner", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-            ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
+            ValidationSupport.checkReferenceType(task.partOf, "partOf", "Task");
+            ValidationSupport.checkReferenceType(task.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(task.requester, "requester", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(task.owner, "owner", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(task.location, "location", "Location");
+            ValidationSupport.checkReferenceType(task.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(task.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(Task task) {
@@ -2107,7 +2107,7 @@ public class Task extends DomainResource {
             protected void validate(Restriction restriction) {
                 super.validate(restriction);
                 ValidationSupport.checkList(restriction.recipient, "recipient", Reference.class);
-                ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
+                ValidationSupport.checkReferenceType(restriction.recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "Organization");
                 ValidationSupport.requireValueOrChildren(restriction);
             }
 

@@ -856,11 +856,11 @@ public class QuestionnaireResponse extends DomainResource {
             ValidationSupport.checkList(questionnaireResponse.partOf, "partOf", Reference.class);
             ValidationSupport.requireNonNull(questionnaireResponse.status, "status");
             ValidationSupport.checkList(questionnaireResponse.item, "item", Item.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Observation", "Procedure");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(questionnaireResponse.basedOn, "basedOn", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(questionnaireResponse.partOf, "partOf", "Observation", "Procedure");
+            ValidationSupport.checkReferenceType(questionnaireResponse.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(questionnaireResponse.author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(questionnaireResponse.source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         }
 
         protected Builder from(QuestionnaireResponse questionnaireResponse) {

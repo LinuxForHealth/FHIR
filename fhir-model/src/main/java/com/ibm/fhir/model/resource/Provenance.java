@@ -879,7 +879,7 @@ public class Provenance extends DomainResource {
             ValidationSupport.checkNonEmptyList(provenance.agent, "agent", Agent.class);
             ValidationSupport.checkList(provenance.entity, "entity", Entity.class);
             ValidationSupport.checkList(provenance.signature, "signature", Signature.class);
-            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(provenance.location, "location", "Location");
         }
 
         protected Builder from(Provenance provenance) {
@@ -1285,8 +1285,8 @@ public class Provenance extends DomainResource {
                 super.validate(agent);
                 ValidationSupport.checkList(agent.role, "role", CodeableConcept.class);
                 ValidationSupport.requireNonNull(agent.who, "who");
-                ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-                ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.checkReferenceType(agent.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.checkReferenceType(agent.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
                 ValidationSupport.requireValueOrChildren(agent);
             }
 

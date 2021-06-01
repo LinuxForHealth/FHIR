@@ -664,8 +664,8 @@ public class MedicinalProductManufactured extends DomainResource {
             ValidationSupport.checkList(medicinalProductManufactured.manufacturer, "manufacturer", Reference.class);
             ValidationSupport.checkList(medicinalProductManufactured.ingredient, "ingredient", Reference.class);
             ValidationSupport.checkList(medicinalProductManufactured.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
+            ValidationSupport.checkReferenceType(medicinalProductManufactured.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductManufactured.ingredient, "ingredient", "MedicinalProductIngredient");
         }
 
         protected Builder from(MedicinalProductManufactured medicinalProductManufactured) {

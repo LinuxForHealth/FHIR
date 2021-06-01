@@ -1830,11 +1830,11 @@ public class ResearchDefinition extends DomainResource {
             ValidationSupport.checkList(researchDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
             ValidationSupport.checkList(researchDefinition.library, "library", Canonical.class);
             ValidationSupport.requireNonNull(researchDefinition.population, "population");
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
-            ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
-            ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
-            ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
-            ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(researchDefinition.population, "population", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.exposure, "exposure", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.outcome, "outcome", "ResearchElementDefinition");
         }
 
         protected Builder from(ResearchDefinition researchDefinition) {

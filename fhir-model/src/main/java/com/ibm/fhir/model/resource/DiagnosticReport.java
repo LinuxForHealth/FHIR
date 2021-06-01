@@ -1333,14 +1333,14 @@ public class DiagnosticReport extends DomainResource {
             ValidationSupport.checkList(diagnosticReport.media, "media", Media.class);
             ValidationSupport.checkList(diagnosticReport.conclusionCode, "conclusionCode", CodeableConcept.class);
             ValidationSupport.checkList(diagnosticReport.presentedForm, "presentedForm", Attachment.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.checkReferenceType(result, "result", "Observation");
-            ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
+            ValidationSupport.checkReferenceType(diagnosticReport.basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(diagnosticReport.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(diagnosticReport.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(diagnosticReport.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(diagnosticReport.result, "result", "Observation");
+            ValidationSupport.checkReferenceType(diagnosticReport.imagingStudy, "imagingStudy", "ImagingStudy");
         }
 
         protected Builder from(DiagnosticReport diagnosticReport) {
@@ -1641,7 +1641,7 @@ public class DiagnosticReport extends DomainResource {
             protected void validate(Media media) {
                 super.validate(media);
                 ValidationSupport.requireNonNull(media.link, "link");
-                ValidationSupport.checkReferenceType(link, "link", "Media");
+                ValidationSupport.checkReferenceType(media.link, "link", "Media");
                 ValidationSupport.requireValueOrChildren(media);
             }
 

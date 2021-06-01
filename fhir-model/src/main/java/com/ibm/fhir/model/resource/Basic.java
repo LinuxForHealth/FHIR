@@ -550,7 +550,7 @@ public class Basic extends DomainResource {
             super.validate(basic);
             ValidationSupport.checkList(basic.identifier, "identifier", Identifier.class);
             ValidationSupport.requireNonNull(basic.code, "code");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(basic.author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         }
 
         protected Builder from(Basic basic) {

@@ -1050,11 +1050,11 @@ public class PractitionerRole extends DomainResource {
             ValidationSupport.checkList(practitionerRole.availableTime, "availableTime", AvailableTime.class);
             ValidationSupport.checkList(practitionerRole.notAvailable, "notAvailable", NotAvailable.class);
             ValidationSupport.checkList(practitionerRole.endpoint, "endpoint", Reference.class);
-            ValidationSupport.checkReferenceType(practitioner, "practitioner", "Practitioner");
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(practitionerRole.practitioner, "practitioner", "Practitioner");
+            ValidationSupport.checkReferenceType(practitionerRole.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(practitionerRole.location, "location", "Location");
+            ValidationSupport.checkReferenceType(practitionerRole.healthcareService, "healthcareService", "HealthcareService");
+            ValidationSupport.checkReferenceType(practitionerRole.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(PractitionerRole practitionerRole) {

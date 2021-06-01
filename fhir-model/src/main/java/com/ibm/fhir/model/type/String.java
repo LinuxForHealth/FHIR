@@ -213,7 +213,7 @@ public class String extends Element {
 
         protected void validate(String string) {
             super.validate(string);
-            ValidationSupport.checkString(value);
+            ValidationSupport.checkString(string.value);
             ValidationSupport.requireValueOrChildren(string);
         }
 

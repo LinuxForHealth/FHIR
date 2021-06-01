@@ -205,7 +205,7 @@ public class Code extends String {
 
         protected void validate(Code code) {
             super.validate(code);
-            ValidationSupport.checkCode(value);
+            ValidationSupport.checkCode(code.value);
         }
 
         protected Builder from(Code code) {

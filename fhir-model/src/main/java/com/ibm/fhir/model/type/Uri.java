@@ -213,7 +213,7 @@ public class Uri extends Element {
 
         protected void validate(Uri uri) {
             super.validate(uri);
-            ValidationSupport.checkUri(value);
+            ValidationSupport.checkUri(uri.value);
             ValidationSupport.requireValueOrChildren(uri);
         }
 

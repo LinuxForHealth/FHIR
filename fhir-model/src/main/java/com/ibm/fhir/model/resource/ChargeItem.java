@@ -1572,16 +1572,16 @@ public class ChargeItem extends DomainResource {
             ValidationSupport.checkList(chargeItem.account, "account", Reference.class);
             ValidationSupport.checkList(chargeItem.note, "note", Annotation.class);
             ValidationSupport.checkList(chargeItem.supportingInformation, "supportingInformation", Reference.class);
-            ValidationSupport.checkReferenceType(partOf, "partOf", "ChargeItem");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(performingOrganization, "performingOrganization", "Organization");
-            ValidationSupport.checkReferenceType(requestingOrganization, "requestingOrganization", "Organization");
-            ValidationSupport.checkReferenceType(costCenter, "costCenter", "Organization");
-            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.checkReferenceType(service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
-            ValidationSupport.checkReferenceType(product, "product", "Device", "Medication", "Substance");
-            ValidationSupport.checkReferenceType(account, "account", "Account");
+            ValidationSupport.checkReferenceType(chargeItem.partOf, "partOf", "ChargeItem");
+            ValidationSupport.checkReferenceType(chargeItem.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(chargeItem.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(chargeItem.performingOrganization, "performingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.requestingOrganization, "requestingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.costCenter, "costCenter", "Organization");
+            ValidationSupport.checkReferenceType(chargeItem.enterer, "enterer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(chargeItem.service, "service", "DiagnosticReport", "ImagingStudy", "Immunization", "MedicationAdministration", "MedicationDispense", "Observation", "Procedure", "SupplyDelivery");
+            ValidationSupport.checkReferenceType(chargeItem.product, "product", "Device", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(chargeItem.account, "account", "Account");
         }
 
         protected Builder from(ChargeItem chargeItem) {
@@ -1898,7 +1898,7 @@ public class ChargeItem extends DomainResource {
             protected void validate(Performer performer) {
                 super.validate(performer);
                 ValidationSupport.requireNonNull(performer.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(performer);
             }
 

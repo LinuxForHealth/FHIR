@@ -858,13 +858,13 @@ public class SupplyDelivery extends DomainResource {
             ValidationSupport.checkList(supplyDelivery.partOf, "partOf", Reference.class);
             ValidationSupport.choiceElement(supplyDelivery.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
             ValidationSupport.checkList(supplyDelivery.receiver, "receiver", Reference.class);
-            ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(destination, "destination", "Location");
-            ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkValueSetBinding(supplyDelivery.type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
+            ValidationSupport.checkReferenceType(supplyDelivery.basedOn, "basedOn", "SupplyRequest");
+            ValidationSupport.checkReferenceType(supplyDelivery.partOf, "partOf", "SupplyDelivery", "Contract");
+            ValidationSupport.checkReferenceType(supplyDelivery.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(supplyDelivery.supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(supplyDelivery.destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(supplyDelivery.receiver, "receiver", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(SupplyDelivery supplyDelivery) {
@@ -1163,7 +1163,7 @@ public class SupplyDelivery extends DomainResource {
             protected void validate(SuppliedItem suppliedItem) {
                 super.validate(suppliedItem);
                 ValidationSupport.choiceElement(suppliedItem.item, "item", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
+                ValidationSupport.checkReferenceType(suppliedItem.item, "item", "Medication", "Substance", "Device");
                 ValidationSupport.requireValueOrChildren(suppliedItem);
             }
 

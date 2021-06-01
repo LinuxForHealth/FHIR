@@ -1434,9 +1434,9 @@ public class MedicationKnowledge extends DomainResource {
             ValidationSupport.checkList(medicationKnowledge.contraindication, "contraindication", Reference.class);
             ValidationSupport.checkList(medicationKnowledge.regulatory, "regulatory", Regulatory.class);
             ValidationSupport.checkList(medicationKnowledge.kinetics, "kinetics", Kinetics.class);
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.checkReferenceType(associatedMedication, "associatedMedication", "Medication");
-            ValidationSupport.checkReferenceType(contraindication, "contraindication", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationKnowledge.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicationKnowledge.associatedMedication, "associatedMedication", "Medication");
+            ValidationSupport.checkReferenceType(medicationKnowledge.contraindication, "contraindication", "DetectedIssue");
         }
 
         protected Builder from(MedicationKnowledge medicationKnowledge) {
@@ -1769,7 +1769,7 @@ public class MedicationKnowledge extends DomainResource {
                 super.validate(relatedMedicationKnowledge);
                 ValidationSupport.requireNonNull(relatedMedicationKnowledge.type, "type");
                 ValidationSupport.checkNonEmptyList(relatedMedicationKnowledge.reference, "reference", Reference.class);
-                ValidationSupport.checkReferenceType(reference, "reference", "MedicationKnowledge");
+                ValidationSupport.checkReferenceType(relatedMedicationKnowledge.reference, "reference", "MedicationKnowledge");
                 ValidationSupport.requireValueOrChildren(relatedMedicationKnowledge);
             }
 
@@ -2044,7 +2044,7 @@ public class MedicationKnowledge extends DomainResource {
 
             protected void validate(Monograph monograph) {
                 super.validate(monograph);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference", "Media");
+                ValidationSupport.checkReferenceType(monograph.source, "source", "DocumentReference", "Media");
                 ValidationSupport.requireValueOrChildren(monograph);
             }
 
@@ -2367,7 +2367,7 @@ public class MedicationKnowledge extends DomainResource {
             protected void validate(Ingredient ingredient) {
                 super.validate(ingredient);
                 ValidationSupport.requireChoiceElement(ingredient.item, "item", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(item, "item", "Substance");
+                ValidationSupport.checkReferenceType(ingredient.item, "item", "Substance");
                 ValidationSupport.requireValueOrChildren(ingredient);
             }
 
@@ -3308,7 +3308,7 @@ public class MedicationKnowledge extends DomainResource {
                 ValidationSupport.checkList(administrationGuidelines.dosage, "dosage", Dosage.class);
                 ValidationSupport.choiceElement(administrationGuidelines.indication, "indication", CodeableConcept.class, Reference.class);
                 ValidationSupport.checkList(administrationGuidelines.patientCharacteristics, "patientCharacteristics", PatientCharacteristics.class);
-                ValidationSupport.checkReferenceType(indication, "indication", "ObservationDefinition");
+                ValidationSupport.checkReferenceType(administrationGuidelines.indication, "indication", "ObservationDefinition");
                 ValidationSupport.requireValueOrChildren(administrationGuidelines);
             }
 
@@ -5159,7 +5159,7 @@ public class MedicationKnowledge extends DomainResource {
                 ValidationSupport.requireNonNull(regulatory.regulatoryAuthority, "regulatoryAuthority");
                 ValidationSupport.checkList(regulatory.substitution, "substitution", Substitution.class);
                 ValidationSupport.checkList(regulatory.schedule, "schedule", Schedule.class);
-                ValidationSupport.checkReferenceType(regulatoryAuthority, "regulatoryAuthority", "Organization");
+                ValidationSupport.checkReferenceType(regulatory.regulatoryAuthority, "regulatoryAuthority", "Organization");
                 ValidationSupport.requireValueOrChildren(regulatory);
             }
 

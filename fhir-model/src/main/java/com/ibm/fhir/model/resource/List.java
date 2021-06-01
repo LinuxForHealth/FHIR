@@ -933,9 +933,9 @@ public class List extends DomainResource {
             ValidationSupport.requireNonNull(list.mode, "mode");
             ValidationSupport.checkList(list.note, "note", Annotation.class);
             ValidationSupport.checkList(list.entry, "entry", Entry.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
+            ValidationSupport.checkReferenceType(list.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(list.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(list.source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
         }
 
         protected Builder from(List list) {

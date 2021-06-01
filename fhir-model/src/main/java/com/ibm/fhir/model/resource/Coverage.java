@@ -1135,11 +1135,11 @@ public class Coverage extends DomainResource {
             ValidationSupport.checkList(coverage.clazz, "class", Class.class);
             ValidationSupport.checkList(coverage.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class);
             ValidationSupport.checkList(coverage.contract, "contract", Reference.class);
-            ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
-            ValidationSupport.checkReferenceType(payor, "payor", "Organization", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(contract, "contract", "Contract");
+            ValidationSupport.checkReferenceType(coverage.policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(coverage.subscriber, "subscriber", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(coverage.beneficiary, "beneficiary", "Patient");
+            ValidationSupport.checkReferenceType(coverage.payor, "payor", "Organization", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(coverage.contract, "contract", "Contract");
         }
 
         protected Builder from(Coverage coverage) {

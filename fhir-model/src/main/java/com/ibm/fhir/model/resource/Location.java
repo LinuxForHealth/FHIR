@@ -1100,9 +1100,9 @@ public class Location extends DomainResource {
             ValidationSupport.checkList(location.telecom, "telecom", ContactPoint.class);
             ValidationSupport.checkList(location.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class);
             ValidationSupport.checkList(location.endpoint, "endpoint", Reference.class);
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(location.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(location.partOf, "partOf", "Location");
+            ValidationSupport.checkReferenceType(location.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Location location) {

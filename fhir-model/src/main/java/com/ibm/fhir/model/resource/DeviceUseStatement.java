@@ -1012,12 +1012,12 @@ public class DeviceUseStatement extends DomainResource {
             ValidationSupport.checkList(deviceUseStatement.reasonCode, "reasonCode", CodeableConcept.class);
             ValidationSupport.checkList(deviceUseStatement.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(deviceUseStatement.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
-            ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.checkReferenceType(device, "device", "Device");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
+            ValidationSupport.checkReferenceType(deviceUseStatement.basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(deviceUseStatement.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(deviceUseStatement.derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
+            ValidationSupport.checkReferenceType(deviceUseStatement.source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(deviceUseStatement.device, "device", "Device");
+            ValidationSupport.checkReferenceType(deviceUseStatement.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
         }
 
         protected Builder from(DeviceUseStatement deviceUseStatement) {

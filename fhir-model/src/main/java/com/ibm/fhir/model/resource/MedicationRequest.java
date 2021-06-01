@@ -1912,19 +1912,19 @@ public class MedicationRequest extends DomainResource {
             ValidationSupport.checkList(medicationRequest.dosageInstruction, "dosageInstruction", Dosage.class);
             ValidationSupport.checkList(medicationRequest.detectedIssue, "detectedIssue", Reference.class);
             ValidationSupport.checkList(medicationRequest.eventHistory, "eventHistory", Reference.class);
-            ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-            ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
-            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation");
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
-            ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-            ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
-            ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
-            ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
+            ValidationSupport.checkReferenceType(medicationRequest.reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(medicationRequest.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationRequest.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(medicationRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(medicationRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
+            ValidationSupport.checkReferenceType(medicationRequest.recorder, "recorder", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(medicationRequest.reasonReference, "reasonReference", "Condition", "Observation");
+            ValidationSupport.checkReferenceType(medicationRequest.basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(medicationRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(medicationRequest.priorPrescription, "priorPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationRequest.detectedIssue, "detectedIssue", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationRequest.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationRequest medicationRequest) {
@@ -2394,7 +2394,7 @@ public class MedicationRequest extends DomainResource {
 
             protected void validate(DispenseRequest dispenseRequest) {
                 super.validate(dispenseRequest);
-                ValidationSupport.checkReferenceType(performer, "performer", "Organization");
+                ValidationSupport.checkReferenceType(dispenseRequest.performer, "performer", "Organization");
                 ValidationSupport.requireValueOrChildren(dispenseRequest);
             }
 

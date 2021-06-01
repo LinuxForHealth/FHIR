@@ -1752,7 +1752,7 @@ public class Library extends DomainResource {
             ValidationSupport.checkList(library.parameter, "parameter", ParameterDefinition.class);
             ValidationSupport.checkList(library.dataRequirement, "dataRequirement", DataRequirement.class);
             ValidationSupport.checkList(library.content, "content", Attachment.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(library.subject, "subject", "Group");
         }
 
         protected Builder from(Library library) {

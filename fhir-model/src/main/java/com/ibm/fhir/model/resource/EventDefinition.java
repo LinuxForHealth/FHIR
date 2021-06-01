@@ -1588,7 +1588,7 @@ public class EventDefinition extends DomainResource {
             ValidationSupport.checkList(eventDefinition.endorser, "endorser", ContactDetail.class);
             ValidationSupport.checkList(eventDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
             ValidationSupport.checkNonEmptyList(eventDefinition.trigger, "trigger", TriggerDefinition.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(eventDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(EventDefinition eventDefinition) {

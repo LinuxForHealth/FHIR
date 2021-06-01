@@ -1598,11 +1598,11 @@ public class Immunization extends DomainResource {
             ValidationSupport.checkList(immunization.programEligibility, "programEligibility", CodeableConcept.class);
             ValidationSupport.checkList(immunization.reaction, "reaction", Reaction.class);
             ValidationSupport.checkList(immunization.protocolApplied, "protocolApplied", ProtocolApplied.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+            ValidationSupport.checkReferenceType(immunization.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunization.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(immunization.location, "location", "Location");
+            ValidationSupport.checkReferenceType(immunization.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(immunization.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(Immunization immunization) {
@@ -1919,7 +1919,7 @@ public class Immunization extends DomainResource {
             protected void validate(Performer performer) {
                 super.validate(performer);
                 ValidationSupport.requireNonNull(performer.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(performer);
             }
 
@@ -2555,7 +2555,7 @@ public class Immunization extends DomainResource {
 
             protected void validate(Reaction reaction) {
                 super.validate(reaction);
-                ValidationSupport.checkReferenceType(detail, "detail", "Observation");
+                ValidationSupport.checkReferenceType(reaction.detail, "detail", "Observation");
                 ValidationSupport.requireValueOrChildren(reaction);
             }
 
@@ -2974,7 +2974,7 @@ public class Immunization extends DomainResource {
                 ValidationSupport.checkList(protocolApplied.targetDisease, "targetDisease", CodeableConcept.class);
                 ValidationSupport.requireChoiceElement(protocolApplied.doseNumber, "doseNumber", PositiveInt.class, String.class);
                 ValidationSupport.choiceElement(protocolApplied.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-                ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+                ValidationSupport.checkReferenceType(protocolApplied.authority, "authority", "Organization");
                 ValidationSupport.requireValueOrChildren(protocolApplied);
             }
 

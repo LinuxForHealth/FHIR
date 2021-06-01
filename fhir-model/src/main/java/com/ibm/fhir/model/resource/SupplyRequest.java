@@ -1064,12 +1064,12 @@ public class SupplyRequest extends DomainResource {
             ValidationSupport.checkList(supplyRequest.supplier, "supplier", Reference.class);
             ValidationSupport.checkList(supplyRequest.reasonCode, "reasonCode", CodeableConcept.class);
             ValidationSupport.checkList(supplyRequest.reasonReference, "reasonReference", Reference.class);
-            ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
-            ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.checkReferenceType(supplier, "supplier", "Organization", "HealthcareService");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-            ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
-            ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
+            ValidationSupport.checkReferenceType(supplyRequest.item, "item", "Medication", "Substance", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.supplier, "supplier", "Organization", "HealthcareService");
+            ValidationSupport.checkReferenceType(supplyRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverFrom, "deliverFrom", "Organization", "Location");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverTo, "deliverTo", "Organization", "Location", "Patient");
         }
 
         protected Builder from(SupplyRequest supplyRequest) {

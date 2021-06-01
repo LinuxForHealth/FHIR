@@ -2090,7 +2090,7 @@ public class EvidenceVariable extends DomainResource {
                 ValidationSupport.requireChoiceElement(characteristic.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
                 ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
                 ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
-                ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
+                ValidationSupport.checkReferenceType(characteristic.definition, "definition", "Group", "ActivityDefinition");
                 ValidationSupport.requireValueOrChildren(characteristic);
             }
 

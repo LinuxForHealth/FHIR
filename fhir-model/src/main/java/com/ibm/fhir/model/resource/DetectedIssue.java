@@ -892,8 +892,8 @@ public class DetectedIssue extends DomainResource {
             ValidationSupport.checkList(detectedIssue.implicated, "implicated", Reference.class);
             ValidationSupport.checkList(detectedIssue.evidence, "evidence", Evidence.class);
             ValidationSupport.checkList(detectedIssue.mitigation, "mitigation", Mitigation.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(detectedIssue.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(detectedIssue.author, "author", "Practitioner", "PractitionerRole", "Device");
         }
 
         protected Builder from(DetectedIssue detectedIssue) {
@@ -1542,7 +1542,7 @@ public class DetectedIssue extends DomainResource {
             protected void validate(Mitigation mitigation) {
                 super.validate(mitigation);
                 ValidationSupport.requireNonNull(mitigation.action, "action");
-                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(mitigation.author, "author", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(mitigation);
             }
 

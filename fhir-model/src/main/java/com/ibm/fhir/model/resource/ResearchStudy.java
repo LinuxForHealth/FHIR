@@ -1599,12 +1599,12 @@ public class ResearchStudy extends DomainResource {
             ValidationSupport.checkList(researchStudy.note, "note", Annotation.class);
             ValidationSupport.checkList(researchStudy.arm, "arm", Arm.class);
             ValidationSupport.checkList(researchStudy.objective, "objective", Objective.class);
-            ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
-            ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");
-            ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
-            ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(site, "site", "Location");
+            ValidationSupport.checkReferenceType(researchStudy.protocol, "protocol", "PlanDefinition");
+            ValidationSupport.checkReferenceType(researchStudy.partOf, "partOf", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchStudy.enrollment, "enrollment", "Group");
+            ValidationSupport.checkReferenceType(researchStudy.sponsor, "sponsor", "Organization");
+            ValidationSupport.checkReferenceType(researchStudy.principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(researchStudy.site, "site", "Location");
         }
 
         protected Builder from(ResearchStudy researchStudy) {

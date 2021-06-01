@@ -2242,16 +2242,16 @@ public class ExplanationOfBenefit extends DomainResource {
             ValidationSupport.checkList(explanationOfBenefit.total, "total", Total.class);
             ValidationSupport.checkList(explanationOfBenefit.processNote, "processNote", ProcessNote.class);
             ValidationSupport.checkList(explanationOfBenefit.benefitBalance, "benefitBalance", BenefitBalance.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(prescription, "prescription", "MedicationRequest", "VisionPrescription");
-            ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "MedicationRequest");
-            ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
-            ValidationSupport.checkReferenceType(facility, "facility", "Location");
-            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
-            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.prescription, "prescription", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.originalPrescription, "originalPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.referral, "referral", "ServiceRequest");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.facility, "facility", "Location");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.claim, "claim", "Claim");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.claimResponse, "claimResponse", "ClaimResponse");
         }
 
         protected Builder from(ExplanationOfBenefit explanationOfBenefit) {
@@ -2602,7 +2602,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
             protected void validate(Related related) {
                 super.validate(related);
-                ValidationSupport.checkReferenceType(claim, "claim", "Claim");
+                ValidationSupport.checkReferenceType(related.claim, "claim", "Claim");
                 ValidationSupport.requireValueOrChildren(related);
             }
 
@@ -2887,7 +2887,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
             protected void validate(Payee payee) {
                 super.validate(payee);
-                ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(payee.party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(payee);
             }
 
@@ -3282,7 +3282,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 super.validate(careTeam);
                 ValidationSupport.requireNonNull(careTeam.sequence, "sequence");
                 ValidationSupport.requireNonNull(careTeam.provider, "provider");
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(careTeam.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(careTeam);
             }
 
@@ -4171,7 +4171,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 ValidationSupport.requireNonNull(diagnosis.sequence, "sequence");
                 ValidationSupport.requireChoiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
                 ValidationSupport.checkList(diagnosis.type, "type", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
+                ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
                 ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
@@ -4627,8 +4627,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 ValidationSupport.checkList(procedure.type, "type", CodeableConcept.class);
                 ValidationSupport.requireChoiceElement(procedure.procedure, "procedure", CodeableConcept.class, Reference.class);
                 ValidationSupport.checkList(procedure.udi, "udi", Reference.class);
-                ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(procedure.procedure, "procedure", "Procedure");
+                ValidationSupport.checkReferenceType(procedure.udi, "udi", "Device");
                 ValidationSupport.requireValueOrChildren(procedure);
             }
 
@@ -4978,7 +4978,7 @@ public class ExplanationOfBenefit extends DomainResource {
                 ValidationSupport.requireNonNull(insurance.focal, "focal");
                 ValidationSupport.requireNonNull(insurance.coverage, "coverage");
                 ValidationSupport.checkList(insurance.preAuthRef, "preAuthRef", String.class);
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
                 ValidationSupport.requireValueOrChildren(insurance);
             }
 
@@ -5300,7 +5300,7 @@ public class ExplanationOfBenefit extends DomainResource {
             protected void validate(Accident accident) {
                 super.validate(accident);
                 ValidationSupport.choiceElement(accident.location, "location", Address.class, Reference.class);
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(accident.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(accident);
             }
 
@@ -6589,9 +6589,9 @@ public class ExplanationOfBenefit extends DomainResource {
                 ValidationSupport.checkList(item.noteNumber, "noteNumber", PositiveInt.class);
                 ValidationSupport.checkList(item.adjudication, "adjudication", Adjudication.class);
                 ValidationSupport.checkList(item.detail, "detail", Detail.class);
-                ValidationSupport.checkReferenceType(location, "location", "Location");
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+                ValidationSupport.checkReferenceType(item.location, "location", "Location");
+                ValidationSupport.checkReferenceType(item.udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(item.encounter, "encounter", "Encounter");
                 ValidationSupport.requireValueOrChildren(item);
             }
 
@@ -7795,7 +7795,7 @@ public class ExplanationOfBenefit extends DomainResource {
                     ValidationSupport.checkList(detail.noteNumber, "noteNumber", PositiveInt.class);
                     ValidationSupport.checkList(detail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
                     ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
-                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                    ValidationSupport.checkReferenceType(detail.udi, "udi", "Device");
                     ValidationSupport.requireValueOrChildren(detail);
                 }
 
@@ -8581,7 +8581,7 @@ public class ExplanationOfBenefit extends DomainResource {
                         ValidationSupport.checkList(subDetail.udi, "udi", Reference.class);
                         ValidationSupport.checkList(subDetail.noteNumber, "noteNumber", PositiveInt.class);
                         ValidationSupport.checkList(subDetail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
-                        ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                        ValidationSupport.checkReferenceType(subDetail.udi, "udi", "Device");
                         ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
@@ -9660,8 +9660,8 @@ public class ExplanationOfBenefit extends DomainResource {
                 ValidationSupport.checkList(addItem.noteNumber, "noteNumber", PositiveInt.class);
                 ValidationSupport.checkList(addItem.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
                 ValidationSupport.checkList(addItem.detail, "detail", Detail.class);
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(addItem.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(addItem.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(addItem);
             }
 
@@ -11873,7 +11873,7 @@ public class ExplanationOfBenefit extends DomainResource {
 
             protected void validate(ProcessNote processNote) {
                 super.validate(processNote);
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.checkValueSetBinding(processNote.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.requireValueOrChildren(processNote);
             }
 

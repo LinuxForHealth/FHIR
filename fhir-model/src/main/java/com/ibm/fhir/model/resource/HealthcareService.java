@@ -1564,11 +1564,11 @@ public class HealthcareService extends DomainResource {
             ValidationSupport.checkList(healthcareService.availableTime, "availableTime", AvailableTime.class);
             ValidationSupport.checkList(healthcareService.notAvailable, "notAvailable", NotAvailable.class);
             ValidationSupport.checkList(healthcareService.endpoint, "endpoint", Reference.class);
-            ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkValueSetBinding(healthcareService.communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkReferenceType(healthcareService.providedBy, "providedBy", "Organization");
+            ValidationSupport.checkReferenceType(healthcareService.location, "location", "Location");
+            ValidationSupport.checkReferenceType(healthcareService.coverageArea, "coverageArea", "Location");
+            ValidationSupport.checkReferenceType(healthcareService.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(HealthcareService healthcareService) {

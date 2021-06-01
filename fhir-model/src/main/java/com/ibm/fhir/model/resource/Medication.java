@@ -680,7 +680,7 @@ public class Medication extends DomainResource {
             super.validate(medication);
             ValidationSupport.checkList(medication.identifier, "identifier", Identifier.class);
             ValidationSupport.checkList(medication.ingredient, "ingredient", Ingredient.class);
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medication.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(Medication medication) {
@@ -1008,7 +1008,7 @@ public class Medication extends DomainResource {
             protected void validate(Ingredient ingredient) {
                 super.validate(ingredient);
                 ValidationSupport.requireChoiceElement(ingredient.item, "item", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
+                ValidationSupport.checkReferenceType(ingredient.item, "item", "Substance", "Medication");
                 ValidationSupport.requireValueOrChildren(ingredient);
             }
 

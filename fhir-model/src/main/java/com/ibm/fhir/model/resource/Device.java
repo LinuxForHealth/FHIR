@@ -1448,11 +1448,11 @@ public class Device extends DomainResource {
             ValidationSupport.checkList(device.contact, "contact", ContactPoint.class);
             ValidationSupport.checkList(device.note, "note", Annotation.class);
             ValidationSupport.checkList(device.safety, "safety", CodeableConcept.class);
-            ValidationSupport.checkReferenceType(definition, "definition", "DeviceDefinition");
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(parent, "parent", "Device");
+            ValidationSupport.checkReferenceType(device.definition, "definition", "DeviceDefinition");
+            ValidationSupport.checkReferenceType(device.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(device.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(device.location, "location", "Location");
+            ValidationSupport.checkReferenceType(device.parent, "parent", "Device");
         }
 
         protected Builder from(Device device) {

@@ -446,7 +446,7 @@ public class Attachment extends Element {
 
         protected void validate(Attachment attachment) {
             super.validate(attachment);
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkValueSetBinding(attachment.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
             ValidationSupport.requireValueOrChildren(attachment);
         }
 

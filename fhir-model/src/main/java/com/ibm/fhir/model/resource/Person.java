@@ -783,7 +783,7 @@ public class Person extends DomainResource {
             ValidationSupport.checkList(person.telecom, "telecom", ContactPoint.class);
             ValidationSupport.checkList(person.address, "address", Address.class);
             ValidationSupport.checkList(person.link, "link", Link.class);
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(person.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Person person) {
@@ -1081,7 +1081,7 @@ public class Person extends DomainResource {
             protected void validate(Link link) {
                 super.validate(link);
                 ValidationSupport.requireNonNull(link.target, "target");
-                ValidationSupport.checkReferenceType(target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
+                ValidationSupport.checkReferenceType(link.target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
                 ValidationSupport.requireValueOrChildren(link);
             }
 

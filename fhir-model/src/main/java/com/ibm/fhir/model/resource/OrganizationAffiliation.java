@@ -979,12 +979,12 @@ public class OrganizationAffiliation extends DomainResource {
             ValidationSupport.checkList(organizationAffiliation.healthcareService, "healthcareService", Reference.class);
             ValidationSupport.checkList(organizationAffiliation.telecom, "telecom", ContactPoint.class);
             ValidationSupport.checkList(organizationAffiliation.endpoint, "endpoint", Reference.class);
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
-            ValidationSupport.checkReferenceType(network, "network", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(organizationAffiliation.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.participatingOrganization, "participatingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.network, "network", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.location, "location", "Location");
+            ValidationSupport.checkReferenceType(organizationAffiliation.healthcareService, "healthcareService", "HealthcareService");
+            ValidationSupport.checkReferenceType(organizationAffiliation.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(OrganizationAffiliation organizationAffiliation) {

@@ -1120,10 +1120,10 @@ public class DocumentReference extends DomainResource {
             ValidationSupport.checkList(documentReference.relatesTo, "relatesTo", RelatesTo.class);
             ValidationSupport.checkList(documentReference.securityLabel, "securityLabel", CodeableConcept.class);
             ValidationSupport.checkNonEmptyList(documentReference.content, "content", Content.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
+            ValidationSupport.checkReferenceType(documentReference.subject, "subject", "Patient", "Practitioner", "Group", "Device");
+            ValidationSupport.checkReferenceType(documentReference.author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(documentReference.authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(documentReference.custodian, "custodian", "Organization");
         }
 
         protected Builder from(DocumentReference documentReference) {
@@ -1431,7 +1431,7 @@ public class DocumentReference extends DomainResource {
                 super.validate(relatesTo);
                 ValidationSupport.requireNonNull(relatesTo.code, "code");
                 ValidationSupport.requireNonNull(relatesTo.target, "target");
-                ValidationSupport.checkReferenceType(target, "target", "DocumentReference");
+                ValidationSupport.checkReferenceType(relatesTo.target, "target", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
@@ -2251,8 +2251,8 @@ public class DocumentReference extends DomainResource {
                 ValidationSupport.checkList(context.encounter, "encounter", Reference.class);
                 ValidationSupport.checkList(context.event, "event", CodeableConcept.class);
                 ValidationSupport.checkList(context.related, "related", Reference.class);
-                ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
-                ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
+                ValidationSupport.checkReferenceType(context.encounter, "encounter", "Encounter", "EpisodeOfCare");
+                ValidationSupport.checkReferenceType(context.sourcePatientInfo, "sourcePatientInfo", "Patient");
                 ValidationSupport.requireValueOrChildren(context);
             }
 

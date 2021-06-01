@@ -646,9 +646,9 @@ public class EnrollmentResponse extends DomainResource {
         protected void validate(EnrollmentResponse enrollmentResponse) {
             super.validate(enrollmentResponse);
             ValidationSupport.checkList(enrollmentResponse.identifier, "identifier", Identifier.class);
-            ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentResponse.request, "request", "EnrollmentRequest");
+            ValidationSupport.checkReferenceType(enrollmentResponse.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentResponse.requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(EnrollmentResponse enrollmentResponse) {

@@ -769,7 +769,7 @@ public class Schedule extends DomainResource {
             ValidationSupport.checkList(schedule.serviceType, "serviceType", CodeableConcept.class);
             ValidationSupport.checkList(schedule.specialty, "specialty", CodeableConcept.class);
             ValidationSupport.checkNonEmptyList(schedule.actor, "actor", Reference.class);
-            ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+            ValidationSupport.checkReferenceType(schedule.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(Schedule schedule) {

@@ -1472,9 +1472,9 @@ public class Appointment extends DomainResource {
             ValidationSupport.checkList(appointment.basedOn, "basedOn", Reference.class);
             ValidationSupport.checkNonEmptyList(appointment.participant, "participant", Participant.class);
             ValidationSupport.checkList(appointment.requestedPeriod, "requestedPeriod", Period.class);
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-            ValidationSupport.checkReferenceType(slot, "slot", "Slot");
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(appointment.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(appointment.slot, "slot", "Slot");
+            ValidationSupport.checkReferenceType(appointment.basedOn, "basedOn", "ServiceRequest");
         }
 
         protected Builder from(Appointment appointment) {
@@ -1919,7 +1919,7 @@ public class Appointment extends DomainResource {
                 super.validate(participant);
                 ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
                 ValidationSupport.requireNonNull(participant.status, "status");
-                ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+                ValidationSupport.checkReferenceType(participant.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
                 ValidationSupport.requireValueOrChildren(participant);
             }
 

@@ -1441,13 +1441,13 @@ public class CommunicationRequest extends DomainResource {
             ValidationSupport.checkList(communicationRequest.reasonCode, "reasonCode", CodeableConcept.class);
             ValidationSupport.checkList(communicationRequest.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(communicationRequest.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(replaces, "replaces", "CommunicationRequest");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
-            ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(communicationRequest.replaces, "replaces", "CommunicationRequest");
+            ValidationSupport.checkReferenceType(communicationRequest.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(communicationRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(communicationRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(communicationRequest.recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
+            ValidationSupport.checkReferenceType(communicationRequest.sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
+            ValidationSupport.checkReferenceType(communicationRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(CommunicationRequest communicationRequest) {

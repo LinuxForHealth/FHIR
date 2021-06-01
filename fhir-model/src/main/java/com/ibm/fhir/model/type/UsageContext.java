@@ -287,7 +287,7 @@ public class UsageContext extends Element {
             super.validate(usageContext);
             ValidationSupport.requireNonNull(usageContext.code, "code");
             ValidationSupport.requireChoiceElement(usageContext.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
-            ValidationSupport.checkReferenceType(value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
+            ValidationSupport.checkReferenceType(usageContext.value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
             ValidationSupport.requireValueOrChildren(usageContext);
         }
 

@@ -878,7 +878,7 @@ public class Endpoint extends DomainResource {
             ValidationSupport.checkList(endpoint.payloadMimeType, "payloadMimeType", Code.class);
             ValidationSupport.requireNonNull(endpoint.address, "address");
             ValidationSupport.checkList(endpoint.header, "header", String.class);
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(endpoint.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Endpoint endpoint) {

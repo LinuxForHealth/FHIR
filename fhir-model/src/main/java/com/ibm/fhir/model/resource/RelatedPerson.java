@@ -928,7 +928,7 @@ public class RelatedPerson extends DomainResource {
             ValidationSupport.checkList(relatedPerson.address, "address", Address.class);
             ValidationSupport.checkList(relatedPerson.photo, "photo", Attachment.class);
             ValidationSupport.checkList(relatedPerson.communication, "communication", Communication.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(relatedPerson.patient, "patient", "Patient");
         }
 
         protected Builder from(RelatedPerson relatedPerson) {
@@ -1224,7 +1224,7 @@ public class RelatedPerson extends DomainResource {
             protected void validate(Communication communication) {
                 super.validate(communication);
                 ValidationSupport.requireNonNull(communication.language, "language");
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.checkValueSetBinding(communication.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.requireValueOrChildren(communication);
             }
 

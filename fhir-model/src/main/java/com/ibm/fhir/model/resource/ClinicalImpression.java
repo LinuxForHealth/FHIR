@@ -1290,12 +1290,12 @@ public class ClinicalImpression extends DomainResource {
             ValidationSupport.checkList(clinicalImpression.prognosisReference, "prognosisReference", Reference.class);
             ValidationSupport.checkList(clinicalImpression.supportingInfo, "supportingInfo", Reference.class);
             ValidationSupport.checkList(clinicalImpression.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
-            ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
-            ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
+            ValidationSupport.checkReferenceType(clinicalImpression.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(clinicalImpression.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(clinicalImpression.assessor, "assessor", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(clinicalImpression.previous, "previous", "ClinicalImpression");
+            ValidationSupport.checkReferenceType(clinicalImpression.problem, "problem", "Condition", "AllergyIntolerance");
+            ValidationSupport.checkReferenceType(clinicalImpression.prognosisReference, "prognosisReference", "RiskAssessment");
         }
 
         protected Builder from(ClinicalImpression clinicalImpression) {
@@ -1644,7 +1644,7 @@ public class ClinicalImpression extends DomainResource {
                 super.validate(investigation);
                 ValidationSupport.requireNonNull(investigation.code, "code");
                 ValidationSupport.checkList(investigation.item, "item", Reference.class);
-                ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
+                ValidationSupport.checkReferenceType(investigation.item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
                 ValidationSupport.requireValueOrChildren(investigation);
             }
 
@@ -1957,7 +1957,7 @@ public class ClinicalImpression extends DomainResource {
 
             protected void validate(Finding finding) {
                 super.validate(finding);
-                ValidationSupport.checkReferenceType(itemReference, "itemReference", "Condition", "Observation", "Media");
+                ValidationSupport.checkReferenceType(finding.itemReference, "itemReference", "Condition", "Observation", "Media");
                 ValidationSupport.requireValueOrChildren(finding);
             }
 

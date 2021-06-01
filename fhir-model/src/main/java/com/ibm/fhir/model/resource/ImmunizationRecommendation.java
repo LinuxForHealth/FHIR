@@ -590,8 +590,8 @@ public class ImmunizationRecommendation extends DomainResource {
             ValidationSupport.requireNonNull(immunizationRecommendation.patient, "patient");
             ValidationSupport.requireNonNull(immunizationRecommendation.date, "date");
             ValidationSupport.checkNonEmptyList(immunizationRecommendation.recommendation, "recommendation", Recommendation.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(immunizationRecommendation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationRecommendation.authority, "authority", "Organization");
         }
 
         protected Builder from(ImmunizationRecommendation immunizationRecommendation) {
@@ -1373,7 +1373,7 @@ public class ImmunizationRecommendation extends DomainResource {
                 ValidationSupport.choiceElement(recommendation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
                 ValidationSupport.checkList(recommendation.supportingImmunization, "supportingImmunization", Reference.class);
                 ValidationSupport.checkList(recommendation.supportingPatientInformation, "supportingPatientInformation", Reference.class);
-                ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
+                ValidationSupport.checkReferenceType(recommendation.supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
                 ValidationSupport.requireValueOrChildren(recommendation);
             }
 

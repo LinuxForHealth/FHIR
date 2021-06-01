@@ -247,7 +247,7 @@ public class SimpleQuantity extends Quantity {
 
         protected void validate(SimpleQuantity simpleQuantity) {
             super.validate(simpleQuantity);
-            ValidationSupport.prohibited(comparator, "comparator");
+            ValidationSupport.prohibited(simpleQuantity.comparator, "comparator");
         }
 
         protected Builder from(SimpleQuantity simpleQuantity) {

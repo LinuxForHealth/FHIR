@@ -613,10 +613,10 @@ public class EnrollmentRequest extends DomainResource {
         protected void validate(EnrollmentRequest enrollmentRequest) {
             super.validate(enrollmentRequest);
             ValidationSupport.checkList(enrollmentRequest.identifier, "identifier", Identifier.class);
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(candidate, "candidate", "Patient");
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+            ValidationSupport.checkReferenceType(enrollmentRequest.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.candidate, "candidate", "Patient");
+            ValidationSupport.checkReferenceType(enrollmentRequest.coverage, "coverage", "Coverage");
         }
 
         protected Builder from(EnrollmentRequest enrollmentRequest) {

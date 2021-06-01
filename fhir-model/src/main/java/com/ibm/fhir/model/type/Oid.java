@@ -196,7 +196,7 @@ public class Oid extends Uri {
 
         protected void validate(Oid oid) {
             super.validate(oid);
-            ValidationSupport.checkValue(value, PATTERN);
+            ValidationSupport.checkValue(oid.value, PATTERN);
         }
 
         protected Builder from(Oid oid) {

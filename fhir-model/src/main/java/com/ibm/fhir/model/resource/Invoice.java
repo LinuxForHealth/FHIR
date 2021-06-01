@@ -1015,10 +1015,10 @@ public class Invoice extends DomainResource {
             ValidationSupport.checkList(invoice.lineItem, "lineItem", LineItem.class);
             ValidationSupport.checkList(invoice.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class);
             ValidationSupport.checkList(invoice.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
-            ValidationSupport.checkReferenceType(account, "account", "Account");
+            ValidationSupport.checkReferenceType(invoice.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(invoice.recipient, "recipient", "Organization", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(invoice.issuer, "issuer", "Organization");
+            ValidationSupport.checkReferenceType(invoice.account, "account", "Account");
         }
 
         protected Builder from(Invoice invoice) {
@@ -1320,7 +1320,7 @@ public class Invoice extends DomainResource {
             protected void validate(Participant participant) {
                 super.validate(participant);
                 ValidationSupport.requireNonNull(participant.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson");
+                ValidationSupport.checkReferenceType(participant.actor, "actor", "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(participant);
             }
 
@@ -1674,7 +1674,7 @@ public class Invoice extends DomainResource {
                 super.validate(lineItem);
                 ValidationSupport.requireChoiceElement(lineItem.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
                 ValidationSupport.checkList(lineItem.priceComponent, "priceComponent", PriceComponent.class);
-                ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
+                ValidationSupport.checkReferenceType(lineItem.chargeItem, "chargeItem", "ChargeItem");
                 ValidationSupport.requireValueOrChildren(lineItem);
             }
 

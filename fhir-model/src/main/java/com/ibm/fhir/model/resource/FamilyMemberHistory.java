@@ -1226,8 +1226,8 @@ public class FamilyMemberHistory extends DomainResource {
             ValidationSupport.checkList(familyMemberHistory.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(familyMemberHistory.note, "note", Annotation.class);
             ValidationSupport.checkList(familyMemberHistory.condition, "condition", Condition.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(familyMemberHistory.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(familyMemberHistory.reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(FamilyMemberHistory familyMemberHistory) {

@@ -810,8 +810,8 @@ public class DeviceMetric extends DomainResource {
             ValidationSupport.requireNonNull(deviceMetric.type, "type");
             ValidationSupport.requireNonNull(deviceMetric.category, "category");
             ValidationSupport.checkList(deviceMetric.calibration, "calibration", Calibration.class);
-            ValidationSupport.checkReferenceType(source, "source", "Device");
-            ValidationSupport.checkReferenceType(parent, "parent", "Device");
+            ValidationSupport.checkReferenceType(deviceMetric.source, "source", "Device");
+            ValidationSupport.checkReferenceType(deviceMetric.parent, "parent", "Device");
         }
 
         protected Builder from(DeviceMetric deviceMetric) {

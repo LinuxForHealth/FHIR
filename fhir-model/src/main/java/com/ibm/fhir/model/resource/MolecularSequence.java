@@ -1085,11 +1085,11 @@ public class MolecularSequence extends DomainResource {
             ValidationSupport.checkList(molecularSequence.repository, "repository", Repository.class);
             ValidationSupport.checkList(molecularSequence.pointer, "pointer", Reference.class);
             ValidationSupport.checkList(molecularSequence.structureVariant, "structureVariant", StructureVariant.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.checkReferenceType(device, "device", "Device");
-            ValidationSupport.checkReferenceType(performer, "performer", "Organization");
-            ValidationSupport.checkReferenceType(pointer, "pointer", "MolecularSequence");
+            ValidationSupport.checkReferenceType(molecularSequence.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(molecularSequence.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(molecularSequence.device, "device", "Device");
+            ValidationSupport.checkReferenceType(molecularSequence.performer, "performer", "Organization");
+            ValidationSupport.checkReferenceType(molecularSequence.pointer, "pointer", "MolecularSequence");
         }
 
         protected Builder from(MolecularSequence molecularSequence) {
@@ -1645,7 +1645,7 @@ public class MolecularSequence extends DomainResource {
 
             protected void validate(ReferenceSeq referenceSeq) {
                 super.validate(referenceSeq);
-                ValidationSupport.checkReferenceType(referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
+                ValidationSupport.checkReferenceType(referenceSeq.referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
                 ValidationSupport.requireValueOrChildren(referenceSeq);
             }
 
@@ -2083,7 +2083,7 @@ public class MolecularSequence extends DomainResource {
 
             protected void validate(Variant variant) {
                 super.validate(variant);
-                ValidationSupport.checkReferenceType(variantPointer, "variantPointer", "Observation");
+                ValidationSupport.checkReferenceType(variant.variantPointer, "variantPointer", "Observation");
                 ValidationSupport.requireValueOrChildren(variant);
             }
 

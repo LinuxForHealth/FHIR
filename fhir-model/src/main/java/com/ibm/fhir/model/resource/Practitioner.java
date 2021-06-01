@@ -848,7 +848,7 @@ public class Practitioner extends DomainResource {
             ValidationSupport.checkList(practitioner.photo, "photo", Attachment.class);
             ValidationSupport.checkList(practitioner.qualification, "qualification", Qualification.class);
             ValidationSupport.checkList(practitioner.communication, "communication", CodeableConcept.class);
-            ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkValueSetBinding(practitioner.communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         }
 
         protected Builder from(Practitioner practitioner) {
@@ -1228,7 +1228,7 @@ public class Practitioner extends DomainResource {
                 super.validate(qualification);
                 ValidationSupport.checkList(qualification.identifier, "identifier", Identifier.class);
                 ValidationSupport.requireNonNull(qualification.code, "code");
-                ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
+                ValidationSupport.checkReferenceType(qualification.issuer, "issuer", "Organization");
                 ValidationSupport.requireValueOrChildren(qualification);
             }
 

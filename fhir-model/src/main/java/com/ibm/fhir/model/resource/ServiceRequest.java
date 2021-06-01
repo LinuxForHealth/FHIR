@@ -2095,17 +2095,17 @@ public class ServiceRequest extends DomainResource {
             ValidationSupport.checkList(serviceRequest.bodySite, "bodySite", CodeableConcept.class);
             ValidationSupport.checkList(serviceRequest.note, "note", Annotation.class);
             ValidationSupport.checkList(serviceRequest.relevantHistory, "relevantHistory", Reference.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
-            ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.checkReferenceType(locationReference, "locationReference", "Location");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-            ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
+            ValidationSupport.checkReferenceType(serviceRequest.basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.replaces, "replaces", "ServiceRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.subject, "subject", "Patient", "Group", "Location", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(serviceRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(serviceRequest.locationReference, "locationReference", "Location");
+            ValidationSupport.checkReferenceType(serviceRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(serviceRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(serviceRequest.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(serviceRequest.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(ServiceRequest serviceRequest) {

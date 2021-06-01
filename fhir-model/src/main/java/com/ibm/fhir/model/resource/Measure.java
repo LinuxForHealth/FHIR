@@ -2176,8 +2176,8 @@ public class Measure extends DomainResource {
             ValidationSupport.checkList(measure.definition, "definition", Markdown.class);
             ValidationSupport.checkList(measure.group, "group", Group.class);
             ValidationSupport.checkList(measure.supplementalData, "supplementalData", SupplementalData.class);
-            ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkValueSetBinding(measure.improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+            ValidationSupport.checkReferenceType(measure.subject, "subject", "Group");
         }
 
         protected Builder from(Measure measure) {

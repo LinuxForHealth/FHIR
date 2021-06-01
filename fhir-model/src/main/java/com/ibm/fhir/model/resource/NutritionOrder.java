@@ -1207,10 +1207,10 @@ public class NutritionOrder extends DomainResource {
             ValidationSupport.checkList(nutritionOrder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class);
             ValidationSupport.checkList(nutritionOrder.supplement, "supplement", Supplement.class);
             ValidationSupport.checkList(nutritionOrder.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
+            ValidationSupport.checkReferenceType(nutritionOrder.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(nutritionOrder.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(nutritionOrder.orderer, "orderer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(nutritionOrder.allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
         }
 
         protected Builder from(NutritionOrder nutritionOrder) {

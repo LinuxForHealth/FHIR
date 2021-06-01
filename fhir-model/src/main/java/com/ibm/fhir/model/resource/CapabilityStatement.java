@@ -2298,7 +2298,7 @@ public class CapabilityStatement extends DomainResource {
             protected void validate(Implementation implementation) {
                 super.validate(implementation);
                 ValidationSupport.requireNonNull(implementation.description, "description");
-                ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
+                ValidationSupport.checkReferenceType(implementation.custodian, "custodian", "Organization");
                 ValidationSupport.requireValueOrChildren(implementation);
             }
 

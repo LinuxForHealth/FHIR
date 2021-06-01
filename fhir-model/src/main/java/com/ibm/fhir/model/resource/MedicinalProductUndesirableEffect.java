@@ -554,7 +554,7 @@ public class MedicinalProductUndesirableEffect extends DomainResource {
             super.validate(medicinalProductUndesirableEffect);
             ValidationSupport.checkList(medicinalProductUndesirableEffect.subject, "subject", Reference.class);
             ValidationSupport.checkList(medicinalProductUndesirableEffect.population, "population", Population.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
+            ValidationSupport.checkReferenceType(medicinalProductUndesirableEffect.subject, "subject", "MedicinalProduct", "Medication");
         }
 
         protected Builder from(MedicinalProductUndesirableEffect medicinalProductUndesirableEffect) {

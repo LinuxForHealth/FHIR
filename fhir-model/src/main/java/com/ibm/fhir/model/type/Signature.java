@@ -487,8 +487,8 @@ public class Signature extends Element {
             ValidationSupport.checkNonEmptyList(signature.type, "type", Coding.class);
             ValidationSupport.requireNonNull(signature.when, "when");
             ValidationSupport.requireNonNull(signature.who, "who");
-            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.checkReferenceType(signature.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.checkReferenceType(signature.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
             ValidationSupport.requireValueOrChildren(signature);
         }
 

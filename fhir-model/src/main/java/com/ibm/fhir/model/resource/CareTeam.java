@@ -994,10 +994,10 @@ public class CareTeam extends DomainResource {
             ValidationSupport.checkList(careTeam.managingOrganization, "managingOrganization", Reference.class);
             ValidationSupport.checkList(careTeam.telecom, "telecom", ContactPoint.class);
             ValidationSupport.checkList(careTeam.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition");
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(careTeam.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(careTeam.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(careTeam.reasonReference, "reasonReference", "Condition");
+            ValidationSupport.checkReferenceType(careTeam.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(CareTeam careTeam) {
@@ -1386,8 +1386,8 @@ public class CareTeam extends DomainResource {
             protected void validate(Participant participant) {
                 super.validate(participant);
                 ValidationSupport.checkList(participant.role, "role", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
-                ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
+                ValidationSupport.checkReferenceType(participant.member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
+                ValidationSupport.checkReferenceType(participant.onBehalfOf, "onBehalfOf", "Organization");
                 ValidationSupport.requireValueOrChildren(participant);
             }
 

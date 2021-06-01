@@ -1002,11 +1002,11 @@ public class CoverageEligibilityRequest extends DomainResource {
             ValidationSupport.checkList(coverageEligibilityRequest.supportingInfo, "supportingInfo", SupportingInfo.class);
             ValidationSupport.checkList(coverageEligibilityRequest.insurance, "insurance", Insurance.class);
             ValidationSupport.checkList(coverageEligibilityRequest.item, "item", Item.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-            ValidationSupport.checkReferenceType(facility, "facility", "Location");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.facility, "facility", "Location");
         }
 
         protected Builder from(CoverageEligibilityRequest coverageEligibilityRequest) {
@@ -1648,7 +1648,7 @@ public class CoverageEligibilityRequest extends DomainResource {
             protected void validate(Insurance insurance) {
                 super.validate(insurance);
                 ValidationSupport.requireNonNull(insurance.coverage, "coverage");
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
                 ValidationSupport.requireValueOrChildren(insurance);
             }
 
@@ -2282,8 +2282,8 @@ public class CoverageEligibilityRequest extends DomainResource {
                 ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
                 ValidationSupport.checkList(item.diagnosis, "diagnosis", Diagnosis.class);
                 ValidationSupport.checkList(item.detail, "detail", Reference.class);
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
-                ValidationSupport.checkReferenceType(facility, "facility", "Location", "Organization");
+                ValidationSupport.checkReferenceType(item.provider, "provider", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(item.facility, "facility", "Location", "Organization");
                 ValidationSupport.requireValueOrChildren(item);
             }
 
@@ -2547,7 +2547,7 @@ public class CoverageEligibilityRequest extends DomainResource {
                 protected void validate(Diagnosis diagnosis) {
                     super.validate(diagnosis);
                     ValidationSupport.choiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-                    ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
+                    ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
                     ValidationSupport.requireValueOrChildren(diagnosis);
                 }
 

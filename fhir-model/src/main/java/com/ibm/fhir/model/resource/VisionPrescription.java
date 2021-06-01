@@ -713,9 +713,9 @@ public class VisionPrescription extends DomainResource {
             ValidationSupport.requireNonNull(visionPrescription.dateWritten, "dateWritten");
             ValidationSupport.requireNonNull(visionPrescription.prescriber, "prescriber");
             ValidationSupport.checkNonEmptyList(visionPrescription.lensSpecification, "lensSpecification", LensSpecification.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(visionPrescription.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(visionPrescription.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(visionPrescription.prescriber, "prescriber", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(VisionPrescription visionPrescription) {

@@ -1527,12 +1527,12 @@ public class Communication extends DomainResource {
             ValidationSupport.checkList(communication.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(communication.payload, "payload", Payload.class);
             ValidationSupport.checkList(communication.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(inResponseTo, "inResponseTo", "Communication");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
-            ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(communication.inResponseTo, "inResponseTo", "Communication");
+            ValidationSupport.checkReferenceType(communication.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(communication.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(communication.recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
+            ValidationSupport.checkReferenceType(communication.sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
+            ValidationSupport.checkReferenceType(communication.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(Communication communication) {

@@ -381,7 +381,7 @@ public class Identifier extends Element {
 
         protected void validate(Identifier identifier) {
             super.validate(identifier);
-            ValidationSupport.checkReferenceType(assigner, "assigner", "Organization");
+            ValidationSupport.checkReferenceType(identifier.assigner, "assigner", "Organization");
             ValidationSupport.requireValueOrChildren(identifier);
         }
 

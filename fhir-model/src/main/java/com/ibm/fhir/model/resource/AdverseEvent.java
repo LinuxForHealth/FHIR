@@ -1319,17 +1319,17 @@ public class AdverseEvent extends DomainResource {
             ValidationSupport.checkList(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", Reference.class);
             ValidationSupport.checkList(adverseEvent.referenceDocument, "referenceDocument", Reference.class);
             ValidationSupport.checkList(adverseEvent.study, "study", Reference.class);
-            ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
-            ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(resultingCondition, "resultingCondition", "Condition");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.checkReferenceType(contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
-            ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
-            ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
-            ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
+            ValidationSupport.checkValueSetBinding(adverseEvent.severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
+            ValidationSupport.checkValueSetBinding(adverseEvent.outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
+            ValidationSupport.checkReferenceType(adverseEvent.subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(adverseEvent.resultingCondition, "resultingCondition", "Condition");
+            ValidationSupport.checkReferenceType(adverseEvent.location, "location", "Location");
+            ValidationSupport.checkReferenceType(adverseEvent.recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.referenceDocument, "referenceDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.study, "study", "ResearchStudy");
         }
 
         protected Builder from(AdverseEvent adverseEvent) {
@@ -1659,7 +1659,7 @@ public class AdverseEvent extends DomainResource {
                 super.validate(suspectEntity);
                 ValidationSupport.requireNonNull(suspectEntity.instance, "instance");
                 ValidationSupport.checkList(suspectEntity.causality, "causality", Causality.class);
-                ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
+                ValidationSupport.checkReferenceType(suspectEntity.instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
                 ValidationSupport.requireValueOrChildren(suspectEntity);
             }
 
@@ -2011,7 +2011,7 @@ public class AdverseEvent extends DomainResource {
 
                 protected void validate(Causality causality) {
                     super.validate(causality);
-                    ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
+                    ValidationSupport.checkReferenceType(causality.author, "author", "Practitioner", "PractitionerRole");
                     ValidationSupport.requireValueOrChildren(causality);
                 }
 

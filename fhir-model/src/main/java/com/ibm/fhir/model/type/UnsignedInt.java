@@ -215,7 +215,7 @@ public class UnsignedInt extends Integer {
 
         protected void validate(UnsignedInt unsignedInt) {
             super.validate(unsignedInt);
-            ValidationSupport.checkValue(value, MIN_VALUE);
+            ValidationSupport.checkValue(unsignedInt.value, MIN_VALUE);
             ValidationSupport.requireValueOrChildren(unsignedInt);
         }
 

@@ -1914,13 +1914,13 @@ public class Contract extends DomainResource {
             ValidationSupport.checkList(contract.legal, "legal", Legal.class);
             ValidationSupport.checkList(contract.rule, "rule", Rule.class);
             ValidationSupport.choiceElement(contract.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
-            ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
-            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-            ValidationSupport.checkReferenceType(domain, "domain", "Location");
-            ValidationSupport.checkReferenceType(site, "site", "Location");
-            ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-            ValidationSupport.checkReferenceType(legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
+            ValidationSupport.checkReferenceType(contract.instantiatesCanonical, "instantiatesCanonical", "Contract");
+            ValidationSupport.checkReferenceType(contract.authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(contract.domain, "domain", "Location");
+            ValidationSupport.checkReferenceType(contract.site, "site", "Location");
+            ValidationSupport.checkReferenceType(contract.author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(contract.relevantHistory, "relevantHistory", "Provenance");
+            ValidationSupport.checkReferenceType(contract.legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
         }
 
         protected Builder from(Contract contract) {
@@ -2393,7 +2393,7 @@ public class Contract extends DomainResource {
                 super.validate(contentDefinition);
                 ValidationSupport.requireNonNull(contentDefinition.type, "type");
                 ValidationSupport.requireNonNull(contentDefinition.publicationStatus, "publicationStatus");
-                ValidationSupport.checkReferenceType(publisher, "publisher", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(contentDefinition.publisher, "publisher", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(contentDefinition);
             }
 
@@ -4541,7 +4541,7 @@ public class Contract extends DomainResource {
                         super.validate(party);
                         ValidationSupport.checkNonEmptyList(party.reference, "reference", Reference.class);
                         ValidationSupport.requireNonNull(party.role, "role");
-                        ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                        ValidationSupport.checkReferenceType(party.reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                         ValidationSupport.requireValueOrChildren(party);
                     }
 
@@ -6807,8 +6807,8 @@ public class Contract extends DomainResource {
                         ValidationSupport.choiceElement(valuedItem.entity, "entity", CodeableConcept.class, Reference.class);
                         ValidationSupport.checkList(valuedItem.linkId, "linkId", String.class);
                         ValidationSupport.checkList(valuedItem.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
-                        ValidationSupport.checkReferenceType(responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-                        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                        ValidationSupport.checkReferenceType(valuedItem.responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                        ValidationSupport.checkReferenceType(valuedItem.recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                         ValidationSupport.requireValueOrChildren(valuedItem);
                     }
 
@@ -8098,10 +8098,10 @@ public class Contract extends DomainResource {
                     ValidationSupport.checkList(action.reasonLinkId, "reasonLinkId", String.class);
                     ValidationSupport.checkList(action.note, "note", Annotation.class);
                     ValidationSupport.checkList(action.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
-                    ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-                    ValidationSupport.checkReferenceType(requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
-                    ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
-                    ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse");
+                    ValidationSupport.checkReferenceType(action.context, "context", "Encounter", "EpisodeOfCare");
+                    ValidationSupport.checkReferenceType(action.requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                    ValidationSupport.checkReferenceType(action.performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
+                    ValidationSupport.checkReferenceType(action.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse");
                     ValidationSupport.requireValueOrChildren(action);
                 }
 
@@ -8447,7 +8447,7 @@ public class Contract extends DomainResource {
                     protected void validate(Subject subject) {
                         super.validate(subject);
                         ValidationSupport.checkNonEmptyList(subject.reference, "reference", Reference.class);
-                        ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                        ValidationSupport.checkReferenceType(subject.reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
                         ValidationSupport.requireValueOrChildren(subject);
                     }
 
@@ -8807,7 +8807,7 @@ public class Contract extends DomainResource {
                 ValidationSupport.requireNonNull(signer.type, "type");
                 ValidationSupport.requireNonNull(signer.party, "party");
                 ValidationSupport.checkNonEmptyList(signer.signature, "signature", Signature.class);
-                ValidationSupport.checkReferenceType(party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                ValidationSupport.checkReferenceType(signer.party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(signer);
             }
 
@@ -9074,7 +9074,7 @@ public class Contract extends DomainResource {
             protected void validate(Friendly friendly) {
                 super.validate(friendly);
                 ValidationSupport.requireChoiceElement(friendly.content, "content", Attachment.class, Reference.class);
-                ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
+                ValidationSupport.checkReferenceType(friendly.content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
                 ValidationSupport.requireValueOrChildren(friendly);
             }
 
@@ -9334,7 +9334,7 @@ public class Contract extends DomainResource {
             protected void validate(Legal legal) {
                 super.validate(legal);
                 ValidationSupport.requireChoiceElement(legal.content, "content", Attachment.class, Reference.class);
-                ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
+                ValidationSupport.checkReferenceType(legal.content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
                 ValidationSupport.requireValueOrChildren(legal);
             }
 
@@ -9592,7 +9592,7 @@ public class Contract extends DomainResource {
             protected void validate(Rule rule) {
                 super.validate(rule);
                 ValidationSupport.requireChoiceElement(rule.content, "content", Attachment.class, Reference.class);
-                ValidationSupport.checkReferenceType(content, "content", "DocumentReference");
+                ValidationSupport.checkReferenceType(rule.content, "content", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(rule);
             }
 

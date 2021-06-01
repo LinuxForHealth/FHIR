@@ -927,10 +927,10 @@ public class ObservationDefinition extends DomainResource {
             ValidationSupport.checkList(observationDefinition.identifier, "identifier", Identifier.class);
             ValidationSupport.checkList(observationDefinition.permittedDataType, "permittedDataType", ObservationDataType.class);
             ValidationSupport.checkList(observationDefinition.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class);
-            ValidationSupport.checkReferenceType(validCodedValueSet, "validCodedValueSet", "ValueSet");
-            ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
-            ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
-            ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.validCodedValueSet, "validCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.normalCodedValueSet, "normalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
         }
 
         protected Builder from(ObservationDefinition observationDefinition) {

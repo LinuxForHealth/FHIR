@@ -1145,12 +1145,12 @@ public class SubstanceSpecification extends DomainResource {
             ValidationSupport.checkList(substanceSpecification.name, "name", Name.class);
             ValidationSupport.checkList(substanceSpecification.molecularWeight, "molecularWeight", SubstanceSpecification.Structure.Isotope.MolecularWeight.class);
             ValidationSupport.checkList(substanceSpecification.relationship, "relationship", Relationship.class);
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-            ValidationSupport.checkReferenceType(referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
-            ValidationSupport.checkReferenceType(nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
-            ValidationSupport.checkReferenceType(polymer, "polymer", "SubstancePolymer");
-            ValidationSupport.checkReferenceType(protein, "protein", "SubstanceProtein");
-            ValidationSupport.checkReferenceType(sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
+            ValidationSupport.checkReferenceType(substanceSpecification.source, "source", "DocumentReference");
+            ValidationSupport.checkReferenceType(substanceSpecification.referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
+            ValidationSupport.checkReferenceType(substanceSpecification.nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
+            ValidationSupport.checkReferenceType(substanceSpecification.polymer, "polymer", "SubstancePolymer");
+            ValidationSupport.checkReferenceType(substanceSpecification.protein, "protein", "SubstanceProtein");
+            ValidationSupport.checkReferenceType(substanceSpecification.sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
         }
 
         protected Builder from(SubstanceSpecification substanceSpecification) {
@@ -1996,7 +1996,7 @@ public class SubstanceSpecification extends DomainResource {
                 super.validate(property);
                 ValidationSupport.choiceElement(property.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
                 ValidationSupport.choiceElement(property.amount, "amount", Quantity.class, String.class);
-                ValidationSupport.checkReferenceType(definingSubstance, "definingSubstance", "SubstanceSpecification", "Substance");
+                ValidationSupport.checkReferenceType(property.definingSubstance, "definingSubstance", "SubstanceSpecification", "Substance");
                 ValidationSupport.requireValueOrChildren(property);
             }
 
@@ -2538,7 +2538,7 @@ public class SubstanceSpecification extends DomainResource {
                 ValidationSupport.checkList(structure.isotope, "isotope", Isotope.class);
                 ValidationSupport.checkList(structure.source, "source", Reference.class);
                 ValidationSupport.checkList(structure.representation, "representation", Representation.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(structure.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(structure);
             }
 
@@ -3917,7 +3917,7 @@ public class SubstanceSpecification extends DomainResource {
             protected void validate(Code code) {
                 super.validate(code);
                 ValidationSupport.checkList(code.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(code.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(code);
             }
 
@@ -4650,7 +4650,7 @@ public class SubstanceSpecification extends DomainResource {
                 ValidationSupport.checkList(name.translation, "translation", SubstanceSpecification.Name.class);
                 ValidationSupport.checkList(name.official, "official", Official.class);
                 ValidationSupport.checkList(name.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(name.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(name);
             }
 
@@ -5453,8 +5453,8 @@ public class SubstanceSpecification extends DomainResource {
                 ValidationSupport.choiceElement(relationship.substance, "substance", Reference.class, CodeableConcept.class);
                 ValidationSupport.choiceElement(relationship.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
                 ValidationSupport.checkList(relationship.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(substance, "substance", "SubstanceSpecification");
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(relationship.substance, "substance", "SubstanceSpecification");
+                ValidationSupport.checkReferenceType(relationship.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(relationship);
             }
 

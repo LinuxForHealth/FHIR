@@ -1289,11 +1289,11 @@ public class Media extends DomainResource {
             ValidationSupport.checkList(media.reasonCode, "reasonCode", CodeableConcept.class);
             ValidationSupport.requireNonNull(media.content, "content");
             ValidationSupport.checkList(media.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest", "CarePlan");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
+            ValidationSupport.checkReferenceType(media.basedOn, "basedOn", "ServiceRequest", "CarePlan");
+            ValidationSupport.checkReferenceType(media.subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
+            ValidationSupport.checkReferenceType(media.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(media.operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(media.device, "device", "Device", "DeviceMetric", "Device");
         }
 
         protected Builder from(Media media) {

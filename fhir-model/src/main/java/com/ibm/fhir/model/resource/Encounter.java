@@ -1584,14 +1584,14 @@ public class Encounter extends DomainResource {
             ValidationSupport.checkList(encounter.diagnosis, "diagnosis", Diagnosis.class);
             ValidationSupport.checkList(encounter.account, "account", Reference.class);
             ValidationSupport.checkList(encounter.location, "location", Location.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(episodeOfCare, "episodeOfCare", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-            ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-            ValidationSupport.checkReferenceType(account, "account", "Account");
-            ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
+            ValidationSupport.checkReferenceType(encounter.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter.episodeOfCare, "episodeOfCare", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(encounter.basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(encounter.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(encounter.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(encounter.account, "account", "Account");
+            ValidationSupport.checkReferenceType(encounter.serviceProvider, "serviceProvider", "Organization");
+            ValidationSupport.checkReferenceType(encounter.partOf, "partOf", "Encounter");
         }
 
         protected Builder from(Encounter encounter) {
@@ -2527,7 +2527,7 @@ public class Encounter extends DomainResource {
             protected void validate(Participant participant) {
                 super.validate(participant);
                 ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
+                ValidationSupport.checkReferenceType(participant.individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(participant);
             }
 
@@ -2854,7 +2854,7 @@ public class Encounter extends DomainResource {
             protected void validate(Diagnosis diagnosis) {
                 super.validate(diagnosis);
                 ValidationSupport.requireNonNull(diagnosis.condition, "condition");
-                ValidationSupport.checkReferenceType(condition, "condition", "Condition", "Procedure");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition", "Procedure");
                 ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
@@ -3457,8 +3457,8 @@ public class Encounter extends DomainResource {
                 ValidationSupport.checkList(hospitalization.dietPreference, "dietPreference", CodeableConcept.class);
                 ValidationSupport.checkList(hospitalization.specialCourtesy, "specialCourtesy", CodeableConcept.class);
                 ValidationSupport.checkList(hospitalization.specialArrangement, "specialArrangement", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");
-                ValidationSupport.checkReferenceType(destination, "destination", "Location", "Organization");
+                ValidationSupport.checkReferenceType(hospitalization.origin, "origin", "Location", "Organization");
+                ValidationSupport.checkReferenceType(hospitalization.destination, "destination", "Location", "Organization");
                 ValidationSupport.requireValueOrChildren(hospitalization);
             }
 
@@ -3826,7 +3826,7 @@ public class Encounter extends DomainResource {
             protected void validate(Location location) {
                 super.validate(location);
                 ValidationSupport.requireNonNull(location.location, "location");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(location.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(location);
             }
 

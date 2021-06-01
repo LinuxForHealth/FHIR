@@ -1506,17 +1506,17 @@ public class MedicationDispense extends DomainResource {
             ValidationSupport.checkList(medicationDispense.dosageInstruction, "dosageInstruction", Dosage.class);
             ValidationSupport.checkList(medicationDispense.detectedIssue, "detectedIssue", Reference.class);
             ValidationSupport.checkList(medicationDispense.eventHistory, "eventHistory", Reference.class);
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
-            ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
-            ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(authorizingPrescription, "authorizingPrescription", "MedicationRequest");
-            ValidationSupport.checkReferenceType(destination, "destination", "Location");
-            ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
-            ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
-            ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
+            ValidationSupport.checkReferenceType(medicationDispense.partOf, "partOf", "Procedure");
+            ValidationSupport.checkReferenceType(medicationDispense.statusReason, "statusReason", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationDispense.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationDispense.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationDispense.location, "location", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.authorizingPrescription, "authorizingPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationDispense.destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.receiver, "receiver", "Patient", "Practitioner");
+            ValidationSupport.checkReferenceType(medicationDispense.detectedIssue, "detectedIssue", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationDispense medicationDispense) {
@@ -1832,7 +1832,7 @@ public class MedicationDispense extends DomainResource {
             protected void validate(Performer performer) {
                 super.validate(performer);
                 ValidationSupport.requireNonNull(performer.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(performer);
             }
 
@@ -2240,7 +2240,7 @@ public class MedicationDispense extends DomainResource {
                 ValidationSupport.requireNonNull(substitution.wasSubstituted, "wasSubstituted");
                 ValidationSupport.checkList(substitution.reason, "reason", CodeableConcept.class);
                 ValidationSupport.checkList(substitution.responsibleParty, "responsibleParty", Reference.class);
-                ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(substitution.responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(substitution);
             }
 

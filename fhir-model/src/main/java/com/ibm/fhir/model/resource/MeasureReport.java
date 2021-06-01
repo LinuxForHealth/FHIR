@@ -869,9 +869,9 @@ public class MeasureReport extends DomainResource {
             ValidationSupport.requireNonNull(measureReport.period, "period");
             ValidationSupport.checkList(measureReport.group, "group", Group.class);
             ValidationSupport.checkList(measureReport.evaluatedResource, "evaluatedResource", Reference.class);
-            ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
-            ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
+            ValidationSupport.checkValueSetBinding(measureReport.improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+            ValidationSupport.checkReferenceType(measureReport.subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
+            ValidationSupport.checkReferenceType(measureReport.reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
         }
 
         protected Builder from(MeasureReport measureReport) {
@@ -1570,7 +1570,7 @@ public class MeasureReport extends DomainResource {
 
                 protected void validate(Population population) {
                     super.validate(population);
-                    ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
+                    ValidationSupport.checkReferenceType(population.subjectResults, "subjectResults", "List");
                     ValidationSupport.requireValueOrChildren(population);
                 }
 
@@ -2855,7 +2855,7 @@ public class MeasureReport extends DomainResource {
 
                         protected void validate(Population population) {
                             super.validate(population);
-                            ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
+                            ValidationSupport.checkReferenceType(population.subjectResults, "subjectResults", "List");
                             ValidationSupport.requireValueOrChildren(population);
                         }
 

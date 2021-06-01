@@ -3019,7 +3019,7 @@ public class CodeSystem extends DomainResource {
                 protected void validate(Designation designation) {
                     super.validate(designation);
                     ValidationSupport.requireNonNull(designation.value, "value");
-                    ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                    ValidationSupport.checkValueSetBinding(designation.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                     ValidationSupport.requireValueOrChildren(designation);
                 }
 

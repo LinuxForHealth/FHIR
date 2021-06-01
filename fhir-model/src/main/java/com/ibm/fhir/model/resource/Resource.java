@@ -208,8 +208,8 @@ public abstract class Resource extends AbstractVisitable {
         public abstract Resource build();
 
         protected void validate(Resource resource) {
-            ValidationSupport.checkId(id);
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkId(resource.id);
+            ValidationSupport.checkValueSetBinding(resource.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         }
 
         protected Builder from(Resource resource) {

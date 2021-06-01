@@ -1103,10 +1103,10 @@ public class Consent extends DomainResource {
             ValidationSupport.choiceElement(consent.source, "source", Attachment.class, Reference.class);
             ValidationSupport.checkList(consent.policy, "policy", Policy.class);
             ValidationSupport.checkList(consent.verification, "verification", Verification.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
+            ValidationSupport.checkReferenceType(consent.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(consent.performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+            ValidationSupport.checkReferenceType(consent.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(consent.source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
         }
 
         protected Builder from(Consent consent) {
@@ -1704,7 +1704,7 @@ public class Consent extends DomainResource {
             protected void validate(Verification verification) {
                 super.validate(verification);
                 ValidationSupport.requireNonNull(verification.verified, "verified");
-                ValidationSupport.checkReferenceType(verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(verification.verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(verification);
             }
 
@@ -2787,7 +2787,7 @@ public class Consent extends DomainResource {
                     super.validate(actor);
                     ValidationSupport.requireNonNull(actor.role, "role");
                     ValidationSupport.requireNonNull(actor.reference, "reference");
-                    ValidationSupport.checkReferenceType(reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+                    ValidationSupport.checkReferenceType(actor.reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
                     ValidationSupport.requireValueOrChildren(actor);
                 }
 

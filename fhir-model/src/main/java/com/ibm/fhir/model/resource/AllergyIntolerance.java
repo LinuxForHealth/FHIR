@@ -1071,12 +1071,12 @@ public class AllergyIntolerance extends DomainResource {
             ValidationSupport.choiceElement(allergyIntolerance.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
             ValidationSupport.checkList(allergyIntolerance.note, "note", Annotation.class);
             ValidationSupport.checkList(allergyIntolerance.reaction, "reaction", Reaction.class);
-            ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
-            ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkValueSetBinding(allergyIntolerance.clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
+            ValidationSupport.checkValueSetBinding(allergyIntolerance.verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(allergyIntolerance.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(allergyIntolerance.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(allergyIntolerance.recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(allergyIntolerance.asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(AllergyIntolerance allergyIntolerance) {

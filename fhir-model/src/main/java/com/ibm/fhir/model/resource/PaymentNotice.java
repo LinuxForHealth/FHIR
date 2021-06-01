@@ -814,10 +814,10 @@ public class PaymentNotice extends DomainResource {
             ValidationSupport.requireNonNull(paymentNotice.payment, "payment");
             ValidationSupport.requireNonNull(paymentNotice.recipient, "recipient");
             ValidationSupport.requireNonNull(paymentNotice.amount, "amount");
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
-            ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.payment, "payment", "PaymentReconciliation");
+            ValidationSupport.checkReferenceType(paymentNotice.payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.recipient, "recipient", "Organization");
         }
 
         protected Builder from(PaymentNotice paymentNotice) {

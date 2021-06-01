@@ -1359,12 +1359,12 @@ public class MedicinalProduct extends DomainResource {
             ValidationSupport.checkList(medicinalProduct.crossReference, "crossReference", Identifier.class);
             ValidationSupport.checkList(medicinalProduct.manufacturingBusinessOperation, "manufacturingBusinessOperation", ManufacturingBusinessOperation.class);
             ValidationSupport.checkList(medicinalProduct.specialDesignation, "specialDesignation", SpecialDesignation.class);
-            ValidationSupport.checkReferenceType(pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
-            ValidationSupport.checkReferenceType(packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
-            ValidationSupport.checkReferenceType(attachedDocument, "attachedDocument", "DocumentReference");
-            ValidationSupport.checkReferenceType(masterFile, "masterFile", "DocumentReference");
-            ValidationSupport.checkReferenceType(contact, "contact", "Organization", "PractitionerRole");
-            ValidationSupport.checkReferenceType(clinicalTrial, "clinicalTrial", "ResearchStudy");
+            ValidationSupport.checkReferenceType(medicinalProduct.pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
+            ValidationSupport.checkReferenceType(medicinalProduct.packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
+            ValidationSupport.checkReferenceType(medicinalProduct.attachedDocument, "attachedDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProduct.masterFile, "masterFile", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProduct.contact, "contact", "Organization", "PractitionerRole");
+            ValidationSupport.checkReferenceType(medicinalProduct.clinicalTrial, "clinicalTrial", "ResearchStudy");
         }
 
         protected Builder from(MedicinalProduct medicinalProduct) {
@@ -2768,8 +2768,8 @@ public class MedicinalProduct extends DomainResource {
             protected void validate(ManufacturingBusinessOperation manufacturingBusinessOperation) {
                 super.validate(manufacturingBusinessOperation);
                 ValidationSupport.checkList(manufacturingBusinessOperation.manufacturer, "manufacturer", Reference.class);
-                ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-                ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
+                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.manufacturer, "manufacturer", "Organization");
+                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.regulator, "regulator", "Organization");
                 ValidationSupport.requireValueOrChildren(manufacturingBusinessOperation);
             }
 
@@ -3238,7 +3238,7 @@ public class MedicinalProduct extends DomainResource {
                 super.validate(specialDesignation);
                 ValidationSupport.checkList(specialDesignation.identifier, "identifier", Identifier.class);
                 ValidationSupport.choiceElement(specialDesignation.indication, "indication", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(indication, "indication", "MedicinalProductIndication");
+                ValidationSupport.checkReferenceType(specialDesignation.indication, "indication", "MedicinalProductIndication");
                 ValidationSupport.requireValueOrChildren(specialDesignation);
             }
 

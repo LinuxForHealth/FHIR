@@ -889,9 +889,9 @@ public class ImmunizationEvaluation extends DomainResource {
             ValidationSupport.checkList(immunizationEvaluation.doseStatusReason, "doseStatusReason", CodeableConcept.class);
             ValidationSupport.choiceElement(immunizationEvaluation.doseNumber, "doseNumber", PositiveInt.class, String.class);
             ValidationSupport.choiceElement(immunizationEvaluation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-            ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.immunizationEvent, "immunizationEvent", "Immunization");
         }
 
         protected Builder from(ImmunizationEvaluation immunizationEvaluation) {

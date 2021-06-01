@@ -779,7 +779,7 @@ public class Group extends DomainResource {
             ValidationSupport.requireNonNull(group.actual, "actual");
             ValidationSupport.checkList(group.characteristic, "characteristic", Characteristic.class);
             ValidationSupport.checkList(group.member, "member", Member.class);
-            ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(group.managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(Group group) {
@@ -1477,7 +1477,7 @@ public class Group extends DomainResource {
             protected void validate(Member member) {
                 super.validate(member);
                 ValidationSupport.requireNonNull(member.entity, "entity");
-                ValidationSupport.checkReferenceType(entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
+                ValidationSupport.checkReferenceType(member.entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
                 ValidationSupport.requireValueOrChildren(member);
             }
 

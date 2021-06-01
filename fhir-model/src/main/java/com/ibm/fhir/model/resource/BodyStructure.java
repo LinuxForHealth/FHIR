@@ -701,7 +701,7 @@ public class BodyStructure extends DomainResource {
             ValidationSupport.checkList(bodyStructure.locationQualifier, "locationQualifier", CodeableConcept.class);
             ValidationSupport.checkList(bodyStructure.image, "image", Attachment.class);
             ValidationSupport.requireNonNull(bodyStructure.patient, "patient");
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(bodyStructure.patient, "patient", "Patient");
         }
 
         protected Builder from(BodyStructure bodyStructure) {

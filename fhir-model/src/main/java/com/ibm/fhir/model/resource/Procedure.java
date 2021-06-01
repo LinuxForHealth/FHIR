@@ -1851,17 +1851,17 @@ public class Procedure extends DomainResource {
             ValidationSupport.checkList(procedure.focalDevice, "focalDevice", FocalDevice.class);
             ValidationSupport.checkList(procedure.usedReference, "usedReference", Reference.class);
             ValidationSupport.checkList(procedure.usedCode, "usedCode", CodeableConcept.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
-            ValidationSupport.checkReferenceType(report, "report", "DiagnosticReport", "DocumentReference", "Composition");
-            ValidationSupport.checkReferenceType(complicationDetail, "complicationDetail", "Condition");
-            ValidationSupport.checkReferenceType(usedReference, "usedReference", "Device", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(procedure.basedOn, "basedOn", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(procedure.partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
+            ValidationSupport.checkReferenceType(procedure.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(procedure.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(procedure.recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(procedure.asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(procedure.location, "location", "Location");
+            ValidationSupport.checkReferenceType(procedure.reasonReference, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(procedure.report, "report", "DiagnosticReport", "DocumentReference", "Composition");
+            ValidationSupport.checkReferenceType(procedure.complicationDetail, "complicationDetail", "Condition");
+            ValidationSupport.checkReferenceType(procedure.usedReference, "usedReference", "Device", "Medication", "Substance");
         }
 
         protected Builder from(Procedure procedure) {
@@ -2220,8 +2220,8 @@ public class Procedure extends DomainResource {
             protected void validate(Performer performer) {
                 super.validate(performer);
                 ValidationSupport.requireNonNull(performer.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-                ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+                ValidationSupport.checkReferenceType(performer.onBehalfOf, "onBehalfOf", "Organization");
                 ValidationSupport.requireValueOrChildren(performer);
             }
 
@@ -2512,7 +2512,7 @@ public class Procedure extends DomainResource {
             protected void validate(FocalDevice focalDevice) {
                 super.validate(focalDevice);
                 ValidationSupport.requireNonNull(focalDevice.manipulated, "manipulated");
-                ValidationSupport.checkReferenceType(manipulated, "manipulated", "Device");
+                ValidationSupport.checkReferenceType(focalDevice.manipulated, "manipulated", "Device");
                 ValidationSupport.requireValueOrChildren(focalDevice);
             }
 

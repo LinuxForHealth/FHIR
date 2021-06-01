@@ -822,10 +822,10 @@ public class MessageHeader extends DomainResource {
             ValidationSupport.checkList(messageHeader.destination, "destination", Destination.class);
             ValidationSupport.requireNonNull(messageHeader.source, "source");
             ValidationSupport.checkList(messageHeader.focus, "focus", Reference.class);
-            ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(messageHeader.sender, "sender", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(messageHeader.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(messageHeader.author, "author", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(messageHeader.responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(MessageHeader messageHeader) {
@@ -1191,8 +1191,8 @@ public class MessageHeader extends DomainResource {
             protected void validate(Destination destination) {
                 super.validate(destination);
                 ValidationSupport.requireNonNull(destination.endpoint, "endpoint");
-                ValidationSupport.checkReferenceType(target, "target", "Device");
-                ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(destination.target, "target", "Device");
+                ValidationSupport.checkReferenceType(destination.receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(destination);
             }
 
@@ -1901,7 +1901,7 @@ public class MessageHeader extends DomainResource {
                 super.validate(response);
                 ValidationSupport.requireNonNull(response.identifier, "identifier");
                 ValidationSupport.requireNonNull(response.code, "code");
-                ValidationSupport.checkReferenceType(details, "details", "OperationOutcome");
+                ValidationSupport.checkReferenceType(response.details, "details", "OperationOutcome");
                 ValidationSupport.requireValueOrChildren(response);
             }
 

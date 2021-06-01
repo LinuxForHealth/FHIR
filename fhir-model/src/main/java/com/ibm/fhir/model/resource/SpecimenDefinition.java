@@ -1932,7 +1932,7 @@ public class SpecimenDefinition extends DomainResource {
                     protected void validate(Additive additive) {
                         super.validate(additive);
                         ValidationSupport.requireChoiceElement(additive.additive, "additive", CodeableConcept.class, Reference.class);
-                        ValidationSupport.checkReferenceType(additive, "additive", "Substance");
+                        ValidationSupport.checkReferenceType(additive.additive, "additive", "Substance");
                         ValidationSupport.requireValueOrChildren(additive);
                     }
 

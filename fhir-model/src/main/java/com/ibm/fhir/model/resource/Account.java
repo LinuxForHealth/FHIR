@@ -850,9 +850,9 @@ public class Account extends DomainResource {
             ValidationSupport.checkList(account.subject, "subject", Reference.class);
             ValidationSupport.checkList(account.coverage, "coverage", Coverage.class);
             ValidationSupport.checkList(account.guarantor, "guarantor", Guarantor.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
-            ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
+            ValidationSupport.checkReferenceType(account.subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
+            ValidationSupport.checkReferenceType(account.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(account.partOf, "partOf", "Account");
         }
 
         protected Builder from(Account account) {
@@ -1151,7 +1151,7 @@ public class Account extends DomainResource {
             protected void validate(Coverage coverage) {
                 super.validate(coverage);
                 ValidationSupport.requireNonNull(coverage.coverage, "coverage");
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(coverage.coverage, "coverage", "Coverage");
                 ValidationSupport.requireValueOrChildren(coverage);
             }
 
@@ -1467,7 +1467,7 @@ public class Account extends DomainResource {
             protected void validate(Guarantor guarantor) {
                 super.validate(guarantor);
                 ValidationSupport.requireNonNull(guarantor.party, "party");
-                ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Organization");
+                ValidationSupport.checkReferenceType(guarantor.party, "party", "Patient", "RelatedPerson", "Organization");
                 ValidationSupport.requireValueOrChildren(guarantor);
             }
 

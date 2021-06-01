@@ -614,7 +614,7 @@ public class DataRequirement extends Element {
             ValidationSupport.checkList(dataRequirement.codeFilter, "codeFilter", CodeFilter.class);
             ValidationSupport.checkList(dataRequirement.dateFilter, "dateFilter", DateFilter.class);
             ValidationSupport.checkList(dataRequirement.sort, "sort", Sort.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(dataRequirement.subject, "subject", "Group");
             ValidationSupport.requireValueOrChildren(dataRequirement);
         }
 

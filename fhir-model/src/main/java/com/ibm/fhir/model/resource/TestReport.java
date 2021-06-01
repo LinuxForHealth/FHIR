@@ -828,7 +828,7 @@ public class TestReport extends DomainResource {
             ValidationSupport.requireNonNull(testReport.result, "result");
             ValidationSupport.checkList(testReport.participant, "participant", Participant.class);
             ValidationSupport.checkList(testReport.test, "test", Test.class);
-            ValidationSupport.checkReferenceType(testScript, "testScript", "TestScript");
+            ValidationSupport.checkReferenceType(testReport.testScript, "testScript", "TestScript");
         }
 
         protected Builder from(TestReport testReport) {

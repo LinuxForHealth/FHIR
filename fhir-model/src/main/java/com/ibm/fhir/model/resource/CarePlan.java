@@ -1561,16 +1561,16 @@ public class CarePlan extends DomainResource {
             ValidationSupport.checkList(carePlan.goal, "goal", Reference.class);
             ValidationSupport.checkList(carePlan.activity, "activity", Activity.class);
             ValidationSupport.checkList(carePlan.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
-            ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
-            ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
-            ValidationSupport.checkReferenceType(goal, "goal", "Goal");
+            ValidationSupport.checkReferenceType(carePlan.basedOn, "basedOn", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.replaces, "replaces", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.partOf, "partOf", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(carePlan.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(carePlan.author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.careTeam, "careTeam", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.addresses, "addresses", "Condition");
+            ValidationSupport.checkReferenceType(carePlan.goal, "goal", "Goal");
         }
 
         protected Builder from(CarePlan carePlan) {
@@ -2045,7 +2045,7 @@ public class CarePlan extends DomainResource {
                 ValidationSupport.checkList(activity.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class);
                 ValidationSupport.checkList(activity.outcomeReference, "outcomeReference", Reference.class);
                 ValidationSupport.checkList(activity.progress, "progress", Annotation.class);
-                ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
+                ValidationSupport.checkReferenceType(activity.reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
                 ValidationSupport.requireValueOrChildren(activity);
             }
 
@@ -3052,11 +3052,11 @@ public class CarePlan extends DomainResource {
                     ValidationSupport.choiceElement(detail.scheduled, "scheduled", Timing.class, Period.class, String.class);
                     ValidationSupport.checkList(detail.performer, "performer", Reference.class);
                     ValidationSupport.choiceElement(detail.product, "product", CodeableConcept.class, Reference.class);
-                    ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-                    ValidationSupport.checkReferenceType(goal, "goal", "Goal");
-                    ValidationSupport.checkReferenceType(location, "location", "Location");
-                    ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
-                    ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
+                    ValidationSupport.checkReferenceType(detail.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+                    ValidationSupport.checkReferenceType(detail.goal, "goal", "Goal");
+                    ValidationSupport.checkReferenceType(detail.location, "location", "Location");
+                    ValidationSupport.checkReferenceType(detail.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
+                    ValidationSupport.checkReferenceType(detail.product, "product", "Medication", "Substance");
                     ValidationSupport.requireValueOrChildren(detail);
                 }
 

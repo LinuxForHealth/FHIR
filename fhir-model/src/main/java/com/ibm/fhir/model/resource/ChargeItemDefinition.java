@@ -1411,7 +1411,7 @@ public class ChargeItemDefinition extends DomainResource {
             ValidationSupport.checkList(chargeItemDefinition.instance, "instance", Reference.class);
             ValidationSupport.checkList(chargeItemDefinition.applicability, "applicability", Applicability.class);
             ValidationSupport.checkList(chargeItemDefinition.propertyGroup, "propertyGroup", PropertyGroup.class);
-            ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
+            ValidationSupport.checkReferenceType(chargeItemDefinition.instance, "instance", "Medication", "Substance", "Device");
         }
 
         protected Builder from(ChargeItemDefinition chargeItemDefinition) {

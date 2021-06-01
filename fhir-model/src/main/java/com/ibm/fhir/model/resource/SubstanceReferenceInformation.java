@@ -923,7 +923,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             protected void validate(Gene gene) {
                 super.validate(gene);
                 ValidationSupport.checkList(gene.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(gene.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(gene);
             }
 
@@ -1258,7 +1258,7 @@ public class SubstanceReferenceInformation extends DomainResource {
             protected void validate(GeneElement geneElement) {
                 super.validate(geneElement);
                 ValidationSupport.checkList(geneElement.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(geneElement.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(geneElement);
             }
 
@@ -1646,7 +1646,7 @@ public class SubstanceReferenceInformation extends DomainResource {
                 super.validate(classification);
                 ValidationSupport.checkList(classification.subtype, "subtype", CodeableConcept.class);
                 ValidationSupport.checkList(classification.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(classification.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(classification);
             }
 
@@ -2151,7 +2151,7 @@ public class SubstanceReferenceInformation extends DomainResource {
                 super.validate(target);
                 ValidationSupport.choiceElement(target.amount, "amount", Quantity.class, Range.class, String.class);
                 ValidationSupport.checkList(target.source, "source", Reference.class);
-                ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
+                ValidationSupport.checkReferenceType(target.source, "source", "DocumentReference");
                 ValidationSupport.requireValueOrChildren(target);
             }
 

@@ -1402,15 +1402,15 @@ public class ImagingStudy extends DomainResource {
             ValidationSupport.checkList(imagingStudy.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(imagingStudy.note, "note", Annotation.class);
             ValidationSupport.checkList(imagingStudy.series, "series", Series.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
-            ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(interpreter, "interpreter", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-            ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(imagingStudy.subject, "subject", "Patient", "Device", "Group");
+            ValidationSupport.checkReferenceType(imagingStudy.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(imagingStudy.basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
+            ValidationSupport.checkReferenceType(imagingStudy.referrer, "referrer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.interpreter, "interpreter", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(imagingStudy.procedureReference, "procedureReference", "Procedure");
+            ValidationSupport.checkReferenceType(imagingStudy.location, "location", "Location");
+            ValidationSupport.checkReferenceType(imagingStudy.reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(ImagingStudy imagingStudy) {
@@ -2171,8 +2171,8 @@ public class ImagingStudy extends DomainResource {
                 ValidationSupport.checkList(series.specimen, "specimen", Reference.class);
                 ValidationSupport.checkList(series.performer, "performer", Performer.class);
                 ValidationSupport.checkList(series.instance, "instance", Instance.class);
-                ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-                ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
+                ValidationSupport.checkReferenceType(series.endpoint, "endpoint", "Endpoint");
+                ValidationSupport.checkReferenceType(series.specimen, "specimen", "Specimen");
                 ValidationSupport.requireValueOrChildren(series);
             }
 
@@ -2478,7 +2478,7 @@ public class ImagingStudy extends DomainResource {
                 protected void validate(Performer performer) {
                     super.validate(performer);
                     ValidationSupport.requireNonNull(performer.actor, "actor");
-                    ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+                    ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
                     ValidationSupport.requireValueOrChildren(performer);
                 }
 

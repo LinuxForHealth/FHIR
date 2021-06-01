@@ -283,7 +283,7 @@ public class Annotation extends Element {
             super.validate(annotation);
             ValidationSupport.choiceElement(annotation.author, "author", Reference.class, String.class);
             ValidationSupport.requireNonNull(annotation.text, "text");
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(annotation.author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
             ValidationSupport.requireValueOrChildren(annotation);
         }
 

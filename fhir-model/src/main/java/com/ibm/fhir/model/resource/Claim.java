@@ -1547,14 +1547,14 @@ public class Claim extends DomainResource {
             ValidationSupport.checkList(claim.procedure, "procedure", Procedure.class);
             ValidationSupport.checkNonEmptyList(claim.insurance, "insurance", Insurance.class);
             ValidationSupport.checkList(claim.item, "item", Item.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-            ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-            ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
-            ValidationSupport.checkReferenceType(facility, "facility", "Location");
+            ValidationSupport.checkReferenceType(claim.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(claim.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(claim.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(claim.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(claim.prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.referral, "referral", "ServiceRequest");
+            ValidationSupport.checkReferenceType(claim.facility, "facility", "Location");
         }
 
         protected Builder from(Claim claim) {
@@ -1889,7 +1889,7 @@ public class Claim extends DomainResource {
 
             protected void validate(Related related) {
                 super.validate(related);
-                ValidationSupport.checkReferenceType(claim, "claim", "Claim");
+                ValidationSupport.checkReferenceType(related.claim, "claim", "Claim");
                 ValidationSupport.requireValueOrChildren(related);
             }
 
@@ -2183,7 +2183,7 @@ public class Claim extends DomainResource {
             protected void validate(Payee payee) {
                 super.validate(payee);
                 ValidationSupport.requireNonNull(payee.type, "type");
-                ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(payee.party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(payee);
             }
 
@@ -2578,7 +2578,7 @@ public class Claim extends DomainResource {
                 super.validate(careTeam);
                 ValidationSupport.requireNonNull(careTeam.sequence, "sequence");
                 ValidationSupport.requireNonNull(careTeam.provider, "provider");
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(careTeam.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
                 ValidationSupport.requireValueOrChildren(careTeam);
             }
 
@@ -3467,7 +3467,7 @@ public class Claim extends DomainResource {
                 ValidationSupport.requireNonNull(diagnosis.sequence, "sequence");
                 ValidationSupport.requireChoiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
                 ValidationSupport.checkList(diagnosis.type, "type", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
+                ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
                 ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
@@ -3923,8 +3923,8 @@ public class Claim extends DomainResource {
                 ValidationSupport.checkList(procedure.type, "type", CodeableConcept.class);
                 ValidationSupport.requireChoiceElement(procedure.procedure, "procedure", CodeableConcept.class, Reference.class);
                 ValidationSupport.checkList(procedure.udi, "udi", Reference.class);
-                ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(procedure.procedure, "procedure", "Procedure");
+                ValidationSupport.checkReferenceType(procedure.udi, "udi", "Device");
                 ValidationSupport.requireValueOrChildren(procedure);
             }
 
@@ -4412,8 +4412,8 @@ public class Claim extends DomainResource {
                 ValidationSupport.requireNonNull(insurance.focal, "focal");
                 ValidationSupport.requireNonNull(insurance.coverage, "coverage");
                 ValidationSupport.checkList(insurance.preAuthRef, "preAuthRef", String.class);
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-                ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.claimResponse, "claimResponse", "ClaimResponse");
                 ValidationSupport.requireValueOrChildren(insurance);
             }
 
@@ -4748,7 +4748,7 @@ public class Claim extends DomainResource {
                 super.validate(accident);
                 ValidationSupport.requireNonNull(accident.date, "date");
                 ValidationSupport.choiceElement(accident.location, "location", Address.class, Reference.class);
-                ValidationSupport.checkReferenceType(location, "location", "Location");
+                ValidationSupport.checkReferenceType(accident.location, "location", "Location");
                 ValidationSupport.requireValueOrChildren(accident);
             }
 
@@ -5930,9 +5930,9 @@ public class Claim extends DomainResource {
                 ValidationSupport.checkList(item.subSite, "subSite", CodeableConcept.class);
                 ValidationSupport.checkList(item.encounter, "encounter", Reference.class);
                 ValidationSupport.checkList(item.detail, "detail", Detail.class);
-                ValidationSupport.checkReferenceType(location, "location", "Location");
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+                ValidationSupport.checkReferenceType(item.location, "location", "Location");
+                ValidationSupport.checkReferenceType(item.udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(item.encounter, "encounter", "Encounter");
                 ValidationSupport.requireValueOrChildren(item);
             }
 
@@ -6673,7 +6673,7 @@ public class Claim extends DomainResource {
                     ValidationSupport.checkList(detail.programCode, "programCode", CodeableConcept.class);
                     ValidationSupport.checkList(detail.udi, "udi", Reference.class);
                     ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
-                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                    ValidationSupport.checkReferenceType(detail.udi, "udi", "Device");
                     ValidationSupport.requireValueOrChildren(detail);
                 }
 
@@ -7353,7 +7353,7 @@ public class Claim extends DomainResource {
                         ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
                         ValidationSupport.checkList(subDetail.programCode, "programCode", CodeableConcept.class);
                         ValidationSupport.checkList(subDetail.udi, "udi", Reference.class);
-                        ValidationSupport.checkReferenceType(udi, "udi", "Device");
+                        ValidationSupport.checkReferenceType(subDetail.udi, "udi", "Device");
                         ValidationSupport.requireValueOrChildren(subDetail);
                     }
 

@@ -662,9 +662,9 @@ public class ResearchSubject extends DomainResource {
             ValidationSupport.requireNonNull(researchSubject.status, "status");
             ValidationSupport.requireNonNull(researchSubject.study, "study");
             ValidationSupport.requireNonNull(researchSubject.individual, "individual");
-            ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-            ValidationSupport.checkReferenceType(individual, "individual", "Patient");
-            ValidationSupport.checkReferenceType(consent, "consent", "Consent");
+            ValidationSupport.checkReferenceType(researchSubject.study, "study", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchSubject.individual, "individual", "Patient");
+            ValidationSupport.checkReferenceType(researchSubject.consent, "consent", "Consent");
         }
 
         protected Builder from(ResearchSubject researchSubject) {

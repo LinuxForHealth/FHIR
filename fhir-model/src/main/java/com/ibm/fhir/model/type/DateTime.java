@@ -259,7 +259,7 @@ public class DateTime extends Element {
 
         protected void validate(DateTime dateTime) {
             super.validate(dateTime);
-            ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.checkValueType(dateTime.value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
             ValidationSupport.requireValueOrChildren(dateTime);
         }
 

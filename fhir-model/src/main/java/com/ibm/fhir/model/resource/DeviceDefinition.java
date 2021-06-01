@@ -1364,9 +1364,9 @@ public class DeviceDefinition extends DomainResource {
             ValidationSupport.checkList(deviceDefinition.contact, "contact", ContactPoint.class);
             ValidationSupport.checkList(deviceDefinition.note, "note", Annotation.class);
             ValidationSupport.checkList(deviceDefinition.material, "material", Material.class);
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-            ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
+            ValidationSupport.checkReferenceType(deviceDefinition.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(deviceDefinition.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(deviceDefinition.parentDevice, "parentDevice", "DeviceDefinition");
         }
 
         protected Builder from(DeviceDefinition deviceDefinition) {

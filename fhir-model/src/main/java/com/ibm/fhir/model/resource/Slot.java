@@ -864,7 +864,7 @@ public class Slot extends DomainResource {
             ValidationSupport.requireNonNull(slot.status, "status");
             ValidationSupport.requireNonNull(slot.start, "start");
             ValidationSupport.requireNonNull(slot.end, "end");
-            ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
+            ValidationSupport.checkReferenceType(slot.schedule, "schedule", "Schedule");
         }
 
         protected Builder from(Slot slot) {

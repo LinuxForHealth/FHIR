@@ -1025,10 +1025,10 @@ public class CoverageEligibilityResponse extends DomainResource {
             ValidationSupport.requireNonNull(coverageEligibilityResponse.insurer, "insurer");
             ValidationSupport.checkList(coverageEligibilityResponse.insurance, "insurance", Insurance.class);
             ValidationSupport.checkList(coverageEligibilityResponse.error, "error", Error.class);
-            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-            ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
-            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.request, "request", "CoverageEligibilityRequest");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.insurer, "insurer", "Organization");
         }
 
         protected Builder from(CoverageEligibilityResponse coverageEligibilityResponse) {
@@ -1410,7 +1410,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 super.validate(insurance);
                 ValidationSupport.requireNonNull(insurance.coverage, "coverage");
                 ValidationSupport.checkList(insurance.item, "item", Item.class);
-                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
                 ValidationSupport.requireValueOrChildren(insurance);
             }
 
@@ -2165,7 +2165,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                     ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
                     ValidationSupport.checkList(item.benefit, "benefit", Benefit.class);
                     ValidationSupport.checkList(item.authorizationSupporting, "authorizationSupporting", CodeableConcept.class);
-                    ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
+                    ValidationSupport.checkReferenceType(item.provider, "provider", "Practitioner", "PractitionerRole");
                     ValidationSupport.requireValueOrChildren(item);
                 }
 

@@ -1362,14 +1362,14 @@ public class MedicationAdministration extends DomainResource {
             ValidationSupport.checkList(medicationAdministration.device, "device", Reference.class);
             ValidationSupport.checkList(medicationAdministration.note, "note", Annotation.class);
             ValidationSupport.checkList(medicationAdministration.eventHistory, "eventHistory", Reference.class);
-            ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "Procedure");
-            ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-            ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
-            ValidationSupport.checkReferenceType(device, "device", "Device");
-            ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
+            ValidationSupport.checkReferenceType(medicationAdministration.partOf, "partOf", "MedicationAdministration", "Procedure");
+            ValidationSupport.checkReferenceType(medicationAdministration.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationAdministration.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationAdministration.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationAdministration.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+            ValidationSupport.checkReferenceType(medicationAdministration.request, "request", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationAdministration.device, "device", "Device");
+            ValidationSupport.checkReferenceType(medicationAdministration.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationAdministration medicationAdministration) {
@@ -1678,7 +1678,7 @@ public class MedicationAdministration extends DomainResource {
             protected void validate(Performer performer) {
                 super.validate(performer);
                 ValidationSupport.requireNonNull(performer.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device");
                 ValidationSupport.requireValueOrChildren(performer);
             }
 

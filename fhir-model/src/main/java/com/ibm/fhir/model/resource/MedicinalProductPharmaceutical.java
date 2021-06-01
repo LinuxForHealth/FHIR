@@ -711,8 +711,8 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             ValidationSupport.checkList(medicinalProductPharmaceutical.device, "device", Reference.class);
             ValidationSupport.checkList(medicinalProductPharmaceutical.characteristics, "characteristics", Characteristics.class);
             ValidationSupport.checkNonEmptyList(medicinalProductPharmaceutical.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class);
-            ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
-            ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
+            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.ingredient, "ingredient", "MedicinalProductIngredient");
+            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.device, "device", "DeviceDefinition");
         }
 
         protected Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {

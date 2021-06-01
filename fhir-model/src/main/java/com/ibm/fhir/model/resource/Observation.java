@@ -1700,15 +1700,15 @@ public class Observation extends DomainResource {
             ValidationSupport.checkList(observation.hasMember, "hasMember", Reference.class);
             ValidationSupport.checkList(observation.derivedFrom, "derivedFrom", Reference.class);
             ValidationSupport.checkList(observation.component, "component", Component.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
-            ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
-            ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
+            ValidationSupport.checkReferenceType(observation.basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(observation.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
+            ValidationSupport.checkReferenceType(observation.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(observation.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(observation.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(observation.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(observation.device, "device", "Device", "DeviceMetric");
+            ValidationSupport.checkReferenceType(observation.hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
+            ValidationSupport.checkReferenceType(observation.derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
         }
 
         protected Builder from(Observation observation) {

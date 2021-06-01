@@ -1261,13 +1261,13 @@ public class MedicationStatement extends DomainResource {
             ValidationSupport.checkList(medicationStatement.reasonReference, "reasonReference", Reference.class);
             ValidationSupport.checkList(medicationStatement.note, "note", Annotation.class);
             ValidationSupport.checkList(medicationStatement.dosage, "dosage", Dosage.class);
-            ValidationSupport.checkReferenceType(basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
-            ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
-            ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+            ValidationSupport.checkReferenceType(medicationStatement.basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(medicationStatement.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
+            ValidationSupport.checkReferenceType(medicationStatement.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationStatement.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationStatement.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationStatement.informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(medicationStatement.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(MedicationStatement medicationStatement) {

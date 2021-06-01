@@ -1531,7 +1531,7 @@ public class VerificationResult extends DomainResource {
                 ValidationSupport.checkList(primarySource.type, "type", CodeableConcept.class);
                 ValidationSupport.checkList(primarySource.communicationMethod, "communicationMethod", CodeableConcept.class);
                 ValidationSupport.checkList(primarySource.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class);
-                ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(primarySource.who, "who", "Organization", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(primarySource);
             }
 
@@ -2021,8 +2021,8 @@ public class VerificationResult extends DomainResource {
 
             protected void validate(Attestation attestation) {
                 super.validate(attestation);
-                ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "Organization");
-                ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(attestation.who, "who", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(attestation.onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
                 ValidationSupport.requireValueOrChildren(attestation);
             }
 
@@ -2342,7 +2342,7 @@ public class VerificationResult extends DomainResource {
             protected void validate(Validator validator) {
                 super.validate(validator);
                 ValidationSupport.requireNonNull(validator.organization, "organization");
-                ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+                ValidationSupport.checkReferenceType(validator.organization, "organization", "Organization");
                 ValidationSupport.requireValueOrChildren(validator);
             }
 

@@ -1155,10 +1155,10 @@ public class Goal extends DomainResource {
             ValidationSupport.checkList(goal.note, "note", Annotation.class);
             ValidationSupport.checkList(goal.outcomeCode, "outcomeCode", CodeableConcept.class);
             ValidationSupport.checkList(goal.outcomeReference, "outcomeReference", Reference.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
-            ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
-            ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
+            ValidationSupport.checkReferenceType(goal.subject, "subject", "Patient", "Group", "Organization");
+            ValidationSupport.checkReferenceType(goal.expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(goal.addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
+            ValidationSupport.checkReferenceType(goal.outcomeReference, "outcomeReference", "Observation");
         }
 
         protected Builder from(Goal goal) {

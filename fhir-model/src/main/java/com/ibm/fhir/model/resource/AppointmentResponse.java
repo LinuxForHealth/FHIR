@@ -709,8 +709,8 @@ public class AppointmentResponse extends DomainResource {
             ValidationSupport.requireNonNull(appointmentResponse.appointment, "appointment");
             ValidationSupport.checkList(appointmentResponse.participantType, "participantType", CodeableConcept.class);
             ValidationSupport.requireNonNull(appointmentResponse.participantStatus, "participantStatus");
-            ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-            ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+            ValidationSupport.checkReferenceType(appointmentResponse.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(appointmentResponse.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(AppointmentResponse appointmentResponse) {

@@ -196,7 +196,7 @@ public class Uuid extends Uri {
 
         protected void validate(Uuid uuid) {
             super.validate(uuid);
-            ValidationSupport.checkValue(value, PATTERN);
+            ValidationSupport.checkValue(uuid.value, PATTERN);
         }
 
         protected Builder from(Uuid uuid) {

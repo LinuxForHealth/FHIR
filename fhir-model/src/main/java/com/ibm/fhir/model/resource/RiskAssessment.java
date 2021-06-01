@@ -1109,11 +1109,11 @@ public class RiskAssessment extends DomainResource {
             ValidationSupport.checkList(riskAssessment.basis, "basis", Reference.class);
             ValidationSupport.checkList(riskAssessment.prediction, "prediction", Prediction.class);
             ValidationSupport.checkList(riskAssessment.note, "note", Annotation.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.checkReferenceType(condition, "condition", "Condition");
-            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
-            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(riskAssessment.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(riskAssessment.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(riskAssessment.condition, "condition", "Condition");
+            ValidationSupport.checkReferenceType(riskAssessment.performer, "performer", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(riskAssessment.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(RiskAssessment riskAssessment) {

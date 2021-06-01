@@ -963,9 +963,9 @@ public class MedicinalProductAuthorization extends DomainResource {
             ValidationSupport.checkList(medicinalProductAuthorization.country, "country", CodeableConcept.class);
             ValidationSupport.checkList(medicinalProductAuthorization.jurisdiction, "jurisdiction", CodeableConcept.class);
             ValidationSupport.checkList(medicinalProductAuthorization.jurisdictionalAuthorization, "jurisdictionalAuthorization", JurisdictionalAuthorization.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
-            ValidationSupport.checkReferenceType(holder, "holder", "Organization");
-            ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.holder, "holder", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.regulator, "regulator", "Organization");
         }
 
         protected Builder from(MedicinalProductAuthorization medicinalProductAuthorization) {

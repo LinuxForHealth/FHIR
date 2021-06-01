@@ -167,7 +167,7 @@ public abstract class Element extends AbstractVisitable {
 
         protected void validate(Element element) {
             ValidationSupport.checkList(element.extension, "extension", Extension.class);
-            ValidationSupport.checkString(id);
+            ValidationSupport.checkString(element.id);
         }
 
         protected Builder from(Element element) {

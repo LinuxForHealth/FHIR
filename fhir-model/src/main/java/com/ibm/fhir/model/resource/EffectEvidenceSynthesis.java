@@ -1901,10 +1901,10 @@ public class EffectEvidenceSynthesis extends DomainResource {
             ValidationSupport.checkList(effectEvidenceSynthesis.resultsByExposure, "resultsByExposure", ResultsByExposure.class);
             ValidationSupport.checkList(effectEvidenceSynthesis.effectEstimate, "effectEstimate", EffectEstimate.class);
             ValidationSupport.checkList(effectEvidenceSynthesis.certainty, "certainty", Certainty.class);
-            ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
-            ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.population, "population", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.exposure, "exposure", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.exposureAlternative, "exposureAlternative", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
@@ -2589,7 +2589,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             protected void validate(ResultsByExposure resultsByExposure) {
                 super.validate(resultsByExposure);
                 ValidationSupport.requireNonNull(resultsByExposure.riskEvidenceSynthesis, "riskEvidenceSynthesis");
-                ValidationSupport.checkReferenceType(riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
+                ValidationSupport.checkReferenceType(resultsByExposure.riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
                 ValidationSupport.requireValueOrChildren(resultsByExposure);
             }
 
@@ -3022,7 +3022,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             protected void validate(EffectEstimate effectEstimate) {
                 super.validate(effectEstimate);
                 ValidationSupport.checkList(effectEstimate.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
-                ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.checkValueSetBinding(effectEstimate.unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
                 ValidationSupport.requireValueOrChildren(effectEstimate);
             }
 

@@ -624,7 +624,7 @@ public class MedicinalProductInteraction extends DomainResource {
             super.validate(medicinalProductInteraction);
             ValidationSupport.checkList(medicinalProductInteraction.subject, "subject", Reference.class);
             ValidationSupport.checkList(medicinalProductInteraction.interactant, "interactant", Interactant.class);
-            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(medicinalProductInteraction.subject, "subject", "MedicinalProduct", "Medication", "Substance");
         }
 
         protected Builder from(MedicinalProductInteraction medicinalProductInteraction) {
@@ -890,7 +890,7 @@ public class MedicinalProductInteraction extends DomainResource {
             protected void validate(Interactant interactant) {
                 super.validate(interactant);
                 ValidationSupport.requireChoiceElement(interactant.item, "item", Reference.class, CodeableConcept.class);
-                ValidationSupport.checkReferenceType(item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
+                ValidationSupport.checkReferenceType(interactant.item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
                 ValidationSupport.requireValueOrChildren(interactant);
             }
 

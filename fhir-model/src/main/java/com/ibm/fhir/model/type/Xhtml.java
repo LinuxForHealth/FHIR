@@ -246,8 +246,8 @@ public class Xhtml extends Element {
         protected void validate(Xhtml xhtml) {
             super.validate(xhtml);
             ValidationSupport.requireNonNull(xhtml.value, "value");
-            ValidationSupport.prohibited(extension, "extension");
-            ValidationSupport.checkXHTMLContent(value);
+            ValidationSupport.prohibited(xhtml.extension, "extension");
+            ValidationSupport.checkXHTMLContent(xhtml.value);
         }
 
         protected Builder from(Xhtml xhtml) {

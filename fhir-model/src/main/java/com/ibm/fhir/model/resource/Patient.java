@@ -1147,8 +1147,8 @@ public class Patient extends DomainResource {
             ValidationSupport.checkList(patient.communication, "communication", Communication.class);
             ValidationSupport.checkList(patient.generalPractitioner, "generalPractitioner", Reference.class);
             ValidationSupport.checkList(patient.link, "link", Link.class);
-            ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(patient.generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(patient.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Patient patient) {
@@ -1645,7 +1645,7 @@ public class Patient extends DomainResource {
                 super.validate(contact);
                 ValidationSupport.checkList(contact.relationship, "relationship", CodeableConcept.class);
                 ValidationSupport.checkList(contact.telecom, "telecom", ContactPoint.class);
-                ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+                ValidationSupport.checkReferenceType(contact.organization, "organization", "Organization");
                 ValidationSupport.requireValueOrChildren(contact);
             }
 
@@ -1938,7 +1938,7 @@ public class Patient extends DomainResource {
             protected void validate(Communication communication) {
                 super.validate(communication);
                 ValidationSupport.requireNonNull(communication.language, "language");
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.checkValueSetBinding(communication.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
                 ValidationSupport.requireValueOrChildren(communication);
             }
 
@@ -2235,7 +2235,7 @@ public class Patient extends DomainResource {
                 super.validate(link);
                 ValidationSupport.requireNonNull(link.other, "other");
                 ValidationSupport.requireNonNull(link.type, "type");
-                ValidationSupport.checkReferenceType(other, "other", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(link.other, "other", "Patient", "RelatedPerson");
                 ValidationSupport.requireValueOrChildren(link);
             }
 

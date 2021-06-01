@@ -1062,11 +1062,11 @@ public class InsurancePlan extends DomainResource {
             ValidationSupport.checkList(insurancePlan.network, "network", Reference.class);
             ValidationSupport.checkList(insurancePlan.coverage, "coverage", Coverage.class);
             ValidationSupport.checkList(insurancePlan.plan, "plan", Plan.class);
-            ValidationSupport.checkReferenceType(ownedBy, "ownedBy", "Organization");
-            ValidationSupport.checkReferenceType(administeredBy, "administeredBy", "Organization");
-            ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-            ValidationSupport.checkReferenceType(network, "network", "Organization");
+            ValidationSupport.checkReferenceType(insurancePlan.ownedBy, "ownedBy", "Organization");
+            ValidationSupport.checkReferenceType(insurancePlan.administeredBy, "administeredBy", "Organization");
+            ValidationSupport.checkReferenceType(insurancePlan.coverageArea, "coverageArea", "Location");
+            ValidationSupport.checkReferenceType(insurancePlan.endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(insurancePlan.network, "network", "Organization");
         }
 
         protected Builder from(InsurancePlan insurancePlan) {
@@ -1803,7 +1803,7 @@ public class InsurancePlan extends DomainResource {
                 ValidationSupport.requireNonNull(coverage.type, "type");
                 ValidationSupport.checkList(coverage.network, "network", Reference.class);
                 ValidationSupport.checkNonEmptyList(coverage.benefit, "benefit", Benefit.class);
-                ValidationSupport.checkReferenceType(network, "network", "Organization");
+                ValidationSupport.checkReferenceType(coverage.network, "network", "Organization");
                 ValidationSupport.requireValueOrChildren(coverage);
             }
 
@@ -2926,8 +2926,8 @@ public class InsurancePlan extends DomainResource {
                 ValidationSupport.checkList(plan.network, "network", Reference.class);
                 ValidationSupport.checkList(plan.generalCost, "generalCost", GeneralCost.class);
                 ValidationSupport.checkList(plan.specificCost, "specificCost", SpecificCost.class);
-                ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
-                ValidationSupport.checkReferenceType(network, "network", "Organization");
+                ValidationSupport.checkReferenceType(plan.coverageArea, "coverageArea", "Location");
+                ValidationSupport.checkReferenceType(plan.network, "network", "Organization");
                 ValidationSupport.requireValueOrChildren(plan);
             }
 
@@ -4223,7 +4223,7 @@ public class InsurancePlan extends DomainResource {
                             super.validate(cost);
                             ValidationSupport.requireNonNull(cost.type, "type");
                             ValidationSupport.checkList(cost.qualifiers, "qualifiers", CodeableConcept.class);
-                            ValidationSupport.checkValueSetBinding(applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
+                            ValidationSupport.checkValueSetBinding(cost.applicability, "applicability", "http://hl7.org/fhir/ValueSet/insuranceplan-applicability", "http://terminology.hl7.org/CodeSystem/applicability", "in-network", "out-of-network", "other");
                             ValidationSupport.requireValueOrChildren(cost);
                         }
 

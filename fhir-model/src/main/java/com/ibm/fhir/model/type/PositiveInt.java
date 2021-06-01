@@ -215,7 +215,7 @@ public class PositiveInt extends Integer {
 
         protected void validate(PositiveInt positiveInt) {
             super.validate(positiveInt);
-            ValidationSupport.checkValue(value, MIN_VALUE);
+            ValidationSupport.checkValue(positiveInt.value, MIN_VALUE);
             ValidationSupport.requireValueOrChildren(positiveInt);
         }
 
