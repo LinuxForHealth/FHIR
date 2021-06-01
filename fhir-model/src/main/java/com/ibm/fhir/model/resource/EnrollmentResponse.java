@@ -72,7 +72,7 @@ public class EnrollmentResponse extends DomainResource {
 
     private EnrollmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         request = builder.request;
         outcome = builder.outcome;
@@ -80,9 +80,6 @@ public class EnrollmentResponse extends DomainResource {
         created = builder.created;
         organization = builder.organization;
         requestProvider = builder.requestProvider;
-        ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
     }
 
     /**
@@ -639,7 +636,19 @@ public class EnrollmentResponse extends DomainResource {
          */
         @Override
         public EnrollmentResponse build() {
-            return new EnrollmentResponse(this);
+            EnrollmentResponse enrollmentResponse = new EnrollmentResponse(this);
+            if (validating) {
+                validate(enrollmentResponse);
+            }
+            return enrollmentResponse;
+        }
+
+        protected void validate(EnrollmentResponse enrollmentResponse) {
+            super.validate(enrollmentResponse);
+            ValidationSupport.checkList(enrollmentResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
+            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(EnrollmentResponse enrollmentResponse) {

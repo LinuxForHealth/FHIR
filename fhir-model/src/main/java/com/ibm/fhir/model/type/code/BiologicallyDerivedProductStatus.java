@@ -147,11 +147,7 @@ public class BiologicallyDerivedProductStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class BiologicallyDerivedProductStatus extends Code {
 
         @Override
         public BiologicallyDerivedProductStatus build() {
-            return new BiologicallyDerivedProductStatus(this);
+            BiologicallyDerivedProductStatus biologicallyDerivedProductStatus = new BiologicallyDerivedProductStatus(this);
+            if (validating) {
+                validate(biologicallyDerivedProductStatus);
+            }
+            return biologicallyDerivedProductStatus;
+        }
+
+        protected void validate(BiologicallyDerivedProductStatus biologicallyDerivedProductStatus) {
+            super.validate(biologicallyDerivedProductStatus);
+        }
+
+        protected Builder from(BiologicallyDerivedProductStatus biologicallyDerivedProductStatus) {
+            super.from(biologicallyDerivedProductStatus);
+            return this;
         }
     }
 

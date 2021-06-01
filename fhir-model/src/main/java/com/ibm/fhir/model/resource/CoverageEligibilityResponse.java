@@ -125,25 +125,21 @@ public class CoverageEligibilityResponse extends DomainResource {
 
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        purpose = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.purpose, "purpose", EligibilityResponsePurpose.class));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        purpose = Collections.unmodifiableList(builder.purpose);
+        patient = builder.patient;
+        serviced = builder.serviced;
+        created = builder.created;
         requestor = builder.requestor;
-        request = ValidationSupport.requireNonNull(builder.request, "request");
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        request = builder.request;
+        outcome = builder.outcome;
         disposition = builder.disposition;
-        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Insurance.class));
+        insurer = builder.insurer;
+        insurance = Collections.unmodifiableList(builder.insurance);
         preAuthRef = builder.preAuthRef;
         form = builder.form;
-        error = Collections.unmodifiableList(ValidationSupport.checkList(builder.error, "error", Error.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
@@ -1009,7 +1005,30 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         @Override
         public CoverageEligibilityResponse build() {
-            return new CoverageEligibilityResponse(this);
+            CoverageEligibilityResponse coverageEligibilityResponse = new CoverageEligibilityResponse(this);
+            if (validating) {
+                validate(coverageEligibilityResponse);
+            }
+            return coverageEligibilityResponse;
+        }
+
+        protected void validate(CoverageEligibilityResponse coverageEligibilityResponse) {
+            super.validate(coverageEligibilityResponse);
+            ValidationSupport.checkList(coverageEligibilityResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.status, "status");
+            ValidationSupport.checkNonEmptyList(coverageEligibilityResponse.purpose, "purpose", EligibilityResponsePurpose.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.patient, "patient");
+            ValidationSupport.choiceElement(coverageEligibilityResponse.serviced, "serviced", Date.class, Period.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.created, "created");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.request, "request");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.outcome, "outcome");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.insurer, "insurer");
+            ValidationSupport.checkList(coverageEligibilityResponse.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(coverageEligibilityResponse.error, "error", Error.class);
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
+            ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
         }
 
         protected Builder from(CoverageEligibilityResponse coverageEligibilityResponse) {
@@ -1047,12 +1066,10 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
-            item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.requireValueOrChildren(this);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1382,7 +1399,19 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkList(insurance.item, "item", Item.class);
+                ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -1461,7 +1490,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                 super(builder);
                 category = builder.category;
                 productOrService = builder.productOrService;
-                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+                modifier = Collections.unmodifiableList(builder.modifier);
                 provider = builder.provider;
                 excluded = builder.excluded;
                 name = builder.name;
@@ -1469,12 +1498,10 @@ public class CoverageEligibilityResponse extends DomainResource {
                 network = builder.network;
                 unit = builder.unit;
                 term = builder.term;
-                benefit = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefit, "benefit", Benefit.class));
+                benefit = Collections.unmodifiableList(builder.benefit);
                 authorizationRequired = builder.authorizationRequired;
-                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizationSupporting, "authorizationSupporting", CodeableConcept.class));
+                authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
                 authorizationUrl = builder.authorizationUrl;
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2126,7 +2153,20 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 @Override
                 public Item build() {
-                    return new Item(this);
+                    Item item = new Item(this);
+                    if (validating) {
+                        validate(item);
+                    }
+                    return item;
+                }
+
+                protected void validate(Item item) {
+                    super.validate(item);
+                    ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(item.benefit, "benefit", Benefit.class);
+                    ValidationSupport.checkList(item.authorizationSupporting, "authorizationSupporting", CodeableConcept.class);
+                    ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(item);
                 }
 
                 protected Builder from(Item item) {
@@ -2168,10 +2208,9 @@ public class CoverageEligibilityResponse extends DomainResource {
 
                 private Benefit(Builder builder) {
                     super(builder);
-                    type = ValidationSupport.requireNonNull(builder.type, "type");
-                    allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
-                    used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
-                    ValidationSupport.requireValueOrChildren(this);
+                    type = builder.type;
+                    allowed = builder.allowed;
+                    used = builder.used;
                 }
 
                 /**
@@ -2457,7 +2496,19 @@ public class CoverageEligibilityResponse extends DomainResource {
                      */
                     @Override
                     public Benefit build() {
-                        return new Benefit(this);
+                        Benefit benefit = new Benefit(this);
+                        if (validating) {
+                            validate(benefit);
+                        }
+                        return benefit;
+                    }
+
+                    protected void validate(Benefit benefit) {
+                        super.validate(benefit);
+                        ValidationSupport.requireNonNull(benefit.type, "type");
+                        ValidationSupport.choiceElement(benefit.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
+                        ValidationSupport.choiceElement(benefit.used, "used", UnsignedInt.class, String.class, Money.class);
+                        ValidationSupport.requireValueOrChildren(benefit);
                     }
 
                     protected Builder from(Benefit benefit) {
@@ -2487,8 +2538,7 @@ public class CoverageEligibilityResponse extends DomainResource {
 
         private Error(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
         }
 
         /**
@@ -2702,7 +2752,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             @Override
             public Error build() {
-                return new Error(this);
+                Error error = new Error(this);
+                if (validating) {
+                    validate(error);
+                }
+                return error;
+            }
+
+            protected void validate(Error error) {
+                super.validate(error);
+                ValidationSupport.requireNonNull(error.code, "code");
+                ValidationSupport.requireValueOrChildren(error);
             }
 
             protected Builder from(Error error) {

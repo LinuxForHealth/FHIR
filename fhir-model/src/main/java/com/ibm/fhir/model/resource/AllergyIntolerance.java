@@ -142,28 +142,22 @@ public class AllergyIntolerance extends DomainResource {
 
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", AllergyIntoleranceCategory.class));
+        category = Collections.unmodifiableList(builder.category);
         criticality = builder.criticality;
         code = builder.code;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        patient = builder.patient;
         encounter = builder.encounter;
-        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        onset = builder.onset;
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
         lastOccurrence = builder.lastOccurrence;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
-        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
-        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+        note = Collections.unmodifiableList(builder.note);
+        reaction = Collections.unmodifiableList(builder.reaction);
     }
 
     /**
@@ -1062,7 +1056,27 @@ public class AllergyIntolerance extends DomainResource {
          */
         @Override
         public AllergyIntolerance build() {
-            return new AllergyIntolerance(this);
+            AllergyIntolerance allergyIntolerance = new AllergyIntolerance(this);
+            if (validating) {
+                validate(allergyIntolerance);
+            }
+            return allergyIntolerance;
+        }
+
+        protected void validate(AllergyIntolerance allergyIntolerance) {
+            super.validate(allergyIntolerance);
+            ValidationSupport.checkList(allergyIntolerance.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(allergyIntolerance.category, "category", AllergyIntoleranceCategory.class);
+            ValidationSupport.requireNonNull(allergyIntolerance.patient, "patient");
+            ValidationSupport.choiceElement(allergyIntolerance.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.checkList(allergyIntolerance.note, "note", Annotation.class);
+            ValidationSupport.checkList(allergyIntolerance.reaction, "reaction", Reaction.class);
+            ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
+            ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(AllergyIntolerance allergyIntolerance) {
@@ -1127,13 +1141,12 @@ public class AllergyIntolerance extends DomainResource {
         private Reaction(Builder builder) {
             super(builder);
             substance = builder.substance;
-            manifestation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.manifestation, "manifestation", CodeableConcept.class));
+            manifestation = Collections.unmodifiableList(builder.manifestation);
             description = builder.description;
             onset = builder.onset;
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
-            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-            ValidationSupport.requireValueOrChildren(this);
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1577,7 +1590,18 @@ public class AllergyIntolerance extends DomainResource {
              */
             @Override
             public Reaction build() {
-                return new Reaction(this);
+                Reaction reaction = new Reaction(this);
+                if (validating) {
+                    validate(reaction);
+                }
+                return reaction;
+            }
+
+            protected void validate(Reaction reaction) {
+                super.validate(reaction);
+                ValidationSupport.checkNonEmptyList(reaction.manifestation, "manifestation", CodeableConcept.class);
+                ValidationSupport.checkList(reaction.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(reaction);
             }
 
             protected Builder from(Reaction reaction) {

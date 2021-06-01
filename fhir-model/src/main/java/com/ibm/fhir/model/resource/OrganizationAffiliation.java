@@ -98,24 +98,18 @@ public class OrganizationAffiliation extends DomainResource {
 
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         period = builder.period;
         organization = builder.organization;
         participatingOrganization = builder.participatingOrganization;
-        network = Collections.unmodifiableList(ValidationSupport.checkList(builder.network, "network", Reference.class));
-        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
-        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
-        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
-        healthcareService = Collections.unmodifiableList(ValidationSupport.checkList(builder.healthcareService, "healthcareService", Reference.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(network, "network", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+        network = Collections.unmodifiableList(builder.network);
+        code = Collections.unmodifiableList(builder.code);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        healthcareService = Collections.unmodifiableList(builder.healthcareService);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -968,7 +962,29 @@ public class OrganizationAffiliation extends DomainResource {
          */
         @Override
         public OrganizationAffiliation build() {
-            return new OrganizationAffiliation(this);
+            OrganizationAffiliation organizationAffiliation = new OrganizationAffiliation(this);
+            if (validating) {
+                validate(organizationAffiliation);
+            }
+            return organizationAffiliation;
+        }
+
+        protected void validate(OrganizationAffiliation organizationAffiliation) {
+            super.validate(organizationAffiliation);
+            ValidationSupport.checkList(organizationAffiliation.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(organizationAffiliation.network, "network", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.code, "code", CodeableConcept.class);
+            ValidationSupport.checkList(organizationAffiliation.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(organizationAffiliation.location, "location", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.healthcareService, "healthcareService", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(organizationAffiliation.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(network, "network", "Organization");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
+            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(OrganizationAffiliation organizationAffiliation) {

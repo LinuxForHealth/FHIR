@@ -85,17 +85,14 @@ public class VisionPrescription extends DomainResource {
 
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        created = ValidationSupport.requireNonNull(builder.created, "created");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        created = builder.created;
+        patient = builder.patient;
         encounter = builder.encounter;
-        dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
-        prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        lensSpecification = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.lensSpecification, "lensSpecification", LensSpecification.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
+        dateWritten = builder.dateWritten;
+        prescriber = builder.prescriber;
+        lensSpecification = Collections.unmodifiableList(builder.lensSpecification);
     }
 
     /**
@@ -700,7 +697,25 @@ public class VisionPrescription extends DomainResource {
          */
         @Override
         public VisionPrescription build() {
-            return new VisionPrescription(this);
+            VisionPrescription visionPrescription = new VisionPrescription(this);
+            if (validating) {
+                validate(visionPrescription);
+            }
+            return visionPrescription;
+        }
+
+        protected void validate(VisionPrescription visionPrescription) {
+            super.validate(visionPrescription);
+            ValidationSupport.checkList(visionPrescription.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(visionPrescription.status, "status");
+            ValidationSupport.requireNonNull(visionPrescription.created, "created");
+            ValidationSupport.requireNonNull(visionPrescription.patient, "patient");
+            ValidationSupport.requireNonNull(visionPrescription.dateWritten, "dateWritten");
+            ValidationSupport.requireNonNull(visionPrescription.prescriber, "prescriber");
+            ValidationSupport.checkNonEmptyList(visionPrescription.lensSpecification, "lensSpecification", LensSpecification.class);
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(VisionPrescription visionPrescription) {
@@ -755,12 +770,12 @@ public class VisionPrescription extends DomainResource {
 
         private LensSpecification(Builder builder) {
             super(builder);
-            product = ValidationSupport.requireNonNull(builder.product, "product");
-            eye = ValidationSupport.requireNonNull(builder.eye, "eye");
+            product = builder.product;
+            eye = builder.eye;
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = Collections.unmodifiableList(ValidationSupport.checkList(builder.prism, "prism", Prism.class));
+            prism = Collections.unmodifiableList(builder.prism);
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -768,8 +783,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-            ValidationSupport.requireValueOrChildren(this);
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1403,7 +1417,20 @@ public class VisionPrescription extends DomainResource {
              */
             @Override
             public LensSpecification build() {
-                return new LensSpecification(this);
+                LensSpecification lensSpecification = new LensSpecification(this);
+                if (validating) {
+                    validate(lensSpecification);
+                }
+                return lensSpecification;
+            }
+
+            protected void validate(LensSpecification lensSpecification) {
+                super.validate(lensSpecification);
+                ValidationSupport.requireNonNull(lensSpecification.product, "product");
+                ValidationSupport.requireNonNull(lensSpecification.eye, "eye");
+                ValidationSupport.checkList(lensSpecification.prism, "prism", Prism.class);
+                ValidationSupport.checkList(lensSpecification.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(lensSpecification);
             }
 
             protected Builder from(LensSpecification lensSpecification) {
@@ -1443,9 +1470,8 @@ public class VisionPrescription extends DomainResource {
 
             private Prism(Builder builder) {
                 super(builder);
-                amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-                base = ValidationSupport.requireNonNull(builder.base, "base");
-                ValidationSupport.requireValueOrChildren(this);
+                amount = builder.amount;
+                base = builder.base;
             }
 
             /**
@@ -1691,7 +1717,18 @@ public class VisionPrescription extends DomainResource {
                  */
                 @Override
                 public Prism build() {
-                    return new Prism(this);
+                    Prism prism = new Prism(this);
+                    if (validating) {
+                        validate(prism);
+                    }
+                    return prism;
+                }
+
+                protected void validate(Prism prism) {
+                    super.validate(prism);
+                    ValidationSupport.requireNonNull(prism.amount, "amount");
+                    ValidationSupport.requireNonNull(prism.base, "base");
+                    ValidationSupport.requireValueOrChildren(prism);
                 }
 
                 protected Builder from(Prism prism) {

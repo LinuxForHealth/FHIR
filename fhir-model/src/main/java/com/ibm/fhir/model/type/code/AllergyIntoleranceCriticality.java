@@ -160,11 +160,7 @@ public class AllergyIntoleranceCriticality extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -219,7 +215,20 @@ public class AllergyIntoleranceCriticality extends Code {
 
         @Override
         public AllergyIntoleranceCriticality build() {
-            return new AllergyIntoleranceCriticality(this);
+            AllergyIntoleranceCriticality allergyIntoleranceCriticality = new AllergyIntoleranceCriticality(this);
+            if (validating) {
+                validate(allergyIntoleranceCriticality);
+            }
+            return allergyIntoleranceCriticality;
+        }
+
+        protected void validate(AllergyIntoleranceCriticality allergyIntoleranceCriticality) {
+            super.validate(allergyIntoleranceCriticality);
+        }
+
+        protected Builder from(AllergyIntoleranceCriticality allergyIntoleranceCriticality) {
+            super.from(allergyIntoleranceCriticality);
+            return this;
         }
     }
 

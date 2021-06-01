@@ -116,28 +116,23 @@ public class RiskAssessment extends DomainResource {
 
     private RiskAssessment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         basedOn = builder.basedOn;
         parent = builder.parent;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         method = builder.method;
         code = builder.code;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
+        occurrence = builder.occurrence;
         condition = builder.condition;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        basis = Collections.unmodifiableList(ValidationSupport.checkList(builder.basis, "basis", Reference.class));
-        prediction = Collections.unmodifiableList(ValidationSupport.checkList(builder.prediction, "prediction", Prediction.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        basis = Collections.unmodifiableList(builder.basis);
+        prediction = Collections.unmodifiableList(builder.prediction);
         mitigation = builder.mitigation;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(condition, "condition", "Condition");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1096,7 +1091,29 @@ public class RiskAssessment extends DomainResource {
          */
         @Override
         public RiskAssessment build() {
-            return new RiskAssessment(this);
+            RiskAssessment riskAssessment = new RiskAssessment(this);
+            if (validating) {
+                validate(riskAssessment);
+            }
+            return riskAssessment;
+        }
+
+        protected void validate(RiskAssessment riskAssessment) {
+            super.validate(riskAssessment);
+            ValidationSupport.checkList(riskAssessment.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(riskAssessment.status, "status");
+            ValidationSupport.requireNonNull(riskAssessment.subject, "subject");
+            ValidationSupport.choiceElement(riskAssessment.occurrence, "occurrence", DateTime.class, Period.class);
+            ValidationSupport.checkList(riskAssessment.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(riskAssessment.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(riskAssessment.basis, "basis", Reference.class);
+            ValidationSupport.checkList(riskAssessment.prediction, "prediction", Prediction.class);
+            ValidationSupport.checkList(riskAssessment.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(condition, "condition", "Condition");
+            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(RiskAssessment riskAssessment) {
@@ -1149,12 +1166,11 @@ public class RiskAssessment extends DomainResource {
         private Prediction(Builder builder) {
             super(builder);
             outcome = builder.outcome;
-            probability = ValidationSupport.choiceElement(builder.probability, "probability", Decimal.class, Range.class);
+            probability = builder.probability;
             qualitativeRisk = builder.qualitativeRisk;
             relativeRisk = builder.relativeRisk;
-            when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
+            when = builder.when;
             rationale = builder.rationale;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1522,7 +1538,18 @@ public class RiskAssessment extends DomainResource {
              */
             @Override
             public Prediction build() {
-                return new Prediction(this);
+                Prediction prediction = new Prediction(this);
+                if (validating) {
+                    validate(prediction);
+                }
+                return prediction;
+            }
+
+            protected void validate(Prediction prediction) {
+                super.validate(prediction);
+                ValidationSupport.choiceElement(prediction.probability, "probability", Decimal.class, Range.class);
+                ValidationSupport.choiceElement(prediction.when, "when", Period.class, Range.class);
+                ValidationSupport.requireValueOrChildren(prediction);
             }
 
             protected Builder from(Prediction prediction) {

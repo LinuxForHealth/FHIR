@@ -147,11 +147,7 @@ public class ExampleScenarioActorType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class ExampleScenarioActorType extends Code {
 
         @Override
         public ExampleScenarioActorType build() {
-            return new ExampleScenarioActorType(this);
+            ExampleScenarioActorType exampleScenarioActorType = new ExampleScenarioActorType(this);
+            if (validating) {
+                validate(exampleScenarioActorType);
+            }
+            return exampleScenarioActorType;
+        }
+
+        protected void validate(ExampleScenarioActorType exampleScenarioActorType) {
+            super.validate(exampleScenarioActorType);
+        }
+
+        protected Builder from(ExampleScenarioActorType exampleScenarioActorType) {
+            super.from(exampleScenarioActorType);
+            return this;
         }
     }
 

@@ -177,11 +177,7 @@ public class LinkType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -236,7 +232,20 @@ public class LinkType extends Code {
 
         @Override
         public LinkType build() {
-            return new LinkType(this);
+            LinkType linkType = new LinkType(this);
+            if (validating) {
+                validate(linkType);
+            }
+            return linkType;
+        }
+
+        protected void validate(LinkType linkType) {
+            super.validate(linkType);
+        }
+
+        protected Builder from(LinkType linkType) {
+            super.from(linkType);
+            return this;
         }
     }
 

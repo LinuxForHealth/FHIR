@@ -207,23 +207,19 @@ public class Consent extends DomainResource {
 
     private Consent(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        category = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.category, "category", CodeableConcept.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        scope = builder.scope;
+        category = Collections.unmodifiableList(builder.category);
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
-        organization = Collections.unmodifiableList(ValidationSupport.checkList(builder.organization, "organization", Reference.class));
-        source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Policy.class));
+        performer = Collections.unmodifiableList(builder.performer);
+        organization = Collections.unmodifiableList(builder.organization);
+        source = builder.source;
+        policy = Collections.unmodifiableList(builder.policy);
         policyRule = builder.policyRule;
-        verification = Collections.unmodifiableList(ValidationSupport.checkList(builder.verification, "verification", Verification.class));
+        verification = Collections.unmodifiableList(builder.verification);
         provision = builder.provision;
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
     }
 
     /**
@@ -1089,7 +1085,28 @@ public class Consent extends DomainResource {
          */
         @Override
         public Consent build() {
-            return new Consent(this);
+            Consent consent = new Consent(this);
+            if (validating) {
+                validate(consent);
+            }
+            return consent;
+        }
+
+        protected void validate(Consent consent) {
+            super.validate(consent);
+            ValidationSupport.checkList(consent.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(consent.status, "status");
+            ValidationSupport.requireNonNull(consent.scope, "scope");
+            ValidationSupport.checkNonEmptyList(consent.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(consent.performer, "performer", Reference.class);
+            ValidationSupport.checkList(consent.organization, "organization", Reference.class);
+            ValidationSupport.choiceElement(consent.source, "source", Attachment.class, Reference.class);
+            ValidationSupport.checkList(consent.policy, "policy", Policy.class);
+            ValidationSupport.checkList(consent.verification, "verification", Verification.class);
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
         }
 
         protected Builder from(Consent consent) {
@@ -1123,7 +1140,6 @@ public class Consent extends DomainResource {
             super(builder);
             authority = builder.authority;
             uri = builder.uri;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1363,7 +1379,16 @@ public class Consent extends DomainResource {
              */
             @Override
             public Policy build() {
-                return new Policy(this);
+                Policy policy = new Policy(this);
+                if (validating) {
+                    validate(policy);
+                }
+                return policy;
+            }
+
+            protected void validate(Policy policy) {
+                super.validate(policy);
+                ValidationSupport.requireValueOrChildren(policy);
             }
 
             protected Builder from(Policy policy) {
@@ -1389,11 +1414,9 @@ public class Consent extends DomainResource {
 
         private Verification(Builder builder) {
             super(builder);
-            verified = ValidationSupport.requireNonNull(builder.verified, "verified");
+            verified = builder.verified;
             verifiedWith = builder.verifiedWith;
             verificationDate = builder.verificationDate;
-            ValidationSupport.checkReferenceType(verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1671,7 +1694,18 @@ public class Consent extends DomainResource {
              */
             @Override
             public Verification build() {
-                return new Verification(this);
+                Verification verification = new Verification(this);
+                if (validating) {
+                    validate(verification);
+                }
+                return verification;
+            }
+
+            protected void validate(Verification verification) {
+                super.validate(verification);
+                ValidationSupport.requireNonNull(verification.verified, "verified");
+                ValidationSupport.checkReferenceType(verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(verification);
             }
 
             protected Builder from(Verification verification) {
@@ -1749,16 +1783,15 @@ public class Consent extends DomainResource {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
-            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", CodeableConcept.class));
-            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
-            purpose = Collections.unmodifiableList(ValidationSupport.checkList(builder.purpose, "purpose", Coding.class));
-            clazz = Collections.unmodifiableList(ValidationSupport.checkList(builder.clazz, "class", Coding.class));
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            actor = Collections.unmodifiableList(builder.actor);
+            action = Collections.unmodifiableList(builder.action);
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            purpose = Collections.unmodifiableList(builder.purpose);
+            clazz = Collections.unmodifiableList(builder.clazz);
+            code = Collections.unmodifiableList(builder.code);
             dataPeriod = builder.dataPeriod;
-            data = Collections.unmodifiableList(ValidationSupport.checkList(builder.data, "data", Data.class));
-            provision = Collections.unmodifiableList(ValidationSupport.checkList(builder.provision, "provision", Consent.Provision.class));
-            ValidationSupport.requireValueOrChildren(this);
+            data = Collections.unmodifiableList(builder.data);
+            provision = Collections.unmodifiableList(builder.provision);
         }
 
         /**
@@ -2426,7 +2459,24 @@ public class Consent extends DomainResource {
              */
             @Override
             public Provision build() {
-                return new Provision(this);
+                Provision provision = new Provision(this);
+                if (validating) {
+                    validate(provision);
+                }
+                return provision;
+            }
+
+            protected void validate(Provision provision) {
+                super.validate(provision);
+                ValidationSupport.checkList(provision.actor, "actor", Actor.class);
+                ValidationSupport.checkList(provision.action, "action", CodeableConcept.class);
+                ValidationSupport.checkList(provision.securityLabel, "securityLabel", Coding.class);
+                ValidationSupport.checkList(provision.purpose, "purpose", Coding.class);
+                ValidationSupport.checkList(provision.clazz, "class", Coding.class);
+                ValidationSupport.checkList(provision.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(provision.data, "data", Data.class);
+                ValidationSupport.checkList(provision.provision, "provision", Consent.Provision.class);
+                ValidationSupport.requireValueOrChildren(provision);
             }
 
             protected Builder from(Provision provision) {
@@ -2465,10 +2515,8 @@ public class Consent extends DomainResource {
 
             private Actor(Builder builder) {
                 super(builder);
-                role = ValidationSupport.requireNonNull(builder.role, "role");
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                ValidationSupport.checkReferenceType(reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
+                role = builder.role;
+                reference = builder.reference;
             }
 
             /**
@@ -2728,7 +2776,19 @@ public class Consent extends DomainResource {
                  */
                 @Override
                 public Actor build() {
-                    return new Actor(this);
+                    Actor actor = new Actor(this);
+                    if (validating) {
+                        validate(actor);
+                    }
+                    return actor;
+                }
+
+                protected void validate(Actor actor) {
+                    super.validate(actor);
+                    ValidationSupport.requireNonNull(actor.role, "role");
+                    ValidationSupport.requireNonNull(actor.reference, "reference");
+                    ValidationSupport.checkReferenceType(reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(actor);
                 }
 
                 protected Builder from(Actor actor) {
@@ -2759,9 +2819,8 @@ public class Consent extends DomainResource {
 
             private Data(Builder builder) {
                 super(builder);
-                meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                ValidationSupport.requireValueOrChildren(this);
+                meaning = builder.meaning;
+                reference = builder.reference;
             }
 
             /**
@@ -3007,7 +3066,18 @@ public class Consent extends DomainResource {
                  */
                 @Override
                 public Data build() {
-                    return new Data(this);
+                    Data data = new Data(this);
+                    if (validating) {
+                        validate(data);
+                    }
+                    return data;
+                }
+
+                protected void validate(Data data) {
+                    super.validate(data);
+                    ValidationSupport.requireNonNull(data.meaning, "meaning");
+                    ValidationSupport.requireNonNull(data.reference, "reference");
+                    ValidationSupport.requireValueOrChildren(data);
                 }
 
                 protected Builder from(Data data) {

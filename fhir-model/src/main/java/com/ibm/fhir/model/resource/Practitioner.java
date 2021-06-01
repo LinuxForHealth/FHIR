@@ -94,17 +94,16 @@ public class Practitioner extends DomainResource {
 
     private Practitioner(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        photo = Collections.unmodifiableList(ValidationSupport.checkList(builder.photo, "photo", Attachment.class));
-        qualification = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualification, "qualification", Qualification.class));
-        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", CodeableConcept.class));
-        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+        photo = Collections.unmodifiableList(builder.photo);
+        qualification = Collections.unmodifiableList(builder.qualification);
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -833,7 +832,23 @@ public class Practitioner extends DomainResource {
          */
         @Override
         public Practitioner build() {
-            return new Practitioner(this);
+            Practitioner practitioner = new Practitioner(this);
+            if (validating) {
+                validate(practitioner);
+            }
+            return practitioner;
+        }
+
+        protected void validate(Practitioner practitioner) {
+            super.validate(practitioner);
+            ValidationSupport.checkList(practitioner.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(practitioner.name, "name", HumanName.class);
+            ValidationSupport.checkList(practitioner.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(practitioner.address, "address", Address.class);
+            ValidationSupport.checkList(practitioner.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(practitioner.qualification, "qualification", Qualification.class);
+            ValidationSupport.checkList(practitioner.communication, "communication", CodeableConcept.class);
+            ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         }
 
         protected Builder from(Practitioner practitioner) {
@@ -873,12 +888,10 @@ public class Practitioner extends DomainResource {
 
         private Qualification(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            identifier = Collections.unmodifiableList(builder.identifier);
+            code = builder.code;
             period = builder.period;
             issuer = builder.issuer;
-            ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1204,7 +1217,19 @@ public class Practitioner extends DomainResource {
              */
             @Override
             public Qualification build() {
-                return new Qualification(this);
+                Qualification qualification = new Qualification(this);
+                if (validating) {
+                    validate(qualification);
+                }
+                return qualification;
+            }
+
+            protected void validate(Qualification qualification) {
+                super.validate(qualification);
+                ValidationSupport.checkList(qualification.identifier, "identifier", Identifier.class);
+                ValidationSupport.requireNonNull(qualification.code, "code");
+                ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
+                ValidationSupport.requireValueOrChildren(qualification);
             }
 
             protected Builder from(Qualification qualification) {

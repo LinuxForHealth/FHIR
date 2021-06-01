@@ -154,19 +154,19 @@ public class Media extends DomainResource {
 
     private Media(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
         type = builder.type;
         modality = builder.modality;
         view = builder.view;
         subject = builder.subject;
         encounter = builder.encounter;
-        created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
+        created = builder.created;
         issued = builder.issued;
         operator = builder.operator;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
         bodySite = builder.bodySite;
         deviceName = builder.deviceName;
         device = builder.device;
@@ -174,13 +174,8 @@ public class Media extends DomainResource {
         width = builder.width;
         frames = builder.frames;
         duration = builder.duration;
-        content = ValidationSupport.requireNonNull(builder.content, "content");
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest", "CarePlan");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
+        content = builder.content;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1277,7 +1272,28 @@ public class Media extends DomainResource {
          */
         @Override
         public Media build() {
-            return new Media(this);
+            Media media = new Media(this);
+            if (validating) {
+                validate(media);
+            }
+            return media;
+        }
+
+        protected void validate(Media media) {
+            super.validate(media);
+            ValidationSupport.checkList(media.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(media.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(media.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(media.status, "status");
+            ValidationSupport.choiceElement(media.created, "created", DateTime.class, Period.class);
+            ValidationSupport.checkList(media.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.requireNonNull(media.content, "content");
+            ValidationSupport.checkList(media.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest", "CarePlan");
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
         }
 
         protected Builder from(Media media) {

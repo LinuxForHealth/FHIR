@@ -160,11 +160,7 @@ public class ResponseType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -219,7 +215,20 @@ public class ResponseType extends Code {
 
         @Override
         public ResponseType build() {
-            return new ResponseType(this);
+            ResponseType responseType = new ResponseType(this);
+            if (validating) {
+                validate(responseType);
+            }
+            return responseType;
+        }
+
+        protected void validate(ResponseType responseType) {
+            super.validate(responseType);
+        }
+
+        protected Builder from(ResponseType responseType) {
+            super.from(responseType);
+            return this;
         }
     }
 

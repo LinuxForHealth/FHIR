@@ -66,12 +66,11 @@ public class Basic extends DomainResource {
 
     private Basic(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        code = builder.code;
         subject = builder.subject;
         created = builder.created;
         author = builder.author;
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
     }
 
     /**
@@ -540,7 +539,18 @@ public class Basic extends DomainResource {
          */
         @Override
         public Basic build() {
-            return new Basic(this);
+            Basic basic = new Basic(this);
+            if (validating) {
+                validate(basic);
+            }
+            return basic;
+        }
+
+        protected void validate(Basic basic) {
+            super.validate(basic);
+            ValidationSupport.checkList(basic.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(basic.code, "code");
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         }
 
         protected Builder from(Basic basic) {

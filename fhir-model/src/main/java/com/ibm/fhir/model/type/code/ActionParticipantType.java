@@ -169,11 +169,7 @@ public class ActionParticipantType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ActionParticipantType extends Code {
 
         @Override
         public ActionParticipantType build() {
-            return new ActionParticipantType(this);
+            ActionParticipantType actionParticipantType = new ActionParticipantType(this);
+            if (validating) {
+                validate(actionParticipantType);
+            }
+            return actionParticipantType;
+        }
+
+        protected void validate(ActionParticipantType actionParticipantType) {
+            super.validate(actionParticipantType);
+        }
+
+        protected Builder from(ActionParticipantType actionParticipantType) {
+            super.from(actionParticipantType);
+            return this;
         }
     }
 

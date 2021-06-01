@@ -37,7 +37,6 @@ public class Period extends Element {
         super(builder);
         start = builder.start;
         end = builder.end;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -226,7 +225,16 @@ public class Period extends Element {
          */
         @Override
         public Period build() {
-            return new Period(this);
+            Period period = new Period(this);
+            if (validating) {
+                validate(period);
+            }
+            return period;
+        }
+
+        protected void validate(Period period) {
+            super.validate(period);
+            ValidationSupport.requireValueOrChildren(period);
         }
 
         protected Builder from(Period period) {

@@ -147,11 +147,7 @@ public class OperationKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class OperationKind extends Code {
 
         @Override
         public OperationKind build() {
-            return new OperationKind(this);
+            OperationKind operationKind = new OperationKind(this);
+            if (validating) {
+                validate(operationKind);
+            }
+            return operationKind;
+        }
+
+        protected void validate(OperationKind operationKind) {
+            super.validate(operationKind);
+        }
+
+        protected Builder from(OperationKind operationKind) {
+            super.from(operationKind);
+            return this;
         }
     }
 

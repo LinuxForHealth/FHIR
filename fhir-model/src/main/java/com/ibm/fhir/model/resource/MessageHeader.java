@@ -98,21 +98,17 @@ public class MessageHeader extends DomainResource {
 
     private MessageHeader(Builder builder) {
         super(builder);
-        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        destination = Collections.unmodifiableList(ValidationSupport.checkList(builder.destination, "destination", Destination.class));
+        event = builder.event;
+        destination = Collections.unmodifiableList(builder.destination);
         sender = builder.sender;
         enterer = builder.enterer;
         author = builder.author;
-        source = ValidationSupport.requireNonNull(builder.source, "source");
+        source = builder.source;
         responsible = builder.responsible;
         reason = builder.reason;
         response = builder.response;
-        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
+        focus = Collections.unmodifiableList(builder.focus);
         definition = builder.definition;
-        ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
     }
 
     /**
@@ -813,7 +809,23 @@ public class MessageHeader extends DomainResource {
          */
         @Override
         public MessageHeader build() {
-            return new MessageHeader(this);
+            MessageHeader messageHeader = new MessageHeader(this);
+            if (validating) {
+                validate(messageHeader);
+            }
+            return messageHeader;
+        }
+
+        protected void validate(MessageHeader messageHeader) {
+            super.validate(messageHeader);
+            ValidationSupport.requireChoiceElement(messageHeader.event, "event", Coding.class, Uri.class);
+            ValidationSupport.checkList(messageHeader.destination, "destination", Destination.class);
+            ValidationSupport.requireNonNull(messageHeader.source, "source");
+            ValidationSupport.checkList(messageHeader.focus, "focus", Reference.class);
+            ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(MessageHeader messageHeader) {
@@ -853,11 +865,8 @@ public class MessageHeader extends DomainResource {
             super(builder);
             name = builder.name;
             target = builder.target;
-            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
+            endpoint = builder.endpoint;
             receiver = builder.receiver;
-            ValidationSupport.checkReferenceType(target, "target", "Device");
-            ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1172,7 +1181,19 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Destination build() {
-                return new Destination(this);
+                Destination destination = new Destination(this);
+                if (validating) {
+                    validate(destination);
+                }
+                return destination;
+            }
+
+            protected void validate(Destination destination) {
+                super.validate(destination);
+                ValidationSupport.requireNonNull(destination.endpoint, "endpoint");
+                ValidationSupport.checkReferenceType(target, "target", "Device");
+                ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(destination);
             }
 
             protected Builder from(Destination destination) {
@@ -1208,8 +1229,7 @@ public class MessageHeader extends DomainResource {
             software = builder.software;
             version = builder.version;
             contact = builder.contact;
-            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
-            ValidationSupport.requireValueOrChildren(this);
+            endpoint = builder.endpoint;
         }
 
         /**
@@ -1539,7 +1559,17 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Source build() {
-                return new Source(this);
+                Source source = new Source(this);
+                if (validating) {
+                    validate(source);
+                }
+                return source;
+            }
+
+            protected void validate(Source source) {
+                super.validate(source);
+                ValidationSupport.requireNonNull(source.endpoint, "endpoint");
+                ValidationSupport.requireValueOrChildren(source);
             }
 
             protected Builder from(Source source) {
@@ -1576,11 +1606,9 @@ public class MessageHeader extends DomainResource {
 
         private Response(Builder builder) {
             super(builder);
-            identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            identifier = builder.identifier;
+            code = builder.code;
             details = builder.details;
-            ValidationSupport.checkReferenceType(details, "details", "OperationOutcome");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1862,7 +1890,19 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Response build() {
-                return new Response(this);
+                Response response = new Response(this);
+                if (validating) {
+                    validate(response);
+                }
+                return response;
+            }
+
+            protected void validate(Response response) {
+                super.validate(response);
+                ValidationSupport.requireNonNull(response.identifier, "identifier");
+                ValidationSupport.requireNonNull(response.code, "code");
+                ValidationSupport.checkReferenceType(details, "details", "OperationOutcome");
+                ValidationSupport.requireValueOrChildren(response);
             }
 
             protected Builder from(Response response) {

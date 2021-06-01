@@ -147,11 +147,7 @@ public class OrientationType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class OrientationType extends Code {
 
         @Override
         public OrientationType build() {
-            return new OrientationType(this);
+            OrientationType orientationType = new OrientationType(this);
+            if (validating) {
+                validate(orientationType);
+            }
+            return orientationType;
+        }
+
+        protected void validate(OrientationType orientationType) {
+            super.validate(orientationType);
+        }
+
+        protected Builder from(OrientationType orientationType) {
+            super.from(orientationType);
+            return this;
         }
     }
 

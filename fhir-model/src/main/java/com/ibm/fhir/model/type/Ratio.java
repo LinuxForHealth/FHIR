@@ -37,7 +37,6 @@ public class Ratio extends Element {
         super(builder);
         numerator = builder.numerator;
         denominator = builder.denominator;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -222,7 +221,16 @@ public class Ratio extends Element {
          */
         @Override
         public Ratio build() {
-            return new Ratio(this);
+            Ratio ratio = new Ratio(this);
+            if (validating) {
+                validate(ratio);
+            }
+            return ratio;
+        }
+
+        protected void validate(Ratio ratio) {
+            super.validate(ratio);
+            ValidationSupport.requireValueOrChildren(ratio);
         }
 
         protected Builder from(Ratio ratio) {

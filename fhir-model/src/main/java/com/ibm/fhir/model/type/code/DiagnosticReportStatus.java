@@ -241,11 +241,7 @@ public class DiagnosticReportStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -300,7 +296,20 @@ public class DiagnosticReportStatus extends Code {
 
         @Override
         public DiagnosticReportStatus build() {
-            return new DiagnosticReportStatus(this);
+            DiagnosticReportStatus diagnosticReportStatus = new DiagnosticReportStatus(this);
+            if (validating) {
+                validate(diagnosticReportStatus);
+            }
+            return diagnosticReportStatus;
+        }
+
+        protected void validate(DiagnosticReportStatus diagnosticReportStatus) {
+            super.validate(diagnosticReportStatus);
+        }
+
+        protected Builder from(DiagnosticReportStatus diagnosticReportStatus) {
+            super.from(diagnosticReportStatus);
+            return this;
         }
     }
 

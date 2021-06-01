@@ -60,10 +60,10 @@ public class SubstancePolymer extends DomainResource {
         super(builder);
         clazz = builder.clazz;
         geometry = builder.geometry;
-        copolymerConnectivity = Collections.unmodifiableList(ValidationSupport.checkList(builder.copolymerConnectivity, "copolymerConnectivity", CodeableConcept.class));
-        modification = Collections.unmodifiableList(ValidationSupport.checkList(builder.modification, "modification", String.class));
-        monomerSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.monomerSet, "monomerSet", MonomerSet.class));
-        repeat = Collections.unmodifiableList(ValidationSupport.checkList(builder.repeat, "repeat", Repeat.class));
+        copolymerConnectivity = Collections.unmodifiableList(builder.copolymerConnectivity);
+        modification = Collections.unmodifiableList(builder.modification);
+        monomerSet = Collections.unmodifiableList(builder.monomerSet);
+        repeat = Collections.unmodifiableList(builder.repeat);
     }
 
     /**
@@ -605,7 +605,19 @@ public class SubstancePolymer extends DomainResource {
          */
         @Override
         public SubstancePolymer build() {
-            return new SubstancePolymer(this);
+            SubstancePolymer substancePolymer = new SubstancePolymer(this);
+            if (validating) {
+                validate(substancePolymer);
+            }
+            return substancePolymer;
+        }
+
+        protected void validate(SubstancePolymer substancePolymer) {
+            super.validate(substancePolymer);
+            ValidationSupport.checkList(substancePolymer.copolymerConnectivity, "copolymerConnectivity", CodeableConcept.class);
+            ValidationSupport.checkList(substancePolymer.modification, "modification", String.class);
+            ValidationSupport.checkList(substancePolymer.monomerSet, "monomerSet", MonomerSet.class);
+            ValidationSupport.checkList(substancePolymer.repeat, "repeat", Repeat.class);
         }
 
         protected Builder from(SubstancePolymer substancePolymer) {
@@ -632,8 +644,7 @@ public class SubstancePolymer extends DomainResource {
         private MonomerSet(Builder builder) {
             super(builder);
             ratioType = builder.ratioType;
-            startingMaterial = Collections.unmodifiableList(ValidationSupport.checkList(builder.startingMaterial, "startingMaterial", StartingMaterial.class));
-            ValidationSupport.requireValueOrChildren(this);
+            startingMaterial = Collections.unmodifiableList(builder.startingMaterial);
         }
 
         /**
@@ -889,7 +900,17 @@ public class SubstancePolymer extends DomainResource {
              */
             @Override
             public MonomerSet build() {
-                return new MonomerSet(this);
+                MonomerSet monomerSet = new MonomerSet(this);
+                if (validating) {
+                    validate(monomerSet);
+                }
+                return monomerSet;
+            }
+
+            protected void validate(MonomerSet monomerSet) {
+                super.validate(monomerSet);
+                ValidationSupport.checkList(monomerSet.startingMaterial, "startingMaterial", StartingMaterial.class);
+                ValidationSupport.requireValueOrChildren(monomerSet);
             }
 
             protected Builder from(MonomerSet monomerSet) {
@@ -919,7 +940,6 @@ public class SubstancePolymer extends DomainResource {
                 type = builder.type;
                 isDefining = builder.isDefining;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1213,7 +1233,16 @@ public class SubstancePolymer extends DomainResource {
                  */
                 @Override
                 public StartingMaterial build() {
-                    return new StartingMaterial(this);
+                    StartingMaterial startingMaterial = new StartingMaterial(this);
+                    if (validating) {
+                        validate(startingMaterial);
+                    }
+                    return startingMaterial;
+                }
+
+                protected void validate(StartingMaterial startingMaterial) {
+                    super.validate(startingMaterial);
+                    ValidationSupport.requireValueOrChildren(startingMaterial);
                 }
 
                 protected Builder from(StartingMaterial startingMaterial) {
@@ -1246,8 +1275,7 @@ public class SubstancePolymer extends DomainResource {
             numberOfUnits = builder.numberOfUnits;
             averageMolecularFormula = builder.averageMolecularFormula;
             repeatUnitAmountType = builder.repeatUnitAmountType;
-            repeatUnit = Collections.unmodifiableList(ValidationSupport.checkList(builder.repeatUnit, "repeatUnit", RepeatUnit.class));
-            ValidationSupport.requireValueOrChildren(this);
+            repeatUnit = Collections.unmodifiableList(builder.repeatUnit);
         }
 
         /**
@@ -1561,7 +1589,17 @@ public class SubstancePolymer extends DomainResource {
              */
             @Override
             public Repeat build() {
-                return new Repeat(this);
+                Repeat repeat = new Repeat(this);
+                if (validating) {
+                    validate(repeat);
+                }
+                return repeat;
+            }
+
+            protected void validate(Repeat repeat) {
+                super.validate(repeat);
+                ValidationSupport.checkList(repeat.repeatUnit, "repeatUnit", RepeatUnit.class);
+                ValidationSupport.requireValueOrChildren(repeat);
             }
 
             protected Builder from(Repeat repeat) {
@@ -1594,9 +1632,8 @@ public class SubstancePolymer extends DomainResource {
                 orientationOfPolymerisation = builder.orientationOfPolymerisation;
                 repeatUnit = builder.repeatUnit;
                 amount = builder.amount;
-                degreeOfPolymerisation = Collections.unmodifiableList(ValidationSupport.checkList(builder.degreeOfPolymerisation, "degreeOfPolymerisation", DegreeOfPolymerisation.class));
-                structuralRepresentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.structuralRepresentation, "structuralRepresentation", StructuralRepresentation.class));
-                ValidationSupport.requireValueOrChildren(this);
+                degreeOfPolymerisation = Collections.unmodifiableList(builder.degreeOfPolymerisation);
+                structuralRepresentation = Collections.unmodifiableList(builder.structuralRepresentation);
             }
 
             /**
@@ -1959,7 +1996,18 @@ public class SubstancePolymer extends DomainResource {
                  */
                 @Override
                 public RepeatUnit build() {
-                    return new RepeatUnit(this);
+                    RepeatUnit repeatUnit = new RepeatUnit(this);
+                    if (validating) {
+                        validate(repeatUnit);
+                    }
+                    return repeatUnit;
+                }
+
+                protected void validate(RepeatUnit repeatUnit) {
+                    super.validate(repeatUnit);
+                    ValidationSupport.checkList(repeatUnit.degreeOfPolymerisation, "degreeOfPolymerisation", DegreeOfPolymerisation.class);
+                    ValidationSupport.checkList(repeatUnit.structuralRepresentation, "structuralRepresentation", StructuralRepresentation.class);
+                    ValidationSupport.requireValueOrChildren(repeatUnit);
                 }
 
                 protected Builder from(RepeatUnit repeatUnit) {
@@ -1986,7 +2034,6 @@ public class SubstancePolymer extends DomainResource {
                     super(builder);
                     degree = builder.degree;
                     amount = builder.amount;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2222,7 +2269,16 @@ public class SubstancePolymer extends DomainResource {
                      */
                     @Override
                     public DegreeOfPolymerisation build() {
-                        return new DegreeOfPolymerisation(this);
+                        DegreeOfPolymerisation degreeOfPolymerisation = new DegreeOfPolymerisation(this);
+                        if (validating) {
+                            validate(degreeOfPolymerisation);
+                        }
+                        return degreeOfPolymerisation;
+                    }
+
+                    protected void validate(DegreeOfPolymerisation degreeOfPolymerisation) {
+                        super.validate(degreeOfPolymerisation);
+                        ValidationSupport.requireValueOrChildren(degreeOfPolymerisation);
                     }
 
                     protected Builder from(DegreeOfPolymerisation degreeOfPolymerisation) {
@@ -2250,7 +2306,6 @@ public class SubstancePolymer extends DomainResource {
                     type = builder.type;
                     representation = builder.representation;
                     attachment = builder.attachment;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2515,7 +2570,16 @@ public class SubstancePolymer extends DomainResource {
                      */
                     @Override
                     public StructuralRepresentation build() {
-                        return new StructuralRepresentation(this);
+                        StructuralRepresentation structuralRepresentation = new StructuralRepresentation(this);
+                        if (validating) {
+                            validate(structuralRepresentation);
+                        }
+                        return structuralRepresentation;
+                    }
+
+                    protected void validate(StructuralRepresentation structuralRepresentation) {
+                        super.validate(structuralRepresentation);
+                        ValidationSupport.requireValueOrChildren(structuralRepresentation);
                     }
 
                     protected Builder from(StructuralRepresentation structuralRepresentation) {

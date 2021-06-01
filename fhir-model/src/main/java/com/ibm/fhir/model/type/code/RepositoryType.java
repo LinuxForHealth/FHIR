@@ -181,11 +181,7 @@ public class RepositoryType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -240,7 +236,20 @@ public class RepositoryType extends Code {
 
         @Override
         public RepositoryType build() {
-            return new RepositoryType(this);
+            RepositoryType repositoryType = new RepositoryType(this);
+            if (validating) {
+                validate(repositoryType);
+            }
+            return repositoryType;
+        }
+
+        protected void validate(RepositoryType repositoryType) {
+            super.validate(repositoryType);
+        }
+
+        protected Builder from(RepositoryType repositoryType) {
+            super.from(repositoryType);
+            return this;
         }
     }
 

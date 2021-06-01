@@ -183,51 +183,38 @@ public class MedicationRequest extends DomainResource {
 
     private MedicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         statusReason = builder.statusReason;
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        intent = builder.intent;
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        reported = ValidationSupport.choiceElement(builder.reported, "reported", Boolean.class, Reference.class);
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        reported = builder.reported;
+        medication = builder.medication;
+        subject = builder.subject;
         encounter = builder.encounter;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performer = builder.performer;
         performerType = builder.performerType;
         recorder = builder.recorder;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
         groupIdentifier = builder.groupIdentifier;
         courseOfTherapyType = builder.courseOfTherapyType;
-        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        dosageInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosageInstruction, "dosageInstruction", Dosage.class));
+        insurance = Collections.unmodifiableList(builder.insurance);
+        note = Collections.unmodifiableList(builder.note);
+        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
         dispenseRequest = builder.dispenseRequest;
         substitution = builder.substitution;
         priorPrescription = builder.priorPrescription;
-        detectedIssue = Collections.unmodifiableList(ValidationSupport.checkList(builder.detectedIssue, "detectedIssue", Reference.class));
-        eventHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.eventHistory, "eventHistory", Reference.class));
-        ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
-        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-        ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
-        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
-        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
+        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1898,7 +1885,46 @@ public class MedicationRequest extends DomainResource {
          */
         @Override
         public MedicationRequest build() {
-            return new MedicationRequest(this);
+            MedicationRequest medicationRequest = new MedicationRequest(this);
+            if (validating) {
+                validate(medicationRequest);
+            }
+            return medicationRequest;
+        }
+
+        protected void validate(MedicationRequest medicationRequest) {
+            super.validate(medicationRequest);
+            ValidationSupport.checkList(medicationRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(medicationRequest.status, "status");
+            ValidationSupport.requireNonNull(medicationRequest.intent, "intent");
+            ValidationSupport.checkList(medicationRequest.category, "category", CodeableConcept.class);
+            ValidationSupport.choiceElement(medicationRequest.reported, "reported", Boolean.class, Reference.class);
+            ValidationSupport.requireChoiceElement(medicationRequest.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(medicationRequest.subject, "subject");
+            ValidationSupport.checkList(medicationRequest.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkList(medicationRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(medicationRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(medicationRequest.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(medicationRequest.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(medicationRequest.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(medicationRequest.insurance, "insurance", Reference.class);
+            ValidationSupport.checkList(medicationRequest.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationRequest.dosageInstruction, "dosageInstruction", Dosage.class);
+            ValidationSupport.checkList(medicationRequest.detectedIssue, "detectedIssue", Reference.class);
+            ValidationSupport.checkList(medicationRequest.eventHistory, "eventHistory", Reference.class);
+            ValidationSupport.checkReferenceType(reported, "reported", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson", "CareTeam");
+            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation");
+            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "MedicationRequest", "ServiceRequest", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(priorPrescription, "priorPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
+            ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationRequest medicationRequest) {
@@ -1964,8 +1990,6 @@ public class MedicationRequest extends DomainResource {
             quantity = builder.quantity;
             expectedSupplyDuration = builder.expectedSupplyDuration;
             performer = builder.performer;
-            ValidationSupport.checkReferenceType(performer, "performer", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2361,7 +2385,17 @@ public class MedicationRequest extends DomainResource {
              */
             @Override
             public DispenseRequest build() {
-                return new DispenseRequest(this);
+                DispenseRequest dispenseRequest = new DispenseRequest(this);
+                if (validating) {
+                    validate(dispenseRequest);
+                }
+                return dispenseRequest;
+            }
+
+            protected void validate(DispenseRequest dispenseRequest) {
+                super.validate(dispenseRequest);
+                ValidationSupport.checkReferenceType(performer, "performer", "Organization");
+                ValidationSupport.requireValueOrChildren(dispenseRequest);
             }
 
             protected Builder from(DispenseRequest dispenseRequest) {
@@ -2388,7 +2422,6 @@ public class MedicationRequest extends DomainResource {
                 super(builder);
                 quantity = builder.quantity;
                 duration = builder.duration;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2624,7 +2657,16 @@ public class MedicationRequest extends DomainResource {
                  */
                 @Override
                 public InitialFill build() {
-                    return new InitialFill(this);
+                    InitialFill initialFill = new InitialFill(this);
+                    if (validating) {
+                        validate(initialFill);
+                    }
+                    return initialFill;
+                }
+
+                protected void validate(InitialFill initialFill) {
+                    super.validate(initialFill);
+                    ValidationSupport.requireValueOrChildren(initialFill);
                 }
 
                 protected Builder from(InitialFill initialFill) {
@@ -2662,9 +2704,8 @@ public class MedicationRequest extends DomainResource {
 
         private Substitution(Builder builder) {
             super(builder);
-            allowed = ValidationSupport.requireChoiceElement(builder.allowed, "allowed", Boolean.class, CodeableConcept.class);
+            allowed = builder.allowed;
             reason = builder.reason;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2913,7 +2954,17 @@ public class MedicationRequest extends DomainResource {
              */
             @Override
             public Substitution build() {
-                return new Substitution(this);
+                Substitution substitution = new Substitution(this);
+                if (validating) {
+                    validate(substitution);
+                }
+                return substitution;
+            }
+
+            protected void validate(Substitution substitution) {
+                super.validate(substitution);
+                ValidationSupport.requireChoiceElement(substitution.allowed, "allowed", Boolean.class, CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(substitution);
             }
 
             protected Builder from(Substitution substitution) {

@@ -225,11 +225,7 @@ public class CarePlanActivityStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -284,7 +280,20 @@ public class CarePlanActivityStatus extends Code {
 
         @Override
         public CarePlanActivityStatus build() {
-            return new CarePlanActivityStatus(this);
+            CarePlanActivityStatus carePlanActivityStatus = new CarePlanActivityStatus(this);
+            if (validating) {
+                validate(carePlanActivityStatus);
+            }
+            return carePlanActivityStatus;
+        }
+
+        protected void validate(CarePlanActivityStatus carePlanActivityStatus) {
+            super.validate(carePlanActivityStatus);
+        }
+
+        protected Builder from(CarePlanActivityStatus carePlanActivityStatus) {
+            super.from(carePlanActivityStatus);
+            return this;
         }
     }
 

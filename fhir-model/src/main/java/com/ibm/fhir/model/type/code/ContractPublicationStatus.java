@@ -323,11 +323,7 @@ public class ContractPublicationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -382,7 +378,20 @@ public class ContractPublicationStatus extends Code {
 
         @Override
         public ContractPublicationStatus build() {
-            return new ContractPublicationStatus(this);
+            ContractPublicationStatus contractPublicationStatus = new ContractPublicationStatus(this);
+            if (validating) {
+                validate(contractPublicationStatus);
+            }
+            return contractPublicationStatus;
+        }
+
+        protected void validate(ContractPublicationStatus contractPublicationStatus) {
+            super.validate(contractPublicationStatus);
+        }
+
+        protected Builder from(ContractPublicationStatus contractPublicationStatus) {
+            super.from(contractPublicationStatus);
+            return this;
         }
     }
 

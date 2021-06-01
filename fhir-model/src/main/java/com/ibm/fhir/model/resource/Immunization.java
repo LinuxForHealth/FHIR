@@ -180,13 +180,13 @@ public class Immunization extends DomainResource {
 
     private Immunization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         statusReason = builder.statusReason;
-        vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        vaccineCode = builder.vaccineCode;
+        patient = builder.patient;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.requireChoiceElement(builder.occurrence, "occurrence", DateTime.class, String.class);
+        occurrence = builder.occurrence;
         recorded = builder.recorded;
         primarySource = builder.primarySource;
         reportOrigin = builder.reportOrigin;
@@ -197,22 +197,17 @@ public class Immunization extends DomainResource {
         site = builder.site;
         route = builder.route;
         doseQuantity = builder.doseQuantity;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
+        performer = Collections.unmodifiableList(builder.performer);
+        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         isSubpotent = builder.isSubpotent;
-        subpotentReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.subpotentReason, "subpotentReason", CodeableConcept.class));
-        education = Collections.unmodifiableList(ValidationSupport.checkList(builder.education, "education", Education.class));
-        programEligibility = Collections.unmodifiableList(ValidationSupport.checkList(builder.programEligibility, "programEligibility", CodeableConcept.class));
+        subpotentReason = Collections.unmodifiableList(builder.subpotentReason);
+        education = Collections.unmodifiableList(builder.education);
+        programEligibility = Collections.unmodifiableList(builder.programEligibility);
         fundingSource = builder.fundingSource;
-        reaction = Collections.unmodifiableList(ValidationSupport.checkList(builder.reaction, "reaction", Reaction.class));
-        protocolApplied = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocolApplied, "protocolApplied", ProtocolApplied.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+        reaction = Collections.unmodifiableList(builder.reaction);
+        protocolApplied = Collections.unmodifiableList(builder.protocolApplied);
     }
 
     /**
@@ -1580,7 +1575,34 @@ public class Immunization extends DomainResource {
          */
         @Override
         public Immunization build() {
-            return new Immunization(this);
+            Immunization immunization = new Immunization(this);
+            if (validating) {
+                validate(immunization);
+            }
+            return immunization;
+        }
+
+        protected void validate(Immunization immunization) {
+            super.validate(immunization);
+            ValidationSupport.checkList(immunization.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunization.status, "status");
+            ValidationSupport.requireNonNull(immunization.vaccineCode, "vaccineCode");
+            ValidationSupport.requireNonNull(immunization.patient, "patient");
+            ValidationSupport.requireChoiceElement(immunization.occurrence, "occurrence", DateTime.class, String.class);
+            ValidationSupport.checkList(immunization.performer, "performer", Performer.class);
+            ValidationSupport.checkList(immunization.note, "note", Annotation.class);
+            ValidationSupport.checkList(immunization.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(immunization.subpotentReason, "subpotentReason", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.education, "education", Education.class);
+            ValidationSupport.checkList(immunization.programEligibility, "programEligibility", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.reaction, "reaction", Reaction.class);
+            ValidationSupport.checkList(immunization.protocolApplied, "protocolApplied", ProtocolApplied.class);
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(Immunization immunization) {
@@ -1637,9 +1659,7 @@ public class Immunization extends DomainResource {
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1889,7 +1909,18 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -1916,7 +1947,6 @@ public class Immunization extends DomainResource {
             reference = builder.reference;
             publicationDate = builder.publicationDate;
             presentationDate = builder.presentationDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2210,7 +2240,16 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Education build() {
-                return new Education(this);
+                Education education = new Education(this);
+                if (validating) {
+                    validate(education);
+                }
+                return education;
+            }
+
+            protected void validate(Education education) {
+                super.validate(education);
+                ValidationSupport.requireValueOrChildren(education);
             }
 
             protected Builder from(Education education) {
@@ -2238,8 +2277,6 @@ public class Immunization extends DomainResource {
             date = builder.date;
             detail = builder.detail;
             reported = builder.reported;
-            ValidationSupport.checkReferenceType(detail, "detail", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2509,7 +2546,17 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Reaction build() {
-                return new Reaction(this);
+                Reaction reaction = new Reaction(this);
+                if (validating) {
+                    validate(reaction);
+                }
+                return reaction;
+            }
+
+            protected void validate(Reaction reaction) {
+                super.validate(reaction);
+                ValidationSupport.checkReferenceType(detail, "detail", "Observation");
+                ValidationSupport.requireValueOrChildren(reaction);
             }
 
             protected Builder from(Reaction reaction) {
@@ -2546,11 +2593,9 @@ public class Immunization extends DomainResource {
             super(builder);
             series = builder.series;
             authority = builder.authority;
-            targetDisease = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetDisease, "targetDisease", CodeableConcept.class));
-            doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            targetDisease = Collections.unmodifiableList(builder.targetDisease);
+            doseNumber = builder.doseNumber;
+            seriesDoses = builder.seriesDoses;
         }
 
         /**
@@ -2917,7 +2962,20 @@ public class Immunization extends DomainResource {
              */
             @Override
             public ProtocolApplied build() {
-                return new ProtocolApplied(this);
+                ProtocolApplied protocolApplied = new ProtocolApplied(this);
+                if (validating) {
+                    validate(protocolApplied);
+                }
+                return protocolApplied;
+            }
+
+            protected void validate(ProtocolApplied protocolApplied) {
+                super.validate(protocolApplied);
+                ValidationSupport.checkList(protocolApplied.targetDisease, "targetDisease", CodeableConcept.class);
+                ValidationSupport.requireChoiceElement(protocolApplied.doseNumber, "doseNumber", PositiveInt.class, String.class);
+                ValidationSupport.choiceElement(protocolApplied.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+                ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+                ValidationSupport.requireValueOrChildren(protocolApplied);
             }
 
             protected Builder from(ProtocolApplied protocolApplied) {

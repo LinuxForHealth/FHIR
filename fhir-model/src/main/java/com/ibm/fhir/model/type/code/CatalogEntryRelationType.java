@@ -147,11 +147,7 @@ public class CatalogEntryRelationType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class CatalogEntryRelationType extends Code {
 
         @Override
         public CatalogEntryRelationType build() {
-            return new CatalogEntryRelationType(this);
+            CatalogEntryRelationType catalogEntryRelationType = new CatalogEntryRelationType(this);
+            if (validating) {
+                validate(catalogEntryRelationType);
+            }
+            return catalogEntryRelationType;
+        }
+
+        protected void validate(CatalogEntryRelationType catalogEntryRelationType) {
+            super.validate(catalogEntryRelationType);
+        }
+
+        protected Builder from(CatalogEntryRelationType catalogEntryRelationType) {
+            super.from(catalogEntryRelationType);
+            return this;
         }
     }
 

@@ -63,15 +63,13 @@ public class MedicinalProductManufactured extends DomainResource {
 
     private MedicinalProductManufactured(Builder builder) {
         super(builder);
-        manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
+        manufacturedDoseForm = builder.manufacturedDoseForm;
         unitOfPresentation = builder.unitOfPresentation;
-        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        manufacturer = Collections.unmodifiableList(ValidationSupport.checkList(builder.manufacturer, "manufacturer", Reference.class));
-        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Reference.class));
+        quantity = builder.quantity;
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
         physicalCharacteristics = builder.physicalCharacteristics;
-        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherCharacteristics, "otherCharacteristics", CodeableConcept.class));
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
+        otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
     }
 
     /**
@@ -652,7 +650,22 @@ public class MedicinalProductManufactured extends DomainResource {
          */
         @Override
         public MedicinalProductManufactured build() {
-            return new MedicinalProductManufactured(this);
+            MedicinalProductManufactured medicinalProductManufactured = new MedicinalProductManufactured(this);
+            if (validating) {
+                validate(medicinalProductManufactured);
+            }
+            return medicinalProductManufactured;
+        }
+
+        protected void validate(MedicinalProductManufactured medicinalProductManufactured) {
+            super.validate(medicinalProductManufactured);
+            ValidationSupport.requireNonNull(medicinalProductManufactured.manufacturedDoseForm, "manufacturedDoseForm");
+            ValidationSupport.requireNonNull(medicinalProductManufactured.quantity, "quantity");
+            ValidationSupport.checkList(medicinalProductManufactured.manufacturer, "manufacturer", Reference.class);
+            ValidationSupport.checkList(medicinalProductManufactured.ingredient, "ingredient", Reference.class);
+            ValidationSupport.checkList(medicinalProductManufactured.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
         }
 
         protected Builder from(MedicinalProductManufactured medicinalProductManufactured) {

@@ -38,8 +38,7 @@ public abstract class Element extends AbstractVisitable {
 
     protected Element(Builder builder) {
         id = builder.id;
-        extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));
-        ValidationSupport.checkString(id);
+        extension = Collections.unmodifiableList(builder.extension);
     }
 
     /**
@@ -165,6 +164,11 @@ public abstract class Element extends AbstractVisitable {
 
         @Override
         public abstract Element build();
+
+        protected void validate(Element element) {
+            ValidationSupport.checkList(element.extension, "extension", Extension.class);
+            ValidationSupport.checkString(id);
+        }
 
         protected Builder from(Element element) {
             id = element.id;

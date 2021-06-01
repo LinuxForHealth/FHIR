@@ -31,7 +31,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class SimpleQuantity extends Quantity {
     private SimpleQuantity(Builder builder) {
         super(builder);
-        ValidationSupport.prohibited(comparator, "comparator");
     }
 
     @Override
@@ -239,7 +238,16 @@ public class SimpleQuantity extends Quantity {
          */
         @Override
         public SimpleQuantity build() {
-            return new SimpleQuantity(this);
+            SimpleQuantity simpleQuantity = new SimpleQuantity(this);
+            if (validating) {
+                validate(simpleQuantity);
+            }
+            return simpleQuantity;
+        }
+
+        protected void validate(SimpleQuantity simpleQuantity) {
+            super.validate(simpleQuantity);
+            ValidationSupport.prohibited(comparator, "comparator");
         }
 
         protected Builder from(SimpleQuantity simpleQuantity) {

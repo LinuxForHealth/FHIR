@@ -240,42 +240,38 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
-        population = ValidationSupport.requireNonNull(builder.population, "population");
-        exposure = ValidationSupport.requireNonNull(builder.exposure, "exposure");
-        exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        population = builder.population;
+        exposure = builder.exposure;
+        exposureAlternative = builder.exposureAlternative;
+        outcome = builder.outcome;
         sampleSize = builder.sampleSize;
-        resultsByExposure = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultsByExposure, "resultsByExposure", ResultsByExposure.class));
-        effectEstimate = Collections.unmodifiableList(ValidationSupport.checkList(builder.effectEstimate, "effectEstimate", EffectEstimate.class));
-        certainty = Collections.unmodifiableList(ValidationSupport.checkList(builder.certainty, "certainty", Certainty.class));
-        ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
+        resultsByExposure = Collections.unmodifiableList(builder.resultsByExposure);
+        effectEstimate = Collections.unmodifiableList(builder.effectEstimate);
+        certainty = Collections.unmodifiableList(builder.certainty);
     }
 
     /**
@@ -1877,7 +1873,38 @@ public class EffectEvidenceSynthesis extends DomainResource {
          */
         @Override
         public EffectEvidenceSynthesis build() {
-            return new EffectEvidenceSynthesis(this);
+            EffectEvidenceSynthesis effectEvidenceSynthesis = new EffectEvidenceSynthesis(this);
+            if (validating) {
+                validate(effectEvidenceSynthesis);
+            }
+            return effectEvidenceSynthesis;
+        }
+
+        protected void validate(EffectEvidenceSynthesis effectEvidenceSynthesis) {
+            super.validate(effectEvidenceSynthesis);
+            ValidationSupport.checkList(effectEvidenceSynthesis.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.status, "status");
+            ValidationSupport.checkList(effectEvidenceSynthesis.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.note, "note", Annotation.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.population, "population");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.exposure, "exposure");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.exposureAlternative, "exposureAlternative");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.outcome, "outcome");
+            ValidationSupport.checkList(effectEvidenceSynthesis.resultsByExposure, "resultsByExposure", ResultsByExposure.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.effectEstimate, "effectEstimate", EffectEstimate.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.certainty, "certainty", Certainty.class);
+            ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
@@ -1932,7 +1959,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
             description = builder.description;
             numberOfStudies = builder.numberOfStudies;
             numberOfParticipants = builder.numberOfParticipants;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2197,7 +2223,16 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public SampleSize build() {
-                return new SampleSize(this);
+                SampleSize sampleSize = new SampleSize(this);
+                if (validating) {
+                    validate(sampleSize);
+                }
+                return sampleSize;
+            }
+
+            protected void validate(SampleSize sampleSize) {
+                super.validate(sampleSize);
+                ValidationSupport.requireValueOrChildren(sampleSize);
             }
 
             protected Builder from(SampleSize sampleSize) {
@@ -2238,9 +2273,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             description = builder.description;
             exposureState = builder.exposureState;
             variantState = builder.variantState;
-            riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
-            ValidationSupport.checkReferenceType(riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
-            ValidationSupport.requireValueOrChildren(this);
+            riskEvidenceSynthesis = builder.riskEvidenceSynthesis;
         }
 
         /**
@@ -2546,7 +2579,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public ResultsByExposure build() {
-                return new ResultsByExposure(this);
+                ResultsByExposure resultsByExposure = new ResultsByExposure(this);
+                if (validating) {
+                    validate(resultsByExposure);
+                }
+                return resultsByExposure;
+            }
+
+            protected void validate(ResultsByExposure resultsByExposure) {
+                super.validate(resultsByExposure);
+                ValidationSupport.requireNonNull(resultsByExposure.riskEvidenceSynthesis, "riskEvidenceSynthesis");
+                ValidationSupport.checkReferenceType(riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
+                ValidationSupport.requireValueOrChildren(resultsByExposure);
             }
 
             protected Builder from(ResultsByExposure resultsByExposure) {
@@ -2596,9 +2640,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             variantState = builder.variantState;
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
-            precisionEstimate = Collections.unmodifiableList(ValidationSupport.checkList(builder.precisionEstimate, "precisionEstimate", PrecisionEstimate.class));
-            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
-            ValidationSupport.requireValueOrChildren(this);
+            precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
         }
 
         /**
@@ -2970,7 +3012,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public EffectEstimate build() {
-                return new EffectEstimate(this);
+                EffectEstimate effectEstimate = new EffectEstimate(this);
+                if (validating) {
+                    validate(effectEstimate);
+                }
+                return effectEstimate;
+            }
+
+            protected void validate(EffectEstimate effectEstimate) {
+                super.validate(effectEstimate);
+                ValidationSupport.checkList(effectEstimate.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
+                ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.requireValueOrChildren(effectEstimate);
             }
 
             protected Builder from(EffectEstimate effectEstimate) {
@@ -3006,7 +3059,6 @@ public class EffectEvidenceSynthesis extends DomainResource {
                 level = builder.level;
                 from = builder.from;
                 to = builder.to;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3300,7 +3352,16 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  */
                 @Override
                 public PrecisionEstimate build() {
-                    return new PrecisionEstimate(this);
+                    PrecisionEstimate precisionEstimate = new PrecisionEstimate(this);
+                    if (validating) {
+                        validate(precisionEstimate);
+                    }
+                    return precisionEstimate;
+                }
+
+                protected void validate(PrecisionEstimate precisionEstimate) {
+                    super.validate(precisionEstimate);
+                    ValidationSupport.requireValueOrChildren(precisionEstimate);
                 }
 
                 protected Builder from(PrecisionEstimate precisionEstimate) {
@@ -3331,10 +3392,9 @@ public class EffectEvidenceSynthesis extends DomainResource {
 
         private Certainty(Builder builder) {
             super(builder);
-            rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
-            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class));
-            ValidationSupport.requireValueOrChildren(this);
+            rating = Collections.unmodifiableList(builder.rating);
+            note = Collections.unmodifiableList(builder.note);
+            certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
         }
 
         /**
@@ -3659,7 +3719,19 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public Certainty build() {
-                return new Certainty(this);
+                Certainty certainty = new Certainty(this);
+                if (validating) {
+                    validate(certainty);
+                }
+                return certainty;
+            }
+
+            protected void validate(Certainty certainty) {
+                super.validate(certainty);
+                ValidationSupport.checkList(certainty.rating, "rating", CodeableConcept.class);
+                ValidationSupport.checkList(certainty.note, "note", Annotation.class);
+                ValidationSupport.checkList(certainty.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class);
+                ValidationSupport.requireValueOrChildren(certainty);
             }
 
             protected Builder from(Certainty certainty) {
@@ -3694,9 +3766,8 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = Collections.unmodifiableList(ValidationSupport.checkList(builder.rating, "rating", CodeableConcept.class));
-                note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-                ValidationSupport.requireValueOrChildren(this);
+                rating = Collections.unmodifiableList(builder.rating);
+                note = Collections.unmodifiableList(builder.note);
             }
 
             /**
@@ -4001,7 +4072,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  */
                 @Override
                 public CertaintySubcomponent build() {
-                    return new CertaintySubcomponent(this);
+                    CertaintySubcomponent certaintySubcomponent = new CertaintySubcomponent(this);
+                    if (validating) {
+                        validate(certaintySubcomponent);
+                    }
+                    return certaintySubcomponent;
+                }
+
+                protected void validate(CertaintySubcomponent certaintySubcomponent) {
+                    super.validate(certaintySubcomponent);
+                    ValidationSupport.checkList(certaintySubcomponent.rating, "rating", CodeableConcept.class);
+                    ValidationSupport.checkList(certaintySubcomponent.note, "note", Annotation.class);
+                    ValidationSupport.requireValueOrChildren(certaintySubcomponent);
                 }
 
                 protected Builder from(CertaintySubcomponent certaintySubcomponent) {

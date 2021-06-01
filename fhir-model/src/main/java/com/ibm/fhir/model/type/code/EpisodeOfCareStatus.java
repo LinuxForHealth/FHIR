@@ -208,11 +208,7 @@ public class EpisodeOfCareStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -267,7 +263,20 @@ public class EpisodeOfCareStatus extends Code {
 
         @Override
         public EpisodeOfCareStatus build() {
-            return new EpisodeOfCareStatus(this);
+            EpisodeOfCareStatus episodeOfCareStatus = new EpisodeOfCareStatus(this);
+            if (validating) {
+                validate(episodeOfCareStatus);
+            }
+            return episodeOfCareStatus;
+        }
+
+        protected void validate(EpisodeOfCareStatus episodeOfCareStatus) {
+            super.validate(episodeOfCareStatus);
+        }
+
+        protected Builder from(EpisodeOfCareStatus episodeOfCareStatus) {
+            super.from(episodeOfCareStatus);
+            return this;
         }
     }
 

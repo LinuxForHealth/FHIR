@@ -23,8 +23,6 @@ public class PositiveInt extends Integer {
 
     private PositiveInt(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, MIN_VALUE);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override
@@ -208,7 +206,17 @@ public class PositiveInt extends Integer {
          */
         @Override
         public PositiveInt build() {
-            return new PositiveInt(this);
+            PositiveInt positiveInt = new PositiveInt(this);
+            if (validating) {
+                validate(positiveInt);
+            }
+            return positiveInt;
+        }
+
+        protected void validate(PositiveInt positiveInt) {
+            super.validate(positiveInt);
+            ValidationSupport.checkValue(value, MIN_VALUE);
+            ValidationSupport.requireValueOrChildren(positiveInt);
         }
 
         protected Builder from(PositiveInt positiveInt) {

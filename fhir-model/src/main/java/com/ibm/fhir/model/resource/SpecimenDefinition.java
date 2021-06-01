@@ -86,10 +86,10 @@ public class SpecimenDefinition extends DomainResource {
         super(builder);
         identifier = builder.identifier;
         typeCollected = builder.typeCollected;
-        patientPreparation = Collections.unmodifiableList(ValidationSupport.checkList(builder.patientPreparation, "patientPreparation", CodeableConcept.class));
+        patientPreparation = Collections.unmodifiableList(builder.patientPreparation);
         timeAspect = builder.timeAspect;
-        collection = Collections.unmodifiableList(ValidationSupport.checkList(builder.collection, "collection", CodeableConcept.class));
-        typeTested = Collections.unmodifiableList(ValidationSupport.checkList(builder.typeTested, "typeTested", TypeTested.class));
+        collection = Collections.unmodifiableList(builder.collection);
+        typeTested = Collections.unmodifiableList(builder.typeTested);
     }
 
     /**
@@ -611,7 +611,18 @@ public class SpecimenDefinition extends DomainResource {
          */
         @Override
         public SpecimenDefinition build() {
-            return new SpecimenDefinition(this);
+            SpecimenDefinition specimenDefinition = new SpecimenDefinition(this);
+            if (validating) {
+                validate(specimenDefinition);
+            }
+            return specimenDefinition;
+        }
+
+        protected void validate(SpecimenDefinition specimenDefinition) {
+            super.validate(specimenDefinition);
+            ValidationSupport.checkList(specimenDefinition.patientPreparation, "patientPreparation", CodeableConcept.class);
+            ValidationSupport.checkList(specimenDefinition.collection, "collection", CodeableConcept.class);
+            ValidationSupport.checkList(specimenDefinition.typeTested, "typeTested", TypeTested.class);
         }
 
         protected Builder from(SpecimenDefinition specimenDefinition) {
@@ -662,13 +673,12 @@ public class SpecimenDefinition extends DomainResource {
             super(builder);
             isDerived = builder.isDerived;
             type = builder.type;
-            preference = ValidationSupport.requireNonNull(builder.preference, "preference");
+            preference = builder.preference;
             container = builder.container;
             requirement = builder.requirement;
             retentionTime = builder.retentionTime;
-            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.checkList(builder.rejectionCriterion, "rejectionCriterion", CodeableConcept.class));
-            handling = Collections.unmodifiableList(ValidationSupport.checkList(builder.handling, "handling", Handling.class));
-            ValidationSupport.requireValueOrChildren(this);
+            rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
+            handling = Collections.unmodifiableList(builder.handling);
         }
 
         /**
@@ -1130,7 +1140,19 @@ public class SpecimenDefinition extends DomainResource {
              */
             @Override
             public TypeTested build() {
-                return new TypeTested(this);
+                TypeTested typeTested = new TypeTested(this);
+                if (validating) {
+                    validate(typeTested);
+                }
+                return typeTested;
+            }
+
+            protected void validate(TypeTested typeTested) {
+                super.validate(typeTested);
+                ValidationSupport.requireNonNull(typeTested.preference, "preference");
+                ValidationSupport.checkList(typeTested.rejectionCriterion, "rejectionCriterion", CodeableConcept.class);
+                ValidationSupport.checkList(typeTested.handling, "handling", Handling.class);
+                ValidationSupport.requireValueOrChildren(typeTested);
             }
 
             protected Builder from(TypeTested typeTested) {
@@ -1186,10 +1208,9 @@ public class SpecimenDefinition extends DomainResource {
                 cap = builder.cap;
                 description = builder.description;
                 capacity = builder.capacity;
-                minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
-                additive = Collections.unmodifiableList(ValidationSupport.checkList(builder.additive, "additive", Additive.class));
+                minimumVolume = builder.minimumVolume;
+                additive = Collections.unmodifiableList(builder.additive);
                 preparation = builder.preparation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1628,7 +1649,18 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 @Override
                 public Container build() {
-                    return new Container(this);
+                    Container container = new Container(this);
+                    if (validating) {
+                        validate(container);
+                    }
+                    return container;
+                }
+
+                protected void validate(Container container) {
+                    super.validate(container);
+                    ValidationSupport.choiceElement(container.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
+                    ValidationSupport.checkList(container.additive, "additive", Additive.class);
+                    ValidationSupport.requireValueOrChildren(container);
                 }
 
                 protected Builder from(Container container) {
@@ -1663,9 +1695,7 @@ public class SpecimenDefinition extends DomainResource {
 
                 private Additive(Builder builder) {
                     super(builder);
-                    additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-                    ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-                    ValidationSupport.requireValueOrChildren(this);
+                    additive = builder.additive;
                 }
 
                 /**
@@ -1892,7 +1922,18 @@ public class SpecimenDefinition extends DomainResource {
                      */
                     @Override
                     public Additive build() {
-                        return new Additive(this);
+                        Additive additive = new Additive(this);
+                        if (validating) {
+                            validate(additive);
+                        }
+                        return additive;
+                    }
+
+                    protected void validate(Additive additive) {
+                        super.validate(additive);
+                        ValidationSupport.requireChoiceElement(additive.additive, "additive", CodeableConcept.class, Reference.class);
+                        ValidationSupport.checkReferenceType(additive, "additive", "Substance");
+                        ValidationSupport.requireValueOrChildren(additive);
                     }
 
                     protected Builder from(Additive additive) {
@@ -1926,7 +1967,6 @@ public class SpecimenDefinition extends DomainResource {
                 temperatureRange = builder.temperatureRange;
                 maxDuration = builder.maxDuration;
                 instruction = builder.instruction;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2224,7 +2264,16 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 @Override
                 public Handling build() {
-                    return new Handling(this);
+                    Handling handling = new Handling(this);
+                    if (validating) {
+                        validate(handling);
+                    }
+                    return handling;
+                }
+
+                protected void validate(Handling handling) {
+                    super.validate(handling);
+                    ValidationSupport.requireValueOrChildren(handling);
                 }
 
                 protected Builder from(Handling handling) {

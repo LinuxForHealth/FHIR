@@ -184,39 +184,38 @@ public class ResearchElementDefinition extends DomainResource {
     private ResearchElementDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        comment = Collections.unmodifiableList(ValidationSupport.checkList(builder.comment, "comment", String.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        comment = Collections.unmodifiableList(builder.comment);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        type = builder.type;
         variableType = builder.variableType;
-        characteristic = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.characteristic, "characteristic", Characteristic.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
+        characteristic = Collections.unmodifiableList(builder.characteristic);
     }
 
     /**
@@ -1800,7 +1799,32 @@ public class ResearchElementDefinition extends DomainResource {
          */
         @Override
         public ResearchElementDefinition build() {
-            return new ResearchElementDefinition(this);
+            ResearchElementDefinition researchElementDefinition = new ResearchElementDefinition(this);
+            if (validating) {
+                validate(researchElementDefinition);
+            }
+            return researchElementDefinition;
+        }
+
+        protected void validate(ResearchElementDefinition researchElementDefinition) {
+            super.validate(researchElementDefinition);
+            ValidationSupport.checkList(researchElementDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchElementDefinition.status, "status");
+            ValidationSupport.choiceElement(researchElementDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(researchElementDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.comment, "comment", String.class);
+            ValidationSupport.checkList(researchElementDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(researchElementDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(researchElementDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(researchElementDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchElementDefinition.library, "library", Canonical.class);
+            ValidationSupport.requireNonNull(researchElementDefinition.type, "type");
+            ValidationSupport.checkNonEmptyList(researchElementDefinition.characteristic, "characteristic", Characteristic.class);
+            ValidationSupport.checkReferenceType(subject, "subject", "Group");
         }
 
         protected Builder from(ResearchElementDefinition researchElementDefinition) {
@@ -1885,20 +1909,18 @@ public class ResearchElementDefinition extends DomainResource {
 
         private Characteristic(Builder builder) {
             super(builder);
-            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.usageContext, "usageContext", UsageContext.class));
+            definition = builder.definition;
+            usageContext = Collections.unmodifiableList(builder.usageContext);
             exclude = builder.exclude;
             unitOfMeasure = builder.unitOfMeasure;
             studyEffectiveDescription = builder.studyEffectiveDescription;
-            studyEffective = ValidationSupport.choiceElement(builder.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            studyEffective = builder.studyEffective;
             studyEffectiveTimeFromStart = builder.studyEffectiveTimeFromStart;
             studyEffectiveGroupMeasure = builder.studyEffectiveGroupMeasure;
             participantEffectiveDescription = builder.participantEffectiveDescription;
-            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            participantEffective = builder.participantEffective;
             participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
             participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
-            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2479,7 +2501,21 @@ public class ResearchElementDefinition extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireChoiceElement(characteristic.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
+                ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
+                ValidationSupport.choiceElement(characteristic.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {

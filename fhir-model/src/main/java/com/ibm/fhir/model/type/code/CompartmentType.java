@@ -180,11 +180,7 @@ public class CompartmentType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class CompartmentType extends Code {
 
         @Override
         public CompartmentType build() {
-            return new CompartmentType(this);
+            CompartmentType compartmentType = new CompartmentType(this);
+            if (validating) {
+                validate(compartmentType);
+            }
+            return compartmentType;
+        }
+
+        protected void validate(CompartmentType compartmentType) {
+            super.validate(compartmentType);
+        }
+
+        protected Builder from(CompartmentType compartmentType) {
+            super.from(compartmentType);
+            return this;
         }
     }
 

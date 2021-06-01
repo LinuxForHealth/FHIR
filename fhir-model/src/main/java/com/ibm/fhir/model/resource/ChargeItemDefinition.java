@@ -139,30 +139,29 @@ public class ChargeItemDefinition extends DomainResource {
 
     private ChargeItemDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         title = builder.title;
-        derivedFromUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFromUri, "derivedFromUri", Uri.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Canonical.class));
-        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Canonical.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        derivedFromUri = Collections.unmodifiableList(builder.derivedFromUri);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
         code = builder.code;
-        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Reference.class));
-        applicability = Collections.unmodifiableList(ValidationSupport.checkList(builder.applicability, "applicability", Applicability.class));
-        propertyGroup = Collections.unmodifiableList(ValidationSupport.checkList(builder.propertyGroup, "propertyGroup", PropertyGroup.class));
-        ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
+        instance = Collections.unmodifiableList(builder.instance);
+        applicability = Collections.unmodifiableList(builder.applicability);
+        propertyGroup = Collections.unmodifiableList(builder.propertyGroup);
     }
 
     /**
@@ -1391,7 +1390,28 @@ public class ChargeItemDefinition extends DomainResource {
          */
         @Override
         public ChargeItemDefinition build() {
-            return new ChargeItemDefinition(this);
+            ChargeItemDefinition chargeItemDefinition = new ChargeItemDefinition(this);
+            if (validating) {
+                validate(chargeItemDefinition);
+            }
+            return chargeItemDefinition;
+        }
+
+        protected void validate(ChargeItemDefinition chargeItemDefinition) {
+            super.validate(chargeItemDefinition);
+            ValidationSupport.requireNonNull(chargeItemDefinition.url, "url");
+            ValidationSupport.checkList(chargeItemDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(chargeItemDefinition.derivedFromUri, "derivedFromUri", Uri.class);
+            ValidationSupport.checkList(chargeItemDefinition.partOf, "partOf", Canonical.class);
+            ValidationSupport.checkList(chargeItemDefinition.replaces, "replaces", Canonical.class);
+            ValidationSupport.requireNonNull(chargeItemDefinition.status, "status");
+            ValidationSupport.checkList(chargeItemDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(chargeItemDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(chargeItemDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(chargeItemDefinition.instance, "instance", Reference.class);
+            ValidationSupport.checkList(chargeItemDefinition.applicability, "applicability", Applicability.class);
+            ValidationSupport.checkList(chargeItemDefinition.propertyGroup, "propertyGroup", PropertyGroup.class);
+            ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
         }
 
         protected Builder from(ChargeItemDefinition chargeItemDefinition) {
@@ -1436,7 +1456,6 @@ public class ChargeItemDefinition extends DomainResource {
             description = builder.description;
             language = builder.language;
             expression = builder.expression;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1707,7 +1726,16 @@ public class ChargeItemDefinition extends DomainResource {
              */
             @Override
             public Applicability build() {
-                return new Applicability(this);
+                Applicability applicability = new Applicability(this);
+                if (validating) {
+                    validate(applicability);
+                }
+                return applicability;
+            }
+
+            protected void validate(Applicability applicability) {
+                super.validate(applicability);
+                ValidationSupport.requireValueOrChildren(applicability);
             }
 
             protected Builder from(Applicability applicability) {
@@ -1730,9 +1758,8 @@ public class ChargeItemDefinition extends DomainResource {
 
         private PropertyGroup(Builder builder) {
             super(builder);
-            applicability = Collections.unmodifiableList(ValidationSupport.checkList(builder.applicability, "applicability", ChargeItemDefinition.Applicability.class));
-            priceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.priceComponent, "priceComponent", PriceComponent.class));
-            ValidationSupport.requireValueOrChildren(this);
+            applicability = Collections.unmodifiableList(builder.applicability);
+            priceComponent = Collections.unmodifiableList(builder.priceComponent);
         }
 
         /**
@@ -2017,7 +2044,18 @@ public class ChargeItemDefinition extends DomainResource {
              */
             @Override
             public PropertyGroup build() {
-                return new PropertyGroup(this);
+                PropertyGroup propertyGroup = new PropertyGroup(this);
+                if (validating) {
+                    validate(propertyGroup);
+                }
+                return propertyGroup;
+            }
+
+            protected void validate(PropertyGroup propertyGroup) {
+                super.validate(propertyGroup);
+                ValidationSupport.checkList(propertyGroup.applicability, "applicability", ChargeItemDefinition.Applicability.class);
+                ValidationSupport.checkList(propertyGroup.priceComponent, "priceComponent", PriceComponent.class);
+                ValidationSupport.requireValueOrChildren(propertyGroup);
             }
 
             protected Builder from(PropertyGroup propertyGroup) {
@@ -2049,11 +2087,10 @@ public class ChargeItemDefinition extends DomainResource {
 
             private PriceComponent(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2356,7 +2393,17 @@ public class ChargeItemDefinition extends DomainResource {
                  */
                 @Override
                 public PriceComponent build() {
-                    return new PriceComponent(this);
+                    PriceComponent priceComponent = new PriceComponent(this);
+                    if (validating) {
+                        validate(priceComponent);
+                    }
+                    return priceComponent;
+                }
+
+                protected void validate(PriceComponent priceComponent) {
+                    super.validate(priceComponent);
+                    ValidationSupport.requireNonNull(priceComponent.type, "type");
+                    ValidationSupport.requireValueOrChildren(priceComponent);
                 }
 
                 protected Builder from(PriceComponent priceComponent) {

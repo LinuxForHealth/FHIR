@@ -22,7 +22,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Code extends String {
     protected Code(Builder builder) {
         super(builder);
-        ValidationSupport.checkCode(value);
     }
 
     @Override
@@ -197,7 +196,16 @@ public class Code extends String {
          */
         @Override
         public Code build() {
-            return new Code(this);
+            Code code = new Code(this);
+            if (validating) {
+                validate(code);
+            }
+            return code;
+        }
+
+        protected void validate(Code code) {
+            super.validate(code);
+            ValidationSupport.checkCode(value);
         }
 
         protected Builder from(Code code) {

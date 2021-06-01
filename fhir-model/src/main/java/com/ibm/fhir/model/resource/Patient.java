@@ -135,24 +135,22 @@ public class Patient extends DomainResource {
 
     private Patient(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
+        deceased = builder.deceased;
+        address = Collections.unmodifiableList(builder.address);
         maritalStatus = builder.maritalStatus;
-        multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        photo = Collections.unmodifiableList(ValidationSupport.checkList(builder.photo, "photo", Attachment.class));
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
-        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", Communication.class));
-        generalPractitioner = Collections.unmodifiableList(ValidationSupport.checkList(builder.generalPractitioner, "generalPractitioner", Reference.class));
+        multipleBirth = builder.multipleBirth;
+        photo = Collections.unmodifiableList(builder.photo);
+        contact = Collections.unmodifiableList(builder.contact);
+        communication = Collections.unmodifiableList(builder.communication);
+        generalPractitioner = Collections.unmodifiableList(builder.generalPractitioner);
         managingOrganization = builder.managingOrganization;
-        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
-        ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -1129,7 +1127,28 @@ public class Patient extends DomainResource {
          */
         @Override
         public Patient build() {
-            return new Patient(this);
+            Patient patient = new Patient(this);
+            if (validating) {
+                validate(patient);
+            }
+            return patient;
+        }
+
+        protected void validate(Patient patient) {
+            super.validate(patient);
+            ValidationSupport.checkList(patient.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(patient.name, "name", HumanName.class);
+            ValidationSupport.checkList(patient.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.choiceElement(patient.deceased, "deceased", Boolean.class, DateTime.class);
+            ValidationSupport.checkList(patient.address, "address", Address.class);
+            ValidationSupport.choiceElement(patient.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
+            ValidationSupport.checkList(patient.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(patient.contact, "contact", Contact.class);
+            ValidationSupport.checkList(patient.communication, "communication", Communication.class);
+            ValidationSupport.checkList(patient.generalPractitioner, "generalPractitioner", Reference.class);
+            ValidationSupport.checkList(patient.link, "link", Link.class);
+            ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Patient patient) {
@@ -1181,15 +1200,13 @@ public class Patient extends DomainResource {
 
         private Contact(Builder builder) {
             super(builder);
-            relationship = Collections.unmodifiableList(ValidationSupport.checkList(builder.relationship, "relationship", CodeableConcept.class));
+            relationship = Collections.unmodifiableList(builder.relationship);
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+            telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
             gender = builder.gender;
             organization = builder.organization;
             period = builder.period;
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1617,7 +1634,19 @@ public class Patient extends DomainResource {
              */
             @Override
             public Contact build() {
-                return new Contact(this);
+                Contact contact = new Contact(this);
+                if (validating) {
+                    validate(contact);
+                }
+                return contact;
+            }
+
+            protected void validate(Contact contact) {
+                super.validate(contact);
+                ValidationSupport.checkList(contact.relationship, "relationship", CodeableConcept.class);
+                ValidationSupport.checkList(contact.telecom, "telecom", ContactPoint.class);
+                ValidationSupport.checkReferenceType(organization, "organization", "Organization");
+                ValidationSupport.requireValueOrChildren(contact);
             }
 
             protected Builder from(Contact contact) {
@@ -1651,10 +1680,8 @@ public class Patient extends DomainResource {
 
         private Communication(Builder builder) {
             super(builder);
-            language = ValidationSupport.requireNonNull(builder.language, "language");
+            language = builder.language;
             preferred = builder.preferred;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1901,7 +1928,18 @@ public class Patient extends DomainResource {
              */
             @Override
             public Communication build() {
-                return new Communication(this);
+                Communication communication = new Communication(this);
+                if (validating) {
+                    validate(communication);
+                }
+                return communication;
+            }
+
+            protected void validate(Communication communication) {
+                super.validate(communication);
+                ValidationSupport.requireNonNull(communication.language, "language");
+                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(communication);
             }
 
             protected Builder from(Communication communication) {
@@ -1933,10 +1971,8 @@ public class Patient extends DomainResource {
 
         private Link(Builder builder) {
             super(builder);
-            other = ValidationSupport.requireNonNull(builder.other, "other");
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.checkReferenceType(other, "other", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            other = builder.other;
+            type = builder.type;
         }
 
         /**
@@ -2188,7 +2224,19 @@ public class Patient extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.other, "other");
+                ValidationSupport.requireNonNull(link.type, "type");
+                ValidationSupport.checkReferenceType(other, "other", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {

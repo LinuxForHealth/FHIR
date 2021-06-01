@@ -189,45 +189,34 @@ public class Procedure extends DomainResource {
 
     private Procedure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
         statusReason = builder.statusReason;
         category = builder.category;
         code = builder.code;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
-        performed = ValidationSupport.choiceElement(builder.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
+        performed = builder.performed;
         recorder = builder.recorder;
         asserter = builder.asserter;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+        performer = Collections.unmodifiableList(builder.performer);
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
         outcome = builder.outcome;
-        report = Collections.unmodifiableList(ValidationSupport.checkList(builder.report, "report", Reference.class));
-        complication = Collections.unmodifiableList(ValidationSupport.checkList(builder.complication, "complication", CodeableConcept.class));
-        complicationDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.complicationDetail, "complicationDetail", Reference.class));
-        followUp = Collections.unmodifiableList(ValidationSupport.checkList(builder.followUp, "followUp", CodeableConcept.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        focalDevice = Collections.unmodifiableList(ValidationSupport.checkList(builder.focalDevice, "focalDevice", FocalDevice.class));
-        usedReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.usedReference, "usedReference", Reference.class));
-        usedCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.usedCode, "usedCode", CodeableConcept.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(report, "report", "DiagnosticReport", "DocumentReference", "Composition");
-        ValidationSupport.checkReferenceType(complicationDetail, "complicationDetail", "Condition");
-        ValidationSupport.checkReferenceType(usedReference, "usedReference", "Device", "Medication", "Substance");
+        report = Collections.unmodifiableList(builder.report);
+        complication = Collections.unmodifiableList(builder.complication);
+        complicationDetail = Collections.unmodifiableList(builder.complicationDetail);
+        followUp = Collections.unmodifiableList(builder.followUp);
+        note = Collections.unmodifiableList(builder.note);
+        focalDevice = Collections.unmodifiableList(builder.focalDevice);
+        usedReference = Collections.unmodifiableList(builder.usedReference);
+        usedCode = Collections.unmodifiableList(builder.usedCode);
     }
 
     /**
@@ -1833,7 +1822,46 @@ public class Procedure extends DomainResource {
          */
         @Override
         public Procedure build() {
-            return new Procedure(this);
+            Procedure procedure = new Procedure(this);
+            if (validating) {
+                validate(procedure);
+            }
+            return procedure;
+        }
+
+        protected void validate(Procedure procedure) {
+            super.validate(procedure);
+            ValidationSupport.checkList(procedure.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(procedure.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(procedure.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(procedure.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(procedure.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(procedure.status, "status");
+            ValidationSupport.requireNonNull(procedure.subject, "subject");
+            ValidationSupport.choiceElement(procedure.performed, "performed", DateTime.class, Period.class, String.class, Age.class, Range.class);
+            ValidationSupport.checkList(procedure.performer, "performer", Performer.class);
+            ValidationSupport.checkList(procedure.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(procedure.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(procedure.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.checkList(procedure.report, "report", Reference.class);
+            ValidationSupport.checkList(procedure.complication, "complication", CodeableConcept.class);
+            ValidationSupport.checkList(procedure.complicationDetail, "complicationDetail", Reference.class);
+            ValidationSupport.checkList(procedure.followUp, "followUp", CodeableConcept.class);
+            ValidationSupport.checkList(procedure.note, "note", Annotation.class);
+            ValidationSupport.checkList(procedure.focalDevice, "focalDevice", FocalDevice.class);
+            ValidationSupport.checkList(procedure.usedReference, "usedReference", Reference.class);
+            ValidationSupport.checkList(procedure.usedCode, "usedCode", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure", "Observation", "MedicationAdministration");
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Procedure", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(report, "report", "DiagnosticReport", "DocumentReference", "Composition");
+            ValidationSupport.checkReferenceType(complicationDetail, "complicationDetail", "Condition");
+            ValidationSupport.checkReferenceType(usedReference, "usedReference", "Device", "Medication", "Substance");
         }
 
         protected Builder from(Procedure procedure) {
@@ -1892,11 +1920,8 @@ public class Procedure extends DomainResource {
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
+            actor = builder.actor;
             onBehalfOf = builder.onBehalfOf;
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2185,7 +2210,19 @@ public class Procedure extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+                ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -2217,9 +2254,7 @@ public class Procedure extends DomainResource {
         private FocalDevice(Builder builder) {
             super(builder);
             action = builder.action;
-            manipulated = ValidationSupport.requireNonNull(builder.manipulated, "manipulated");
-            ValidationSupport.checkReferenceType(manipulated, "manipulated", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            manipulated = builder.manipulated;
         }
 
         /**
@@ -2467,7 +2502,18 @@ public class Procedure extends DomainResource {
              */
             @Override
             public FocalDevice build() {
-                return new FocalDevice(this);
+                FocalDevice focalDevice = new FocalDevice(this);
+                if (validating) {
+                    validate(focalDevice);
+                }
+                return focalDevice;
+            }
+
+            protected void validate(FocalDevice focalDevice) {
+                super.validate(focalDevice);
+                ValidationSupport.requireNonNull(focalDevice.manipulated, "manipulated");
+                ValidationSupport.checkReferenceType(manipulated, "manipulated", "Device");
+                ValidationSupport.requireValueOrChildren(focalDevice);
             }
 
             protected Builder from(FocalDevice focalDevice) {

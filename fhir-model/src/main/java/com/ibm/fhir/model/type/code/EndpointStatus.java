@@ -192,11 +192,7 @@ public class EndpointStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -251,7 +247,20 @@ public class EndpointStatus extends Code {
 
         @Override
         public EndpointStatus build() {
-            return new EndpointStatus(this);
+            EndpointStatus endpointStatus = new EndpointStatus(this);
+            if (validating) {
+                validate(endpointStatus);
+            }
+            return endpointStatus;
+        }
+
+        protected void validate(EndpointStatus endpointStatus) {
+            super.validate(endpointStatus);
+        }
+
+        protected Builder from(EndpointStatus endpointStatus) {
+            super.from(endpointStatus);
+            return this;
         }
     }
 

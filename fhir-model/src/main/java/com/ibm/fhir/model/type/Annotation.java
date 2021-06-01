@@ -35,11 +35,9 @@ public class Annotation extends Element {
 
     private Annotation(Builder builder) {
         super(builder);
-        author = ValidationSupport.choiceElement(builder.author, "author", Reference.class, String.class);
+        author = builder.author;
         time = builder.time;
-        text = ValidationSupport.requireNonNull(builder.text, "text");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
+        text = builder.text;
     }
 
     /**
@@ -274,7 +272,19 @@ public class Annotation extends Element {
          */
         @Override
         public Annotation build() {
-            return new Annotation(this);
+            Annotation annotation = new Annotation(this);
+            if (validating) {
+                validate(annotation);
+            }
+            return annotation;
+        }
+
+        protected void validate(Annotation annotation) {
+            super.validate(annotation);
+            ValidationSupport.choiceElement(annotation.author, "author", Reference.class, String.class);
+            ValidationSupport.requireNonNull(annotation.text, "text");
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.requireValueOrChildren(annotation);
         }
 
         protected Builder from(Annotation annotation) {

@@ -36,10 +36,8 @@ public class Extension extends Element {
 
     private Extension(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        value = ValidationSupport.choiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        ValidationSupport.checkUri(url);
-        ValidationSupport.requireValueOrChildren(this);
+        url = builder.url;
+        value = builder.value;
     }
 
     /**
@@ -287,7 +285,19 @@ public class Extension extends Element {
          */
         @Override
         public Extension build() {
-            return new Extension(this);
+            Extension extension = new Extension(this);
+            if (validating) {
+                validate(extension);
+            }
+            return extension;
+        }
+
+        protected void validate(Extension extension) {
+            super.validate(extension);
+            ValidationSupport.requireNonNull(extension.url, "url");
+            ValidationSupport.choiceElement(extension.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.checkUri(url);
+            ValidationSupport.requireValueOrChildren(extension);
         }
 
         protected Builder from(Extension extension) {

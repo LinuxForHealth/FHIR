@@ -159,11 +159,7 @@ public class ParticipantRequired extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -218,7 +214,20 @@ public class ParticipantRequired extends Code {
 
         @Override
         public ParticipantRequired build() {
-            return new ParticipantRequired(this);
+            ParticipantRequired participantRequired = new ParticipantRequired(this);
+            if (validating) {
+                validate(participantRequired);
+            }
+            return participantRequired;
+        }
+
+        protected void validate(ParticipantRequired participantRequired) {
+            super.validate(participantRequired);
+        }
+
+        protected Builder from(ParticipantRequired participantRequired) {
+            super.from(participantRequired);
+            return this;
         }
     }
 

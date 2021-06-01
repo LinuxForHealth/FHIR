@@ -125,18 +125,16 @@ public class DeviceMetric extends DomainResource {
 
     private DeviceMetric(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = builder.type;
         unit = builder.unit;
         source = builder.source;
         parent = builder.parent;
         operationalStatus = builder.operationalStatus;
         color = builder.color;
-        category = ValidationSupport.requireNonNull(builder.category, "category");
+        category = builder.category;
         measurementPeriod = builder.measurementPeriod;
-        calibration = Collections.unmodifiableList(ValidationSupport.checkList(builder.calibration, "calibration", Calibration.class));
-        ValidationSupport.checkReferenceType(source, "source", "Device");
-        ValidationSupport.checkReferenceType(parent, "parent", "Device");
+        calibration = Collections.unmodifiableList(builder.calibration);
     }
 
     /**
@@ -799,7 +797,21 @@ public class DeviceMetric extends DomainResource {
          */
         @Override
         public DeviceMetric build() {
-            return new DeviceMetric(this);
+            DeviceMetric deviceMetric = new DeviceMetric(this);
+            if (validating) {
+                validate(deviceMetric);
+            }
+            return deviceMetric;
+        }
+
+        protected void validate(DeviceMetric deviceMetric) {
+            super.validate(deviceMetric);
+            ValidationSupport.checkList(deviceMetric.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(deviceMetric.type, "type");
+            ValidationSupport.requireNonNull(deviceMetric.category, "category");
+            ValidationSupport.checkList(deviceMetric.calibration, "calibration", Calibration.class);
+            ValidationSupport.checkReferenceType(source, "source", "Device");
+            ValidationSupport.checkReferenceType(parent, "parent", "Device");
         }
 
         protected Builder from(DeviceMetric deviceMetric) {
@@ -846,7 +858,6 @@ public class DeviceMetric extends DomainResource {
             type = builder.type;
             state = builder.state;
             time = builder.time;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1111,7 +1122,16 @@ public class DeviceMetric extends DomainResource {
              */
             @Override
             public Calibration build() {
-                return new Calibration(this);
+                Calibration calibration = new Calibration(this);
+                if (validating) {
+                    validate(calibration);
+                }
+                return calibration;
+            }
+
+            protected void validate(Calibration calibration) {
+                super.validate(calibration);
+                ValidationSupport.requireValueOrChildren(calibration);
             }
 
             protected Builder from(Calibration calibration) {

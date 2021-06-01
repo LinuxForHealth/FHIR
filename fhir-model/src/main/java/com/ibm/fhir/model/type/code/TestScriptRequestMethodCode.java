@@ -202,11 +202,7 @@ public class TestScriptRequestMethodCode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -261,7 +257,20 @@ public class TestScriptRequestMethodCode extends Code {
 
         @Override
         public TestScriptRequestMethodCode build() {
-            return new TestScriptRequestMethodCode(this);
+            TestScriptRequestMethodCode testScriptRequestMethodCode = new TestScriptRequestMethodCode(this);
+            if (validating) {
+                validate(testScriptRequestMethodCode);
+            }
+            return testScriptRequestMethodCode;
+        }
+
+        protected void validate(TestScriptRequestMethodCode testScriptRequestMethodCode) {
+            super.validate(testScriptRequestMethodCode);
+        }
+
+        protected Builder from(TestScriptRequestMethodCode testScriptRequestMethodCode) {
+            super.from(testScriptRequestMethodCode);
+            return this;
         }
     }
 

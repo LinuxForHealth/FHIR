@@ -43,8 +43,6 @@ public class DateTime extends Element {
     private DateTime(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -252,7 +250,17 @@ public class DateTime extends Element {
          */
         @Override
         public DateTime build() {
-            return new DateTime(this);
+            DateTime dateTime = new DateTime(this);
+            if (validating) {
+                validate(dateTime);
+            }
+            return dateTime;
+        }
+
+        protected void validate(DateTime dateTime) {
+            super.validate(dateTime);
+            ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.requireValueOrChildren(dateTime);
         }
 
         protected Builder from(DateTime dateTime) {

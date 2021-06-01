@@ -180,11 +180,7 @@ public class AddressUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class AddressUse extends Code {
 
         @Override
         public AddressUse build() {
-            return new AddressUse(this);
+            AddressUse addressUse = new AddressUse(this);
+            if (validating) {
+                validate(addressUse);
+            }
+            return addressUse;
+        }
+
+        protected void validate(AddressUse addressUse) {
+            super.validate(addressUse);
+        }
+
+        protected Builder from(AddressUse addressUse) {
+            super.from(addressUse);
+            return this;
         }
     }
 

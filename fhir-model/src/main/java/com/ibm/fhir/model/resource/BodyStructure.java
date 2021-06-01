@@ -84,15 +84,14 @@ public class BodyStructure extends DomainResource {
 
     private BodyStructure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         morphology = builder.morphology;
         location = builder.location;
-        locationQualifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationQualifier, "locationQualifier", CodeableConcept.class));
+        locationQualifier = Collections.unmodifiableList(builder.locationQualifier);
         description = builder.description;
-        image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+        image = Collections.unmodifiableList(builder.image);
+        patient = builder.patient;
     }
 
     /**
@@ -689,7 +688,20 @@ public class BodyStructure extends DomainResource {
          */
         @Override
         public BodyStructure build() {
-            return new BodyStructure(this);
+            BodyStructure bodyStructure = new BodyStructure(this);
+            if (validating) {
+                validate(bodyStructure);
+            }
+            return bodyStructure;
+        }
+
+        protected void validate(BodyStructure bodyStructure) {
+            super.validate(bodyStructure);
+            ValidationSupport.checkList(bodyStructure.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(bodyStructure.locationQualifier, "locationQualifier", CodeableConcept.class);
+            ValidationSupport.checkList(bodyStructure.image, "image", Attachment.class);
+            ValidationSupport.requireNonNull(bodyStructure.patient, "patient");
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
         }
 
         protected Builder from(BodyStructure bodyStructure) {

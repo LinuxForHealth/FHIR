@@ -141,39 +141,29 @@ public class CarePlan extends DomainResource {
 
     private CarePlan(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        intent = builder.intent;
+        category = Collections.unmodifiableList(builder.category);
         title = builder.title;
         description = builder.description;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
         created = builder.created;
         author = builder.author;
-        contributor = Collections.unmodifiableList(ValidationSupport.checkList(builder.contributor, "contributor", Reference.class));
-        careTeam = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeam, "careTeam", Reference.class));
-        addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", Reference.class));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
-        goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Reference.class));
-        activity = Collections.unmodifiableList(ValidationSupport.checkList(builder.activity, "activity", Activity.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
-        ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
-        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
-        ValidationSupport.checkReferenceType(goal, "goal", "Goal");
+        contributor = Collections.unmodifiableList(builder.contributor);
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        addresses = Collections.unmodifiableList(builder.addresses);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        goal = Collections.unmodifiableList(builder.goal);
+        activity = Collections.unmodifiableList(builder.activity);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1545,7 +1535,42 @@ public class CarePlan extends DomainResource {
          */
         @Override
         public CarePlan build() {
-            return new CarePlan(this);
+            CarePlan carePlan = new CarePlan(this);
+            if (validating) {
+                validate(carePlan);
+            }
+            return carePlan;
+        }
+
+        protected void validate(CarePlan carePlan) {
+            super.validate(carePlan);
+            ValidationSupport.checkList(carePlan.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(carePlan.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(carePlan.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(carePlan.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(carePlan.replaces, "replaces", Reference.class);
+            ValidationSupport.checkList(carePlan.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(carePlan.status, "status");
+            ValidationSupport.requireNonNull(carePlan.intent, "intent");
+            ValidationSupport.checkList(carePlan.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(carePlan.subject, "subject");
+            ValidationSupport.checkList(carePlan.contributor, "contributor", Reference.class);
+            ValidationSupport.checkList(carePlan.careTeam, "careTeam", Reference.class);
+            ValidationSupport.checkList(carePlan.addresses, "addresses", Reference.class);
+            ValidationSupport.checkList(carePlan.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(carePlan.goal, "goal", Reference.class);
+            ValidationSupport.checkList(carePlan.activity, "activity", Activity.class);
+            ValidationSupport.checkList(carePlan.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
+            ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
+            ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
+            ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
+            ValidationSupport.checkReferenceType(goal, "goal", "Goal");
         }
 
         protected Builder from(CarePlan carePlan) {
@@ -1597,13 +1622,11 @@ public class CarePlan extends DomainResource {
 
         private Activity(Builder builder) {
             super(builder);
-            outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class));
-            outcomeReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeReference, "outcomeReference", Reference.class));
-            progress = Collections.unmodifiableList(ValidationSupport.checkList(builder.progress, "progress", Annotation.class));
+            outcomeCodeableConcept = Collections.unmodifiableList(builder.outcomeCodeableConcept);
+            outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
+            progress = Collections.unmodifiableList(builder.progress);
             reference = builder.reference;
             detail = builder.detail;
-            ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2010,7 +2033,20 @@ public class CarePlan extends DomainResource {
              */
             @Override
             public Activity build() {
-                return new Activity(this);
+                Activity activity = new Activity(this);
+                if (validating) {
+                    validate(activity);
+                }
+                return activity;
+            }
+
+            protected void validate(Activity activity) {
+                super.validate(activity);
+                ValidationSupport.checkList(activity.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class);
+                ValidationSupport.checkList(activity.outcomeReference, "outcomeReference", Reference.class);
+                ValidationSupport.checkList(activity.progress, "progress", Annotation.class);
+                ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
+                ValidationSupport.requireValueOrChildren(activity);
             }
 
             protected Builder from(Activity activity) {
@@ -2088,28 +2124,22 @@ public class CarePlan extends DomainResource {
             private Detail(Builder builder) {
                 super(builder);
                 kind = builder.kind;
-                instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-                instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
+                instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+                instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
                 code = builder.code;
-                reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-                goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Reference.class));
-                status = ValidationSupport.requireNonNull(builder.status, "status");
+                reasonCode = Collections.unmodifiableList(builder.reasonCode);
+                reasonReference = Collections.unmodifiableList(builder.reasonReference);
+                goal = Collections.unmodifiableList(builder.goal);
+                status = builder.status;
                 statusReason = builder.statusReason;
                 doNotPerform = builder.doNotPerform;
-                scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
+                scheduled = builder.scheduled;
                 location = builder.location;
-                performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
-                product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
+                performer = Collections.unmodifiableList(builder.performer);
+                product = builder.product;
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
-                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-                ValidationSupport.checkReferenceType(goal, "goal", "Goal");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
-                ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
-                ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3004,7 +3034,30 @@ public class CarePlan extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.checkList(detail.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+                    ValidationSupport.checkList(detail.instantiatesUri, "instantiatesUri", Uri.class);
+                    ValidationSupport.checkList(detail.reasonCode, "reasonCode", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.reasonReference, "reasonReference", Reference.class);
+                    ValidationSupport.checkList(detail.goal, "goal", Reference.class);
+                    ValidationSupport.requireNonNull(detail.status, "status");
+                    ValidationSupport.choiceElement(detail.scheduled, "scheduled", Timing.class, Period.class, String.class);
+                    ValidationSupport.checkList(detail.performer, "performer", Reference.class);
+                    ValidationSupport.choiceElement(detail.product, "product", CodeableConcept.class, Reference.class);
+                    ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+                    ValidationSupport.checkReferenceType(goal, "goal", "Goal");
+                    ValidationSupport.checkReferenceType(location, "location", "Location");
+                    ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
+                    ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {

@@ -179,29 +179,23 @@ public class Condition extends DomainResource {
 
     private Condition(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        category = Collections.unmodifiableList(builder.category);
         severity = builder.severity;
         code = builder.code;
-        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        subject = builder.subject;
         encounter = builder.encounter;
-        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
-        abatement = ValidationSupport.choiceElement(builder.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        onset = builder.onset;
+        abatement = builder.abatement;
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
-        stage = Collections.unmodifiableList(ValidationSupport.checkList(builder.stage, "stage", Stage.class));
-        evidence = Collections.unmodifiableList(ValidationSupport.checkList(builder.evidence, "evidence", Evidence.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
-        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+        stage = Collections.unmodifiableList(builder.stage);
+        evidence = Collections.unmodifiableList(builder.evidence);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1169,7 +1163,30 @@ public class Condition extends DomainResource {
          */
         @Override
         public Condition build() {
-            return new Condition(this);
+            Condition condition = new Condition(this);
+            if (validating) {
+                validate(condition);
+            }
+            return condition;
+        }
+
+        protected void validate(Condition condition) {
+            super.validate(condition);
+            ValidationSupport.checkList(condition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(condition.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(condition.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.requireNonNull(condition.subject, "subject");
+            ValidationSupport.choiceElement(condition.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.choiceElement(condition.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.checkList(condition.stage, "stage", Stage.class);
+            ValidationSupport.checkList(condition.evidence, "evidence", Evidence.class);
+            ValidationSupport.checkList(condition.note, "note", Annotation.class);
+            ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+            ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
         }
 
         protected Builder from(Condition condition) {
@@ -1219,10 +1236,8 @@ public class Condition extends DomainResource {
         private Stage(Builder builder) {
             super(builder);
             summary = builder.summary;
-            assessment = Collections.unmodifiableList(ValidationSupport.checkList(builder.assessment, "assessment", Reference.class));
+            assessment = Collections.unmodifiableList(builder.assessment);
             type = builder.type;
-            ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1521,7 +1536,18 @@ public class Condition extends DomainResource {
              */
             @Override
             public Stage build() {
-                return new Stage(this);
+                Stage stage = new Stage(this);
+                if (validating) {
+                    validate(stage);
+                }
+                return stage;
+            }
+
+            protected void validate(Stage stage) {
+                super.validate(stage);
+                ValidationSupport.checkList(stage.assessment, "assessment", Reference.class);
+                ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
+                ValidationSupport.requireValueOrChildren(stage);
             }
 
             protected Builder from(Stage stage) {
@@ -1552,9 +1578,8 @@ public class Condition extends DomainResource {
 
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1830,7 +1855,18 @@ public class Condition extends DomainResource {
              */
             @Override
             public Evidence build() {
-                return new Evidence(this);
+                Evidence evidence = new Evidence(this);
+                if (validating) {
+                    validate(evidence);
+                }
+                return evidence;
+            }
+
+            protected void validate(Evidence evidence) {
+                super.validate(evidence);
+                ValidationSupport.checkList(evidence.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(evidence.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(evidence);
             }
 
             protected Builder from(Evidence evidence) {

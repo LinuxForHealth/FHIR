@@ -160,24 +160,24 @@ public class ImplementationGuide extends DomainResource {
 
     private ImplementationGuide(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
-        packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
+        packageId = builder.packageId;
         license = builder.license;
-        fhirVersion = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.fhirVersion, "fhirVersion", FHIRVersion.class));
-        dependsOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependsOn, "dependsOn", DependsOn.class));
-        global = Collections.unmodifiableList(ValidationSupport.checkList(builder.global, "global", Global.class));
+        fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
+        dependsOn = Collections.unmodifiableList(builder.dependsOn);
+        global = Collections.unmodifiableList(builder.global);
         definition = builder.definition;
         manifest = builder.manifest;
     }
@@ -1231,7 +1231,25 @@ public class ImplementationGuide extends DomainResource {
          */
         @Override
         public ImplementationGuide build() {
-            return new ImplementationGuide(this);
+            ImplementationGuide implementationGuide = new ImplementationGuide(this);
+            if (validating) {
+                validate(implementationGuide);
+            }
+            return implementationGuide;
+        }
+
+        protected void validate(ImplementationGuide implementationGuide) {
+            super.validate(implementationGuide);
+            ValidationSupport.requireNonNull(implementationGuide.url, "url");
+            ValidationSupport.requireNonNull(implementationGuide.name, "name");
+            ValidationSupport.requireNonNull(implementationGuide.status, "status");
+            ValidationSupport.checkList(implementationGuide.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(implementationGuide.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(implementationGuide.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(implementationGuide.packageId, "packageId");
+            ValidationSupport.checkNonEmptyList(implementationGuide.fhirVersion, "fhirVersion", FHIRVersion.class);
+            ValidationSupport.checkList(implementationGuide.dependsOn, "dependsOn", DependsOn.class);
+            ValidationSupport.checkList(implementationGuide.global, "global", Global.class);
         }
 
         protected Builder from(ImplementationGuide implementationGuide) {
@@ -1275,10 +1293,9 @@ public class ImplementationGuide extends DomainResource {
 
         private DependsOn(Builder builder) {
             super(builder);
-            uri = ValidationSupport.requireNonNull(builder.uri, "uri");
+            uri = builder.uri;
             packageId = builder.packageId;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1550,7 +1567,17 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public DependsOn build() {
-                return new DependsOn(this);
+                DependsOn dependsOn = new DependsOn(this);
+                if (validating) {
+                    validate(dependsOn);
+                }
+                return dependsOn;
+            }
+
+            protected void validate(DependsOn dependsOn) {
+                super.validate(dependsOn);
+                ValidationSupport.requireNonNull(dependsOn.uri, "uri");
+                ValidationSupport.requireValueOrChildren(dependsOn);
             }
 
             protected Builder from(DependsOn dependsOn) {
@@ -1582,9 +1609,8 @@ public class ImplementationGuide extends DomainResource {
 
         private Global(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            profile = builder.profile;
         }
 
         /**
@@ -1830,7 +1856,18 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Global build() {
-                return new Global(this);
+                Global global = new Global(this);
+                if (validating) {
+                    validate(global);
+                }
+                return global;
+            }
+
+            protected void validate(Global global) {
+                super.validate(global);
+                ValidationSupport.requireNonNull(global.type, "type");
+                ValidationSupport.requireNonNull(global.profile, "profile");
+                ValidationSupport.requireValueOrChildren(global);
             }
 
             protected Builder from(Global global) {
@@ -1855,12 +1892,11 @@ public class ImplementationGuide extends DomainResource {
 
         private Definition(Builder builder) {
             super(builder);
-            grouping = Collections.unmodifiableList(ValidationSupport.checkList(builder.grouping, "grouping", Grouping.class));
-            resource = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.resource, "resource", Resource.class));
+            grouping = Collections.unmodifiableList(builder.grouping);
+            resource = Collections.unmodifiableList(builder.resource);
             page = builder.page;
-            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-            template = Collections.unmodifiableList(ValidationSupport.checkList(builder.template, "template", Template.class));
-            ValidationSupport.requireValueOrChildren(this);
+            parameter = Collections.unmodifiableList(builder.parameter);
+            template = Collections.unmodifiableList(builder.template);
         }
 
         /**
@@ -2278,7 +2314,20 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Definition build() {
-                return new Definition(this);
+                Definition definition = new Definition(this);
+                if (validating) {
+                    validate(definition);
+                }
+                return definition;
+            }
+
+            protected void validate(Definition definition) {
+                super.validate(definition);
+                ValidationSupport.checkList(definition.grouping, "grouping", Grouping.class);
+                ValidationSupport.checkNonEmptyList(definition.resource, "resource", Resource.class);
+                ValidationSupport.checkList(definition.parameter, "parameter", Parameter.class);
+                ValidationSupport.checkList(definition.template, "template", Template.class);
+                ValidationSupport.requireValueOrChildren(definition);
             }
 
             protected Builder from(Definition definition) {
@@ -2302,9 +2351,8 @@ public class ImplementationGuide extends DomainResource {
 
             private Grouping(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2547,7 +2595,17 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Grouping build() {
-                    return new Grouping(this);
+                    Grouping grouping = new Grouping(this);
+                    if (validating) {
+                        validate(grouping);
+                    }
+                    return grouping;
+                }
+
+                protected void validate(Grouping grouping) {
+                    super.validate(grouping);
+                    ValidationSupport.requireNonNull(grouping.name, "name");
+                    ValidationSupport.requireValueOrChildren(grouping);
                 }
 
                 protected Builder from(Grouping grouping) {
@@ -2582,13 +2640,12 @@ public class ImplementationGuide extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                fhirVersion = Collections.unmodifiableList(ValidationSupport.checkList(builder.fhirVersion, "fhirVersion", FHIRVersion.class));
+                reference = builder.reference;
+                fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
                 name = builder.name;
                 description = builder.description;
-                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                example = builder.example;
                 groupingId = builder.groupingId;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2980,7 +3037,19 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.reference, "reference");
+                    ValidationSupport.checkList(resource.fhirVersion, "fhirVersion", FHIRVersion.class);
+                    ValidationSupport.choiceElement(resource.example, "example", Boolean.class, Canonical.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -3018,12 +3087,10 @@ public class ImplementationGuide extends DomainResource {
 
             private Page(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
-                title = ValidationSupport.requireNonNull(builder.title, "title");
-                generation = ValidationSupport.requireNonNull(builder.generation, "generation");
-                page = Collections.unmodifiableList(ValidationSupport.checkList(builder.page, "page", ImplementationGuide.Definition.Page.class));
-                ValidationSupport.checkReferenceType(name, "name", "Binary");
-                ValidationSupport.requireValueOrChildren(this);
+                name = builder.name;
+                title = builder.title;
+                generation = builder.generation;
+                page = Collections.unmodifiableList(builder.page);
             }
 
             /**
@@ -3361,7 +3428,21 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Page build() {
-                    return new Page(this);
+                    Page page = new Page(this);
+                    if (validating) {
+                        validate(page);
+                    }
+                    return page;
+                }
+
+                protected void validate(Page page) {
+                    super.validate(page);
+                    ValidationSupport.requireChoiceElement(page.name, "name", Url.class, Reference.class);
+                    ValidationSupport.requireNonNull(page.title, "title");
+                    ValidationSupport.requireNonNull(page.generation, "generation");
+                    ValidationSupport.checkList(page.page, "page", ImplementationGuide.Definition.Page.class);
+                    ValidationSupport.checkReferenceType(name, "name", "Binary");
+                    ValidationSupport.requireValueOrChildren(page);
                 }
 
                 protected Builder from(Page page) {
@@ -3392,9 +3473,8 @@ public class ImplementationGuide extends DomainResource {
 
             private Parameter(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -3643,7 +3723,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.code, "code");
+                    ValidationSupport.requireNonNull(parameter.value, "value");
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3667,10 +3758,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Template(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                source = ValidationSupport.requireNonNull(builder.source, "source");
+                code = builder.code;
+                source = builder.source;
                 scope = builder.scope;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3945,7 +4035,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Template build() {
-                    return new Template(this);
+                    Template template = new Template(this);
+                    if (validating) {
+                        validate(template);
+                    }
+                    return template;
+                }
+
+                protected void validate(Template template) {
+                    super.validate(template);
+                    ValidationSupport.requireNonNull(template.code, "code");
+                    ValidationSupport.requireNonNull(template.source, "source");
+                    ValidationSupport.requireValueOrChildren(template);
                 }
 
                 protected Builder from(Template template) {
@@ -3975,11 +4076,10 @@ public class ImplementationGuide extends DomainResource {
         private Manifest(Builder builder) {
             super(builder);
             rendering = builder.rendering;
-            resource = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.resource, "resource", Resource.class));
-            page = Collections.unmodifiableList(ValidationSupport.checkList(builder.page, "page", Page.class));
-            image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", String.class));
-            other = Collections.unmodifiableList(ValidationSupport.checkList(builder.other, "other", String.class));
-            ValidationSupport.requireValueOrChildren(this);
+            resource = Collections.unmodifiableList(builder.resource);
+            page = Collections.unmodifiableList(builder.page);
+            image = Collections.unmodifiableList(builder.image);
+            other = Collections.unmodifiableList(builder.other);
         }
 
         /**
@@ -4400,7 +4500,20 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Manifest build() {
-                return new Manifest(this);
+                Manifest manifest = new Manifest(this);
+                if (validating) {
+                    validate(manifest);
+                }
+                return manifest;
+            }
+
+            protected void validate(Manifest manifest) {
+                super.validate(manifest);
+                ValidationSupport.checkNonEmptyList(manifest.resource, "resource", Resource.class);
+                ValidationSupport.checkList(manifest.page, "page", Page.class);
+                ValidationSupport.checkList(manifest.image, "image", String.class);
+                ValidationSupport.checkList(manifest.other, "other", String.class);
+                ValidationSupport.requireValueOrChildren(manifest);
             }
 
             protected Builder from(Manifest manifest) {
@@ -4429,10 +4542,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Resource(Builder builder) {
                 super(builder);
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                reference = builder.reference;
+                example = builder.example;
                 relativePath = builder.relativePath;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4712,7 +4824,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.reference, "reference");
+                    ValidationSupport.choiceElement(resource.example, "example", Boolean.class, Canonical.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -4736,10 +4859,9 @@ public class ImplementationGuide extends DomainResource {
 
             private Page(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 title = builder.title;
-                anchor = Collections.unmodifiableList(ValidationSupport.checkList(builder.anchor, "anchor", String.class));
-                ValidationSupport.requireValueOrChildren(this);
+                anchor = Collections.unmodifiableList(builder.anchor);
             }
 
             /**
@@ -5031,7 +5153,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Page build() {
-                    return new Page(this);
+                    Page page = new Page(this);
+                    if (validating) {
+                        validate(page);
+                    }
+                    return page;
+                }
+
+                protected void validate(Page page) {
+                    super.validate(page);
+                    ValidationSupport.requireNonNull(page.name, "name");
+                    ValidationSupport.checkList(page.anchor, "anchor", String.class);
+                    ValidationSupport.requireValueOrChildren(page);
                 }
 
                 protected Builder from(Page page) {

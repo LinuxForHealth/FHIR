@@ -149,11 +149,7 @@ public class CarePlanIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -208,7 +204,20 @@ public class CarePlanIntent extends Code {
 
         @Override
         public CarePlanIntent build() {
-            return new CarePlanIntent(this);
+            CarePlanIntent carePlanIntent = new CarePlanIntent(this);
+            if (validating) {
+                validate(carePlanIntent);
+            }
+            return carePlanIntent;
+        }
+
+        protected void validate(CarePlanIntent carePlanIntent) {
+            super.validate(carePlanIntent);
+        }
+
+        protected Builder from(CarePlanIntent carePlanIntent) {
+            super.from(carePlanIntent);
+            return this;
         }
     }
 

@@ -181,11 +181,7 @@ public class AuditEventAction extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -240,7 +236,20 @@ public class AuditEventAction extends Code {
 
         @Override
         public AuditEventAction build() {
-            return new AuditEventAction(this);
+            AuditEventAction auditEventAction = new AuditEventAction(this);
+            if (validating) {
+                validate(auditEventAction);
+            }
+            return auditEventAction;
+        }
+
+        protected void validate(AuditEventAction auditEventAction) {
+            super.validate(auditEventAction);
+        }
+
+        protected Builder from(AuditEventAction auditEventAction) {
+            super.from(auditEventAction);
+            return this;
         }
     }
 

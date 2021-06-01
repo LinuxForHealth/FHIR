@@ -147,11 +147,7 @@ public class ActionCardinalityBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class ActionCardinalityBehavior extends Code {
 
         @Override
         public ActionCardinalityBehavior build() {
-            return new ActionCardinalityBehavior(this);
+            ActionCardinalityBehavior actionCardinalityBehavior = new ActionCardinalityBehavior(this);
+            if (validating) {
+                validate(actionCardinalityBehavior);
+            }
+            return actionCardinalityBehavior;
+        }
+
+        protected void validate(ActionCardinalityBehavior actionCardinalityBehavior) {
+            super.validate(actionCardinalityBehavior);
+        }
+
+        protected Builder from(ActionCardinalityBehavior actionCardinalityBehavior) {
+            super.from(actionCardinalityBehavior);
+            return this;
         }
     }
 

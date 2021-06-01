@@ -169,11 +169,7 @@ public class CoverageStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class CoverageStatus extends Code {
 
         @Override
         public CoverageStatus build() {
-            return new CoverageStatus(this);
+            CoverageStatus coverageStatus = new CoverageStatus(this);
+            if (validating) {
+                validate(coverageStatus);
+            }
+            return coverageStatus;
+        }
+
+        protected void validate(CoverageStatus coverageStatus) {
+            super.validate(coverageStatus);
+        }
+
+        protected Builder from(CoverageStatus coverageStatus) {
+            super.from(coverageStatus);
+            return this;
         }
     }
 

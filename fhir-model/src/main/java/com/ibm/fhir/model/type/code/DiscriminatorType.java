@@ -183,11 +183,7 @@ public class DiscriminatorType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -242,7 +238,20 @@ public class DiscriminatorType extends Code {
 
         @Override
         public DiscriminatorType build() {
-            return new DiscriminatorType(this);
+            DiscriminatorType discriminatorType = new DiscriminatorType(this);
+            if (validating) {
+                validate(discriminatorType);
+            }
+            return discriminatorType;
+        }
+
+        protected void validate(DiscriminatorType discriminatorType) {
+            super.validate(discriminatorType);
+        }
+
+        protected Builder from(DiscriminatorType discriminatorType) {
+            super.from(discriminatorType);
+            return this;
         }
     }
 

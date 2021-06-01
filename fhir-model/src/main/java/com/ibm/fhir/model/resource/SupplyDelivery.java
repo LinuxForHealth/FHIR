@@ -87,24 +87,17 @@ public class SupplyDelivery extends DomainResource {
 
     private SupplyDelivery(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
         status = builder.status;
         patient = builder.patient;
         type = builder.type;
         suppliedItem = builder.suppliedItem;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        occurrence = builder.occurrence;
         supplier = builder.supplier;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
-        ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
+        receiver = Collections.unmodifiableList(builder.receiver);
     }
 
     /**
@@ -851,7 +844,27 @@ public class SupplyDelivery extends DomainResource {
          */
         @Override
         public SupplyDelivery build() {
-            return new SupplyDelivery(this);
+            SupplyDelivery supplyDelivery = new SupplyDelivery(this);
+            if (validating) {
+                validate(supplyDelivery);
+            }
+            return supplyDelivery;
+        }
+
+        protected void validate(SupplyDelivery supplyDelivery) {
+            super.validate(supplyDelivery);
+            ValidationSupport.checkList(supplyDelivery.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(supplyDelivery.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(supplyDelivery.partOf, "partOf", Reference.class);
+            ValidationSupport.choiceElement(supplyDelivery.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(supplyDelivery.receiver, "receiver", Reference.class);
+            ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
+            ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
+            ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(SupplyDelivery supplyDelivery) {
@@ -889,9 +902,7 @@ public class SupplyDelivery extends DomainResource {
         private SuppliedItem(Builder builder) {
             super(builder);
             quantity = builder.quantity;
-            item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -1142,7 +1153,18 @@ public class SupplyDelivery extends DomainResource {
              */
             @Override
             public SuppliedItem build() {
-                return new SuppliedItem(this);
+                SuppliedItem suppliedItem = new SuppliedItem(this);
+                if (validating) {
+                    validate(suppliedItem);
+                }
+                return suppliedItem;
+            }
+
+            protected void validate(SuppliedItem suppliedItem) {
+                super.validate(suppliedItem);
+                ValidationSupport.choiceElement(suppliedItem.item, "item", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
+                ValidationSupport.requireValueOrChildren(suppliedItem);
             }
 
             protected Builder from(SuppliedItem suppliedItem) {

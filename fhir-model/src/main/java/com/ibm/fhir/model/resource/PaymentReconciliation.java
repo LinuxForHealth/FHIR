@@ -101,24 +101,21 @@ public class PaymentReconciliation extends DomainResource {
 
     private PaymentReconciliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         period = builder.period;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         paymentIssuer = builder.paymentIssuer;
         request = builder.request;
         requestor = builder.requestor;
         outcome = builder.outcome;
         disposition = builder.disposition;
-        paymentDate = ValidationSupport.requireNonNull(builder.paymentDate, "paymentDate");
-        paymentAmount = ValidationSupport.requireNonNull(builder.paymentAmount, "paymentAmount");
+        paymentDate = builder.paymentDate;
+        paymentAmount = builder.paymentAmount;
         paymentIdentifier = builder.paymentIdentifier;
-        detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
+        detail = Collections.unmodifiableList(builder.detail);
         formCode = builder.formCode;
-        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
-        ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
-        ValidationSupport.checkReferenceType(request, "request", "Task");
-        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+        processNote = Collections.unmodifiableList(builder.processNote);
     }
 
     /**
@@ -934,7 +931,25 @@ public class PaymentReconciliation extends DomainResource {
          */
         @Override
         public PaymentReconciliation build() {
-            return new PaymentReconciliation(this);
+            PaymentReconciliation paymentReconciliation = new PaymentReconciliation(this);
+            if (validating) {
+                validate(paymentReconciliation);
+            }
+            return paymentReconciliation;
+        }
+
+        protected void validate(PaymentReconciliation paymentReconciliation) {
+            super.validate(paymentReconciliation);
+            ValidationSupport.checkList(paymentReconciliation.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(paymentReconciliation.status, "status");
+            ValidationSupport.requireNonNull(paymentReconciliation.created, "created");
+            ValidationSupport.requireNonNull(paymentReconciliation.paymentDate, "paymentDate");
+            ValidationSupport.requireNonNull(paymentReconciliation.paymentAmount, "paymentAmount");
+            ValidationSupport.checkList(paymentReconciliation.detail, "detail", Detail.class);
+            ValidationSupport.checkList(paymentReconciliation.processNote, "processNote", ProcessNote.class);
+            ValidationSupport.checkReferenceType(paymentIssuer, "paymentIssuer", "Organization");
+            ValidationSupport.checkReferenceType(request, "request", "Task");
+            ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(PaymentReconciliation paymentReconciliation) {
@@ -987,7 +1002,7 @@ public class PaymentReconciliation extends DomainResource {
             super(builder);
             identifier = builder.identifier;
             predecessor = builder.predecessor;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             request = builder.request;
             submitter = builder.submitter;
             response = builder.response;
@@ -995,10 +1010,6 @@ public class PaymentReconciliation extends DomainResource {
             responsible = builder.responsible;
             payee = builder.payee;
             amount = builder.amount;
-            ValidationSupport.checkReferenceType(submitter, "submitter", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(responsible, "responsible", "PractitionerRole");
-            ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1492,7 +1503,20 @@ public class PaymentReconciliation extends DomainResource {
              */
             @Override
             public Detail build() {
-                return new Detail(this);
+                Detail detail = new Detail(this);
+                if (validating) {
+                    validate(detail);
+                }
+                return detail;
+            }
+
+            protected void validate(Detail detail) {
+                super.validate(detail);
+                ValidationSupport.requireNonNull(detail.type, "type");
+                ValidationSupport.checkReferenceType(submitter, "submitter", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(responsible, "responsible", "PractitionerRole");
+                ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(detail);
             }
 
             protected Builder from(Detail detail) {
@@ -1529,7 +1553,6 @@ public class PaymentReconciliation extends DomainResource {
             super(builder);
             type = builder.type;
             text = builder.text;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1765,7 +1788,16 @@ public class PaymentReconciliation extends DomainResource {
              */
             @Override
             public ProcessNote build() {
-                return new ProcessNote(this);
+                ProcessNote processNote = new ProcessNote(this);
+                if (validating) {
+                    validate(processNote);
+                }
+                return processNote;
+            }
+
+            protected void validate(ProcessNote processNote) {
+                super.validate(processNote);
+                ValidationSupport.requireValueOrChildren(processNote);
             }
 
             protected Builder from(ProcessNote processNote) {

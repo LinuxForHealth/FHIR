@@ -185,11 +185,7 @@ public class CodeSystemContentMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -244,7 +240,20 @@ public class CodeSystemContentMode extends Code {
 
         @Override
         public CodeSystemContentMode build() {
-            return new CodeSystemContentMode(this);
+            CodeSystemContentMode codeSystemContentMode = new CodeSystemContentMode(this);
+            if (validating) {
+                validate(codeSystemContentMode);
+            }
+            return codeSystemContentMode;
+        }
+
+        protected void validate(CodeSystemContentMode codeSystemContentMode) {
+            super.validate(codeSystemContentMode);
+        }
+
+        protected Builder from(CodeSystemContentMode codeSystemContentMode) {
+            super.from(codeSystemContentMode);
+            return this;
         }
     }
 

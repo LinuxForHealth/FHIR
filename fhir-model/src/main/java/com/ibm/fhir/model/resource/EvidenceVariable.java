@@ -154,32 +154,32 @@ public class EvidenceVariable extends DomainResource {
     private EvidenceVariable(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
         type = builder.type;
-        characteristic = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.characteristic, "characteristic", Characteristic.class));
+        characteristic = Collections.unmodifiableList(builder.characteristic);
     }
 
     /**
@@ -1551,7 +1551,28 @@ public class EvidenceVariable extends DomainResource {
          */
         @Override
         public EvidenceVariable build() {
-            return new EvidenceVariable(this);
+            EvidenceVariable evidenceVariable = new EvidenceVariable(this);
+            if (validating) {
+                validate(evidenceVariable);
+            }
+            return evidenceVariable;
+        }
+
+        protected void validate(EvidenceVariable evidenceVariable) {
+            super.validate(evidenceVariable);
+            ValidationSupport.checkList(evidenceVariable.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(evidenceVariable.status, "status");
+            ValidationSupport.checkList(evidenceVariable.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.note, "note", Annotation.class);
+            ValidationSupport.checkList(evidenceVariable.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(evidenceVariable.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(evidenceVariable.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(evidenceVariable.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkNonEmptyList(evidenceVariable.characteristic, "characteristic", Characteristic.class);
         }
 
         protected Builder from(EvidenceVariable evidenceVariable) {
@@ -1614,14 +1635,12 @@ public class EvidenceVariable extends DomainResource {
         private Characteristic(Builder builder) {
             super(builder);
             description = builder.description;
-            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.usageContext, "usageContext", UsageContext.class));
+            definition = builder.definition;
+            usageContext = Collections.unmodifiableList(builder.usageContext);
             exclude = builder.exclude;
-            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            participantEffective = builder.participantEffective;
             timeFromStart = builder.timeFromStart;
             groupMeasure = builder.groupMeasure;
-            ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2059,7 +2078,20 @@ public class EvidenceVariable extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireChoiceElement(characteristic.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
+                ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
+                ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {

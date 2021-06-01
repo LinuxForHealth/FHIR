@@ -183,7 +183,15 @@ public class Markdown extends String {
          */
         @Override
         public Markdown build() {
-            return new Markdown(this);
+            Markdown markdown = new Markdown(this);
+            if (validating) {
+                validate(markdown);
+            }
+            return markdown;
+        }
+
+        protected void validate(Markdown markdown) {
+            super.validate(markdown);
         }
 
         protected Builder from(Markdown markdown) {

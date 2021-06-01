@@ -23,8 +23,6 @@ public class UnsignedInt extends Integer {
 
     private UnsignedInt(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, MIN_VALUE);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override
@@ -208,7 +206,17 @@ public class UnsignedInt extends Integer {
          */
         @Override
         public UnsignedInt build() {
-            return new UnsignedInt(this);
+            UnsignedInt unsignedInt = new UnsignedInt(this);
+            if (validating) {
+                validate(unsignedInt);
+            }
+            return unsignedInt;
+        }
+
+        protected void validate(UnsignedInt unsignedInt) {
+            super.validate(unsignedInt);
+            ValidationSupport.checkValue(value, MIN_VALUE);
+            ValidationSupport.requireValueOrChildren(unsignedInt);
         }
 
         protected Builder from(UnsignedInt unsignedInt) {

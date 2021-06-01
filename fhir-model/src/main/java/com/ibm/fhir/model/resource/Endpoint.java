@@ -109,18 +109,17 @@ public class Endpoint extends DomainResource {
 
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        connectionType = builder.connectionType;
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactPoint.class));
+        contact = Collections.unmodifiableList(builder.contact);
         period = builder.period;
-        payloadType = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.payloadType, "payloadType", CodeableConcept.class));
-        payloadMimeType = Collections.unmodifiableList(ValidationSupport.checkList(builder.payloadMimeType, "payloadMimeType", Code.class));
-        address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = Collections.unmodifiableList(ValidationSupport.checkList(builder.header, "header", String.class));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        payloadType = Collections.unmodifiableList(builder.payloadType);
+        payloadMimeType = Collections.unmodifiableList(builder.payloadMimeType);
+        address = builder.address;
+        header = Collections.unmodifiableList(builder.header);
     }
 
     /**
@@ -862,7 +861,24 @@ public class Endpoint extends DomainResource {
          */
         @Override
         public Endpoint build() {
-            return new Endpoint(this);
+            Endpoint endpoint = new Endpoint(this);
+            if (validating) {
+                validate(endpoint);
+            }
+            return endpoint;
+        }
+
+        protected void validate(Endpoint endpoint) {
+            super.validate(endpoint);
+            ValidationSupport.checkList(endpoint.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(endpoint.status, "status");
+            ValidationSupport.requireNonNull(endpoint.connectionType, "connectionType");
+            ValidationSupport.checkList(endpoint.contact, "contact", ContactPoint.class);
+            ValidationSupport.checkNonEmptyList(endpoint.payloadType, "payloadType", CodeableConcept.class);
+            ValidationSupport.checkList(endpoint.payloadMimeType, "payloadMimeType", Code.class);
+            ValidationSupport.requireNonNull(endpoint.address, "address");
+            ValidationSupport.checkList(endpoint.header, "header", String.class);
+            ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Endpoint endpoint) {

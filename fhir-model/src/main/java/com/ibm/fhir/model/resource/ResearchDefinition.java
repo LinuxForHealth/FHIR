@@ -169,44 +169,39 @@ public class ResearchDefinition extends DomainResource {
     private ResearchDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        comment = Collections.unmodifiableList(ValidationSupport.checkList(builder.comment, "comment", String.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        comment = Collections.unmodifiableList(builder.comment);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
-        population = ValidationSupport.requireNonNull(builder.population, "population");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        population = builder.population;
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
     }
 
     /**
@@ -1811,7 +1806,35 @@ public class ResearchDefinition extends DomainResource {
          */
         @Override
         public ResearchDefinition build() {
-            return new ResearchDefinition(this);
+            ResearchDefinition researchDefinition = new ResearchDefinition(this);
+            if (validating) {
+                validate(researchDefinition);
+            }
+            return researchDefinition;
+        }
+
+        protected void validate(ResearchDefinition researchDefinition) {
+            super.validate(researchDefinition);
+            ValidationSupport.checkList(researchDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchDefinition.status, "status");
+            ValidationSupport.choiceElement(researchDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(researchDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.comment, "comment", String.class);
+            ValidationSupport.checkList(researchDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(researchDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(researchDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(researchDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchDefinition.library, "library", Canonical.class);
+            ValidationSupport.requireNonNull(researchDefinition.population, "population");
+            ValidationSupport.checkReferenceType(subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
         }
 
         protected Builder from(ResearchDefinition researchDefinition) {

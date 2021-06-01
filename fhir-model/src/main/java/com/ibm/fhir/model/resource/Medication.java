@@ -87,15 +87,14 @@ public class Medication extends DomainResource {
 
     private Medication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         code = builder.code;
         status = builder.status;
         manufacturer = builder.manufacturer;
         form = builder.form;
         amount = builder.amount;
-        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
+        ingredient = Collections.unmodifiableList(builder.ingredient);
         batch = builder.batch;
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
     }
 
     /**
@@ -670,7 +669,18 @@ public class Medication extends DomainResource {
          */
         @Override
         public Medication build() {
-            return new Medication(this);
+            Medication medication = new Medication(this);
+            if (validating) {
+                validate(medication);
+            }
+            return medication;
+        }
+
+        protected void validate(Medication medication) {
+            super.validate(medication);
+            ValidationSupport.checkList(medication.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medication.ingredient, "ingredient", Ingredient.class);
+            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(Medication medication) {
@@ -700,11 +710,9 @@ public class Medication extends DomainResource {
 
         private Ingredient(Builder builder) {
             super(builder);
-            item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            item = builder.item;
             isActive = builder.isActive;
             strength = builder.strength;
-            ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -990,7 +998,18 @@ public class Medication extends DomainResource {
              */
             @Override
             public Ingredient build() {
-                return new Ingredient(this);
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireChoiceElement(ingredient.item, "item", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
+                ValidationSupport.requireValueOrChildren(ingredient);
             }
 
             protected Builder from(Ingredient ingredient) {
@@ -1014,7 +1033,6 @@ public class Medication extends DomainResource {
             super(builder);
             lotNumber = builder.lotNumber;
             expirationDate = builder.expirationDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1250,7 +1268,16 @@ public class Medication extends DomainResource {
              */
             @Override
             public Batch build() {
-                return new Batch(this);
+                Batch batch = new Batch(this);
+                if (validating) {
+                    validate(batch);
+                }
+                return batch;
+            }
+
+            protected void validate(Batch batch) {
+                super.validate(batch);
+                ValidationSupport.requireValueOrChildren(batch);
             }
 
             protected Builder from(Batch batch) {

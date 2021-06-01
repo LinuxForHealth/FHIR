@@ -30,9 +30,7 @@ public class Xhtml extends Element {
 
     private Xhtml(Builder builder) {
         super(builder);
-        value = ValidationSupport.requireNonNull(builder.value, "value");
-        ValidationSupport.prohibited(extension, "extension");
-        ValidationSupport.checkXHTMLContent(value);
+        value = builder.value;
     }
 
     /**
@@ -238,7 +236,18 @@ public class Xhtml extends Element {
          */
         @Override
         public Xhtml build() {
-            return new Xhtml(this);
+            Xhtml xhtml = new Xhtml(this);
+            if (validating) {
+                validate(xhtml);
+            }
+            return xhtml;
+        }
+
+        protected void validate(Xhtml xhtml) {
+            super.validate(xhtml);
+            ValidationSupport.requireNonNull(xhtml.value, "value");
+            ValidationSupport.prohibited(extension, "extension");
+            ValidationSupport.checkXHTMLContent(value);
         }
 
         protected Builder from(Xhtml xhtml) {

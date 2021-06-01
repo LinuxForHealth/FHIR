@@ -62,14 +62,13 @@ public class MedicinalProductInteraction extends DomainResource {
 
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
+        subject = Collections.unmodifiableList(builder.subject);
         description = builder.description;
-        interactant = Collections.unmodifiableList(ValidationSupport.checkList(builder.interactant, "interactant", Interactant.class));
+        interactant = Collections.unmodifiableList(builder.interactant);
         type = builder.type;
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
     }
 
     /**
@@ -614,7 +613,18 @@ public class MedicinalProductInteraction extends DomainResource {
          */
         @Override
         public MedicinalProductInteraction build() {
-            return new MedicinalProductInteraction(this);
+            MedicinalProductInteraction medicinalProductInteraction = new MedicinalProductInteraction(this);
+            if (validating) {
+                validate(medicinalProductInteraction);
+            }
+            return medicinalProductInteraction;
+        }
+
+        protected void validate(MedicinalProductInteraction medicinalProductInteraction) {
+            super.validate(medicinalProductInteraction);
+            ValidationSupport.checkList(medicinalProductInteraction.subject, "subject", Reference.class);
+            ValidationSupport.checkList(medicinalProductInteraction.interactant, "interactant", Interactant.class);
+            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
         }
 
         protected Builder from(MedicinalProductInteraction medicinalProductInteraction) {
@@ -642,9 +652,7 @@ public class MedicinalProductInteraction extends DomainResource {
 
         private Interactant(Builder builder) {
             super(builder);
-            item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
-            ValidationSupport.checkReferenceType(item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -872,7 +880,18 @@ public class MedicinalProductInteraction extends DomainResource {
              */
             @Override
             public Interactant build() {
-                return new Interactant(this);
+                Interactant interactant = new Interactant(this);
+                if (validating) {
+                    validate(interactant);
+                }
+                return interactant;
+            }
+
+            protected void validate(Interactant interactant) {
+                super.validate(interactant);
+                ValidationSupport.requireChoiceElement(interactant.item, "item", Reference.class, CodeableConcept.class);
+                ValidationSupport.checkReferenceType(item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
+                ValidationSupport.requireValueOrChildren(interactant);
             }
 
             protected Builder from(Interactant interactant) {

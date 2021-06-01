@@ -158,35 +158,30 @@ public class HealthcareService extends DomainResource {
 
     private HealthcareService(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         providedBy = builder.providedBy;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
-        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
-        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", Reference.class));
+        category = Collections.unmodifiableList(builder.category);
+        type = Collections.unmodifiableList(builder.type);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
         name = builder.name;
         comment = builder.comment;
         extraDetails = builder.extraDetails;
         photo = builder.photo;
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        coverageArea = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverageArea, "coverageArea", Reference.class));
-        serviceProvisionCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceProvisionCode, "serviceProvisionCode", CodeableConcept.class));
-        eligibility = Collections.unmodifiableList(ValidationSupport.checkList(builder.eligibility, "eligibility", Eligibility.class));
-        program = Collections.unmodifiableList(ValidationSupport.checkList(builder.program, "program", CodeableConcept.class));
-        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", CodeableConcept.class));
-        communication = Collections.unmodifiableList(ValidationSupport.checkList(builder.communication, "communication", CodeableConcept.class));
-        referralMethod = Collections.unmodifiableList(ValidationSupport.checkList(builder.referralMethod, "referralMethod", CodeableConcept.class));
+        telecom = Collections.unmodifiableList(builder.telecom);
+        coverageArea = Collections.unmodifiableList(builder.coverageArea);
+        serviceProvisionCode = Collections.unmodifiableList(builder.serviceProvisionCode);
+        eligibility = Collections.unmodifiableList(builder.eligibility);
+        program = Collections.unmodifiableList(builder.program);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        communication = Collections.unmodifiableList(builder.communication);
+        referralMethod = Collections.unmodifiableList(builder.referralMethod);
         appointmentRequired = builder.appointmentRequired;
-        availableTime = Collections.unmodifiableList(ValidationSupport.checkList(builder.availableTime, "availableTime", AvailableTime.class));
-        notAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.notAvailable, "notAvailable", NotAvailable.class));
+        availableTime = Collections.unmodifiableList(builder.availableTime);
+        notAvailable = Collections.unmodifiableList(builder.notAvailable);
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
-        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1544,7 +1539,36 @@ public class HealthcareService extends DomainResource {
          */
         @Override
         public HealthcareService build() {
-            return new HealthcareService(this);
+            HealthcareService healthcareService = new HealthcareService(this);
+            if (validating) {
+                validate(healthcareService);
+            }
+            return healthcareService;
+        }
+
+        protected void validate(HealthcareService healthcareService) {
+            super.validate(healthcareService);
+            ValidationSupport.checkList(healthcareService.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(healthcareService.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.location, "location", Reference.class);
+            ValidationSupport.checkList(healthcareService.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(healthcareService.coverageArea, "coverageArea", Reference.class);
+            ValidationSupport.checkList(healthcareService.serviceProvisionCode, "serviceProvisionCode", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.eligibility, "eligibility", Eligibility.class);
+            ValidationSupport.checkList(healthcareService.program, "program", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.characteristic, "characteristic", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.communication, "communication", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.referralMethod, "referralMethod", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.availableTime, "availableTime", AvailableTime.class);
+            ValidationSupport.checkList(healthcareService.notAvailable, "notAvailable", NotAvailable.class);
+            ValidationSupport.checkList(healthcareService.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
+            ValidationSupport.checkReferenceType(location, "location", "Location");
+            ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
+            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(HealthcareService healthcareService) {
@@ -1593,7 +1617,6 @@ public class HealthcareService extends DomainResource {
             super(builder);
             code = builder.code;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1829,7 +1852,16 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public Eligibility build() {
-                return new Eligibility(this);
+                Eligibility eligibility = new Eligibility(this);
+                if (validating) {
+                    validate(eligibility);
+                }
+                return eligibility;
+            }
+
+            protected void validate(Eligibility eligibility) {
+                super.validate(eligibility);
+                ValidationSupport.requireValueOrChildren(eligibility);
             }
 
             protected Builder from(Eligibility eligibility) {
@@ -1858,11 +1890,10 @@ public class HealthcareService extends DomainResource {
 
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2176,7 +2207,17 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public AvailableTime build() {
-                return new AvailableTime(this);
+                AvailableTime availableTime = new AvailableTime(this);
+                if (validating) {
+                    validate(availableTime);
+                }
+                return availableTime;
+            }
+
+            protected void validate(AvailableTime availableTime) {
+                super.validate(availableTime);
+                ValidationSupport.checkList(availableTime.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+                ValidationSupport.requireValueOrChildren(availableTime);
             }
 
             protected Builder from(AvailableTime availableTime) {
@@ -2200,9 +2241,8 @@ public class HealthcareService extends DomainResource {
 
         private NotAvailable(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             during = builder.during;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2445,7 +2485,17 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public NotAvailable build() {
-                return new NotAvailable(this);
+                NotAvailable notAvailable = new NotAvailable(this);
+                if (validating) {
+                    validate(notAvailable);
+                }
+                return notAvailable;
+            }
+
+            protected void validate(NotAvailable notAvailable) {
+                super.validate(notAvailable);
+                ValidationSupport.requireNonNull(notAvailable.description, "description");
+                ValidationSupport.requireValueOrChildren(notAvailable);
             }
 
             protected Builder from(NotAvailable notAvailable) {

@@ -169,11 +169,7 @@ public class GraphCompartmentRule extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class GraphCompartmentRule extends Code {
 
         @Override
         public GraphCompartmentRule build() {
-            return new GraphCompartmentRule(this);
+            GraphCompartmentRule graphCompartmentRule = new GraphCompartmentRule(this);
+            if (validating) {
+                validate(graphCompartmentRule);
+            }
+            return graphCompartmentRule;
+        }
+
+        protected void validate(GraphCompartmentRule graphCompartmentRule) {
+            super.validate(graphCompartmentRule);
+        }
+
+        protected Builder from(GraphCompartmentRule graphCompartmentRule) {
+            super.from(graphCompartmentRule);
+            return this;
         }
     }
 

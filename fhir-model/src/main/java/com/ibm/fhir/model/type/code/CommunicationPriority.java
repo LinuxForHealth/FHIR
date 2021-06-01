@@ -169,11 +169,7 @@ public class CommunicationPriority extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class CommunicationPriority extends Code {
 
         @Override
         public CommunicationPriority build() {
-            return new CommunicationPriority(this);
+            CommunicationPriority communicationPriority = new CommunicationPriority(this);
+            if (validating) {
+                validate(communicationPriority);
+            }
+            return communicationPriority;
+        }
+
+        protected void validate(CommunicationPriority communicationPriority) {
+            super.validate(communicationPriority);
+        }
+
+        protected Builder from(CommunicationPriority communicationPriority) {
+            super.from(communicationPriority);
+            return this;
         }
     }
 

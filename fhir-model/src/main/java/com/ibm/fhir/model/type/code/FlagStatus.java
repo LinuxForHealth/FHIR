@@ -159,11 +159,7 @@ public class FlagStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -218,7 +214,20 @@ public class FlagStatus extends Code {
 
         @Override
         public FlagStatus build() {
-            return new FlagStatus(this);
+            FlagStatus flagStatus = new FlagStatus(this);
+            if (validating) {
+                validate(flagStatus);
+            }
+            return flagStatus;
+        }
+
+        protected void validate(FlagStatus flagStatus) {
+            super.validate(flagStatus);
+        }
+
+        protected Builder from(FlagStatus flagStatus) {
+            super.from(flagStatus);
+            return this;
         }
     }
 

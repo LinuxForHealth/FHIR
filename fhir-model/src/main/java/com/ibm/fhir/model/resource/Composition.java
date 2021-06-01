@@ -161,23 +161,20 @@ public class Composition extends DomainResource {
     private Composition(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        status = builder.status;
+        type = builder.type;
+        category = Collections.unmodifiableList(builder.category);
         subject = builder.subject;
         encounter = builder.encounter;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
-        author = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.author, "author", Reference.class));
-        title = ValidationSupport.requireNonNull(builder.title, "title");
+        date = builder.date;
+        author = Collections.unmodifiableList(builder.author);
+        title = builder.title;
         confidentiality = builder.confidentiality;
-        attester = Collections.unmodifiableList(ValidationSupport.checkList(builder.attester, "attester", Attester.class));
+        attester = Collections.unmodifiableList(builder.attester);
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatesTo, "relatesTo", RelatesTo.class));
-        event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", Event.class));
-        section = Collections.unmodifiableList(ValidationSupport.checkList(builder.section, "section", Section.class));
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
+        event = Collections.unmodifiableList(builder.event);
+        section = Collections.unmodifiableList(builder.section);
     }
 
     /**
@@ -1084,7 +1081,28 @@ public class Composition extends DomainResource {
          */
         @Override
         public Composition build() {
-            return new Composition(this);
+            Composition composition = new Composition(this);
+            if (validating) {
+                validate(composition);
+            }
+            return composition;
+        }
+
+        protected void validate(Composition composition) {
+            super.validate(composition);
+            ValidationSupport.requireNonNull(composition.status, "status");
+            ValidationSupport.requireNonNull(composition.type, "type");
+            ValidationSupport.checkList(composition.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(composition.date, "date");
+            ValidationSupport.checkNonEmptyList(composition.author, "author", Reference.class);
+            ValidationSupport.requireNonNull(composition.title, "title");
+            ValidationSupport.checkList(composition.attester, "attester", Attester.class);
+            ValidationSupport.checkList(composition.relatesTo, "relatesTo", RelatesTo.class);
+            ValidationSupport.checkList(composition.event, "event", Event.class);
+            ValidationSupport.checkList(composition.section, "section", Section.class);
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
         }
 
         protected Builder from(Composition composition) {
@@ -1126,11 +1144,9 @@ public class Composition extends DomainResource {
 
         private Attester(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             time = builder.time;
             party = builder.party;
-            ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1411,7 +1427,18 @@ public class Composition extends DomainResource {
              */
             @Override
             public Attester build() {
-                return new Attester(this);
+                Attester attester = new Attester(this);
+                if (validating) {
+                    validate(attester);
+                }
+                return attester;
+            }
+
+            protected void validate(Attester attester) {
+                super.validate(attester);
+                ValidationSupport.requireNonNull(attester.mode, "mode");
+                ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(attester);
             }
 
             protected Builder from(Attester attester) {
@@ -1443,10 +1470,8 @@ public class Composition extends DomainResource {
 
         private RelatesTo(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
-            ValidationSupport.checkReferenceType(target, "target", "Composition");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            target = builder.target;
         }
 
         /**
@@ -1703,7 +1728,19 @@ public class Composition extends DomainResource {
              */
             @Override
             public RelatesTo build() {
-                return new RelatesTo(this);
+                RelatesTo relatesTo = new RelatesTo(this);
+                if (validating) {
+                    validate(relatesTo);
+                }
+                return relatesTo;
+            }
+
+            protected void validate(RelatesTo relatesTo) {
+                super.validate(relatesTo);
+                ValidationSupport.requireNonNull(relatesTo.code, "code");
+                ValidationSupport.requireChoiceElement(relatesTo.target, "target", Identifier.class, Reference.class);
+                ValidationSupport.checkReferenceType(target, "target", "Composition");
+                ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
             protected Builder from(RelatesTo relatesTo) {
@@ -1734,10 +1771,9 @@ public class Composition extends DomainResource {
 
         private Event(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
+            code = Collections.unmodifiableList(builder.code);
             period = builder.period;
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
-            ValidationSupport.requireValueOrChildren(this);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2053,7 +2089,18 @@ public class Composition extends DomainResource {
              */
             @Override
             public Event build() {
-                return new Event(this);
+                Event event = new Event(this);
+                if (validating) {
+                    validate(event);
+                }
+                return event;
+            }
+
+            protected void validate(Event event) {
+                super.validate(event);
+                ValidationSupport.checkList(event.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(event.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(event);
             }
 
             protected Builder from(Event event) {
@@ -2110,16 +2157,14 @@ public class Composition extends DomainResource {
             super(builder);
             title = builder.title;
             code = builder.code;
-            author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
+            author = Collections.unmodifiableList(builder.author);
             focus = builder.focus;
             text = builder.text;
             mode = builder.mode;
             orderedBy = builder.orderedBy;
-            entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Reference.class));
+            entry = Collections.unmodifiableList(builder.entry);
             emptyReason = builder.emptyReason;
-            section = Collections.unmodifiableList(ValidationSupport.checkList(builder.section, "section", Composition.Section.class));
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            section = Collections.unmodifiableList(builder.section);
         }
 
         /**
@@ -2685,7 +2730,20 @@ public class Composition extends DomainResource {
              */
             @Override
             public Section build() {
-                return new Section(this);
+                Section section = new Section(this);
+                if (validating) {
+                    validate(section);
+                }
+                return section;
+            }
+
+            protected void validate(Section section) {
+                super.validate(section);
+                ValidationSupport.checkList(section.author, "author", Reference.class);
+                ValidationSupport.checkList(section.entry, "entry", Reference.class);
+                ValidationSupport.checkList(section.section, "section", Composition.Section.class);
+                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+                ValidationSupport.requireValueOrChildren(section);
             }
 
             protected Builder from(Section section) {

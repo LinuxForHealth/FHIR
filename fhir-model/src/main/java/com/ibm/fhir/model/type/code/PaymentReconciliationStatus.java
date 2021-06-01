@@ -169,11 +169,7 @@ public class PaymentReconciliationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class PaymentReconciliationStatus extends Code {
 
         @Override
         public PaymentReconciliationStatus build() {
-            return new PaymentReconciliationStatus(this);
+            PaymentReconciliationStatus paymentReconciliationStatus = new PaymentReconciliationStatus(this);
+            if (validating) {
+                validate(paymentReconciliationStatus);
+            }
+            return paymentReconciliationStatus;
+        }
+
+        protected void validate(PaymentReconciliationStatus paymentReconciliationStatus) {
+            super.validate(paymentReconciliationStatus);
+        }
+
+        protected Builder from(PaymentReconciliationStatus paymentReconciliationStatus) {
+            super.from(paymentReconciliationStatus);
+            return this;
         }
     }
 

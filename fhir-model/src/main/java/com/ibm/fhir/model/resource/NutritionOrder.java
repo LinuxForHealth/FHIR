@@ -130,27 +130,23 @@ public class NutritionOrder extends DomainResource {
 
     private NutritionOrder(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        instantiates = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiates, "instantiates", Uri.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        status = builder.status;
+        intent = builder.intent;
+        patient = builder.patient;
         encounter = builder.encounter;
-        dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
+        dateTime = builder.dateTime;
         orderer = builder.orderer;
-        allergyIntolerance = Collections.unmodifiableList(ValidationSupport.checkList(builder.allergyIntolerance, "allergyIntolerance", Reference.class));
-        foodPreferenceModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class));
-        excludeFoodModifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class));
+        allergyIntolerance = Collections.unmodifiableList(builder.allergyIntolerance);
+        foodPreferenceModifier = Collections.unmodifiableList(builder.foodPreferenceModifier);
+        excludeFoodModifier = Collections.unmodifiableList(builder.excludeFoodModifier);
         oralDiet = builder.oralDiet;
-        supplement = Collections.unmodifiableList(ValidationSupport.checkList(builder.supplement, "supplement", Supplement.class));
+        supplement = Collections.unmodifiableList(builder.supplement);
         enteralFormula = builder.enteralFormula;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1189,7 +1185,32 @@ public class NutritionOrder extends DomainResource {
          */
         @Override
         public NutritionOrder build() {
-            return new NutritionOrder(this);
+            NutritionOrder nutritionOrder = new NutritionOrder(this);
+            if (validating) {
+                validate(nutritionOrder);
+            }
+            return nutritionOrder;
+        }
+
+        protected void validate(NutritionOrder nutritionOrder) {
+            super.validate(nutritionOrder);
+            ValidationSupport.checkList(nutritionOrder.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(nutritionOrder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(nutritionOrder.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(nutritionOrder.instantiates, "instantiates", Uri.class);
+            ValidationSupport.requireNonNull(nutritionOrder.status, "status");
+            ValidationSupport.requireNonNull(nutritionOrder.intent, "intent");
+            ValidationSupport.requireNonNull(nutritionOrder.patient, "patient");
+            ValidationSupport.requireNonNull(nutritionOrder.dateTime, "dateTime");
+            ValidationSupport.checkList(nutritionOrder.allergyIntolerance, "allergyIntolerance", Reference.class);
+            ValidationSupport.checkList(nutritionOrder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class);
+            ValidationSupport.checkList(nutritionOrder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class);
+            ValidationSupport.checkList(nutritionOrder.supplement, "supplement", Supplement.class);
+            ValidationSupport.checkList(nutritionOrder.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
         }
 
         protected Builder from(NutritionOrder nutritionOrder) {
@@ -1242,13 +1263,12 @@ public class NutritionOrder extends DomainResource {
 
         private OralDiet(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
-            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
-            nutrient = Collections.unmodifiableList(ValidationSupport.checkList(builder.nutrient, "nutrient", Nutrient.class));
-            texture = Collections.unmodifiableList(ValidationSupport.checkList(builder.texture, "texture", Texture.class));
-            fluidConsistencyType = Collections.unmodifiableList(ValidationSupport.checkList(builder.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class));
+            type = Collections.unmodifiableList(builder.type);
+            schedule = Collections.unmodifiableList(builder.schedule);
+            nutrient = Collections.unmodifiableList(builder.nutrient);
+            texture = Collections.unmodifiableList(builder.texture);
+            fluidConsistencyType = Collections.unmodifiableList(builder.fluidConsistencyType);
             instruction = builder.instruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1706,7 +1726,21 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public OralDiet build() {
-                return new OralDiet(this);
+                OralDiet oralDiet = new OralDiet(this);
+                if (validating) {
+                    validate(oralDiet);
+                }
+                return oralDiet;
+            }
+
+            protected void validate(OralDiet oralDiet) {
+                super.validate(oralDiet);
+                ValidationSupport.checkList(oralDiet.type, "type", CodeableConcept.class);
+                ValidationSupport.checkList(oralDiet.schedule, "schedule", Timing.class);
+                ValidationSupport.checkList(oralDiet.nutrient, "nutrient", Nutrient.class);
+                ValidationSupport.checkList(oralDiet.texture, "texture", Texture.class);
+                ValidationSupport.checkList(oralDiet.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(oralDiet);
             }
 
             protected Builder from(OralDiet oralDiet) {
@@ -1739,7 +1773,6 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1975,7 +2008,16 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Nutrient build() {
-                    return new Nutrient(this);
+                    Nutrient nutrient = new Nutrient(this);
+                    if (validating) {
+                        validate(nutrient);
+                    }
+                    return nutrient;
+                }
+
+                protected void validate(Nutrient nutrient) {
+                    super.validate(nutrient);
+                    ValidationSupport.requireValueOrChildren(nutrient);
                 }
 
                 protected Builder from(Nutrient nutrient) {
@@ -2010,7 +2052,6 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 modifier = builder.modifier;
                 foodType = builder.foodType;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2246,7 +2287,16 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Texture build() {
-                    return new Texture(this);
+                    Texture texture = new Texture(this);
+                    if (validating) {
+                        validate(texture);
+                    }
+                    return texture;
+                }
+
+                protected void validate(Texture texture) {
+                    super.validate(texture);
+                    ValidationSupport.requireValueOrChildren(texture);
                 }
 
                 protected Builder from(Texture texture) {
@@ -2281,10 +2331,9 @@ public class NutritionOrder extends DomainResource {
             super(builder);
             type = builder.type;
             productName = builder.productName;
-            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Timing.class));
+            schedule = Collections.unmodifiableList(builder.schedule);
             quantity = builder.quantity;
             instruction = builder.instruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2630,7 +2679,17 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public Supplement build() {
-                return new Supplement(this);
+                Supplement supplement = new Supplement(this);
+                if (validating) {
+                    validate(supplement);
+                }
+                return supplement;
+            }
+
+            protected void validate(Supplement supplement) {
+                super.validate(supplement);
+                ValidationSupport.checkList(supplement.schedule, "schedule", Timing.class);
+                ValidationSupport.requireValueOrChildren(supplement);
             }
 
             protected Builder from(Supplement supplement) {
@@ -2688,10 +2747,9 @@ public class NutritionOrder extends DomainResource {
             additiveProductName = builder.additiveProductName;
             caloricDensity = builder.caloricDensity;
             routeofAdministration = builder.routeofAdministration;
-            administration = Collections.unmodifiableList(ValidationSupport.checkList(builder.administration, "administration", Administration.class));
+            administration = Collections.unmodifiableList(builder.administration);
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3166,7 +3224,17 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public EnteralFormula build() {
-                return new EnteralFormula(this);
+                EnteralFormula enteralFormula = new EnteralFormula(this);
+                if (validating) {
+                    validate(enteralFormula);
+                }
+                return enteralFormula;
+            }
+
+            protected void validate(EnteralFormula enteralFormula) {
+                super.validate(enteralFormula);
+                ValidationSupport.checkList(enteralFormula.administration, "administration", Administration.class);
+                ValidationSupport.requireValueOrChildren(enteralFormula);
             }
 
             protected Builder from(EnteralFormula enteralFormula) {
@@ -3199,8 +3267,7 @@ public class NutritionOrder extends DomainResource {
                 super(builder);
                 schedule = builder.schedule;
                 quantity = builder.quantity;
-                rate = ValidationSupport.choiceElement(builder.rate, "rate", SimpleQuantity.class, Ratio.class);
-                ValidationSupport.requireValueOrChildren(this);
+                rate = builder.rate;
             }
 
             /**
@@ -3471,7 +3538,17 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Administration build() {
-                    return new Administration(this);
+                    Administration administration = new Administration(this);
+                    if (validating) {
+                        validate(administration);
+                    }
+                    return administration;
+                }
+
+                protected void validate(Administration administration) {
+                    super.validate(administration);
+                    ValidationSupport.choiceElement(administration.rate, "rate", SimpleQuantity.class, Ratio.class);
+                    ValidationSupport.requireValueOrChildren(administration);
                 }
 
                 protected Builder from(Administration administration) {

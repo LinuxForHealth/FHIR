@@ -22,7 +22,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Id extends String {
     private Id(Builder builder) {
         super(builder);
-        ValidationSupport.checkId(value);
     }
 
     @Override
@@ -186,7 +185,16 @@ public class Id extends String {
          */
         @Override
         public Id build() {
-            return new Id(this);
+            Id id = new Id(this);
+            if (validating) {
+                validate(id);
+            }
+            return id;
+        }
+
+        protected void validate(Id id) {
+            super.validate(id);
+            ValidationSupport.checkId(value);
         }
 
         protected Builder from(Id id) {

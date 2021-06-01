@@ -68,17 +68,15 @@ public class MedicinalProductIndication extends DomainResource {
 
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
+        subject = Collections.unmodifiableList(builder.subject);
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.checkList(builder.comorbidity, "comorbidity", CodeableConcept.class));
+        comorbidity = Collections.unmodifiableList(builder.comorbidity);
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.checkList(builder.otherTherapy, "otherTherapy", OtherTherapy.class));
-        undesirableEffect = Collections.unmodifiableList(ValidationSupport.checkList(builder.undesirableEffect, "undesirableEffect", Reference.class));
-        population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
-        ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
+        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
+        undesirableEffect = Collections.unmodifiableList(builder.undesirableEffect);
+        population = Collections.unmodifiableList(builder.population);
     }
 
     /**
@@ -749,7 +747,22 @@ public class MedicinalProductIndication extends DomainResource {
          */
         @Override
         public MedicinalProductIndication build() {
-            return new MedicinalProductIndication(this);
+            MedicinalProductIndication medicinalProductIndication = new MedicinalProductIndication(this);
+            if (validating) {
+                validate(medicinalProductIndication);
+            }
+            return medicinalProductIndication;
+        }
+
+        protected void validate(MedicinalProductIndication medicinalProductIndication) {
+            super.validate(medicinalProductIndication);
+            ValidationSupport.checkList(medicinalProductIndication.subject, "subject", Reference.class);
+            ValidationSupport.checkList(medicinalProductIndication.comorbidity, "comorbidity", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductIndication.otherTherapy, "otherTherapy", OtherTherapy.class);
+            ValidationSupport.checkList(medicinalProductIndication.undesirableEffect, "undesirableEffect", Reference.class);
+            ValidationSupport.checkList(medicinalProductIndication.population, "population", Population.class);
+            ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
+            ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         }
 
         protected Builder from(MedicinalProductIndication medicinalProductIndication) {
@@ -782,10 +795,8 @@ public class MedicinalProductIndication extends DomainResource {
 
         private OtherTherapy(Builder builder) {
             super(builder);
-            therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
-            medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
-            ValidationSupport.requireValueOrChildren(this);
+            therapyRelationshipType = builder.therapyRelationshipType;
+            medication = builder.medication;
         }
 
         /**
@@ -1048,7 +1059,19 @@ public class MedicinalProductIndication extends DomainResource {
              */
             @Override
             public OtherTherapy build() {
-                return new OtherTherapy(this);
+                OtherTherapy otherTherapy = new OtherTherapy(this);
+                if (validating) {
+                    validate(otherTherapy);
+                }
+                return otherTherapy;
+            }
+
+            protected void validate(OtherTherapy otherTherapy) {
+                super.validate(otherTherapy);
+                ValidationSupport.requireNonNull(otherTherapy.therapyRelationshipType, "therapyRelationshipType");
+                ValidationSupport.requireChoiceElement(otherTherapy.medication, "medication", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
+                ValidationSupport.requireValueOrChildren(otherTherapy);
             }
 
             protected Builder from(OtherTherapy otherTherapy) {

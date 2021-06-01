@@ -183,11 +183,7 @@ public class QuestionnaireResponseStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -242,7 +238,20 @@ public class QuestionnaireResponseStatus extends Code {
 
         @Override
         public QuestionnaireResponseStatus build() {
-            return new QuestionnaireResponseStatus(this);
+            QuestionnaireResponseStatus questionnaireResponseStatus = new QuestionnaireResponseStatus(this);
+            if (validating) {
+                validate(questionnaireResponseStatus);
+            }
+            return questionnaireResponseStatus;
+        }
+
+        protected void validate(QuestionnaireResponseStatus questionnaireResponseStatus) {
+            super.validate(questionnaireResponseStatus);
+        }
+
+        protected Builder from(QuestionnaireResponseStatus questionnaireResponseStatus) {
+            super.from(questionnaireResponseStatus);
+            return this;
         }
     }
 
