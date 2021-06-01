@@ -12,7 +12,7 @@ public abstract class AbstractBuilder<T> implements Builder<T> {
     /**
      * Set the validating builder indicator for this builder
      *
-     * <p>A validating builder performs validation during object construction
+     * <p>A validating builder may perform basic validation during object construction (e.g. cardinality checking, type checking, etc.)
      *
      * @param validating
      *     the validating builder indicator
