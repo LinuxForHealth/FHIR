@@ -194,6 +194,24 @@ public class Capabilities extends FHIRResource {
     private TerminologyCapabilities buildTerminologyCapabilities() {
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
+
+        /*
+         * The following checks to see if there is a Terminology Service URL that we want to inline into the Terminology Capabilities Statement
+         * else the minimal implementation.description.
+         */
+        String customTerminologyImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_TERM_SERVICE_CAPABILITIES_URL, null);
+        TerminologyCapabilities.Implementation impl;
+        if (customTerminologyImpl != null) {
+            impl = TerminologyCapabilities.Implementation.builder()
+                    .description(string(buildDescription))
+                    .url(com.ibm.fhir.model.type.Url.of(customTerminologyImpl))
+                    .build();
+        } else {
+            impl = TerminologyCapabilities.Implementation.builder()
+                    .description(string(buildDescription))
+                    .build();
+        }
+
         return TerminologyCapabilities.builder()
             .status(PublicationStatus.ACTIVE)
             .experimental(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -209,6 +227,7 @@ public class Capabilities extends FHIRResource {
                 .version(string(buildInfo.getBuildVersion()))
                 .id(buildInfo.getBuildId())
                 .build())
+            .implementation(impl)
             .codeSystem(buildCodeSystem())
             .expansion(Expansion.builder()
                 .hierarchical(com.ibm.fhir.model.type.Boolean.FALSE)
@@ -483,6 +502,23 @@ public class Capabilities extends FHIRResource {
         format.add(Code.of(FHIRMediaType.APPLICATION_XML));
         format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
+        /*
+         * The following checks to see if there is a IBM FHIR Server Service URL that we want to inline into the Capabilities Statement
+         * else the minimal implementation.description.
+         */
+        String customImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_CAPABILITIES_URL, null);
+        CapabilityStatement.Implementation impl;
+        if (customImpl != null) {
+            impl = CapabilityStatement.Implementation.builder()
+                    .description(string(buildDescription))
+                    .url(com.ibm.fhir.model.type.Url.of(customImpl))
+                    .build();
+        } else {
+            impl = CapabilityStatement.Implementation.builder()
+                    .description(string(buildDescription))
+                    .build();
+        }
+
         // Finally, create the CapabilityStatement resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder()
                 .status(PublicationStatus.ACTIVE)
@@ -505,6 +541,7 @@ public class Capabilities extends FHIRResource {
                           .build())
                 .rest(rest)
                 .instantiates(buildInstantiates())
+                .implementation(impl)
                 .build();
 
         try {
