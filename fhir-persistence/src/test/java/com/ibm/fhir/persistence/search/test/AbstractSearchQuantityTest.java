@@ -136,6 +136,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "le24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "le24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "le24.5001||s");
         assertSearchReturnsSavedResource("Quantity", "le25||s");
         assertSearchReturnsSavedResource("Quantity", "le25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "le25.5||s");
