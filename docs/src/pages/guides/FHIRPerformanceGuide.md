@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server Performance Guide
 description: IBM FHIR Server Performance Guide
 Copyright: years 2020, 2021
-lastupdated: "2020-03-31"
+lastupdated: "2020-06-01"
 permalink: /FHIRServerPerformanceGuide/
 ---
 
@@ -21,6 +21,8 @@ permalink: /FHIRServerPerformanceGuide/
     - [3.3 Session Affinity](#33-session-affinity)
     - [3.4 Value-Id Caches](#34-value-id-caches)
     - [3.5 Compartment Search Optimization](#35-compartment-search-optimization)
+    - [3.6 Usage of Server Resource Provider](#36-usage-of-server-resource-provider)
+    - [3.7 Usage of the extension-search-parameters.json file](#37-usage-of-the-extension-search-parameters.json-file)
 - [4 Database Tuning](#4-database-tuning)
     - [4.1 PostgreSQL](#41-postgresql)
         - [4.1.1 Fillfactor](#411-fillfactor)
@@ -285,6 +287,33 @@ To enable this optimization, set the `fhirServer/search/useStoredCompartmentPara
 
 Enabling this optimization is recommended. See the IBM FHIR Server release notes for more details.
 
+## 3.6. Usage of Server Resource Provider
+
+The IBM FHIR Server supports a dynamic registry of StructureDefinition resources; when a user creates a StructureDefinition, the IBM FHIR Server executes a Search against the StructureDefinition resource to find the related profiles during validation.
+
+The IBM FHIR Server team recommends the dynamic registry has the following configuration setting:
+
+| Configuration | Recommended value |
+|------|-------|
+| `fhirServer/core/serverRegistryResourceProviderEnabled` | false |
+
+This configuration setting avoids an extra Search during ingestion.
+
+## 3.7. Usage of the extension-search-parameters.json file
+
+The IBM FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
+
+The IBM FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
+
+An example of the empty search parameters file is: 
+
+``` json
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": []
+}
+```
 
 # 4. Database Tuning
 
