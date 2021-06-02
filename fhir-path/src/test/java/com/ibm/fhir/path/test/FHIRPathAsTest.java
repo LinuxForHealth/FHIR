@@ -40,6 +40,18 @@ public class FHIRPathAsTest {
     }
 
     @Test
+    void testAsOperationSystemValue() throws Exception {
+        Patient patient = Patient.builder()
+                .deceased(DateTime.now(ZoneOffset.UTC))
+                .build();
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as System.DateTime");
+
+        assertEquals(result.size(), 1, "Number of selected nodes");
+    }
+
+    @Test
     void testAsFunction() throws Exception {
         Condition condition = Condition.builder()
                                        .subject(Reference.builder().display(string("dummy reference")).build())
@@ -82,17 +94,5 @@ public class FHIRPathAsTest {
         Collection<FHIRPathNode> result = evaluator.evaluate(obs, "Observation.component.value as Quantity");
 
         assertEquals(result.size(), 2, "Number of selected nodes");
-    }
-
-    @Test
-    void testAsSystemValue() throws Exception {
-        Patient patient = Patient.builder()
-                .deceased(DateTime.now(ZoneOffset.UTC))
-                .build();
-
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as System.DateTime");
-
-        assertEquals(result.size(), 1, "Number of selected nodes");
     }
 }
