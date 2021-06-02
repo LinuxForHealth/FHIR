@@ -29,7 +29,7 @@ public class FHIRParameters {
 
     /**
      * The valid set of modifiers that can be used when constructing the parameters for a search operation.
-     * @implNote please keep in sync with @see SearchConstants.Modifier
+     * @implNote please keep in sync with {@link com.ibm.fhir.search.SearchConstants.Modifier}
      */
     public enum Modifier {
         MISSING("missing"),
@@ -59,7 +59,7 @@ public class FHIRParameters {
 
     /**
      * The valid set of value prefixes that can be used when constructing the parameters for a search operation.
-     * @implNote please keep in sync with @see SearchConstants.Prefix
+     * @implNote please keep in sync with {@link com.ibm.fhir.search.SearchConstants.Prefix}
      */
     public static enum ValuePrefix {
         EQ("eq"),

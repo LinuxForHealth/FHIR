@@ -181,7 +181,7 @@ public class SearchConstants {
 
     /**
      * Prefixes for Search parameters
-     * @implNote please keep in sync with @see FHIRParameters.ValuePrefix
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.ValuePrefix}
      */
     public enum Prefix {
         EQ("eq"),
@@ -253,7 +253,7 @@ public class SearchConstants {
 
     /**
      * Search Modifiers
-     * @implNote please keep in sync with @see FHIRParameters.Modifier
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.Modifier}
      */
     public enum Modifier {
         MISSING("missing"),
