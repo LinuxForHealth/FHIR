@@ -1561,7 +1561,7 @@ public class SearchUtil {
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
-        List<String> compartmentLogicalIds = Collections.singletonList(compartmentLogicalId);
+        Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
 
@@ -1582,7 +1582,7 @@ public class SearchUtil {
      * @return
      * @throws FHIRSearchException
      */
-    public static QueryParameter buildInclusionCriteria(String compartmentName, List<String> compartmentLogicalIds, String resourceType)
+    public static QueryParameter buildInclusionCriteria(String compartmentName, Set<String> compartmentLogicalIds, String resourceType)
             throws FHIRSearchException {
         QueryParameter rootParameter = null;
 

@@ -76,7 +76,7 @@ public class PatientResourceHandler extends SystemExportResourceHandler {
      * @param patientIds the patient ids to use to scope the search
      * @throws Exception
      */
-    public List<Resource> executeSearch(List<String> patientIds) throws Exception {
+    public List<Resource> executeSearch(Set<String> patientIds) throws Exception {
         List<Map<String, List<String>>> typeFilters = searchParametersForResoureTypes.get(resourceType);
         boolean isDoDuplicationCheck = typeFilters != null && typeFilters.size() > 1 ?
                 true : adapter.shouldStorageProviderCheckDuplicate(ctx.getSource());

@@ -241,9 +241,9 @@ public class ChunkReader extends AbstractItemReader {
                     logger.fine("readItem[" + ctx.getPartitionResourceType() + "]: loaded " + patientResources.size() + " patients");
                 }
 
-                List<String> patientIds = patientResources.stream()
+                Set<String> patientIds = patientResources.stream()
                             .map(item -> item.getId())
-                            .collect(Collectors.toList());
+                            .collect(Collectors.toSet());
 
                 if (!patientIds.isEmpty()) {
                     handler.register(chunkData, ctx, fhirPersistence, pageSize, resourceType, searchParametersForResoureTypes, ctx.getSource());
