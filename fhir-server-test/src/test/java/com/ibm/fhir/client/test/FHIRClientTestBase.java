@@ -54,7 +54,7 @@ public abstract class FHIRClientTestBase {
 
     @BeforeMethod
     public void createOauthClient() throws Exception {
-        client = FHIRClientFactory.getClient(testPropertiesOAuth2);
+        clientOAuth2 = FHIRClientFactory.getClient(testPropertiesOAuth2);
     }
 
     /**
