@@ -89,7 +89,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
-    // S3 client API to IBM Cloud Object Storage
+    // Provider client API to IBM Cloud Object Storage or Azure
     private Provider provider = null;
     private AmazonS3 cosClient = null;
 
@@ -482,7 +482,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
      * @throws Exception
      */
     private void uploadPartToAzure() throws Exception {
-        // S3 API: Part number must be an integer between 1 and 10000
+        // Azure API: Part number must be an integer between 1 and 10000
         int currentObjectPartNumber = uploadedParts.size() + 1;
         if (logger.isLoggable(Level.FINE)) {
             logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");

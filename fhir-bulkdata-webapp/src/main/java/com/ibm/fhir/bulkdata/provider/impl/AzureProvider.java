@@ -92,7 +92,7 @@ public class AzureProvider implements Provider {
      * @param chunkData the export data
      * @param cosBucketPathPrefix path prefix
      * @param fhirResourceType resource type
-     * @param currrentBytes the long value or location of the end of the last resource
+     * @param currentBytes the long value or location of the end of the last resource
      */
     protected void registerOverride(String connectionString, String container, ExportTransientUserData chunkData,
         String cosBucketPathPrefix, String fhirResourceType, long currentBytes) {
