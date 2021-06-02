@@ -82,4 +82,16 @@ public class FHIRPathAsTest {
 
         assertEquals(result.size(), 2, "Number of selected nodes");
     }
+
+    @Test
+    void testAsSystemValue() throws Exception {
+        Patient patient = Patient.builder()
+                .deceased(Boolean.TRUE)
+                .build();
+
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as System.DateTime");
+
+        assertEquals(result.size(), 0, "Number of selected nodes");
+    }
 }
