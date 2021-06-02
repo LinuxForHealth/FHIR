@@ -93,11 +93,66 @@ public class FHIRClientImpl implements FHIRClient {
     // The tenantId to pass with the X-FHIR-TENANT-ID header
     private String tenantId;
 
-    protected FHIRClientImpl() {
-    }
-
     public FHIRClientImpl(Properties props) throws Exception {
         initProperties(props);
+
+        ClientBuilder cb =
+                ClientBuilder.newBuilder()
+                    .register(new FHIRProvider(RuntimeType.CLIENT))
+                    .register(new FHIRJsonProvider(RuntimeType.CLIENT))
+                    .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT));
+
+        // Add support for basic auth if enabled.
+        if (isBasicAuthEnabled()) {
+            cb = cb.register(new FHIRBasicAuthenticator(getBasicAuthUsername(), getBasicAuthPassword()));
+        }
+
+        // Add support for OAuth 2.0 if enabled.
+        if (isOAuth2Enabled()) {
+            cb = cb.register(new FHIROAuth2Authenticator(getOAuth2AccessToken()));
+        }
+
+        // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
+        if (isOAuth2Enabled() || isClientAuthEnabled()) {
+            cb = cb.keyStore(getKeyStore(), getKeyStoreKeyPassword());
+        }
+
+        // If using oAuth 2.0 or clientauth or an https endpoint, then we need to attach our Truststore.
+        KeyStore ks = getTrustStore();
+        if (ks != null) {
+            cb = cb.trustStore(ks);
+        }
+
+        // Add a hostname verifier if we're using an ssl transport.
+        if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
+            cb = cb.hostnameVerifier(new HostnameVerifier() {
+                @Override
+                public boolean verify(String s, SSLSession sslSession) {
+                    return true;
+                }
+            });
+        }
+
+        // Set the http client's receive timeout setting
+        cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
+
+        // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
+        // default HTTP conduit does not support PATCH
+        // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
+        // /mod_mbox/hc-dev/201909.mbox/%3CJIRA.13256372.1568301069000.62179.1568450580088@Atlassian.JIRA%3E),
+        // please set this to false.
+        cb.property("use.async.http.conduit", false);
+
+        // Add request/response logging if enabled.
+        if (isLoggingEnabled()) {
+            cb.register(LoggingFeature.class);
+        }
+
+        cb.property("thread.safe.client", true);
+
+        // Save off our cached Client instance.
+        client = cb.build();
+
     }
 
     @Override
@@ -387,11 +442,6 @@ public class FHIRClientImpl implements FHIRClient {
         return new FHIRResponseImpl(response);
     }
 
-    /*
-     * (non-Javadoc)
-     * @see com.ibm.fhir.client.FHIRClient#history(java.lang.String, java.lang.String,
-     * com.ibm.fhir.client.FHIRParameters)
-     */
     @Override
     public FHIRResponse history(String resourceType, String resourceId, FHIRParameters parameters, FHIRRequestHeader... headers) throws Exception {
         if (resourceType == null) {
@@ -746,168 +796,14 @@ public class FHIRClientImpl implements FHIRClient {
         return builder;
     }
 
-    /**
-     * Retrieves a jax-rs Client from the ClientBuilder object. The Client instance is created if necessary.
-     */
-    protected synchronized Client getClient() throws Exception {
-        if (client == null) {
-            ClientBuilder cb = ClientBuilder.newBuilder()
-                    .register(new FHIRProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT));
-
-            // Add support for basic auth if enabled.
-            if (isBasicAuthEnabled()) {
-                cb = cb.register(new FHIRBasicAuthenticator(getBasicAuthUsername(), getBasicAuthPassword()));
-            }
-
-            // Add support for OAuth 2.0 if enabled.
-            if (isOAuth2Enabled()) {
-                cb = cb.register(new FHIROAuth2Authenticator(getOAuth2AccessToken()));
-            }
-
-            // If using oAuth 2.0 or clientauth, then we need to attach our Keystore.
-            if (isOAuth2Enabled() || isClientAuthEnabled()) {
-                cb = cb.keyStore(getKeyStore(), getKeyStoreKeyPassword());
-            }
-
-            // If using oAuth 2.0 or clientauth or an https endpoint, then we need to attach our Truststore.
-            KeyStore ks = getTrustStore();
-            if (ks != null) {
-                cb = cb.trustStore(ks);
-            }
-
-            // Add a hostname verifier if we're using an ssl transport.
-            if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
-                cb = cb.hostnameVerifier(new HostnameVerifier() {
-                    @Override
-                    public boolean verify(String s, SSLSession sslSession) {
-                        return true;
-                    }
-                });
-            }
-
-            // Set the http client's receive timeout setting
-            cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
-
-            // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
-            // default HTTP conduit does not support PATCH
-            // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
-            // /mod_mbox/hc-dev/201909.mbox/%3CJIRA.13256372.1568301069000.62179.1568450580088@Atlassian.JIRA%3E),
-            // please set this to false.
-            cb.property("use.async.http.conduit", false);
-
-            // Add request/response logging if enabled.
-            if (isLoggingEnabled()) {
-                cb.register(LoggingFeature.class);
-            }
-
-            // Save off our cached Client instance.
-            client = cb.build();
-        }
-        return client;
-    }
-
     @Override
     public WebTarget getWebTarget() throws Exception {
-        return getClient().target(getBaseEndpointURL());
+        return client.target(getBaseEndpointURL());
     }
 
     @Override
     public WebTarget getWebTarget(String baseURL) throws Exception {
-        ClientBuilder cb =
-                ClientBuilder.newBuilder()
-                    .register(new FHIRProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT));
-
-        // Keystore
-        KeyStore ks = getKeyStore();
-        if (ks != null) {
-            cb = cb.keyStore(ks, getKeyStoreKeyPassword());
-        }
-
-        // Truststore
-        KeyStore ts = getTrustStore();
-        if (ts != null) {
-            cb = cb.trustStore(ts);
-        }
-
-        // Add a hostname verifier if we're using an ssl transport.
-        if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
-            cb = cb.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
-        }
-
-        // Set the http client's receive timeout setting
-        cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
-
-        // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
-        // default HTTP conduit does not support PATCH
-        // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
-        // /mod_mbox/hc-dev/201909.mbox/%3CJIRA.13256372.1568301069000.62179.1568450580088@Atlassian.JIRA%3E),
-        // please set this to false.
-        cb.property("use.async.http.conduit", false);
-
-        // Add request/response logging if enabled.
-        if (isLoggingEnabled()) {
-            cb.register(LoggingFeature.class);
-        }
-
-        return cb.build().target(baseURL);
-    }
-
-    @Override
-    public WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception {
-        ClientBuilder cb =
-                ClientBuilder.newBuilder()
-                    .register(new FHIRProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonProvider(RuntimeType.CLIENT))
-                    .register(new FHIRJsonPatchProvider(RuntimeType.CLIENT))
-                    .register(new FHIRBasicAuthenticator(username, pwd));
-
-        // Keystore
-        KeyStore ks = getKeyStore();
-        if (ks != null) {
-            cb = cb.keyStore(ks, getKeyStoreKeyPassword());
-        }
-
-        // Truststore
-        KeyStore ts = getTrustStore();
-        if (ts != null) {
-            cb = cb.trustStore(ts);
-        }
-
-        // Add a hostname verifier if we're using an ssl transport.
-        if (usingSSLTransport() && !isHostnameVerificationEnabled()) {
-            cb = cb.hostnameVerifier(new HostnameVerifier() {
-                @Override
-                public boolean verify(String s, SSLSession sslSession) {
-                    return true;
-                }
-            });
-        }
-
-        // Set the http client's receive timeout setting
-        cb.property("http.receive.timeout", getHttpTimeout()); // defaults to 60s
-
-        // true: If need, tell Apache CXF to use the Async HTTP conduit for PATCH operation as the
-        // default HTTP conduit does not support PATCH
-        // false(default): To avoid the http async client time out issue (http://mail-archives.apache.org
-        // /mod_mbox/hc-dev/201909.mbox/%3CJIRA.13256372.1568301069000.62179.1568450580088@Atlassian.JIRA%3E),
-        // please set this to false.
-        cb.property("use.async.http.conduit", false);
-
-        // Add request/response logging if enabled.
-        if (isLoggingEnabled()) {
-            cb.register(LoggingFeature.class);
-        }
-
-        return cb.build().target(baseURL);
+        return client.target(baseURL);
     }
 
     /**
