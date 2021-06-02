@@ -7,7 +7,7 @@ permalink: /BringYourOwnPersistence/
 ---
 
 ## Overview
-The IBM FHIR Server is a modular Java implementation of the HL7 FHIR specification with a focus on performance and configurability. The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2, PostgreSQL and Apache Derby. With this modular design, its possible to add support for other relational databases and/or plug in any other persistence layer.
+The IBM FHIR Server is a modular Java implementation of the HL7 FHIR specification with a focus on performance and configurability. The IBM FHIR Server ships with a JDBC persistence layer that works with IBM Db2, PostgreSQL and Apache Derby. With this modular design, it's possible to add support for other relational databases and/or plug in any other persistence layer.
 
 This document outlines the interfaces that need to be implemented and the behaviors required for the related methods to work with the IBM FHIR Server.
 

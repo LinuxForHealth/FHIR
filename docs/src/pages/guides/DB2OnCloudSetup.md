@@ -278,7 +278,7 @@ For more information on using the fhir-persistence-schema cli jar, see https://g
 
 ### **Configuring an IBM FHIR Server datasource**
 
-The IBM FHIR Server uses a the native Open Liberty datasources. To configure a FHIR tenant datasource for a tenantKey, use the following template in the fhir-server-config.json:
+The IBM FHIR Server uses the native Open Liberty datasources. To configure a FHIR tenant datasource for a tenantKey, use the following template in the fhir-server-config.json:
 
 ``` json
         "persistence": {
