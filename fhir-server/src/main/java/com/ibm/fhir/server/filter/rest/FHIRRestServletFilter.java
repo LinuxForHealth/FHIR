@@ -289,27 +289,22 @@ public class FHIRRestServletFilter extends HttpFilter {
         for (String headerName : headerStatusMap.keySet()) {
             String fhirVersion = null;
             for (String headerValue : requestHeaders.getOrDefault(headerName, Collections.emptyList())) {
-                if (headerValue != null) {
-                    for (String headerValueElement : headerValue.split(",")) {
-                        Map<String, String> parameters = MediaType.valueOf(headerValueElement).getParameters();
-                        if (parameters != null) {
-                            for (Map.Entry<String, String> parameter : parameters.entrySet()) {
-                                if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
-                                    String curFhirVersion = parameter.getValue();
-                                    if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
-                                        throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                            + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
-                                                + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
-                                    }
-                                    // If Content-Type header, check for multiple different FHIR versions
-                                    if (headerName.equals(HttpHeaders.CONTENT_TYPE)) {
-                                        if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
-                                            throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
-                                                + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
-                                        }
-                                        fhirVersion = curFhirVersion;
-                                    }
+                for (String headerValueElement : headerValue.split(",")) {
+                    for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
+                        if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
+                            String curFhirVersion = parameter.getValue();
+                            if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
+                                throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                    + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
+                                        + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
+                            }
+                            // If Content-Type header, check for multiple different FHIR versions
+                            if (headerName.equals(HttpHeaders.CONTENT_TYPE)) {
+                                if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
+                                    throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                        + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
                                 }
+                                fhirVersion = curFhirVersion;
                             }
                         }
                     }
