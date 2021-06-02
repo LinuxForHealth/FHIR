@@ -390,10 +390,6 @@ public class Main {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
 
-        // Let's refresh the procedures and functions.
-        logger.info("Refreshing procedures and functions");
-        updateProcedures();
-
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             logger.info("Refreshing tenant partitions");
             refreshTenants();
