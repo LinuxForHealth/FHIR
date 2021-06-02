@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2021
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.ibm.fhir.client;
 
 import java.security.KeyStore;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 
 import com.ibm.fhir.model.resource.Bundle;

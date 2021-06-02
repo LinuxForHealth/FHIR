@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.Properties;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 

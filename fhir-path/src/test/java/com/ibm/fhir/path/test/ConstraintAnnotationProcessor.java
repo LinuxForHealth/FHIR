@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Resource;

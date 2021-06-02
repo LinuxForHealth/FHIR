@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.ws.rs.RuntimeType;

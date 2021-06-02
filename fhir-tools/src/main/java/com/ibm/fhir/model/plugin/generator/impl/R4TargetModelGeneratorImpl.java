@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,7 @@ package com.ibm.fhir.model.plugin.generator.impl;
 import java.io.File;
 import java.util.Map;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 
 import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;

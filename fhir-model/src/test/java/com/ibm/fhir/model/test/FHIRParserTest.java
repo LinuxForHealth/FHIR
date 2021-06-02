@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.InputStream;
+import java.io.StringReader;
 
 import org.testng.annotations.Test;
 
@@ -42,6 +43,17 @@ public class FHIRParserTest {
             assertNotNull(parser.parse(in));
         } catch (FHIRParserException e) {
             fail();
+        }
+    }
+
+    @Test
+    public void testRejectDuplicateKeys() throws Exception {
+        try {
+            String jsonString = "{\"resourceType\":\"Patient\",\"id\":\"1\",\"id\":\"2\"}";
+            FHIRParser parser = FHIRParser.parser(Format.JSON);
+            parser.parse(new StringReader(jsonString));
+        } catch (FHIRParserException e) {
+            assertTrue(e.getMessage().startsWith("Duplicate key 'id' is not allowed"));
         }
     }
 }
