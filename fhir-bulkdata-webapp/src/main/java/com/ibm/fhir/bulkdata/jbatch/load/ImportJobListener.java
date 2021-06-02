@@ -18,7 +18,7 @@ import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.json.JsonArray;
+import jakarta.json.JsonArray;
 
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;

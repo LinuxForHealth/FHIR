@@ -18,18 +18,22 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Stack;
 import java.util.StringJoiner;
 
 import javax.annotation.Generated;
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonNumber;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.json.JsonString;
-import javax.json.JsonValue;
+
+import org.glassfish.json.api.JsonConfig;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonNumber;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.*;
@@ -39,14 +43,13 @@ import com.ibm.fhir.model.type.Boolean;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.ElementFilter;
-
 import net.jcip.annotations.NotThreadSafe;
 
 @NotThreadSafe
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class FHIRJsonParser extends FHIRAbstractParser {
     public static boolean DEBUG = false;
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true));
 
     private final Stack<java.lang.String> stack = new Stack<>();
 

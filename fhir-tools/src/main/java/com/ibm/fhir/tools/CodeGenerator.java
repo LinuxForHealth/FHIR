@@ -35,13 +35,14 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonString;
-import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 
 public class CodeGenerator {
     private final Map<String, JsonObject> structureDefinitionMap;
@@ -2933,19 +2934,25 @@ public class CodeGenerator {
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
         cb._import("java.util.Collection");
+        cb._import("java.util.Collections");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
         cb.newLine();
 
         cb._import("javax.annotation.Generated");
-        cb._import("javax.json.Json");
-        cb._import("javax.json.JsonArray");
-        cb._import("javax.json.JsonNumber");
-        cb._import("javax.json.JsonObject");
-        cb._import("javax.json.JsonReader");
-        cb._import("javax.json.JsonReaderFactory");
-        cb._import("javax.json.JsonString");
-        cb._import("javax.json.JsonValue");
+        cb.newLine();
+
+        cb._import("org.glassfish.json.api.JsonConfig");
+        cb.newLine();
+
+        cb._import("jakarta.json.Json");
+        cb._import("jakarta.json.JsonArray");
+        cb._import("jakarta.json.JsonNumber");
+        cb._import("jakarta.json.JsonObject");
+        cb._import("jakarta.json.JsonReader");
+        cb._import("jakarta.json.JsonReaderFactory");
+        cb._import("jakarta.json.JsonString");
+        cb._import("jakarta.json.JsonValue");
         cb.newLine();
 
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
@@ -2956,8 +2963,6 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.ElementFilter");
-        cb.newLine();
-
         cb._import("net.jcip.annotations.NotThreadSafe");
         cb.newLine();
 
@@ -2965,7 +2970,7 @@ public class CodeGenerator {
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
-        cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
+        cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true))");
         cb.newLine();
 
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
