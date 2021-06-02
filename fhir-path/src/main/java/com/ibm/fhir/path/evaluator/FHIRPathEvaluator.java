@@ -1009,7 +1009,11 @@ public class FHIRPathEvaluator {
                 break;
             case "as":
                 for (FHIRPathNode node : nodes) {
-                    if (type.isAssignableFrom(node.type())) {
+                    FHIRPathType nodeType = node.type();
+                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                        nodeType = node.getValue().type();
+                    }
+                    if (type.isAssignableFrom(nodeType)) {
                         result.add(node);
                     }
                 }
