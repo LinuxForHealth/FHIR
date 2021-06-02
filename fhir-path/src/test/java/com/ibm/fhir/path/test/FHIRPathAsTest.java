@@ -8,6 +8,7 @@ package com.ibm.fhir.path.test;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 
+import java.time.ZoneOffset;
 import java.util.Collection;
 
 import org.testng.annotations.Test;
@@ -86,12 +87,12 @@ public class FHIRPathAsTest {
     @Test
     void testAsSystemValue() throws Exception {
         Patient patient = Patient.builder()
-                .deceased(Boolean.TRUE)
+                .deceased(DateTime.now(ZoneOffset.UTC))
                 .build();
 
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> result = evaluator.evaluate(patient, "Patient.deceased as System.DateTime");
 
-        assertEquals(result.size(), 0, "Number of selected nodes");
+        assertEquals(result.size(), 1, "Number of selected nodes");
     }
 }
