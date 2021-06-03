@@ -1482,6 +1482,91 @@ Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBa
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
+### 4.10.1 *Path* and *Virtual Host* Bucket Access 
+
+For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
+
+With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json. 
+
+There are three critical elements in the configuration to configure path style: 
+
+|Configuration|Details|
+|-------------|-------|
+|`endpointInternal`|the direct API provider for the S3 API|
+|`endpointExternal`|the fhiruser/client facing API for the S3 API|
+|`accessType`|"path", the default access type|
+
+Example of `path` based access: 
+
+``` json
+"bulkdata": {
+    ...
+    "storageProviders": {
+        "default" : {
+            "type": "aws-s3",
+            "bucketName": "bucket-name",
+            "location": "us",
+            "endpointInternal": "https://s3.region.host-name.com",
+            "endpointExternal": "https://s3.region.host-name.com",
+            "auth" : {
+                "type": "hmac",
+                "accessKeyId": "example",
+                "secretAccessKey": "example-password"
+            },
+            "enableParquet": false,
+            "disableBaseUrlValidation": true,
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false,
+            "validateResources": false,
+            "create": false,
+            "presigned": true,
+            "accessType": "path"
+        }
+    }
+}
+```
+
+With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API. 
+
+There are three critical elements in the configuration to configure virtual host style: 
+
+|Configuration|Details|
+|-------------|-------|
+|`endpointInternal`|the direct API provider for the S3 API, and not the virtual host, the underlying S3 libraries generate the virtual host url|
+|`endpointExternal`|the fhiruser/client facing API for the S3 API, this is the virtual host url|
+|`accessType`|"host"|
+
+Example of `host` based access: 
+``` json
+"bulkdata": {
+    ...
+    "storageProviders": {
+        "default" : {
+            "type": "aws-s3",
+            "bucketName": "bucket-name",
+            "location": "us",
+            "endpointInternal": "https://s3.region.host-name.com",
+            "endpointExternal": "https://bucket-name.s3.region.host-name.com",
+            "auth" : {
+                "type": "hmac",
+                "accessKeyId": "example",
+                "secretAccessKey": "example-password"
+            },
+            "enableParquet": false,
+            "disableBaseUrlValidation": true,
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false,
+            "validateResources": false,
+            "create": false,
+            "presigned": true,
+            "accessType": "host"
+        }
+    }
+}
+```
+
 ### 4.10.1 Integration Testing
 To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-db2.json` which specifies two storageProviders.
 
@@ -2096,6 +2181,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/auth/username`|string|For basic, user COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/password`|string|For basic, password for accessing COS|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|string| The s3 access type, `host` or `path` (s3 only) [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 
@@ -2215,6 +2301,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|`path`|
 |`fhirServer/operations/erase/enabled`|false|
 |`fhirServer/operations/erase/allowedRoles`|empty, all roles|
 
@@ -2365,6 +2452,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
 
