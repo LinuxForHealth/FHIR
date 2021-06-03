@@ -1537,7 +1537,10 @@ There are three critical elements in the configuration to configure virtual host
 |`endpointExternal`|the fhiruser/client facing API for the S3 API, this is the virtual host url|
 |`accessType`|"host"|
 
+Note, while the endpointInternal is specified with the S3 region endpoint, the calls to the API will use the virtual host directly.
+
 Example of `host` based access: 
+
 ``` json
 "bulkdata": {
     ...
