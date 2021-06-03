@@ -106,18 +106,6 @@ For improved security, the **admin** user should only be used to deploy the sche
 
 Following the least-privilege principle, the IBM FHIR server itself recommends running as db user, not db administrator.
 
-#### Using Db2 Auth
-
-1. On the Db2 Resource, click `Manage`
-
-2. Click `Open Console`
-
-3. Click Administration > User Management
-
-4. Click Add User, and enter the user details with a sufficiently complex password. Set the `User Privilege` as `User`. 
-
-5. Save these details for the datasource.xml.
-
 #### Using IAM apiKey
 The IBM FHIR Server uses an API Key associated with an [IAM Service Id](https://cloud.ibm.com/iam/serviceids). The IAM Service Id is mapped to a Db2 user which is granted explicit privileges to the tables and stored procedures.
 
@@ -193,6 +181,18 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
 You are now able to connect to the database as the FHIRSERVER user using only the API key created above.
 
+#### Using Db2 Auth
+
+1. On the Db2 Resource, click `Manage`
+
+2. Click `Open Console`
+
+3. Click Administration > User Management
+
+4. Click Add User, and enter the user details with a sufficiently complex password. Set the `User Privilege` as `User`. 
+
+5. Save these details for the datasource.xml.
+
 ### **Testing the connection**
 
 The [Db2 driver](https://repo1.maven.org/maven2/com/ibm/db2/jcc/11.5.0.0/jcc-11.5.0.0.jar) is able to execute a connectivity test to check the configuration of the combo of API-key/Service-Id/Db2-User-Id.
@@ -253,7 +253,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
     ``` sh
     db.host=1-2-3-4.databases.appdomain.cloud
     db.port=50001
-    db.database=bluedb
+    db.database=bludb
     user=myuser
     password=mypassword
     sslConnection=true
