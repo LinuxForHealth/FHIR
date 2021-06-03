@@ -41,6 +41,7 @@ public class FHIRPathAsTest {
 
     @Test
     void testAsOperationSystemValue() throws Exception {
+        // Testing 'as'
         Patient patient = Patient.builder()
                 .deceased(DateTime.now(ZoneOffset.UTC))
                 .build();
