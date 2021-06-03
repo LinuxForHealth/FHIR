@@ -169,7 +169,7 @@ Before the API key can be used, you need to create a Db2 user and associate it w
 
 1. Click Administration > User Management
 
-    - Note: If you do not see `Manage Users`, you are probably using a [non-IAM instance](https://www.ibm.com/support/knowledgecenter/SS6NHC/com.ibm.swg.im.dashdb.security.doc/doc/iam.html). To confirm:
+    - To confirm the IAM instance:
         1. Click Run Sql
         1. Enter the SQL
             ``` sql
