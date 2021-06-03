@@ -398,6 +398,10 @@ public class Main {
 
         // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
         applyDataMigrationForV0010();
+
+        // Log warning messages that unused tables will be removed in a future release.
+        // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+        logWarningMessagesForDeprecatedTables();
     }
 
     /**
@@ -1860,6 +1864,20 @@ public class Main {
         default:
             logger.severe("SCHEMA CHANGE: RUNTIME ERROR");
             break;
+        }
+    }
+
+    /**
+     * Log warning messages for deprecated tables.
+     */
+    private void logWarningMessagesForDeprecatedTables() {
+        List<String> deprecatedTables = Arrays.asList(
+            "DOMAINRESOURCE_DATE_VALUES", "DOMAINRESOURCE_LATLNG_VALUES", "DOMAINRESOURCE_LOGICAL_RESOURCES", "DOMAINRESOURCE_NUMBER_VALUES",
+            "DOMAINRESOURCE_QUANTITY_VALUES", "DOMAINRESOURCE_RESOURCE_TOKEN_REFS", "DOMAINRESOURCE_RESOURCES","DOMAINRESOURCE_STR_VALUES",
+            "RESOURCE_DATE_VALUES", "RESOURCE_LATLNG_VALUES", "RESOURCE_LOGICAL_RESOURCES", "RESOURCE_NUMBER_VALUES",
+            "RESOURCE_QUANTITY_VALUES", "RESOURCE_RESOURCE_TOKEN_REFS", "RESOURCE_RESOURCES", "RESOURCE_STR_VALUES");
+        for (String deprecatedTable : deprecatedTables) {
+            logger.warning("Table '" + deprecatedTable + "' will be dropped in a future release. No data should be written to this table. If any data exists in the table, that data should be deleted.");
         }
     }
 
