@@ -8,8 +8,11 @@ package com.ibm.fhir.server.util;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -359,6 +362,8 @@ public class RestAuditLogger {
             long readCount = 0;
             long createCount = 0;
             long updateCount = 0;
+            long deleteCount = 0;
+            long executeCount = 0;
             HTTPVerb requestMethod;
 
             populateAuditLogEntry(entry, request, null, startTime, endTime, responseStatus);
@@ -368,15 +373,32 @@ public class RestAuditLogger {
                 for (Entry bundleEntry : requestBundle.getEntry()) {
                     if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                         requestMethod = bundleEntry.getRequest().getMethod();
+                        boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
+                                                || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
                         switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                         case GET:
-                            readCount++;
+                            if (operation) {
+                                executeCount++;
+                            } else {
+                                readCount++;
+                            }
                             break;
                         case POST:
-                            createCount++;
+                            if (operation) {
+                                executeCount++;
+                            } else {
+                                createCount++;
+                            }
                             break;
                         case PUT:
                             updateCount++;
+                            break;
+                        case DELETE:
+                            if (operation) {
+                                executeCount++;
+                            } else {
+                                deleteCount++;
+                            }
                             break;
                         default:
                             break;
@@ -384,13 +406,17 @@ public class RestAuditLogger {
                     }
                 }
             }
-            entry.getContext().setBatch(Batch.builder().resourcesCreated(createCount).resourcesRead(readCount).resourcesUpdated(updateCount).build());
+            entry.getContext()
+                .setBatch(Batch.builder()
+                    .resourcesCreated(createCount)
+                    .resourcesRead(readCount)
+                    .resourcesUpdated(updateCount)
+                    .resourcesDeleted(deleteCount)
+                    .resourcesExecuted(executeCount)
+                    .build());
             entry.setDescription("FHIR Bundle request");
 
-            // Team discussion results in a recommendation of 'E'
-            // New logic should ensure consistency, all R, all U, all D, all C
-            // when mixed default to E
-            entry.getContext().setAction("E");
+            entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("createCount=[" + createCount + "]updateCount=[" + updateCount + "] readCount=[" + readCount + "]");
@@ -398,6 +424,47 @@ public class RestAuditLogger {
             auditLogSvc.logEntry(entry);
         }
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * logic to determine the action type.
+     * @param createCount
+     * @param readCount
+     * @param updateCount
+     * @param deleteCount
+     * @param executeCount
+     * @return
+     */
+    private static String selectActionForBundle(long createCount, long readCount, long updateCount, long deleteCount, long executeCount) {
+        Set<String> actions = new HashSet<>(Arrays.asList("C", "R", "U", "D"));
+        // logic ensures consistency, all R, all U, all D, all C
+        // when mixed default to E
+        String action = "E";
+
+        // If the bundle is all creates, set "C".
+        if (createCount == 0) {
+            actions.remove("C");
+        }
+        // If the bundle is all reads, set "R".
+        if (readCount == 0) {
+            actions.remove("R");
+        }
+
+        // If the bundles is all updates, set "U".
+        if (updateCount == 0) {
+            actions.remove("U");
+        }
+
+        // If the bundle is all deletes, set "D".
+        if (deleteCount == 0) {
+            actions.remove("D");
+        }
+
+        // Check and determine.
+        if (actions.size() == 1) {
+            action = actions.iterator().next();
+        }
+        return action;
     }
 
     /**

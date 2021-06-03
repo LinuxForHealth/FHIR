@@ -38,12 +38,12 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.DatabaseNotReadyException;
-import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
 import com.ibm.fhir.database.utils.api.TenantStatus;
+import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.common.JdbcConnectionProvider;
 import com.ibm.fhir.database.utils.common.JdbcPropertyAdapter;
@@ -387,10 +387,6 @@ public class Main {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
-
-        // Let's refresh the procedures and functions.
-        logger.info("Refreshing procedures and functions");
-        updateProcedures();
 
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             logger.info("Refreshing tenant partitions");

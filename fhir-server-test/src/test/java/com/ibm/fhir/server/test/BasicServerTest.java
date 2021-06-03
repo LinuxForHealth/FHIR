@@ -15,12 +15,13 @@ import static org.testng.AssertJUnit.fail;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
@@ -48,6 +49,8 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+
+import jakarta.json.JsonObject;
 
 /**
  * Basic sniff test of the FHIR Server.
@@ -126,6 +129,38 @@ public class BasicServerTest extends FHIRServerTestBase {
     }
 
     /**
+     * Verify the 'metadata' API with valid fhirVersion in Accept header.
+     */
+    @Test(groups = { "server-basic" })
+    public void testMetadataAPI_validFhirVersion() {
+        WebTarget target = getWebTarget();
+        MediaType mediaType = new MediaType("application", "fhir+json",
+            Collections.singletonMap(FHIRMediaType.FHIR_VERSION_PARAMETER, "4.0"));
+        Response response = target.path("metadata").request(mediaType).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        assertEquals(mediaType, response.getMediaType());
+
+        CapabilityStatement conf = response.readEntity(CapabilityStatement.class);
+        assertNotNull(conf);
+        assertNotNull(conf.getFormat());
+        assertEquals(6, conf.getFormat().size());
+        assertNotNull(conf.getVersion());
+        assertNotNull(conf.getName());
+    }
+
+    /**
+     * Verify the 'metadata' API with invalid fhirVersion in Accept header.
+     */
+    @Test(groups = { "server-basic" })
+    public void testMetadataAPI_invalidFhirVersion() {
+        WebTarget target = getWebTarget();
+        MediaType mediaType = new MediaType("application", "fhir+json",
+            Collections.singletonMap(FHIRMediaType.FHIR_VERSION_PARAMETER, "3.0"));
+        Response response = target.path("metadata").request(mediaType).get();
+        assertResponse(response, Response.Status.NOT_ACCEPTABLE.getStatusCode());
+    }
+
+    /**
      * Create a Patient, then make sure we can retrieve it.
      */
     @Test(groups = { "server-basic" })
@@ -176,6 +211,50 @@ public class BasicServerTest extends FHIRServerTestBase {
     }
 
     /**
+     * Create a minimal Patient with valid fhirVersion in Content-Type header, then make sure we can retrieve it.
+     */
+    @Test(groups = { "server-basic" })
+    public void testCreatePatient_minimal_validFhirVersion() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
+
+        MediaType mediaType = new MediaType("application", "fhir+json",
+            Collections.singletonMap(FHIRMediaType.FHIR_VERSION_PARAMETER, "4.0"));
+        Entity<Patient> entity = Entity.entity(patient, mediaType);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patientId).request(mediaType).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+
+        TestUtil.assertResourceEquals(patient, responsePatient);
+    }
+
+    /**
+     * Attempt to create a minimal Patient with invalid fhirVersion in Content-Type header.
+     */
+    @Test( groups = { "server-basic" })
+    public void testCreatePatient_minimal_invalidFhirVersion() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
+
+        MediaType mediaType = new MediaType("application", "fhir+json",
+            Collections.singletonMap(FHIRMediaType.FHIR_VERSION_PARAMETER, "3.0"));
+        Entity<Patient> entity = Entity.entity(patient, mediaType);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.UNSUPPORTED_MEDIA_TYPE.getStatusCode());
+    }
+
+    /**
      * Create a minimal Patient, then make sure we can retrieve it with varying format
      */
     @Test(groups = { "server-basic" })
@@ -193,11 +272,58 @@ public class BasicServerTest extends FHIRServerTestBase {
         String patientId = getLocationLogicalId(response);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).header("_format", "application/fhir+json").get();
+        response = target.path("Patient/" + patientId).queryParam("_format", "application/fhir+json").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
 
         TestUtil.assertResourceEquals(patient, responsePatient);
+    }
+
+    /**
+     * Create a minimal Patient, then make sure we can retrieve it with varying format with valid FHIR version
+     */
+    @Test(groups = { "server-basic" })
+    public void testCreatePatientMinimalWithFormat_validFhirVersion() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patientId).queryParam("_format", "application/fhir+json;fhirVersion=4.0").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+
+        TestUtil.assertResourceEquals(patient, responsePatient);
+    }
+
+    /**
+     * Create a minimal Patient, then attempt to retrieve it with varying format with invalid FHIR version
+     */
+    @Test(groups = { "server-basic" })
+    public void testCreatePatientMinimalWithFormat_invalidFhirVersion() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_DavidOrtiz.json");
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the patient's logical id value.
+        String patientId = getLocationLogicalId(response);
+
+        // Next, call the 'read' API to attempt to retrieve the new patient
+        response = target.path("Patient/" + patientId).queryParam("_format", "application/fhir+json;fhirVersion=3.0").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.NOT_ACCEPTABLE.getStatusCode());
     }
 
     /**

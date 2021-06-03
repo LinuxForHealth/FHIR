@@ -141,13 +141,6 @@ public interface FHIRClient {
     WebTarget getWebTarget(String baseURL) throws Exception;
 
     /**
-     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
-     * @return a WebTarget instance that can be used to invoke REST APIs.
-     * @throws Exception
-     */
-    WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception;
-
-    /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
      * @param mimeType a string containing the mime-type (e.g. "application/fhir+json")
      * @throws Exception
@@ -486,5 +479,5 @@ public interface FHIRClient {
     /**
      * Allow the client consumer to be able to get and reuse the same TrustStore if necessary.
      */
-    public KeyStore getTrustStore();
+    KeyStore getTrustStore();
 }

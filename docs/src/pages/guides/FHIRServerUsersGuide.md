@@ -1562,6 +1562,8 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
+Note for Batch/Transactions, attachments/content includes counts of the number of C-R-U-D-E actions.
+
 ### 4.11.2 Enable audit logging service
 Please refer to the property names that start with `fhirServer/audit/` in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
 
