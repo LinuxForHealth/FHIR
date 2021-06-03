@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata.config;
 import java.util.List;
 
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
@@ -497,4 +498,11 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * gets the storage type
+     * @param provider
+     * @return
+     */
+    S3HostStyle getS3HostStyleByStorageProvider(String provider);
 }

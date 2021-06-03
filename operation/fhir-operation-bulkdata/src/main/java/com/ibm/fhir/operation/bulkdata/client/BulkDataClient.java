@@ -48,6 +48,7 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceResponse;
@@ -691,7 +692,9 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        log.fine(response.getJobXMLName() + " " + exitStatus);
+        log.fine(() -> "The Exit Status is '" + exitStatus + "'");
+
+        // Export Jobs
         if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
@@ -700,17 +703,20 @@ public class BulkDataClient {
                 String[] resourceCounts =
                         resourceTypeInf.substring(resourceTypeInf.indexOf("[") + 1, resourceTypeInf.indexOf("]")).split("\\s*,\\s*");
                 for (int i = 0; i < resourceCounts.length; i++) {
-                    String region = adapter.getStorageProviderLocation(source);
-                    String bucketName = adapter.getStorageProviderBucketName(source);
-                    String objectKey = resourceType + "_" + (i + 1);
-                    String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
-                    String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
                     boolean parquet = adapter.isStorageProviderParquetEnabled(source);
-                    boolean presigned = adapter.isStorageProviderHmacPresigned(source);
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
-                    DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned);
+
+                    log.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
                     if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
+                        String region = adapter.getStorageProviderLocation(source);
+                        String bucketName = adapter.getStorageProviderBucketName(source);
+                        String objectKey = resourceType + "_" + (i + 1);
+                        String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
+                        String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
+                        boolean presigned = adapter.isStorageProviderHmacPresigned(source);
+                        boolean path = S3HostStyle.PATH.equals(adapter.getS3HostStyleByStorageProvider(source));
+                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, path);
                         sUrl = url.getUrl();
                     } else {
                         // Must be File
@@ -729,6 +735,7 @@ public class BulkDataClient {
             result.setOutput(outputList);
         }
 
+        // Import Jobs
         if ("bulkimportchunkjob".equals(response.getJobName())) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");

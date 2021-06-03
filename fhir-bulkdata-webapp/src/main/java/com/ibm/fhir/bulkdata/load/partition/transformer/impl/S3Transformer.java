@@ -38,20 +38,19 @@ public class S3Transformer implements PartitionSourceTransformer {
             return Collections.emptyList();
         }
 
+        String loc = location.trim();
+
         List<BulkDataSource> sources = new ArrayList<>();
         String continuationToken = null;
         ListObjectsV2Result result = null;
         boolean shouldContinue = true;
         while (shouldContinue) {
-            result = provider.getListObject(continuationToken);
+            result = provider.getListObject(loc, continuationToken);
             for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
+                System.out.println(objectSummary.getKey());
                 boolean isToBeProccessed = false;
-                if (location != null && !location.trim().isEmpty()) {
+                if (!loc.isEmpty() && objectSummary.getKey().startsWith(loc)) {
                     // We read multiple files that start with the same pattern.
-                    if (objectSummary.getKey().startsWith(location.trim())) {
-                        isToBeProccessed = true;
-                    }
-                } else {
                     isToBeProccessed = true;
                 }
                 if (isToBeProccessed) {
