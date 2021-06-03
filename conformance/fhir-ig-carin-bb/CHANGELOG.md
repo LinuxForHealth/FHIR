@@ -4,6 +4,7 @@
  - removed invalid ImplementationGuide parameters `copyrightyear`, `releaselabel`, and more
  
 02 JUN 2021 - service-date fixup
+-  backport CARIN BB 1.1.0 service-date fix to our packaged 1.0.1 version #2456 
  - changed the FHIRPath expression from 
    "ExplanationOfBenefit.billablePeriod | ExplanationOfBenefit.item.serviced as Date |  ExplanationOfBenefit.item.serviced as Period" to 
    "ExplanationOfBenefit.billablePeriod | ExplanationOfBenefit.item.serviced"
