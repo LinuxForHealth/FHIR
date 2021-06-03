@@ -373,8 +373,8 @@ public class RestAuditLogger {
                 for (Entry bundleEntry : requestBundle.getEntry()) {
                     if (bundleEntry.getRequest() != null && bundleEntry.getRequest().getMethod() != null) {
                         requestMethod = bundleEntry.getRequest().getMethod();
-                        boolean operation =  bundleEntry.getRequest()
-                                                .getUrl().getValue().contains("$");
+                        boolean operation =  bundleEntry.getRequest().getUrl().getValue().contains("$")
+                                                || bundleEntry.getRequest().getUrl().getValue().contains("/%24");
                         switch (HTTPVerb.Value.from(requestMethod.getValue())) {
                         case GET:
                             if (operation) {
@@ -391,11 +391,7 @@ public class RestAuditLogger {
                             }
                             break;
                         case PUT:
-                            if (operation) {
-                                executeCount++;
-                            } else {
-                                updateCount++;
-                            }
+                            updateCount++;
                             break;
                         case DELETE:
                             if (operation) {
@@ -420,7 +416,6 @@ public class RestAuditLogger {
                     .build());
             entry.setDescription("FHIR Bundle request");
 
-            //
             entry.getContext().setAction(selectActionForBundle(createCount, readCount, updateCount, deleteCount, executeCount));
 
             if (log.isLoggable(Level.FINE)) {
