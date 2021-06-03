@@ -39,10 +39,10 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     private String accessToken = null;
     private String clientID = null;
     private String clientSecret = null;
+
     private final String oidcRegURL = "https://localhost:9443/oidc/endpoint/oidc-provider/registration";
     private final String tokenURL = "https://localhost:9443/oauth2/endpoint/oauth2-provider/token";
-    private final String clientAdminUsername = "fhiruser";
-    private final String clientAdminPwd = "fhiruser";
+
 
     @BeforeClass
     public void setup() throws Exception {
@@ -72,7 +72,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
                 assertNotNull(jsonObj);
             }
 
-            WebTarget endpoint = client.getWebTargetUsingBasicAuth(oidcRegURL, clientAdminUsername, clientAdminPwd);
+            WebTarget endpoint = clientOAuth2.getWebTarget(oidcRegURL);
             Entity<JsonObject> entity = Entity.entity(jsonObj, "application/json");
             Invocation.Builder builder = endpoint.request("application/json");
             Response response = builder.post(entity);
@@ -86,8 +86,8 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
             clientID = resJson.get("client_id").toString();
             clientSecret = resJson.get("client_secret").toString();
 
-            // System.out.println("clientID = " + clientID);
-            // System.out.println("clientSecret = " + clientSecret);
+            System.out.println("clientID = " + clientID);
+            System.out.println("clientSecret = " + clientSecret);
         } else {
             System.out.println("testTokenRequest Disabled, Skipping");
         }
@@ -96,7 +96,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testRegisterClient" })
     public void testTokenRequest() throws Exception {
         if (ON) {
-            WebTarget endpoint = client.getWebTarget(tokenURL);
+            WebTarget endpoint = clientOAuth2.getWebTarget(tokenURL);
             Form form = new Form();
             form.param("grant_type", "client_credentials").param("client_id", clientID.replaceAll("\"", "")).param("client_secret", clientSecret.replaceAll("\"", ""));
 
