@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
@@ -46,11 +47,19 @@ public interface ICommonTokenValuesCache {
      * resolveCodeSystems to make sure we have code-system ids set for each
      * record. This also means that code-systems which don't yet exist must
      * be created before this method can be called (because we need the id)
-     * @param commonTokenValues
+     * @param tokenValues
      * @param misses the objects we couldn't find in the cache
      */
     void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues,
-        List<ResourceTokenValueRec> system);
+        List<ResourceTokenValueRec> misses);
+
+    /**
+     * Look up the ids for the common canonical values in the cache
+     * @param profileValues the collection of profile values containing the canonical urls
+     * @param misses the objects we couldn't find in the cache
+     */
+    void resolveCanonicalValues(Collection<ResourceProfileRec> profileValues,
+        List<ResourceProfileRec> misses);
 
      /**
       * Look up the id of the named codeSystem
@@ -65,6 +74,13 @@ public interface ICommonTokenValuesCache {
      * @param id
      */
     void addCodeSystem(String codeSystem, int id);
+
+    /**
+     * Add the url-id mapping to the local cache
+     * @param url
+     * @param id
+     */
+    void addCanonicalValue(String url, int id);
 
      /**
       * Add the CommonTokenValue and id to the local cache

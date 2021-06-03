@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
 
     // The connection pool wrapping the Derby test database
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
 
     public JDBCIncludeRevincludeTest() throws Exception {
@@ -41,11 +41,11 @@ public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -53,7 +53,7 @@ public class JDBCIncludeRevincludeTest extends AbstractIncludeRevincludeTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for

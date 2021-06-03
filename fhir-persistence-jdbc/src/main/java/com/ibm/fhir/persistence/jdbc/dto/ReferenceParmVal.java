@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,16 +13,7 @@ import com.ibm.fhir.search.util.ReferenceValue;
 /**
  * DTO representing external and local reference parameters
  */
-public class ReferenceParmVal implements ExtractedParameterValue {
-
-    // The resource type name
-    private String resourceType;
-
-    // The name of the parameter (key into PARAMETER_NAMES)
-    private String name;
-
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
+public class ReferenceParmVal extends ExtractedParameterValue {
 
     // The value of the reference after it has been processed to determine target resource type, version etc.
     private ReferenceValue refValue;
@@ -32,14 +23,6 @@ public class ReferenceParmVal implements ExtractedParameterValue {
      */
     public ReferenceParmVal() {
         super();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     /**
@@ -58,20 +41,6 @@ public class ReferenceParmVal implements ExtractedParameterValue {
         this.refValue = refValue;
     }
 
-    /**
-     * Get the reference type of the parameter (the origin, not the target of the reference)
-     */
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    /**
-     * Set the reference type of the parameter (the origin, not the target of the reference)
-     */
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     public Type getType() {
         return Type.REFERENCE;
     }
@@ -81,19 +50,5 @@ public class ReferenceParmVal implements ExtractedParameterValue {
      */
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
     }
 }

@@ -124,6 +124,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourceChangesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
@@ -1994,7 +1995,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
                                     componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                    componentParam.setBase(p.getBase());
+                                    // componentParam.setBase(p.getBase()); TODO not needed?
                                     p.addComponent(componentParam);
                                 } else if (node.isSystemValue()){
                                     ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
@@ -2622,10 +2623,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * contains multiple resource types, which have to be processed separately.
      * @param records
      */
-    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records) throws FHIRPersistenceException {
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records);
+            rrd.persist(records, profileRecs, tagRecs);
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;

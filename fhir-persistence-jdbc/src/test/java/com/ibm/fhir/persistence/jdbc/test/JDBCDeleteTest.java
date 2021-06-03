@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2019, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,12 +30,12 @@ public class JDBCDeleteTest extends AbstractDeleteTest {
 
     // test properties
     private Properties testProps;
-    
+
     // Connection pool used to provide connections for the FHIRPersistenceJDBCImpl
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
-    
+
     public JDBCDeleteTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -48,11 +48,11 @@ public class JDBCDeleteTest extends AbstractDeleteTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
             cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {
@@ -60,7 +60,7 @@ public class JDBCDeleteTest extends AbstractDeleteTest {
         }
         return new FHIRPersistenceJDBCImpl(this.testProps, this.connectionPool, cache);
     }
-    
+
     @Override
     protected void shutdownPools() throws Exception {
         // Mark the pool as no longer in use. This allows the pool to check for

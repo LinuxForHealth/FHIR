@@ -55,6 +55,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     // the max number of rows we accumulate for a given statement before we submit the batch
     private final int batchSize;
 
+    // Enable the feature to store whole system parameters
+    private final boolean storeWholeSystemParams = true;
+
     // FK to the logical resource for the parameters being added
     private final long logicalResourceId;
 
@@ -157,19 +160,24 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         insertLocation = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id, composite_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
                 : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id, composite_id) VALUES (?,?,?,?,?)";
 
-        // System level string attributes
-        String insertSystemString = multitenant ?
-                "INSERT INTO str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                :
-                "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
-        systemStrings = c.prepareStatement(insertSystemString);
+        if (storeWholeSystemParams) {
+            // System level string attributes
+            String insertSystemString = multitenant ?
+                    "INSERT INTO str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                    :
+                    "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
+            systemStrings = c.prepareStatement(insertSystemString);
 
-        // System level date attributes
-        String insertSystemDate = multitenant ?
-                "INSERT INTO date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                :
-                "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
-        systemDates = c.prepareStatement(insertSystemDate);
+            // System level date attributes
+            String insertSystemDate = multitenant ?
+                    "INSERT INTO date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                    :
+                    "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
+            systemDates = c.prepareStatement(insertSystemDate);
+        } else {
+            systemStrings = null;
+            systemDates = null;
+        }
     }
 
     /**
@@ -203,7 +211,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            if (isBase(param)) {
+            if (storeWholeSystem(param)) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("systemStringValue: " + parameterName + "[" + parameterNameId + "], " + value);
                 }
@@ -224,19 +232,19 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemStrings.executeBatch();
                     systemStringCount = 0;
                 }
-            } else {
-                // standard resource property
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
-                }
+            }
 
-                setStringParms(strings, parameterNameId, value);
-                strings.addBatch();
+            // standard resource property
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
+            }
 
-                if (++stringCount == this.batchSize) {
-                    strings.executeBatch();
-                    stringCount = 0;
-                }
+            setStringParms(strings, parameterNameId, value);
+            strings.addBatch();
+
+            if (++stringCount == this.batchSize) {
+                strings.executeBatch();
+                stringCount = 0;
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + value, x);
@@ -278,7 +286,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal valueHigh = param.getValueNumberHigh();
 
         // System-level number search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level number search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -322,7 +330,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
-            if (isBase(param)) {
+            if (storeWholeSystem(param)) {
                 // store as a system level search param
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("systemDateValue: " + parameterName + "[" + parameterNameId + "], "
@@ -373,7 +381,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
-            boolean isSystemParam = isBase(param);
+            boolean isSystemParam = storeWholeSystem(param);
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
                         + codeSystem + ", " + tokenValue);
@@ -407,7 +415,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal quantityHigh = param.getValueNumberHigh();
 
         // System-level quantity search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level quantity search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -464,7 +472,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         double lng = param.getValueLongitude();
 
         // System-level location search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level location search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -580,8 +588,13 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
     }
 
-    private boolean isBase(ExtractedParameterValue param) {
-        return "Resource".equals(param.getBase());
+    /**
+     * Should we store this parameter also at the whole-system search level?
+     * @param param
+     * @return
+     */
+    private boolean storeWholeSystem(ExtractedParameterValue param) {
+        return storeWholeSystemParams && param.isWholeSystem();
     }
 
     @Override

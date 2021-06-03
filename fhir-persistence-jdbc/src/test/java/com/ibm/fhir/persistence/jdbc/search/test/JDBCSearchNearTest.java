@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -95,7 +95,7 @@ public class JDBCSearchNearTest {
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
 
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 

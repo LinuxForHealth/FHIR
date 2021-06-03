@@ -15,6 +15,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import com.ibm.fhir.persistence.jdbc.TransactionData;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 
 /**
@@ -26,7 +27,7 @@ public class ParameterTransactionDataImpl implements TransactionData {
 
     // The id/name of the datasource to which this data belongs
     private final String datasourceId;
-    
+
     // remember the impl which was used to create us. This impl should simplify
     // access to the datasource we're associated with
     private final FHIRPersistenceJDBCImpl impl;
@@ -36,7 +37,13 @@ public class ParameterTransactionDataImpl implements TransactionData {
 
     // Collect all the token values so we can submit once per transaction
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
-    
+
+    // Collect all the profile values so we can submit once per transaction
+    private final List<ResourceProfileRec> profileRecs = new ArrayList<>();
+
+    // Collect all the tag values so we can submit once per transaction
+    private final List<ResourceTokenValueRec> tagRecs = new ArrayList<>();
+
     /**
      * Public constructor
      * @param datasourceId
@@ -47,12 +54,12 @@ public class ParameterTransactionDataImpl implements TransactionData {
         this.impl = impl;
         this.userTransaction = userTransaction;
     }
-    
+
     @Override
     public void persist() {
-        
+
         try {
-            impl.persistResourceTokenValueRecords(tokenValueRecs);
+            impl.persistResourceTokenValueRecords(tokenValueRecs, profileRecs, tagRecs);
         } catch (Throwable t) {
             logger.log(Level.SEVERE, "Failed persisting parameter transaction data. Marking transaction for rollback", t);
             try {

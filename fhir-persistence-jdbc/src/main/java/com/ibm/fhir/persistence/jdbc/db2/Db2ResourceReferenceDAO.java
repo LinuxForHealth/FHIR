@@ -87,6 +87,43 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
     }
 
     @Override
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
+        // query is a negative outer join so we only pick the rows where
+        // the row "s" from the actual table doesn't exist.
+
+        final List<String> sortedNames = new ArrayList<>(urls);
+        sortedNames.sort((String left, String right) -> left.compareTo(right));
+
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO common_canonical_values (mt_id, canonical_id, url) ");
+        insert.append("     SELECT ").append(adminSchemaName).append(".sv_tenant_id, ");
+        insert.append(nextVal).append(", v.name ");
+        insert.append("            FROM (VALUES ").append(paramList).append(" ) AS v(name) ");
+        insert.append(" LEFT OUTER JOIN common_canonical_values s ");
+        insert.append("              ON s.url = v.name ");
+        insert.append("           WHERE s.url IS NULL ");
+
+        // Note, we use PreparedStatement here on purpose. Partly because it's
+        // secure coding best practice, but also because many resources will have the
+        // same number of parameters, and hopefully we'll therefore share a small subset
+        // of statements for better performance. Although once the cache warms up, this
+        // shouldn't be called at all.
+        try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
+            // bind all the code_system_name values as parameters
+            int a = 1;
+            for (String name: sortedNames) {
+                ps.setString(a++, name);
+            }
+
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
     protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
         StringBuilder insert = new StringBuilder();
         insert.append("INSERT INTO common_token_values (mt_id, token_value, code_system_id) ");

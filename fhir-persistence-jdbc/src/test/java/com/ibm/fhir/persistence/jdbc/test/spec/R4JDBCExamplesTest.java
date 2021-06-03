@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,10 +37,10 @@ import com.ibm.fhir.validation.test.ValidationProcessor;
 public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     private Properties properties;
-    
+
     // provides connections to a bootstrapped Derby database
     private IConnectionProvider derbyConnectionProvider;
-    
+
     /**
      * Public constructor
      * @throws Exception
@@ -51,14 +51,14 @@ public class R4JDBCExamplesTest extends AbstractPersistenceTest {
 
     @Test(groups = { "jdbc-seed" }, singleThreaded = true, priority = -1)
     public void perform() throws Exception {
-                
+
         // Use connection pool and transaction provider to make sure the resource operations
         // of each resource are committed after the processing is finished, and because this
         // testng test process the samples one by one, so set the connection pool size to 1.
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(derbyConnectionProvider, 1);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
         FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
         List<ITestResourceOperation> operations = new ArrayList<>();

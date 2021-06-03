@@ -22,24 +22,32 @@ import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.version.SchemaConstants;
 
 /**
- * Set the current value for xxx_LOGICAL_RESOURCES.IS_DELETED. Called as
- * part of the schema migration step for schema version V0010 and V0011.
+ * Run a correlated update statement to update the new V0014 columns in LOGICAL_RESOURCES from the
+ * corresponding values in the xx_LOGICAL_RESOURCES table (for a specific resource type)
  * Note that for this to work for the multi-tenant (Db2) schema,
  * the SV_TENANT_ID needs to be set first.
  */
-public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(InitializeLogicalResourceDenorms.class.getName());
+public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabaseStatement {
+    private static final Logger logger = Logger.getLogger(MigrateV0014LogicalResourceIsDeletedLastUpdated.class.getName());
+
+    // The FHIR data schema
     private final String schemaName;
+
+    // The ressource type name for the subset of resources we want to process
     private final String resourceTypeName;
+
+    // The database id for the resource type
+    private final int resourceTypeId;
 
     /**
      * Public constructor
      * @param schemaName
      * @param tableName
      */
-    public InitializeLogicalResourceDenorms(String schemaName, String resourceTypeName) {
+    public MigrateV0014LogicalResourceIsDeletedLastUpdated(String schemaName, String resourceTypeName, int resourceTypeId) {
         this.schemaName = schemaName;
         this.resourceTypeName = resourceTypeName;
+        this.resourceTypeId = resourceTypeId;
     }
 
     @Override
@@ -58,13 +66,13 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
      * @param c
      */
     private void runCorrelatedUpdate(IDatabaseTranslator translator, Connection c) {
-        final String lrTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_LOGICAL_RESOURCES");
-        final String rTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_RESOURCES");
-
         // Correlated update to grab the IS_DELETED and LAST_UPDATED values from xxx_RESOURCES and use them to
-        // set xxx_LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for the current_resource_id.
-        final String DML = "UPDATE " + lrTable + " lr "
-                + " SET (is_deleted, last_updated, version_id) = (SELECT r.is_deleted, r.last_updated, r.version_id FROM " + rTable + " r WHERE r.resource_id = lr.current_resource_id)"
+        // set XX_LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for the current_resource_id.
+        final String srcTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_LOGICAL_RESOURCES");
+        final String tgtTable = DataDefinitionUtil.getQualifiedName(schemaName, "LOGICAL_RESOURCES");
+
+        final String DML = "UPDATE " + tgtTable + " tgt "
+                + " SET (is_deleted, last_updated) = (SELECT src.is_deleted, src.last_updated FROM " + srcTable + " src WHERE tgt.logical_resource_id = src.logical_resource_id)"
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {
@@ -82,16 +90,14 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
      */
     private void runForDerby(IDatabaseTranslator translator, Connection c) {
         final String lrTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_LOGICAL_RESOURCES");
-        final String rTable = DataDefinitionUtil.getQualifiedName(schemaName, resourceTypeName + "_RESOURCES");
         // Fetch the is_deleted and last_updated statement from the current version of each resource...
         final String select = ""
-                + "SELECT lr.logical_resource_id, r.is_deleted, r.last_updated, r.version_id "
-                + "  FROM " + rTable  + "  r, "
-                + "       " + lrTable + " lr  "
-                + " WHERE lr.current_resource_id = r.resource_id";
+                + "SELECT lr.logical_resource_id, lr.is_deleted, lr.last_updated "
+                + "  FROM " + lrTable + " lr  "
+                + " WHERE lr.resource_type_id = " + this.resourceTypeId;
 
         // ...and use it to set the new column values in the corresponding XXX_LOGICAL_RESOURCES table
-        final String update = "UPDATE " + lrTable + " SET is_deleted = ?, last_updated = ?, version_id = ? WHERE logical_resource_id = ?";
+        final String update = "UPDATE logical_resources SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
 
         try (Statement selectStatement = c.createStatement();
              PreparedStatement updateStatement = c.prepareStatement(update)) {
@@ -102,20 +108,17 @@ public class InitializeLogicalResourceDenorms implements IDatabaseStatement {
                 long logicalResourceId = rs.getLong(1);
                 String isDeleted = rs.getString(2);
                 Timestamp lastUpdated = rs.getTimestamp(3, SchemaConstants.UTC);
-                int versionId = rs.getInt(4);
 
                 if (logger.isLoggable(Level.FINEST)) {
                     // log the update in a form which is useful for debugging
-                    logger.finest("UPDATE " + lrTable
-                        + " SET   is_deleted = '" + isDeleted + "'"
-                        + ",    last_updated = '" + lastUpdated.toString() + "'"
-                        + ",      version_id = " + versionId
+                    logger.finest("UPDATE logical_resources "
+                        + "   SET          is_deleted = '" + isDeleted + "'"
+                        + ",             last_updated = '" + lastUpdated.toString() + "'"
                         + " WHERE logical_resource_id = " + logicalResourceId);
                 }
                 updateStatement.setString(1, isDeleted);
                 updateStatement.setTimestamp(2, lastUpdated, SchemaConstants.UTC);
-                updateStatement.setInt(3, versionId);
-                updateStatement.setLong(4, logicalResourceId);
+                updateStatement.setLong(3, logicalResourceId);
                 updateStatement.addBatch();
 
                 if (++batchCount == 500) {

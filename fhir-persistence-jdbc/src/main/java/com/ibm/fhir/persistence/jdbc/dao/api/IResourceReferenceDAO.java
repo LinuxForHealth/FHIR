@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 
@@ -44,7 +45,7 @@ public interface IResourceReferenceDAO {
      * Persist the records, which may span multiple resource types
      * @param records
      */
-    void persist(Collection<ResourceTokenValueRec> records);
+    void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs);
 
     /**
      * Find the database id for the given token value and system

@@ -6,11 +6,14 @@
 
 package com.ibm.fhir.schema.control;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_URL_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_CANONICAL_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_LOGICAL_RESOURCE_ID;
@@ -22,13 +25,18 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_COMPARTMENTS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_PROFILES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_TAGS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
@@ -56,6 +64,9 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.URL;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
@@ -370,7 +381,9 @@ public class FhirSchemaGenerator {
         addReferencesSequence(model);
         addLogicalResourceCompartments(model);
         addResourceChangeLog(model); // track changes for easier export
-
+        addCommonCanonicalValues(model);   // V0014
+        addLogicalResourceProfiles(model); // V0014
+        addLogicalResourceTags(model);     // V0014
 
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
@@ -491,8 +504,10 @@ public class FhirSchemaGenerator {
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
+        final String mtId = this.multitenant ? MT_ID : null;
 
         final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
+        final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
@@ -501,14 +516,17 @@ public class FhirSchemaGenerator {
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP") // new column for V0006
                 .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
+                .addTimestampColumn(LAST_UPDATED, true)                         // new column for V0014
+                .addCharColumn(IS_DELETED, 1, false, "'X'")
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
+                .addIndex(IDX_LOGICAL_RESOURCES_LUPD, new OrderedColumnDef(LAST_UPDATED, OrderedColumnDef.Direction.ASC, null))
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0014.vid())
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -523,7 +541,6 @@ public class FhirSchemaGenerator {
 
                         // Add the new index on REINDEX_TSTAMP. This index is special because it's the
                         // first index in our schema to use DESC.
-                        final String mtId = this.multitenant ? MT_ID : null;
                         List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
                         statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
                     }
@@ -532,6 +549,23 @@ public class FhirSchemaGenerator {
                         // Get rid of the old global token values parameter table which no longer
                         // used
                         statements.add(new DropTable(schemaName, "TOKEN_VALUES"));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0014.vid()) {
+                        // Add LAST_UPDATED and IS_DELETED to whole-system logical_resources
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addTimestampColumn(LAST_UPDATED, true)
+                                .addCharColumn(IS_DELETED, 1, false, "'X'")
+                                .buildColumns();
+
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(1)));
+
+                        // New index on the LAST_UPDATED. We don't need to include resource-type. If
+                        // you know the resource type, you'll be querying the resource-specific
+                        // xx_logical_resources table instead
+                        List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(LAST_UPDATED, OrderedColumnDef.Direction.ASC, null));
+                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_LUPD, tableName, mtId, indexCols));
                     }
                     return statements;
                 })
@@ -542,6 +576,110 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+    }
+
+    /**
+     * Create the COMMON_CANONICAL_VALUES table. Used from schema V0014 to normalize
+     * meta.profile search parameters (similar to common_token_values). Only the url
+     * is included by design. The (optional) version and fragment values are stored
+     * in the parameter mapping table (logical_resource_profiles) in order to support
+     * inequalities on version while still using a literal CANONICAL_ID = x predicate.
+     * These canonical ids are cached in the server, so search queries won't need to
+     * join to this table. The URL is typically a long string, so by normalizing and
+     * storing/indexing it once, we reduce space consumption.
+     * @param pdm
+     */
+    public void addCommonCanonicalValues(PhysicalDataModel pdm) {
+        final String tableName = COMMON_CANONICAL_VALUES;
+        final String unqCanonicalUrl = "UNQ_" + tableName + "_URL";
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(CANONICAL_ID, false)
+                .addVarcharColumn(URL, CANONICAL_URL_BYTES, false)
+                .addPrimaryKey(tableName + "_PK", CANONICAL_ID)
+                .addUniqueIndex(unqCanonicalUrl, URL)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+    }
+
+    /**
+     * A single-parameter table supporting _profile search parameter values
+     * Add the LOGICAL_RESOURCE_PROFILES table to the given {@link PhysicalDataModel}.
+     * This table maps logical resources to meta.profile values stored as canonical URIs
+     * in COMMON_CANONICAL_VALUES. Canonical values can include optional version and fragment
+     * values as described here: https://www.hl7.org/fhir/datatypes.html#canonical
+     * @param pdm
+     * @return
+     */
+    public Table addLogicalResourceProfiles(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_PROFILES;
+
+        // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid()) // table created at version V0014
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
+                .addVarcharColumn(             VERSION,  VERSION_BYTES, true)
+                .addVarcharColumn(            FRAGMENT, FRAGMENT_BYTES, true)
+                .addIndex(IDX + tableName + "_CCVLR", CANONICAL_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRCCV", LOGICAL_RESOURCE_ID, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CCV", schemaName, COMMON_CANONICAL_VALUES, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * A single-parameter table supporting _tag search parameter values.
+     * Tags are tokens, but because they may not be very selective we use a
+     * separate table in order to avoid messing up cardinality estimates
+     * in the query optimizer.
+     * @param pdm
+     * @return
+     */
+    public Table addLogicalResourceTags(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_TAGS;
+
+        // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid()) // table created at version V0014
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
+                .addIndex(IDX + tableName + "_CCVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRCCV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(pdm);
+
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
     }
 
     /**
