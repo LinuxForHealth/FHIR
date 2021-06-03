@@ -10,7 +10,7 @@
    "ExplanationOfBenefit.billablePeriod | ExplanationOfBenefit.item.serviced"
  - see https://jira.hl7.org/browse/FHIR-30443 for more detail
  
- 03 JUN 2021 - updated `adjudication-has-amount-type-slice` constraints
+ 03 JUN 2021 - updated `adjudication-has-amount-type-slice` constraints per: [https://jira.hl7.org/browse/FHIR-32337](https://jira.hl7.org/browse/FHIR-32337)
  
 ```json
 {
