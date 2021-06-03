@@ -355,9 +355,6 @@ public class Main {
         PhysicalDataModel pdm = new PhysicalDataModel();
         buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
 
-        // TODO: Temporary for release 4.9.0, add warning that unused tables will be removed in a future release
-        logWarningMessagesForDeprecatedTables();
-
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
         // if their version is greater than the current version.
@@ -405,6 +402,10 @@ public class Main {
 
         // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
         applyDataMigrationForV0010();
+
+        // Log warning messages that unused tables will be removed in a future release.
+        // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+        logWarningMessagesForDeprecatedTables();
     }
 
     /**
