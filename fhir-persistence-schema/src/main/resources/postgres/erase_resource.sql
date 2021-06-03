@@ -4,8 +4,6 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
--- LOADED ON: {{DATE}}
-
 -- ----------------------------------------------------------------------------
 -- Procedure to remove a resource, history and parameters values
 -- 
@@ -27,6 +25,7 @@
   v_total               BIGINT := 0;
 
 BEGIN
+  -- LOADED ON: {{DATE}}
   v_schema_name := '{{SCHEMA_NAME}}';
 
   -- Prep 1: Get the v_resource_type_id

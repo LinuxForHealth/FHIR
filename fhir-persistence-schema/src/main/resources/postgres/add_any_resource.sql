@@ -4,8 +4,6 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
--- LOADED ON: {{DATE}}
-
 -- ----------------------------------------------------------------------------
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to
@@ -48,11 +46,12 @@
   v_duplicate               INT := 0;
   v_current_version         INT := 0;
   v_change_type            CHAR(1) := NULL;
-  
-  -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance. 
+
+  -- Because we don't really update any existing key, so use NO KEY UPDATE to achieve better concurrence performance.
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
+  -- LOADED ON: {{DATE}}
   v_schema_name := '{{SCHEMA_NAME}}';
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;
