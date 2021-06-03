@@ -287,7 +287,7 @@ public class ChunkWriter extends AbstractItemWriter {
         SaltHash oldBaseLine = localCache.get(key);
 
         ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
-        if (oldBaseLine == null) {
+        if (oldBaseLine == null && skip) {
             // Go get the latest resource in the database and fingerprint the resource.
             // If the resource exists, then we need to fingerprint.
             Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
