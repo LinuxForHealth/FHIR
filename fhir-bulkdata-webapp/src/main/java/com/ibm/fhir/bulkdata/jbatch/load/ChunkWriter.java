@@ -319,6 +319,10 @@ public class ChunkWriter extends AbstractItemWriter {
                 .build();
         } else {
             // We need to update the db and update the local cache
+            if (oldResource != null) {
+                // Old Resource is set so we avoid an extra read
+                context.getPersistenceEvent().setPrevFhirResource(oldResource);
+            }
             oo = persistence.update(context, logicalId, resource).getOutcome();
             localCache.put(key, newBaseLine);
         }
