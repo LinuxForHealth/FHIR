@@ -289,9 +289,10 @@ Enabling this optimization is recommended. See the IBM FHIR Server release notes
 
 ## 3.6. Usage of Server Resource Provider
 
-The IBM FHIR Server supports a dynamic registry of StructureDefinition resources; when a user creates a StructureDefinition, the IBM FHIR Server executes a Search against the StructureDefinition resource to find the related profiles during validation.
+The IBM FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+When enabled, this means that each call to the registry (e.g. for extension StructureDefinition lookups during resource creation) can result in a round trip to the database.
 
-The IBM FHIR Server team recommends the dynamic registry has the following configuration setting:
+For optimal performance, the IBM FHIR Server team recommends to disable this resource provider via the following setting:
 
 | Configuration | Recommended value |
 |------|-------|
@@ -675,7 +676,7 @@ HL7 FHIR supports a few variants of token search:
 * `[parameter]=[system]|[code]`
 * `[parameter]=|[code]`
 
-Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems, Unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
+Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems and so, unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
 
 For optimal performance, users should prefer the `[system]|[code]` variant. Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
 
