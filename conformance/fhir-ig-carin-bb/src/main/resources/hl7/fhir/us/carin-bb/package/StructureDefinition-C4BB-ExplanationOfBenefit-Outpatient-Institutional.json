@@ -156,7 +156,7 @@
                         "severity": "error",
                         "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
                         "expression": "adjudication.exists() implies (adjudication.where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ],
                 "isModifier": false,
@@ -7566,7 +7566,7 @@
                         "severity": "error",
                         "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
                         "expression": "adjudication.exists() implies (adjudication.where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ],
                 "mustSupport": true,
@@ -16183,7 +16183,7 @@
                         "severity": "error",
                         "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
                         "expression": "adjudication.exists() implies (adjudication.where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ]
             },
@@ -16522,7 +16522,7 @@
                         "severity": "error",
                         "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
                         "expression": "adjudication.exists() implies (adjudication.where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Inpatient-Institutional"
+                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ]
             },
@@ -16610,13 +16610,6 @@
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
-                    },
-                    {
-                        "key": "adjudication-has-amount-type-slice",
-                        "severity": "error",
-                        "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
-                        "expression": "(exists() implies where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ],
                 "mustSupport": true
@@ -16735,13 +16728,6 @@
                         "expression": "hasValue() or (children().count() > id.count())",
                         "xpath": "@value|f:*|h:div",
                         "source": "http://hl7.org/fhir/StructureDefinition/Element"
-                    },
-                    {
-                        "key": "adjudication-has-amount-type-slice",
-                        "severity": "error",
-                        "human": "If Adjudication is present, it must have at least one adjudicationamounttype slice",
-                        "expression": "(exists() implies where(category.memberOf('http://hl7.org/fhir/us/carin-bb/ValueSet/C4BBAdjudication')).exists())",
-                        "source": "http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-ExplanationOfBenefit-Outpatient-Institutional"
                     }
                 ],
                 "mustSupport": true
