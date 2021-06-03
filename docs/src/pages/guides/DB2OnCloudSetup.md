@@ -106,7 +106,7 @@ For improved security, the **admin** user should only be used to deploy the sche
 
 Following the least-privilege principle, the IBM FHIR server itself recommends running as db user, not db administrator.
 
-# Using Db2 Auth
+#### Using Db2 Auth
 
 1. On the Db2 Resource, click `Manage`
 
@@ -118,7 +118,7 @@ Following the least-privilege principle, the IBM FHIR server itself recommends r
 
 5. Save these details for the datasource.xml.
 
-# Using IAM apiKey
+#### Using IAM apiKey
 The IBM FHIR Server uses an API Key associated with an [IAM Service Id](https://cloud.ibm.com/iam/serviceids). The IAM Service Id is mapped to a Db2 user which is granted explicit privileges to the tables and stored procedures.
 
 The IBM FHIR Server uses the access flow:
@@ -272,7 +272,7 @@ Now that you've created the database and credentials, use the `fhir-persistence-
       --prop-file db2.properties --schema-name FHIRDATA --allocate-tenant default
     ```
 
-Note: Save the tenantKey from the `allocate-tenant` step above; this be needed to configure the IBM FHIR Server datasource in the next step
+4. save the tenantKey from the `allocate-tenant` step above; this is needed to configure the IBM FHIR Server datasource in the next step
 
 For more information on using the fhir-persistence-schema cli jar, see https://github.com/IBM/FHIR/tree/main/fhir-persistence-schema/README.md.
 
@@ -285,6 +285,7 @@ The IBM FHIR Server uses the native Open Liberty datasources. To configure a FHI
             "datasources": {
                 "default": {
                     "tenantKey": "myTenantKey",
+                    "currentSchema": "${DB_SCHEMA}",
                     "hints" : {
                         "search.reopt": "ONCE"
                     },
@@ -348,7 +349,7 @@ Create a file as the following:
 </server>
 ```
 
-These files need to be created for each tenant along with a `fhir-server-config.json` in the tenant and configDropins/default folders.
+Each tenant datastore must have a corresponding dataSource definition and these dataSources must either follow the default jndiName pattern (`jndi/fhir_[tenantid]_[dsid]`) or the name must be explicitly configured in the corresponding section of `fhir-server-config.json`.
 
 
 #### Mapping from IBM Db2 on Cloud endpoint credentials
@@ -363,8 +364,8 @@ Use the following table to populate your datasource.
 | portNumber | from the credential object select  `port` |
 | databaseName | from the credential object select  `db`, generally always `BLUDB` |
 | apiKey | from the created user in the assigned to the `fhiruser` group. Reference Section **FHIRSERVER User and API Key** |
-| securityMechanism | If using IAM, `15` generally set to 15 to trigger the `apiKey` use with IBM Cloud |
-| pluginName | If using IAM, `IBMIAMauth` fixed for use with the IBM Cloud|
+| securityMechanism | If using IAM, set to `15` to trigger the use of IAM-based `apiKey` authentication|
+| pluginName | If using IAM, set to `IBMIAMauth`|
 | currentSchema | the schema name of your deployed tenant Schema, for instance `FHIRDATA` |
 | user| the userid |
 | password | the password for the user|

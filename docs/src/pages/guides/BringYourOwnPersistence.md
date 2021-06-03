@@ -97,7 +97,7 @@ If `SingleResourceResult.success` is set to true, the `SingleResourceResult.reso
 
 If `SingleResourceResult.success` is set to false, the `SingleResourceResult.outcome` should be an OperationOutcome with a list of one or more issues that prevented the success of the operation.
 
-Note, `generateResourceId` is required to be implemented to generate UUIDs, please the implementation `TimestampPrefixedUUID`.
+Note that a `generateResourceId` implementation is required to generate server-assigned resource ids. For performance reasons, recommend the use of `TimestampPrefixedUUID`.
 
 #### Read
 Read requests include a FHIRPersistenceContext, a Class object for the resource type being read, and the logical id of the resource to read.
@@ -161,10 +161,10 @@ The IBM FHIR Server supports [extended operations](https://www.hl7.org/fhir/oper
 
 | Operation Name | Interfaces to implement |
 |----------------|-------------------------|
-| `$healthcheck` | `getHealth()` must be implemented to indicate if the persistence layer is in a healthy state and can access the data store |
+| `$healthcheck` | `getHealth` must be implemented to indicate if the persistence layer is in a healthy state and can access the data store |
 | `$erase`  | `erase` must be implemented so that ResourceEraseRecord is returned for each Erase operation.  If not implemented it throws an exception|
 | `$export` | `fetchResourcePayloads` must be implemented so that the ResourcePayload is returned as a BinaryStream |
-| `$reindex`| `isReindexSupported` must be true, and if true, it `reindex` must be implemented so that a Resource is updated after ingestion|
+| `$reindex`| `isReindexSupported` must be true and, if true, `reindex` must be implemented so that users can apply the latest search configuration to a resource after it is already ingested|
 
 ## Testing your persistence layer
 In addition to defining the interfaces, the `fhir-persistence` module includes a set of tests that you can extend to test your implementation.
