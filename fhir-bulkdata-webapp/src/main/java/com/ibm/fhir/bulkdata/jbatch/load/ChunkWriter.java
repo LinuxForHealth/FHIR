@@ -282,51 +282,55 @@ public class ChunkWriter extends AbstractItemWriter {
      * @throws FHIRPersistenceException
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
-        // Key is scoped to the ResourceType.
-        String key = resourceType + "/" + logicalId;
-        SaltHash oldBaseLine = localCache.get(key);
-
-        ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
-        if (oldBaseLine == null && skip) {
-            // Go get the latest resource in the database and fingerprint the resource.
-            // If the resource exists, then we need to fingerprint.
-            Resource oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
-            if (oldResource != null) {
-                ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
-                oldResource.accept(fpOld);
-                oldBaseLine = fpOld.getSaltAndHash();
-                fp = new ResourceFingerprintVisitor(oldBaseLine);
-            }
-        }
-
-        resource.accept(fp);
-        SaltHash newBaseLine = fp.getSaltAndHash();
-
         OperationOutcome oo;
-        if (oldBaseLine != null && oldBaseLine.equals(newBaseLine) && skip) {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine("Skipping $import - update for '" + key + "'");
-            }
-            chunkData.addToNumOfSkippedResources(1);
-            oo =  OperationOutcome.builder()
-                .issue(Issue.builder()
-                    .severity(IssueSeverity.INFORMATION)
-                    .code(IssueType.INFORMATIONAL)
-                    .details(CodeableConcept.builder()
-                        .text(string("Update resource matches the existing resource; skipping the update for '" + key + "'"))
-                        .build())
-                    .build())
-                .build();
-        } else {
-            // We need to update the db and update the local cache
-            if (oldResource != null) {
-                // Old Resource is set so we avoid an extra read
-                context.getPersistenceEvent().setPrevFhirResource(oldResource);
-            }
-            oo = persistence.update(context, logicalId, resource).getOutcome();
-            localCache.put(key, newBaseLine);
-        }
+        if (!skip) {
+            // Key is scoped to the ResourceType.
+            String key = resourceType + "/" + logicalId;
+            SaltHash oldBaseLine = localCache.get(key);
 
+            Resource oldResource = null;
+            ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
+            if (oldBaseLine == null) {
+                // Go get the latest resource in the database and fingerprint the resource.
+                // If the resource exists, then we need to fingerprint.
+                oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                if (oldResource != null) {
+                    ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
+                    oldResource.accept(fpOld);
+                    oldBaseLine = fpOld.getSaltAndHash();
+                    fp = new ResourceFingerprintVisitor(oldBaseLine);
+                }
+            }
+
+            resource.accept(fp);
+            SaltHash newBaseLine = fp.getSaltAndHash();
+
+            if (oldBaseLine != null && oldBaseLine.equals(newBaseLine)) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Skipping $import - update for '" + key + "'");
+                }
+                chunkData.addToNumOfSkippedResources(1);
+                oo =  OperationOutcome.builder()
+                    .issue(Issue.builder()
+                        .severity(IssueSeverity.INFORMATION)
+                        .code(IssueType.INFORMATIONAL)
+                        .details(CodeableConcept.builder()
+                            .text(string("Update resource matches the existing resource; skipping the update for '" + key + "'"))
+                            .build())
+                        .build())
+                    .build();
+            } else {
+                // We need to update the db and update the local cache
+                if (oldResource != null) {
+                    // Old Resource is set so we avoid an extra read
+                    context.getPersistenceEvent().setPrevFhirResource(oldResource);
+                }
+                oo = persistence.update(context, logicalId, resource).getOutcome();
+                localCache.put(key, newBaseLine);
+            }
+        } else {
+            oo = persistence.update(context, logicalId, resource).getOutcome();
+        }
         return oo;
     }
 }
