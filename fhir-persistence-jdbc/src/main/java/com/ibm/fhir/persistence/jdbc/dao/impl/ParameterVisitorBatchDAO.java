@@ -50,8 +50,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
 
-    private final String PROFILE = "profile";
-    private final String TAG = "tag";
+    private static final String PROFILE = "profile";
+    private static final String TAG = "tag";
 
     // the connection to use for the inserts
     private final Connection connection;
@@ -380,19 +380,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemDates.executeBatch();
                     systemDateCount = 0;
                 }
-            } else {
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
-                            + "period: [" + dateStart + ", " + dateEnd + "]");
-                }
+            }
 
-                setDateParms(dates, parameterNameId, dateStart, dateEnd);
-                dates.addBatch();
+            // always store the param at the resource-specific level
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
+                        + "period: [" + dateStart + ", " + dateEnd + "]");
+            }
 
-                if (++dateCount == this.batchSize) {
-                    dates.executeBatch();
-                    dateCount = 0;
-                }
+            setDateParms(dates, parameterNameId, dateStart, dateEnd);
+            dates.addBatch();
+
+            if (++dateCount == this.batchSize) {
+                dates.executeBatch();
+                dateCount = 0;
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + dateStart + ", " + dateEnd + "}", x);
@@ -430,10 +431,21 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
             ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
-            if (this.transactionData != null) {
-                this.transactionData.addValue(rec);
+            if (TAG.equals(parameterName)) {
+                // tag search params are often low-selectivity (many resources sharing the same value) so
+                // we put them into their own tables to allow better cardinality estimation by the query
+                // optimizer
+                if (this.transactionData != null) {
+                    this.transactionData.addTagValue(rec);
+                } else {
+                    this.tagTokenRecs.add(rec);
+                }
             } else {
-                this.tokenValueRecs.add(rec);
+                if (this.transactionData != null) {
+                    this.transactionData.addValue(rec);
+                } else {
+                    this.tokenValueRecs.add(rec);
+                }
             }
         } catch (FHIRPersistenceDataAccessException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + codeSystem + ":" + tokenValue, x);
