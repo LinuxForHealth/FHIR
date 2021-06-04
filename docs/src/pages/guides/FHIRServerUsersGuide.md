@@ -16,14 +16,15 @@ permalink: /FHIRServerUsersGuide/
   * [3.1 Liberty server configuration](#31-liberty-server-configuration)
   * [3.2 FHIR server configuration](#32-fhir-server-configuration)
   * [3.3 Persistence layer configuration](#33-persistence-layer-configuration)
+  * [3.4 "Update/Create" feature](#34-updatecreate-feature)
 - [4 Customization](#4-customization)
   * [4.1 Extended operations](#41-extended-operations)
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
-  * [4.4 Resource validation](#44-resource-validation)
-  * [4.5 "Update/Create" feature](#45-updatecreate-feature)
-  * [4.6 FHIR client API](#46-fhir-client-api)
-  * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
+  * [4.4 Registry resources](#44-registry-resources)
+  * [4.5 Resource validation](#45-resource-validation)
+  * [4.6 Extending search](#46-extending-search)
+  * [4.7 FHIR client API](#47-fhir-client-api)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
@@ -202,6 +203,7 @@ The IBM FHIR Server supports the ability to compute and store compartment member
         }
     }
 ```
+
 Note that this parameter only enables or disables the compartment search query optimization feature. The compartment membership values are always computed and stored during ingestion or reindexing, regardless of the setting of this value. After the reindex operation is complete, it is recommended to set `useStoredCompartmentParam` to true. No reindex is required if this value is subsequently set to false.
 
 ## 3.3 Persistence layer configuration
@@ -472,6 +474,26 @@ The TransactionManager controls the timeout of database queries.
 
 To modify the default transaction timeout value, set the environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT` or enter the value in the server.env file at the root of the WLP fhir-server instance. Example values are `120s` (seconds) or `2m` (minutes).
 
+## 3.4 “Update/Create” feature
+Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
+
+The FHIR specification defines optional behavior for the _update_ operation where it can create a new resource if a non-existent resource is specified in the invocation. The FHIR server supports this optional behavior via the `fhirServer/persistence/common/updateCreateEnabled` configuration parameter. If this configuration parameter is set to `true` (the default), then the _update_ operation will create a new resource if it is invoked with a resource containing a non-existent id. If the option is set to false, then the optional behavior is disabled and an error would be returned.
+
+The following example shows the JSON for enabling _update_ operations to create resources:
+```
+{
+    "fhirServer":{
+        …
+        "persistence":{
+            "common":{
+                "updateCreateEnabled":true
+            }
+        }
+        …
+    }
+}
+```
+
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
  * Custom operations framework:  The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
@@ -480,14 +502,14 @@ You can modify the default server implementation by taking advantage of the IBM 
  * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
 
 ## 4.1 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification](https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
 The server also bundles `$reindex` to reindex instances of Resources so they are searchable, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
-No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
+To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
 #### 4.1.1.1 $validate
 The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
@@ -691,9 +713,30 @@ To implement a persistence interceptor, complete the following steps:
 
 4.  Re-start the FHIR server.
 
-## 4.4 Resource validation
+## 4.4 Registry resources
+The IBM FHIR Server includes a dynamic registry of conformance resources.
+The registry pre-packages all [FHIR Definitions from the specification](https://www.hl7.org/fhir/R4/downloads.html)
+and uses a Java ServiceLoader to discover additional registry resource providers on the classpath.
 
-### 4.4.1 HL7 spec-defined validation support
+The server consults this registry for:
+* StructureDefinition, ValueSet, and CodeSystem resources for resource validation.
+* SearchParameter and CompartmentDefinition resources for search.
+* ValueSet and CodeSystem resources for terminology operations.
+* And more.
+
+One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://www.hl7.org/fhir/implementationguide.html).
+
+The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
+
+Additionally, we [pre-package a number of popular implementation guides](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
+
+Finally, the IBM FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+This provider can be enabled/disabled via the `fhirServer/core/serverRegistryResourceProviderEnabled` property, but we recommend leaving it disabled for performance-intensive workloads.
+
+## 4.5 Resource validation
+As mentioned in the previous section, the IBM FHIR Server registry is consulted during resource validation.
+
+### 4.5.1 HL7 spec-defined validation support
 The FHIR specification provides a number of different validation resources including:
 
 1.  XML Schemas
@@ -701,10 +744,18 @@ The FHIR specification provides a number of different validation resources inclu
 3.  Structure Definitions / Profiles for standard resource types, data types and built-in value sets
 
 The FHIR server validates incoming resources for create and update interactions using the resource definitions and their corresponding FHIRPath constraints. Additionally, the FHIR server provides the following `$validate` operation that API consumers can use to POST resources and get validation feedback:
- `POST <base>/Resource/$validate`
+```
+POST <base>/<resourceType>/$validate
+```
 
-### 4.4.2 User-provided validation
-The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` codes included on the resource instance.
+### 4.5.2 Extension validation
+FHIR resources can be extended. Each extension has a url and servers can use these urls to validate the contents of the extension.
+
+The IBM FHIR Server performs extension validation by looking up the extension definition in its internal registry.
+If an instance contains extensions that are unknown to the server, then the server will include a validation warning that indicates this extension could not be validated.
+
+### 4.5.3 Profile validation
+The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` values included on the resource instance.
 
 For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://ibm.com/fhir/profile/partner` profile when you see an input resource like the following:
 ```
@@ -741,32 +792,20 @@ See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/gui
 
 See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
-## 4.5 “Update/Create” feature
-Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
+## 4.6 Extending search
+In addition to supporting tenant-specific search parameter extensions as described in [Section 3.2.2 Tenant-specific configuration properties](#322-tenant-specific-configuration-properties), the IBM FHIR Server also supports loading
+search parameters from the registry.
 
-The FHIR specification defines optional behavior for the _update_ operation where it can create a new resource if a non-existent resource is specified in the invocation. The FHIR server supports this optional behavior via the `fhirServer/persistence/common/updateCreateEnabled` configuration parameter. If this configuration parameter is set to `true` (the default), then the _update_ operation will create a new resource if it is invoked with a resource containing a non-existent id. If the option is set to false, then the optional behavior is disabled and an error would be returned.
+For performance reasons, the registry search parameters are retrieved once and only once during startup.
 
-The following example shows the JSON for enabling _update_ operations to create resources:
-```
-{
-    "fhirServer":{
-        …
-        "persistence":{
-            "common":{
-                "updateCreateEnabled":true
-            }
-        }
-        …
-    }
-}
-```
+The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering).
 
-## 4.6 FHIR client API
+## 4.7 FHIR client API
 
-### 4.6.1 Overview
+### 4.7.1 Overview
 In addition to the server, we also offer a Java API for invoking the FHIR REST APIs. The IBM FHIR Client API is based on the JAX-RS 2.0 standard and provides a simple properties-driven client that can be easily configured for a given endpoint, mutual authentication, request/response logging, and more.
 
-### 4.6.2 Maven coordinates
+### 4.7.2 Maven coordinates
 To use the FHIR Client from your application, specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
 
 ```
@@ -777,13 +816,13 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
         </dependency>
 ```
 
-### 4.6.3 Sample usage
+### 4.7.3 Sample usage
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
-## 4.7 FHIR command-line interface (fhir-cli)
+## 4.7.4 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool is available from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-cli/).
 
-### 4.7.1 Installing fhir-cli
+### 4.7.4.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
 1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Maven.
@@ -799,12 +838,12 @@ Because the fhir-cli tool is intended to be used by clients that need to access 
     export PATH=$PATH:/mydir/fhir-cli
     ```
 
-### 4.7.2 Configuring fhir-cli
+### 4.7.4.2 Configuring fhir-cli
 The fhir-cli tool requires a properties file containing various configuration properties, such as the base endpoint URL, the username and password for basic authentication, amd so forth. The properties contained in this file are the same properties supported by the FHIR client API. The fhir-cli tool comes with a sample properties file named `fhir-cli.properties` which contains a collection of default property settings.
 
 Using the sample properties file as a guide, you can create your own properties file to reflect the required endpoint configuration associated with the FHIR server endpoint that you would like to access. In the examples that follow, we'll refer to this file as `my-fhir-cli.properties`, although you can name the file anything you'd like.
 
-### 4.7.3 Running fhir-cli
+### 4.7.4.3 Running fhir-cli
 The fhir-cli tool comes with two shell scripts: `fhir-cli` (Linux&reg;) and `fhir-cli.bat` (Windows&trade;). In the examples that follow, we'll use `<fhir-cli-home>` as the location of the fhir-cli tool (that is, the `/mydir/fhir-cli` directory mentioned in preceding section).
 
 The following examples illustrate how to invoke the fhir-cli tool:
