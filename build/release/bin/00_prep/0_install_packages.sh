@@ -11,6 +11,6 @@
 # gh (already installed in ubuntu 20.04)
 # docker tools (already installed in ubuntu 20.04)
 
-sudo apt-get install -f xpath
+sudo apt-get install -f libxml-xpath-perl
 
 # EOF
