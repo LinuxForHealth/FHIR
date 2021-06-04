@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertFalse;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -18,6 +19,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -34,6 +36,7 @@ import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.Immunization;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.TerminologyCapabilities;
@@ -49,6 +52,9 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
+import com.ibm.fhir.validation.FHIRValidator;
+import com.ibm.fhir.validation.exception.FHIRValidationException;
+import com.ibm.fhir.validation.util.FHIRValidationUtil;
 
 import jakarta.json.JsonObject;
 
@@ -63,7 +69,7 @@ public class BasicServerTest extends FHIRServerTestBase {
      * Verify the 'metadata' API.
      */
     @Test(groups = { "server-basic" })
-    public void testMetadataAPI() throws FHIRPathException {
+    public void testMetadataAPI() throws FHIRPathException, FHIRValidationException {
         WebTarget target = getWebTarget();
         Response response = target.path("metadata").request().get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -85,10 +91,19 @@ public class BasicServerTest extends FHIRServerTestBase {
             instance = node._boolean();
         }
         assertTrue(instance);
+
+        List<Issue> issues = FHIRValidator.validator().validate(conf);
+        assertFalse(FHIRValidationUtil.hasErrors(issues));
+        if (FHIRValidationUtil.hasWarnings(issues)) {
+            System.out.println("CapabilityStatement warnings: \n" +
+                    FHIRValidationUtil.getWarnings(issues).stream()
+                        .map(i -> i.getDetails().getText().getValue())
+                        .collect(Collectors.joining("\n")));
+        }
     }
 
     @Test(groups = { "server-basic" })
-    public void testMetadataAPITerminology() throws FHIRPathException {
+    public void testMetadataAPITerminology() throws FHIRPathException, FHIRValidationException {
         WebTarget target = getWebTarget();
         Response response = target.path("metadata").queryParam("mode", "terminology").request().get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -108,6 +123,15 @@ public class BasicServerTest extends FHIRServerTestBase {
             instance = node._boolean();
         }
         assertTrue(instance);
+
+        List<Issue> issues = FHIRValidator.validator().validate(conf);
+        assertFalse(FHIRValidationUtil.hasErrors(issues));
+        if (FHIRValidationUtil.hasWarnings(issues)) {
+            System.out.println("TerminologyStatement warnings: \n" +
+                    FHIRValidationUtil.getWarnings(issues).stream()
+                    .map(i -> i.getDetails().getText().getValue())
+                    .collect(Collectors.joining("\n")));
+        }
     }
 
     /**
