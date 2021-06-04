@@ -1,0 +1,211 @@
+{
+    "resourceType": "CodeSystem",
+    "id": "test",
+    "url": "http://ibm.com/fhir/CodeSystem/test",
+    "version": "1.0.0",
+    "status": "active",
+    "hierarchyMeaning": "is-a",
+    "content": "complete",
+    "property": [
+        {
+            "code": "booleanProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#booleanProperty",
+            "type": "boolean"
+        },
+        {
+            "code": "codeProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#codeProperty",
+            "type": "code"
+        },
+        {
+            "code": "dateTimeProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#dateTimeProperty",
+            "type": "dateTime"
+        },
+        {
+            "code": "decimalProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#decimalProperty",
+            "type": "decimal"
+        },
+        {
+            "code": "integerProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#integerProperty",
+            "type": "integer"
+        },
+        {
+            "code": "stringProperty",
+            "uri": "http://ibm.com/fhir/concept-properties#stringProperty",
+            "type": "string"
+        }
+    ],
+    "concept": [
+        {
+            "code": "a",
+            "display": "Concept A",
+            "property": [
+                {
+                    "code": "stringProperty",
+                    "valueString": "stringValue"
+                }
+            ],
+            "concept": [
+                {
+                    "code": "g",
+                    "display": "Concept G"
+                },
+                {
+                    "code": "h",
+                    "display": "Concept H"
+                },
+                {
+                    "code": "i",
+                    "display": "Concept I",
+                    "concept": [
+                        {
+                            "code": "j",
+                            "display": "Concept J",
+                            "concept": [
+                                {
+                                    "code": "ZZ",
+                                    "display": "Concept ZZ",
+                                    "property": [
+                                        {
+                                            "code": "dateTimeProperty",
+                                            "valueDateTime": "2021-01-01T00:00:00.000Z"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "b",
+            "display": "Concept B",
+            "concept": [
+                {
+                    "code": "l",
+                    "display": "Concept L",
+                    "concept": [
+                        {
+                            "code": "m",
+                            "display": "Concept M"
+                        },
+                        {
+                            "code": "n",
+                            "display": "Concept N",
+                            "property": [
+                                {
+                                    "code": "decimalProperty",
+                                    "valueDecimal": -101.01
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "c",
+            "display": "Concept C",
+            "concept": [
+                {
+                    "code": "o",
+                    "display": "Concept O",
+                    "property": [
+                        {
+                            "code": "booleanProperty",
+                            "valueBoolean": true
+                        }
+                    ]
+                },
+                {
+                    "code": "p",
+                    "display": "Concept P"
+                }
+            ]
+        },
+        {
+            "code": "d",
+            "display": "Concept D",
+            "concept": [
+                {
+                    "code": "q",
+                    "display": "Concept Q",
+                    "concept": [
+                        {
+                            "code": "r",
+                            "display": "Concept R",
+                            "concept": [
+                                {
+                                    "code": "s",
+                                    "display": "Concept S",
+                                    "property": [
+                                        {
+                                            "code": "integerProperty",
+                                            "valueInteger": 5
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "code": "e",
+            "display": "Concept E",
+            "concept": [
+                {
+                    "code": "t",
+                    "display": "Concept T",
+                    "concept": [
+                        {
+                            "code": "u",
+                            "display": "Concept U",
+                            "concept": [
+                                {
+                                    "code": "v",
+                                    "display": "Concept V"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "code": "w",
+                    "display": "Concept W"
+                }
+            ]
+        },
+        {
+            "code": "f",
+            "display": "Concept F",
+            "concept": [
+                {
+                    "code": "x",
+                    "display": "Concept X"
+                },
+                {
+                    "code": "y",
+                    "display": "Concept Y",
+                    "property": [
+                        {
+                            "code": "codeProperty",
+                            "valueCode": "codeValue"
+                        }
+                    ],
+                    "concept": [
+                        {
+                            "code": "z",
+                            "display": "Concept Z"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
