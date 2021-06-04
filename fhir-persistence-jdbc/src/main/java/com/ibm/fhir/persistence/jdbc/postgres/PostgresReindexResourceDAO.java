@@ -123,7 +123,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
         // confuse the optimizer.
         final String update;
         if (resourceTypeId != null && logicalId != null) {
-            // Limit to one resource
+            // Just pick the requested resource by resource type and resource ID
             update = PICK_SINGLE_RESOURCE;
         } else if (resourceTypeId != null) {
             // Limit to one type of resource
@@ -138,7 +138,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
 
         try (PreparedStatement stmt = connection.prepareStatement(update)) {
             if (resourceTypeId != null && logicalId != null) {
-                // specific resource
+                // specific resource by resource type and resource ID
                 stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
                 stmt.setInt(2, resourceTypeId);
                 stmt.setString(3, logicalId);

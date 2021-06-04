@@ -152,21 +152,20 @@ public interface FHIRPersistence {
     }
 
     /**
-     * Initiates reindexing for resources not yet processed. Limits the number of resources
-     * processed to resourceCount. The number processed is returned in the OperationOutcome.
+     * Initiates reindexing for either a specified list of logicalResourceIds (primary keys),
+     * or a randomly chosen resource. The number of resources processed is returned.
      * This can be used by a controller to continue processing until everything is complete.
-     * Increasing resourceCount reduces the number of calls required to reindex an entire
-     * database, but larger values risk exceeding the transaction timeout. Values around 100
-     * are a good starting point for most systems.
      * @param context the FHIRPersistenceContext instance associated with the current request.
-     * @param operationOutcomeResult accumulate issues in this {@link Builder}
-     * @param tstamp reindex any resources with an index_tstamp less than this.
-     * @param resourceLogicalId optional resourceType/logicalId value to reindex a specific resource
+     * @param operationOutcomeResult accumulate issues in this {@link OperationOutcome.Builder}
+     * @param tstamp only reindex resources with a reindex_tstamp less than this
+     * @param logicalResourceIds list of logical resource IDs (primary keys) of resources to reindex, or null
+     * @param resourceLogicalId resourceType/logicalId value of a specific resource to reindex, or null;
+     * this parameter is ignored if the logicalResourceIds parameter value is non-null
      * @return count of the number of resources reindexed by this call (0 or 1)
      * @throws FHIRPersistenceException
      */
-    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId)
-            throws FHIRPersistenceException;
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws FHIRPersistenceException;
 
     /**
      * Special function for high speed export of resource payloads. The process

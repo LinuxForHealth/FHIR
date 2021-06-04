@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.operation.spi;
 
 import java.time.Instant;
+import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -309,16 +310,19 @@ public interface FHIRResourceHelpers {
     FHIRPersistenceTransaction getTransaction() throws Exception;
 
     /**
-     * Invoke the FHIR persistence reindex operation for a randomly chosen resource which was
-     * last reindexed before the given date
-     * @param operationContext
-     * @param operationOutcomeResult
-     * @param tstamp
-     * @param resourceLogicalId a reference to a resource e.g. "Patient/abc123". Can be null
-     * @return number of resources reindexed (0 if no resources were found to reindex)
+     * Invoke the FHIR persistence reindex operation for either a specified list of logicalResourceIds (primary keys),
+     * or a randomly chosen resource, last reindexed before the given timestamp.
+     * @param operationContext the operation context
+     * @param operationOutcomeResult accumulate issues in this {@link OperationOutcome.Builder}
+     * @param tstamp only reindex resources with a reindex_tstamp less than this
+     * @param logicalResourceIds list of logical resource IDs (primary keys) of resources to reindex, or null
+     * @param resourceLogicalId resourceType (e.g. "Patient"), or resourceType/logicalId a specific resource (e.g. "Patient/abc123"), to reindex, or null;
+     * this parameter is ignored if the logicalResourceIds parameter value is non-null
+     * @return count of the number of resources reindexed by this call
      * @throws Exception
      */
-    int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
+    int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws Exception;
 
     /**
      * Invoke the FHIR Persistence erase operation for a specific instance of the erase.
