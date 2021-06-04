@@ -171,11 +171,7 @@ public class ParticipationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class ParticipationStatus extends Code {
 
         @Override
         public ParticipationStatus build() {
-            return new ParticipationStatus(this);
+            ParticipationStatus participationStatus = new ParticipationStatus(this);
+            if (validating) {
+                validate(participationStatus);
+            }
+            return participationStatus;
+        }
+
+        protected void validate(ParticipationStatus participationStatus) {
+            super.validate(participationStatus);
+        }
+
+        protected Builder from(ParticipationStatus participationStatus) {
+            super.from(participationStatus);
+            return this;
         }
     }
 

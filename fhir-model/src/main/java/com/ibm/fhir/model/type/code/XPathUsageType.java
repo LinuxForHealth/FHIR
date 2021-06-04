@@ -180,11 +180,7 @@ public class XPathUsageType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class XPathUsageType extends Code {
 
         @Override
         public XPathUsageType build() {
-            return new XPathUsageType(this);
+            XPathUsageType xPathUsageType = new XPathUsageType(this);
+            if (validating) {
+                validate(xPathUsageType);
+            }
+            return xPathUsageType;
+        }
+
+        protected void validate(XPathUsageType xPathUsageType) {
+            super.validate(xPathUsageType);
+        }
+
+        protected Builder from(XPathUsageType xPathUsageType) {
+            super.from(xPathUsageType);
+            return this;
         }
     }
 

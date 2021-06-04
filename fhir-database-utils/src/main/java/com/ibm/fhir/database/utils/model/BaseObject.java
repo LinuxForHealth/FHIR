@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -256,7 +256,8 @@ public abstract class BaseObject implements IDatabaseObject {
     @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         // Only for Procedures do we skip the Version History Service check, and apply.
-        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version) || getObjectType().equals(DatabaseObjectType.PROCEDURE)) {
+        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)
+                    || getObjectType() == DatabaseObjectType.PROCEDURE) {
             logger.fine("Applying change [v" + version + "]: " + this.getTypeNameVersion());
 
             // Apply this change to the target database

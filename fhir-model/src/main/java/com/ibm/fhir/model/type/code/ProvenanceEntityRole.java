@@ -183,11 +183,7 @@ public class ProvenanceEntityRole extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -242,7 +238,20 @@ public class ProvenanceEntityRole extends Code {
 
         @Override
         public ProvenanceEntityRole build() {
-            return new ProvenanceEntityRole(this);
+            ProvenanceEntityRole provenanceEntityRole = new ProvenanceEntityRole(this);
+            if (validating) {
+                validate(provenanceEntityRole);
+            }
+            return provenanceEntityRole;
+        }
+
+        protected void validate(ProvenanceEntityRole provenanceEntityRole) {
+            super.validate(provenanceEntityRole);
+        }
+
+        protected Builder from(ProvenanceEntityRole provenanceEntityRole) {
+            super.from(provenanceEntityRole);
+            return this;
         }
     }
 

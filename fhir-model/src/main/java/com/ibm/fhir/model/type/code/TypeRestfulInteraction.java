@@ -179,11 +179,7 @@ public class TypeRestfulInteraction extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -238,7 +234,20 @@ public class TypeRestfulInteraction extends Code {
 
         @Override
         public TypeRestfulInteraction build() {
-            return new TypeRestfulInteraction(this);
+            TypeRestfulInteraction typeRestfulInteraction = new TypeRestfulInteraction(this);
+            if (validating) {
+                validate(typeRestfulInteraction);
+            }
+            return typeRestfulInteraction;
+        }
+
+        protected void validate(TypeRestfulInteraction typeRestfulInteraction) {
+            super.validate(typeRestfulInteraction);
+        }
+
+        protected Builder from(TypeRestfulInteraction typeRestfulInteraction) {
+            super.from(typeRestfulInteraction);
+            return this;
         }
     }
 

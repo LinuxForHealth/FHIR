@@ -147,11 +147,7 @@ public class SortDirection extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class SortDirection extends Code {
 
         @Override
         public SortDirection build() {
-            return new SortDirection(this);
+            SortDirection sortDirection = new SortDirection(this);
+            if (validating) {
+                validate(sortDirection);
+            }
+            return sortDirection;
+        }
+
+        protected void validate(SortDirection sortDirection) {
+            super.validate(sortDirection);
+        }
+
+        protected Builder from(SortDirection sortDirection) {
+            super.from(sortDirection);
+            return this;
         }
     }
 

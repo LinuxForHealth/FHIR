@@ -147,11 +147,7 @@ public class StructureMapContextType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class StructureMapContextType extends Code {
 
         @Override
         public StructureMapContextType build() {
-            return new StructureMapContextType(this);
+            StructureMapContextType structureMapContextType = new StructureMapContextType(this);
+            if (validating) {
+                validate(structureMapContextType);
+            }
+            return structureMapContextType;
+        }
+
+        protected void validate(StructureMapContextType structureMapContextType) {
+            super.validate(structureMapContextType);
+        }
+
+        protected Builder from(StructureMapContextType structureMapContextType) {
+            super.from(structureMapContextType);
+            return this;
         }
     }
 

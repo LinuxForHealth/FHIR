@@ -98,17 +98,16 @@ public class Group extends DomainResource {
 
     private Group(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        actual = ValidationSupport.requireNonNull(builder.actual, "actual");
+        type = builder.type;
+        actual = builder.actual;
         code = builder.code;
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristic, "characteristic", Characteristic.class));
-        member = Collections.unmodifiableList(ValidationSupport.checkList(builder.member, "member", Member.class));
-        ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        member = Collections.unmodifiableList(builder.member);
     }
 
     /**
@@ -766,7 +765,21 @@ public class Group extends DomainResource {
          */
         @Override
         public Group build() {
-            return new Group(this);
+            Group group = new Group(this);
+            if (validating) {
+                validate(group);
+            }
+            return group;
+        }
+
+        protected void validate(Group group) {
+            super.validate(group);
+            ValidationSupport.checkList(group.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(group.type, "type");
+            ValidationSupport.requireNonNull(group.actual, "actual");
+            ValidationSupport.checkList(group.characteristic, "characteristic", Characteristic.class);
+            ValidationSupport.checkList(group.member, "member", Member.class);
+            ValidationSupport.checkReferenceType(group.managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(Group group) {
@@ -810,11 +823,10 @@ public class Group extends DomainResource {
 
         private Characteristic(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
-            exclude = ValidationSupport.requireNonNull(builder.exclude, "exclude");
+            code = builder.code;
+            value = builder.value;
+            exclude = builder.exclude;
             period = builder.period;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1130,7 +1142,19 @@ public class Group extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireNonNull(characteristic.code, "code");
+                ValidationSupport.requireChoiceElement(characteristic.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
+                ValidationSupport.requireNonNull(characteristic.exclude, "exclude");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {
@@ -1156,11 +1180,9 @@ public class Group extends DomainResource {
 
         private Member(Builder builder) {
             super(builder);
-            entity = ValidationSupport.requireNonNull(builder.entity, "entity");
+            entity = builder.entity;
             period = builder.period;
             inactive = builder.inactive;
-            ValidationSupport.checkReferenceType(entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1445,7 +1467,18 @@ public class Group extends DomainResource {
              */
             @Override
             public Member build() {
-                return new Member(this);
+                Member member = new Member(this);
+                if (validating) {
+                    validate(member);
+                }
+                return member;
+            }
+
+            protected void validate(Member member) {
+                super.validate(member);
+                ValidationSupport.requireNonNull(member.entity, "entity");
+                ValidationSupport.checkReferenceType(member.entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
+                ValidationSupport.requireValueOrChildren(member);
             }
 
             protected Builder from(Member member) {

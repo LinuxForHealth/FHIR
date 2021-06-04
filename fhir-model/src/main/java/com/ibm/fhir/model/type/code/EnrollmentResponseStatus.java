@@ -169,11 +169,7 @@ public class EnrollmentResponseStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class EnrollmentResponseStatus extends Code {
 
         @Override
         public EnrollmentResponseStatus build() {
-            return new EnrollmentResponseStatus(this);
+            EnrollmentResponseStatus enrollmentResponseStatus = new EnrollmentResponseStatus(this);
+            if (validating) {
+                validate(enrollmentResponseStatus);
+            }
+            return enrollmentResponseStatus;
+        }
+
+        protected void validate(EnrollmentResponseStatus enrollmentResponseStatus) {
+            super.validate(enrollmentResponseStatus);
+        }
+
+        protected Builder from(EnrollmentResponseStatus enrollmentResponseStatus) {
+            super.from(enrollmentResponseStatus);
+            return this;
         }
     }
 

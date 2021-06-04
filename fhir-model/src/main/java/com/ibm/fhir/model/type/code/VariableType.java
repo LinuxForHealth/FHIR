@@ -158,11 +158,7 @@ public class VariableType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class VariableType extends Code {
 
         @Override
         public VariableType build() {
-            return new VariableType(this);
+            VariableType variableType = new VariableType(this);
+            if (validating) {
+                validate(variableType);
+            }
+            return variableType;
+        }
+
+        protected void validate(VariableType variableType) {
+            super.validate(variableType);
+        }
+
+        protected Builder from(VariableType variableType) {
+            super.from(variableType);
+            return this;
         }
     }
 

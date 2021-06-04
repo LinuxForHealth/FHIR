@@ -8,6 +8,7 @@ package com.ibm.fhir.operation.term;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -23,7 +24,6 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.term.service.LookupOutcome;
 import com.ibm.fhir.term.service.LookupParameters;
 import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
@@ -53,7 +53,7 @@ public class LookupOperation extends AbstractTermOperation {
                         .severity(IssueSeverity.ERROR)
                         .code(IssueType.NOT_FOUND.toBuilder()
                             .extension(Extension.builder()
-                                .url(FHIRRestHelper.EXTENSION_URL + "/not-found-detail")
+                                .url(FHIRConstants.EXT_BASE + "not-found-detail")
                                 .value(Code.of("coding"))
                                 .build())
                             .build())

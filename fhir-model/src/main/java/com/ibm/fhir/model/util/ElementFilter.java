@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018,2019
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 
-import javax.json.Json;
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 
 public class ElementFilter implements Function<JsonObject, JsonObject> {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);

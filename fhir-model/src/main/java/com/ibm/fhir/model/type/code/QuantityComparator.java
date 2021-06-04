@@ -169,11 +169,7 @@ public class QuantityComparator extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class QuantityComparator extends Code {
 
         @Override
         public QuantityComparator build() {
-            return new QuantityComparator(this);
+            QuantityComparator quantityComparator = new QuantityComparator(this);
+            if (validating) {
+                validate(quantityComparator);
+            }
+            return quantityComparator;
+        }
+
+        protected void validate(QuantityComparator quantityComparator) {
+            super.validate(quantityComparator);
+        }
+
+        protected Builder from(QuantityComparator quantityComparator) {
+            super.from(quantityComparator);
+            return this;
         }
     }
 

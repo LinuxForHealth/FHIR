@@ -257,11 +257,7 @@ public class AssertionResponseTypes extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -316,7 +312,20 @@ public class AssertionResponseTypes extends Code {
 
         @Override
         public AssertionResponseTypes build() {
-            return new AssertionResponseTypes(this);
+            AssertionResponseTypes assertionResponseTypes = new AssertionResponseTypes(this);
+            if (validating) {
+                validate(assertionResponseTypes);
+            }
+            return assertionResponseTypes;
+        }
+
+        protected void validate(AssertionResponseTypes assertionResponseTypes) {
+            super.validate(assertionResponseTypes);
+        }
+
+        protected Builder from(AssertionResponseTypes assertionResponseTypes) {
+            super.from(assertionResponseTypes);
+            return this;
         }
     }
 

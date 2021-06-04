@@ -191,11 +191,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
 
         @Override
         public ChargeItemDefinitionPriceComponentType build() {
-            return new ChargeItemDefinitionPriceComponentType(this);
+            ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType = new ChargeItemDefinitionPriceComponentType(this);
+            if (validating) {
+                validate(chargeItemDefinitionPriceComponentType);
+            }
+            return chargeItemDefinitionPriceComponentType;
+        }
+
+        protected void validate(ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType) {
+            super.validate(chargeItemDefinitionPriceComponentType);
+        }
+
+        protected Builder from(ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType) {
+            super.from(chargeItemDefinitionPriceComponentType);
+            return this;
         }
     }
 

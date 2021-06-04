@@ -236,7 +236,15 @@ public class Count extends Quantity {
          */
         @Override
         public Count build() {
-            return new Count(this);
+            Count count = new Count(this);
+            if (validating) {
+                validate(count);
+            }
+            return count;
+        }
+
+        protected void validate(Count count) {
+            super.validate(count);
         }
 
         protected Builder from(Count count) {

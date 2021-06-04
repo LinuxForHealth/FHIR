@@ -169,11 +169,7 @@ public class ConceptSubsumptionOutcome extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class ConceptSubsumptionOutcome extends Code {
 
         @Override
         public ConceptSubsumptionOutcome build() {
-            return new ConceptSubsumptionOutcome(this);
+            ConceptSubsumptionOutcome conceptSubsumptionOutcome = new ConceptSubsumptionOutcome(this);
+            if (validating) {
+                validate(conceptSubsumptionOutcome);
+            }
+            return conceptSubsumptionOutcome;
+        }
+
+        protected void validate(ConceptSubsumptionOutcome conceptSubsumptionOutcome) {
+            super.validate(conceptSubsumptionOutcome);
+        }
+
+        protected Builder from(ConceptSubsumptionOutcome conceptSubsumptionOutcome) {
+            super.from(conceptSubsumptionOutcome);
+            return this;
         }
     }
 

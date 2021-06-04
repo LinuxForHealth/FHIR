@@ -353,11 +353,7 @@ public class EventTiming extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -412,7 +408,20 @@ public class EventTiming extends Code {
 
         @Override
         public EventTiming build() {
-            return new EventTiming(this);
+            EventTiming eventTiming = new EventTiming(this);
+            if (validating) {
+                validate(eventTiming);
+            }
+            return eventTiming;
+        }
+
+        protected void validate(EventTiming eventTiming) {
+            super.validate(eventTiming);
+        }
+
+        protected Builder from(EventTiming eventTiming) {
+            super.from(eventTiming);
+            return this;
         }
     }
 

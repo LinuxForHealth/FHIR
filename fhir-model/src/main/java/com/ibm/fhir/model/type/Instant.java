@@ -36,7 +36,6 @@ public class Instant extends Element {
     private Instant(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -240,7 +239,16 @@ public class Instant extends Element {
          */
         @Override
         public Instant build() {
-            return new Instant(this);
+            Instant instant = new Instant(this);
+            if (validating) {
+                validate(instant);
+            }
+            return instant;
+        }
+
+        protected void validate(Instant instant) {
+            super.validate(instant);
+            ValidationSupport.requireValueOrChildren(instant);
         }
 
         protected Builder from(Instant instant) {

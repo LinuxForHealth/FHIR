@@ -252,7 +252,15 @@ public class Distance extends Quantity {
          */
         @Override
         public Distance build() {
-            return new Distance(this);
+            Distance distance = new Distance(this);
+            if (validating) {
+                validate(distance);
+            }
+            return distance;
+        }
+
+        protected void validate(Distance distance) {
+            super.validate(distance);
         }
 
         protected Builder from(Distance distance) {

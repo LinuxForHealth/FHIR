@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020
+-- (C) Copyright IBM Corp. 2020, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -12,7 +12,8 @@
     LANGUAGE plpgsql
       AS $$
 
-  BEGIN  
+BEGIN  
+    -- LOADED ON: {{DATE}}
     SELECT code_system_id INTO p_code_system_id
     FROM {{SCHEMA_NAME}}.code_systems
     WHERE code_system_name = p_code_system_name;

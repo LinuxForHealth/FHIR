@@ -56,7 +56,6 @@ public class Quantity extends Element {
         unit = builder.unit;
         system = builder.system;
         code = builder.code;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -330,7 +329,16 @@ public class Quantity extends Element {
          */
         @Override
         public Quantity build() {
-            return new Quantity(this);
+            Quantity quantity = new Quantity(this);
+            if (validating) {
+                validate(quantity);
+            }
+            return quantity;
+        }
+
+        protected void validate(Quantity quantity) {
+            super.validate(quantity);
+            ValidationSupport.requireValueOrChildren(quantity);
         }
 
         protected Builder from(Quantity quantity) {

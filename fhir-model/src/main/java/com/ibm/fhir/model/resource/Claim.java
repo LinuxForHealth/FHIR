@@ -170,41 +170,33 @@ public class Claim extends DomainResource {
 
     private Claim(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = builder.type;
         subType = builder.subType;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        use = builder.use;
+        patient = builder.patient;
         billablePeriod = builder.billablePeriod;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         enterer = builder.enterer;
         insurer = builder.insurer;
-        provider = ValidationSupport.requireNonNull(builder.provider, "provider");
-        priority = ValidationSupport.requireNonNull(builder.priority, "priority");
+        provider = builder.provider;
+        priority = builder.priority;
         fundsReserve = builder.fundsReserve;
-        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
+        related = Collections.unmodifiableList(builder.related);
         prescription = builder.prescription;
         originalPrescription = builder.originalPrescription;
         payee = builder.payee;
         referral = builder.referral;
         facility = builder.facility;
-        careTeam = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeam, "careTeam", CareTeam.class));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", SupportingInfo.class));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
-        procedure = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedure, "procedure", Procedure.class));
-        insurance = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.insurance, "insurance", Insurance.class));
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        procedure = Collections.unmodifiableList(builder.procedure);
+        insurance = Collections.unmodifiableList(builder.insurance);
         accident = builder.accident;
-        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
+        item = Collections.unmodifiableList(builder.item);
         total = builder.total;
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-        ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-        ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
-        ValidationSupport.checkReferenceType(facility, "facility", "Location");
     }
 
     /**
@@ -1531,7 +1523,38 @@ public class Claim extends DomainResource {
          */
         @Override
         public Claim build() {
-            return new Claim(this);
+            Claim claim = new Claim(this);
+            if (validating) {
+                validate(claim);
+            }
+            return claim;
+        }
+
+        protected void validate(Claim claim) {
+            super.validate(claim);
+            ValidationSupport.checkList(claim.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(claim.status, "status");
+            ValidationSupport.requireNonNull(claim.type, "type");
+            ValidationSupport.requireNonNull(claim.use, "use");
+            ValidationSupport.requireNonNull(claim.patient, "patient");
+            ValidationSupport.requireNonNull(claim.created, "created");
+            ValidationSupport.requireNonNull(claim.provider, "provider");
+            ValidationSupport.requireNonNull(claim.priority, "priority");
+            ValidationSupport.checkList(claim.related, "related", Related.class);
+            ValidationSupport.checkList(claim.careTeam, "careTeam", CareTeam.class);
+            ValidationSupport.checkList(claim.supportingInfo, "supportingInfo", SupportingInfo.class);
+            ValidationSupport.checkList(claim.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.checkList(claim.procedure, "procedure", Procedure.class);
+            ValidationSupport.checkNonEmptyList(claim.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(claim.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(claim.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(claim.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(claim.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(claim.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(claim.prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.referral, "referral", "ServiceRequest");
+            ValidationSupport.checkReferenceType(claim.facility, "facility", "Location");
         }
 
         protected Builder from(Claim claim) {
@@ -1588,8 +1611,6 @@ public class Claim extends DomainResource {
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
-            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1859,7 +1880,17 @@ public class Claim extends DomainResource {
              */
             @Override
             public Related build() {
-                return new Related(this);
+                Related related = new Related(this);
+                if (validating) {
+                    validate(related);
+                }
+                return related;
+            }
+
+            protected void validate(Related related) {
+                super.validate(related);
+                ValidationSupport.checkReferenceType(related.claim, "claim", "Claim");
+                ValidationSupport.requireValueOrChildren(related);
             }
 
             protected Builder from(Related related) {
@@ -1889,10 +1920,8 @@ public class Claim extends DomainResource {
 
         private Payee(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             party = builder.party;
-            ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2144,7 +2173,18 @@ public class Claim extends DomainResource {
              */
             @Override
             public Payee build() {
-                return new Payee(this);
+                Payee payee = new Payee(this);
+                if (validating) {
+                    validate(payee);
+                }
+                return payee;
+            }
+
+            protected void validate(Payee payee) {
+                super.validate(payee);
+                ValidationSupport.requireNonNull(payee.type, "type");
+                ValidationSupport.checkReferenceType(payee.party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(payee);
             }
 
             protected Builder from(Payee payee) {
@@ -2183,13 +2223,11 @@ public class Claim extends DomainResource {
 
         private CareTeam(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+            sequence = builder.sequence;
+            provider = builder.provider;
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2529,7 +2567,19 @@ public class Claim extends DomainResource {
              */
             @Override
             public CareTeam build() {
-                return new CareTeam(this);
+                CareTeam careTeam = new CareTeam(this);
+                if (validating) {
+                    validate(careTeam);
+                }
+                return careTeam;
+            }
+
+            protected void validate(CareTeam careTeam) {
+                super.validate(careTeam);
+                ValidationSupport.requireNonNull(careTeam.sequence, "sequence");
+                ValidationSupport.requireNonNull(careTeam.provider, "provider");
+                ValidationSupport.checkReferenceType(careTeam.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(careTeam);
             }
 
             protected Builder from(CareTeam careTeam) {
@@ -2580,13 +2630,12 @@ public class Claim extends DomainResource {
 
         private SupportingInfo(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            category = ValidationSupport.requireNonNull(builder.category, "category");
+            sequence = builder.sequence;
+            category = builder.category;
             code = builder.code;
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
-            value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+            timing = builder.timing;
+            value = builder.value;
             reason = builder.reason;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2967,7 +3016,20 @@ public class Claim extends DomainResource {
              */
             @Override
             public SupportingInfo build() {
-                return new SupportingInfo(this);
+                SupportingInfo supportingInfo = new SupportingInfo(this);
+                if (validating) {
+                    validate(supportingInfo);
+                }
+                return supportingInfo;
+            }
+
+            protected void validate(SupportingInfo supportingInfo) {
+                super.validate(supportingInfo);
+                ValidationSupport.requireNonNull(supportingInfo.sequence, "sequence");
+                ValidationSupport.requireNonNull(supportingInfo.category, "category");
+                ValidationSupport.choiceElement(supportingInfo.timing, "timing", Date.class, Period.class);
+                ValidationSupport.choiceElement(supportingInfo.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+                ValidationSupport.requireValueOrChildren(supportingInfo);
             }
 
             protected Builder from(SupportingInfo supportingInfo) {
@@ -3023,13 +3085,11 @@ public class Claim extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            sequence = builder.sequence;
+            diagnosis = builder.diagnosis;
+            type = Collections.unmodifiableList(builder.type);
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
-            ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3395,7 +3455,20 @@ public class Claim extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.sequence, "sequence");
+                ValidationSupport.requireChoiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(diagnosis.type, "type", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {
@@ -3439,14 +3512,11 @@ public class Claim extends DomainResource {
 
         private Procedure(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            sequence = builder.sequence;
+            type = Collections.unmodifiableList(builder.type);
             date = builder.date;
-            procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-            ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            procedure = builder.procedure;
+            udi = Collections.unmodifiableList(builder.udi);
         }
 
         /**
@@ -3840,7 +3910,22 @@ public class Claim extends DomainResource {
              */
             @Override
             public Procedure build() {
-                return new Procedure(this);
+                Procedure procedure = new Procedure(this);
+                if (validating) {
+                    validate(procedure);
+                }
+                return procedure;
+            }
+
+            protected void validate(Procedure procedure) {
+                super.validate(procedure);
+                ValidationSupport.requireNonNull(procedure.sequence, "sequence");
+                ValidationSupport.checkList(procedure.type, "type", CodeableConcept.class);
+                ValidationSupport.requireChoiceElement(procedure.procedure, "procedure", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(procedure.udi, "udi", Reference.class);
+                ValidationSupport.checkReferenceType(procedure.procedure, "procedure", "Procedure");
+                ValidationSupport.checkReferenceType(procedure.udi, "udi", "Device");
+                ValidationSupport.requireValueOrChildren(procedure);
             }
 
             protected Builder from(Procedure procedure) {
@@ -3877,16 +3962,13 @@ public class Claim extends DomainResource {
 
         private Insurance(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
+            sequence = builder.sequence;
+            focal = builder.focal;
             identifier = builder.identifier;
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             businessArrangement = builder.businessArrangement;
-            preAuthRef = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRef, "preAuthRef", String.class));
+            preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
             claimResponse = builder.claimResponse;
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4317,7 +4399,22 @@ public class Claim extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.sequence, "sequence");
+                ValidationSupport.requireNonNull(insurance.focal, "focal");
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkList(insurance.preAuthRef, "preAuthRef", String.class);
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.claimResponse, "claimResponse", "ClaimResponse");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -4353,11 +4450,9 @@ public class Claim extends DomainResource {
 
         private Accident(Builder builder) {
             super(builder);
-            date = ValidationSupport.requireNonNull(builder.date, "date");
+            date = builder.date;
             type = builder.type;
-            location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            location = builder.location;
         }
 
         /**
@@ -4642,7 +4737,19 @@ public class Claim extends DomainResource {
              */
             @Override
             public Accident build() {
-                return new Accident(this);
+                Accident accident = new Accident(this);
+                if (validating) {
+                    validate(accident);
+                }
+                return accident;
+            }
+
+            protected void validate(Accident accident) {
+                super.validate(accident);
+                ValidationSupport.requireNonNull(accident.date, "date");
+                ValidationSupport.choiceElement(accident.location, "location", Address.class, Reference.class);
+                ValidationSupport.checkReferenceType(accident.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(accident);
             }
 
             protected Builder from(Accident accident) {
@@ -4739,31 +4846,27 @@ public class Claim extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            careTeamSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeamSequence, "careTeamSequence", PositiveInt.class));
-            diagnosisSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosisSequence, "diagnosisSequence", PositiveInt.class));
-            procedureSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedureSequence, "procedureSequence", PositiveInt.class));
-            informationSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.informationSequence, "informationSequence", PositiveInt.class));
+            sequence = builder.sequence;
+            careTeamSequence = Collections.unmodifiableList(builder.careTeamSequence);
+            diagnosisSequence = Collections.unmodifiableList(builder.diagnosisSequence);
+            procedureSequence = Collections.unmodifiableList(builder.procedureSequence);
+            informationSequence = Collections.unmodifiableList(builder.informationSequence);
             revenue = builder.revenue;
             category = builder.category;
-            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
-            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = builder.serviced;
+            location = builder.location;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
-            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
+            udi = Collections.unmodifiableList(builder.udi);
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
-            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.requireValueOrChildren(this);
+            subSite = Collections.unmodifiableList(builder.subSite);
+            encounter = Collections.unmodifiableList(builder.encounter);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -5804,7 +5907,33 @@ public class Claim extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.sequence, "sequence");
+                ValidationSupport.checkList(item.careTeamSequence, "careTeamSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.diagnosisSequence, "diagnosisSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.procedureSequence, "procedureSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.informationSequence, "informationSequence", PositiveInt.class);
+                ValidationSupport.requireNonNull(item.productOrService, "productOrService");
+                ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(item.programCode, "programCode", CodeableConcept.class);
+                ValidationSupport.choiceElement(item.serviced, "serviced", Date.class, Period.class);
+                ValidationSupport.choiceElement(item.location, "location", CodeableConcept.class, Address.class, Reference.class);
+                ValidationSupport.checkList(item.udi, "udi", Reference.class);
+                ValidationSupport.checkList(item.subSite, "subSite", CodeableConcept.class);
+                ValidationSupport.checkList(item.encounter, "encounter", Reference.class);
+                ValidationSupport.checkList(item.detail, "detail", Detail.class);
+                ValidationSupport.checkReferenceType(item.location, "location", "Location");
+                ValidationSupport.checkReferenceType(item.udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(item.encounter, "encounter", "Encounter");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -5886,20 +6015,18 @@ public class Claim extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                sequence = builder.sequence;
                 revenue = builder.revenue;
                 category = builder.category;
-                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-                programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
+                programCode = Collections.unmodifiableList(builder.programCode);
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                ValidationSupport.requireValueOrChildren(this);
+                udi = Collections.unmodifiableList(builder.udi);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -6531,7 +6658,23 @@ public class Claim extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.sequence, "sequence");
+                    ValidationSupport.requireNonNull(detail.productOrService, "productOrService");
+                    ValidationSupport.checkList(detail.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.programCode, "programCode", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.udi, "udi", Reference.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.checkReferenceType(detail.udi, "udi", "Device");
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -6603,19 +6746,17 @@ public class Claim extends DomainResource {
 
                 private SubDetail(Builder builder) {
                     super(builder);
-                    sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                    sequence = builder.sequence;
                     revenue = builder.revenue;
                     category = builder.category;
-                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-                    programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
+                    productOrService = builder.productOrService;
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    programCode = Collections.unmodifiableList(builder.programCode);
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                    ValidationSupport.requireValueOrChildren(this);
+                    udi = Collections.unmodifiableList(builder.udi);
                 }
 
                 /**
@@ -7198,7 +7339,22 @@ public class Claim extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.sequence, "sequence");
+                        ValidationSupport.requireNonNull(subDetail.productOrService, "productOrService");
+                        ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.programCode, "programCode", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.udi, "udi", Reference.class);
+                        ValidationSupport.checkReferenceType(subDetail.udi, "udi", "Device");
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {

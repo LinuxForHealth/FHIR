@@ -131,32 +131,24 @@ public class DiagnosticReport extends DomainResource {
 
     private DiagnosticReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         subject = builder.subject;
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
-        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultsInterpreter, "resultsInterpreter", Reference.class));
-        specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
-        result = Collections.unmodifiableList(ValidationSupport.checkList(builder.result, "result", Reference.class));
-        imagingStudy = Collections.unmodifiableList(ValidationSupport.checkList(builder.imagingStudy, "imagingStudy", Reference.class));
-        media = Collections.unmodifiableList(ValidationSupport.checkList(builder.media, "media", Media.class));
+        performer = Collections.unmodifiableList(builder.performer);
+        resultsInterpreter = Collections.unmodifiableList(builder.resultsInterpreter);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        result = Collections.unmodifiableList(builder.result);
+        imagingStudy = Collections.unmodifiableList(builder.imagingStudy);
+        media = Collections.unmodifiableList(builder.media);
         conclusion = builder.conclusion;
-        conclusionCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.conclusionCode, "conclusionCode", CodeableConcept.class));
-        presentedForm = Collections.unmodifiableList(ValidationSupport.checkList(builder.presentedForm, "presentedForm", Attachment.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(result, "result", "Observation");
-        ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
+        conclusionCode = Collections.unmodifiableList(builder.conclusionCode);
+        presentedForm = Collections.unmodifiableList(builder.presentedForm);
     }
 
     /**
@@ -1318,7 +1310,37 @@ public class DiagnosticReport extends DomainResource {
          */
         @Override
         public DiagnosticReport build() {
-            return new DiagnosticReport(this);
+            DiagnosticReport diagnosticReport = new DiagnosticReport(this);
+            if (validating) {
+                validate(diagnosticReport);
+            }
+            return diagnosticReport;
+        }
+
+        protected void validate(DiagnosticReport diagnosticReport) {
+            super.validate(diagnosticReport);
+            ValidationSupport.checkList(diagnosticReport.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(diagnosticReport.basedOn, "basedOn", Reference.class);
+            ValidationSupport.requireNonNull(diagnosticReport.status, "status");
+            ValidationSupport.checkList(diagnosticReport.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(diagnosticReport.code, "code");
+            ValidationSupport.choiceElement(diagnosticReport.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(diagnosticReport.performer, "performer", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.resultsInterpreter, "resultsInterpreter", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.specimen, "specimen", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.result, "result", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.imagingStudy, "imagingStudy", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.media, "media", Media.class);
+            ValidationSupport.checkList(diagnosticReport.conclusionCode, "conclusionCode", CodeableConcept.class);
+            ValidationSupport.checkList(diagnosticReport.presentedForm, "presentedForm", Attachment.class);
+            ValidationSupport.checkReferenceType(diagnosticReport.basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(diagnosticReport.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(diagnosticReport.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(diagnosticReport.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(diagnosticReport.result, "result", "Observation");
+            ValidationSupport.checkReferenceType(diagnosticReport.imagingStudy, "imagingStudy", "ImagingStudy");
         }
 
         protected Builder from(DiagnosticReport diagnosticReport) {
@@ -1359,9 +1381,7 @@ public class DiagnosticReport extends DomainResource {
         private Media(Builder builder) {
             super(builder);
             comment = builder.comment;
-            link = ValidationSupport.requireNonNull(builder.link, "link");
-            ValidationSupport.checkReferenceType(link, "link", "Media");
-            ValidationSupport.requireValueOrChildren(this);
+            link = builder.link;
         }
 
         /**
@@ -1611,7 +1631,18 @@ public class DiagnosticReport extends DomainResource {
              */
             @Override
             public Media build() {
-                return new Media(this);
+                Media media = new Media(this);
+                if (validating) {
+                    validate(media);
+                }
+                return media;
+            }
+
+            protected void validate(Media media) {
+                super.validate(media);
+                ValidationSupport.requireNonNull(media.link, "link");
+                ValidationSupport.checkReferenceType(media.link, "link", "Media");
+                ValidationSupport.requireValueOrChildren(media);
             }
 
             protected Builder from(Media media) {

@@ -174,30 +174,30 @@ public class OperationDefinition extends DomainResource {
         super(builder);
         url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        status = builder.status;
+        kind = builder.kind;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         affectsState = builder.affectsState;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        code = builder.code;
         comment = builder.comment;
         base = builder.base;
-        resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", ResourceType.class));
-        system = ValidationSupport.requireNonNull(builder.system, "system");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        instance = ValidationSupport.requireNonNull(builder.instance, "instance");
+        resource = Collections.unmodifiableList(builder.resource);
+        system = builder.system;
+        type = builder.type;
+        instance = builder.instance;
         inputProfile = builder.inputProfile;
         outputProfile = builder.outputProfile;
-        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-        overload = Collections.unmodifiableList(ValidationSupport.checkList(builder.overload, "overload", Overload.class));
+        parameter = Collections.unmodifiableList(builder.parameter);
+        overload = Collections.unmodifiableList(builder.overload);
     }
 
     /**
@@ -1425,7 +1425,28 @@ public class OperationDefinition extends DomainResource {
          */
         @Override
         public OperationDefinition build() {
-            return new OperationDefinition(this);
+            OperationDefinition operationDefinition = new OperationDefinition(this);
+            if (validating) {
+                validate(operationDefinition);
+            }
+            return operationDefinition;
+        }
+
+        protected void validate(OperationDefinition operationDefinition) {
+            super.validate(operationDefinition);
+            ValidationSupport.requireNonNull(operationDefinition.name, "name");
+            ValidationSupport.requireNonNull(operationDefinition.status, "status");
+            ValidationSupport.requireNonNull(operationDefinition.kind, "kind");
+            ValidationSupport.checkList(operationDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(operationDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(operationDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(operationDefinition.code, "code");
+            ValidationSupport.checkList(operationDefinition.resource, "resource", ResourceType.class);
+            ValidationSupport.requireNonNull(operationDefinition.system, "system");
+            ValidationSupport.requireNonNull(operationDefinition.type, "type");
+            ValidationSupport.requireNonNull(operationDefinition.instance, "instance");
+            ValidationSupport.checkList(operationDefinition.parameter, "parameter", Parameter.class);
+            ValidationSupport.checkList(operationDefinition.overload, "overload", Overload.class);
         }
 
         protected Builder from(OperationDefinition operationDefinition) {
@@ -1500,18 +1521,17 @@ public class OperationDefinition extends DomainResource {
 
         private Parameter(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
-            use = ValidationSupport.requireNonNull(builder.use, "use");
-            min = ValidationSupport.requireNonNull(builder.min, "min");
-            max = ValidationSupport.requireNonNull(builder.max, "max");
+            name = builder.name;
+            use = builder.use;
+            min = builder.min;
+            max = builder.max;
             documentation = builder.documentation;
             type = builder.type;
-            targetProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetProfile, "targetProfile", Canonical.class));
+            targetProfile = Collections.unmodifiableList(builder.targetProfile);
             searchType = builder.searchType;
             binding = builder.binding;
-            referencedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.referencedFrom, "referencedFrom", ReferencedFrom.class));
-            part = Collections.unmodifiableList(ValidationSupport.checkList(builder.part, "part", OperationDefinition.Parameter.class));
-            ValidationSupport.requireValueOrChildren(this);
+            referencedFrom = Collections.unmodifiableList(builder.referencedFrom);
+            part = Collections.unmodifiableList(builder.part);
         }
 
         /**
@@ -2096,7 +2116,23 @@ public class OperationDefinition extends DomainResource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.requireNonNull(parameter.name, "name");
+                ValidationSupport.requireNonNull(parameter.use, "use");
+                ValidationSupport.requireNonNull(parameter.min, "min");
+                ValidationSupport.requireNonNull(parameter.max, "max");
+                ValidationSupport.checkList(parameter.targetProfile, "targetProfile", Canonical.class);
+                ValidationSupport.checkList(parameter.referencedFrom, "referencedFrom", ReferencedFrom.class);
+                ValidationSupport.checkList(parameter.part, "part", OperationDefinition.Parameter.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {
@@ -2133,9 +2169,8 @@ public class OperationDefinition extends DomainResource {
 
             private Binding(Builder builder) {
                 super(builder);
-                strength = ValidationSupport.requireNonNull(builder.strength, "strength");
-                valueSet = ValidationSupport.requireNonNull(builder.valueSet, "valueSet");
-                ValidationSupport.requireValueOrChildren(this);
+                strength = builder.strength;
+                valueSet = builder.valueSet;
             }
 
             /**
@@ -2383,7 +2418,18 @@ public class OperationDefinition extends DomainResource {
                  */
                 @Override
                 public Binding build() {
-                    return new Binding(this);
+                    Binding binding = new Binding(this);
+                    if (validating) {
+                        validate(binding);
+                    }
+                    return binding;
+                }
+
+                protected void validate(Binding binding) {
+                    super.validate(binding);
+                    ValidationSupport.requireNonNull(binding.strength, "strength");
+                    ValidationSupport.requireNonNull(binding.valueSet, "valueSet");
+                    ValidationSupport.requireValueOrChildren(binding);
                 }
 
                 protected Builder from(Binding binding) {
@@ -2405,9 +2451,8 @@ public class OperationDefinition extends DomainResource {
 
             private ReferencedFrom(Builder builder) {
                 super(builder);
-                source = ValidationSupport.requireNonNull(builder.source, "source");
+                source = builder.source;
                 sourceId = builder.sourceId;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2652,7 +2697,17 @@ public class OperationDefinition extends DomainResource {
                  */
                 @Override
                 public ReferencedFrom build() {
-                    return new ReferencedFrom(this);
+                    ReferencedFrom referencedFrom = new ReferencedFrom(this);
+                    if (validating) {
+                        validate(referencedFrom);
+                    }
+                    return referencedFrom;
+                }
+
+                protected void validate(ReferencedFrom referencedFrom) {
+                    super.validate(referencedFrom);
+                    ValidationSupport.requireNonNull(referencedFrom.source, "source");
+                    ValidationSupport.requireValueOrChildren(referencedFrom);
                 }
 
                 protected Builder from(ReferencedFrom referencedFrom) {
@@ -2675,9 +2730,8 @@ public class OperationDefinition extends DomainResource {
 
         private Overload(Builder builder) {
             super(builder);
-            parameterName = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameterName, "parameterName", String.class));
+            parameterName = Collections.unmodifiableList(builder.parameterName);
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2933,7 +2987,17 @@ public class OperationDefinition extends DomainResource {
              */
             @Override
             public Overload build() {
-                return new Overload(this);
+                Overload overload = new Overload(this);
+                if (validating) {
+                    validate(overload);
+                }
+                return overload;
+            }
+
+            protected void validate(Overload overload) {
+                super.validate(overload);
+                ValidationSupport.checkList(overload.parameterName, "parameterName", String.class);
+                ValidationSupport.requireValueOrChildren(overload);
             }
 
             protected Builder from(Overload overload) {

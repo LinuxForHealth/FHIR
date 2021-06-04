@@ -158,11 +158,7 @@ public class BiologicallyDerivedProductStorageScale extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class BiologicallyDerivedProductStorageScale extends Code {
 
         @Override
         public BiologicallyDerivedProductStorageScale build() {
-            return new BiologicallyDerivedProductStorageScale(this);
+            BiologicallyDerivedProductStorageScale biologicallyDerivedProductStorageScale = new BiologicallyDerivedProductStorageScale(this);
+            if (validating) {
+                validate(biologicallyDerivedProductStorageScale);
+            }
+            return biologicallyDerivedProductStorageScale;
+        }
+
+        protected void validate(BiologicallyDerivedProductStorageScale biologicallyDerivedProductStorageScale) {
+            super.validate(biologicallyDerivedProductStorageScale);
+        }
+
+        protected Builder from(BiologicallyDerivedProductStorageScale biologicallyDerivedProductStorageScale) {
+            super.from(biologicallyDerivedProductStorageScale);
+            return this;
         }
     }
 

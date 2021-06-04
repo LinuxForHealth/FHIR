@@ -38,7 +38,7 @@
     </developers>
 
     <properties>
-        <liberty.version>21.0.0.3</liberty.version>
+        <liberty.version>21.0.0.5</liberty.version>
         <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
@@ -331,7 +331,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>1.1.5</version>
+                <version>2.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.tyrus.bundles</groupId>

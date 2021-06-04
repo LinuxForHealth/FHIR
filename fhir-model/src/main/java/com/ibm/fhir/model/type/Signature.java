@@ -75,16 +75,13 @@ public class Signature extends Element {
 
     private Signature(Builder builder) {
         super(builder);
-        type = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.type, "type", Coding.class));
-        when = ValidationSupport.requireNonNull(builder.when, "when");
-        who = ValidationSupport.requireNonNull(builder.who, "who");
+        type = Collections.unmodifiableList(builder.type);
+        when = builder.when;
+        who = builder.who;
         onBehalfOf = builder.onBehalfOf;
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
-        ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-        ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -478,7 +475,21 @@ public class Signature extends Element {
          */
         @Override
         public Signature build() {
-            return new Signature(this);
+            Signature signature = new Signature(this);
+            if (validating) {
+                validate(signature);
+            }
+            return signature;
+        }
+
+        protected void validate(Signature signature) {
+            super.validate(signature);
+            ValidationSupport.checkNonEmptyList(signature.type, "type", Coding.class);
+            ValidationSupport.requireNonNull(signature.when, "when");
+            ValidationSupport.requireNonNull(signature.who, "who");
+            ValidationSupport.checkReferenceType(signature.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.checkReferenceType(signature.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.requireValueOrChildren(signature);
         }
 
         protected Builder from(Signature signature) {

@@ -208,11 +208,7 @@ public class StandardsStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -267,7 +263,20 @@ public class StandardsStatus extends Code {
 
         @Override
         public StandardsStatus build() {
-            return new StandardsStatus(this);
+            StandardsStatus standardsStatus = new StandardsStatus(this);
+            if (validating) {
+                validate(standardsStatus);
+            }
+            return standardsStatus;
+        }
+
+        protected void validate(StandardsStatus standardsStatus) {
+            super.validate(standardsStatus);
+        }
+
+        protected Builder from(StandardsStatus standardsStatus) {
+            super.from(standardsStatus);
+            return this;
         }
     }
 

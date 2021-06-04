@@ -147,11 +147,7 @@ public class EnableWhenBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class EnableWhenBehavior extends Code {
 
         @Override
         public EnableWhenBehavior build() {
-            return new EnableWhenBehavior(this);
+            EnableWhenBehavior enableWhenBehavior = new EnableWhenBehavior(this);
+            if (validating) {
+                validate(enableWhenBehavior);
+            }
+            return enableWhenBehavior;
+        }
+
+        protected void validate(EnableWhenBehavior enableWhenBehavior) {
+            super.validate(enableWhenBehavior);
+        }
+
+        protected Builder from(EnableWhenBehavior enableWhenBehavior) {
+            super.from(enableWhenBehavior);
+            return this;
         }
     }
 

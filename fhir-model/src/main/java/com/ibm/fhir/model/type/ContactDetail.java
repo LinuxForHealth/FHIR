@@ -31,8 +31,7 @@ public class ContactDetail extends Element {
     private ContactDetail(Builder builder) {
         super(builder);
         name = builder.name;
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        ValidationSupport.requireValueOrChildren(this);
+        telecom = Collections.unmodifiableList(builder.telecom);
     }
 
     /**
@@ -237,7 +236,17 @@ public class ContactDetail extends Element {
          */
         @Override
         public ContactDetail build() {
-            return new ContactDetail(this);
+            ContactDetail contactDetail = new ContactDetail(this);
+            if (validating) {
+                validate(contactDetail);
+            }
+            return contactDetail;
+        }
+
+        protected void validate(ContactDetail contactDetail) {
+            super.validate(contactDetail);
+            ValidationSupport.checkList(contactDetail.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.requireValueOrChildren(contactDetail);
         }
 
         protected Builder from(ContactDetail contactDetail) {

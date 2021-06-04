@@ -1,3 +1,9 @@
+/*
+ * (C) Copyright IBM Corp. 2020, 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 package com.ibm.fhir.server.util;
 
 import static org.testng.Assert.assertEquals;
@@ -8,6 +14,7 @@ import javax.ws.rs.core.Response;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -24,12 +31,12 @@ public class IssueTypeToHttpStatusMapperTest {
 
         IssueType issueType = IssueType.NOT_FOUND.toBuilder()
                 .extension(Extension.builder()
-                        .url(FHIRRestHelper.EXTENSION_URL + "/not-found-detail")
+                        .url(FHIRConstants.EXT_BASE + "not-found-detail")
                         .value(Code.of("code")).build()).build();
 
         OperationOutcome.Issue issue = OperationOutcome.Issue.builder().severity(IssueSeverity.ERROR).code(issueType)
                 .details(CodeableConcept.builder().coding(coding).build()).build();
-        
+
         System.out.println(issue.toString());
 
         Response.Status status = IssueTypeToHttpStatusMapper.issueListToStatus(Arrays.asList(issue));

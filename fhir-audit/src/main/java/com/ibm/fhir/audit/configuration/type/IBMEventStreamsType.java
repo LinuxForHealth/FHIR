@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,16 +16,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.json.JsonString;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
-
 import com.ibm.fhir.exception.FHIRException;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonString;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 /**
  * Helper class to process IBM Event Streams bindings into useful Kafka
@@ -222,7 +222,7 @@ public final class IBMEventStreamsType {
                     }
 
                     return builder.build();
-                } catch (javax.json.stream.JsonParsingException jpe) {
+                } catch (jakarta.json.stream.JsonParsingException jpe) {
                     throw new FHIRException("Parsed invalid ", jpe);
                 }
             }

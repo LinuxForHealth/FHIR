@@ -192,11 +192,7 @@ public class DeviceUseStatementStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -251,7 +247,20 @@ public class DeviceUseStatementStatus extends Code {
 
         @Override
         public DeviceUseStatementStatus build() {
-            return new DeviceUseStatementStatus(this);
+            DeviceUseStatementStatus deviceUseStatementStatus = new DeviceUseStatementStatus(this);
+            if (validating) {
+                validate(deviceUseStatementStatus);
+            }
+            return deviceUseStatementStatus;
+        }
+
+        protected void validate(DeviceUseStatementStatus deviceUseStatementStatus) {
+            super.validate(deviceUseStatementStatus);
+        }
+
+        protected Builder from(DeviceUseStatementStatus deviceUseStatementStatus) {
+            super.from(deviceUseStatementStatus);
+            return this;
         }
     }
 

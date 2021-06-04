@@ -266,11 +266,7 @@ public class SearchModifierCode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -325,7 +321,20 @@ public class SearchModifierCode extends Code {
 
         @Override
         public SearchModifierCode build() {
-            return new SearchModifierCode(this);
+            SearchModifierCode searchModifierCode = new SearchModifierCode(this);
+            if (validating) {
+                validate(searchModifierCode);
+            }
+            return searchModifierCode;
+        }
+
+        protected void validate(SearchModifierCode searchModifierCode) {
+            super.validate(searchModifierCode);
+        }
+
+        protected Builder from(SearchModifierCode searchModifierCode) {
+            super.from(searchModifierCode);
+            return this;
         }
     }
 

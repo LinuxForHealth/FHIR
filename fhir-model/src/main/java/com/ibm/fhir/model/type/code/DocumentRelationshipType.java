@@ -169,11 +169,7 @@ public class DocumentRelationshipType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class DocumentRelationshipType extends Code {
 
         @Override
         public DocumentRelationshipType build() {
-            return new DocumentRelationshipType(this);
+            DocumentRelationshipType documentRelationshipType = new DocumentRelationshipType(this);
+            if (validating) {
+                validate(documentRelationshipType);
+            }
+            return documentRelationshipType;
+        }
+
+        protected void validate(DocumentRelationshipType documentRelationshipType) {
+            super.validate(documentRelationshipType);
+        }
+
+        protected Builder from(DocumentRelationshipType documentRelationshipType) {
+            super.from(documentRelationshipType);
+            return this;
         }
     }
 

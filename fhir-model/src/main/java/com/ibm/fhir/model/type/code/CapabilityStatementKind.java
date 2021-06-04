@@ -161,11 +161,7 @@ public class CapabilityStatementKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -220,7 +216,20 @@ public class CapabilityStatementKind extends Code {
 
         @Override
         public CapabilityStatementKind build() {
-            return new CapabilityStatementKind(this);
+            CapabilityStatementKind capabilityStatementKind = new CapabilityStatementKind(this);
+            if (validating) {
+                validate(capabilityStatementKind);
+            }
+            return capabilityStatementKind;
+        }
+
+        protected void validate(CapabilityStatementKind capabilityStatementKind) {
+            super.validate(capabilityStatementKind);
+        }
+
+        protected Builder from(CapabilityStatementKind capabilityStatementKind) {
+            super.from(capabilityStatementKind);
+            return this;
         }
     }
 

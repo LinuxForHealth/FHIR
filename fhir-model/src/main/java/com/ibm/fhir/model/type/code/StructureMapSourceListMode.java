@@ -180,11 +180,7 @@ public class StructureMapSourceListMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -239,7 +235,20 @@ public class StructureMapSourceListMode extends Code {
 
         @Override
         public StructureMapSourceListMode build() {
-            return new StructureMapSourceListMode(this);
+            StructureMapSourceListMode structureMapSourceListMode = new StructureMapSourceListMode(this);
+            if (validating) {
+                validate(structureMapSourceListMode);
+            }
+            return structureMapSourceListMode;
+        }
+
+        protected void validate(StructureMapSourceListMode structureMapSourceListMode) {
+            super.validate(structureMapSourceListMode);
+        }
+
+        protected Builder from(StructureMapSourceListMode structureMapSourceListMode) {
+            super.from(structureMapSourceListMode);
+            return this;
         }
     }
 

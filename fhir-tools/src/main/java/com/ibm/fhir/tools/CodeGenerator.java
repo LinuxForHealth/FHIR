@@ -35,13 +35,14 @@ import java.util.Set;
 import java.util.StringJoiner;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonString;
-import javax.json.JsonValue;
 import javax.lang.model.SourceVersion;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonString;
+import jakarta.json.JsonValue;
 
 public class CodeGenerator {
     private final Map<String, JsonObject> structureDefinitionMap;
@@ -723,11 +724,24 @@ public class CodeGenerator {
             cb.javadocThrows("IllegalStateException", "if the current state cannot be built into a valid "
                     + className + " per the base specification");
             cb.javadocEnd();
+
+            String varName = camelCase(className);
+            if (SourceVersion.isKeyword(varName)) {
+                varName = "_" + varName;
+            }
+
             cb.override();
             cb.method(mods("public"), className, "build")
-                ._return(_new(className, args("this")))
+                .decl(className, varName, _new(className, args("this")))
+                ._if("validating")
+                    .invoke("validate", args(varName))
+                ._end()
+                ._return(varName)
             .end();
         }
+
+        cb.newLine();
+        generateValidateMethod(structureDefinition, path, className, visibility, cb, nested);
 
         String paramName = camelCase(className);
         if (SourceVersion.isKeyword(paramName)) {
@@ -739,7 +753,7 @@ public class CodeGenerator {
         // Call super.from unless we are at the topMost resources in the model hierarchy
         if (!(isAbstract(structureDefinition) &&
                 ("Resource".equals(className) || "Element".equals(className)))) {
-            cb.invoke("super.from", args(paramName));
+            cb.invoke("super", "from", args(paramName));
         }
         for (JsonObject elementDefinition : declaredElementDefinitions) {
             String fieldName = getFieldName(elementDefinition, path);
@@ -757,6 +771,177 @@ public class CodeGenerator {
         cb.end();
 
         cb._end();
+    }
+
+    private void generateValidateMethod(JsonObject structureDefinition, String path, String className, String visibility, CodeBuilder cb, boolean nested) {
+        String paramName = camelCase(className);
+        if (SourceVersion.isKeyword(paramName)) {
+            paramName = "_" + paramName;
+        }
+
+        cb.method(mods("protected"), "void", "validate", params(param(className, paramName)));
+
+        if (!(isAbstract(structureDefinition) &&
+                ("Resource".equals(className) || "Element".equals(className)))) {
+            cb.invoke("super", "validate", args(paramName));
+        }
+
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String basePath = elementDefinition.getJsonObject("base").getString("path");
+            if (elementDefinition.getString("path").equals(basePath)) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+
+                if (isRequired(elementDefinition)) {
+                    if (isRepeating(elementDefinition)) {
+                        cb.invoke("ValidationSupport", "checkNonEmptyList", args(paramName + "." + fieldName, quote(elementName), getFieldType(structureDefinition, elementDefinition, false) + ".class"));
+                    } else {
+                        if (isChoiceElement(elementDefinition)) {
+                            String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
+                            cb.invoke("ValidationSupport", "requireChoiceElement", args(paramName + "." + fieldName, quote(elementName), types));
+                        } else {
+                            cb.invoke("ValidationSupport", "requireNonNull", args(paramName + "." + fieldName, quote(elementName)));
+                        }
+                    }
+                } else {
+                    if (isRepeating(elementDefinition)) {
+                        cb.invoke("ValidationSupport", "checkList", args(paramName + "." + fieldName, quote(elementName), getFieldType(structureDefinition, elementDefinition, false) + ".class"));
+                    } else if (isChoiceElement(elementDefinition)) {
+                        String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
+                        cb.invoke("ValidationSupport", "choiceElement", args(paramName + "." + fieldName, quote(elementName), types));
+                    }
+                }
+            }
+        }
+
+        if (isUnsignedInt(structureDefinition) || isPositiveInt(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "MIN_VALUE"));
+        }
+
+        if (isString(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkString", args(paramName + ".value"));
+        }
+        if (isUri(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkUri", args(paramName + ".value"));
+        }
+
+        if (isCode(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkCode", args(paramName + ".value"));
+        } else if (isId(structureDefinition)){
+            cb.invoke("ValidationSupport", "checkId", args(paramName + ".value"));
+        } else if (isStringSubtype(structureDefinition)) {
+            if (!STRING_PATTERN.equals(getPattern(structureDefinition))) {
+                cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "PATTERN"));
+            }
+        }
+
+        if (isUriSubtype(structureDefinition)) {
+            if (!URI_PATTERN.equals(getPattern(structureDefinition))) {
+                cb.invoke("ValidationSupport", "checkValue", args(paramName + ".value", "PATTERN"));
+            }
+        }
+
+        if (isDate(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkValueType", args(paramName + ".value", "LocalDate.class", "YearMonth.class", "Year.class"));
+        }
+
+        if (isDateTime(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkValueType", args(paramName + ".value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
+        }
+
+        for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, path)) {
+            if (isProhibited(elementDefinition)) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                cb.invoke("ValidationSupport", "prohibited", args(paramName + "." + fieldName, quote(elementName)));
+            }
+        }
+
+        if ("Resource".equals(className) && !nested) {
+            cb.invoke("ValidationSupport", "checkId", args(paramName + ".id"));
+        }
+
+        if ("Element".equals(className) && !nested) {
+            cb.invoke("ValidationSupport", "checkString", args(paramName + ".id"));
+        }
+
+        if ("Extension".equals(className) && !nested) {
+            cb.invoke("ValidationSupport", "checkUri", args(paramName + ".url"));
+        }
+
+        // Handle code/coding/codeableconcept/quantity/string/uri fields with required or maxValueSet binding
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String basePath = elementDefinition.getJsonObject("base").getString("path");
+            if (elementDefinition.getString("path").equals(basePath)) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+                String fieldType = getFieldType(structureDefinition, elementDefinition, false);
+                if ("Code".equals(fieldType) || "Coding".equals(fieldType) || "CodeableConcept".equals(fieldType) ||
+                        "Quantity".equals(fieldType) || "String".equals(fieldType) || "Uri".equals(fieldType)) {
+                    JsonObject binding = getBinding(elementDefinition);
+                    if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
+                        String valueSet = binding.getString("valueSet").split("\\|")[0];
+                        if ("required".equals(binding.getString("strength"))) {
+                            // required binding, check if it should be validated
+                            String system = getSystem(valueSet);
+                            List<JsonObject> concepts = getConcepts(valueSet);
+                            if ((!concepts.isEmpty() && !"Code".equals(fieldType)) || isSyntaxValidatedValueSet(valueSet)) {
+                                if (concepts.isEmpty()) {
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                } else {
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system),
+                                        concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                                }
+                            }
+                        } else if (getMaxValueSet(binding) != null) {
+                            // not a required binding, check maxValueSet binding
+                            valueSet = getMaxValueSet(binding).split("\\|")[0];
+                            String system = getSystem(valueSet);
+                            List<JsonObject> concepts = getConcepts(valueSet);
+                            if (!concepts.isEmpty() || isSyntaxValidatedValueSet(valueSet)) {
+                                if (concepts.isEmpty()) {
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system)));
+                                } else {
+                                    cb.invoke("ValidationSupport", "checkValueSetBinding", args(paramName + "." + fieldName, quote(elementName), quote(valueSet), quote(system),
+                                        concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String elementName = getElementName(elementDefinition, path);
+            String fieldName = getFieldName(elementName);
+            if (isReferenceElement(structureDefinition, elementDefinition) ||
+                    (isRepeating(elementDefinition) && "List<Reference>".equals(getFieldType(structureDefinition, elementDefinition))) ||
+                    (isChoiceElement(elementDefinition) && getChoiceTypeNames(elementDefinition).contains("Reference"))) {
+                List<String> referenceTypes = getReferenceTypes(elementDefinition);
+                if (!referenceTypes.isEmpty()) {
+                    cb.invoke("ValidationSupport", "checkReferenceType", args(paramName + "." + fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
+                }
+            }
+        }
+
+        if ((!isResource(structureDefinition) &&
+                !isAbstract(structureDefinition) &&
+                !isStringSubtype(structureDefinition) &&
+                !isUriSubtype(structureDefinition) &&
+                !isQuantitySubtype(structureDefinition) &&
+                !isXhtml(structureDefinition)) ||
+                nested) {
+            cb.invoke("ValidationSupport", "requireValueOrChildren", args(paramName));
+        }
+
+        if (isXhtml(structureDefinition)) {
+            cb.invoke("ValidationSupport", "checkXHTMLContent", args(paramName + ".value"));
+        }
+
+        cb.end();
     }
 
     /**
@@ -1105,177 +1290,9 @@ public class CodeGenerator {
                 cb.field(mods("protected", "volatile"), "int", "hashCode").newLine();
             }
 
-            cb.constructor(mods(visibility), className, args("Builder builder"));
-            if ((!"Resource".equals(className) && !"Element".equals(className)) || nested) {
-                cb._super(args("builder"));
-            }
+            generateConstructor(structureDefinition, path, className, visibility, cb, nested);
 
-            for (JsonObject elementDefinition : elementDefinitions) {
-                String basePath = elementDefinition.getJsonObject("base").getString("path");
-                if (elementDefinition.getString("path").equals(basePath)) {
-                    String elementName = getElementName(elementDefinition, path);
-                    String fieldName = getFieldName(elementName);
-
-                    if (isRequired(elementDefinition)) {
-                        if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder." + fieldName + ", " + quote(elementName) + ", " +
-                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
-                        } else {
-                            if (isChoiceElement(elementDefinition)) {
-                                String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
-                                cb.assign(fieldName, "ValidationSupport.requireChoiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
-                            } else {
-                                cb.assign(fieldName, "ValidationSupport.requireNonNull(builder." + fieldName + ", " + quote(elementName) + ")");
-                            }
-                        }
-                    } else {
-                        if (isRepeating(elementDefinition)) {
-                            cb.assign(fieldName, "Collections.unmodifiableList(ValidationSupport.checkList(builder." + fieldName + ", " + quote(elementName) + ", " +
-                                    getFieldType(structureDefinition, elementDefinition, false) + ".class))");
-                        } else {
-                            if (isChoiceElement(elementDefinition)) {
-                                String types = getChoiceTypeNames(elementDefinition).stream().map(s -> s + ".class").collect(Collectors.joining(", "));
-                                cb.assign(fieldName, "ValidationSupport.choiceElement(builder." + fieldName + ", " + quote(elementName) + ", " + types + ")");
-                            } else {
-                                // Instant, DateTime, and Time values require special handling
-                                if ((isInstant(structureDefinition) || isDateTime(structureDefinition) || isTime(structureDefinition))
-                                        && "value".equals(fieldName)) {
-                                    cb.assign(fieldName, "ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS)");
-                                } else {
-                                    cb.assign(fieldName, "builder." + fieldName);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (isUnsignedInt(structureDefinition) || isPositiveInt(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkValue", args("value", "MIN_VALUE"));
-            }
-
-            if (isString(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkString", args("value"));
-            }
-            if (isUri(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkUri", args("value"));
-            }
-
-            if (isCode(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkCode", args("value"));
-            } else if (isId(structureDefinition)){
-                cb.invoke("ValidationSupport", "checkId", args("value"));
-            } else if (isStringSubtype(structureDefinition)) {
-                if (!STRING_PATTERN.equals(getPattern(structureDefinition))) {
-                    cb.invoke("ValidationSupport", "checkValue", args("value", "PATTERN"));
-                }
-            }
-
-            if (isUriSubtype(structureDefinition)) {
-                if (!URI_PATTERN.equals(getPattern(structureDefinition))) {
-                    cb.invoke("ValidationSupport", "checkValue", args("value", "PATTERN"));
-                }
-            }
-
-            if (isDate(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkValueType", args("value", "LocalDate.class", "YearMonth.class", "Year.class"));
-            }
-
-            if (isDateTime(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkValueType", args("value", "ZonedDateTime.class", "LocalDate.class", "YearMonth.class", "Year.class"));
-            }
-
-            for (JsonObject elementDefinition : getElementDefinitions(structureDefinition, path)) {
-                if (isProhibited(elementDefinition)) {
-                    String elementName = getElementName(elementDefinition, path);
-                    String fieldName = getFieldName(elementName);
-                    cb.invoke("ValidationSupport", "prohibited", args(fieldName, quote(elementName)));
-                }
-            }
-
-            if ("Resource".equals(className) && !nested) {
-                cb.invoke("ValidationSupport", "checkId", args("id"));
-            }
-
-            if ("Element".equals(className) && !nested) {
-                cb.invoke("ValidationSupport", "checkString", args("id"));
-            }
-
-            if ("Extension".equals(className) && !nested) {
-                cb.invoke("ValidationSupport", "checkUri", args("url"));
-            }
-
-            // Handle code/coding/codeableconcept/quantity/string/uri fields with required or maxValueSet binding
-            for (JsonObject elementDefinition : elementDefinitions) {
-                String basePath = elementDefinition.getJsonObject("base").getString("path");
-                if (elementDefinition.getString("path").equals(basePath)) {
-                    String elementName = getElementName(elementDefinition, path);
-                    String fieldName = getFieldName(elementName);
-                    String fieldType = getFieldType(structureDefinition, elementDefinition, false);
-                    if ("Code".equals(fieldType) || "Coding".equals(fieldType) || "CodeableConcept".equals(fieldType) ||
-                            "Quantity".equals(fieldType) || "String".equals(fieldType) || "Uri".equals(fieldType)) {
-                        JsonObject binding = getBinding(elementDefinition);
-                        if (binding != null && binding.containsKey("valueSet") && binding.containsKey("strength")) {
-                            String valueSet = binding.getString("valueSet").split("\\|")[0];
-                            if ("required".equals(binding.getString("strength"))) {
-                                // required binding, check if it should be validated
-                                String system = getSystem(valueSet);
-                                List<JsonObject> concepts = getConcepts(valueSet);
-                                if ((!concepts.isEmpty() && !"Code".equals(fieldType)) || isSyntaxValidatedValueSet(valueSet)) {
-                                    if (concepts.isEmpty()) {
-                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
-                                    } else {
-                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
-                                            concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
-                                    }
-                                }
-                            } else if (getMaxValueSet(binding) != null) {
-                                // not a required binding, check maxValueSet binding
-                                valueSet = getMaxValueSet(binding).split("\\|")[0];
-                                String system = getSystem(valueSet);
-                                List<JsonObject> concepts = getConcepts(valueSet);
-                                if (!concepts.isEmpty() || isSyntaxValidatedValueSet(valueSet)) {
-                                    if (concepts.isEmpty()) {
-                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system)));
-                                    } else {
-                                        cb.invoke("ValidationSupport", "checkValueSetBinding", args(fieldName, quote(elementName), quote(valueSet), quote(system),
-                                            concepts.stream().map(concept -> quote(concept.getString("code"))).collect(Collectors.joining(", "))));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            for (JsonObject elementDefinition : elementDefinitions) {
-                String elementName = getElementName(elementDefinition, path);
-                String fieldName = getFieldName(elementName);
-                if (isReferenceElement(structureDefinition, elementDefinition) ||
-                        (isRepeating(elementDefinition) && "List<Reference>".equals(getFieldType(structureDefinition, elementDefinition))) ||
-                        (isChoiceElement(elementDefinition) && getChoiceTypeNames(elementDefinition).contains("Reference"))) {
-                    List<String> referenceTypes = getReferenceTypes(elementDefinition);
-                    if (!referenceTypes.isEmpty()) {
-                        cb.invoke("ValidationSupport", "checkReferenceType", args(fieldName, quote(elementName), referenceTypes.stream().map(type -> quote(type)).collect(Collectors.joining(", "))));
-                    }
-                }
-            }
-
-            if ((!isResource(structureDefinition) &&
-                    !isAbstract(structureDefinition) &&
-                    !isStringSubtype(structureDefinition) &&
-                    !isUriSubtype(structureDefinition) &&
-                    !isQuantitySubtype(structureDefinition) &&
-                    !isXhtml(structureDefinition)) ||
-                    nested) {
-                cb.invoke("ValidationSupport", "requireValueOrChildren", args("this"));
-            }
-
-            if (isXhtml(structureDefinition)) {
-                cb.invoke("ValidationSupport", "checkXHTMLContent", args("value"));
-            }
-
-            cb.end().newLine();
+            cb.newLine();
 
             for (JsonObject elementDefinition : elementDefinitions) {
                 String basePath = elementDefinition.getJsonObject("base").getString("path");
@@ -1344,6 +1361,40 @@ public class CodeGenerator {
                 cb.newLine();
             }
         }
+    }
+
+    private void generateConstructor(JsonObject structureDefinition, String path, String className, String visibility, CodeBuilder cb, boolean nested) {
+        cb.constructor(mods(visibility), className, args("Builder builder"));
+        if ((!"Resource".equals(className) && !"Element".equals(className)) || nested) {
+            cb._super(args("builder"));
+        }
+
+        List<JsonObject> elementDefinitions = getElementDefinitions(structureDefinition, path);
+        if (isProfiledType(className)) {
+            elementDefinitions = Collections.emptyList();
+        }
+
+        for (JsonObject elementDefinition : elementDefinitions) {
+            String basePath = elementDefinition.getJsonObject("base").getString("path");
+            if (elementDefinition.getString("path").equals(basePath)) {
+                String elementName = getElementName(elementDefinition, path);
+                String fieldName = getFieldName(elementName);
+
+                if (isRepeating(elementDefinition)) {
+                    cb.assign(fieldName, "Collections.unmodifiableList(builder." + fieldName + ")");
+                } else {
+                    // Instant, DateTime, and Time values require special handling
+                    if ((isInstant(structureDefinition) || isDateTime(structureDefinition) || isTime(structureDefinition))
+                            && "value".equals(fieldName)) {
+                        cb.assign(fieldName, "ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS)");
+                    } else {
+                        cb.assign(fieldName, "builder." + fieldName);
+                    }
+                }
+            }
+        }
+
+        cb.end();
     }
 
     /**
@@ -2703,6 +2754,8 @@ public class CodeGenerator {
             cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
 
+        cb.invoke("builder", "setValidating", args("validating"));
+
         if (typeClassNames.contains(generatedClassName) || generatedClassName.contains(".")) {
             cb.assign("java.lang.String id", "reader.getAttributeValue(null, \"id\")")
             ._if("id != null")
@@ -2802,7 +2855,11 @@ public class CodeGenerator {
         }
 
         cb._default()
-            ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")));
+            ._if("!ignoringUnrecognizedElements")
+                ._throw(_new("IllegalArgumentException", args("\"Unrecognized element: '\" + localName + \"'\"")))
+            ._end()
+            .invoke("reader", "nextTag", args())
+            ._break();
 
         cb._end();
 
@@ -2877,19 +2934,25 @@ public class CodeGenerator {
         cb._import("java.io.Reader");
         cb._import("java.nio.charset.StandardCharsets");
         cb._import("java.util.Collection");
+        cb._import("java.util.Collections");
         cb._import("java.util.Stack");
         cb._import("java.util.StringJoiner");
         cb.newLine();
 
         cb._import("javax.annotation.Generated");
-        cb._import("javax.json.Json");
-        cb._import("javax.json.JsonArray");
-        cb._import("javax.json.JsonNumber");
-        cb._import("javax.json.JsonObject");
-        cb._import("javax.json.JsonReader");
-        cb._import("javax.json.JsonReaderFactory");
-        cb._import("javax.json.JsonString");
-        cb._import("javax.json.JsonValue");
+        cb.newLine();
+
+        cb._import("org.glassfish.json.api.JsonConfig");
+        cb.newLine();
+
+        cb._import("jakarta.json.Json");
+        cb._import("jakarta.json.JsonArray");
+        cb._import("jakarta.json.JsonNumber");
+        cb._import("jakarta.json.JsonObject");
+        cb._import("jakarta.json.JsonReader");
+        cb._import("jakarta.json.JsonReaderFactory");
+        cb._import("jakarta.json.JsonString");
+        cb._import("jakarta.json.JsonValue");
         cb.newLine();
 
         cb._import("com.ibm.fhir.model.parser.exception.FHIRParserException");
@@ -2900,8 +2963,6 @@ public class CodeGenerator {
         cb._import("com.ibm.fhir.model.type.Integer");
         cb._import("com.ibm.fhir.model.type.String");
         cb._import("com.ibm.fhir.model.util.ElementFilter");
-        cb.newLine();
-
         cb._import("net.jcip.annotations.NotThreadSafe");
         cb.newLine();
 
@@ -2909,7 +2970,7 @@ public class CodeGenerator {
         cb.annotation("Generated", quote("com.ibm.fhir.tools.CodeGenerator"));
         cb._class(mods("public"), "FHIRJsonParser", "FHIRAbstractParser");
         cb.field(mods("public", "static"), "boolean", "DEBUG", "false");
-        cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(null)");
+        cb.field(mods("private", "static", "final"), "JsonReaderFactory", "JSON_READER_FACTORY", "Json.createReaderFactory(Collections.singletonMap(JsonConfig.REJECT_DUPLICATE_KEYS, true))");
         cb.newLine();
 
         cb.field(mods("private", "final"), "Stack<java.lang.String>", "stack", _new("Stack<>"));
@@ -2984,15 +3045,6 @@ public class CodeGenerator {
 
         cb.method(mods("private"), "void", "reset")
             .invoke("stack", "clear", args())
-        .end();
-        cb.newLine();
-
-        cb.override();
-        cb.method(mods("public"), "boolean", "isPropertySupported", params("java.lang.String name"))
-            ._if("FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS.equals(name)")
-                ._return("true")
-            ._end()
-            ._return("false")
         .end();
         cb.newLine();
 
@@ -3188,7 +3240,7 @@ public class CodeGenerator {
                 ._return("null")
             ._end();
             cb.invoke("stackPush", args("elementName", "elementIndex"));
-            cb._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+            cb._if("!ignoringUnrecognizedElements")
                 .invoke("checkForUnrecognizedElements", args(generatedClassName + ".class", "jsonObject"))
             ._end();
         }
@@ -3196,6 +3248,8 @@ public class CodeGenerator {
         if (!isAbstract(structureDefinition) && !"Quantity".equals(generatedClassName)) {
             cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
+
+        cb.invoke("builder", "setValidating", args("validating"));
 
         String superClass = superClassMap.get(generatedClassName);
         if (superClass != null) {
@@ -3273,9 +3327,11 @@ public class CodeGenerator {
             cb.assign(generatedClassName + ".Builder builder", generatedClassName + ".builder()");
         }
 
+        cb.invoke("builder", "setValidating", args("validating"));
+
         cb._if("_jsonValue != null && _jsonValue.getValueType() == JsonValue.ValueType.OBJECT")
             .assign("JsonObject jsonObject", "(JsonObject) _jsonValue")
-            ._if("getPropertyOrDefault(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, java.lang.Boolean.FALSE, java.lang.Boolean.class) == false")
+            ._if("!ignoringUnrecognizedElements")
                 .invoke("checkForUnrecognizedElements", args("Element.class", "jsonObject"))
             ._end()
             .invoke("parseElement", args("builder", "jsonObject"))
@@ -3367,7 +3423,7 @@ public class CodeGenerator {
         }
     }
 
-    public void generateCodeSubtypeClass(String bindingName, String valueSet, String basePath) {
+    private void generateCodeSubtypeClass(String bindingName, String valueSet, String basePath) {
         CodeBuilder cb = new CodeBuilder();
         String packageName = "com.ibm.fhir.model.type.code";
         cb.lines(HEADER).newLine();
@@ -3510,11 +3566,7 @@ public class CodeGenerator {
         cb.end().newLine();
 
         cb.method(mods("public"), "Builder", "toBuilder")
-            .assign("Builder builder", "new Builder()")
-            .invoke("builder", "id", args("id"))
-            .invoke("builder", "extension", args("extension"))
-            .invoke("builder", "value", args("value"))
-            ._return("builder")
+            ._return(_new("Builder") + ".from(this)")
         .end().newLine();
 
         cb.method(mods("public", "static"), "Builder", "builder")
@@ -3566,9 +3618,32 @@ public class CodeGenerator {
             ._return("(value != null) ? (Builder) super.value(value.value()) : this")
         .end().newLine();
 
+        String varName = camelCase(bindingName);
+        if (SourceVersion.isKeyword(varName)) {
+            varName = "_" + varName;
+        }
+
         cb.override();
         cb.method(mods("public"), bindingName, "build")
-            ._return(_new(bindingName, args("this")))
+            .decl(bindingName, varName, _new(bindingName, args("this")))
+            ._if("validating")
+                .invoke("validate", args(varName))
+            ._end()
+            ._return(varName)
+        .end().newLine();
+
+        String paramName = camelCase(bindingName);
+        if (SourceVersion.isKeyword(paramName)) {
+            paramName = "_" + paramName;
+        }
+
+        cb.method(mods("protected"), "void", "validate", params(param(bindingName, paramName)))
+            .invoke("super", "validate", args(paramName))
+        .end().newLine();
+
+        cb.method(mods("protected"), "Builder", "from", params(param(bindingName, paramName)))
+            .invoke("super", "from", args(paramName))
+            ._return("this")
         .end();
 
         cb._end().newLine();
@@ -4087,7 +4162,7 @@ public class CodeGenerator {
      *
      * @return
      */
-    public String getFieldTypeForJavaDocLink(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType) {
+    private String getFieldTypeForJavaDocLink(JsonObject structureDefinition, JsonObject elementDefinition, String fieldType) {
         String path = elementDefinition.getString("path");
 
         if (isPrimitiveType(structureDefinition) && path.endsWith("value")) {

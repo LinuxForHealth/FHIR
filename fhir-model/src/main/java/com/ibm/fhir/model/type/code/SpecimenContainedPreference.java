@@ -147,11 +147,7 @@ public class SpecimenContainedPreference extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class SpecimenContainedPreference extends Code {
 
         @Override
         public SpecimenContainedPreference build() {
-            return new SpecimenContainedPreference(this);
+            SpecimenContainedPreference specimenContainedPreference = new SpecimenContainedPreference(this);
+            if (validating) {
+                validate(specimenContainedPreference);
+            }
+            return specimenContainedPreference;
+        }
+
+        protected void validate(SpecimenContainedPreference specimenContainedPreference) {
+            super.validate(specimenContainedPreference);
+        }
+
+        protected Builder from(SpecimenContainedPreference specimenContainedPreference) {
+            super.from(specimenContainedPreference);
+            return this;
         }
     }
 

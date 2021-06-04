@@ -158,11 +158,7 @@ public class ObservationRangeCategory extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ObservationRangeCategory extends Code {
 
         @Override
         public ObservationRangeCategory build() {
-            return new ObservationRangeCategory(this);
+            ObservationRangeCategory observationRangeCategory = new ObservationRangeCategory(this);
+            if (validating) {
+                validate(observationRangeCategory);
+            }
+            return observationRangeCategory;
+        }
+
+        protected void validate(ObservationRangeCategory observationRangeCategory) {
+            super.validate(observationRangeCategory);
+        }
+
+        protected Builder from(ObservationRangeCategory observationRangeCategory) {
+            super.from(observationRangeCategory);
+            return this;
         }
     }
 

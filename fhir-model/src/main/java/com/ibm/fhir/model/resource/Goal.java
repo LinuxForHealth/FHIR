@@ -159,26 +159,22 @@ public class Goal extends DomainResource {
 
     private Goal(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        lifecycleStatus = builder.lifecycleStatus;
         achievementStatus = builder.achievementStatus;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
-        description = ValidationSupport.requireNonNull(builder.description, "description");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
+        description = builder.description;
+        subject = builder.subject;
+        start = builder.start;
+        target = Collections.unmodifiableList(builder.target);
         statusDate = builder.statusDate;
         statusReason = builder.statusReason;
         expressedBy = builder.expressedBy;
-        addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        outcomeCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeCode, "outcomeCode", CodeableConcept.class));
-        outcomeReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcomeReference, "outcomeReference", Reference.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
-        ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
-        ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
+        addresses = Collections.unmodifiableList(builder.addresses);
+        note = Collections.unmodifiableList(builder.note);
+        outcomeCode = Collections.unmodifiableList(builder.outcomeCode);
+        outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
     }
 
     /**
@@ -1139,7 +1135,30 @@ public class Goal extends DomainResource {
          */
         @Override
         public Goal build() {
-            return new Goal(this);
+            Goal goal = new Goal(this);
+            if (validating) {
+                validate(goal);
+            }
+            return goal;
+        }
+
+        protected void validate(Goal goal) {
+            super.validate(goal);
+            ValidationSupport.checkList(goal.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(goal.lifecycleStatus, "lifecycleStatus");
+            ValidationSupport.checkList(goal.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(goal.description, "description");
+            ValidationSupport.requireNonNull(goal.subject, "subject");
+            ValidationSupport.choiceElement(goal.start, "start", Date.class, CodeableConcept.class);
+            ValidationSupport.checkList(goal.target, "target", Target.class);
+            ValidationSupport.checkList(goal.addresses, "addresses", Reference.class);
+            ValidationSupport.checkList(goal.note, "note", Annotation.class);
+            ValidationSupport.checkList(goal.outcomeCode, "outcomeCode", CodeableConcept.class);
+            ValidationSupport.checkList(goal.outcomeReference, "outcomeReference", Reference.class);
+            ValidationSupport.checkReferenceType(goal.subject, "subject", "Patient", "Group", "Organization");
+            ValidationSupport.checkReferenceType(goal.expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(goal.addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
+            ValidationSupport.checkReferenceType(goal.outcomeReference, "outcomeReference", "Observation");
         }
 
         protected Builder from(Goal goal) {
@@ -1191,9 +1210,8 @@ public class Goal extends DomainResource {
         private Target(Builder builder) {
             super(builder);
             measure = builder.measure;
-            detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
-            due = ValidationSupport.choiceElement(builder.due, "due", Date.class, Duration.class);
-            ValidationSupport.requireValueOrChildren(this);
+            detail = builder.detail;
+            due = builder.due;
         }
 
         /**
@@ -1481,7 +1499,18 @@ public class Goal extends DomainResource {
              */
             @Override
             public Target build() {
-                return new Target(this);
+                Target target = new Target(this);
+                if (validating) {
+                    validate(target);
+                }
+                return target;
+            }
+
+            protected void validate(Target target) {
+                super.validate(target);
+                ValidationSupport.choiceElement(target.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
+                ValidationSupport.choiceElement(target.due, "due", Date.class, Duration.class);
+                ValidationSupport.requireValueOrChildren(target);
             }
 
             protected Builder from(Target target) {

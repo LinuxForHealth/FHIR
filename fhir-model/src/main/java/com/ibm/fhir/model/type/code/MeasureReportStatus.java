@@ -158,11 +158,7 @@ public class MeasureReportStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class MeasureReportStatus extends Code {
 
         @Override
         public MeasureReportStatus build() {
-            return new MeasureReportStatus(this);
+            MeasureReportStatus measureReportStatus = new MeasureReportStatus(this);
+            if (validating) {
+                validate(measureReportStatus);
+            }
+            return measureReportStatus;
+        }
+
+        protected void validate(MeasureReportStatus measureReportStatus) {
+            super.validate(measureReportStatus);
+        }
+
+        protected Builder from(MeasureReportStatus measureReportStatus) {
+            super.from(measureReportStatus);
+            return this;
         }
     }
 

@@ -171,11 +171,7 @@ public class EncounterLocationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class EncounterLocationStatus extends Code {
 
         @Override
         public EncounterLocationStatus build() {
-            return new EncounterLocationStatus(this);
+            EncounterLocationStatus encounterLocationStatus = new EncounterLocationStatus(this);
+            if (validating) {
+                validate(encounterLocationStatus);
+            }
+            return encounterLocationStatus;
+        }
+
+        protected void validate(EncounterLocationStatus encounterLocationStatus) {
+            super.validate(encounterLocationStatus);
+        }
+
+        protected Builder from(EncounterLocationStatus encounterLocationStatus) {
+            super.from(encounterLocationStatus);
+            return this;
         }
     }
 

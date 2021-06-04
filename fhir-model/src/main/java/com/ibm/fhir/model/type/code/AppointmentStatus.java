@@ -240,11 +240,7 @@ public class AppointmentStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -299,7 +295,20 @@ public class AppointmentStatus extends Code {
 
         @Override
         public AppointmentStatus build() {
-            return new AppointmentStatus(this);
+            AppointmentStatus appointmentStatus = new AppointmentStatus(this);
+            if (validating) {
+                validate(appointmentStatus);
+            }
+            return appointmentStatus;
+        }
+
+        protected void validate(AppointmentStatus appointmentStatus) {
+            super.validate(appointmentStatus);
+        }
+
+        protected Builder from(AppointmentStatus appointmentStatus) {
+            super.from(appointmentStatus);
+            return this;
         }
     }
 

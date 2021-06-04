@@ -77,9 +77,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(ValidationSupport.checkList(builder.contained, "contained", Resource.class));
-        extension = Collections.unmodifiableList(ValidationSupport.checkList(builder.extension, "extension", Extension.class));
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifierExtension, "modifierExtension", Extension.class));
+        contained = Collections.unmodifiableList(builder.contained);
+        extension = Collections.unmodifiableList(builder.extension);
+        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
     }
 
     /**
@@ -363,6 +363,13 @@ public abstract class DomainResource extends Resource {
 
         @Override
         public abstract DomainResource build();
+
+        protected void validate(DomainResource domainResource) {
+            super.validate(domainResource);
+            ValidationSupport.checkList(domainResource.contained, "contained", Resource.class);
+            ValidationSupport.checkList(domainResource.extension, "extension", Extension.class);
+            ValidationSupport.checkList(domainResource.modifierExtension, "modifierExtension", Extension.class);
+        }
 
         protected Builder from(DomainResource domainResource) {
             super.from(domainResource);

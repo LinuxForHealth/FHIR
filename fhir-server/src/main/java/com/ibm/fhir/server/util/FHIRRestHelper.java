@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.util;
 
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
 import static javax.servlet.http.HttpServletResponse.SC_ACCEPTED;
@@ -133,7 +134,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
 
-    public static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
     private static final com.ibm.fhir.model.type.String SC_GONE_STRING = string(Integer.toString(SC_GONE));
@@ -1281,7 +1281,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + "the configured persistence layer does not support transactions.";
                 IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build();
@@ -1419,7 +1419,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + method.getValue();
                 IssueType extendedIssueType = IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build();
@@ -1489,7 +1489,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                         + "' does not match current latest version of resource: " + currentVersion;
                 IssueType extendedIssueType = IssueType.CONFLICT.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL + "/http-failed-precondition")
+                            .url(EXT_BASE + "http-failed-precondition")
                             .value(string("If-Match"))
                             .build())
                         .build();
@@ -1504,7 +1504,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(EXTENSION_URL +  "/not-supported-detail")
+                            .url(EXT_BASE +  "not-supported-detail")
                             .value(Code.of("resource"))
                             .build())
                         .build())

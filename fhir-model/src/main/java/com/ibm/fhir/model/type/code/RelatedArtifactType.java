@@ -221,11 +221,7 @@ public class RelatedArtifactType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -280,7 +276,20 @@ public class RelatedArtifactType extends Code {
 
         @Override
         public RelatedArtifactType build() {
-            return new RelatedArtifactType(this);
+            RelatedArtifactType relatedArtifactType = new RelatedArtifactType(this);
+            if (validating) {
+                validate(relatedArtifactType);
+            }
+            return relatedArtifactType;
+        }
+
+        protected void validate(RelatedArtifactType relatedArtifactType) {
+            super.validate(relatedArtifactType);
+        }
+
+        protected Builder from(RelatedArtifactType relatedArtifactType) {
+            super.from(relatedArtifactType);
+            return this;
         }
     }
 
