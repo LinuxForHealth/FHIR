@@ -75,6 +75,7 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
@@ -1898,6 +1899,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
                 SearchParameter sp = entry.getKey();
                 code = sp.getCode().getValue();
+                final boolean wholeSystemParam = isWholeSystem(sp);
 
                 // As not to inject any other special handling logic, this is a simple inline check to see if
                 // _id or _lastUpdated are used, and ignore those extracted values.
@@ -2049,6 +2051,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
                                 p.setName(code);
                                 p.setResourceType(fhirResource.getClass().getSimpleName());
+
+                                if (wholeSystemParam) {
+                                    p.setWholeSystem(true);
+                                }
                                 allParameters.add(p);
                                 if (log.isLoggable(Level.FINE)) {
                                     log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -2081,6 +2087,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     // retrieve the list of parameters built from all the FHIRPathElementNode values
                     List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
                     for (ExtractedParameterValue p : parameters) {
+                        if (wholeSystemParam) {
+                            p.setWholeSystem(true);
+                        }
                         allParameters.add(p);
                         if (log.isLoggable(Level.FINE)) {
                             log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -2097,6 +2106,28 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
+    }
+
+    /**
+     * Should we also store values for this {@link SearchParameter} in the special whole-system
+     * param tables (for more efficient whole-system search queries).
+     * @param sp
+     * @return
+     */
+    private boolean isWholeSystem(SearchParameter sp) {
+        boolean result = false;
+
+        // unfortunately we only get a list which means a linear search. Because we're only searching
+        // this once per parameter there's no point in making a Set first, because that would require
+        // a full pass through the list anyway
+        for (ResourceType rt: sp.getBase()) {
+            if ("Resource".equals(rt.getValue())) {
+                result = true;
+                break;
+            }
+        }
+
+        return result;
     }
 
     /**

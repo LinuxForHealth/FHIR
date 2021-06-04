@@ -77,4 +77,24 @@ public class ParameterTransactionDataImpl implements TransactionData {
     public void addValue(ResourceTokenValueRec rec) {
         tokenValueRecs.add(rec);
     }
+
+    /**
+     * Add the given profile parameter record to the list of records being accumulated in
+     * this transaction data. The records will be inserted to the database together at the
+     * end, just prior to the commit (see {@link #persist()}
+     * @param rec
+     */
+    public void addValue(ResourceProfileRec rec) {
+        profileRecs.add(rec);
+    }
+
+    /**
+     * Add the given tag parameter record to the list of records being accumulated in
+     * this transaction data. The records will be inserted to the database together at the
+     * end, just prior to the commit (see {@link #persist()}
+     * @param rec
+     */
+    public void addTagValue(ResourceTokenValueRec rec) {
+        tagRecs.add(rec);
+    }
 }

@@ -38,8 +38,10 @@ public interface IResourceReferenceDAO {
      * as necessary
      * @param resourceType
      * @param xrefs
+     * @param profileRecs
+     * @param tagRecs
      */
-    void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs);
+    void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs);
 
     /**
      * Persist the records, which may span multiple resource types

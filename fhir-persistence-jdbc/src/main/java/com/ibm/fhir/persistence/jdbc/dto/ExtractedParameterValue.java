@@ -16,7 +16,7 @@ public abstract class ExtractedParameterValue {
     // The name (code) of this parameter
     private String name;
 
-    // Is this one of the special whole-system search parameters?
+    // A subset of search params are also stored at the whole-system level
     private boolean wholeSystem;
 
     // The resource type associated with this parameter

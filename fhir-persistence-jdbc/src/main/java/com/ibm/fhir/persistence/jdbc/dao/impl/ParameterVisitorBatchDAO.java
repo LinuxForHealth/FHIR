@@ -35,6 +35,7 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
@@ -48,6 +49,9 @@ import com.ibm.fhir.search.util.SearchUtil;
  */
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
+
+    private final String PROFILE = "profile";
+    private final String TAG = "tag";
 
     // the connection to use for the inserts
     private final Connection connection;
@@ -95,6 +99,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+
+    // Tags are now stored in their own tables
+    private final List<ResourceTokenValueRec> tagTokenRecs = new ArrayList<>();
+
+    // Profiles are now stored in their own tables
+    private final List<ResourceProfileRec> profileRecs = new ArrayList<>();
 
     // The table prefix (resourceType)
     private final String tablePrefix;
@@ -203,6 +213,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String parameterName = param.getName();
         String value = param.getValueString();
 
+        if (PROFILE.equals(parameterName)) {
+            // profile canonicals are now stored in their own tables.
+            processProfile(param);
+            return;
+        }
+
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
             // keep chopping the string in half until its byte representation fits inside
             // the VARCHAR
@@ -234,7 +250,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 }
             }
 
-            // standard resource property
+            // always store at the resource-specific level
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
             }
@@ -262,6 +278,25 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
         insert.setLong(4, logicalResourceId);
         setCompositeId(insert, 5);
+    }
+
+    /**
+     * Special case to store profile strings as canonical uri values in their own table
+     * @param param
+     * @throws FHIRPersistenceException
+     */
+    private void processProfile(StringParmVal param) throws FHIRPersistenceException {
+        final String parameterName = param.getName();
+        final int parameterNameId = getParameterNameId(parameterName);
+        final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
+
+        // Parse the parameter value to extract the URI|VERSION#FRAGMENT pieces
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, param.getResourceType(), resourceTypeId, this.logicalResourceId, param.getValueString(), param.isWholeSystem());
+        if (transactionData != null) {
+            transactionData.addValue(rec);
+        } else {
+            profileRecs.add(rec);
+        }
     }
 
     /**
@@ -537,7 +572,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 dateCount = 0;
             }
 
-
             if (quantityCount > 0) {
                 quantities.executeBatch();
                 quantityCount = 0;
@@ -565,7 +599,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         // Process any tokens and references we've collected along the way
         if (!tokenValueRecs.isEmpty()) {
-            this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
+            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs);
         }
 
         closeStatement(strings);
