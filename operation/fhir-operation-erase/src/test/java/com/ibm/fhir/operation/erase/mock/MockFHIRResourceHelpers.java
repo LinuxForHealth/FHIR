@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.erase.mock;
 
 import java.time.Instant;
+import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -63,8 +64,8 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId)
-        throws Exception {
+    public int doReindex(FHIROperationContext operationContext, Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws Exception {
         return 0;
     }
 

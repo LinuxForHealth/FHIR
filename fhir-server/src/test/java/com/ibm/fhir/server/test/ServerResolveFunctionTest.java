@@ -369,6 +369,7 @@ public class ServerResolveFunctionTest {
                 FHIRPersistenceContext context,
                 Builder operationOutcomeResult,
                 java.time.Instant tstamp,
+                List<Long> logicalResourceIds,
                 String resourceLogicalId) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }

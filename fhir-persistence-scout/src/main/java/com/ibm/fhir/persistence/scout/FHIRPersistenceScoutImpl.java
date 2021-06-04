@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020,2021
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -456,7 +456,8 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
 

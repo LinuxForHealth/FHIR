@@ -3069,7 +3069,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception {
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
@@ -3079,7 +3080,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, logicalResourceIds, resourceLogicalId);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {

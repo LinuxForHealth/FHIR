@@ -2459,8 +2459,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId)
-        throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> logicalResourceIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -2500,13 +2500,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
+            int lrIdIndex = 0;
 
-            // Need to skip over deleted resources so we have to loop until we find something not
-            // deleted, or reach the end.
+            // If list of logicalResourceIds was specified, loop over those. Otherwise, since we skip over
+            // deleted resources we have to loop until we find something not deleted, or reach the end.
             ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
-                rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+                rir = reindexDAO.getResourceToReindex(tstamp, logicalResourceIds != null ? logicalResourceIds.get(lrIdIndex++) : null, resourceTypeId, logicalId);
                 long end = System.nanoTime();
 
                 if (log.isLoggable(Level.FINER)) {
@@ -2529,7 +2530,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                         // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
                         // there's nothing left to do
-                        result = 1;
+                        result++;
                     } else {
                         // Skip this particular resource because it has been deleted
                         if (log.isLoggable(Level.FINE)) {
@@ -2538,7 +2539,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         rir.setDeleted(true);
                     }
                 }
-            } while (rir != null && rir.isDeleted());
+            } while ((logicalResourceIds != null && lrIdIndex < logicalResourceIds.size()) || (logicalResourceIds == null && rir != null && rir.isDeleted()));
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();

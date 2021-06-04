@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,10 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.temporal.ChronoField;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +41,7 @@ public class ReindexOperation extends AbstractOperation {
     private static final Logger logger = Logger.getLogger(ReindexOperation.class.getName());
 
     private static final String PARAM_TSTAMP = "tstamp";
+    private static final String PARAM_LOGICAL_RESOURCE_IDS = "logicalResourceIds";
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
 
@@ -76,6 +80,7 @@ public class ReindexOperation extends AbstractOperation {
 
         try {
             Instant tstamp = Instant.now();
+            List<Long> logicalResourceIds = null;
             int resourceCount = 10;
             String resourceLogicalId = null;
 
@@ -90,12 +95,28 @@ public class ReindexOperation extends AbstractOperation {
                             && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
 
-
                         if (val.length() == 10) {
                             tstamp = DAY_FORMAT.parse(val, Instant::from);
                         } else {
                             // assume full ISO format
                             tstamp = Instant.parse(val);
+                        }
+                    } else if (PARAM_LOGICAL_RESOURCE_IDS.equals(parameter.getName().getValue())) {
+                        // reindex a specific list of resources by logicial resource ID (comma-delimited), which is different than resource ID
+                        String lrIdsString = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                        if (lrIdsString != null) {
+                            Set<Long> lrIdSet = new LinkedHashSet<>();
+                            String[] lrIdArray = lrIdsString.split("\\s*,\\s*");
+                            if (lrIdArray.length == 0) {
+                                lrIdSet.add(Long.valueOf(lrIdsString));
+                            }
+                            for (String lrIdString : lrIdArray) {
+                                lrIdSet.add(Long.valueOf(lrIdString));
+                            }
+                            logicalResourceIds = new ArrayList<>(lrIdSet);
+                            if (logicalResourceIds.size() > MAX_RESOURCE_COUNT) {
+                                throw FHIROperationUtil.buildExceptionWithIssue("The specified number of logical resource IDs exceeds the maximum allowed number of resources to reindex", IssueType.INVALID);
+                            }
                         }
                     } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
@@ -116,10 +137,16 @@ public class ReindexOperation extends AbstractOperation {
             // Delegate the heavy lifting to the helper
             OperationOutcome.Builder result = OperationOutcome.builder();
             int totalProcessed = 0;
-            int processed = 1;
-            for (int i=0; i<resourceCount && processed > 0; i++) {
-                processed = resourceHelper.doReindex(operationContext, result, tstamp, resourceLogicalId);
-                totalProcessed += processed;
+            if (logicalResourceIds != null) {
+                // All resources in one transaction
+                totalProcessed = resourceHelper.doReindex(operationContext, result, tstamp, logicalResourceIds, null);
+            } else {
+                int processed = 1;
+                // One resource per transaction
+                for (int i=0; i<resourceCount && processed > 0; i++) {
+                    processed = resourceHelper.doReindex(operationContext, result, tstamp, null, resourceLogicalId);
+                    totalProcessed += processed;
+                }
             }
 
             if (totalProcessed == 0) {

@@ -18,14 +18,6 @@
 	"instance": false,
         "parameter": [
           {
-            "name": "resourceCount",
-            "use": "in",
-            "min": 0,
-            "max": "1",
-            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.",
-            "type": "integer"
-          },
-          {
             "name": "tstamp",
             "use": "in",
             "min": 0,
@@ -34,11 +26,27 @@
             "type": "string"
           },
           {
+            "name": "logicalResourceIds",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex only resources with a logical resource ID in the specified list. Format as a comma-delimited list of strings.",
+            "type": "string"
+          },
+          {
+            "name": "resourceCount",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail. If logicalResourceIds is specified, this parameters is not used.",
+            "type": "integer"
+          },
+          {
             "name": "resourceLogicalId",
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient",
+            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient. If logicalResourceIds is specified, this parameters is not used.",
             "type": "string"
           }
         ]
