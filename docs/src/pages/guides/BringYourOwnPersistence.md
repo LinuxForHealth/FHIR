@@ -20,10 +20,10 @@ Persistence layer interfaces are defined in the `fhir-persistence` module.
 ### Configuration
 Which persistence layer is used by the server is determined by the `/fhirServer/persistence/factoryClassname` property in `fhir-server-config.json`. There is more detail on the configuration in the [IBM FHIR Server's User Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#33-persistence-layer-configuration)
 
-When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datastore_id>/jndiName` property in the tenant config, or -- if the property is omitted --it will construct the name via the following pattern:
+When the default `com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory` is used, the returned FHIRPersistenceJDBCImpl instance will look up a corresponding datasource, by JNDI name, using the combination of the tenant id and datastore id from the request context. Specifically, the connection strategy will use the `fhirServer/persistence/<datasourceId>/jndiName` property in the tenant config, or -- if the property is omitted --it will construct the name via the following pattern:
 
 ``` md
-jdbc/fhir_<tenant_id>_<datastore_id>[_ro]
+jdbc/fhir_<tenantId>_<datasourceId>[_ro]
 ```
 
 Note, the `_ro` postfix means the datasource is 'Read Only'.

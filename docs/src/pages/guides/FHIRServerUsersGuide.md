@@ -2160,7 +2160,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/common/updateCreateEnabled`|true|
 |`fhirServer/persistence/datasources`|embedded Derby database: derby/fhirDB|
 |`fhirServer/persistence/datasources/<datasourceId>/type`|derby|
-|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|`jndi/fhir_[tenantId]_[datastoreId]`|
+|`fhirServer/persistence/datasources/<datasourceId>/jndiName`|`jndi/fhir_<tenantId>_<datasourceId>`|
 |`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|null|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
