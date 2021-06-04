@@ -718,7 +718,7 @@ The IBM FHIR Server includes a dynamic registry of conformance resources.
 The registry pre-packages all [FHIR Definitions from the specification](https://www.hl7.org/fhir/R4/downloads.html)
 and uses a Java ServiceLoader to discover additional registry resource providers on the classpath.
 
-The server consults this registry for
+The server consults this registry for:
 * StructureDefinition, ValueSet, and CodeSystem resources for resource validation.
 * SearchParameter and CompartmentDefinition resources for search.
 * ValueSet and CodeSystem resources for terminology operations.
@@ -726,7 +726,7 @@ The server consults this registry for
 
 One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://www.hl7.org/fhir/implementationguide.html).
 
-The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registeriing implementation guide resources.
+The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
 
 Additionally, we [pre-package a number of popular implementation guides](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
 
