@@ -12,7 +12,7 @@ import static org.testng.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
