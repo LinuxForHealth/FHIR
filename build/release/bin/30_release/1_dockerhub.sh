@@ -14,7 +14,7 @@ docker login -u "${DOCKERHUB_USERNAME}" -p "${DOCKERHUB_TOKEN}"
 export WORKSPACE=$(pwd)
 bash ${WORKSPACE}/fhir-install/src/main/docker/ibm-fhir-schematool/build.sh
 
-mvn dockerfile:build -f fhir-install
+docker build fhir-install -t ibmcom/ibm-fhir-server
 mvn dockerfile:tag@tag-version -f fhir-install
 mvn dockerfile:push@push-version -f fhir-install
 mvn dockerfile:push@push-latest -f fhir-install
