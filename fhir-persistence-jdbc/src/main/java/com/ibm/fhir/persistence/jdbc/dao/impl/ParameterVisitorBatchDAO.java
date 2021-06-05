@@ -50,8 +50,8 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
 
-    private static final String PROFILE = "profile";
-    private static final String TAG = "tag";
+    private static final String PROFILE = "_profile";
+    private static final String TAG = "_tag";
 
     // the connection to use for the inserts
     private final Connection connection;

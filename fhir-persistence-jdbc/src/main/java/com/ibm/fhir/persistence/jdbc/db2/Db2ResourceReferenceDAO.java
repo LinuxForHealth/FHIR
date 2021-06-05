@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
@@ -218,4 +219,196 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
         }
     }
 
+    @Override
+    protected void insertSystemResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = "RESOURCE_TOKEN_REFS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                if (xr.isSystemLevel()) {
+                    ps.setInt(1, xr.getParameterNameId());
+                    ps.setLong(2, xr.getLogicalResourceId());
+
+                    // common token value can be null
+                    if (xr.getCommonTokenValueId() != null) {
+                        ps.setLong(3, xr.getCommonTokenValueId());
+                    } else {
+                        ps.setNull(3, Types.BIGINT);
+                    }
+
+                    // version can be null
+                    if (xr.getRefVersionId() != null) {
+                        ps.setInt(4, xr.getRefVersionId());
+                    } else {
+                        ps.setNull(4, Types.INTEGER);
+                    }
+
+                    ps.addBatch();
+                    if (++count == BATCH_SIZE) {
+                        ps.executeBatch();
+                        count = 0;
+                    }
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void insertResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_PROFILES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, canonical_id, version, fragment) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceProfileRec xr: profiles) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setInt(2, xr.getCanonicalValueId());
+
+                // canonical version can be null
+                if (xr.getVersion() != null) {
+                    ps.setString(3, xr.getVersion());
+                } else {
+                    ps.setNull(3, Types.VARCHAR);
+                }
+
+                // canonical fragment can be null
+                if (xr.getFragment() != null) {
+                    ps.setString(4, xr.getFragment());
+                } else {
+                    ps.setNull(4, Types.VARCHAR);
+                }
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void insertSystemResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
+        final String tableName = "LOGICAL_RESOURCE_PROFILES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, canonical_id, version, fragment) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceProfileRec xr: profiles) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setInt(2, xr.getCanonicalValueId());
+
+                // canonical version can be null
+                if (xr.getVersion() != null) {
+                    ps.setString(3, xr.getVersion());
+                } else {
+                    ps.setNull(3, Types.VARCHAR);
+                }
+
+                // canonical fragment can be null
+                if (xr.getFragment() != null) {
+                    ps.setString(4, xr.getFragment());
+                } else {
+                    ps.setNull(4, Types.VARCHAR);
+                }
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void insertResourceTags(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_TAGS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void insertSystemResourceTags(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName =  "LOGICAL_RESOURCE_TAGS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
 }

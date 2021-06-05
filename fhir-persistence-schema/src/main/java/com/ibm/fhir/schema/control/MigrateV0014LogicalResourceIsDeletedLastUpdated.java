@@ -73,6 +73,7 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
 
         final String DML = "UPDATE " + tgtTable + " tgt "
                 + " SET (is_deleted, last_updated) = (SELECT src.is_deleted, src.last_updated FROM " + srcTable + " src WHERE tgt.logical_resource_id = src.logical_resource_id)"
+                        + " WHERE tgt.resource_type_id = " + this.resourceTypeId;
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {

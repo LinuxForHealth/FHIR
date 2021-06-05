@@ -142,7 +142,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
         upsert.append("INSERT INTO common_canonical_values (canonical_id, url) ");
         upsert.append("          SELECT ").append(nextVal).append(", src.url ");
         upsert.append("            FROM SESSION.canonical_values_tmp src ");
-        upsert.append(" LEFT OUTER JOIN comoon_canonical_values cs ");
+        upsert.append(" LEFT OUTER JOIN common_canonical_values cs ");
         upsert.append("              ON cs.url = src.url ");
         upsert.append("           WHERE cs.url IS NULL ");
 
