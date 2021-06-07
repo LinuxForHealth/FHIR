@@ -1,13 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.patch;
 
-import javax.json.JsonArray;
-import javax.json.JsonPatch;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonPatch;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
 import com.ibm.fhir.model.resource.Resource;

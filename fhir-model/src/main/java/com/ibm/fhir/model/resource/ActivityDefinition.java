@@ -230,57 +230,51 @@ public class ActivityDefinition extends DomainResource {
     private ActivityDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
         kind = builder.kind;
         profile = builder.profile;
         code = builder.code;
         intent = builder.intent;
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
+        timing = builder.timing;
         location = builder.location;
-        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
-        product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
+        participant = Collections.unmodifiableList(builder.participant);
+        product = builder.product;
         quantity = builder.quantity;
-        dosage = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosage, "dosage", Dosage.class));
-        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
-        specimenRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimenRequirement, "specimenRequirement", Reference.class));
-        observationRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.observationRequirement, "observationRequirement", Reference.class));
-        observationResultRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.observationResultRequirement, "observationResultRequirement", Reference.class));
+        dosage = Collections.unmodifiableList(builder.dosage);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        specimenRequirement = Collections.unmodifiableList(builder.specimenRequirement);
+        observationRequirement = Collections.unmodifiableList(builder.observationRequirement);
+        observationResultRequirement = Collections.unmodifiableList(builder.observationResultRequirement);
         transform = builder.transform;
-        dynamicValue = Collections.unmodifiableList(ValidationSupport.checkList(builder.dynamicValue, "dynamicValue", DynamicValue.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
-        ValidationSupport.checkReferenceType(specimenRequirement, "specimenRequirement", "SpecimenDefinition");
-        ValidationSupport.checkReferenceType(observationRequirement, "observationRequirement", "ObservationDefinition");
-        ValidationSupport.checkReferenceType(observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
+        dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
     }
 
     /**
@@ -2399,7 +2393,43 @@ public class ActivityDefinition extends DomainResource {
          */
         @Override
         public ActivityDefinition build() {
-            return new ActivityDefinition(this);
+            ActivityDefinition activityDefinition = new ActivityDefinition(this);
+            if (validating) {
+                validate(activityDefinition);
+            }
+            return activityDefinition;
+        }
+
+        protected void validate(ActivityDefinition activityDefinition) {
+            super.validate(activityDefinition);
+            ValidationSupport.checkList(activityDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(activityDefinition.status, "status");
+            ValidationSupport.choiceElement(activityDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(activityDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(activityDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(activityDefinition.library, "library", Canonical.class);
+            ValidationSupport.choiceElement(activityDefinition.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
+            ValidationSupport.checkList(activityDefinition.participant, "participant", Participant.class);
+            ValidationSupport.choiceElement(activityDefinition.product, "product", Reference.class, CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.dosage, "dosage", Dosage.class);
+            ValidationSupport.checkList(activityDefinition.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.specimenRequirement, "specimenRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.observationRequirement, "observationRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.observationResultRequirement, "observationResultRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.dynamicValue, "dynamicValue", DynamicValue.class);
+            ValidationSupport.checkReferenceType(activityDefinition.subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(activityDefinition.location, "location", "Location");
+            ValidationSupport.checkReferenceType(activityDefinition.product, "product", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(activityDefinition.specimenRequirement, "specimenRequirement", "SpecimenDefinition");
+            ValidationSupport.checkReferenceType(activityDefinition.observationRequirement, "observationRequirement", "ObservationDefinition");
+            ValidationSupport.checkReferenceType(activityDefinition.observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
         }
 
         protected Builder from(ActivityDefinition activityDefinition) {
@@ -2476,9 +2506,8 @@ public class ActivityDefinition extends DomainResource {
 
         private Participant(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             role = builder.role;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2721,7 +2750,17 @@ public class ActivityDefinition extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.requireNonNull(participant.type, "type");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -2746,9 +2785,8 @@ public class ActivityDefinition extends DomainResource {
 
         private DynamicValue(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            expression = builder.expression;
         }
 
         /**
@@ -3002,7 +3040,18 @@ public class ActivityDefinition extends DomainResource {
              */
             @Override
             public DynamicValue build() {
-                return new DynamicValue(this);
+                DynamicValue dynamicValue = new DynamicValue(this);
+                if (validating) {
+                    validate(dynamicValue);
+                }
+                return dynamicValue;
+            }
+
+            protected void validate(DynamicValue dynamicValue) {
+                super.validate(dynamicValue);
+                ValidationSupport.requireNonNull(dynamicValue.path, "path");
+                ValidationSupport.requireNonNull(dynamicValue.expression, "expression");
+                ValidationSupport.requireValueOrChildren(dynamicValue);
             }
 
             protected Builder from(DynamicValue dynamicValue) {

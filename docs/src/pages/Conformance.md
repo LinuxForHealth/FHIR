@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-05-19
+date:   2021-05-26
 permalink: /conformance/
 ---
 
@@ -12,7 +12,7 @@ The IBM FHIR Server aims to be a conformant implementation of the HL7 FHIR speci
 ## Capability statement
 The HL7 FHIR specification defines [an interaction](https://www.hl7.org/fhir/R4/http.html#capabilities) for retrieving a machine-readable description of the server's capabilities via the `[base]/metadata` endpoint. The IBM FHIR Server implements this interaction and generates a `CapabilityStatement` resource based on the current server configuration. While the `CapabilityStatement` resource is ideal for certain uses, this markdown document provides a human-readable summary of important details, with a special focus on limitations of the current implementation and deviations from the specification.
 
-The IBM FHIR Server supports only version 4.0.1 of the specification and ignores the optional MIME-type parameter `fhirVersion`.
+The IBM FHIR Server supports only version 4.0.1 of the specification.
 
 ## FHIR HTTP API
 The HL7 FHIR specification is more than just a data format. It defines an [HTTP API](https://www.hl7.org/fhir/R4/http.html) for creating, reading, updating, deleting, and searching over FHIR resources. The IBM FHIR Server implements the full API for every resource defined in the specification, with the following exceptions:

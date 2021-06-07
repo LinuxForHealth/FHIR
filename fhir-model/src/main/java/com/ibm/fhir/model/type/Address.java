@@ -67,14 +67,13 @@ public class Address extends Element {
         use = builder.use;
         type = builder.type;
         text = builder.text;
-        line = Collections.unmodifiableList(ValidationSupport.checkList(builder.line, "line", String.class));
+        line = Collections.unmodifiableList(builder.line);
         city = builder.city;
         district = builder.district;
         state = builder.state;
         postalCode = builder.postalCode;
         country = builder.country;
         period = builder.period;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -520,7 +519,17 @@ public class Address extends Element {
          */
         @Override
         public Address build() {
-            return new Address(this);
+            Address address = new Address(this);
+            if (validating) {
+                validate(address);
+            }
+            return address;
+        }
+
+        protected void validate(Address address) {
+            super.validate(address);
+            ValidationSupport.checkList(address.line, "line", String.class);
+            ValidationSupport.requireValueOrChildren(address);
         }
 
         protected Builder from(Address address) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,7 @@ import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 import java.io.InputStream;
+import java.io.StringReader;
 
 import org.testng.annotations.Test;
 
@@ -23,12 +24,9 @@ public class FHIRParserTest {
     public void testUnrecognizedElements1() throws Exception {
         String value = "handling=strict";
         if (value.startsWith("handling=")) {
-
             value = value.substring("handling=".length());
             System.out.println(value);
         }
-
-
         try (InputStream in = FHIRParserTest.class.getClassLoader().getResourceAsStream("JSON/observation-unrecognized-elements.json")) {
             FHIRParser.parser(Format.JSON).parse(in);
             fail();
@@ -41,10 +39,21 @@ public class FHIRParserTest {
     public void testUnrecognizedElements2() throws Exception {
         try (InputStream in = FHIRParserTest.class.getClassLoader().getResourceAsStream("JSON/observation-unrecognized-elements.json")) {
             FHIRParser parser = FHIRParser.parser(Format.JSON);
-            parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS, true);
+            parser.setIgnoringUnrecognizedElements(true);
             assertNotNull(parser.parse(in));
         } catch (FHIRParserException e) {
             fail();
+        }
+    }
+
+    @Test
+    public void testRejectDuplicateKeys() throws Exception {
+        try {
+            String jsonString = "{\"resourceType\":\"Patient\",\"id\":\"1\",\"id\":\"2\"}";
+            FHIRParser parser = FHIRParser.parser(Format.JSON);
+            parser.parse(new StringReader(jsonString));
+        } catch (FHIRParserException e) {
+            assertTrue(e.getMessage().startsWith("Duplicate key 'id' is not allowed"));
         }
     }
 }

@@ -206,17 +206,17 @@ public class AuditEvent extends DomainResource {
 
     private AuditEvent(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        subtype = Collections.unmodifiableList(ValidationSupport.checkList(builder.subtype, "subtype", Coding.class));
+        type = builder.type;
+        subtype = Collections.unmodifiableList(builder.subtype);
         action = builder.action;
         period = builder.period;
-        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
+        recorded = builder.recorded;
         outcome = builder.outcome;
         outcomeDesc = builder.outcomeDesc;
-        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.checkList(builder.purposeOfEvent, "purposeOfEvent", CodeableConcept.class));
-        agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
-        source = ValidationSupport.requireNonNull(builder.source, "source");
-        entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
+        purposeOfEvent = Collections.unmodifiableList(builder.purposeOfEvent);
+        agent = Collections.unmodifiableList(builder.agent);
+        source = builder.source;
+        entity = Collections.unmodifiableList(builder.entity);
     }
 
     /**
@@ -923,7 +923,22 @@ public class AuditEvent extends DomainResource {
          */
         @Override
         public AuditEvent build() {
-            return new AuditEvent(this);
+            AuditEvent auditEvent = new AuditEvent(this);
+            if (validating) {
+                validate(auditEvent);
+            }
+            return auditEvent;
+        }
+
+        protected void validate(AuditEvent auditEvent) {
+            super.validate(auditEvent);
+            ValidationSupport.requireNonNull(auditEvent.type, "type");
+            ValidationSupport.checkList(auditEvent.subtype, "subtype", Coding.class);
+            ValidationSupport.requireNonNull(auditEvent.recorded, "recorded");
+            ValidationSupport.checkList(auditEvent.purposeOfEvent, "purposeOfEvent", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(auditEvent.agent, "agent", Agent.class);
+            ValidationSupport.requireNonNull(auditEvent.source, "source");
+            ValidationSupport.checkList(auditEvent.entity, "entity", Entity.class);
         }
 
         protected Builder from(AuditEvent auditEvent) {
@@ -991,19 +1006,16 @@ public class AuditEvent extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
+            role = Collections.unmodifiableList(builder.role);
             who = builder.who;
             altId = builder.altId;
             name = builder.name;
-            requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
+            requestor = builder.requestor;
             location = builder.location;
-            policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Uri.class));
+            policy = Collections.unmodifiableList(builder.policy);
             media = builder.media;
             network = builder.network;
-            purposeOfUse = Collections.unmodifiableList(ValidationSupport.checkList(builder.purposeOfUse, "purposeOfUse", CodeableConcept.class));
-            ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
         }
 
         /**
@@ -1593,7 +1605,22 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Agent build() {
-                return new Agent(this);
+                Agent agent = new Agent(this);
+                if (validating) {
+                    validate(agent);
+                }
+                return agent;
+            }
+
+            protected void validate(Agent agent) {
+                super.validate(agent);
+                ValidationSupport.checkList(agent.role, "role", CodeableConcept.class);
+                ValidationSupport.requireNonNull(agent.requestor, "requestor");
+                ValidationSupport.checkList(agent.policy, "policy", Uri.class);
+                ValidationSupport.checkList(agent.purposeOfUse, "purposeOfUse", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(agent.who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(agent.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(agent);
             }
 
             protected Builder from(Agent agent) {
@@ -1630,7 +1657,6 @@ public class AuditEvent extends DomainResource {
                 super(builder);
                 address = builder.address;
                 type = builder.type;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1866,7 +1892,16 @@ public class AuditEvent extends DomainResource {
                  */
                 @Override
                 public Network build() {
-                    return new Network(this);
+                    Network network = new Network(this);
+                    if (validating) {
+                        validate(network);
+                    }
+                    return network;
+                }
+
+                protected void validate(Network network) {
+                    super.validate(network);
+                    ValidationSupport.requireValueOrChildren(network);
                 }
 
                 protected Builder from(Network network) {
@@ -1899,10 +1934,8 @@ public class AuditEvent extends DomainResource {
         private Source(Builder builder) {
             super(builder);
             site = builder.site;
-            observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", Coding.class));
-            ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            observer = builder.observer;
+            type = Collections.unmodifiableList(builder.type);
         }
 
         /**
@@ -2206,7 +2239,19 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Source build() {
-                return new Source(this);
+                Source source = new Source(this);
+                if (validating) {
+                    validate(source);
+                }
+                return source;
+            }
+
+            protected void validate(Source source) {
+                super.validate(source);
+                ValidationSupport.requireNonNull(source.observer, "observer");
+                ValidationSupport.checkList(source.type, "type", Coding.class);
+                ValidationSupport.checkReferenceType(source.observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(source);
             }
 
             protected Builder from(Source source) {
@@ -2266,12 +2311,11 @@ public class AuditEvent extends DomainResource {
             type = builder.type;
             role = builder.role;
             lifecycle = builder.lifecycle;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", Coding.class));
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
             name = builder.name;
             description = builder.description;
             query = builder.query;
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
-            ValidationSupport.requireValueOrChildren(this);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2750,7 +2794,18 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Entity build() {
-                return new Entity(this);
+                Entity entity = new Entity(this);
+                if (validating) {
+                    validate(entity);
+                }
+                return entity;
+            }
+
+            protected void validate(Entity entity) {
+                super.validate(entity);
+                ValidationSupport.checkList(entity.securityLabel, "securityLabel", Coding.class);
+                ValidationSupport.checkList(entity.detail, "detail", Detail.class);
+                ValidationSupport.requireValueOrChildren(entity);
             }
 
             protected Builder from(Entity entity) {
@@ -2780,9 +2835,8 @@ public class AuditEvent extends DomainResource {
 
             private Detail(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                value = builder.value;
             }
 
             /**
@@ -3034,7 +3088,18 @@ public class AuditEvent extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.type, "type");
+                    ValidationSupport.requireChoiceElement(detail.value, "value", String.class, Base64Binary.class);
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {

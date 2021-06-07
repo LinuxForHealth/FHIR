@@ -354,6 +354,10 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     }
 
     @Override
+    public boolean enableSkippableUpdates() {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/enableSkippableUpdates", Boolean.TRUE);
+    }
+    @Override
     public String getStorageProviderAuthTypeConnectionString(String provider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/connection", null);
     }

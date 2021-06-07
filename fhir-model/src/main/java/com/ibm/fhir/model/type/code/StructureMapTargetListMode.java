@@ -172,11 +172,7 @@ public class StructureMapTargetListMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -231,7 +227,20 @@ public class StructureMapTargetListMode extends Code {
 
         @Override
         public StructureMapTargetListMode build() {
-            return new StructureMapTargetListMode(this);
+            StructureMapTargetListMode structureMapTargetListMode = new StructureMapTargetListMode(this);
+            if (validating) {
+                validate(structureMapTargetListMode);
+            }
+            return structureMapTargetListMode;
+        }
+
+        protected void validate(StructureMapTargetListMode structureMapTargetListMode) {
+            super.validate(structureMapTargetListMode);
+        }
+
+        protected Builder from(StructureMapTargetListMode structureMapTargetListMode) {
+            super.from(structureMapTargetListMode);
+            return this;
         }
     }
 

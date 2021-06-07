@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
+
+import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  * This class is used as a container for request parameters associated with a FHIR Client API request.
@@ -27,18 +29,22 @@ public class FHIRParameters {
 
     /**
      * The valid set of modifiers that can be used when constructing the parameters for a search operation.
+     * @implNote please keep in sync with {@link com.ibm.fhir.search.SearchConstants.Modifier}
      */
     public enum Modifier {
-        MISSING("missing"), 
-        EXACT("exact"), 
-        CONTAINS("contains"), 
-        TEXT("text"), 
-        IN("in"), 
-        BELOW("below"), 
-        ABOVE("above"), 
-        NOT("not"), 
-        NOT_IN("not-in"), 
-        TYPE("[type]");
+        MISSING("missing"),
+        EXACT("exact"),
+        CONTAINS("contains"),
+        TEXT("text"),
+        IN("in"),
+        BELOW("below"),
+        ABOVE("above"),
+        NOT("not"),
+        NOT_IN("not-in"),
+        // For TYPE, the ResourceType class is used instead
+        IDENTIFIER("identifier"),
+        OF_TYPE("of-type"),
+        ITERATE("iterate");
 
         private String text;
 
@@ -53,16 +59,17 @@ public class FHIRParameters {
 
     /**
      * The valid set of value prefixes that can be used when constructing the parameters for a search operation.
+     * @implNote please keep in sync with {@link com.ibm.fhir.search.SearchConstants.Prefix}
      */
     public static enum ValuePrefix {
-        EQ("eq"), 
-        NE("ne"), 
-        GT("gt"), 
-        LT("lt"), 
-        GE("ge"), 
-        LE("le"), 
-        SA("sa"), 
-        EB("eb"), 
+        EQ("eq"),
+        NE("ne"),
+        GT("gt"),
+        LT("lt"),
+        GE("ge"),
+        LE("le"),
+        SA("sa"),
+        EB("eb"),
         AP("ap");
 
         private String text;
@@ -83,7 +90,7 @@ public class FHIRParameters {
 
     /**
      * Convenience method which sets the "_format" query parameter.
-     * 
+     *
      * @param mimeType
      *            the mimeType to use for the request
      * @return a handle to the FHIRParameters object
@@ -94,7 +101,7 @@ public class FHIRParameters {
 
     /**
      * Convenience method which sets the "_count" query parameter.
-     * 
+     *
      * @param count
      *            the count value to use for the request
      * @return a handle to the FHIRParameters object
@@ -105,7 +112,7 @@ public class FHIRParameters {
 
     /**
      * Convenience method which sets the "_page" query parameter.
-     * 
+     *
      * @param page
      *            the page number to use for the request
      * @return a handle to the FHIRParameters object
@@ -116,7 +123,7 @@ public class FHIRParameters {
 
     /**
      * Convenience method which sets the "_since" query parameter.
-     * 
+     *
      * @param since
      *            a string representing the "since" date value to use for the request
      * @return a handle to the FHIRParameters object
@@ -127,7 +134,7 @@ public class FHIRParameters {
 
     /**
      * Clears the set of parameters currently contained in the FHIRParameters object.
-     * 
+     *
      * @return a handle to the FHIRParameters object
      */
     public FHIRParameters clear() {
@@ -137,7 +144,7 @@ public class FHIRParameters {
 
     /**
      * Adds the specified query parameter name and value to 'this'.
-     * 
+     *
      * @param name
      *            the parameter name
      * @param value
@@ -151,7 +158,7 @@ public class FHIRParameters {
 
     /**
      * Adds the specified search parameter (name, modifier, values) to 'this'.
-     * 
+     *
      * @param name
      *            the parameter name
      * @param modifier
@@ -168,8 +175,26 @@ public class FHIRParameters {
     }
 
     /**
+     * Adds the specified search parameter (name, resourceType, values) to 'this'.
+     *
+     * @param name
+     *            the parameter name
+     * @param resourceType
+     *            a resource type (e.g. Patient) as a modifier
+     * @param values
+     *            one or more values associated with the search parameter
+     * @return a handle to the FHIRParameters object
+     */
+    public FHIRParameters searchParam(String name, ResourceType resourceType, String... values) {
+        String parameterName = name + ":" + resourceType.getValue();
+        String value = getValueString(values);
+        addMultivaluedParameter(parameterName, value);
+        return this;
+    }
+
+    /**
      * Adds the specified search parameter (name, value-prefix, values) to 'this'.
-     * 
+     *
      * @param name
      *            the parameter name
      * @param prefix
@@ -186,7 +211,7 @@ public class FHIRParameters {
 
     /**
      * Returns a comma-separated string containing the elements of the 'values' array.
-     * 
+     *
      * @param values
      *            an array of strings containing parameter values
      */
@@ -205,7 +230,7 @@ public class FHIRParameters {
 
     /**
      * Adds the specified search parameter name and values to 'this'.
-     * 
+     *
      * @param name
      *            the name of the search parameter
      * @param values
@@ -222,7 +247,7 @@ public class FHIRParameters {
 
     /**
      * Returns the collection of parameters that have been added to 'this'.
-     * 
+     *
      * @return a MultivalueMap where the key (query parameter name) maps to a list of string values
      */
     public final MultivaluedMap<String, String> getParameterMap() {
@@ -248,7 +273,7 @@ public class FHIRParameters {
 
     /**
      * Adds a single-valued parameter to 'this'.
-     * 
+     *
      * @param name
      * @param value
      */
@@ -277,7 +302,7 @@ public class FHIRParameters {
         }
         return sb.toString();
     }
-    
+
     public String queryString() {
         return queryString(true);
     }
@@ -285,6 +310,7 @@ public class FHIRParameters {
     /**
      * This method returns a string representation of the FHIRParameters object.
      */
+    @Override
     public String toString() {
         return "FHIRParameters[parameters=" + (getParameters() != null ? getParameters().toString() : "<null>" + "]");
     }

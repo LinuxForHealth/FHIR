@@ -38,7 +38,7 @@
     </developers>
 
     <properties>
-        <liberty.version>21.0.0.3</liberty.version>
+        <liberty.version>21.0.0.5</liberty.version>
         <!-- There are breaking changes in 10.15+ don't upgrade beyond this -->
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
@@ -63,7 +63,7 @@
         <fhir-persistence-jdbc.index>MINIMAL_JSON</fhir-persistence-jdbc.index>
         <fhir-server-test.index>MINIMAL_JSON</fhir-server-test.index>
         <java.version>1.8</java.version>
-        <fhir-examples.version>4.8.2</fhir-examples.version>
+        <fhir-examples.version>4.9.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.9.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
     </properties>
@@ -101,6 +101,7 @@
         <module>../operation/fhir-operation-apply</module>
         <module>../operation/fhir-operation-convert</module>
         <module>../operation/fhir-operation-term</module>
+        <module>../operation/fhir-operation-term-cache</module>
         <module>../operation/fhir-operation-reindex</module>
         <module>../operation/fhir-operation-bulkdata</module>
         <module>../operation/fhir-operation-everything</module>
@@ -108,7 +109,6 @@
         <module>../fhir-bulkdata-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
-        <module>../fhir-cli</module>
         <module>../fhir-notification</module>
         <module>../notification/fhir-notification-kafka</module>
         <module>../notification/fhir-notification-nats</module>
@@ -330,7 +330,7 @@
             <dependency>
                 <groupId>org.glassfish</groupId>
                 <artifactId>jakarta.json</artifactId>
-                <version>1.1.5</version>
+                <version>2.0.1</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.tyrus.bundles</groupId>

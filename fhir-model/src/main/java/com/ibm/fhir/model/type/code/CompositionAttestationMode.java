@@ -169,11 +169,7 @@ public class CompositionAttestationMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class CompositionAttestationMode extends Code {
 
         @Override
         public CompositionAttestationMode build() {
-            return new CompositionAttestationMode(this);
+            CompositionAttestationMode compositionAttestationMode = new CompositionAttestationMode(this);
+            if (validating) {
+                validate(compositionAttestationMode);
+            }
+            return compositionAttestationMode;
+        }
+
+        protected void validate(CompositionAttestationMode compositionAttestationMode) {
+            super.validate(compositionAttestationMode);
+        }
+
+        protected Builder from(CompositionAttestationMode compositionAttestationMode) {
+            super.from(compositionAttestationMode);
+            return this;
         }
     }
 

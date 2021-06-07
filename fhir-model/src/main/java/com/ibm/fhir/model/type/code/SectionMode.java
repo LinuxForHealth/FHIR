@@ -160,11 +160,7 @@ public class SectionMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -219,7 +215,20 @@ public class SectionMode extends Code {
 
         @Override
         public SectionMode build() {
-            return new SectionMode(this);
+            SectionMode sectionMode = new SectionMode(this);
+            if (validating) {
+                validate(sectionMode);
+            }
+            return sectionMode;
+        }
+
+        protected void validate(SectionMode sectionMode) {
+            super.validate(sectionMode);
+        }
+
+        protected Builder from(SectionMode sectionMode) {
+            super.from(sectionMode);
+            return this;
         }
     }
 

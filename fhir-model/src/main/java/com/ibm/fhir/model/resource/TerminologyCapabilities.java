@@ -178,21 +178,21 @@ public class TerminologyCapabilities extends DomainResource {
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        kind = builder.kind;
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = Collections.unmodifiableList(ValidationSupport.checkList(builder.codeSystem, "codeSystem", CodeSystem.class));
+        codeSystem = Collections.unmodifiableList(builder.codeSystem);
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
@@ -1317,7 +1317,22 @@ public class TerminologyCapabilities extends DomainResource {
          */
         @Override
         public TerminologyCapabilities build() {
-            return new TerminologyCapabilities(this);
+            TerminologyCapabilities terminologyCapabilities = new TerminologyCapabilities(this);
+            if (validating) {
+                validate(terminologyCapabilities);
+            }
+            return terminologyCapabilities;
+        }
+
+        protected void validate(TerminologyCapabilities terminologyCapabilities) {
+            super.validate(terminologyCapabilities);
+            ValidationSupport.requireNonNull(terminologyCapabilities.status, "status");
+            ValidationSupport.requireNonNull(terminologyCapabilities.date, "date");
+            ValidationSupport.checkList(terminologyCapabilities.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(terminologyCapabilities.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(terminologyCapabilities.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(terminologyCapabilities.kind, "kind");
+            ValidationSupport.checkList(terminologyCapabilities.codeSystem, "codeSystem", CodeSystem.class);
         }
 
         protected Builder from(TerminologyCapabilities terminologyCapabilities) {
@@ -1363,9 +1378,8 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Software(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1608,7 +1622,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Software build() {
-                return new Software(this);
+                Software software = new Software(this);
+                if (validating) {
+                    validate(software);
+                }
+                return software;
+            }
+
+            protected void validate(Software software) {
+                super.validate(software);
+                ValidationSupport.requireNonNull(software.name, "name");
+                ValidationSupport.requireValueOrChildren(software);
             }
 
             protected Builder from(Software software) {
@@ -1633,9 +1657,8 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Implementation(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             url = builder.url;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1878,7 +1901,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Implementation build() {
-                return new Implementation(this);
+                Implementation implementation = new Implementation(this);
+                if (validating) {
+                    validate(implementation);
+                }
+                return implementation;
+            }
+
+            protected void validate(Implementation implementation) {
+                super.validate(implementation);
+                ValidationSupport.requireNonNull(implementation.description, "description");
+                ValidationSupport.requireValueOrChildren(implementation);
             }
 
             protected Builder from(Implementation implementation) {
@@ -1902,9 +1935,8 @@ public class TerminologyCapabilities extends DomainResource {
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
+            version = Collections.unmodifiableList(builder.version);
             subsumption = builder.subsumption;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2189,7 +2221,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public CodeSystem build() {
-                return new CodeSystem(this);
+                CodeSystem codeSystem = new CodeSystem(this);
+                if (validating) {
+                    validate(codeSystem);
+                }
+                return codeSystem;
+            }
+
+            protected void validate(CodeSystem codeSystem) {
+                super.validate(codeSystem);
+                ValidationSupport.checkList(codeSystem.version, "version", Version.class);
+                ValidationSupport.requireValueOrChildren(codeSystem);
             }
 
             protected Builder from(CodeSystem codeSystem) {
@@ -2219,10 +2261,9 @@ public class TerminologyCapabilities extends DomainResource {
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = Collections.unmodifiableList(ValidationSupport.checkList(builder.language, "language", Code.class));
-                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
-                property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Code.class));
-                ValidationSupport.requireValueOrChildren(this);
+                language = Collections.unmodifiableList(builder.language);
+                filter = Collections.unmodifiableList(builder.filter);
+                property = Collections.unmodifiableList(builder.property);
             }
 
             /**
@@ -2634,7 +2675,19 @@ public class TerminologyCapabilities extends DomainResource {
                  */
                 @Override
                 public Version build() {
-                    return new Version(this);
+                    Version version = new Version(this);
+                    if (validating) {
+                        validate(version);
+                    }
+                    return version;
+                }
+
+                protected void validate(Version version) {
+                    super.validate(version);
+                    ValidationSupport.checkList(version.language, "language", Code.class);
+                    ValidationSupport.checkList(version.filter, "filter", Filter.class);
+                    ValidationSupport.checkList(version.property, "property", Code.class);
+                    ValidationSupport.requireValueOrChildren(version);
                 }
 
                 protected Builder from(Version version) {
@@ -2660,9 +2713,8 @@ public class TerminologyCapabilities extends DomainResource {
 
                 private Filter(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
-                    op = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.op, "op", Code.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    code = builder.code;
+                    op = Collections.unmodifiableList(builder.op);
                 }
 
                 /**
@@ -2930,7 +2982,18 @@ public class TerminologyCapabilities extends DomainResource {
                      */
                     @Override
                     public Filter build() {
-                        return new Filter(this);
+                        Filter filter = new Filter(this);
+                        if (validating) {
+                            validate(filter);
+                        }
+                        return filter;
+                    }
+
+                    protected void validate(Filter filter) {
+                        super.validate(filter);
+                        ValidationSupport.requireNonNull(filter.code, "code");
+                        ValidationSupport.checkNonEmptyList(filter.op, "op", Code.class);
+                        ValidationSupport.requireValueOrChildren(filter);
                     }
 
                     protected Builder from(Filter filter) {
@@ -2959,9 +3022,8 @@ public class TerminologyCapabilities extends DomainResource {
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
+            parameter = Collections.unmodifiableList(builder.parameter);
             textFilter = builder.textFilter;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3304,7 +3366,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Expansion build() {
-                return new Expansion(this);
+                Expansion expansion = new Expansion(this);
+                if (validating) {
+                    validate(expansion);
+                }
+                return expansion;
+            }
+
+            protected void validate(Expansion expansion) {
+                super.validate(expansion);
+                ValidationSupport.checkList(expansion.parameter, "parameter", Parameter.class);
+                ValidationSupport.requireValueOrChildren(expansion);
             }
 
             protected Builder from(Expansion expansion) {
@@ -3328,9 +3400,8 @@ public class TerminologyCapabilities extends DomainResource {
 
             private Parameter(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3573,7 +3644,17 @@ public class TerminologyCapabilities extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.name, "name");
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3595,8 +3676,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         private ValidateCode(Builder builder) {
             super(builder);
-            translations = ValidationSupport.requireNonNull(builder.translations, "translations");
-            ValidationSupport.requireValueOrChildren(this);
+            translations = builder.translations;
         }
 
         /**
@@ -3810,7 +3890,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public ValidateCode build() {
-                return new ValidateCode(this);
+                ValidateCode validateCode = new ValidateCode(this);
+                if (validating) {
+                    validate(validateCode);
+                }
+                return validateCode;
+            }
+
+            protected void validate(ValidateCode validateCode) {
+                super.validate(validateCode);
+                ValidationSupport.requireNonNull(validateCode.translations, "translations");
+                ValidationSupport.requireValueOrChildren(validateCode);
             }
 
             protected Builder from(ValidateCode validateCode) {
@@ -3830,8 +3920,7 @@ public class TerminologyCapabilities extends DomainResource {
 
         private Translation(Builder builder) {
             super(builder);
-            needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
-            ValidationSupport.requireValueOrChildren(this);
+            needsMap = builder.needsMap;
         }
 
         /**
@@ -4045,7 +4134,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Translation build() {
-                return new Translation(this);
+                Translation translation = new Translation(this);
+                if (validating) {
+                    validate(translation);
+                }
+                return translation;
+            }
+
+            protected void validate(Translation translation) {
+                super.validate(translation);
+                ValidationSupport.requireNonNull(translation.needsMap, "needsMap");
+                ValidationSupport.requireValueOrChildren(translation);
             }
 
             protected Builder from(Translation translation) {
@@ -4065,7 +4164,6 @@ public class TerminologyCapabilities extends DomainResource {
         private Closure(Builder builder) {
             super(builder);
             translation = builder.translation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4272,7 +4370,16 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Closure build() {
-                return new Closure(this);
+                Closure closure = new Closure(this);
+                if (validating) {
+                    validate(closure);
+                }
+                return closure;
+            }
+
+            protected void validate(Closure closure) {
+                super.validate(closure);
+                ValidationSupport.requireValueOrChildren(closure);
             }
 
             protected Builder from(Closure closure) {

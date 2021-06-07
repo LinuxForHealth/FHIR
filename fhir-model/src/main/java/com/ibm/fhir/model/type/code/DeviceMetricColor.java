@@ -213,11 +213,7 @@ public class DeviceMetricColor extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -272,7 +268,20 @@ public class DeviceMetricColor extends Code {
 
         @Override
         public DeviceMetricColor build() {
-            return new DeviceMetricColor(this);
+            DeviceMetricColor deviceMetricColor = new DeviceMetricColor(this);
+            if (validating) {
+                validate(deviceMetricColor);
+            }
+            return deviceMetricColor;
+        }
+
+        protected void validate(DeviceMetricColor deviceMetricColor) {
+            super.validate(deviceMetricColor);
+        }
+
+        protected Builder from(DeviceMetricColor deviceMetricColor) {
+            super.from(deviceMetricColor);
+            return this;
         }
     }
 

@@ -65,8 +65,7 @@ public class Linkage extends DomainResource {
         super(builder);
         active = builder.active;
         author = builder.author;
-        item = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.item, "item", Item.class));
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization");
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -482,7 +481,17 @@ public class Linkage extends DomainResource {
          */
         @Override
         public Linkage build() {
-            return new Linkage(this);
+            Linkage linkage = new Linkage(this);
+            if (validating) {
+                validate(linkage);
+            }
+            return linkage;
+        }
+
+        protected void validate(Linkage linkage) {
+            super.validate(linkage);
+            ValidationSupport.checkNonEmptyList(linkage.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(linkage.author, "author", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(Linkage linkage) {
@@ -514,9 +523,8 @@ public class Linkage extends DomainResource {
 
         private Item(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            resource = ValidationSupport.requireNonNull(builder.resource, "resource");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            resource = builder.resource;
         }
 
         /**
@@ -764,7 +772,18 @@ public class Linkage extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.type, "type");
+                ValidationSupport.requireNonNull(item.resource, "resource");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {

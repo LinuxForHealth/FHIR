@@ -147,11 +147,7 @@ public class ConstraintSeverity extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class ConstraintSeverity extends Code {
 
         @Override
         public ConstraintSeverity build() {
-            return new ConstraintSeverity(this);
+            ConstraintSeverity constraintSeverity = new ConstraintSeverity(this);
+            if (validating) {
+                validate(constraintSeverity);
+            }
+            return constraintSeverity;
+        }
+
+        protected void validate(ConstraintSeverity constraintSeverity) {
+            super.validate(constraintSeverity);
+        }
+
+        protected Builder from(ConstraintSeverity constraintSeverity) {
+            super.from(constraintSeverity);
+            return this;
         }
     }
 

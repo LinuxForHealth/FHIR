@@ -96,13 +96,13 @@ public class Substance extends DomainResource {
 
     private Substance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         description = builder.description;
-        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
-        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
+        instance = Collections.unmodifiableList(builder.instance);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
     }
 
     /**
@@ -680,7 +680,20 @@ public class Substance extends DomainResource {
          */
         @Override
         public Substance build() {
-            return new Substance(this);
+            Substance substance = new Substance(this);
+            if (validating) {
+                validate(substance);
+            }
+            return substance;
+        }
+
+        protected void validate(Substance substance) {
+            super.validate(substance);
+            ValidationSupport.checkList(substance.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(substance.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(substance.code, "code");
+            ValidationSupport.checkList(substance.instance, "instance", Instance.class);
+            ValidationSupport.checkList(substance.ingredient, "ingredient", Ingredient.class);
         }
 
         protected Builder from(Substance substance) {
@@ -712,7 +725,6 @@ public class Substance extends DomainResource {
             identifier = builder.identifier;
             expiry = builder.expiry;
             quantity = builder.quantity;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -977,7 +989,16 @@ public class Substance extends DomainResource {
              */
             @Override
             public Instance build() {
-                return new Instance(this);
+                Instance instance = new Instance(this);
+                if (validating) {
+                    validate(instance);
+                }
+                return instance;
+            }
+
+            protected void validate(Instance instance) {
+                super.validate(instance);
+                ValidationSupport.requireValueOrChildren(instance);
             }
 
             protected Builder from(Instance instance) {
@@ -1011,9 +1032,7 @@ public class Substance extends DomainResource {
         private Ingredient(Builder builder) {
             super(builder);
             quantity = builder.quantity;
-            substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(substance, "substance", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            substance = builder.substance;
         }
 
         /**
@@ -1267,7 +1286,18 @@ public class Substance extends DomainResource {
              */
             @Override
             public Ingredient build() {
-                return new Ingredient(this);
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireChoiceElement(ingredient.substance, "substance", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(ingredient.substance, "substance", "Substance");
+                ValidationSupport.requireValueOrChildren(ingredient);
             }
 
             protected Builder from(Ingredient ingredient) {

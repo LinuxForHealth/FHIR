@@ -56,11 +56,10 @@ public class ProdCharacteristic extends BackboneElement {
         nominalVolume = builder.nominalVolume;
         externalDiameter = builder.externalDiameter;
         shape = builder.shape;
-        color = Collections.unmodifiableList(ValidationSupport.checkList(builder.color, "color", String.class));
-        imprint = Collections.unmodifiableList(ValidationSupport.checkList(builder.imprint, "imprint", String.class));
-        image = Collections.unmodifiableList(ValidationSupport.checkList(builder.image, "image", Attachment.class));
+        color = Collections.unmodifiableList(builder.color);
+        imprint = Collections.unmodifiableList(builder.imprint);
+        image = Collections.unmodifiableList(builder.image);
         scoring = builder.scoring;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -669,7 +668,19 @@ public class ProdCharacteristic extends BackboneElement {
          */
         @Override
         public ProdCharacteristic build() {
-            return new ProdCharacteristic(this);
+            ProdCharacteristic prodCharacteristic = new ProdCharacteristic(this);
+            if (validating) {
+                validate(prodCharacteristic);
+            }
+            return prodCharacteristic;
+        }
+
+        protected void validate(ProdCharacteristic prodCharacteristic) {
+            super.validate(prodCharacteristic);
+            ValidationSupport.checkList(prodCharacteristic.color, "color", String.class);
+            ValidationSupport.checkList(prodCharacteristic.imprint, "imprint", String.class);
+            ValidationSupport.checkList(prodCharacteristic.image, "image", Attachment.class);
+            ValidationSupport.requireValueOrChildren(prodCharacteristic);
         }
 
         protected Builder from(ProdCharacteristic prodCharacteristic) {

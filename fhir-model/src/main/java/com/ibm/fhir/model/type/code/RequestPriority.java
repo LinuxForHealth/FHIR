@@ -169,11 +169,7 @@ public class RequestPriority extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class RequestPriority extends Code {
 
         @Override
         public RequestPriority build() {
-            return new RequestPriority(this);
+            RequestPriority requestPriority = new RequestPriority(this);
+            if (validating) {
+                validate(requestPriority);
+            }
+            return requestPriority;
+        }
+
+        protected void validate(RequestPriority requestPriority) {
+            super.validate(requestPriority);
+        }
+
+        protected Builder from(RequestPriority requestPriority) {
+            super.from(requestPriority);
+            return this;
         }
     }
 

@@ -169,11 +169,7 @@ public class IdentityAssuranceLevel extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class IdentityAssuranceLevel extends Code {
 
         @Override
         public IdentityAssuranceLevel build() {
-            return new IdentityAssuranceLevel(this);
+            IdentityAssuranceLevel identityAssuranceLevel = new IdentityAssuranceLevel(this);
+            if (validating) {
+                validate(identityAssuranceLevel);
+            }
+            return identityAssuranceLevel;
+        }
+
+        protected void validate(IdentityAssuranceLevel identityAssuranceLevel) {
+            super.validate(identityAssuranceLevel);
+        }
+
+        protected Builder from(IdentityAssuranceLevel identityAssuranceLevel) {
+            super.from(identityAssuranceLevel);
+            return this;
         }
     }
 

@@ -102,7 +102,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private BulkDataContext ctx = null;
 
     String fhirResourceType;
-    private boolean isExportPublic = true;
 
     String cosBucketName;
     String cosBucketPathPrefix;
@@ -265,8 +264,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
         FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         resourceType = ModelSupport.getResourceType(fhirResourceType);
-
-        isExportPublic = adapter.isStorageProviderExportPublic(source);
 
         if (StorageType.AZURE == adapter.getStorageProviderStorageType(source)) {
             provider = new AzureProvider(source);
@@ -456,7 +453,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
             } else {
                 this.currentObjectName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
             }
-            uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentObjectName, isExportPublic);
+            uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentObjectName);
 
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine(logPrefix() + " Started new multi-part upload: '" + this.uploadId + "'");

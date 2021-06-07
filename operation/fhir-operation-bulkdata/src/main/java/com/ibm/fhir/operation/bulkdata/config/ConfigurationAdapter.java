@@ -381,6 +381,7 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
+    @Deprecated
     boolean isStorageProviderExportPublic(String provider);
 
     /**
@@ -511,4 +512,9 @@ public interface ConfigurationAdapter {
      * @return true, if connectionString
      */
     boolean isStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
+     * @return the status of skippable updates
+     */
+    boolean enableSkippableUpdates();
 }

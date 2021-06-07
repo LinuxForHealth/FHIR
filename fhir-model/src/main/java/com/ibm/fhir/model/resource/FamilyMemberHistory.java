@@ -153,26 +153,24 @@ public class FamilyMemberHistory extends DomainResource {
 
     private FamilyMemberHistory(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        status = builder.status;
         dataAbsentReason = builder.dataAbsentReason;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        patient = builder.patient;
         date = builder.date;
         name = builder.name;
-        relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
+        relationship = builder.relationship;
         sex = builder.sex;
-        born = ValidationSupport.choiceElement(builder.born, "born", Period.class, Date.class, String.class);
-        age = ValidationSupport.choiceElement(builder.age, "age", Age.class, Range.class, String.class);
+        born = builder.born;
+        age = builder.age;
         estimatedAge = builder.estimatedAge;
-        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Condition.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
+        deceased = builder.deceased;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        condition = Collections.unmodifiableList(builder.condition);
     }
 
     /**
@@ -1206,7 +1204,30 @@ public class FamilyMemberHistory extends DomainResource {
          */
         @Override
         public FamilyMemberHistory build() {
-            return new FamilyMemberHistory(this);
+            FamilyMemberHistory familyMemberHistory = new FamilyMemberHistory(this);
+            if (validating) {
+                validate(familyMemberHistory);
+            }
+            return familyMemberHistory;
+        }
+
+        protected void validate(FamilyMemberHistory familyMemberHistory) {
+            super.validate(familyMemberHistory);
+            ValidationSupport.checkList(familyMemberHistory.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(familyMemberHistory.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(familyMemberHistory.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.requireNonNull(familyMemberHistory.status, "status");
+            ValidationSupport.requireNonNull(familyMemberHistory.patient, "patient");
+            ValidationSupport.requireNonNull(familyMemberHistory.relationship, "relationship");
+            ValidationSupport.choiceElement(familyMemberHistory.born, "born", Period.class, Date.class, String.class);
+            ValidationSupport.choiceElement(familyMemberHistory.age, "age", Age.class, Range.class, String.class);
+            ValidationSupport.choiceElement(familyMemberHistory.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
+            ValidationSupport.checkList(familyMemberHistory.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(familyMemberHistory.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(familyMemberHistory.note, "note", Annotation.class);
+            ValidationSupport.checkList(familyMemberHistory.condition, "condition", Condition.class);
+            ValidationSupport.checkReferenceType(familyMemberHistory.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(familyMemberHistory.reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(FamilyMemberHistory familyMemberHistory) {
@@ -1261,12 +1282,11 @@ public class FamilyMemberHistory extends DomainResource {
 
         private Condition(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             outcome = builder.outcome;
             contributedToDeath = builder.contributedToDeath;
-            onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
-            note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-            ValidationSupport.requireValueOrChildren(this);
+            onset = builder.onset;
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1632,7 +1652,19 @@ public class FamilyMemberHistory extends DomainResource {
              */
             @Override
             public Condition build() {
-                return new Condition(this);
+                Condition condition = new Condition(this);
+                if (validating) {
+                    validate(condition);
+                }
+                return condition;
+            }
+
+            protected void validate(Condition condition) {
+                super.validate(condition);
+                ValidationSupport.requireNonNull(condition.code, "code");
+                ValidationSupport.choiceElement(condition.onset, "onset", Age.class, Range.class, Period.class, String.class);
+                ValidationSupport.checkList(condition.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(condition);
             }
 
             protected Builder from(Condition condition) {

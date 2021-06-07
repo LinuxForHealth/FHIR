@@ -350,29 +350,29 @@ public class StructureDefinition extends DomainResource {
 
     private StructureDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        keyword = Collections.unmodifiableList(ValidationSupport.checkList(builder.keyword, "keyword", Coding.class));
+        keyword = Collections.unmodifiableList(builder.keyword);
         fhirVersion = builder.fhirVersion;
-        mapping = Collections.unmodifiableList(ValidationSupport.checkList(builder.mapping, "mapping", Mapping.class));
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        context = Collections.unmodifiableList(ValidationSupport.checkList(builder.context, "context", Context.class));
-        contextInvariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.contextInvariant, "contextInvariant", String.class));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        mapping = Collections.unmodifiableList(builder.mapping);
+        kind = builder.kind;
+        _abstract = builder._abstract;
+        context = Collections.unmodifiableList(builder.context);
+        contextInvariant = Collections.unmodifiableList(builder.contextInvariant);
+        type = builder.type;
         baseDefinition = builder.baseDefinition;
         derivation = builder.derivation;
         snapshot = builder.snapshot;
@@ -1682,7 +1682,29 @@ public class StructureDefinition extends DomainResource {
          */
         @Override
         public StructureDefinition build() {
-            return new StructureDefinition(this);
+            StructureDefinition structureDefinition = new StructureDefinition(this);
+            if (validating) {
+                validate(structureDefinition);
+            }
+            return structureDefinition;
+        }
+
+        protected void validate(StructureDefinition structureDefinition) {
+            super.validate(structureDefinition);
+            ValidationSupport.requireNonNull(structureDefinition.url, "url");
+            ValidationSupport.checkList(structureDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(structureDefinition.name, "name");
+            ValidationSupport.requireNonNull(structureDefinition.status, "status");
+            ValidationSupport.checkList(structureDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(structureDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(structureDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(structureDefinition.keyword, "keyword", Coding.class);
+            ValidationSupport.checkList(structureDefinition.mapping, "mapping", Mapping.class);
+            ValidationSupport.requireNonNull(structureDefinition.kind, "kind");
+            ValidationSupport.requireNonNull(structureDefinition._abstract, "abstract");
+            ValidationSupport.checkList(structureDefinition.context, "context", Context.class);
+            ValidationSupport.checkList(structureDefinition.contextInvariant, "contextInvariant", String.class);
+            ValidationSupport.requireNonNull(structureDefinition.type, "type");
         }
 
         protected Builder from(StructureDefinition structureDefinition) {
@@ -1730,11 +1752,10 @@ public class StructureDefinition extends DomainResource {
 
         private Mapping(Builder builder) {
             super(builder);
-            identity = ValidationSupport.requireNonNull(builder.identity, "identity");
+            identity = builder.identity;
             uri = builder.uri;
             name = builder.name;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2035,7 +2056,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Mapping build() {
-                return new Mapping(this);
+                Mapping mapping = new Mapping(this);
+                if (validating) {
+                    validate(mapping);
+                }
+                return mapping;
+            }
+
+            protected void validate(Mapping mapping) {
+                super.validate(mapping);
+                ValidationSupport.requireNonNull(mapping.identity, "identity");
+                ValidationSupport.requireValueOrChildren(mapping);
             }
 
             protected Builder from(Mapping mapping) {
@@ -2068,9 +2099,8 @@ public class StructureDefinition extends DomainResource {
 
         private Context(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            expression = builder.expression;
         }
 
         /**
@@ -2316,7 +2346,18 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Context build() {
-                return new Context(this);
+                Context context = new Context(this);
+                if (validating) {
+                    validate(context);
+                }
+                return context;
+            }
+
+            protected void validate(Context context) {
+                super.validate(context);
+                ValidationSupport.requireNonNull(context.type, "type");
+                ValidationSupport.requireNonNull(context.expression, "expression");
+                ValidationSupport.requireValueOrChildren(context);
             }
 
             protected Builder from(Context context) {
@@ -2338,8 +2379,7 @@ public class StructureDefinition extends DomainResource {
 
         private Snapshot(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", ElementDefinition.class));
-            ValidationSupport.requireValueOrChildren(this);
+            element = Collections.unmodifiableList(builder.element);
         }
 
         /**
@@ -2575,7 +2615,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Snapshot build() {
-                return new Snapshot(this);
+                Snapshot snapshot = new Snapshot(this);
+                if (validating) {
+                    validate(snapshot);
+                }
+                return snapshot;
+            }
+
+            protected void validate(Snapshot snapshot) {
+                super.validate(snapshot);
+                ValidationSupport.checkNonEmptyList(snapshot.element, "element", ElementDefinition.class);
+                ValidationSupport.requireValueOrChildren(snapshot);
             }
 
             protected Builder from(Snapshot snapshot) {
@@ -2595,8 +2645,7 @@ public class StructureDefinition extends DomainResource {
 
         private Differential(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", ElementDefinition.class));
-            ValidationSupport.requireValueOrChildren(this);
+            element = Collections.unmodifiableList(builder.element);
         }
 
         /**
@@ -2832,7 +2881,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Differential build() {
-                return new Differential(this);
+                Differential differential = new Differential(this);
+                if (validating) {
+                    validate(differential);
+                }
+                return differential;
+            }
+
+            protected void validate(Differential differential) {
+                super.validate(differential);
+                ValidationSupport.checkNonEmptyList(differential.element, "element", ElementDefinition.class);
+                ValidationSupport.requireValueOrChildren(differential);
             }
 
             protected Builder from(Differential differential) {

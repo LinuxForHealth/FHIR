@@ -36,8 +36,6 @@ import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
  */
 @Dependent
 public class ChunkWriter extends AbstractItemWriter {
-    private boolean isExportPublic = true;
-
     private BulkDataContext ctx = null;
     private Provider wrapper = null;
 
@@ -93,7 +91,7 @@ public class ChunkWriter extends AbstractItemWriter {
         wrapper.createSource();
 
         ExportTransientUserData chunkData = (ExportTransientUserData) stepCtx.getTransientUserData();
-        wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType, isExportPublic);
+        wrapper.registerTransient(executionId, chunkData, cosBucketPathPrefix, fhirResourceType);
 
         if (!resourceLists.stream().allMatch(ReadResultDTO.class::isInstance)) {
             throw new IllegalStateException("Expected a list of ReadResultDTO");

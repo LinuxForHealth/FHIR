@@ -40,8 +40,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
     public static final String PROPERTY_MAX_PAGE_SIZE = "fhirServer/core/maxPageSize";
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
+    public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
 
     // Terminology service properties
+    public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";
@@ -133,7 +135,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
     public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
     public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";

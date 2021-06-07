@@ -102,6 +102,7 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
 |fhir-operation-term|[Terminology service](https://www.hl7.org/fhir/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
+|fhir-operation-term-cache|Add-on module that provides operations for clearing the terminology subsystem caches for non-production scenarios|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
 |fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://www.hl7.org/fhir/operation-patient-everything.html) operation|false|
 |fhir-operation-erase|A hard delete operation for resource instances referred to as the `$erase` operation. See the [README.md](operation/fhir-operation-erase/README.md)|false|
@@ -110,7 +111,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
-|fhir-cli|Experimental command line interface utility for working with the IBM FHIR Server client from the command line|false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|

@@ -63,10 +63,9 @@ public class Expression extends Element {
         super(builder);
         description = builder.description;
         name = builder.name;
-        language = ValidationSupport.requireNonNull(builder.language, "language");
+        language = builder.language;
         expression = builder.expression;
         reference = builder.reference;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -347,7 +346,17 @@ public class Expression extends Element {
          */
         @Override
         public Expression build() {
-            return new Expression(this);
+            Expression expression = new Expression(this);
+            if (validating) {
+                validate(expression);
+            }
+            return expression;
+        }
+
+        protected void validate(Expression expression) {
+            super.validate(expression);
+            ValidationSupport.requireNonNull(expression.language, "language");
+            ValidationSupport.requireValueOrChildren(expression);
         }
 
         protected Builder from(Expression expression) {

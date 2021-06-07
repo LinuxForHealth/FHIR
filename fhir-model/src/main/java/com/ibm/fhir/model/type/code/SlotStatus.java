@@ -181,11 +181,7 @@ public class SlotStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -240,7 +236,20 @@ public class SlotStatus extends Code {
 
         @Override
         public SlotStatus build() {
-            return new SlotStatus(this);
+            SlotStatus slotStatus = new SlotStatus(this);
+            if (validating) {
+                validate(slotStatus);
+            }
+            return slotStatus;
+        }
+
+        protected void validate(SlotStatus slotStatus) {
+            super.validate(slotStatus);
+        }
+
+        protected Builder from(SlotStatus slotStatus) {
+            super.from(slotStatus);
+            return this;
         }
     }
 

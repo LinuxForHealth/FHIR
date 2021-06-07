@@ -291,11 +291,7 @@ public class ActivityDefinitionKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -350,7 +346,20 @@ public class ActivityDefinitionKind extends Code {
 
         @Override
         public ActivityDefinitionKind build() {
-            return new ActivityDefinitionKind(this);
+            ActivityDefinitionKind activityDefinitionKind = new ActivityDefinitionKind(this);
+            if (validating) {
+                validate(activityDefinitionKind);
+            }
+            return activityDefinitionKind;
+        }
+
+        protected void validate(ActivityDefinitionKind activityDefinitionKind) {
+            super.validate(activityDefinitionKind);
+        }
+
+        protected Builder from(ActivityDefinitionKind activityDefinitionKind) {
+            super.from(activityDefinitionKind);
+            return this;
         }
     }
 

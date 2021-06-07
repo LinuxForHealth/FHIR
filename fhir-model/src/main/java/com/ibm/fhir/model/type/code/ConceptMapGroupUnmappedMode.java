@@ -158,11 +158,7 @@ public class ConceptMapGroupUnmappedMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ConceptMapGroupUnmappedMode extends Code {
 
         @Override
         public ConceptMapGroupUnmappedMode build() {
-            return new ConceptMapGroupUnmappedMode(this);
+            ConceptMapGroupUnmappedMode conceptMapGroupUnmappedMode = new ConceptMapGroupUnmappedMode(this);
+            if (validating) {
+                validate(conceptMapGroupUnmappedMode);
+            }
+            return conceptMapGroupUnmappedMode;
+        }
+
+        protected void validate(ConceptMapGroupUnmappedMode conceptMapGroupUnmappedMode) {
+            super.validate(conceptMapGroupUnmappedMode);
+        }
+
+        protected Builder from(ConceptMapGroupUnmappedMode conceptMapGroupUnmappedMode) {
+            super.from(conceptMapGroupUnmappedMode);
+            return this;
         }
     }
 

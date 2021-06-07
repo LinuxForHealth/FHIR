@@ -207,11 +207,7 @@ public class NutritionOrderStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class NutritionOrderStatus extends Code {
 
         @Override
         public NutritionOrderStatus build() {
-            return new NutritionOrderStatus(this);
+            NutritionOrderStatus nutritionOrderStatus = new NutritionOrderStatus(this);
+            if (validating) {
+                validate(nutritionOrderStatus);
+            }
+            return nutritionOrderStatus;
+        }
+
+        protected void validate(NutritionOrderStatus nutritionOrderStatus) {
+            super.validate(nutritionOrderStatus);
+        }
+
+        protected Builder from(NutritionOrderStatus nutritionOrderStatus) {
+            super.from(nutritionOrderStatus);
+            return this;
         }
     }
 

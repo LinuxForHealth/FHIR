@@ -161,11 +161,7 @@ public class MessageSignificanceCategory extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -220,7 +216,20 @@ public class MessageSignificanceCategory extends Code {
 
         @Override
         public MessageSignificanceCategory build() {
-            return new MessageSignificanceCategory(this);
+            MessageSignificanceCategory messageSignificanceCategory = new MessageSignificanceCategory(this);
+            if (validating) {
+                validate(messageSignificanceCategory);
+            }
+            return messageSignificanceCategory;
+        }
+
+        protected void validate(MessageSignificanceCategory messageSignificanceCategory) {
+            super.validate(messageSignificanceCategory);
+        }
+
+        protected Builder from(MessageSignificanceCategory messageSignificanceCategory) {
+            super.from(messageSignificanceCategory);
+            return this;
         }
     }
 

@@ -228,11 +228,7 @@ public class SearchParamType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -287,7 +283,20 @@ public class SearchParamType extends Code {
 
         @Override
         public SearchParamType build() {
-            return new SearchParamType(this);
+            SearchParamType searchParamType = new SearchParamType(this);
+            if (validating) {
+                validate(searchParamType);
+            }
+            return searchParamType;
+        }
+
+        protected void validate(SearchParamType searchParamType) {
+            super.validate(searchParamType);
+        }
+
+        protected Builder from(SearchParamType searchParamType) {
+            super.from(searchParamType);
+            return this;
         }
     }
 

@@ -15,11 +15,9 @@ import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,18 +26,16 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonReader;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonReader;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
-import com.ibm.cloud.objectstorage.services.s3.model.CannedAccessControlList;
 import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.GetObjectRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.InitiateMultipartUploadResult;
-import com.ibm.cloud.objectstorage.services.s3.model.ObjectMetadata;
 import com.ibm.cloud.objectstorage.services.s3.model.PartETag;
 import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
@@ -76,20 +72,11 @@ public class BulkDataUtils {
         logger.info(method + ": " + String.valueOf(msg));
     }
 
-    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName, boolean isPublicAccess) throws Exception {
+    public static String startPartUpload(AmazonS3 cosClient, String bucketName, String itemName) throws Exception {
         try {
             log("startPartUpload", "Start multi-part upload for " + itemName + " to bucket - " + bucketName);
 
             InitiateMultipartUploadRequest initMultipartUploadReq = new InitiateMultipartUploadRequest(bucketName, itemName);
-            if (isPublicAccess) {
-                initMultipartUploadReq.setCannedACL(CannedAccessControlList.PublicRead);
-                ObjectMetadata metadata = new ObjectMetadata();
-                // Set expiration time to 2 hours(7200 seconds).
-                // Note: IBM COS doesn't honor this but also doesn't fail on this.
-                metadata.setExpirationTime(Date.from(Instant.now().plusSeconds(7200)));
-                initMultipartUploadReq.setObjectMetadata(metadata);
-            }
-
             InitiateMultipartUploadResult mpResult = cosClient.initiateMultipartUpload(initMultipartUploadReq);
             return mpResult.getUploadId();
         } catch (Exception sdke) {

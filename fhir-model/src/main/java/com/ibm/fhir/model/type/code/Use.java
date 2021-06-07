@@ -158,11 +158,7 @@ public class Use extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class Use extends Code {
 
         @Override
         public Use build() {
-            return new Use(this);
+            Use use = new Use(this);
+            if (validating) {
+                validate(use);
+            }
+            return use;
+        }
+
+        protected void validate(Use use) {
+            super.validate(use);
+        }
+
+        protected Builder from(Use use) {
+            super.from(use);
+            return this;
         }
     }
 

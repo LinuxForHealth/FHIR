@@ -71,7 +71,7 @@ public interface Provider {
 
     void registerTransient(ImportTransientUserData transientUserData);
 
-    void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType, boolean isExportPublic) throws Exception;
+    void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) throws Exception;
 
     /**
      * Pushes the Operation Outcomes

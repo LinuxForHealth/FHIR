@@ -169,11 +169,7 @@ public class MedicationRequestPriority extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class MedicationRequestPriority extends Code {
 
         @Override
         public MedicationRequestPriority build() {
-            return new MedicationRequestPriority(this);
+            MedicationRequestPriority medicationRequestPriority = new MedicationRequestPriority(this);
+            if (validating) {
+                validate(medicationRequestPriority);
+            }
+            return medicationRequestPriority;
+        }
+
+        protected void validate(MedicationRequestPriority medicationRequestPriority) {
+            super.validate(medicationRequestPriority);
+        }
+
+        protected Builder from(MedicationRequestPriority medicationRequestPriority) {
+            super.from(medicationRequestPriority);
+            return this;
         }
     }
 

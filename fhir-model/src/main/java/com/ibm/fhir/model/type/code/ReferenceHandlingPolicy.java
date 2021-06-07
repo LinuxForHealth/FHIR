@@ -183,11 +183,7 @@ public class ReferenceHandlingPolicy extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -242,7 +238,20 @@ public class ReferenceHandlingPolicy extends Code {
 
         @Override
         public ReferenceHandlingPolicy build() {
-            return new ReferenceHandlingPolicy(this);
+            ReferenceHandlingPolicy referenceHandlingPolicy = new ReferenceHandlingPolicy(this);
+            if (validating) {
+                validate(referenceHandlingPolicy);
+            }
+            return referenceHandlingPolicy;
+        }
+
+        protected void validate(ReferenceHandlingPolicy referenceHandlingPolicy) {
+            super.validate(referenceHandlingPolicy);
+        }
+
+        protected Builder from(ReferenceHandlingPolicy referenceHandlingPolicy) {
+            super.from(referenceHandlingPolicy);
+            return this;
         }
     }
 

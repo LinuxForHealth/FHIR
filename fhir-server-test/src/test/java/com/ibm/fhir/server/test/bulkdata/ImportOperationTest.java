@@ -22,10 +22,10 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -229,7 +229,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             String inputFormat = FORMAT;
             String inputSource = "https://localhost:9443/source-fhir-server";
             String resourceType = "Patient";
-            // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
             String url = "test-import.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url);

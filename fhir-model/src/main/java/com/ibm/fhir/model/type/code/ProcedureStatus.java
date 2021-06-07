@@ -219,11 +219,7 @@ public class ProcedureStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -278,7 +274,20 @@ public class ProcedureStatus extends Code {
 
         @Override
         public ProcedureStatus build() {
-            return new ProcedureStatus(this);
+            ProcedureStatus procedureStatus = new ProcedureStatus(this);
+            if (validating) {
+                validate(procedureStatus);
+            }
+            return procedureStatus;
+        }
+
+        protected void validate(ProcedureStatus procedureStatus) {
+            super.validate(procedureStatus);
+        }
+
+        protected Builder from(ProcedureStatus procedureStatus) {
+            super.from(procedureStatus);
+            return this;
         }
     }
 

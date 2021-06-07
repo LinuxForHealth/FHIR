@@ -158,11 +158,7 @@ public class EvidenceVariableType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class EvidenceVariableType extends Code {
 
         @Override
         public EvidenceVariableType build() {
-            return new EvidenceVariableType(this);
+            EvidenceVariableType evidenceVariableType = new EvidenceVariableType(this);
+            if (validating) {
+                validate(evidenceVariableType);
+            }
+            return evidenceVariableType;
+        }
+
+        protected void validate(EvidenceVariableType evidenceVariableType) {
+            super.validate(evidenceVariableType);
+        }
+
+        protected Builder from(EvidenceVariableType evidenceVariableType) {
+            super.from(evidenceVariableType);
+            return this;
         }
     }
 

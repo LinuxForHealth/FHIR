@@ -85,10 +85,7 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             FHIRRequestContext requestContext = FHIRRequestContext.get();
             Format format = getFormat(mediaType);
             FHIRParser parser = FHIRParser.parser(format);
-            if (parser.isPropertySupported(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS)) {
-                parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS,
-                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
-            }
+            parser.setIgnoringUnrecognizedElements(HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             return parser.parse(entityStream);
         } catch (FHIRParserException e) {
             if (RuntimeType.SERVER.equals(runtimeType)) {

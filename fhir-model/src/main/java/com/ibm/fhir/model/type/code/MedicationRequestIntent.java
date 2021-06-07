@@ -217,11 +217,7 @@ public class MedicationRequestIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -276,7 +272,20 @@ public class MedicationRequestIntent extends Code {
 
         @Override
         public MedicationRequestIntent build() {
-            return new MedicationRequestIntent(this);
+            MedicationRequestIntent medicationRequestIntent = new MedicationRequestIntent(this);
+            if (validating) {
+                validate(medicationRequestIntent);
+            }
+            return medicationRequestIntent;
+        }
+
+        protected void validate(MedicationRequestIntent medicationRequestIntent) {
+            super.validate(medicationRequestIntent);
+        }
+
+        protected Builder from(MedicationRequestIntent medicationRequestIntent) {
+            super.from(medicationRequestIntent);
+            return this;
         }
     }
 

@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server Performance Guide
 description: IBM FHIR Server Performance Guide
 Copyright: years 2020, 2021
-lastupdated: "2020-03-31"
+lastupdated: "2020-06-01"
 permalink: /FHIRServerPerformanceGuide/
 ---
 
@@ -21,6 +21,8 @@ permalink: /FHIRServerPerformanceGuide/
     - [3.3 Session Affinity](#33-session-affinity)
     - [3.4 Value-Id Caches](#34-value-id-caches)
     - [3.5 Compartment Search Optimization](#35-compartment-search-optimization)
+    - [3.6 Usage of Server Resource Provider](#36-usage-of-server-resource-provider)
+    - [3.7 Usage of the extension-search-parameters.json file](#37-usage-of-the-extension-search-parameters.json-file)
 - [4 Database Tuning](#4-database-tuning)
     - [4.1 PostgreSQL](#41-postgresql)
         - [4.1.1 Fillfactor](#411-fillfactor)
@@ -285,6 +287,34 @@ To enable this optimization, set the `fhirServer/search/useStoredCompartmentPara
 
 Enabling this optimization is recommended. See the IBM FHIR Server release notes for more details.
 
+## 3.6. Usage of Server Resource Provider
+
+The IBM FHIR Server has a dynamic registry of conformance resources. The built-in "ServerRegistryResourceProvider" can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+When enabled, this means that each call to the registry (e.g. for extension StructureDefinition lookups during resource creation) can result in a round trip to the database.
+
+For optimal performance, the IBM FHIR Server team recommends to disable this resource provider via the following setting:
+
+| Configuration | Recommended value |
+|------|-------|
+| `fhirServer/core/serverRegistryResourceProviderEnabled` | false |
+
+This configuration setting avoids an extra Search during ingestion.
+
+## 3.7. Usage of the extension-search-parameters.json file
+
+The IBM FHIR Server supports multi-tenant SearchParameter extensions described in the extension-search-parameters.json file. When the `extension-search-parameters.json` is missing, the SearchParameter value extraction tries to open the file for every resource. This is a file-system operation which results in a context switch and impacts performance.
+
+The IBM FHIR Server team recommends each tenant include an `extension-search-parameters.json` file, even if it is empty.
+
+An example of the empty search parameters file is: 
+
+``` json
+{
+  "resourceType": "Bundle",
+  "type": "collection",
+  "entry": []
+}
+```
 
 # 4. Database Tuning
 
@@ -633,23 +663,6 @@ The above query requires a join of around 13 tables which is too many for the da
 /ExplanationOfBenefit?_pretty=true&patient:Patient.birthdate=le1915&claim.priority=normal,stat,deferred&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:patient
 ```
 
-**Include Code System**
-
-Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems, Unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
-
-Don't do this:
-```
-Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active
-```
-
-Instead, do this:
-```
-Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active
-```
-
-Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
-
-
 ## 6.5. Search Examples
 
 The section contains search examples and performance considerations for various types of search parameters.
@@ -663,7 +676,14 @@ HL7 FHIR supports a few variants of token search:
 * `[parameter]=[system]|[code]`
 * `[parameter]=|[code]`
 
-For optimal performance, users should prefer the `[system]|[code]` variant.
+Token-based searches should include a code-system when possible. The same code value might exist in multiple code-systems and so, unless the code-system is included in the search query, the database join may need to consider multiple matches in order to find all the associated resources. This multiplies the amount of work the database must do to execute the query. This also impacts cardinality estimation by the optimizer. If both the code-system and code value are provided, this matches a unique index in the schema allowing the optimizer to infer the SQL fragment will produce a single row.
+
+For optimal performance, users should prefer the `[system]|[code]` variant. Explicitly providing the code is always preferred. If no system is provided, in some cases the IBM FHIR Server can determine the correct code-system to use automatically, which helps query performance.
+
+Don't do this:
+`Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=active`
+
+Instead, do this: `Patient/175517d8bea-32d33eec-d98f-4c99-a3cf-06a113ddcf08/CareTeam?status=http://hl7.org/fhir/care-team-status|active`
 
 This is especially important for code values that are common across systems (e.g short strings like "active").
 However, the IBM FHIR Server supports a SearchParameter extension which allows the server to add an implicit `[system]|` prefix for certain token parameter searches that come in with just a `[code]`.

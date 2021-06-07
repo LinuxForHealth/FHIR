@@ -252,7 +252,15 @@ public class Age extends Quantity {
          */
         @Override
         public Age build() {
-            return new Age(this);
+            Age age = new Age(this);
+            if (validating) {
+                validate(age);
+            }
+            return age;
+        }
+
+        protected void validate(Age age) {
+            super.validate(age);
         }
 
         protected Builder from(Age age) {

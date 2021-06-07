@@ -147,11 +147,7 @@ public class CodeSearchSupport extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class CodeSearchSupport extends Code {
 
         @Override
         public CodeSearchSupport build() {
-            return new CodeSearchSupport(this);
+            CodeSearchSupport codeSearchSupport = new CodeSearchSupport(this);
+            if (validating) {
+                validate(codeSearchSupport);
+            }
+            return codeSearchSupport;
+        }
+
+        protected void validate(CodeSearchSupport codeSearchSupport) {
+            super.validate(codeSearchSupport);
+        }
+
+        protected Builder from(CodeSearchSupport codeSearchSupport) {
+            super.from(codeSearchSupport);
+            return this;
         }
     }
 

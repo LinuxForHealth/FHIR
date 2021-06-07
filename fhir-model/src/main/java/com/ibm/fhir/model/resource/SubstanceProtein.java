@@ -59,8 +59,8 @@ public class SubstanceProtein extends DomainResource {
         super(builder);
         sequenceType = builder.sequenceType;
         numberOfSubunits = builder.numberOfSubunits;
-        disulfideLinkage = Collections.unmodifiableList(ValidationSupport.checkList(builder.disulfideLinkage, "disulfideLinkage", String.class));
-        subunit = Collections.unmodifiableList(ValidationSupport.checkList(builder.subunit, "subunit", Subunit.class));
+        disulfideLinkage = Collections.unmodifiableList(builder.disulfideLinkage);
+        subunit = Collections.unmodifiableList(builder.subunit);
     }
 
     /**
@@ -545,7 +545,17 @@ public class SubstanceProtein extends DomainResource {
          */
         @Override
         public SubstanceProtein build() {
-            return new SubstanceProtein(this);
+            SubstanceProtein substanceProtein = new SubstanceProtein(this);
+            if (validating) {
+                validate(substanceProtein);
+            }
+            return substanceProtein;
+        }
+
+        protected void validate(SubstanceProtein substanceProtein) {
+            super.validate(substanceProtein);
+            ValidationSupport.checkList(substanceProtein.disulfideLinkage, "disulfideLinkage", String.class);
+            ValidationSupport.checkList(substanceProtein.subunit, "subunit", Subunit.class);
         }
 
         protected Builder from(SubstanceProtein substanceProtein) {
@@ -593,7 +603,6 @@ public class SubstanceProtein extends DomainResource {
             nTerminalModification = builder.nTerminalModification;
             cTerminalModificationId = builder.cTerminalModificationId;
             cTerminalModification = builder.cTerminalModification;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1033,7 +1042,16 @@ public class SubstanceProtein extends DomainResource {
              */
             @Override
             public Subunit build() {
-                return new Subunit(this);
+                Subunit subunit = new Subunit(this);
+                if (validating) {
+                    validate(subunit);
+                }
+                return subunit;
+            }
+
+            protected void validate(Subunit subunit) {
+                super.validate(subunit);
+                ValidationSupport.requireValueOrChildren(subunit);
             }
 
             protected Builder from(Subunit subunit) {

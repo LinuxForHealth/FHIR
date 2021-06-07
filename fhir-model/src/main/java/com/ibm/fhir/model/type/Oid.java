@@ -24,7 +24,6 @@ public class Oid extends Uri {
 
     private Oid(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override
@@ -188,7 +187,16 @@ public class Oid extends Uri {
          */
         @Override
         public Oid build() {
-            return new Oid(this);
+            Oid oid = new Oid(this);
+            if (validating) {
+                validate(oid);
+            }
+            return oid;
+        }
+
+        protected void validate(Oid oid) {
+            super.validate(oid);
+            ValidationSupport.checkValue(oid.value, PATTERN);
         }
 
         protected Builder from(Oid oid) {

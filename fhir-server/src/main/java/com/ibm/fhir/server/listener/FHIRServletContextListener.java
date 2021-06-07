@@ -64,6 +64,7 @@ import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Header;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -328,6 +329,17 @@ public class FHIRServletContextListener implements ServletContextListener {
                                 .username(basicAuthPropertyGroup.getStringProperty("username"))
                                 .password(basicAuthPropertyGroup.getStringProperty("password"))
                                 .build());
+                        }
+
+                        Object[] headersArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("headers");
+                        if (headersArray != null) {
+                            for (Object headerObject : headersArray) {
+                                PropertyGroup headerPropertyGroup = (PropertyGroup) headerObject;
+                                builder.headers(Header.builder()
+                                    .name(headerPropertyGroup.getStringProperty("name"))
+                                    .value(headerPropertyGroup.getStringProperty("value"))
+                                    .build());
+                            }
                         }
 
                         builder.httpTimeout(remoteTermServiceProviderPropertyGroup.getIntProperty("httpTimeout", Configuration.DEFAULT_HTTP_TIMEOUT));

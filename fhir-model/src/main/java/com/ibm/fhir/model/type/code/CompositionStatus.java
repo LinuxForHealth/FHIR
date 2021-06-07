@@ -173,11 +173,7 @@ public class CompositionStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -232,7 +228,20 @@ public class CompositionStatus extends Code {
 
         @Override
         public CompositionStatus build() {
-            return new CompositionStatus(this);
+            CompositionStatus compositionStatus = new CompositionStatus(this);
+            if (validating) {
+                validate(compositionStatus);
+            }
+            return compositionStatus;
+        }
+
+        protected void validate(CompositionStatus compositionStatus) {
+            super.validate(compositionStatus);
+        }
+
+        protected Builder from(CompositionStatus compositionStatus) {
+            super.from(compositionStatus);
+            return this;
         }
     }
 

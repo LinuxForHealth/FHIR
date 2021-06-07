@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import org.owasp.encoder.Encode;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -29,7 +30,6 @@ import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.server.util.FHIRRestHelper;
 
 public abstract class AbstractOperation implements FHIROperation {
     protected final OperationDefinition definition;
@@ -186,7 +186,7 @@ public abstract class AbstractOperation implements FHIROperation {
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url(FHIRRestHelper.EXTENSION_URL +  "/not-supported-detail")
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
                             .value(Code.of("resource"))
                             .build())
                         .build())

@@ -158,11 +158,7 @@ public class ListStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ListStatus extends Code {
 
         @Override
         public ListStatus build() {
-            return new ListStatus(this);
+            ListStatus listStatus = new ListStatus(this);
+            if (validating) {
+                validate(listStatus);
+            }
+            return listStatus;
+        }
+
+        protected void validate(ListStatus listStatus) {
+            super.validate(listStatus);
+        }
+
+        protected Builder from(ListStatus listStatus) {
+            super.from(listStatus);
+            return this;
         }
     }
 

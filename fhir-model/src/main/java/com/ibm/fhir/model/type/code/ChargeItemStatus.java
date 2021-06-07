@@ -205,11 +205,7 @@ public class ChargeItemStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -264,7 +260,20 @@ public class ChargeItemStatus extends Code {
 
         @Override
         public ChargeItemStatus build() {
-            return new ChargeItemStatus(this);
+            ChargeItemStatus chargeItemStatus = new ChargeItemStatus(this);
+            if (validating) {
+                validate(chargeItemStatus);
+            }
+            return chargeItemStatus;
+        }
+
+        protected void validate(ChargeItemStatus chargeItemStatus) {
+            super.validate(chargeItemStatus);
+        }
+
+        protected Builder from(ChargeItemStatus chargeItemStatus) {
+            super.from(chargeItemStatus);
+            return this;
         }
     }
 

@@ -1,0 +1,52 @@
+{
+    "resourceType": "OperationDefinition",
+    "id": "ValueSet-clear-cache",
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>clear-cache</h2><p>OPERATION: CodeSystem Clear Cache</p><p>The clear-cache operation removes codesystem expansion data that has been cached in memory, allowing the terminology subsystem to reload the data fresh on next use. Cache data is not shared between FHIR server instances, so this operation must be called separate for each instance as needed by the application.</p><p>URL: [base][base]/CodeSystem/$clear-cache</p><p>Parameters</p><table class=\"grid\"><tr><td><b>Use</b></td><td><b>Name</b></td><td><b>Cardinality</b></td><td><b>Type</b></td><td><b>Binding</b></td><td><b>Documentation</b></td></tr><tr><td>OUT</td><td>return</td><td>1..1</td><td>OperationOutcome</td><td/><td><p>If the operation outcome is not present or is present but lists no errors, then the operation completed successfully.</p></td></tr></table></div>"
+      },
+    "url": "http://ibm.com/fhir/OperationDefinition/CodeSystem-clear-cache",
+    "name": "clear-cache",
+    "status": "draft",
+    "kind": "operation",
+    "publisher": "IBM FHIR Server",
+    "date": "2021-04-15",
+    "description": "The clear-cache operation removes codesystem expansion data that has been cached in memory, allowing the terminology subsystem to reload the data fresh on next use. Cache data is not shared between FHIR server instances, so this operation must be called separate for each instance as needed by the application.",
+    "code": "clear-cache",
+    "resource": ["CodeSystem"],
+    "system": false,
+    "type": true,
+    "instance": true,
+    "parameter": [    {
+      "name": "url",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "CodeSystem URL. The server must know the code system (e.g. it is defined explicitly in the server's code systems, or it is known implicitly by the server",
+      "type": "uri"
+    },
+    {
+      "name": "codeSystem",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "The codeSystem is provided directly as part of the request.",
+      "type": "CodeSystem"
+    },
+    {
+      "name": "version",
+      "use": "in",
+      "min": 0,
+      "max": "1",
+      "documentation": "The version of the code system, if one was provided in the source data",
+      "type": "string"
+    },
+    {
+        "name": "return",
+        "use": "out",
+        "min": 0,
+        "max": "1",
+        "documentation": "If the operation outcome is not present or is present but lists no errors, then the cached data has been cleared.",
+        "type": "OperationOutcome"
+    }]
+}
