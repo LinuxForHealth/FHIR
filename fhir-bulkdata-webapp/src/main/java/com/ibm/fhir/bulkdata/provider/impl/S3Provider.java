@@ -207,8 +207,7 @@ public class S3Provider implements Provider {
     public boolean exists() {
         // Only valid with a path access style, else we short circuit
         return client != null &&
-                ((pathStyle && !client.doesBucketExistV2(bucketName))
-                        || !pathStyle);
+                (!pathStyle || !client.doesBucketExistV2(bucketName));
     }
 
     /**
