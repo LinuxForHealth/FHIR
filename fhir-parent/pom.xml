@@ -66,6 +66,8 @@
         <fhir-examples.version>4.9.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.9.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <cqlengine.version>1.5.1</cqlengine.version>
+        <cqframework.version>1.5.1</cqframework.version>
     </properties>
 
     <modules>
@@ -94,6 +96,9 @@
         <module>../fhir-persistence-schema</module>
         <module>../fhir-persistence-jdbc</module>
         <module>../fhir-provider</module>
+        <module>../fhir-cql</module>
+        <module>../fhir-cql-server</module>
+        <module>../fhir-cql-rest</module>
         <module>../operation/fhir-operation-test</module>
         <module>../operation/fhir-operation-validate</module>
         <module>../operation/fhir-operation-document</module>
@@ -106,6 +111,8 @@
         <module>../operation/fhir-operation-bulkdata</module>
         <module>../operation/fhir-operation-everything</module>
         <module>../operation/fhir-operation-erase</module>
+        <module>../operation/fhir-operation-cpg</module>
+        <module>../operation/fhir-operation-cqf</module>
         <module>../fhir-bulkdata-webapp</module>
         <module>../fhir-search</module>
         <module>../fhir-client</module>
@@ -555,6 +562,30 @@
                 <groupId>org.yaml</groupId>
                 <artifactId>snakeyaml</artifactId>
                 <version>1.28</version>
+            </dependency>
+            <dependency>
+                <groupId>org.opencds.cqf.cql</groupId>
+                <artifactId>engine</artifactId>
+                <version>${cqlengine.version}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>info.cqframework</groupId>
+                <artifactId>cql-to-elm</artifactId>
+                <version>${cqframework.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>com.github.tomakehurst</groupId>
+                <artifactId>wiremock-jre8</artifactId>
+                <version>2.27.2</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
