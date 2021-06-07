@@ -2112,6 +2112,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultExportProvider`|string| The default storage provider used by Bulk Data Export|
 |`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|boolean|Enables the skipping of identical resources|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
@@ -2246,6 +2247,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultExportProvider`|default|
 |`fhirServer/bulkdata/core/defaultImportProvider`|default|
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|true|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
@@ -2381,6 +2383,7 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|
 |`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|Y|Y|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|

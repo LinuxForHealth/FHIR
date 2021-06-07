@@ -497,4 +497,9 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * @return the status of skippable updates
+     */
+    boolean enableSkippableUpdates();
 }
