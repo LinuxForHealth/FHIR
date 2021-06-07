@@ -31,6 +31,7 @@
                     <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
                     
                     <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>
+                    <property name="partition.matrix" value="#{partitionPlan['partition.matrix']}"/>
                     <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                 </properties>
             </reader>
@@ -43,6 +44,7 @@
                     <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
                     
                     <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>
+                    <property name="partition.matrix" value="#{partitionPlan['partition.matrix']}"/>
                     <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
                 </properties>
             </writer>

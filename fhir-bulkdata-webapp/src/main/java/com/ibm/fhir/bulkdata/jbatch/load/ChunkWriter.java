@@ -81,8 +81,13 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    @BatchProperty (name = OperationFields.PARTITION_WORKITEM)
     private String workItem;
+
+    @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_MATRIX)
+    private String matrix;
 
     @Inject
     @Any

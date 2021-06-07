@@ -23,7 +23,8 @@ public final class OperationFields {
 
     // Partition
     public static final String PARTITION_RESOURCETYPE = "partition.resourcetype";
-    public static final String PARTITTION_WORKITEM = "partition.workitem";
+    public static final String PARTITION_WORKITEM = "partition.workitem";
+    public static final String PARTITION_MATRIX = "partition.matrix";
 
     // Parameters
     public static final String FHIR_SEARCH_FROM_DATE = "fhir.search.fromdate";
@@ -90,5 +91,4 @@ public final class OperationFields {
 
     public static final String IMPORT_INPUT_RESOURCE_TYPE = "type";
     public static final String IMPORT_INPUT_RESOURCE_URL = "url";
-
 }
