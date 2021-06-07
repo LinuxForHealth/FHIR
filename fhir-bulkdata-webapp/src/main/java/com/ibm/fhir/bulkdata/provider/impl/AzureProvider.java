@@ -372,8 +372,7 @@ public class AzureProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-        boolean isExportPublic) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) throws Exception {
         if (transientUserData == null) {
             LOG.warning("registerTransient: chunkData is null, this should never happen!");
             throw new Exception("registerTransient: chunkData is null, this should never happen!");

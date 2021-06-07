@@ -21,10 +21,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -44,8 +40,13 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+
 /**
- * These tests exercise the $import operation a bulkdata proposal with Azure Blob
+ * Azure Blob $import operation Integration Tests
  */
 public class ImportOperationAzureTest extends FHIRServerTestBase {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
@@ -176,28 +177,6 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
         return response;
     }
 
-    /**
-     * {
-            "transactionTime": "2021-03-22T14:20:09.594Z",
-            "request": "$import",
-            "requiresAccessToken": false,
-            "output": [
-                {
-                    "type": "OperationOutcome",
-                    "url": "test-import.ndjson_oo_success.ndjson",
-                    "count": 4
-                }
-            ],
-            "error": [
-                {
-                    "type": "OperationOutcome",
-                    "url": "test-import.ndjson_oo_errors.ndjson",
-                    "count": 0
-                }
-            ]
-        }
-     * @param response
-     */
     public void checkValidResponse(Response response) {
         String body = response.readEntity(String.class);
         try(JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(body.getBytes()))){

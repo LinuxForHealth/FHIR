@@ -23,9 +23,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -49,6 +46,10 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * These tests exercise the $export operation with azure-blob, a BulkData specification defined operation
@@ -81,7 +82,7 @@ public class ExportOperationAzureTest extends FHIRServerTestBase {
     }
 
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String provider, String outcome)
-        throws FHIRGeneratorException, IOException {
+            throws FHIRGeneratorException, IOException {
         WebTarget target = getWebTarget();
         target = target.path(path);
         target = addQueryParameter(target, "_outputFormat", outputFormat);
