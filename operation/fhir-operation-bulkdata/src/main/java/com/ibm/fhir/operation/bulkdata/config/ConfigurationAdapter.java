@@ -381,6 +381,7 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
+    @Deprecated
     boolean isStorageProviderExportPublic(String provider);
 
     /**

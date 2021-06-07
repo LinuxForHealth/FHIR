@@ -136,8 +136,7 @@ public class FileProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String exportPathPrefix, String fhirResourceType,
-            boolean isExportPublic) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String exportPathPrefix, String fhirResourceType) throws Exception {
         if (transientUserData == null) {
             String msg = "registerTransient: chunkData is null, this should never happen!";
             logger.warning(msg);

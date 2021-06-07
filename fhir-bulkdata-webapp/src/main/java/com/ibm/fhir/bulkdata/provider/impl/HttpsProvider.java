@@ -85,8 +85,7 @@ public class HttpsProvider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-        boolean isExportPublic) {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) {
 
     }
 

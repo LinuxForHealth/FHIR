@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-06-01"
+lastupdated: "2021-06-07"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1364,7 +1364,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
         "default" : {
             "type": "file",
             "fileBase": "/output/bulkdata",
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false
@@ -1382,7 +1381,6 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
@@ -1449,9 +1447,9 @@ The presigned URL is valid for 86400 seconds (1 day).
 
 Note, the deletion of an a job is split into two phases, ACCEPTED (202) response and DELETED (204).  202 is returned until the operation is stopped or removed, and then 204.
 
-Please note that IBM COS does not support retention limits for individual COS objects, so please configure an appropriate retention policy (e.g. 1 day) at the bucket level.
+Prior to version 4.8.1, the exported `ndjson` file is configured with public access automatically and with 2 hours expiration time using `fhirServer/bulkdata/storageProviders/(source)/exportPublic`. The exported content is best made available with  presigned urls with the `hmac` authentication type.
 
-As of Version 4.8.1, the exportPublic is deprecated and will be removed in future versions. `fhirServer/bulkdata/storageProviders/(source)/exportPublic` can be set to "false" to disable public access. Also, *minio* doesn't support object level ACL, so access token is always needed to download the exported `ndjson` files.
+In 4.8.1, the randomly generated path is used to uniquely identify the exported files in a single folder.
 
 JavaBatch feature must be enabled in `server.xml` as following on the Liberty server:
 
@@ -2128,8 +2126,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory. It is recommended this path is not the mount point of a volume. For instance, if a volume is mounted to /output/bulkdata, use /output/bulkdata/data to ensure a failed mount does not result in writing to the root file system.|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
-|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|If give public read only access to the exported files|
+|`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|boolean|Disables the base url validation, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|boolean|Enables duplication check on import|
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
@@ -2231,7 +2228,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/geoCounty`|UnknownCountry|
 |`fhirServer/audit/serviceProperties/mapper`|cadf|
 |`fhirServer/audit/serviceProperties/load`|environment|
-|`fhirServer/bulkdata/isExportPublic`|true|
 |`fhirServer/bulkdata/validBaseUrlsDisabled`|false|
 |`fhirServer/bulkdata/cosFileMaxResources`|200000|
 |`fhirServer/bulkdata/cosFileMaxSize`|209715200|
@@ -2258,7 +2254,6 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
 |`fhirServer/bulkdata/core/enableSkippableUpdates`|true|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|false|
@@ -2403,7 +2398,6 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/fileBase`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/exportPublic`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/duplicationCheck`|Y|Y|

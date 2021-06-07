@@ -67,7 +67,6 @@ public class S3Provider implements Provider {
 
     private boolean create = false;
 
-    private boolean isExportPublic = false;
     private long executionId = -1;
 
     private String cosBucketPathPrefix = null;
@@ -83,7 +82,6 @@ public class S3Provider implements Provider {
         bucketName = adapter.getStorageProviderBucketName(source);
 
         boolean iam = adapter.isStorageProviderAuthTypeIam(source);
-        isExportPublic = adapter.isStorageProviderExportPublic(source);
 
         String apiKey = null;
         String resourceId = null;
@@ -263,7 +261,7 @@ public class S3Provider implements Provider {
             if (transientUserData.getBufferStreamForImport().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForOperationOutcomes() == null) {
                     transientUserData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(client,
-                            bucketName, transientUserData.getUniqueIDForImportOperationOutcomes(), true));
+                            bucketName, transientUserData.getUniqueIDForImportOperationOutcomes()));
                 }
 
                 transientUserData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
@@ -286,7 +284,7 @@ public class S3Provider implements Provider {
             if (transientUserData.getBufferStreamForImportError().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForFailureOperationOutcomes() == null) {
                     transientUserData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(client,
-                            bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes(), true));
+                            bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes()));
                 }
 
                 transientUserData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
@@ -357,8 +355,7 @@ public class S3Provider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-            boolean isExportPublic) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) throws Exception {
         if (transientUserData == null) {
             logger.warning("registerTransient: chunkData is null, this should never happen!");
             throw new Exception("registerTransient: chunkData is null, this should never happen!");
@@ -368,7 +365,6 @@ public class S3Provider implements Provider {
         this.chunkData = transientUserData;
         this.cosBucketPathPrefix = cosBucketPathPrefix;
         this.fhirResourceType = fhirResourceType;
-        this.isExportPublic = isExportPublic;
     }
 
     private void pushFhirJsonsToCos(InputStream in, int dataLength) throws Exception {
@@ -381,7 +377,7 @@ public class S3Provider implements Provider {
 
         String uploadId = chunkData.getUploadId();
         if (uploadId == null) {
-            uploadId = BulkDataUtils.startPartUpload(client, bucketName, itemName, isExportPublic);
+            uploadId = BulkDataUtils.startPartUpload(client, bucketName, itemName);
             chunkData.setUploadId(uploadId);
         }
 
