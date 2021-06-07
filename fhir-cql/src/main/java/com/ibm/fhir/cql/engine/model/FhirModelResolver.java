@@ -214,6 +214,13 @@ public class FhirModelResolver implements ModelResolver {
     @Override
     public Class<?> resolveType(String typeName) {
         Class<?> result = TYPE_MAP.get(typeName);
+        if (result == null && Character.isLowerCase(typeName.charAt(0))) {
+            // special case for handling 4.0.0 naming anomalies
+            typeName = typeName.substring(0, 1)
+                    .toUpperCase()
+                    .concat(typeName.substring(1));
+            result = TYPE_MAP.get(typeName);
+        }
         if (result == null) {
             if (log.isLoggable(Level.WARNING)) {
                 log.warning("Failed to resolve type '" + typeName + "'");
