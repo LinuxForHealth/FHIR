@@ -171,11 +171,7 @@ public class FHIRDeviceStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -230,7 +226,20 @@ public class FHIRDeviceStatus extends Code {
 
         @Override
         public FHIRDeviceStatus build() {
-            return new FHIRDeviceStatus(this);
+            FHIRDeviceStatus fHIRDeviceStatus = new FHIRDeviceStatus(this);
+            if (validating) {
+                validate(fHIRDeviceStatus);
+            }
+            return fHIRDeviceStatus;
+        }
+
+        protected void validate(FHIRDeviceStatus fHIRDeviceStatus) {
+            super.validate(fHIRDeviceStatus);
+        }
+
+        protected Builder from(FHIRDeviceStatus fHIRDeviceStatus) {
+            super.from(fHIRDeviceStatus);
+            return this;
         }
     }
 

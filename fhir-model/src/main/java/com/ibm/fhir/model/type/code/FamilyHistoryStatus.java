@@ -170,11 +170,7 @@ public class FamilyHistoryStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -229,7 +225,20 @@ public class FamilyHistoryStatus extends Code {
 
         @Override
         public FamilyHistoryStatus build() {
-            return new FamilyHistoryStatus(this);
+            FamilyHistoryStatus familyHistoryStatus = new FamilyHistoryStatus(this);
+            if (validating) {
+                validate(familyHistoryStatus);
+            }
+            return familyHistoryStatus;
+        }
+
+        protected void validate(FamilyHistoryStatus familyHistoryStatus) {
+            super.validate(familyHistoryStatus);
+        }
+
+        protected Builder from(FamilyHistoryStatus familyHistoryStatus) {
+            super.from(familyHistoryStatus);
+            return this;
         }
     }
 

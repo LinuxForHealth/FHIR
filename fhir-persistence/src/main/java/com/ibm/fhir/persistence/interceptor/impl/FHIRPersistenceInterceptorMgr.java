@@ -6,10 +6,10 @@
 
 package com.ibm.fhir.persistence.interceptor.impl;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +35,7 @@ public class FHIRPersistenceInterceptorMgr {
     private static FHIRPersistenceInterceptorMgr instance = new FHIRPersistenceInterceptorMgr();
 
     // Our list of discovered interceptors.
-    List<FHIRPersistenceInterceptor> interceptors = new ArrayList<>();
+    List<FHIRPersistenceInterceptor> interceptors = new CopyOnWriteArrayList<>();
 
     public static FHIRPersistenceInterceptorMgr getInstance() {
         return instance;

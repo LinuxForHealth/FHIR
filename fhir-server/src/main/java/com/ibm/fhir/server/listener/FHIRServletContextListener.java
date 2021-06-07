@@ -22,6 +22,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
 import java.util.ArrayList;
@@ -50,17 +51,20 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
+import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
+import com.ibm.fhir.server.resolve.ServerResolveFunction;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 import com.ibm.fhir.term.config.FHIRTermConfig;
 import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Header;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
 import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
 import com.ibm.fhir.term.service.FHIRTermService;
@@ -201,6 +205,12 @@ public class FHIRServletContextListener implements ServletContextListener {
                 FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
             }
 
+            Boolean serverResolveFunctionEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED, Boolean.FALSE);
+            if (serverResolveFunctionEnabled) {
+                log.info("Registering ServerResolveFunction...");
+                FHIRPathFunctionRegistry.getInstance().register(new ServerResolveFunction(persistenceHelper));
+            }
+
             configureTermServiceCapabilities(fhirConfig);
 
             // Finally, set our "initComplete" flag to true.
@@ -319,6 +329,17 @@ public class FHIRServletContextListener implements ServletContextListener {
                                 .username(basicAuthPropertyGroup.getStringProperty("username"))
                                 .password(basicAuthPropertyGroup.getStringProperty("password"))
                                 .build());
+                        }
+
+                        Object[] headersArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("headers");
+                        if (headersArray != null) {
+                            for (Object headerObject : headersArray) {
+                                PropertyGroup headerPropertyGroup = (PropertyGroup) headerObject;
+                                builder.headers(Header.builder()
+                                    .name(headerPropertyGroup.getStringProperty("name"))
+                                    .value(headerPropertyGroup.getStringProperty("value"))
+                                    .build());
+                            }
                         }
 
                         builder.httpTimeout(remoteTermServiceProviderPropertyGroup.getIntProperty("httpTimeout", Configuration.DEFAULT_HTTP_TIMEOUT));

@@ -48,11 +48,9 @@ public class OperationOutcome extends DomainResource {
     @Required
     private final List<Issue> issue;
 
-    private volatile int hashCode;
-
     private OperationOutcome(Builder builder) {
         super(builder);
-        issue = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.issue, "issue", Issue.class));
+        issue = Collections.unmodifiableList(builder.issue);
     }
 
     /**
@@ -398,7 +396,16 @@ public class OperationOutcome extends DomainResource {
          */
         @Override
         public OperationOutcome build() {
-            return new OperationOutcome(this);
+            OperationOutcome operationOutcome = new OperationOutcome(this);
+            if (validating) {
+                validate(operationOutcome);
+            }
+            return operationOutcome;
+        }
+
+        protected void validate(OperationOutcome operationOutcome) {
+            super.validate(operationOutcome);
+            ValidationSupport.checkNonEmptyList(operationOutcome.issue, "issue", Issue.class);
         }
 
         protected Builder from(OperationOutcome operationOutcome) {
@@ -445,17 +452,14 @@ public class OperationOutcome extends DomainResource {
         @Summary
         private final List<String> expression;
 
-        private volatile int hashCode;
-
         private Issue(Builder builder) {
             super(builder);
-            severity = ValidationSupport.requireNonNull(builder.severity, "severity");
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            severity = builder.severity;
+            code = builder.code;
             details = builder.details;
             diagnostics = builder.diagnostics;
-            location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", String.class));
-            expression = Collections.unmodifiableList(ValidationSupport.checkList(builder.expression, "expression", String.class));
-            ValidationSupport.requireValueOrChildren(this);
+            location = Collections.unmodifiableList(builder.location);
+            expression = Collections.unmodifiableList(builder.expression);
         }
 
         /**
@@ -879,7 +883,20 @@ public class OperationOutcome extends DomainResource {
              */
             @Override
             public Issue build() {
-                return new Issue(this);
+                Issue issue = new Issue(this);
+                if (validating) {
+                    validate(issue);
+                }
+                return issue;
+            }
+
+            protected void validate(Issue issue) {
+                super.validate(issue);
+                ValidationSupport.requireNonNull(issue.severity, "severity");
+                ValidationSupport.requireNonNull(issue.code, "code");
+                ValidationSupport.checkList(issue.location, "location", String.class);
+                ValidationSupport.checkList(issue.expression, "expression", String.class);
+                ValidationSupport.requireValueOrChildren(issue);
             }
 
             protected Builder from(Issue issue) {

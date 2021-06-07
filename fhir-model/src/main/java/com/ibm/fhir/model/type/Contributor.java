@@ -42,14 +42,11 @@ public class Contributor extends Element {
     @Summary
     private final List<ContactDetail> contact;
 
-    private volatile int hashCode;
-
     private Contributor(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
-        ValidationSupport.requireValueOrChildren(this);
+        type = builder.type;
+        name = builder.name;
+        contact = Collections.unmodifiableList(builder.contact);
     }
 
     /**
@@ -293,7 +290,19 @@ public class Contributor extends Element {
          */
         @Override
         public Contributor build() {
-            return new Contributor(this);
+            Contributor contributor = new Contributor(this);
+            if (validating) {
+                validate(contributor);
+            }
+            return contributor;
+        }
+
+        protected void validate(Contributor contributor) {
+            super.validate(contributor);
+            ValidationSupport.requireNonNull(contributor.type, "type");
+            ValidationSupport.requireNonNull(contributor.name, "name");
+            ValidationSupport.checkList(contributor.contact, "contact", ContactDetail.class);
+            ValidationSupport.requireValueOrChildren(contributor);
         }
 
         protected Builder from(Contributor contributor) {

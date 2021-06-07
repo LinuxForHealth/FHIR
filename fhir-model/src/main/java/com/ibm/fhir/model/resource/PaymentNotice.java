@@ -87,26 +87,20 @@ public class PaymentNotice extends DomainResource {
     )
     private final CodeableConcept paymentStatus;
 
-    private volatile int hashCode;
-
     private PaymentNotice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         request = builder.request;
         response = builder.response;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         provider = builder.provider;
-        payment = ValidationSupport.requireNonNull(builder.payment, "payment");
+        payment = builder.payment;
         paymentDate = builder.paymentDate;
         payee = builder.payee;
-        recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
-        amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+        recipient = builder.recipient;
+        amount = builder.amount;
         paymentStatus = builder.paymentStatus;
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
-        ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
     }
 
     /**
@@ -805,7 +799,25 @@ public class PaymentNotice extends DomainResource {
          */
         @Override
         public PaymentNotice build() {
-            return new PaymentNotice(this);
+            PaymentNotice paymentNotice = new PaymentNotice(this);
+            if (validating) {
+                validate(paymentNotice);
+            }
+            return paymentNotice;
+        }
+
+        protected void validate(PaymentNotice paymentNotice) {
+            super.validate(paymentNotice);
+            ValidationSupport.checkList(paymentNotice.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(paymentNotice.status, "status");
+            ValidationSupport.requireNonNull(paymentNotice.created, "created");
+            ValidationSupport.requireNonNull(paymentNotice.payment, "payment");
+            ValidationSupport.requireNonNull(paymentNotice.recipient, "recipient");
+            ValidationSupport.requireNonNull(paymentNotice.amount, "amount");
+            ValidationSupport.checkReferenceType(paymentNotice.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.payment, "payment", "PaymentReconciliation");
+            ValidationSupport.checkReferenceType(paymentNotice.payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.recipient, "recipient", "Organization");
         }
 
         protected Builder from(PaymentNotice paymentNotice) {

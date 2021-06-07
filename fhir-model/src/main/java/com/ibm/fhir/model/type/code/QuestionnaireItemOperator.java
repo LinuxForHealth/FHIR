@@ -202,11 +202,7 @@ public class QuestionnaireItemOperator extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -261,7 +257,20 @@ public class QuestionnaireItemOperator extends Code {
 
         @Override
         public QuestionnaireItemOperator build() {
-            return new QuestionnaireItemOperator(this);
+            QuestionnaireItemOperator questionnaireItemOperator = new QuestionnaireItemOperator(this);
+            if (validating) {
+                validate(questionnaireItemOperator);
+            }
+            return questionnaireItemOperator;
+        }
+
+        protected void validate(QuestionnaireItemOperator questionnaireItemOperator) {
+            super.validate(questionnaireItemOperator);
+        }
+
+        protected Builder from(QuestionnaireItemOperator questionnaireItemOperator) {
+            super.from(questionnaireItemOperator);
+            return this;
         }
     }
 

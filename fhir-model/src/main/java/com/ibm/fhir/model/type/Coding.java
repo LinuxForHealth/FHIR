@@ -31,8 +31,6 @@ public class Coding extends Element {
     @Summary
     private final Boolean userSelected;
 
-    private volatile int hashCode;
-
     private Coding(Builder builder) {
         super(builder);
         system = builder.system;
@@ -40,7 +38,6 @@ public class Coding extends Element {
         code = builder.code;
         display = builder.display;
         userSelected = builder.userSelected;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -318,7 +315,16 @@ public class Coding extends Element {
          */
         @Override
         public Coding build() {
-            return new Coding(this);
+            Coding coding = new Coding(this);
+            if (validating) {
+                validate(coding);
+            }
+            return coding;
+        }
+
+        protected void validate(Coding coding) {
+            super.validate(coding);
+            ValidationSupport.requireValueOrChildren(coding);
         }
 
         protected Builder from(Coding coding) {

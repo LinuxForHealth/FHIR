@@ -60,17 +60,14 @@ public class Meta extends Element {
     )
     private final List<Coding> tag;
 
-    private volatile int hashCode;
-
     private Meta(Builder builder) {
         super(builder);
         versionId = builder.versionId;
         lastUpdated = builder.lastUpdated;
         source = builder.source;
-        profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
-        security = Collections.unmodifiableList(ValidationSupport.checkList(builder.security, "security", Coding.class));
-        tag = Collections.unmodifiableList(ValidationSupport.checkList(builder.tag, "tag", Coding.class));
-        ValidationSupport.requireValueOrChildren(this);
+        profile = Collections.unmodifiableList(builder.profile);
+        security = Collections.unmodifiableList(builder.security);
+        tag = Collections.unmodifiableList(builder.tag);
     }
 
     /**
@@ -449,7 +446,19 @@ public class Meta extends Element {
          */
         @Override
         public Meta build() {
-            return new Meta(this);
+            Meta meta = new Meta(this);
+            if (validating) {
+                validate(meta);
+            }
+            return meta;
+        }
+
+        protected void validate(Meta meta) {
+            super.validate(meta);
+            ValidationSupport.checkList(meta.profile, "profile", Canonical.class);
+            ValidationSupport.checkList(meta.security, "security", Coding.class);
+            ValidationSupport.checkList(meta.tag, "tag", Coding.class);
+            ValidationSupport.requireValueOrChildren(meta);
         }
 
         protected Builder from(Meta meta) {

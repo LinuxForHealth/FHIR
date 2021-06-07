@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.ibm.fhir</groupId>
-    <version>4.8.0-SNAPSHOT</version>
+    <version>4.9.0-SNAPSHOT</version>
     <artifactId>fhir-tools</artifactId>
 
     <packaging>maven-plugin</packaging>
@@ -208,17 +208,10 @@
     </build>
 
     <dependencies>
-        <!-- javax.json API -->
-        <dependency>
-            <groupId>jakarta.json</groupId>
-            <artifactId>jakarta.json-api</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-        <!-- javax.json implementation -->
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
-            <version>1.1.5</version>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>

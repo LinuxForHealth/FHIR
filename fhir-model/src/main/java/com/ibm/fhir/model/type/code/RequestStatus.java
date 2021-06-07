@@ -207,11 +207,7 @@ public class RequestStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class RequestStatus extends Code {
 
         @Override
         public RequestStatus build() {
-            return new RequestStatus(this);
+            RequestStatus requestStatus = new RequestStatus(this);
+            if (validating) {
+                validate(requestStatus);
+            }
+            return requestStatus;
+        }
+
+        protected void validate(RequestStatus requestStatus) {
+            super.validate(requestStatus);
+        }
+
+        protected Builder from(RequestStatus requestStatus) {
+            super.from(requestStatus);
+            return this;
         }
     }
 

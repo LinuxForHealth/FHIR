@@ -49,11 +49,9 @@ public class Binary extends Resource {
     private final Reference securityContext;
     private final Base64Binary data;
 
-    private volatile int hashCode;
-
     private Binary(Builder builder) {
         super(builder);
-        contentType = ValidationSupport.requireNonNull(builder.contentType, "contentType");
+        contentType = builder.contentType;
         securityContext = builder.securityContext;
         data = builder.data;
     }
@@ -298,7 +296,16 @@ public class Binary extends Resource {
          */
         @Override
         public Binary build() {
-            return new Binary(this);
+            Binary binary = new Binary(this);
+            if (validating) {
+                validate(binary);
+            }
+            return binary;
+        }
+
+        protected void validate(Binary binary) {
+            super.validate(binary);
+            ValidationSupport.requireNonNull(binary.contentType, "contentType");
         }
 
         protected Builder from(Binary binary) {

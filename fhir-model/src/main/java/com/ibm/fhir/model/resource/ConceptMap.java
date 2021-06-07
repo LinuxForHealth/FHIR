@@ -140,8 +140,6 @@ public class ConceptMap extends DomainResource {
     private final Element target;
     private final List<Group> group;
 
-    private volatile int hashCode;
-
     private ConceptMap(Builder builder) {
         super(builder);
         url = builder.url;
@@ -149,19 +147,19 @@ public class ConceptMap extends DomainResource {
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        source = ValidationSupport.choiceElement(builder.source, "source", Uri.class, Canonical.class);
-        target = ValidationSupport.choiceElement(builder.target, "target", Uri.class, Canonical.class);
-        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
+        source = builder.source;
+        target = builder.target;
+        group = Collections.unmodifiableList(builder.group);
     }
 
     /**
@@ -1104,7 +1102,22 @@ public class ConceptMap extends DomainResource {
          */
         @Override
         public ConceptMap build() {
-            return new ConceptMap(this);
+            ConceptMap conceptMap = new ConceptMap(this);
+            if (validating) {
+                validate(conceptMap);
+            }
+            return conceptMap;
+        }
+
+        protected void validate(ConceptMap conceptMap) {
+            super.validate(conceptMap);
+            ValidationSupport.requireNonNull(conceptMap.status, "status");
+            ValidationSupport.checkList(conceptMap.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(conceptMap.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(conceptMap.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.choiceElement(conceptMap.source, "source", Uri.class, Canonical.class);
+            ValidationSupport.choiceElement(conceptMap.target, "target", Uri.class, Canonical.class);
+            ValidationSupport.checkList(conceptMap.group, "group", Group.class);
         }
 
         protected Builder from(ConceptMap conceptMap) {
@@ -1143,17 +1156,14 @@ public class ConceptMap extends DomainResource {
         private final List<Element> element;
         private final Unmapped unmapped;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             source = builder.source;
             sourceVersion = builder.sourceVersion;
             target = builder.target;
             targetVersion = builder.targetVersion;
-            element = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.element, "element", Element.class));
+            element = Collections.unmodifiableList(builder.element);
             unmapped = builder.unmapped;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1536,7 +1546,17 @@ public class ConceptMap extends DomainResource {
              */
             @Override
             public Group build() {
-                return new Group(this);
+                Group group = new Group(this);
+                if (validating) {
+                    validate(group);
+                }
+                return group;
+            }
+
+            protected void validate(Group group) {
+                super.validate(group);
+                ValidationSupport.checkNonEmptyList(group.element, "element", Element.class);
+                ValidationSupport.requireValueOrChildren(group);
             }
 
             protected Builder from(Group group) {
@@ -1559,14 +1579,11 @@ public class ConceptMap extends DomainResource {
             private final String display;
             private final List<Target> target;
 
-            private volatile int hashCode;
-
             private Element(Builder builder) {
                 super(builder);
                 code = builder.code;
                 display = builder.display;
-                target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
-                ValidationSupport.requireValueOrChildren(this);
+                target = Collections.unmodifiableList(builder.target);
             }
 
             /**
@@ -1851,7 +1868,17 @@ public class ConceptMap extends DomainResource {
                  */
                 @Override
                 public Element build() {
-                    return new Element(this);
+                    Element element = new Element(this);
+                    if (validating) {
+                        validate(element);
+                    }
+                    return element;
+                }
+
+                protected void validate(Element element) {
+                    super.validate(element);
+                    ValidationSupport.checkList(element.target, "target", Target.class);
+                    ValidationSupport.requireValueOrChildren(element);
                 }
 
                 protected Builder from(Element element) {
@@ -1881,17 +1908,14 @@ public class ConceptMap extends DomainResource {
                 private final List<DependsOn> dependsOn;
                 private final List<ConceptMap.Group.Element.Target.DependsOn> product;
 
-                private volatile int hashCode;
-
                 private Target(Builder builder) {
                     super(builder);
                     code = builder.code;
                     display = builder.display;
-                    equivalence = ValidationSupport.requireNonNull(builder.equivalence, "equivalence");
+                    equivalence = builder.equivalence;
                     comment = builder.comment;
-                    dependsOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.dependsOn, "dependsOn", DependsOn.class));
-                    product = Collections.unmodifiableList(ValidationSupport.checkList(builder.product, "product", ConceptMap.Group.Element.Target.DependsOn.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    dependsOn = Collections.unmodifiableList(builder.dependsOn);
+                    product = Collections.unmodifiableList(builder.product);
                 }
 
                 /**
@@ -2301,7 +2325,19 @@ public class ConceptMap extends DomainResource {
                      */
                     @Override
                     public Target build() {
-                        return new Target(this);
+                        Target target = new Target(this);
+                        if (validating) {
+                            validate(target);
+                        }
+                        return target;
+                    }
+
+                    protected void validate(Target target) {
+                        super.validate(target);
+                        ValidationSupport.requireNonNull(target.equivalence, "equivalence");
+                        ValidationSupport.checkList(target.dependsOn, "dependsOn", DependsOn.class);
+                        ValidationSupport.checkList(target.product, "product", ConceptMap.Group.Element.Target.DependsOn.class);
+                        ValidationSupport.requireValueOrChildren(target);
                     }
 
                     protected Builder from(Target target) {
@@ -2328,15 +2364,12 @@ public class ConceptMap extends DomainResource {
                     private final String value;
                     private final String display;
 
-                    private volatile int hashCode;
-
                     private DependsOn(Builder builder) {
                         super(builder);
-                        property = ValidationSupport.requireNonNull(builder.property, "property");
+                        property = builder.property;
                         system = builder.system;
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
+                        value = builder.value;
                         display = builder.display;
-                        ValidationSupport.requireValueOrChildren(this);
                     }
 
                     /**
@@ -2644,7 +2677,18 @@ public class ConceptMap extends DomainResource {
                          */
                         @Override
                         public DependsOn build() {
-                            return new DependsOn(this);
+                            DependsOn dependsOn = new DependsOn(this);
+                            if (validating) {
+                                validate(dependsOn);
+                            }
+                            return dependsOn;
+                        }
+
+                        protected void validate(DependsOn dependsOn) {
+                            super.validate(dependsOn);
+                            ValidationSupport.requireNonNull(dependsOn.property, "property");
+                            ValidationSupport.requireNonNull(dependsOn.value, "value");
+                            ValidationSupport.requireValueOrChildren(dependsOn);
                         }
 
                         protected Builder from(DependsOn dependsOn) {
@@ -2677,15 +2721,12 @@ public class ConceptMap extends DomainResource {
             private final String display;
             private final Canonical url;
 
-            private volatile int hashCode;
-
             private Unmapped(Builder builder) {
                 super(builder);
-                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                mode = builder.mode;
                 code = builder.code;
                 display = builder.display;
                 url = builder.url;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2994,7 +3035,17 @@ public class ConceptMap extends DomainResource {
                  */
                 @Override
                 public Unmapped build() {
-                    return new Unmapped(this);
+                    Unmapped unmapped = new Unmapped(this);
+                    if (validating) {
+                        validate(unmapped);
+                    }
+                    return unmapped;
+                }
+
+                protected void validate(Unmapped unmapped) {
+                    super.validate(unmapped);
+                    ValidationSupport.requireNonNull(unmapped.mode, "mode");
+                    ValidationSupport.requireValueOrChildren(unmapped);
                 }
 
                 protected Builder from(Unmapped unmapped) {

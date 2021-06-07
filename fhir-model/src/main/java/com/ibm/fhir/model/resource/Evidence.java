@@ -138,41 +138,36 @@ public class Evidence extends DomainResource {
     @ReferenceTarget({ "EvidenceVariable" })
     private final List<Reference> outcome;
 
-    private volatile int hashCode;
-
     private Evidence(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
-        exposureVariant = Collections.unmodifiableList(ValidationSupport.checkList(builder.exposureVariant, "exposureVariant", Reference.class));
-        outcome = Collections.unmodifiableList(ValidationSupport.checkList(builder.outcome, "outcome", Reference.class));
-        ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        exposureBackground = builder.exposureBackground;
+        exposureVariant = Collections.unmodifiableList(builder.exposureVariant);
+        outcome = Collections.unmodifiableList(builder.outcome);
     }
 
     /**
@@ -1611,7 +1606,33 @@ public class Evidence extends DomainResource {
          */
         @Override
         public Evidence build() {
-            return new Evidence(this);
+            Evidence evidence = new Evidence(this);
+            if (validating) {
+                validate(evidence);
+            }
+            return evidence;
+        }
+
+        protected void validate(Evidence evidence) {
+            super.validate(evidence);
+            ValidationSupport.checkList(evidence.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(evidence.status, "status");
+            ValidationSupport.checkList(evidence.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(evidence.note, "note", Annotation.class);
+            ValidationSupport.checkList(evidence.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(evidence.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(evidence.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(evidence.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(evidence.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(evidence.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(evidence.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(evidence.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.requireNonNull(evidence.exposureBackground, "exposureBackground");
+            ValidationSupport.checkList(evidence.exposureVariant, "exposureVariant", Reference.class);
+            ValidationSupport.checkList(evidence.outcome, "outcome", Reference.class);
+            ValidationSupport.checkReferenceType(evidence.exposureBackground, "exposureBackground", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.exposureVariant, "exposureVariant", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(Evidence evidence) {

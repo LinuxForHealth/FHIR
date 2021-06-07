@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,6 +43,16 @@ public class NumberParmBehaviorUtil {
         // No operation
     }
 
+    /**
+     * Add the filter predicate logic to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param queryParm
+     * @param bindVariables
+     * @param resourceType
+     * @param tableAlias
+     * @param queryBuilder
+     * @throws FHIRPersistenceException
+     */
     public static void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Object> bindVariables, Class<?> resourceType, String tableAlias, JDBCQueryBuilder queryBuilder)
             throws FHIRPersistenceException {
@@ -95,6 +105,7 @@ public class NumberParmBehaviorUtil {
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
+     * @param columnBase
      * @param prefix
      * @param value
      */
@@ -109,41 +120,37 @@ public class NumberParmBehaviorUtil {
             // EB - Ends Before
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
-            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
-                    LT, value, value);
+            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase + _HIGH,
+                    LT, lowerBound);
             break;
         case SA:
             // SA - Starts After
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
-            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
-                    GT, value, value);
+            buildEbOrSaClause(whereClauseSegment, bindVariables, tableAlias, columnBase + _LOW,
+                    GT, upperBound);
             break;
         case GE:
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
-                    GTE, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, GTE, value, lowerBound);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _HIGH,
-                    GT, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, GT, value, lowerBound);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
-                    LTE, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, LTE, value, upperBound);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, columnBase + _LOW,
-                    LT, value, value);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, LT, value, upperBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -176,22 +183,38 @@ public class NumberParmBehaviorUtil {
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
-     * @param columnName
-     * @param columnNameLowOrHigh
+     * @param columnBase
      * @param operator
      * @param value
+     * @param bound
      */
     public static void buildCommonClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+            String columnBase, String operator, BigDecimal value, BigDecimal bound) {
+        
+        String orEqualsOperator = null;
+        if (GTE.equals(operator)) {
+            operator = GT;
+            orEqualsOperator = GTE;
+        } else if (LTE.equals(operator)) {
+            operator = LT;
+            orEqualsOperator = LTE;
+        }
+        boolean gtOp = GT.equals(operator);
+        
         whereClauseSegment
-                .append(LEFT_PAREN)
-                .append(tableAlias).append(DOT).append(columnName).append(operator).append(BIND_VAR)
+            .append(LEFT_PAREN)
+                .append(tableAlias).append(DOT).append(gtOp ? columnBase + _HIGH : columnBase + _LOW).append(operator).append(BIND_VAR)
                 .append(OR)
-                .append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR)
-                .append(RIGHT_PAREN);
+                .append(tableAlias).append(DOT).append(gtOp ? columnBase + _LOW : columnBase + _HIGH)
+                .append(orEqualsOperator != null ? orEqualsOperator : operator).append(BIND_VAR)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase).append(" IS NOT NULL")
+                .append(AND)
+                .append(tableAlias).append(DOT).append(gtOp ? columnBase + _HIGH : columnBase + _LOW).append(" IS NULL")
+            .append(RIGHT_PAREN);
 
         bindVariables.add(value);
-        bindVariables.add(bound);
+        bindVariables.add(orEqualsOperator != null ? bound : value);
     }
     
     /**
@@ -200,94 +223,136 @@ public class NumberParmBehaviorUtil {
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
-     * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
-     * @param value
+     * @param bound
      */
     public static void buildEbOrSaClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+            String columnNameLowOrHigh, String operator, BigDecimal bound) {
         whereClauseSegment.append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
-        bindVariables.add(value);
+        bindVariables.add(bound);
     }
     
+    /**
+     * Add the equals range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     */
     public static void buildEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
            String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
         whereClauseSegment
             .append(LEFT_PAREN)
-                .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
-                    .append(AND)
-                    .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
-                .append(RIGHT_PAREN)
-                .append(OR)
-                .append(LEFT_PAREN)
-                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(GTE).append(BIND_VAR)
-                    .append(AND)
-                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(LTE).append(BIND_VAR)
-                .append(RIGHT_PAREN)
+                .append(tableAlias).append(DOT).append(columnBase + _LOW).append(GTE).append(BIND_VAR)
+                .append(AND)
+                .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(LTE).append(BIND_VAR)
             .append(RIGHT_PAREN);
 
         bindVariables.add(lowerBound);
         bindVariables.add(upperBound);
-        bindVariables.add(lowerBound);
-        bindVariables.add(upperBound);
     }
     
+    /**
+     * Add the approx range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     * @param value
+     */
     public static void buildApproxRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
         BigDecimal factor = value.multiply(FACTOR);
-        whereClauseSegment
-             .append(LEFT_PAREN)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
-                     .append(AND)
-                     .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-                 .append(OR)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LTE).append(BIND_VAR)
-                     .append(AND)
-                     .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GTE).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-             .append(RIGHT_PAREN);
+        BigDecimal approximateLowerBound = lowerBound.subtract(factor);
+        BigDecimal approximateUpperBound = upperBound.add(factor);
 
-        // -10% of the Lower Bound
-        bindVariables.add(lowerBound.subtract(factor));
-        // +10% of the Upper Bound
-        bindVariables.add(upperBound.add(factor));
-        bindVariables.add(upperBound);
-        bindVariables.add(lowerBound);
+        whereClauseSegment
+            .append(LEFT_PAREN)
+                .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GTE).append(BIND_VAR)
+                .append(AND)
+                .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LTE).append(BIND_VAR)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase).append(" IS NULL")
+                .append(AND)
+                .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(LTE).append(BIND_VAR)
+                    .append(OR)
+                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(GTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LTE).append(BIND_VAR)
+                .append(RIGHT_PAREN)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase).append(" IS NOT NULL")
+                .append(AND)
+                .append(LEFT_PAREN)
+                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(" IS NULL")
+                    .append(OR)
+                    .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LTE).append(BIND_VAR)
+                    .append(AND)
+                    .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(" IS NULL")
+                .append(RIGHT_PAREN)
+            .append(RIGHT_PAREN);
+
+        bindVariables.add(approximateLowerBound);
+        bindVariables.add(approximateUpperBound);
+        bindVariables.add(approximateLowerBound);
+        bindVariables.add(approximateUpperBound);
+        bindVariables.add(approximateLowerBound);
+        bindVariables.add(approximateUpperBound);
+        bindVariables.add(approximateLowerBound);
+        bindVariables.add(approximateUpperBound);
     }
     
+    /**
+     * Add the not-equals range clause to the given whereClauseSegment
+     * @param whereClauseSegment
+     * @param bindVariables
+     * @param tableAlias
+     * @param columnBase
+     * @param lowerBound
+     * @param upperBound
+     */
     public static void buildNotEqualsRangeClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
         whereClauseSegment
-             .append(LEFT_PAREN)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(columnBase).append(LT).append(BIND_VAR)
-                     .append(OR)
-                     .append(tableAlias).append(DOT).append(columnBase).append(GTE).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-                 .append(OR)
-                 .append(LEFT_PAREN)
-                     .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LT).append(BIND_VAR)
-                     .append(OR)
-                     .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GT).append(BIND_VAR)
-                 .append(RIGHT_PAREN)
-             .append(RIGHT_PAREN);
+            .append(LEFT_PAREN)
+                .append(tableAlias).append(DOT).append(columnBase + _LOW).append(LT).append(BIND_VAR)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase + _LOW).append(" IS NULL")
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(GT).append(BIND_VAR)
+                .append(OR)
+                .append(tableAlias).append(DOT).append(columnBase + _HIGH).append(" IS NULL")
+            .append(RIGHT_PAREN);
 
-        bindVariables.add(lowerBound);
-        bindVariables.add(upperBound);
         bindVariables.add(lowerBound);
         bindVariables.add(upperBound);
     }
 
+    /**
+     * Generate the lower bound for the given value
+     * @param original
+     * @return
+     */
     public static BigDecimal generateLowerBound(BigDecimal original) {
         BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.subtract(scaleFactor);
     }
 
+    /**
+     * Generate the upper bound for the given value
+     * @param original
+     * @return
+     */
     public static BigDecimal generateUpperBound(BigDecimal original) {
         BigDecimal scaleFactor = new BigDecimal("5e" + -1 * (original.scale() + 1));
         return original.add(scaleFactor);

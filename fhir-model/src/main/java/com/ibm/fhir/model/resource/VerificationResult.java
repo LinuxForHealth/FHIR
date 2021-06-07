@@ -152,24 +152,22 @@ public class VerificationResult extends DomainResource {
     private final Attestation attestation;
     private final List<Validator> validator;
 
-    private volatile int hashCode;
-
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Reference.class));
-        targetLocation = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetLocation, "targetLocation", String.class));
+        target = Collections.unmodifiableList(builder.target);
+        targetLocation = Collections.unmodifiableList(builder.targetLocation);
         need = builder.need;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(ValidationSupport.checkList(builder.validationProcess, "validationProcess", CodeableConcept.class));
+        validationProcess = Collections.unmodifiableList(builder.validationProcess);
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(ValidationSupport.checkList(builder.primarySource, "primarySource", PrimarySource.class));
+        primarySource = Collections.unmodifiableList(builder.primarySource);
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(ValidationSupport.checkList(builder.validator, "validator", Validator.class));
+        validator = Collections.unmodifiableList(builder.validator);
     }
 
     /**
@@ -977,7 +975,21 @@ public class VerificationResult extends DomainResource {
          */
         @Override
         public VerificationResult build() {
-            return new VerificationResult(this);
+            VerificationResult verificationResult = new VerificationResult(this);
+            if (validating) {
+                validate(verificationResult);
+            }
+            return verificationResult;
+        }
+
+        protected void validate(VerificationResult verificationResult) {
+            super.validate(verificationResult);
+            ValidationSupport.checkList(verificationResult.target, "target", Reference.class);
+            ValidationSupport.checkList(verificationResult.targetLocation, "targetLocation", String.class);
+            ValidationSupport.requireNonNull(verificationResult.status, "status");
+            ValidationSupport.checkList(verificationResult.validationProcess, "validationProcess", CodeableConcept.class);
+            ValidationSupport.checkList(verificationResult.primarySource, "primarySource", PrimarySource.class);
+            ValidationSupport.checkList(verificationResult.validator, "validator", Validator.class);
         }
 
         protected Builder from(VerificationResult verificationResult) {
@@ -1046,19 +1058,15 @@ public class VerificationResult extends DomainResource {
         )
         private final List<CodeableConcept> pushTypeAvailable;
 
-        private volatile int hashCode;
-
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
-            communicationMethod = Collections.unmodifiableList(ValidationSupport.checkList(builder.communicationMethod, "communicationMethod", CodeableConcept.class));
+            type = Collections.unmodifiableList(builder.type);
+            communicationMethod = Collections.unmodifiableList(builder.communicationMethod);
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.checkList(builder.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class));
-            ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
+            pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
         }
 
         /**
@@ -1511,7 +1519,20 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public PrimarySource build() {
-                return new PrimarySource(this);
+                PrimarySource primarySource = new PrimarySource(this);
+                if (validating) {
+                    validate(primarySource);
+                }
+                return primarySource;
+            }
+
+            protected void validate(PrimarySource primarySource) {
+                super.validate(primarySource);
+                ValidationSupport.checkList(primarySource.type, "type", CodeableConcept.class);
+                ValidationSupport.checkList(primarySource.communicationMethod, "communicationMethod", CodeableConcept.class);
+                ValidationSupport.checkList(primarySource.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(primarySource.who, "who", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(primarySource);
             }
 
             protected Builder from(PrimarySource primarySource) {
@@ -1553,8 +1574,6 @@ public class VerificationResult extends DomainResource {
         private final Signature proxySignature;
         private final Signature sourceSignature;
 
-        private volatile int hashCode;
-
         private Attestation(Builder builder) {
             super(builder);
             who = builder.who;
@@ -1565,9 +1584,6 @@ public class VerificationResult extends DomainResource {
             proxyIdentityCertificate = builder.proxyIdentityCertificate;
             proxySignature = builder.proxySignature;
             sourceSignature = builder.sourceSignature;
-            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1996,7 +2012,18 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public Attestation build() {
-                return new Attestation(this);
+                Attestation attestation = new Attestation(this);
+                if (validating) {
+                    validate(attestation);
+                }
+                return attestation;
+            }
+
+            protected void validate(Attestation attestation) {
+                super.validate(attestation);
+                ValidationSupport.checkReferenceType(attestation.who, "who", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(attestation.onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(attestation);
             }
 
             protected Builder from(Attestation attestation) {
@@ -2024,15 +2051,11 @@ public class VerificationResult extends DomainResource {
         private final String identityCertificate;
         private final Signature attestationSignature;
 
-        private volatile int hashCode;
-
         private Validator(Builder builder) {
             super(builder);
-            organization = ValidationSupport.requireNonNull(builder.organization, "organization");
+            organization = builder.organization;
             identityCertificate = builder.identityCertificate;
             attestationSignature = builder.attestationSignature;
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2309,7 +2332,18 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public Validator build() {
-                return new Validator(this);
+                Validator validator = new Validator(this);
+                if (validating) {
+                    validate(validator);
+                }
+                return validator;
+            }
+
+            protected void validate(Validator validator) {
+                super.validate(validator);
+                ValidationSupport.requireNonNull(validator.organization, "organization");
+                ValidationSupport.checkReferenceType(validator.organization, "organization", "Organization");
+                ValidationSupport.requireValueOrChildren(validator);
             }
 
             protected Builder from(Validator validator) {

@@ -947,7 +947,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(includeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -969,7 +969,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(revincludeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1013,7 +1013,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(includeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1038,7 +1038,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(revincludeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1098,7 +1098,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(includeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1120,7 +1120,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 allIncludeResources.addAll(revincludeResources);
 
                 // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                     return allIncludeResources;
                 }
             }
@@ -1164,7 +1164,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(includeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1189,7 +1189,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             allIncludeResources.addAll(revincludeResources);
 
                             // Check if max size exceeded. If so, return results and let rest helper throw exception.
-                            if (allIncludeResources.size() > SearchConstants.MAX_PAGE_SIZE) {
+                            if (allIncludeResources.size() > searchContext.getMaxPageIncludeCount()) {
                                 return allIncludeResources;
                             }
                         }
@@ -1334,7 +1334,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/extension/not-supported-detail")
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build())
@@ -1496,7 +1496,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ResourceDAO resourceDao = makeResourceDAO(connection);
 
             resourceDTO = resourceDao.read(logicalId, resourceType.getSimpleName());
-            if (resourceDTO != null && resourceDTO.isDeleted() && !context.includeDeleted()) {
+            boolean resourceIsDeleted = resourceDTO != null && resourceDTO.isDeleted();
+            if (resourceIsDeleted && !context.includeDeleted()) {
                 throw new FHIRPersistenceResourceDeletedException("Resource '" +
                         resourceType.getSimpleName() + "/" + logicalId + "' is deleted.");
             }
@@ -1505,19 +1506,17 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             SingleResourceResult<T> result = new SingleResourceResult.Builder<T>()
                     .success(true)
                     .resource(resource)
+                    .deleted(resourceIsDeleted)
                     .build();
 
             return result;
-        }
-        catch(FHIRPersistenceResourceDeletedException e) {
+        } catch(FHIRPersistenceResourceDeletedException e) {
             throw e;
-        }
-        catch(Throwable e) {
+        } catch(Throwable e) {
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a read operation.");
             log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
-        }
-        finally {
+        } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
     }
@@ -2298,16 +2297,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         InputStream in = null;
         try {
             if (resourceDTO != null && resourceDTO.getDataStream() != null) {
+                FHIRParser parser = FHIRParser.parser(Format.JSON);
+                parser.setValidating(false);
                 in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
-                    resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                    resource = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
                     if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
                         // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
                         resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
                     }
                 } else {
-                    resource = FHIRParser.parser(Format.JSON).parse(in);
+                    resource = parser.parse(in);
                 }
             }
         } finally {

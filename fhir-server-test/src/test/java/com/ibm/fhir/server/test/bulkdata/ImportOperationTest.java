@@ -22,10 +22,10 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -229,7 +229,6 @@ public class ImportOperationTest extends FHIRServerTestBase {
             String inputFormat = FORMAT;
             String inputSource = "https://localhost:9443/source-fhir-server";
             String resourceType = "Patient";
-            // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
             String url = "test-import.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url);
@@ -247,6 +246,34 @@ public class ImportOperationTest extends FHIRServerTestBase {
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
             checkOnFourResources();
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromFileDefaultEmpty() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-neg.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
         } else {
             System.out.println("Import Test Disabled, Skipping");
         }
@@ -318,6 +345,86 @@ public class ImportOperationTest extends FHIRServerTestBase {
             String resourceType = "Patient";
             // https://s3.us-east.cloud-object-storage.appdomain.cloud/fhir-integration-test/test-import.ndjson
             String url = "test-import.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromS3_FileDoesNotExist() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-" + Math.random() + ".ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = pollingFailure(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    public Response pollingFailure(String statusUrl) throws InterruptedException {
+        int status = 202;
+        int totalTime = 0;
+        Response response = null;
+        System.out.println("Started Checking");
+        while (Response.Status.ACCEPTED.getStatusCode() == status) {
+            response = doGet(statusUrl, FHIRMediaType.APPLICATION_FHIR_JSON);
+            // 202 accept means the request is still under processing
+            // 200 mean export is finished
+            status = response.getStatus();
+
+            assertTrue(status == Response.Status.OK.getStatusCode() || status == Response.Status.ACCEPTED.getStatusCode() || status == Response.Status.BAD_REQUEST.getStatusCode());
+
+            Thread.sleep(5000);
+            totalTime += 5000;
+            if (totalTime > 10 * 60 * 1000) {
+                fail("Too Long a Wait");
+            }
+        }
+        System.out.println("Finished Checking");
+        return response;
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testImportFromS3Negative() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-neg.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url, "minio");
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());

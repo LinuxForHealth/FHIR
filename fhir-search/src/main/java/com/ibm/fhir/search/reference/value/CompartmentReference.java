@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.search.reference.value;
 
+import java.util.Objects;
 
 /**
  * Represents a reference to a resource compartment extracted by SearchUtil
@@ -25,6 +26,9 @@ public class CompartmentReference {
      * @param referenceResourceValue
      */
     public CompartmentReference(String parameterName, String referenceResourceType, String referenceResourceValue) {
+        Objects.requireNonNull(parameterName, "parameterName");
+        Objects.requireNonNull(referenceResourceType, "referenceResourceType");
+        Objects.requireNonNull(referenceResourceValue, "referenceResourceValue");
         this.parameterName = parameterName;
         this.referenceResourceType = referenceResourceType;
         this.referenceResourceValue = referenceResourceValue;

@@ -170,11 +170,7 @@ public class IssueSeverity extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -229,7 +225,20 @@ public class IssueSeverity extends Code {
 
         @Override
         public IssueSeverity build() {
-            return new IssueSeverity(this);
+            IssueSeverity issueSeverity = new IssueSeverity(this);
+            if (validating) {
+                validate(issueSeverity);
+            }
+            return issueSeverity;
+        }
+
+        protected void validate(IssueSeverity issueSeverity) {
+            super.validate(issueSeverity);
+        }
+
+        protected Builder from(IssueSeverity issueSeverity) {
+            super.from(issueSeverity);
+            return this;
         }
     }
 

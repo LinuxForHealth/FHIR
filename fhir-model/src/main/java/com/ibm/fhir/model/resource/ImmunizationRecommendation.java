@@ -73,17 +73,13 @@ public class ImmunizationRecommendation extends DomainResource {
     @Required
     private final List<Recommendation> recommendation;
 
-    private volatile int hashCode;
-
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        patient = builder.patient;
+        date = builder.date;
         authority = builder.authority;
-        recommendation = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.recommendation, "recommendation", Recommendation.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
+        recommendation = Collections.unmodifiableList(builder.recommendation);
     }
 
     /**
@@ -581,7 +577,21 @@ public class ImmunizationRecommendation extends DomainResource {
          */
         @Override
         public ImmunizationRecommendation build() {
-            return new ImmunizationRecommendation(this);
+            ImmunizationRecommendation immunizationRecommendation = new ImmunizationRecommendation(this);
+            if (validating) {
+                validate(immunizationRecommendation);
+            }
+            return immunizationRecommendation;
+        }
+
+        protected void validate(ImmunizationRecommendation immunizationRecommendation) {
+            super.validate(immunizationRecommendation);
+            ValidationSupport.checkList(immunizationRecommendation.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunizationRecommendation.patient, "patient");
+            ValidationSupport.requireNonNull(immunizationRecommendation.date, "date");
+            ValidationSupport.checkNonEmptyList(immunizationRecommendation.recommendation, "recommendation", Recommendation.class);
+            ValidationSupport.checkReferenceType(immunizationRecommendation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationRecommendation.authority, "authority", "Organization");
         }
 
         protected Builder from(ImmunizationRecommendation immunizationRecommendation) {
@@ -652,24 +662,20 @@ public class ImmunizationRecommendation extends DomainResource {
         private final List<Reference> supportingImmunization;
         private final List<Reference> supportingPatientInformation;
 
-        private volatile int hashCode;
-
         private Recommendation(Builder builder) {
             super(builder);
-            vaccineCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.vaccineCode, "vaccineCode", CodeableConcept.class));
+            vaccineCode = Collections.unmodifiableList(builder.vaccineCode);
             targetDisease = builder.targetDisease;
-            contraindicatedVaccineCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.contraindicatedVaccineCode, "contraindicatedVaccineCode", CodeableConcept.class));
-            forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
-            forecastReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.forecastReason, "forecastReason", CodeableConcept.class));
-            dateCriterion = Collections.unmodifiableList(ValidationSupport.checkList(builder.dateCriterion, "dateCriterion", DateCriterion.class));
+            contraindicatedVaccineCode = Collections.unmodifiableList(builder.contraindicatedVaccineCode);
+            forecastStatus = builder.forecastStatus;
+            forecastReason = Collections.unmodifiableList(builder.forecastReason);
+            dateCriterion = Collections.unmodifiableList(builder.dateCriterion);
             description = builder.description;
             series = builder.series;
-            doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            supportingImmunization = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingImmunization, "supportingImmunization", Reference.class));
-            supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingPatientInformation, "supportingPatientInformation", Reference.class));
-            ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
-            ValidationSupport.requireValueOrChildren(this);
+            doseNumber = builder.doseNumber;
+            seriesDoses = builder.seriesDoses;
+            supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
+            supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
         }
 
         /**
@@ -1349,7 +1355,26 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             @Override
             public Recommendation build() {
-                return new Recommendation(this);
+                Recommendation recommendation = new Recommendation(this);
+                if (validating) {
+                    validate(recommendation);
+                }
+                return recommendation;
+            }
+
+            protected void validate(Recommendation recommendation) {
+                super.validate(recommendation);
+                ValidationSupport.checkList(recommendation.vaccineCode, "vaccineCode", CodeableConcept.class);
+                ValidationSupport.checkList(recommendation.contraindicatedVaccineCode, "contraindicatedVaccineCode", CodeableConcept.class);
+                ValidationSupport.requireNonNull(recommendation.forecastStatus, "forecastStatus");
+                ValidationSupport.checkList(recommendation.forecastReason, "forecastReason", CodeableConcept.class);
+                ValidationSupport.checkList(recommendation.dateCriterion, "dateCriterion", DateCriterion.class);
+                ValidationSupport.choiceElement(recommendation.doseNumber, "doseNumber", PositiveInt.class, String.class);
+                ValidationSupport.choiceElement(recommendation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+                ValidationSupport.checkList(recommendation.supportingImmunization, "supportingImmunization", Reference.class);
+                ValidationSupport.checkList(recommendation.supportingPatientInformation, "supportingPatientInformation", Reference.class);
+                ValidationSupport.checkReferenceType(recommendation.supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
+                ValidationSupport.requireValueOrChildren(recommendation);
             }
 
             protected Builder from(Recommendation recommendation) {
@@ -1385,13 +1410,10 @@ public class ImmunizationRecommendation extends DomainResource {
             @Required
             private final DateTime value;
 
-            private volatile int hashCode;
-
             private DateCriterion(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -1637,7 +1659,18 @@ public class ImmunizationRecommendation extends DomainResource {
                  */
                 @Override
                 public DateCriterion build() {
-                    return new DateCriterion(this);
+                    DateCriterion dateCriterion = new DateCriterion(this);
+                    if (validating) {
+                        validate(dateCriterion);
+                    }
+                    return dateCriterion;
+                }
+
+                protected void validate(DateCriterion dateCriterion) {
+                    super.validate(dateCriterion);
+                    ValidationSupport.requireNonNull(dateCriterion.code, "code");
+                    ValidationSupport.requireNonNull(dateCriterion.value, "value");
+                    ValidationSupport.requireValueOrChildren(dateCriterion);
                 }
 
                 protected Builder from(DateCriterion dateCriterion) {

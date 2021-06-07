@@ -45,6 +45,11 @@ public class CacheKey {
         return Arrays.deepEquals(values, other.values);
     }
 
+    @Override
+    public String toString() {
+        return Arrays.deepToString(values);
+    }
+
     /**
      * A factory method for creating CacheKey instances from one or more values
      *

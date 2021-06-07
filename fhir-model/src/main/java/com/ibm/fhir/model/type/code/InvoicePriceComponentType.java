@@ -191,11 +191,7 @@ public class InvoicePriceComponentType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class InvoicePriceComponentType extends Code {
 
         @Override
         public InvoicePriceComponentType build() {
-            return new InvoicePriceComponentType(this);
+            InvoicePriceComponentType invoicePriceComponentType = new InvoicePriceComponentType(this);
+            if (validating) {
+                validate(invoicePriceComponentType);
+            }
+            return invoicePriceComponentType;
+        }
+
+        protected void validate(InvoicePriceComponentType invoicePriceComponentType) {
+            super.validate(invoicePriceComponentType);
+        }
+
+        protected Builder from(InvoicePriceComponentType invoicePriceComponentType) {
+            super.from(invoicePriceComponentType);
+            return this;
         }
     }
 

@@ -104,22 +104,18 @@ public class Organization extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private Organization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+        type = Collections.unmodifiableList(builder.type);
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
+        alias = Collections.unmodifiableList(builder.alias);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
         partOf = builder.partOf;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", Contact.class));
-        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+        contact = Collections.unmodifiableList(builder.contact);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -852,7 +848,24 @@ public class Organization extends DomainResource {
          */
         @Override
         public Organization build() {
-            return new Organization(this);
+            Organization organization = new Organization(this);
+            if (validating) {
+                validate(organization);
+            }
+            return organization;
+        }
+
+        protected void validate(Organization organization) {
+            super.validate(organization);
+            ValidationSupport.checkList(organization.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(organization.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(organization.alias, "alias", String.class);
+            ValidationSupport.checkList(organization.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(organization.address, "address", Address.class);
+            ValidationSupport.checkList(organization.contact, "contact", Contact.class);
+            ValidationSupport.checkList(organization.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(organization.partOf, "partOf", "Organization");
+            ValidationSupport.checkReferenceType(organization.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Organization organization) {
@@ -886,15 +899,12 @@ public class Organization extends DomainResource {
         private final List<ContactPoint> telecom;
         private final Address address;
 
-        private volatile int hashCode;
-
         private Contact(Builder builder) {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+            telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1208,7 +1218,17 @@ public class Organization extends DomainResource {
              */
             @Override
             public Contact build() {
-                return new Contact(this);
+                Contact contact = new Contact(this);
+                if (validating) {
+                    validate(contact);
+                }
+                return contact;
+            }
+
+            protected void validate(Contact contact) {
+                super.validate(contact);
+                ValidationSupport.checkList(contact.telecom, "telecom", ContactPoint.class);
+                ValidationSupport.requireValueOrChildren(contact);
             }
 
             protected Builder from(Contact contact) {

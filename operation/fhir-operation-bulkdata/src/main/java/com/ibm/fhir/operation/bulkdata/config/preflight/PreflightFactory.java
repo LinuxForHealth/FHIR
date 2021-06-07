@@ -39,7 +39,8 @@ public class PreflightFactory {
     public static Preflight getInstance(FHIROperationContext operationContext, List<Input> inputs,
             OperationConstants.ExportType exportType, String format) {
         // Get the Source
-        OperationContextAdapter adapter = new OperationContextAdapter(operationContext);
+        // If inputs != null, then we're dealing with an ImportOperation.
+        OperationContextAdapter adapter = new OperationContextAdapter(operationContext, inputs != null);
         String source = adapter.getStorageProvider();
         String outcome = adapter.getStorageProviderOutcomes();
 

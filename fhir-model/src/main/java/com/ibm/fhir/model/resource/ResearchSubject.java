@@ -71,21 +71,16 @@ public class ResearchSubject extends DomainResource {
     @ReferenceTarget({ "Consent" })
     private final Reference consent;
 
-    private volatile int hashCode;
-
     private ResearchSubject(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         period = builder.period;
-        study = ValidationSupport.requireNonNull(builder.study, "study");
-        individual = ValidationSupport.requireNonNull(builder.individual, "individual");
+        study = builder.study;
+        individual = builder.individual;
         assignedArm = builder.assignedArm;
         actualArm = builder.actualArm;
         consent = builder.consent;
-        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-        ValidationSupport.checkReferenceType(individual, "individual", "Patient");
-        ValidationSupport.checkReferenceType(consent, "consent", "Consent");
     }
 
     /**
@@ -654,7 +649,22 @@ public class ResearchSubject extends DomainResource {
          */
         @Override
         public ResearchSubject build() {
-            return new ResearchSubject(this);
+            ResearchSubject researchSubject = new ResearchSubject(this);
+            if (validating) {
+                validate(researchSubject);
+            }
+            return researchSubject;
+        }
+
+        protected void validate(ResearchSubject researchSubject) {
+            super.validate(researchSubject);
+            ValidationSupport.checkList(researchSubject.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchSubject.status, "status");
+            ValidationSupport.requireNonNull(researchSubject.study, "study");
+            ValidationSupport.requireNonNull(researchSubject.individual, "individual");
+            ValidationSupport.checkReferenceType(researchSubject.study, "study", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchSubject.individual, "individual", "Patient");
+            ValidationSupport.checkReferenceType(researchSubject.consent, "consent", "Consent");
         }
 
         protected Builder from(ResearchSubject researchSubject) {

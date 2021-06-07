@@ -5,7 +5,7 @@
 # ----------------------------------------------------------------------------
 # Stage: Base
 
-FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java11-openj9-ubi as base
+FROM openliberty/open-liberty:21.0.0.5-kernel-slim-java11-openj9-ubi as base
 
 USER root
 RUN yum install -y unzip
@@ -22,10 +22,10 @@ COPY src/main/docker/ibm-fhir-server/bootstrap.sh /opt/ibm-fhir-server/
 # ----------------------------------------------------------------------------
 # Stage: Runnable
 
-FROM openliberty/open-liberty:21.0.0.3-kernel-slim-java11-openj9-ubi
+FROM openliberty/open-liberty:21.0.0.5-kernel-slim-java11-openj9-ubi
 
 ARG VERBOSE=true
-ARG FHIR_VERSION=4.8.0-SNAPSHOT
+ARG FHIR_VERSION=4.9.0-SNAPSHOT
 
 # The following labels are required: 
 LABEL name='IBM FHIR Server'
@@ -52,7 +52,8 @@ RUN features.sh
 
 COPY --chown=1001:0 --from=base /opt/ol/wlp/usr /opt/ol/wlp/usr
 
-RUN configure.sh
+RUN configure.sh && \
+    mkdir -p /output/bulkdata
 
 COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 

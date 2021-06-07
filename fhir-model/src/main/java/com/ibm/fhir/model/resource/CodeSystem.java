@@ -175,23 +175,21 @@ public class CodeSystem extends DomainResource {
     private final List<Property> property;
     private final List<Concept> concept;
 
-    private volatile int hashCode;
-
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         caseSensitive = builder.caseSensitive;
@@ -199,12 +197,12 @@ public class CodeSystem extends DomainResource {
         hierarchyMeaning = builder.hierarchyMeaning;
         compositional = builder.compositional;
         versionNeeded = builder.versionNeeded;
-        content = ValidationSupport.requireNonNull(builder.content, "content");
+        content = builder.content;
         supplements = builder.supplements;
         count = builder.count;
-        filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
-        property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
-        concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
+        filter = Collections.unmodifiableList(builder.filter);
+        property = Collections.unmodifiableList(builder.property);
+        concept = Collections.unmodifiableList(builder.concept);
     }
 
     /**
@@ -1440,7 +1438,24 @@ public class CodeSystem extends DomainResource {
          */
         @Override
         public CodeSystem build() {
-            return new CodeSystem(this);
+            CodeSystem codeSystem = new CodeSystem(this);
+            if (validating) {
+                validate(codeSystem);
+            }
+            return codeSystem;
+        }
+
+        protected void validate(CodeSystem codeSystem) {
+            super.validate(codeSystem);
+            ValidationSupport.checkList(codeSystem.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(codeSystem.status, "status");
+            ValidationSupport.checkList(codeSystem.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(codeSystem.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(codeSystem.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(codeSystem.content, "content");
+            ValidationSupport.checkList(codeSystem.filter, "filter", Filter.class);
+            ValidationSupport.checkList(codeSystem.property, "property", Property.class);
+            ValidationSupport.checkList(codeSystem.concept, "concept", Concept.class);
         }
 
         protected Builder from(CodeSystem codeSystem) {
@@ -1497,15 +1512,12 @@ public class CodeSystem extends DomainResource {
         @Required
         private final String value;
 
-        private volatile int hashCode;
-
         private Filter(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             description = builder.description;
-            operator = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.operator, "operator", FilterOperator.class));
-            value = ValidationSupport.requireNonNull(builder.value, "value");
-            ValidationSupport.requireValueOrChildren(this);
+            operator = Collections.unmodifiableList(builder.operator);
+            value = builder.value;
         }
 
         /**
@@ -1834,7 +1846,19 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Filter build() {
-                return new Filter(this);
+                Filter filter = new Filter(this);
+                if (validating) {
+                    validate(filter);
+                }
+                return filter;
+            }
+
+            protected void validate(Filter filter) {
+                super.validate(filter);
+                ValidationSupport.requireNonNull(filter.code, "code");
+                ValidationSupport.checkNonEmptyList(filter.operator, "operator", FilterOperator.class);
+                ValidationSupport.requireNonNull(filter.value, "value");
+                ValidationSupport.requireValueOrChildren(filter);
             }
 
             protected Builder from(Filter filter) {
@@ -1869,15 +1893,12 @@ public class CodeSystem extends DomainResource {
         @Required
         private final PropertyType type;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             uri = builder.uri;
             description = builder.description;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
         }
 
         /**
@@ -2187,7 +2208,18 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Property build() {
-                return new Property(this);
+                Property property = new Property(this);
+                if (validating) {
+                    validate(property);
+                }
+                return property;
+            }
+
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.requireNonNull(property.code, "code");
+                ValidationSupport.requireNonNull(property.type, "type");
+                ValidationSupport.requireValueOrChildren(property);
             }
 
             protected Builder from(Property property) {
@@ -2214,17 +2246,14 @@ public class CodeSystem extends DomainResource {
         private final List<Property> property;
         private final List<CodeSystem.Concept> concept;
 
-        private volatile int hashCode;
-
         private Concept(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             display = builder.display;
             definition = builder.definition;
-            designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
-            property = Collections.unmodifiableList(ValidationSupport.checkList(builder.property, "property", Property.class));
-            concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", CodeSystem.Concept.class));
-            ValidationSupport.requireValueOrChildren(this);
+            designation = Collections.unmodifiableList(builder.designation);
+            property = Collections.unmodifiableList(builder.property);
+            concept = Collections.unmodifiableList(builder.concept);
         }
 
         /**
@@ -2653,7 +2682,20 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Concept build() {
-                return new Concept(this);
+                Concept concept = new Concept(this);
+                if (validating) {
+                    validate(concept);
+                }
+                return concept;
+            }
+
+            protected void validate(Concept concept) {
+                super.validate(concept);
+                ValidationSupport.requireNonNull(concept.code, "code");
+                ValidationSupport.checkList(concept.designation, "designation", Designation.class);
+                ValidationSupport.checkList(concept.property, "property", Property.class);
+                ValidationSupport.checkList(concept.concept, "concept", CodeSystem.Concept.class);
+                ValidationSupport.requireValueOrChildren(concept);
             }
 
             protected Builder from(Concept concept) {
@@ -2691,15 +2733,11 @@ public class CodeSystem extends DomainResource {
             @Required
             private final String value;
 
-            private volatile int hashCode;
-
             private Designation(Builder builder) {
                 super(builder);
                 language = builder.language;
                 use = builder.use;
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-                ValidationSupport.requireValueOrChildren(this);
+                value = builder.value;
             }
 
             /**
@@ -2971,7 +3009,18 @@ public class CodeSystem extends DomainResource {
                  */
                 @Override
                 public Designation build() {
-                    return new Designation(this);
+                    Designation designation = new Designation(this);
+                    if (validating) {
+                        validate(designation);
+                    }
+                    return designation;
+                }
+
+                protected void validate(Designation designation) {
+                    super.validate(designation);
+                    ValidationSupport.requireNonNull(designation.value, "value");
+                    ValidationSupport.checkValueSetBinding(designation.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                    ValidationSupport.requireValueOrChildren(designation);
                 }
 
                 protected Builder from(Designation designation) {
@@ -2994,13 +3043,10 @@ public class CodeSystem extends DomainResource {
             @Required
             private final Element value;
 
-            private volatile int hashCode;
-
             private Property(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -3257,7 +3303,18 @@ public class CodeSystem extends DomainResource {
                  */
                 @Override
                 public Property build() {
-                    return new Property(this);
+                    Property property = new Property(this);
+                    if (validating) {
+                        validate(property);
+                    }
+                    return property;
+                }
+
+                protected void validate(Property property) {
+                    super.validate(property);
+                    ValidationSupport.requireNonNull(property.code, "code");
+                    ValidationSupport.requireChoiceElement(property.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
+                    ValidationSupport.requireValueOrChildren(property);
                 }
 
                 protected Builder from(Property property) {

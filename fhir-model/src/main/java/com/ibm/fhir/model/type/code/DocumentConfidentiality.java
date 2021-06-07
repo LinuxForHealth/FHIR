@@ -161,11 +161,7 @@ public class DocumentConfidentiality extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -220,7 +216,20 @@ public class DocumentConfidentiality extends Code {
 
         @Override
         public DocumentConfidentiality build() {
-            return new DocumentConfidentiality(this);
+            DocumentConfidentiality documentConfidentiality = new DocumentConfidentiality(this);
+            if (validating) {
+                validate(documentConfidentiality);
+            }
+            return documentConfidentiality;
+        }
+
+        protected void validate(DocumentConfidentiality documentConfidentiality) {
+            super.validate(documentConfidentiality);
+        }
+
+        protected Builder from(DocumentConfidentiality documentConfidentiality) {
+            super.from(documentConfidentiality);
+            return this;
         }
     }
 

@@ -110,27 +110,25 @@ public class ExampleScenario extends DomainResource {
     private final List<Process> process;
     private final List<Canonical> workflow;
 
-    private volatile int hashCode;
-
     private ExampleScenario(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        contact = Collections.unmodifiableList(builder.contact);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         purpose = builder.purpose;
-        actor = Collections.unmodifiableList(ValidationSupport.checkList(builder.actor, "actor", Actor.class));
-        instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
-        process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", Process.class));
-        workflow = Collections.unmodifiableList(ValidationSupport.checkList(builder.workflow, "workflow", Canonical.class));
+        actor = Collections.unmodifiableList(builder.actor);
+        instance = Collections.unmodifiableList(builder.instance);
+        process = Collections.unmodifiableList(builder.process);
+        workflow = Collections.unmodifiableList(builder.workflow);
     }
 
     /**
@@ -1111,7 +1109,24 @@ public class ExampleScenario extends DomainResource {
          */
         @Override
         public ExampleScenario build() {
-            return new ExampleScenario(this);
+            ExampleScenario exampleScenario = new ExampleScenario(this);
+            if (validating) {
+                validate(exampleScenario);
+            }
+            return exampleScenario;
+        }
+
+        protected void validate(ExampleScenario exampleScenario) {
+            super.validate(exampleScenario);
+            ValidationSupport.checkList(exampleScenario.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(exampleScenario.status, "status");
+            ValidationSupport.checkList(exampleScenario.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(exampleScenario.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(exampleScenario.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(exampleScenario.actor, "actor", Actor.class);
+            ValidationSupport.checkList(exampleScenario.instance, "instance", Instance.class);
+            ValidationSupport.checkList(exampleScenario.process, "process", Process.class);
+            ValidationSupport.checkList(exampleScenario.workflow, "workflow", Canonical.class);
         }
 
         protected Builder from(ExampleScenario exampleScenario) {
@@ -1154,15 +1169,12 @@ public class ExampleScenario extends DomainResource {
         private final String name;
         private final Markdown description;
 
-        private volatile int hashCode;
-
         private Actor(Builder builder) {
             super(builder);
-            actorId = ValidationSupport.requireNonNull(builder.actorId, "actorId");
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            actorId = builder.actorId;
+            type = builder.type;
             name = builder.name;
             description = builder.description;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1466,7 +1478,18 @@ public class ExampleScenario extends DomainResource {
              */
             @Override
             public Actor build() {
-                return new Actor(this);
+                Actor actor = new Actor(this);
+                if (validating) {
+                    validate(actor);
+                }
+                return actor;
+            }
+
+            protected void validate(Actor actor) {
+                super.validate(actor);
+                ValidationSupport.requireNonNull(actor.actorId, "actorId");
+                ValidationSupport.requireNonNull(actor.type, "type");
+                ValidationSupport.requireValueOrChildren(actor);
             }
 
             protected Builder from(Actor actor) {
@@ -1499,17 +1522,14 @@ public class ExampleScenario extends DomainResource {
         private final List<Version> version;
         private final List<ContainedInstance> containedInstance;
 
-        private volatile int hashCode;
-
         private Instance(Builder builder) {
             super(builder);
-            resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
-            resourceType = ValidationSupport.requireNonNull(builder.resourceType, "resourceType");
+            resourceId = builder.resourceId;
+            resourceType = builder.resourceType;
             name = builder.name;
             description = builder.description;
-            version = Collections.unmodifiableList(ValidationSupport.checkList(builder.version, "version", Version.class));
-            containedInstance = Collections.unmodifiableList(ValidationSupport.checkList(builder.containedInstance, "containedInstance", ContainedInstance.class));
-            ValidationSupport.requireValueOrChildren(this);
+            version = Collections.unmodifiableList(builder.version);
+            containedInstance = Collections.unmodifiableList(builder.containedInstance);
         }
 
         /**
@@ -1911,7 +1931,20 @@ public class ExampleScenario extends DomainResource {
              */
             @Override
             public Instance build() {
-                return new Instance(this);
+                Instance instance = new Instance(this);
+                if (validating) {
+                    validate(instance);
+                }
+                return instance;
+            }
+
+            protected void validate(Instance instance) {
+                super.validate(instance);
+                ValidationSupport.requireNonNull(instance.resourceId, "resourceId");
+                ValidationSupport.requireNonNull(instance.resourceType, "resourceType");
+                ValidationSupport.checkList(instance.version, "version", Version.class);
+                ValidationSupport.checkList(instance.containedInstance, "containedInstance", ContainedInstance.class);
+                ValidationSupport.requireValueOrChildren(instance);
             }
 
             protected Builder from(Instance instance) {
@@ -1935,13 +1968,10 @@ public class ExampleScenario extends DomainResource {
             @Required
             private final Markdown description;
 
-            private volatile int hashCode;
-
             private Version(Builder builder) {
                 super(builder);
-                versionId = ValidationSupport.requireNonNull(builder.versionId, "versionId");
-                description = ValidationSupport.requireNonNull(builder.description, "description");
-                ValidationSupport.requireValueOrChildren(this);
+                versionId = builder.versionId;
+                description = builder.description;
             }
 
             /**
@@ -2187,7 +2217,18 @@ public class ExampleScenario extends DomainResource {
                  */
                 @Override
                 public Version build() {
-                    return new Version(this);
+                    Version version = new Version(this);
+                    if (validating) {
+                        validate(version);
+                    }
+                    return version;
+                }
+
+                protected void validate(Version version) {
+                    super.validate(version);
+                    ValidationSupport.requireNonNull(version.versionId, "versionId");
+                    ValidationSupport.requireNonNull(version.description, "description");
+                    ValidationSupport.requireValueOrChildren(version);
                 }
 
                 protected Builder from(Version version) {
@@ -2207,13 +2248,10 @@ public class ExampleScenario extends DomainResource {
             private final String resourceId;
             private final String versionId;
 
-            private volatile int hashCode;
-
             private ContainedInstance(Builder builder) {
                 super(builder);
-                resourceId = ValidationSupport.requireNonNull(builder.resourceId, "resourceId");
+                resourceId = builder.resourceId;
                 versionId = builder.versionId;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2456,7 +2494,17 @@ public class ExampleScenario extends DomainResource {
                  */
                 @Override
                 public ContainedInstance build() {
-                    return new ContainedInstance(this);
+                    ContainedInstance containedInstance = new ContainedInstance(this);
+                    if (validating) {
+                        validate(containedInstance);
+                    }
+                    return containedInstance;
+                }
+
+                protected void validate(ContainedInstance containedInstance) {
+                    super.validate(containedInstance);
+                    ValidationSupport.requireNonNull(containedInstance.resourceId, "resourceId");
+                    ValidationSupport.requireValueOrChildren(containedInstance);
                 }
 
                 protected Builder from(ContainedInstance containedInstance) {
@@ -2481,16 +2529,13 @@ public class ExampleScenario extends DomainResource {
         private final Markdown postConditions;
         private final List<Step> step;
 
-        private volatile int hashCode;
-
         private Process(Builder builder) {
             super(builder);
-            title = ValidationSupport.requireNonNull(builder.title, "title");
+            title = builder.title;
             description = builder.description;
             preConditions = builder.preConditions;
             postConditions = builder.postConditions;
-            step = Collections.unmodifiableList(ValidationSupport.checkList(builder.step, "step", Step.class));
-            ValidationSupport.requireValueOrChildren(this);
+            step = Collections.unmodifiableList(builder.step);
         }
 
         /**
@@ -2840,7 +2885,18 @@ public class ExampleScenario extends DomainResource {
              */
             @Override
             public Process build() {
-                return new Process(this);
+                Process process = new Process(this);
+                if (validating) {
+                    validate(process);
+                }
+                return process;
+            }
+
+            protected void validate(Process process) {
+                super.validate(process);
+                ValidationSupport.requireNonNull(process.title, "title");
+                ValidationSupport.checkList(process.step, "step", Step.class);
+                ValidationSupport.requireValueOrChildren(process);
             }
 
             protected Builder from(Process process) {
@@ -2863,15 +2919,12 @@ public class ExampleScenario extends DomainResource {
             private final Operation operation;
             private final List<Alternative> alternative;
 
-            private volatile int hashCode;
-
             private Step(Builder builder) {
                 super(builder);
-                process = Collections.unmodifiableList(ValidationSupport.checkList(builder.process, "process", ExampleScenario.Process.class));
+                process = Collections.unmodifiableList(builder.process);
                 pause = builder.pause;
                 operation = builder.operation;
-                alternative = Collections.unmodifiableList(ValidationSupport.checkList(builder.alternative, "alternative", Alternative.class));
-                ValidationSupport.requireValueOrChildren(this);
+                alternative = Collections.unmodifiableList(builder.alternative);
             }
 
             /**
@@ -3208,7 +3261,18 @@ public class ExampleScenario extends DomainResource {
                  */
                 @Override
                 public Step build() {
-                    return new Step(this);
+                    Step step = new Step(this);
+                    if (validating) {
+                        validate(step);
+                    }
+                    return step;
+                }
+
+                protected void validate(Step step) {
+                    super.validate(step);
+                    ValidationSupport.checkList(step.process, "process", ExampleScenario.Process.class);
+                    ValidationSupport.checkList(step.alternative, "alternative", Alternative.class);
+                    ValidationSupport.requireValueOrChildren(step);
                 }
 
                 protected Builder from(Step step) {
@@ -3237,11 +3301,9 @@ public class ExampleScenario extends DomainResource {
                 private final ExampleScenario.Instance.ContainedInstance request;
                 private final ExampleScenario.Instance.ContainedInstance response;
 
-                private volatile int hashCode;
-
                 private Operation(Builder builder) {
                     super(builder);
-                    number = ValidationSupport.requireNonNull(builder.number, "number");
+                    number = builder.number;
                     type = builder.type;
                     name = builder.name;
                     initiator = builder.initiator;
@@ -3251,7 +3313,6 @@ public class ExampleScenario extends DomainResource {
                     receiverActive = builder.receiverActive;
                     request = builder.request;
                     response = builder.response;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -3726,7 +3787,17 @@ public class ExampleScenario extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.number, "number");
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -3756,14 +3827,11 @@ public class ExampleScenario extends DomainResource {
                 private final Markdown description;
                 private final List<ExampleScenario.Process.Step> step;
 
-                private volatile int hashCode;
-
                 private Alternative(Builder builder) {
                     super(builder);
-                    title = ValidationSupport.requireNonNull(builder.title, "title");
+                    title = builder.title;
                     description = builder.description;
-                    step = Collections.unmodifiableList(ValidationSupport.checkList(builder.step, "step", ExampleScenario.Process.Step.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    step = Collections.unmodifiableList(builder.step);
                 }
 
                 /**
@@ -4057,7 +4125,18 @@ public class ExampleScenario extends DomainResource {
                      */
                     @Override
                     public Alternative build() {
-                        return new Alternative(this);
+                        Alternative alternative = new Alternative(this);
+                        if (validating) {
+                            validate(alternative);
+                        }
+                        return alternative;
+                    }
+
+                    protected void validate(Alternative alternative) {
+                        super.validate(alternative);
+                        ValidationSupport.requireNonNull(alternative.title, "title");
+                        ValidationSupport.checkList(alternative.step, "step", ExampleScenario.Process.Step.class);
+                        ValidationSupport.requireValueOrChildren(alternative);
                     }
 
                     protected Builder from(Alternative alternative) {

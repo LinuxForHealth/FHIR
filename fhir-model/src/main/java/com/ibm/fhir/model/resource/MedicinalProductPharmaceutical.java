@@ -65,19 +65,15 @@ public class MedicinalProductPharmaceutical extends DomainResource {
     @Required
     private final List<RouteOfAdministration> routeOfAdministration;
 
-    private volatile int hashCode;
-
     private MedicinalProductPharmaceutical(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        administrableDoseForm = ValidationSupport.requireNonNull(builder.administrableDoseForm, "administrableDoseForm");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        administrableDoseForm = builder.administrableDoseForm;
         unitOfPresentation = builder.unitOfPresentation;
-        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Reference.class));
-        device = Collections.unmodifiableList(ValidationSupport.checkList(builder.device, "device", Reference.class));
-        characteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.characteristics, "characteristics", Characteristics.class));
-        routeOfAdministration = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class));
-        ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
-        ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
+        ingredient = Collections.unmodifiableList(builder.ingredient);
+        device = Collections.unmodifiableList(builder.device);
+        characteristics = Collections.unmodifiableList(builder.characteristics);
+        routeOfAdministration = Collections.unmodifiableList(builder.routeOfAdministration);
     }
 
     /**
@@ -700,7 +696,23 @@ public class MedicinalProductPharmaceutical extends DomainResource {
          */
         @Override
         public MedicinalProductPharmaceutical build() {
-            return new MedicinalProductPharmaceutical(this);
+            MedicinalProductPharmaceutical medicinalProductPharmaceutical = new MedicinalProductPharmaceutical(this);
+            if (validating) {
+                validate(medicinalProductPharmaceutical);
+            }
+            return medicinalProductPharmaceutical;
+        }
+
+        protected void validate(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
+            super.validate(medicinalProductPharmaceutical);
+            ValidationSupport.checkList(medicinalProductPharmaceutical.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(medicinalProductPharmaceutical.administrableDoseForm, "administrableDoseForm");
+            ValidationSupport.checkList(medicinalProductPharmaceutical.ingredient, "ingredient", Reference.class);
+            ValidationSupport.checkList(medicinalProductPharmaceutical.device, "device", Reference.class);
+            ValidationSupport.checkList(medicinalProductPharmaceutical.characteristics, "characteristics", Characteristics.class);
+            ValidationSupport.checkNonEmptyList(medicinalProductPharmaceutical.routeOfAdministration, "routeOfAdministration", RouteOfAdministration.class);
+            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.ingredient, "ingredient", "MedicinalProductIngredient");
+            ValidationSupport.checkReferenceType(medicinalProductPharmaceutical.device, "device", "DeviceDefinition");
         }
 
         protected Builder from(MedicinalProductPharmaceutical medicinalProductPharmaceutical) {
@@ -726,13 +738,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         @Summary
         private final CodeableConcept status;
 
-        private volatile int hashCode;
-
         private Characteristics(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             status = builder.status;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -975,7 +984,17 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              */
             @Override
             public Characteristics build() {
-                return new Characteristics(this);
+                Characteristics characteristics = new Characteristics(this);
+                if (validating) {
+                    validate(characteristics);
+                }
+                return characteristics;
+            }
+
+            protected void validate(Characteristics characteristics) {
+                super.validate(characteristics);
+                ValidationSupport.requireNonNull(characteristics.code, "code");
+                ValidationSupport.requireValueOrChildren(characteristics);
             }
 
             protected Builder from(Characteristics characteristics) {
@@ -1007,18 +1026,15 @@ public class MedicinalProductPharmaceutical extends DomainResource {
         @Summary
         private final List<TargetSpecies> targetSpecies;
 
-        private volatile int hashCode;
-
         private RouteOfAdministration(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             firstDose = builder.firstDose;
             maxSingleDose = builder.maxSingleDose;
             maxDosePerDay = builder.maxDosePerDay;
             maxDosePerTreatmentPeriod = builder.maxDosePerTreatmentPeriod;
             maxTreatmentPeriod = builder.maxTreatmentPeriod;
-            targetSpecies = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetSpecies, "targetSpecies", TargetSpecies.class));
-            ValidationSupport.requireValueOrChildren(this);
+            targetSpecies = Collections.unmodifiableList(builder.targetSpecies);
         }
 
         /**
@@ -1441,7 +1457,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
              */
             @Override
             public RouteOfAdministration build() {
-                return new RouteOfAdministration(this);
+                RouteOfAdministration routeOfAdministration = new RouteOfAdministration(this);
+                if (validating) {
+                    validate(routeOfAdministration);
+                }
+                return routeOfAdministration;
+            }
+
+            protected void validate(RouteOfAdministration routeOfAdministration) {
+                super.validate(routeOfAdministration);
+                ValidationSupport.requireNonNull(routeOfAdministration.code, "code");
+                ValidationSupport.checkList(routeOfAdministration.targetSpecies, "targetSpecies", TargetSpecies.class);
+                ValidationSupport.requireValueOrChildren(routeOfAdministration);
             }
 
             protected Builder from(RouteOfAdministration routeOfAdministration) {
@@ -1467,13 +1494,10 @@ public class MedicinalProductPharmaceutical extends DomainResource {
             @Summary
             private final List<WithdrawalPeriod> withdrawalPeriod;
 
-            private volatile int hashCode;
-
             private TargetSpecies(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                withdrawalPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.withdrawalPeriod, "withdrawalPeriod", WithdrawalPeriod.class));
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                withdrawalPeriod = Collections.unmodifiableList(builder.withdrawalPeriod);
             }
 
             /**
@@ -1736,7 +1760,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                  */
                 @Override
                 public TargetSpecies build() {
-                    return new TargetSpecies(this);
+                    TargetSpecies targetSpecies = new TargetSpecies(this);
+                    if (validating) {
+                        validate(targetSpecies);
+                    }
+                    return targetSpecies;
+                }
+
+                protected void validate(TargetSpecies targetSpecies) {
+                    super.validate(targetSpecies);
+                    ValidationSupport.requireNonNull(targetSpecies.code, "code");
+                    ValidationSupport.checkList(targetSpecies.withdrawalPeriod, "withdrawalPeriod", WithdrawalPeriod.class);
+                    ValidationSupport.requireValueOrChildren(targetSpecies);
                 }
 
                 protected Builder from(TargetSpecies targetSpecies) {
@@ -1760,14 +1795,11 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                 @Summary
                 private final String supportingInformation;
 
-                private volatile int hashCode;
-
                 private WithdrawalPeriod(Builder builder) {
                     super(builder);
-                    tissue = ValidationSupport.requireNonNull(builder.tissue, "tissue");
-                    value = ValidationSupport.requireNonNull(builder.value, "value");
+                    tissue = builder.tissue;
+                    value = builder.value;
                     supportingInformation = builder.supportingInformation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2042,7 +2074,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                      */
                     @Override
                     public WithdrawalPeriod build() {
-                        return new WithdrawalPeriod(this);
+                        WithdrawalPeriod withdrawalPeriod = new WithdrawalPeriod(this);
+                        if (validating) {
+                            validate(withdrawalPeriod);
+                        }
+                        return withdrawalPeriod;
+                    }
+
+                    protected void validate(WithdrawalPeriod withdrawalPeriod) {
+                        super.validate(withdrawalPeriod);
+                        ValidationSupport.requireNonNull(withdrawalPeriod.tissue, "tissue");
+                        ValidationSupport.requireNonNull(withdrawalPeriod.value, "value");
+                        ValidationSupport.requireValueOrChildren(withdrawalPeriod);
                     }
 
                     protected Builder from(WithdrawalPeriod withdrawalPeriod) {

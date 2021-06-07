@@ -203,11 +203,7 @@ public class PropertyType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -262,7 +258,20 @@ public class PropertyType extends Code {
 
         @Override
         public PropertyType build() {
-            return new PropertyType(this);
+            PropertyType propertyType = new PropertyType(this);
+            if (validating) {
+                validate(propertyType);
+            }
+            return propertyType;
+        }
+
+        protected void validate(PropertyType propertyType) {
+            super.validate(propertyType);
+        }
+
+        protected Builder from(PropertyType propertyType) {
+            super.from(propertyType);
+            return this;
         }
     }
 

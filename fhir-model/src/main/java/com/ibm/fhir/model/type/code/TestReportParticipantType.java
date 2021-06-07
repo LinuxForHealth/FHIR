@@ -158,11 +158,7 @@ public class TestReportParticipantType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class TestReportParticipantType extends Code {
 
         @Override
         public TestReportParticipantType build() {
-            return new TestReportParticipantType(this);
+            TestReportParticipantType testReportParticipantType = new TestReportParticipantType(this);
+            if (validating) {
+                validate(testReportParticipantType);
+            }
+            return testReportParticipantType;
+        }
+
+        protected void validate(TestReportParticipantType testReportParticipantType) {
+            super.validate(testReportParticipantType);
+        }
+
+        protected Builder from(TestReportParticipantType testReportParticipantType) {
+            super.from(testReportParticipantType);
+            return this;
         }
     }
 

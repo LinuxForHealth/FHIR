@@ -233,7 +233,7 @@ public class NewQueryBuilder {
         // to be using same pagination as the main query.
         int pageSize = searchContext.getPageSize();
         int pageNumber = searchContext.getPageNumber();
-        searchContext.setPageSize(SearchConstants.MAX_PAGE_SIZE+1); // so we know when we have too many
+        searchContext.setPageSize(searchContext.getMaxPageIncludeCount()+1); // so we know when we have too many
         searchContext.setPageNumber(1); // only need the first page of includes
         final Select result;
         try {

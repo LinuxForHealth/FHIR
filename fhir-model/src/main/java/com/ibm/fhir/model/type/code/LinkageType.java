@@ -161,11 +161,7 @@ public class LinkageType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -220,7 +216,20 @@ public class LinkageType extends Code {
 
         @Override
         public LinkageType build() {
-            return new LinkageType(this);
+            LinkageType linkageType = new LinkageType(this);
+            if (validating) {
+                validate(linkageType);
+            }
+            return linkageType;
+        }
+
+        protected void validate(LinkageType linkageType) {
+            super.validate(linkageType);
+        }
+
+        protected Builder from(LinkageType linkageType) {
+            super.from(linkageType);
+            return this;
         }
     }
 

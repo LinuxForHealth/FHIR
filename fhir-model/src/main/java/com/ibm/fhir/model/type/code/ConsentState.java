@@ -191,11 +191,7 @@ public class ConsentState extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class ConsentState extends Code {
 
         @Override
         public ConsentState build() {
-            return new ConsentState(this);
+            ConsentState consentState = new ConsentState(this);
+            if (validating) {
+                validate(consentState);
+            }
+            return consentState;
+        }
+
+        protected void validate(ConsentState consentState) {
+            super.validate(consentState);
+        }
+
+        protected Builder from(ConsentState consentState) {
+            super.from(consentState);
+            return this;
         }
     }
 

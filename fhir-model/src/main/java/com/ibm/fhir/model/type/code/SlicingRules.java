@@ -159,11 +159,7 @@ public class SlicingRules extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -218,7 +214,20 @@ public class SlicingRules extends Code {
 
         @Override
         public SlicingRules build() {
-            return new SlicingRules(this);
+            SlicingRules slicingRules = new SlicingRules(this);
+            if (validating) {
+                validate(slicingRules);
+            }
+            return slicingRules;
+        }
+
+        protected void validate(SlicingRules slicingRules) {
+            super.validate(slicingRules);
+        }
+
+        protected Builder from(SlicingRules slicingRules) {
+            super.from(slicingRules);
+            return this;
         }
     }
 

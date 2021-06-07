@@ -142,23 +142,21 @@ public class NamingSystem extends DomainResource {
     @Required
     private final List<UniqueId> uniqueId;
 
-    private volatile int hashCode;
-
     private NamingSystem(Builder builder) {
         super(builder);
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        name = builder.name;
+        status = builder.status;
+        kind = builder.kind;
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         responsible = builder.responsible;
         type = builder.type;
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         usage = builder.usage;
-        uniqueId = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.uniqueId, "uniqueId", UniqueId.class));
+        uniqueId = Collections.unmodifiableList(builder.uniqueId);
     }
 
     /**
@@ -942,7 +940,23 @@ public class NamingSystem extends DomainResource {
          */
         @Override
         public NamingSystem build() {
-            return new NamingSystem(this);
+            NamingSystem namingSystem = new NamingSystem(this);
+            if (validating) {
+                validate(namingSystem);
+            }
+            return namingSystem;
+        }
+
+        protected void validate(NamingSystem namingSystem) {
+            super.validate(namingSystem);
+            ValidationSupport.requireNonNull(namingSystem.name, "name");
+            ValidationSupport.requireNonNull(namingSystem.status, "status");
+            ValidationSupport.requireNonNull(namingSystem.kind, "kind");
+            ValidationSupport.requireNonNull(namingSystem.date, "date");
+            ValidationSupport.checkList(namingSystem.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(namingSystem.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(namingSystem.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(namingSystem.uniqueId, "uniqueId", UniqueId.class);
         }
 
         protected Builder from(NamingSystem namingSystem) {
@@ -984,16 +998,13 @@ public class NamingSystem extends DomainResource {
         private final String comment;
         private final Period period;
 
-        private volatile int hashCode;
-
         private UniqueId(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            value = ValidationSupport.requireNonNull(builder.value, "value");
+            type = builder.type;
+            value = builder.value;
             preferred = builder.preferred;
             comment = builder.comment;
             period = builder.period;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1328,7 +1339,18 @@ public class NamingSystem extends DomainResource {
              */
             @Override
             public UniqueId build() {
-                return new UniqueId(this);
+                UniqueId uniqueId = new UniqueId(this);
+                if (validating) {
+                    validate(uniqueId);
+                }
+                return uniqueId;
+            }
+
+            protected void validate(UniqueId uniqueId) {
+                super.validate(uniqueId);
+                ValidationSupport.requireNonNull(uniqueId.type, "type");
+                ValidationSupport.requireNonNull(uniqueId.value, "value");
+                ValidationSupport.requireValueOrChildren(uniqueId);
             }
 
             protected Builder from(UniqueId uniqueId) {

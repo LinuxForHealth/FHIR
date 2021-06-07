@@ -20,9 +20,9 @@ then
     sed -ri "s!^#?(listen_addresses)\s*=\s*\S+.*!\1 = '*'!" /db/data/postgresql.conf
 
     # Configuration
-    sed -i -e "s/^max_connections = 100.*$/max_connections = 100/" \
-           -e "s/^max_prepared_transactions = 100.*$/max_prepared_transactions = 100/" \
-           -e "s/^max_locks_per_transaction = .*$/max_locks_per_transaction = 128/" \
+    sed -i -e "s/^max_connections = .*$/max_connections = 100/" \
+           -e "s/^#max_prepared_transactions = .*$/max_prepared_transactions = 100/" \
+           -e "s/^#max_locks_per_transaction = .*$/max_locks_per_transaction = 128/" \
            -e "s/^shared_buffers =.*$/shared_buffers = 4GB/" \
            -e "s/^#effective_cache_size = 128MB.*$/effective_cache_size = 2GB/" \
            -e "s/^#work_mem = 1MB.*$/work_mem = 1MB/" \

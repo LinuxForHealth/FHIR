@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
@@ -59,11 +60,6 @@ public class SearchConstants {
     public static final String COMPONENT_PATH_REGEX = "\\.";
     public static final char START_WHERE = '(';
 
-    // This constant represents the maximum _count parameter value.
-    // If the user specifies a value greater than this, we'll just use this value instead.
-    // In the future, we might want to make this value configurable.
-    public static final int MAX_PAGE_SIZE = 1000;
-
     // This constant represents the maximum number of iterations to perform
     // for iterative _include and _revinclude parameters.
     // In the future, we might want to make this value configurable.
@@ -99,8 +95,7 @@ public class SearchConstants {
     // _has
     public static final String HAS = "_has";
 
-    public static final String BASE_SYSTEM_EXT_URL = "http://ibm.com/fhir/extension/";
-    public static final String IMPLICIT_SYSTEM_EXT_URL = BASE_SYSTEM_EXT_URL + "implicit-system";
+    public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
 
     // Extracted search parameter suffix for :identifier modifier
     public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";
@@ -186,6 +181,7 @@ public class SearchConstants {
 
     /**
      * Prefixes for Search parameters
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.ValuePrefix}
      */
     public enum Prefix {
         EQ("eq"),
@@ -257,6 +253,7 @@ public class SearchConstants {
 
     /**
      * Search Modifiers
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.Modifier}
      */
     public enum Modifier {
         MISSING("missing"),

@@ -230,11 +230,7 @@ public class ServiceRequestIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -289,7 +285,20 @@ public class ServiceRequestIntent extends Code {
 
         @Override
         public ServiceRequestIntent build() {
-            return new ServiceRequestIntent(this);
+            ServiceRequestIntent serviceRequestIntent = new ServiceRequestIntent(this);
+            if (validating) {
+                validate(serviceRequestIntent);
+            }
+            return serviceRequestIntent;
+        }
+
+        protected void validate(ServiceRequestIntent serviceRequestIntent) {
+            super.validate(serviceRequestIntent);
+        }
+
+        protected Builder from(ServiceRequestIntent serviceRequestIntent) {
+            super.from(serviceRequestIntent);
+            return this;
         }
     }
 

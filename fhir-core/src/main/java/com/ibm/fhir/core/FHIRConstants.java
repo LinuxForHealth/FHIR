@@ -23,6 +23,10 @@ public class FHIRConstants {
 
     public static final int FHIR_PAGE_SIZE_DEFAULT = 10;
 
+    public static final int FHIR_PAGE_SIZE_DEFAULT_MAX = 1000;
+
+    public static final int FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX = 1000;
+
     public static final String FORMAT = "_format";
 
     public static final String PRETTY = "_pretty";
@@ -32,6 +36,8 @@ public class FHIRConstants {
     public static final String ELEMENTS = "_elements";
 
     public static final String UPDATE_IF_MODIFIED_HEADER = "X-FHIR-UPDATE-IF-MODIFIED";
+
+    public static final String EXT_BASE = "http://ibm.com/fhir/extension/";
 
     /**
      * General parameter names that can be used with any FHIR interaction.

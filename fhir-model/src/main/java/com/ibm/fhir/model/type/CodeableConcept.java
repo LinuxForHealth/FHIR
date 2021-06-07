@@ -28,13 +28,10 @@ public class CodeableConcept extends Element {
     @Summary
     private final String text;
 
-    private volatile int hashCode;
-
     private CodeableConcept(Builder builder) {
         super(builder);
-        coding = Collections.unmodifiableList(ValidationSupport.checkList(builder.coding, "coding", Coding.class));
+        coding = Collections.unmodifiableList(builder.coding);
         text = builder.text;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -241,7 +238,17 @@ public class CodeableConcept extends Element {
          */
         @Override
         public CodeableConcept build() {
-            return new CodeableConcept(this);
+            CodeableConcept codeableConcept = new CodeableConcept(this);
+            if (validating) {
+                validate(codeableConcept);
+            }
+            return codeableConcept;
+        }
+
+        protected void validate(CodeableConcept codeableConcept) {
+            super.validate(codeableConcept);
+            ValidationSupport.checkList(codeableConcept.coding, "coding", Coding.class);
+            ValidationSupport.requireValueOrChildren(codeableConcept);
         }
 
         protected Builder from(CodeableConcept codeableConcept) {

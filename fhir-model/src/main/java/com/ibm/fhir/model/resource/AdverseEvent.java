@@ -146,41 +146,28 @@ public class AdverseEvent extends DomainResource {
     @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> study;
 
-    private volatile int hashCode;
-
     private AdverseEvent(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        actuality = builder.actuality;
+        category = Collections.unmodifiableList(builder.category);
         event = builder.event;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
         date = builder.date;
         detected = builder.detected;
         recordedDate = builder.recordedDate;
-        resultingCondition = Collections.unmodifiableList(ValidationSupport.checkList(builder.resultingCondition, "resultingCondition", Reference.class));
+        resultingCondition = Collections.unmodifiableList(builder.resultingCondition);
         location = builder.location;
         seriousness = builder.seriousness;
         severity = builder.severity;
         outcome = builder.outcome;
         recorder = builder.recorder;
-        contributor = Collections.unmodifiableList(ValidationSupport.checkList(builder.contributor, "contributor", Reference.class));
-        suspectEntity = Collections.unmodifiableList(ValidationSupport.checkList(builder.suspectEntity, "suspectEntity", SuspectEntity.class));
-        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.subjectMedicalHistory, "subjectMedicalHistory", Reference.class));
-        referenceDocument = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceDocument, "referenceDocument", Reference.class));
-        study = Collections.unmodifiableList(ValidationSupport.checkList(builder.study, "study", Reference.class));
-        ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
-        ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(resultingCondition, "resultingCondition", "Condition");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.checkReferenceType(contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
-        ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
-        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
+        contributor = Collections.unmodifiableList(builder.contributor);
+        suspectEntity = Collections.unmodifiableList(builder.suspectEntity);
+        subjectMedicalHistory = Collections.unmodifiableList(builder.subjectMedicalHistory);
+        referenceDocument = Collections.unmodifiableList(builder.referenceDocument);
+        study = Collections.unmodifiableList(builder.study);
     }
 
     /**
@@ -1314,7 +1301,35 @@ public class AdverseEvent extends DomainResource {
          */
         @Override
         public AdverseEvent build() {
-            return new AdverseEvent(this);
+            AdverseEvent adverseEvent = new AdverseEvent(this);
+            if (validating) {
+                validate(adverseEvent);
+            }
+            return adverseEvent;
+        }
+
+        protected void validate(AdverseEvent adverseEvent) {
+            super.validate(adverseEvent);
+            ValidationSupport.requireNonNull(adverseEvent.actuality, "actuality");
+            ValidationSupport.checkList(adverseEvent.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(adverseEvent.subject, "subject");
+            ValidationSupport.checkList(adverseEvent.resultingCondition, "resultingCondition", Reference.class);
+            ValidationSupport.checkList(adverseEvent.contributor, "contributor", Reference.class);
+            ValidationSupport.checkList(adverseEvent.suspectEntity, "suspectEntity", SuspectEntity.class);
+            ValidationSupport.checkList(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", Reference.class);
+            ValidationSupport.checkList(adverseEvent.referenceDocument, "referenceDocument", Reference.class);
+            ValidationSupport.checkList(adverseEvent.study, "study", Reference.class);
+            ValidationSupport.checkValueSetBinding(adverseEvent.severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
+            ValidationSupport.checkValueSetBinding(adverseEvent.outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
+            ValidationSupport.checkReferenceType(adverseEvent.subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(adverseEvent.resultingCondition, "resultingCondition", "Condition");
+            ValidationSupport.checkReferenceType(adverseEvent.location, "location", "Location");
+            ValidationSupport.checkReferenceType(adverseEvent.recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.referenceDocument, "referenceDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.study, "study", "ResearchStudy");
         }
 
         protected Builder from(AdverseEvent adverseEvent) {
@@ -1354,14 +1369,10 @@ public class AdverseEvent extends DomainResource {
         @Summary
         private final List<Causality> causality;
 
-        private volatile int hashCode;
-
         private SuspectEntity(Builder builder) {
             super(builder);
-            instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            causality = Collections.unmodifiableList(ValidationSupport.checkList(builder.causality, "causality", Causality.class));
-            ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            instance = builder.instance;
+            causality = Collections.unmodifiableList(builder.causality);
         }
 
         /**
@@ -1637,7 +1648,19 @@ public class AdverseEvent extends DomainResource {
              */
             @Override
             public SuspectEntity build() {
-                return new SuspectEntity(this);
+                SuspectEntity suspectEntity = new SuspectEntity(this);
+                if (validating) {
+                    validate(suspectEntity);
+                }
+                return suspectEntity;
+            }
+
+            protected void validate(SuspectEntity suspectEntity) {
+                super.validate(suspectEntity);
+                ValidationSupport.requireNonNull(suspectEntity.instance, "instance");
+                ValidationSupport.checkList(suspectEntity.causality, "causality", Causality.class);
+                ValidationSupport.checkReferenceType(suspectEntity.instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
+                ValidationSupport.requireValueOrChildren(suspectEntity);
             }
 
             protected Builder from(SuspectEntity suspectEntity) {
@@ -1674,16 +1697,12 @@ public class AdverseEvent extends DomainResource {
             )
             private final CodeableConcept method;
 
-            private volatile int hashCode;
-
             private Causality(Builder builder) {
                 super(builder);
                 assessment = builder.assessment;
                 productRelatedness = builder.productRelatedness;
                 author = builder.author;
                 method = builder.method;
-                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1983,7 +2002,17 @@ public class AdverseEvent extends DomainResource {
                  */
                 @Override
                 public Causality build() {
-                    return new Causality(this);
+                    Causality causality = new Causality(this);
+                    if (validating) {
+                        validate(causality);
+                    }
+                    return causality;
+                }
+
+                protected void validate(Causality causality) {
+                    super.validate(causality);
+                    ValidationSupport.checkReferenceType(causality.author, "author", "Practitioner", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(causality);
                 }
 
                 protected Builder from(Causality causality) {

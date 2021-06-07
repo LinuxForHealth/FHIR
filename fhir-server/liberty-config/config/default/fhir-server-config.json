@@ -161,14 +161,16 @@
                 "maxPartitions": 3, 
                 "maxInputs": 5,
                 "maxChunkReadTime": "90000",
-                "systemExportImpl": "fast"
+                "systemExportImpl": "fast",
+                "defaultExportProvider": "default",
+                "defaultImportProvider": "default"
             },
             "storageProviders": {
                 "default" : {
                     "type": "file",
                     "_type": "ibm-cos|aws-s3|file|https",
                     "validBaseUrls": [],
-                    "fileBase": "/fhir-server/output",
+                    "fileBase": "/output/bulkdata",
                     "bucketName": "fhir-performance",
                     "location": "us",
                     "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",

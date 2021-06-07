@@ -22,11 +22,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Oid extends Uri {
     private static final Pattern PATTERN = Pattern.compile("urn:oid:[0-2](\\.(0|[1-9][0-9]*))+");
 
-    private volatile int hashCode;
-
     private Oid(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override
@@ -190,7 +187,16 @@ public class Oid extends Uri {
          */
         @Override
         public Oid build() {
-            return new Oid(this);
+            Oid oid = new Oid(this);
+            if (validating) {
+                validate(oid);
+            }
+            return oid;
+        }
+
+        protected void validate(Oid oid) {
+            super.validate(oid);
+            ValidationSupport.checkValue(oid.value, PATTERN);
         }
 
         protected Builder from(Oid oid) {

@@ -168,6 +168,7 @@ public class FHIRValidator {
             throw new IllegalArgumentException("Root must be resource node");
         }
         try {
+            evaluationContext.setResolveRelativeReferences(true);
             List<Issue> issues = new ArrayList<>();
             validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
             issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));

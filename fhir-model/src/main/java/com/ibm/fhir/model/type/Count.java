@@ -28,8 +28,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Count extends Quantity {
-    private volatile int hashCode;
-
     private Count(Builder builder) {
         super(builder);
     }
@@ -238,7 +236,15 @@ public class Count extends Quantity {
          */
         @Override
         public Count build() {
-            return new Count(this);
+            Count count = new Count(this);
+            if (validating) {
+                validate(count);
+            }
+            return count;
+        }
+
+        protected void validate(Count count) {
+            super.validate(count);
         }
 
         protected Builder from(Count count) {

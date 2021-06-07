@@ -222,11 +222,7 @@ public class ObservationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -281,7 +277,20 @@ public class ObservationStatus extends Code {
 
         @Override
         public ObservationStatus build() {
-            return new ObservationStatus(this);
+            ObservationStatus observationStatus = new ObservationStatus(this);
+            if (validating) {
+                validate(observationStatus);
+            }
+            return observationStatus;
+        }
+
+        protected void validate(ObservationStatus observationStatus) {
+            super.validate(observationStatus);
+        }
+
+        protected Builder from(ObservationStatus observationStatus) {
+            super.from(observationStatus);
+            return this;
         }
     }
 

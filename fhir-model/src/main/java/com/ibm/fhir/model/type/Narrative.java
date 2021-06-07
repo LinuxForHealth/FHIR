@@ -51,13 +51,10 @@ public class Narrative extends Element {
     @Required
     private final Xhtml div;
 
-    private volatile int hashCode;
-
     private Narrative(Builder builder) {
         super(builder);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        div = ValidationSupport.requireNonNull(builder.div, "div");
-        ValidationSupport.requireValueOrChildren(this);
+        status = builder.status;
+        div = builder.div;
     }
 
     /**
@@ -254,7 +251,18 @@ public class Narrative extends Element {
          */
         @Override
         public Narrative build() {
-            return new Narrative(this);
+            Narrative narrative = new Narrative(this);
+            if (validating) {
+                validate(narrative);
+            }
+            return narrative;
+        }
+
+        protected void validate(Narrative narrative) {
+            super.validate(narrative);
+            ValidationSupport.requireNonNull(narrative.status, "status");
+            ValidationSupport.requireNonNull(narrative.div, "div");
+            ValidationSupport.requireValueOrChildren(narrative);
         }
 
         protected Builder from(Narrative narrative) {

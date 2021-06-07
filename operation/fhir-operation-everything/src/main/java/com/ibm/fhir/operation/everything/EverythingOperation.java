@@ -20,7 +20,9 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
@@ -149,9 +151,21 @@ public class EverythingOperation extends AbstractOperation {
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         LOG.entering(this.getClass().getName(), "doInvoke");
 
+        /* Per the specification, If there is no nominated patient (GET /Patient/$everything) and the context is not associated with a single patient record,
+         * the actual list of patients is all patients that the user associated with the request has access to. This may be all patients
+         * in the family that the patient has access to, or it may be all patients that a care provider has access to, or all patients
+         * on the entire record system. In such cases, the server may choose to return an error rather than all the records.
+         *
+         * @implNote we do not currently support it. However, if we do, we can use Patient?link=Patient/<SmartLaunch Context Patient ID>
+         * @see Issue #2402 for more details.
+         */
+        if (logicalId == null) {
+            throw buildExceptionWithIssue("Search for Patients the Patient is related to is not supported", IssueType.NOT_SUPPORTED);
+        }
+
         Patient patient = null;
         try {
-            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null);
+            patient = (Patient) resourceHelper.doRead(PATIENT, logicalId, false, false, null).getResource();
         } catch (FHIRPersistenceResourceDeletedException fde) {
             FHIROperationException exceptionWithIssue = buildExceptionWithIssue("Patient with ID '" + logicalId + "' does not exist.", IssueType.NOT_FOUND);
             throw exceptionWithIssue;
@@ -166,13 +180,14 @@ public class EverythingOperation extends AbstractOperation {
         }
 
         Entry patientEntry = buildPatientEntry(operationContext, patient);
-        List<Entry> allEntries = new ArrayList<>(SearchConstants.MAX_PAGE_SIZE);
+        int maxPageSize = Math.max(1, FHIRConfigHelper.getIntProperty("fhirServer/core/maxPageSize", FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX));
+        List<Entry> allEntries = new ArrayList<>(maxPageSize);
         allEntries.add(patientEntry);
 
         // We can't always use the "date" query parameter to query by clinical date, only with some resources.
         // Initial list obtained from the github issue: https://github.com/IBM/FHIR/issues/1044#issuecomment-769788097
         // Otherwise the search throws an exception. We create a params map with and without and use as needed
-        MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters);
+        MultivaluedMap<String, String> queryParameters = parseQueryParameters(parameters, maxPageSize);
         MultivaluedMap<String, String> queryParametersWithoutDates = new MultivaluedHashMap<String,String>(queryParameters);
         boolean startOrEndProvided = queryParametersWithoutDates.remove(DATE_QUERY_PARAMETER) != null;
 
@@ -207,10 +222,10 @@ public class EverythingOperation extends AbstractOperation {
             allEntries.addAll(results.getEntry());
 
             // We are retrieving sub-resources MAX_PAGE_SIZE items at a time, but there could be more so we need to retrieve the rest of the pages for the last resource if needed
-            if (currentResourceCount > SearchConstants.MAX_PAGE_SIZE) {
+            if (currentResourceCount > maxPageSize) {
                 // We already retrieved page 1 so we account for that and start retrieving the rest of the pages
                 int page = 2;
-                while ((currentResourceCount -= SearchConstants.MAX_PAGE_SIZE) > 0) {
+                while ((currentResourceCount -= maxPageSize) > 0) {
                     LOG.finest("Retrieving page " + page + " of the " + compartmentType + " resources for patient " + logicalId);
                     try {
                         searchParameters.putSingle(SearchConstants.PAGE, page++ + "");
@@ -247,16 +262,17 @@ public class EverythingOperation extends AbstractOperation {
      * Parse the parameters and turn them into a {@link MultivaluedMap} to pass to the search service
      *
      * @param parameters the operation parameters
+     * @param maxPageSize the max page size
      * @return the {@link MultivaluedMap} for the search service built from the parameters
      */
-    protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters) {
+    protected MultivaluedMap<String, String> parseQueryParameters(Parameters parameters, int maxPageSize) {
         MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
         Parameter countParameter = getParameter(parameters, SearchConstants.COUNT);
         if (countParameter != null) {
             LOG.fine("The `count` parameter is currently not supported by the $everything operation, it will be ignored.");
         }
         // We will try to grab all resources of a given type, in order to reduce the number of pages we will get the max page size
-        queryParameters.add(SearchConstants.COUNT, SearchConstants.MAX_PAGE_SIZE + "");
+        queryParameters.add(SearchConstants.COUNT, maxPageSize + "");
         // We use gt/lt here in an effort to be more liberal in terms of what we return
         // https://ibm-watsonhealth.slack.com/archives/C14JTTR6C/p1614181836050500?thread_ts=1614180853.047300&cid=C14JTTR6C
         Parameter startParameter = getParameter(parameters, START_QUERY_PARAMETER);

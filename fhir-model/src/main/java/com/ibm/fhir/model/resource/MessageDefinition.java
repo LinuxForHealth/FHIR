@@ -160,34 +160,32 @@ public class MessageDefinition extends DomainResource {
     private final List<AllowedResponse> allowedResponse;
     private final List<Canonical> graph;
 
-    private volatile int hashCode;
-
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Canonical.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Canonical.class));
-        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
+        parent = Collections.unmodifiableList(builder.parent);
+        event = builder.event;
         category = builder.category;
-        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Focus.class));
+        focus = Collections.unmodifiableList(builder.focus);
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(ValidationSupport.checkList(builder.allowedResponse, "allowedResponse", AllowedResponse.class));
-        graph = Collections.unmodifiableList(ValidationSupport.checkList(builder.graph, "graph", Canonical.class));
+        allowedResponse = Collections.unmodifiableList(builder.allowedResponse);
+        graph = Collections.unmodifiableList(builder.graph);
     }
 
     /**
@@ -1406,7 +1404,27 @@ public class MessageDefinition extends DomainResource {
          */
         @Override
         public MessageDefinition build() {
-            return new MessageDefinition(this);
+            MessageDefinition messageDefinition = new MessageDefinition(this);
+            if (validating) {
+                validate(messageDefinition);
+            }
+            return messageDefinition;
+        }
+
+        protected void validate(MessageDefinition messageDefinition) {
+            super.validate(messageDefinition);
+            ValidationSupport.checkList(messageDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(messageDefinition.replaces, "replaces", Canonical.class);
+            ValidationSupport.requireNonNull(messageDefinition.status, "status");
+            ValidationSupport.requireNonNull(messageDefinition.date, "date");
+            ValidationSupport.checkList(messageDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(messageDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(messageDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(messageDefinition.parent, "parent", Canonical.class);
+            ValidationSupport.requireChoiceElement(messageDefinition.event, "event", Coding.class, Uri.class);
+            ValidationSupport.checkList(messageDefinition.focus, "focus", Focus.class);
+            ValidationSupport.checkList(messageDefinition.allowedResponse, "allowedResponse", AllowedResponse.class);
+            ValidationSupport.checkList(messageDefinition.graph, "graph", Canonical.class);
         }
 
         protected Builder from(MessageDefinition messageDefinition) {
@@ -1459,15 +1477,12 @@ public class MessageDefinition extends DomainResource {
         private final UnsignedInt min;
         private final String max;
 
-        private volatile int hashCode;
-
         private Focus(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             profile = builder.profile;
-            min = ValidationSupport.requireNonNull(builder.min, "min");
+            min = builder.min;
             max = builder.max;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1775,7 +1790,18 @@ public class MessageDefinition extends DomainResource {
              */
             @Override
             public Focus build() {
-                return new Focus(this);
+                Focus focus = new Focus(this);
+                if (validating) {
+                    validate(focus);
+                }
+                return focus;
+            }
+
+            protected void validate(Focus focus) {
+                super.validate(focus);
+                ValidationSupport.requireNonNull(focus.code, "code");
+                ValidationSupport.requireNonNull(focus.min, "min");
+                ValidationSupport.requireValueOrChildren(focus);
             }
 
             protected Builder from(Focus focus) {
@@ -1797,13 +1823,10 @@ public class MessageDefinition extends DomainResource {
         private final Canonical message;
         private final Markdown situation;
 
-        private volatile int hashCode;
-
         private AllowedResponse(Builder builder) {
             super(builder);
-            message = ValidationSupport.requireNonNull(builder.message, "message");
+            message = builder.message;
             situation = builder.situation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2048,7 +2071,17 @@ public class MessageDefinition extends DomainResource {
              */
             @Override
             public AllowedResponse build() {
-                return new AllowedResponse(this);
+                AllowedResponse allowedResponse = new AllowedResponse(this);
+                if (validating) {
+                    validate(allowedResponse);
+                }
+                return allowedResponse;
+            }
+
+            protected void validate(AllowedResponse allowedResponse) {
+                super.validate(allowedResponse);
+                ValidationSupport.requireNonNull(allowedResponse.message, "message");
+                ValidationSupport.requireValueOrChildren(allowedResponse);
             }
 
             protected Builder from(AllowedResponse allowedResponse) {

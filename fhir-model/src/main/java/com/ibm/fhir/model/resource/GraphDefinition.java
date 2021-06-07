@@ -119,25 +119,23 @@ public class GraphDefinition extends DomainResource {
     private final Canonical profile;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private GraphDefinition(Builder builder) {
         super(builder);
         url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        name = builder.name;
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
-        start = ValidationSupport.requireNonNull(builder.start, "start");
+        start = builder.start;
         profile = builder.profile;
-        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -979,7 +977,22 @@ public class GraphDefinition extends DomainResource {
          */
         @Override
         public GraphDefinition build() {
-            return new GraphDefinition(this);
+            GraphDefinition graphDefinition = new GraphDefinition(this);
+            if (validating) {
+                validate(graphDefinition);
+            }
+            return graphDefinition;
+        }
+
+        protected void validate(GraphDefinition graphDefinition) {
+            super.validate(graphDefinition);
+            ValidationSupport.requireNonNull(graphDefinition.name, "name");
+            ValidationSupport.requireNonNull(graphDefinition.status, "status");
+            ValidationSupport.checkList(graphDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(graphDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(graphDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(graphDefinition.start, "start");
+            ValidationSupport.checkList(graphDefinition.link, "link", Link.class);
         }
 
         protected Builder from(GraphDefinition graphDefinition) {
@@ -1014,8 +1027,6 @@ public class GraphDefinition extends DomainResource {
         private final String description;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
             path = builder.path;
@@ -1023,8 +1034,7 @@ public class GraphDefinition extends DomainResource {
             min = builder.min;
             max = builder.max;
             description = builder.description;
-            target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
-            ValidationSupport.requireValueOrChildren(this);
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -1396,7 +1406,17 @@ public class GraphDefinition extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.checkList(link.target, "target", Target.class);
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {
@@ -1428,16 +1448,13 @@ public class GraphDefinition extends DomainResource {
             private final List<Compartment> compartment;
             private final List<GraphDefinition.Link> link;
 
-            private volatile int hashCode;
-
             private Target(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 params = builder.params;
                 profile = builder.profile;
-                compartment = Collections.unmodifiableList(ValidationSupport.checkList(builder.compartment, "compartment", Compartment.class));
-                link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", GraphDefinition.Link.class));
-                ValidationSupport.requireValueOrChildren(this);
+                compartment = Collections.unmodifiableList(builder.compartment);
+                link = Collections.unmodifiableList(builder.link);
             }
 
             /**
@@ -1807,7 +1824,19 @@ public class GraphDefinition extends DomainResource {
                  */
                 @Override
                 public Target build() {
-                    return new Target(this);
+                    Target target = new Target(this);
+                    if (validating) {
+                        validate(target);
+                    }
+                    return target;
+                }
+
+                protected void validate(Target target) {
+                    super.validate(target);
+                    ValidationSupport.requireNonNull(target.type, "type");
+                    ValidationSupport.checkList(target.compartment, "compartment", Compartment.class);
+                    ValidationSupport.checkList(target.link, "link", GraphDefinition.Link.class);
+                    ValidationSupport.requireValueOrChildren(target);
                 }
 
                 protected Builder from(Target target) {
@@ -1852,16 +1881,13 @@ public class GraphDefinition extends DomainResource {
                 private final String expression;
                 private final String description;
 
-                private volatile int hashCode;
-
                 private Compartment(Builder builder) {
                     super(builder);
-                    use = ValidationSupport.requireNonNull(builder.use, "use");
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
-                    rule = ValidationSupport.requireNonNull(builder.rule, "rule");
+                    use = builder.use;
+                    code = builder.code;
+                    rule = builder.rule;
                     expression = builder.expression;
                     description = builder.description;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2199,7 +2225,19 @@ public class GraphDefinition extends DomainResource {
                      */
                     @Override
                     public Compartment build() {
-                        return new Compartment(this);
+                        Compartment compartment = new Compartment(this);
+                        if (validating) {
+                            validate(compartment);
+                        }
+                        return compartment;
+                    }
+
+                    protected void validate(Compartment compartment) {
+                        super.validate(compartment);
+                        ValidationSupport.requireNonNull(compartment.use, "use");
+                        ValidationSupport.requireNonNull(compartment.code, "code");
+                        ValidationSupport.requireNonNull(compartment.rule, "rule");
+                        ValidationSupport.requireValueOrChildren(compartment);
                     }
 
                     protected Builder from(Compartment compartment) {

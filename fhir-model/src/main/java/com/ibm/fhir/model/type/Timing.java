@@ -117,14 +117,11 @@ public class Timing extends BackboneElement {
     )
     private final CodeableConcept code;
 
-    private volatile int hashCode;
-
     private Timing(Builder builder) {
         super(builder);
-        event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", DateTime.class));
+        event = Collections.unmodifiableList(builder.event);
         repeat = builder.repeat;
         code = builder.code;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -417,7 +414,17 @@ public class Timing extends BackboneElement {
          */
         @Override
         public Timing build() {
-            return new Timing(this);
+            Timing timing = new Timing(this);
+            if (validating) {
+                validate(timing);
+            }
+            return timing;
+        }
+
+        protected void validate(Timing timing) {
+            super.validate(timing);
+            ValidationSupport.checkList(timing.event, "event", DateTime.class);
+            ValidationSupport.requireValueOrChildren(timing);
         }
 
         protected Builder from(Timing timing) {
@@ -488,11 +495,9 @@ public class Timing extends BackboneElement {
         @Summary
         private final UnsignedInt offset;
 
-        private volatile int hashCode;
-
         private Repeat(Builder builder) {
             super(builder);
-            bounds = ValidationSupport.choiceElement(builder.bounds, "bounds", Duration.class, Range.class, Period.class);
+            bounds = builder.bounds;
             count = builder.count;
             countMax = builder.countMax;
             duration = builder.duration;
@@ -503,11 +508,10 @@ public class Timing extends BackboneElement {
             period = builder.period;
             periodMax = builder.periodMax;
             periodUnit = builder.periodUnit;
-            dayOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.dayOfWeek, "dayOfWeek", DayOfWeek.class));
-            timeOfDay = Collections.unmodifiableList(ValidationSupport.checkList(builder.timeOfDay, "timeOfDay", Time.class));
-            when = Collections.unmodifiableList(ValidationSupport.checkList(builder.when, "when", EventTiming.class));
+            dayOfWeek = Collections.unmodifiableList(builder.dayOfWeek);
+            timeOfDay = Collections.unmodifiableList(builder.timeOfDay);
+            when = Collections.unmodifiableList(builder.when);
             offset = builder.offset;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1208,7 +1212,20 @@ public class Timing extends BackboneElement {
              */
             @Override
             public Repeat build() {
-                return new Repeat(this);
+                Repeat repeat = new Repeat(this);
+                if (validating) {
+                    validate(repeat);
+                }
+                return repeat;
+            }
+
+            protected void validate(Repeat repeat) {
+                super.validate(repeat);
+                ValidationSupport.choiceElement(repeat.bounds, "bounds", Duration.class, Range.class, Period.class);
+                ValidationSupport.checkList(repeat.dayOfWeek, "dayOfWeek", DayOfWeek.class);
+                ValidationSupport.checkList(repeat.timeOfDay, "timeOfDay", Time.class);
+                ValidationSupport.checkList(repeat.when, "when", EventTiming.class);
+                ValidationSupport.requireValueOrChildren(repeat);
             }
 
             protected Builder from(Repeat repeat) {

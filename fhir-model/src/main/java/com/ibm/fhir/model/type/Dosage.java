@@ -84,24 +84,21 @@ public class Dosage extends BackboneElement {
     @Summary
     private final SimpleQuantity maxDosePerLifetime;
 
-    private volatile int hashCode;
-
     private Dosage(Builder builder) {
         super(builder);
         sequence = builder.sequence;
         text = builder.text;
-        additionalInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalInstruction, "additionalInstruction", CodeableConcept.class));
+        additionalInstruction = Collections.unmodifiableList(builder.additionalInstruction);
         patientInstruction = builder.patientInstruction;
         timing = builder.timing;
-        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        asNeeded = builder.asNeeded;
         site = builder.site;
         route = builder.route;
         method = builder.method;
-        doseAndRate = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseAndRate, "doseAndRate", DoseAndRate.class));
+        doseAndRate = Collections.unmodifiableList(builder.doseAndRate);
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -710,7 +707,19 @@ public class Dosage extends BackboneElement {
          */
         @Override
         public Dosage build() {
-            return new Dosage(this);
+            Dosage dosage = new Dosage(this);
+            if (validating) {
+                validate(dosage);
+            }
+            return dosage;
+        }
+
+        protected void validate(Dosage dosage) {
+            super.validate(dosage);
+            ValidationSupport.checkList(dosage.additionalInstruction, "additionalInstruction", CodeableConcept.class);
+            ValidationSupport.choiceElement(dosage.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+            ValidationSupport.checkList(dosage.doseAndRate, "doseAndRate", DoseAndRate.class);
+            ValidationSupport.requireValueOrChildren(dosage);
         }
 
         protected Builder from(Dosage dosage) {
@@ -751,14 +760,11 @@ public class Dosage extends BackboneElement {
         @Choice({ Ratio.class, Range.class, SimpleQuantity.class })
         private final Element rate;
 
-        private volatile int hashCode;
-
         private DoseAndRate(Builder builder) {
             super(builder);
             type = builder.type;
-            dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, SimpleQuantity.class);
-            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, SimpleQuantity.class);
-            ValidationSupport.requireValueOrChildren(this);
+            dose = builder.dose;
+            rate = builder.rate;
         }
 
         /**
@@ -1034,7 +1040,18 @@ public class Dosage extends BackboneElement {
              */
             @Override
             public DoseAndRate build() {
-                return new DoseAndRate(this);
+                DoseAndRate doseAndRate = new DoseAndRate(this);
+                if (validating) {
+                    validate(doseAndRate);
+                }
+                return doseAndRate;
+            }
+
+            protected void validate(DoseAndRate doseAndRate) {
+                super.validate(doseAndRate);
+                ValidationSupport.choiceElement(doseAndRate.dose, "dose", Range.class, SimpleQuantity.class);
+                ValidationSupport.choiceElement(doseAndRate.rate, "rate", Ratio.class, Range.class, SimpleQuantity.class);
+                ValidationSupport.requireValueOrChildren(doseAndRate);
             }
 
             protected Builder from(DoseAndRate doseAndRate) {

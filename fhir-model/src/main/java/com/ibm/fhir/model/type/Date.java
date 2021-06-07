@@ -29,13 +29,9 @@ public class Date extends Element {
 
     private final TemporalAccessor value;
 
-    private volatile int hashCode;
-
     private Date(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkValueType(value, LocalDate.class, YearMonth.class, Year.class);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -225,7 +221,17 @@ public class Date extends Element {
          */
         @Override
         public Date build() {
-            return new Date(this);
+            Date date = new Date(this);
+            if (validating) {
+                validate(date);
+            }
+            return date;
+        }
+
+        protected void validate(Date date) {
+            super.validate(date);
+            ValidationSupport.checkValueType(date.value, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.requireValueOrChildren(date);
         }
 
         protected Builder from(Date date) {

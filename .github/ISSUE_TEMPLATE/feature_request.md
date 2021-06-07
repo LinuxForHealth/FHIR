@@ -17,6 +17,7 @@ A clear and concise description of what you want to happen.
 A clear and concise description of any alternative solutions or features you've considered.
 
 **Acceptance Criteria**
+
 1.  
    GIVEN [a precondition]
     AND [another precondition]

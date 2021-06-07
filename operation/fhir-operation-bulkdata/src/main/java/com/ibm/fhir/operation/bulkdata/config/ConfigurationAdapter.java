@@ -223,6 +223,31 @@ public interface ConfigurationAdapter {
     long getCoreFastMaxReadTimeout();
 
     /**
+     * get default import provider
+     * @return
+     */
+    String getDefaultImportProvider();
+
+    /**
+     * get default export provider
+     * @return
+     */
+    String getDefaultExportProvider();
+
+    /**
+     * get the OperationOutcome provider
+     * @param provider the storage provider
+     * @return
+     */
+    String getOperationOutcomeProvider(String provider);
+
+    /**
+     * @param storageProvider
+     * @return True, iff the provider exists in the configuration.
+     */
+    boolean hasStorageProvider(String storageProvider);
+
+    /**
      * gets the StorageProvider type which aligns with the StorageType
      * @param provider
      * @return
@@ -473,4 +498,9 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * @return the status of skippable updates
+     */
+    boolean enableSkippableUpdates();
 }

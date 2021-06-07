@@ -146,30 +146,24 @@ public class DocumentReference extends DomainResource {
     @Summary
     private final Context context;
 
-    private volatile int hashCode;
-
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         docStatus = builder.docStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        category = Collections.unmodifiableList(builder.category);
         subject = builder.subject;
         date = builder.date;
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
+        author = Collections.unmodifiableList(builder.author);
         authenticator = builder.authenticator;
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatesTo, "relatesTo", RelatesTo.class));
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
         description = builder.description;
-        securityLabel = Collections.unmodifiableList(ValidationSupport.checkList(builder.securityLabel, "securityLabel", CodeableConcept.class));
-        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Content.class));
+        securityLabel = Collections.unmodifiableList(builder.securityLabel);
+        content = Collections.unmodifiableList(builder.content);
         context = builder.context;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
     }
 
     /**
@@ -1110,7 +1104,26 @@ public class DocumentReference extends DomainResource {
          */
         @Override
         public DocumentReference build() {
-            return new DocumentReference(this);
+            DocumentReference documentReference = new DocumentReference(this);
+            if (validating) {
+                validate(documentReference);
+            }
+            return documentReference;
+        }
+
+        protected void validate(DocumentReference documentReference) {
+            super.validate(documentReference);
+            ValidationSupport.checkList(documentReference.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(documentReference.status, "status");
+            ValidationSupport.checkList(documentReference.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(documentReference.author, "author", Reference.class);
+            ValidationSupport.checkList(documentReference.relatesTo, "relatesTo", RelatesTo.class);
+            ValidationSupport.checkList(documentReference.securityLabel, "securityLabel", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(documentReference.content, "content", Content.class);
+            ValidationSupport.checkReferenceType(documentReference.subject, "subject", "Patient", "Practitioner", "Group", "Device");
+            ValidationSupport.checkReferenceType(documentReference.author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(documentReference.authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(documentReference.custodian, "custodian", "Organization");
         }
 
         protected Builder from(DocumentReference documentReference) {
@@ -1153,14 +1166,10 @@ public class DocumentReference extends DomainResource {
         @Required
         private final Reference target;
 
-        private volatile int hashCode;
-
         private RelatesTo(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            target = ValidationSupport.requireNonNull(builder.target, "target");
-            ValidationSupport.checkReferenceType(target, "target", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            target = builder.target;
         }
 
         /**
@@ -1411,7 +1420,19 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public RelatesTo build() {
-                return new RelatesTo(this);
+                RelatesTo relatesTo = new RelatesTo(this);
+                if (validating) {
+                    validate(relatesTo);
+                }
+                return relatesTo;
+            }
+
+            protected void validate(RelatesTo relatesTo) {
+                super.validate(relatesTo);
+                ValidationSupport.requireNonNull(relatesTo.code, "code");
+                ValidationSupport.requireNonNull(relatesTo.target, "target");
+                ValidationSupport.checkReferenceType(relatesTo.target, "target", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
             protected Builder from(RelatesTo relatesTo) {
@@ -1439,13 +1460,10 @@ public class DocumentReference extends DomainResource {
         )
         private final Coding format;
 
-        private volatile int hashCode;
-
         private Content(Builder builder) {
             super(builder);
-            attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
+            attachment = builder.attachment;
             format = builder.format;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1690,7 +1708,17 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public Content build() {
-                return new Content(this);
+                Content content = new Content(this);
+                if (validating) {
+                    validate(content);
+                }
+                return content;
+            }
+
+            protected void validate(Content content) {
+                super.validate(content);
+                ValidationSupport.requireNonNull(content.attachment, "attachment");
+                ValidationSupport.requireValueOrChildren(content);
             }
 
             protected Builder from(Content content) {
@@ -1735,20 +1763,15 @@ public class DocumentReference extends DomainResource {
         private final Reference sourcePatientInfo;
         private final List<Reference> related;
 
-        private volatile int hashCode;
-
         private Context(Builder builder) {
             super(builder);
-            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
-            event = Collections.unmodifiableList(ValidationSupport.checkList(builder.event, "event", CodeableConcept.class));
+            encounter = Collections.unmodifiableList(builder.encounter);
+            event = Collections.unmodifiableList(builder.event);
             period = builder.period;
             facilityType = builder.facilityType;
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
-            related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Reference.class));
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
-            ValidationSupport.requireValueOrChildren(this);
+            related = Collections.unmodifiableList(builder.related);
         }
 
         /**
@@ -2216,7 +2239,21 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public Context build() {
-                return new Context(this);
+                Context context = new Context(this);
+                if (validating) {
+                    validate(context);
+                }
+                return context;
+            }
+
+            protected void validate(Context context) {
+                super.validate(context);
+                ValidationSupport.checkList(context.encounter, "encounter", Reference.class);
+                ValidationSupport.checkList(context.event, "event", CodeableConcept.class);
+                ValidationSupport.checkList(context.related, "related", Reference.class);
+                ValidationSupport.checkReferenceType(context.encounter, "encounter", "Encounter", "EpisodeOfCare");
+                ValidationSupport.checkReferenceType(context.sourcePatientInfo, "sourcePatientInfo", "Patient");
+                ValidationSupport.requireValueOrChildren(context);
             }
 
             protected Builder from(Context context) {

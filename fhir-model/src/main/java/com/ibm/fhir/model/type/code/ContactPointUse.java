@@ -183,11 +183,7 @@ public class ContactPointUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -242,7 +238,20 @@ public class ContactPointUse extends Code {
 
         @Override
         public ContactPointUse build() {
-            return new ContactPointUse(this);
+            ContactPointUse contactPointUse = new ContactPointUse(this);
+            if (validating) {
+                validate(contactPointUse);
+            }
+            return contactPointUse;
+        }
+
+        protected void validate(ContactPointUse contactPointUse) {
+            super.validate(contactPointUse);
+        }
+
+        protected Builder from(ContactPointUse contactPointUse) {
+            super.from(contactPointUse);
+            return this;
         }
     }
 

@@ -348,7 +348,11 @@ public class BulkDataClient {
                  * error?
                  * What if we couldn't connect with S3 / Cloud object store in the first place?
                  */
-                throw export.buildOperationException("The job has failed", IssueType.EXCEPTION);
+                if (OperationConstants.FAILED_BAD_SOURCE.equals(bulkExportJobExecutionResponse.getExitStatus())) {
+                    throw export.buildOperationException("A bad source input was used during a call to $import", IssueType.INVALID);
+                } else {
+                    throw export.buildOperationException("The job has failed", IssueType.EXCEPTION);
+                }
             } else if (OperationConstants.STOPPED_STATUS.contains(batchStatus)) {
                 // If the job is stopped, then restart the job.
                 baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job + "?action=restart&reusePreviousParams=true";
@@ -386,7 +390,7 @@ public class BulkDataClient {
         // e.g. if it comes back with 404 it may fail on the JobInstanceResponse.Parser.parse!
 
         if (httpStatus == 401) {
-            throw export.buildOperationException("Unauthorized to access the framework", IssueType.FORBIDDEN);
+            throw export.buildOperationException("Unauthorized to access the Batch framework", IssueType.FORBIDDEN);
         }
 
         if (httpStatus == 400) {

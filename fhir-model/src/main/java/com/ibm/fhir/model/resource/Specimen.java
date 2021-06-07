@@ -110,26 +110,21 @@ public class Specimen extends DomainResource {
     private final List<CodeableConcept> condition;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Specimen(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         accessionIdentifier = builder.accessionIdentifier;
         status = builder.status;
         type = builder.type;
         subject = builder.subject;
         receivedTime = builder.receivedTime;
-        parent = Collections.unmodifiableList(ValidationSupport.checkList(builder.parent, "parent", Reference.class));
-        request = Collections.unmodifiableList(ValidationSupport.checkList(builder.request, "request", Reference.class));
+        parent = Collections.unmodifiableList(builder.parent);
+        request = Collections.unmodifiableList(builder.request);
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.checkList(builder.processing, "processing", Processing.class));
-        container = Collections.unmodifiableList(ValidationSupport.checkList(builder.container, "container", Container.class));
-        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", CodeableConcept.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
-        ValidationSupport.checkReferenceType(parent, "parent", "Specimen");
-        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
+        processing = Collections.unmodifiableList(builder.processing);
+        container = Collections.unmodifiableList(builder.container);
+        condition = Collections.unmodifiableList(builder.condition);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -977,7 +972,25 @@ public class Specimen extends DomainResource {
          */
         @Override
         public Specimen build() {
-            return new Specimen(this);
+            Specimen specimen = new Specimen(this);
+            if (validating) {
+                validate(specimen);
+            }
+            return specimen;
+        }
+
+        protected void validate(Specimen specimen) {
+            super.validate(specimen);
+            ValidationSupport.checkList(specimen.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(specimen.parent, "parent", Reference.class);
+            ValidationSupport.checkList(specimen.request, "request", Reference.class);
+            ValidationSupport.checkList(specimen.processing, "processing", Processing.class);
+            ValidationSupport.checkList(specimen.container, "container", Container.class);
+            ValidationSupport.checkList(specimen.condition, "condition", CodeableConcept.class);
+            ValidationSupport.checkList(specimen.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(specimen.subject, "subject", "Patient", "Group", "Device", "Substance", "Location");
+            ValidationSupport.checkReferenceType(specimen.parent, "parent", "Specimen");
+            ValidationSupport.checkReferenceType(specimen.request, "request", "ServiceRequest");
         }
 
         protected Builder from(Specimen specimen) {
@@ -1036,19 +1049,15 @@ public class Specimen extends DomainResource {
         )
         private final Element fastingStatus;
 
-        private volatile int hashCode;
-
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
-            collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
+            collected = builder.collected;
             duration = builder.duration;
             quantity = builder.quantity;
             method = builder.method;
             bodySite = builder.bodySite;
-            fastingStatus = ValidationSupport.choiceElement(builder.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
-            ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
+            fastingStatus = builder.fastingStatus;
         }
 
         /**
@@ -1451,7 +1460,19 @@ public class Specimen extends DomainResource {
              */
             @Override
             public Collection build() {
-                return new Collection(this);
+                Collection collection = new Collection(this);
+                if (validating) {
+                    validate(collection);
+                }
+                return collection;
+            }
+
+            protected void validate(Collection collection) {
+                super.validate(collection);
+                ValidationSupport.choiceElement(collection.collected, "collected", DateTime.class, Period.class);
+                ValidationSupport.choiceElement(collection.fastingStatus, "fastingStatus", CodeableConcept.class, Duration.class);
+                ValidationSupport.checkReferenceType(collection.collector, "collector", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(collection);
             }
 
             protected Builder from(Collection collection) {
@@ -1485,16 +1506,12 @@ public class Specimen extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element time;
 
-        private volatile int hashCode;
-
         private Processing(Builder builder) {
             super(builder);
             description = builder.description;
             procedure = builder.procedure;
-            additive = Collections.unmodifiableList(ValidationSupport.checkList(builder.additive, "additive", Reference.class));
-            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            additive = Collections.unmodifiableList(builder.additive);
+            time = builder.time;
         }
 
         /**
@@ -1826,7 +1843,19 @@ public class Specimen extends DomainResource {
              */
             @Override
             public Processing build() {
-                return new Processing(this);
+                Processing processing = new Processing(this);
+                if (validating) {
+                    validate(processing);
+                }
+                return processing;
+            }
+
+            protected void validate(Processing processing) {
+                super.validate(processing);
+                ValidationSupport.checkList(processing.additive, "additive", Reference.class);
+                ValidationSupport.choiceElement(processing.time, "time", DateTime.class, Period.class);
+                ValidationSupport.checkReferenceType(processing.additive, "additive", "Substance");
+                ValidationSupport.requireValueOrChildren(processing);
             }
 
             protected Builder from(Processing processing) {
@@ -1867,18 +1896,14 @@ public class Specimen extends DomainResource {
         )
         private final Element additive;
 
-        private volatile int hashCode;
-
         private Container(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+            identifier = Collections.unmodifiableList(builder.identifier);
             description = builder.description;
             type = builder.type;
             capacity = builder.capacity;
             specimenQuantity = builder.specimenQuantity;
-            additive = ValidationSupport.choiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            additive = builder.additive;
         }
 
         /**
@@ -2266,7 +2291,19 @@ public class Specimen extends DomainResource {
              */
             @Override
             public Container build() {
-                return new Container(this);
+                Container container = new Container(this);
+                if (validating) {
+                    validate(container);
+                }
+                return container;
+            }
+
+            protected void validate(Container container) {
+                super.validate(container);
+                ValidationSupport.checkList(container.identifier, "identifier", Identifier.class);
+                ValidationSupport.choiceElement(container.additive, "additive", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(container.additive, "additive", "Substance");
+                ValidationSupport.requireValueOrChildren(container);
             }
 
             protected Builder from(Container container) {

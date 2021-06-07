@@ -213,42 +213,39 @@ public class PlanDefinition extends DomainResource {
     private final List<Goal> goal;
     private final List<Action> action;
 
-    private volatile int hashCode;
-
     private PlanDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
         type = builder.type;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        library = Collections.unmodifiableList(ValidationSupport.checkList(builder.library, "library", Canonical.class));
-        goal = Collections.unmodifiableList(ValidationSupport.checkList(builder.goal, "goal", Goal.class));
-        action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", Action.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        goal = Collections.unmodifiableList(builder.goal);
+        action = Collections.unmodifiableList(builder.action);
     }
 
     /**
@@ -1762,7 +1759,31 @@ public class PlanDefinition extends DomainResource {
          */
         @Override
         public PlanDefinition build() {
-            return new PlanDefinition(this);
+            PlanDefinition planDefinition = new PlanDefinition(this);
+            if (validating) {
+                validate(planDefinition);
+            }
+            return planDefinition;
+        }
+
+        protected void validate(PlanDefinition planDefinition) {
+            super.validate(planDefinition);
+            ValidationSupport.checkList(planDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(planDefinition.status, "status");
+            ValidationSupport.choiceElement(planDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(planDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(planDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(planDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(planDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(planDefinition.library, "library", Canonical.class);
+            ValidationSupport.checkList(planDefinition.goal, "goal", Goal.class);
+            ValidationSupport.checkList(planDefinition.action, "action", Action.class);
+            ValidationSupport.checkReferenceType(planDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(PlanDefinition planDefinition) {
@@ -1846,18 +1867,15 @@ public class PlanDefinition extends DomainResource {
         private final List<RelatedArtifact> documentation;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Goal(Builder builder) {
             super(builder);
             category = builder.category;
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             priority = builder.priority;
             start = builder.start;
-            addresses = Collections.unmodifiableList(ValidationSupport.checkList(builder.addresses, "addresses", CodeableConcept.class));
-            documentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.documentation, "documentation", RelatedArtifact.class));
-            target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", Target.class));
-            ValidationSupport.requireValueOrChildren(this);
+            addresses = Collections.unmodifiableList(builder.addresses);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -2310,7 +2328,20 @@ public class PlanDefinition extends DomainResource {
              */
             @Override
             public Goal build() {
-                return new Goal(this);
+                Goal goal = new Goal(this);
+                if (validating) {
+                    validate(goal);
+                }
+                return goal;
+            }
+
+            protected void validate(Goal goal) {
+                super.validate(goal);
+                ValidationSupport.requireNonNull(goal.description, "description");
+                ValidationSupport.checkList(goal.addresses, "addresses", CodeableConcept.class);
+                ValidationSupport.checkList(goal.documentation, "documentation", RelatedArtifact.class);
+                ValidationSupport.checkList(goal.target, "target", Target.class);
+                ValidationSupport.requireValueOrChildren(goal);
             }
 
             protected Builder from(Goal goal) {
@@ -2341,14 +2372,11 @@ public class PlanDefinition extends DomainResource {
             private final Element detail;
             private final Duration due;
 
-            private volatile int hashCode;
-
             private Target(Builder builder) {
                 super(builder);
                 measure = builder.measure;
-                detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
+                detail = builder.detail;
                 due = builder.due;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2626,7 +2654,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Target build() {
-                    return new Target(this);
+                    Target target = new Target(this);
+                    if (validating) {
+                        validate(target);
+                    }
+                    return target;
+                }
+
+                protected void validate(Target target) {
+                    super.validate(target);
+                    ValidationSupport.choiceElement(target.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
+                    ValidationSupport.requireValueOrChildren(target);
                 }
 
                 protected Builder from(Target target) {
@@ -2724,8 +2762,6 @@ public class PlanDefinition extends DomainResource {
         private final List<DynamicValue> dynamicValue;
         private final List<PlanDefinition.Action> action;
 
-        private volatile int hashCode;
-
         private Action(Builder builder) {
             super(builder);
             prefix = builder.prefix;
@@ -2733,30 +2769,28 @@ public class PlanDefinition extends DomainResource {
             description = builder.description;
             textEquivalent = builder.textEquivalent;
             priority = builder.priority;
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
-            reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
-            documentation = Collections.unmodifiableList(ValidationSupport.checkList(builder.documentation, "documentation", RelatedArtifact.class));
-            goalId = Collections.unmodifiableList(ValidationSupport.checkList(builder.goalId, "goalId", Id.class));
-            subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-            trigger = Collections.unmodifiableList(ValidationSupport.checkList(builder.trigger, "trigger", TriggerDefinition.class));
-            condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Condition.class));
-            input = Collections.unmodifiableList(ValidationSupport.checkList(builder.input, "input", DataRequirement.class));
-            output = Collections.unmodifiableList(ValidationSupport.checkList(builder.output, "output", DataRequirement.class));
-            relatedAction = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedAction, "relatedAction", RelatedAction.class));
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
+            code = Collections.unmodifiableList(builder.code);
+            reason = Collections.unmodifiableList(builder.reason);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            goalId = Collections.unmodifiableList(builder.goalId);
+            subject = builder.subject;
+            trigger = Collections.unmodifiableList(builder.trigger);
+            condition = Collections.unmodifiableList(builder.condition);
+            input = Collections.unmodifiableList(builder.input);
+            output = Collections.unmodifiableList(builder.output);
+            relatedAction = Collections.unmodifiableList(builder.relatedAction);
+            timing = builder.timing;
+            participant = Collections.unmodifiableList(builder.participant);
             type = builder.type;
             groupingBehavior = builder.groupingBehavior;
             selectionBehavior = builder.selectionBehavior;
             requiredBehavior = builder.requiredBehavior;
             precheckBehavior = builder.precheckBehavior;
             cardinalityBehavior = builder.cardinalityBehavior;
-            definition = ValidationSupport.choiceElement(builder.definition, "definition", Canonical.class, Uri.class);
+            definition = builder.definition;
             transform = builder.transform;
-            dynamicValue = Collections.unmodifiableList(ValidationSupport.checkList(builder.dynamicValue, "dynamicValue", DynamicValue.class));
-            action = Collections.unmodifiableList(ValidationSupport.checkList(builder.action, "action", PlanDefinition.Action.class));
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
-            ValidationSupport.requireValueOrChildren(this);
+            dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -4011,7 +4045,32 @@ public class PlanDefinition extends DomainResource {
              */
             @Override
             public Action build() {
-                return new Action(this);
+                Action action = new Action(this);
+                if (validating) {
+                    validate(action);
+                }
+                return action;
+            }
+
+            protected void validate(Action action) {
+                super.validate(action);
+                ValidationSupport.checkList(action.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(action.reason, "reason", CodeableConcept.class);
+                ValidationSupport.checkList(action.documentation, "documentation", RelatedArtifact.class);
+                ValidationSupport.checkList(action.goalId, "goalId", Id.class);
+                ValidationSupport.choiceElement(action.subject, "subject", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(action.trigger, "trigger", TriggerDefinition.class);
+                ValidationSupport.checkList(action.condition, "condition", Condition.class);
+                ValidationSupport.checkList(action.input, "input", DataRequirement.class);
+                ValidationSupport.checkList(action.output, "output", DataRequirement.class);
+                ValidationSupport.checkList(action.relatedAction, "relatedAction", RelatedAction.class);
+                ValidationSupport.choiceElement(action.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
+                ValidationSupport.checkList(action.participant, "participant", Participant.class);
+                ValidationSupport.choiceElement(action.definition, "definition", Canonical.class, Uri.class);
+                ValidationSupport.checkList(action.dynamicValue, "dynamicValue", DynamicValue.class);
+                ValidationSupport.checkList(action.action, "action", PlanDefinition.Action.class);
+                ValidationSupport.checkReferenceType(action.subject, "subject", "Group");
+                ValidationSupport.requireValueOrChildren(action);
             }
 
             protected Builder from(Action action) {
@@ -4061,13 +4120,10 @@ public class PlanDefinition extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private Condition(Builder builder) {
                 super(builder);
-                kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+                kind = builder.kind;
                 expression = builder.expression;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4310,7 +4366,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Condition build() {
-                    return new Condition(this);
+                    Condition condition = new Condition(this);
+                    if (validating) {
+                        validate(condition);
+                    }
+                    return condition;
+                }
+
+                protected void validate(Condition condition) {
+                    super.validate(condition);
+                    ValidationSupport.requireNonNull(condition.kind, "kind");
+                    ValidationSupport.requireValueOrChildren(condition);
                 }
 
                 protected Builder from(Condition condition) {
@@ -4339,14 +4405,11 @@ public class PlanDefinition extends DomainResource {
             @Choice({ Duration.class, Range.class })
             private final Element offset;
 
-            private volatile int hashCode;
-
             private RelatedAction(Builder builder) {
                 super(builder);
-                actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
-                relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-                offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
-                ValidationSupport.requireValueOrChildren(this);
+                actionId = builder.actionId;
+                relationship = builder.relationship;
+                offset = builder.offset;
             }
 
             /**
@@ -4628,7 +4691,19 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public RelatedAction build() {
-                    return new RelatedAction(this);
+                    RelatedAction relatedAction = new RelatedAction(this);
+                    if (validating) {
+                        validate(relatedAction);
+                    }
+                    return relatedAction;
+                }
+
+                protected void validate(RelatedAction relatedAction) {
+                    super.validate(relatedAction);
+                    ValidationSupport.requireNonNull(relatedAction.actionId, "actionId");
+                    ValidationSupport.requireNonNull(relatedAction.relationship, "relationship");
+                    ValidationSupport.choiceElement(relatedAction.offset, "offset", Duration.class, Range.class);
+                    ValidationSupport.requireValueOrChildren(relatedAction);
                 }
 
                 protected Builder from(RelatedAction relatedAction) {
@@ -4661,13 +4736,10 @@ public class PlanDefinition extends DomainResource {
             )
             private final CodeableConcept role;
 
-            private volatile int hashCode;
-
             private Participant(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 role = builder.role;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4910,7 +4982,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Participant build() {
-                    return new Participant(this);
+                    Participant participant = new Participant(this);
+                    if (validating) {
+                        validate(participant);
+                    }
+                    return participant;
+                }
+
+                protected void validate(Participant participant) {
+                    super.validate(participant);
+                    ValidationSupport.requireNonNull(participant.type, "type");
+                    ValidationSupport.requireValueOrChildren(participant);
                 }
 
                 protected Builder from(Participant participant) {
@@ -4931,13 +5013,10 @@ public class PlanDefinition extends DomainResource {
             private final String path;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private DynamicValue(Builder builder) {
                 super(builder);
                 path = builder.path;
                 expression = builder.expression;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5181,7 +5260,16 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public DynamicValue build() {
-                    return new DynamicValue(this);
+                    DynamicValue dynamicValue = new DynamicValue(this);
+                    if (validating) {
+                        validate(dynamicValue);
+                    }
+                    return dynamicValue;
+                }
+
+                protected void validate(DynamicValue dynamicValue) {
+                    super.validate(dynamicValue);
+                    ValidationSupport.requireValueOrChildren(dynamicValue);
                 }
 
                 protected Builder from(DynamicValue dynamicValue) {

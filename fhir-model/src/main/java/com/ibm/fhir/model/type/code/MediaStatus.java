@@ -219,11 +219,7 @@ public class MediaStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -278,7 +274,20 @@ public class MediaStatus extends Code {
 
         @Override
         public MediaStatus build() {
-            return new MediaStatus(this);
+            MediaStatus mediaStatus = new MediaStatus(this);
+            if (validating) {
+                validate(mediaStatus);
+            }
+            return mediaStatus;
+        }
+
+        protected void validate(MediaStatus mediaStatus) {
+            super.validate(mediaStatus);
+        }
+
+        protected Builder from(MediaStatus mediaStatus) {
+            super.from(mediaStatus);
+            return this;
         }
     }
 

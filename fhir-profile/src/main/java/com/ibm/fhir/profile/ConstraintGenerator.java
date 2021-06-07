@@ -8,7 +8,6 @@ package com.ibm.fhir.profile;
 
 import static com.ibm.fhir.model.util.ModelSupport.delimit;
 import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
-import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
 import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX;
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
@@ -521,7 +520,14 @@ public class ConstraintGenerator {
                 sb.append(cardinality(node, sb.toString()));
             }
         } else if (pattern.is(Uri.class)) {
-            sb.append(identifier).append(" = '").append(pattern.as(Uri.class).getValue()).append("'");
+            if (isSlice(elementDefinition) && hasDiscriminatorPath(elementDefinition, "$this")) {
+                sb.append(identifier).append(".where($this = '").append(pattern.as(Uri.class).getValue()).append("')");
+                if (!discriminator) {
+                    sb.append(cardinality(node, sb.toString()));
+                }
+            } else {
+                sb.append(identifier).append(" = '").append(pattern.as(Uri.class).getValue()).append("'");
+            }
         } else if (pattern.is(Code.class)) {
             sb.append(identifier).append(" = '").append(pattern.as(Code.class).getValue()).append("'");
         }
@@ -555,14 +561,8 @@ public class ConstraintGenerator {
             sb.append(".");
         }
 
-        Type type = getTypes(elementDefinition).get(0);
-        String profile = getProfiles(type).get(0);
-        String code = type.getCode().getValue();
-        if (isResourceType(code)) {
-            sb.append("conformsTo('").append(profile).append("', true)");
-        } else {
-            sb.append("conformsTo('").append(profile).append("')");
-        }
+        String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
+        sb.append("conformsTo('").append(profile).append("')");
 
         if (isRepeating(elementDefinition)) {
             sb.append(")");
@@ -793,6 +793,18 @@ public class ConstraintGenerator {
             if (hasConstraint(child)) {
                 return true;
             }
+        }
+        return false;
+    }
+
+    private boolean hasDiscriminatorPath(ElementDefinition slice, String path) {
+        ElementDefinition sliceDefinition = getSliceDefinition(slice);
+        if (sliceDefinition != null) {
+            Slicing slicing = sliceDefinition.getSlicing();
+            List<String> paths = slicing.getDiscriminator().stream()
+                    .map(discriminator -> discriminator.getPath().getValue())
+                    .collect(Collectors.toList());
+            return paths.size() == 1 && path.equals(paths.get(0));
         }
         return false;
     }

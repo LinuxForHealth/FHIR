@@ -109,8 +109,6 @@ public class MedicationKnowledge extends DomainResource {
     private final List<Regulatory> regulatory;
     private final List<Kinetics> kinetics;
 
-    private volatile int hashCode;
-
     private MedicationKnowledge(Builder builder) {
         super(builder);
         code = builder.code;
@@ -118,26 +116,23 @@ public class MedicationKnowledge extends DomainResource {
         manufacturer = builder.manufacturer;
         doseForm = builder.doseForm;
         amount = builder.amount;
-        synonym = Collections.unmodifiableList(ValidationSupport.checkList(builder.synonym, "synonym", String.class));
-        relatedMedicationKnowledge = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedMedicationKnowledge, "relatedMedicationKnowledge", RelatedMedicationKnowledge.class));
-        associatedMedication = Collections.unmodifiableList(ValidationSupport.checkList(builder.associatedMedication, "associatedMedication", Reference.class));
-        productType = Collections.unmodifiableList(ValidationSupport.checkList(builder.productType, "productType", CodeableConcept.class));
-        monograph = Collections.unmodifiableList(ValidationSupport.checkList(builder.monograph, "monograph", Monograph.class));
-        ingredient = Collections.unmodifiableList(ValidationSupport.checkList(builder.ingredient, "ingredient", Ingredient.class));
+        synonym = Collections.unmodifiableList(builder.synonym);
+        relatedMedicationKnowledge = Collections.unmodifiableList(builder.relatedMedicationKnowledge);
+        associatedMedication = Collections.unmodifiableList(builder.associatedMedication);
+        productType = Collections.unmodifiableList(builder.productType);
+        monograph = Collections.unmodifiableList(builder.monograph);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
         preparationInstruction = builder.preparationInstruction;
-        intendedRoute = Collections.unmodifiableList(ValidationSupport.checkList(builder.intendedRoute, "intendedRoute", CodeableConcept.class));
-        cost = Collections.unmodifiableList(ValidationSupport.checkList(builder.cost, "cost", Cost.class));
-        monitoringProgram = Collections.unmodifiableList(ValidationSupport.checkList(builder.monitoringProgram, "monitoringProgram", MonitoringProgram.class));
-        administrationGuidelines = Collections.unmodifiableList(ValidationSupport.checkList(builder.administrationGuidelines, "administrationGuidelines", AdministrationGuidelines.class));
-        medicineClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.medicineClassification, "medicineClassification", MedicineClassification.class));
+        intendedRoute = Collections.unmodifiableList(builder.intendedRoute);
+        cost = Collections.unmodifiableList(builder.cost);
+        monitoringProgram = Collections.unmodifiableList(builder.monitoringProgram);
+        administrationGuidelines = Collections.unmodifiableList(builder.administrationGuidelines);
+        medicineClassification = Collections.unmodifiableList(builder.medicineClassification);
         packaging = builder.packaging;
-        drugCharacteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.drugCharacteristic, "drugCharacteristic", DrugCharacteristic.class));
-        contraindication = Collections.unmodifiableList(ValidationSupport.checkList(builder.contraindication, "contraindication", Reference.class));
-        regulatory = Collections.unmodifiableList(ValidationSupport.checkList(builder.regulatory, "regulatory", Regulatory.class));
-        kinetics = Collections.unmodifiableList(ValidationSupport.checkList(builder.kinetics, "kinetics", Kinetics.class));
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(associatedMedication, "associatedMedication", "Medication");
-        ValidationSupport.checkReferenceType(contraindication, "contraindication", "DetectedIssue");
+        drugCharacteristic = Collections.unmodifiableList(builder.drugCharacteristic);
+        contraindication = Collections.unmodifiableList(builder.contraindication);
+        regulatory = Collections.unmodifiableList(builder.regulatory);
+        kinetics = Collections.unmodifiableList(builder.kinetics);
     }
 
     /**
@@ -1415,7 +1410,33 @@ public class MedicationKnowledge extends DomainResource {
          */
         @Override
         public MedicationKnowledge build() {
-            return new MedicationKnowledge(this);
+            MedicationKnowledge medicationKnowledge = new MedicationKnowledge(this);
+            if (validating) {
+                validate(medicationKnowledge);
+            }
+            return medicationKnowledge;
+        }
+
+        protected void validate(MedicationKnowledge medicationKnowledge) {
+            super.validate(medicationKnowledge);
+            ValidationSupport.checkList(medicationKnowledge.synonym, "synonym", String.class);
+            ValidationSupport.checkList(medicationKnowledge.relatedMedicationKnowledge, "relatedMedicationKnowledge", RelatedMedicationKnowledge.class);
+            ValidationSupport.checkList(medicationKnowledge.associatedMedication, "associatedMedication", Reference.class);
+            ValidationSupport.checkList(medicationKnowledge.productType, "productType", CodeableConcept.class);
+            ValidationSupport.checkList(medicationKnowledge.monograph, "monograph", Monograph.class);
+            ValidationSupport.checkList(medicationKnowledge.ingredient, "ingredient", Ingredient.class);
+            ValidationSupport.checkList(medicationKnowledge.intendedRoute, "intendedRoute", CodeableConcept.class);
+            ValidationSupport.checkList(medicationKnowledge.cost, "cost", Cost.class);
+            ValidationSupport.checkList(medicationKnowledge.monitoringProgram, "monitoringProgram", MonitoringProgram.class);
+            ValidationSupport.checkList(medicationKnowledge.administrationGuidelines, "administrationGuidelines", AdministrationGuidelines.class);
+            ValidationSupport.checkList(medicationKnowledge.medicineClassification, "medicineClassification", MedicineClassification.class);
+            ValidationSupport.checkList(medicationKnowledge.drugCharacteristic, "drugCharacteristic", DrugCharacteristic.class);
+            ValidationSupport.checkList(medicationKnowledge.contraindication, "contraindication", Reference.class);
+            ValidationSupport.checkList(medicationKnowledge.regulatory, "regulatory", Regulatory.class);
+            ValidationSupport.checkList(medicationKnowledge.kinetics, "kinetics", Kinetics.class);
+            ValidationSupport.checkReferenceType(medicationKnowledge.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicationKnowledge.associatedMedication, "associatedMedication", "Medication");
+            ValidationSupport.checkReferenceType(medicationKnowledge.contraindication, "contraindication", "DetectedIssue");
         }
 
         protected Builder from(MedicationKnowledge medicationKnowledge) {
@@ -1456,14 +1477,10 @@ public class MedicationKnowledge extends DomainResource {
         @Required
         private final List<Reference> reference;
 
-        private volatile int hashCode;
-
         private RelatedMedicationKnowledge(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            reference = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.reference, "reference", Reference.class));
-            ValidationSupport.checkReferenceType(reference, "reference", "MedicationKnowledge");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            reference = Collections.unmodifiableList(builder.reference);
         }
 
         /**
@@ -1741,7 +1758,19 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public RelatedMedicationKnowledge build() {
-                return new RelatedMedicationKnowledge(this);
+                RelatedMedicationKnowledge relatedMedicationKnowledge = new RelatedMedicationKnowledge(this);
+                if (validating) {
+                    validate(relatedMedicationKnowledge);
+                }
+                return relatedMedicationKnowledge;
+            }
+
+            protected void validate(RelatedMedicationKnowledge relatedMedicationKnowledge) {
+                super.validate(relatedMedicationKnowledge);
+                ValidationSupport.requireNonNull(relatedMedicationKnowledge.type, "type");
+                ValidationSupport.checkNonEmptyList(relatedMedicationKnowledge.reference, "reference", Reference.class);
+                ValidationSupport.checkReferenceType(relatedMedicationKnowledge.reference, "reference", "MedicationKnowledge");
+                ValidationSupport.requireValueOrChildren(relatedMedicationKnowledge);
             }
 
             protected Builder from(RelatedMedicationKnowledge relatedMedicationKnowledge) {
@@ -1761,14 +1790,10 @@ public class MedicationKnowledge extends DomainResource {
         @ReferenceTarget({ "DocumentReference", "Media" })
         private final Reference source;
 
-        private volatile int hashCode;
-
         private Monograph(Builder builder) {
             super(builder);
             type = builder.type;
             source = builder.source;
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference", "Media");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2010,7 +2035,17 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Monograph build() {
-                return new Monograph(this);
+                Monograph monograph = new Monograph(this);
+                if (validating) {
+                    validate(monograph);
+                }
+                return monograph;
+            }
+
+            protected void validate(Monograph monograph) {
+                super.validate(monograph);
+                ValidationSupport.checkReferenceType(monograph.source, "source", "DocumentReference", "Media");
+                ValidationSupport.requireValueOrChildren(monograph);
             }
 
             protected Builder from(Monograph monograph) {
@@ -2033,15 +2068,11 @@ public class MedicationKnowledge extends DomainResource {
         private final Boolean isActive;
         private final Ratio strength;
 
-        private volatile int hashCode;
-
         private Ingredient(Builder builder) {
             super(builder);
-            item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            item = builder.item;
             isActive = builder.isActive;
             strength = builder.strength;
-            ValidationSupport.checkReferenceType(item, "item", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2326,7 +2357,18 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Ingredient build() {
-                return new Ingredient(this);
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireChoiceElement(ingredient.item, "item", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(ingredient.item, "item", "Substance");
+                ValidationSupport.requireValueOrChildren(ingredient);
             }
 
             protected Builder from(Ingredient ingredient) {
@@ -2349,14 +2391,11 @@ public class MedicationKnowledge extends DomainResource {
         @Required
         private final Money cost;
 
-        private volatile int hashCode;
-
         private Cost(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             source = builder.source;
-            cost = ValidationSupport.requireNonNull(builder.cost, "cost");
-            ValidationSupport.requireValueOrChildren(this);
+            cost = builder.cost;
         }
 
         /**
@@ -2633,7 +2672,18 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Cost build() {
-                return new Cost(this);
+                Cost cost = new Cost(this);
+                if (validating) {
+                    validate(cost);
+                }
+                return cost;
+            }
+
+            protected void validate(Cost cost) {
+                super.validate(cost);
+                ValidationSupport.requireNonNull(cost.type, "type");
+                ValidationSupport.requireNonNull(cost.cost, "cost");
+                ValidationSupport.requireValueOrChildren(cost);
             }
 
             protected Builder from(Cost cost) {
@@ -2653,13 +2703,10 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final String name;
 
-        private volatile int hashCode;
-
         private MonitoringProgram(Builder builder) {
             super(builder);
             type = builder.type;
             name = builder.name;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2895,7 +2942,16 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public MonitoringProgram build() {
-                return new MonitoringProgram(this);
+                MonitoringProgram monitoringProgram = new MonitoringProgram(this);
+                if (validating) {
+                    validate(monitoringProgram);
+                }
+                return monitoringProgram;
+            }
+
+            protected void validate(MonitoringProgram monitoringProgram) {
+                super.validate(monitoringProgram);
+                ValidationSupport.requireValueOrChildren(monitoringProgram);
             }
 
             protected Builder from(MonitoringProgram monitoringProgram) {
@@ -2917,15 +2973,11 @@ public class MedicationKnowledge extends DomainResource {
         private final Element indication;
         private final List<PatientCharacteristics> patientCharacteristics;
 
-        private volatile int hashCode;
-
         private AdministrationGuidelines(Builder builder) {
             super(builder);
-            dosage = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosage, "dosage", Dosage.class));
-            indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
-            patientCharacteristics = Collections.unmodifiableList(ValidationSupport.checkList(builder.patientCharacteristics, "patientCharacteristics", PatientCharacteristics.class));
-            ValidationSupport.checkReferenceType(indication, "indication", "ObservationDefinition");
-            ValidationSupport.requireValueOrChildren(this);
+            dosage = Collections.unmodifiableList(builder.dosage);
+            indication = builder.indication;
+            patientCharacteristics = Collections.unmodifiableList(builder.patientCharacteristics);
         }
 
         /**
@@ -3244,7 +3296,20 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public AdministrationGuidelines build() {
-                return new AdministrationGuidelines(this);
+                AdministrationGuidelines administrationGuidelines = new AdministrationGuidelines(this);
+                if (validating) {
+                    validate(administrationGuidelines);
+                }
+                return administrationGuidelines;
+            }
+
+            protected void validate(AdministrationGuidelines administrationGuidelines) {
+                super.validate(administrationGuidelines);
+                ValidationSupport.checkList(administrationGuidelines.dosage, "dosage", Dosage.class);
+                ValidationSupport.choiceElement(administrationGuidelines.indication, "indication", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(administrationGuidelines.patientCharacteristics, "patientCharacteristics", PatientCharacteristics.class);
+                ValidationSupport.checkReferenceType(administrationGuidelines.indication, "indication", "ObservationDefinition");
+                ValidationSupport.requireValueOrChildren(administrationGuidelines);
             }
 
             protected Builder from(AdministrationGuidelines administrationGuidelines) {
@@ -3265,13 +3330,10 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final List<com.ibm.fhir.model.type.Dosage> dosage;
 
-            private volatile int hashCode;
-
             private Dosage(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                dosage = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.dosage, "dosage", com.ibm.fhir.model.type.Dosage.class));
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                dosage = Collections.unmodifiableList(builder.dosage);
             }
 
             /**
@@ -3539,7 +3601,18 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 @Override
                 public Dosage build() {
-                    return new Dosage(this);
+                    Dosage dosage = new Dosage(this);
+                    if (validating) {
+                        validate(dosage);
+                    }
+                    return dosage;
+                }
+
+                protected void validate(Dosage dosage) {
+                    super.validate(dosage);
+                    ValidationSupport.requireNonNull(dosage.type, "type");
+                    ValidationSupport.checkNonEmptyList(dosage.dosage, "dosage", com.ibm.fhir.model.type.Dosage.class);
+                    ValidationSupport.requireValueOrChildren(dosage);
                 }
 
                 protected Builder from(Dosage dosage) {
@@ -3561,13 +3634,10 @@ public class MedicationKnowledge extends DomainResource {
             private final Element characteristic;
             private final List<String> value;
 
-            private volatile int hashCode;
-
             private PatientCharacteristics(Builder builder) {
                 super(builder);
-                characteristic = ValidationSupport.requireChoiceElement(builder.characteristic, "characteristic", CodeableConcept.class, SimpleQuantity.class);
-                value = Collections.unmodifiableList(ValidationSupport.checkList(builder.value, "value", String.class));
-                ValidationSupport.requireValueOrChildren(this);
+                characteristic = builder.characteristic;
+                value = Collections.unmodifiableList(builder.value);
             }
 
             /**
@@ -3836,7 +3906,18 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 @Override
                 public PatientCharacteristics build() {
-                    return new PatientCharacteristics(this);
+                    PatientCharacteristics patientCharacteristics = new PatientCharacteristics(this);
+                    if (validating) {
+                        validate(patientCharacteristics);
+                    }
+                    return patientCharacteristics;
+                }
+
+                protected void validate(PatientCharacteristics patientCharacteristics) {
+                    super.validate(patientCharacteristics);
+                    ValidationSupport.requireChoiceElement(patientCharacteristics.characteristic, "characteristic", CodeableConcept.class, SimpleQuantity.class);
+                    ValidationSupport.checkList(patientCharacteristics.value, "value", String.class);
+                    ValidationSupport.requireValueOrChildren(patientCharacteristics);
                 }
 
                 protected Builder from(PatientCharacteristics patientCharacteristics) {
@@ -3857,13 +3938,10 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final List<CodeableConcept> classification;
 
-        private volatile int hashCode;
-
         private MedicineClassification(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", CodeableConcept.class));
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            classification = Collections.unmodifiableList(builder.classification);
         }
 
         /**
@@ -4126,7 +4204,18 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public MedicineClassification build() {
-                return new MedicineClassification(this);
+                MedicineClassification medicineClassification = new MedicineClassification(this);
+                if (validating) {
+                    validate(medicineClassification);
+                }
+                return medicineClassification;
+            }
+
+            protected void validate(MedicineClassification medicineClassification) {
+                super.validate(medicineClassification);
+                ValidationSupport.requireNonNull(medicineClassification.type, "type");
+                ValidationSupport.checkList(medicineClassification.classification, "classification", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(medicineClassification);
             }
 
             protected Builder from(MedicineClassification medicineClassification) {
@@ -4151,13 +4240,10 @@ public class MedicationKnowledge extends DomainResource {
         private final CodeableConcept type;
         private final SimpleQuantity quantity;
 
-        private volatile int hashCode;
-
         private Packaging(Builder builder) {
             super(builder);
             type = builder.type;
             quantity = builder.quantity;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4395,7 +4481,16 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Packaging build() {
-                return new Packaging(this);
+                Packaging packaging = new Packaging(this);
+                if (validating) {
+                    validate(packaging);
+                }
+                return packaging;
+            }
+
+            protected void validate(Packaging packaging) {
+                super.validate(packaging);
+                ValidationSupport.requireValueOrChildren(packaging);
             }
 
             protected Builder from(Packaging packaging) {
@@ -4421,13 +4516,10 @@ public class MedicationKnowledge extends DomainResource {
         @Choice({ CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class })
         private final Element value;
 
-        private volatile int hashCode;
-
         private DrugCharacteristic(Builder builder) {
             super(builder);
             type = builder.type;
-            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -4671,7 +4763,17 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public DrugCharacteristic build() {
-                return new DrugCharacteristic(this);
+                DrugCharacteristic drugCharacteristic = new DrugCharacteristic(this);
+                if (validating) {
+                    validate(drugCharacteristic);
+                }
+                return drugCharacteristic;
+            }
+
+            protected void validate(DrugCharacteristic drugCharacteristic) {
+                super.validate(drugCharacteristic);
+                ValidationSupport.choiceElement(drugCharacteristic.value, "value", CodeableConcept.class, String.class, SimpleQuantity.class, Base64Binary.class);
+                ValidationSupport.requireValueOrChildren(drugCharacteristic);
             }
 
             protected Builder from(DrugCharacteristic drugCharacteristic) {
@@ -4694,16 +4796,12 @@ public class MedicationKnowledge extends DomainResource {
         private final List<Schedule> schedule;
         private final MaxDispense maxDispense;
 
-        private volatile int hashCode;
-
         private Regulatory(Builder builder) {
             super(builder);
-            regulatoryAuthority = ValidationSupport.requireNonNull(builder.regulatoryAuthority, "regulatoryAuthority");
-            substitution = Collections.unmodifiableList(ValidationSupport.checkList(builder.substitution, "substitution", Substitution.class));
-            schedule = Collections.unmodifiableList(ValidationSupport.checkList(builder.schedule, "schedule", Schedule.class));
+            regulatoryAuthority = builder.regulatoryAuthority;
+            substitution = Collections.unmodifiableList(builder.substitution);
+            schedule = Collections.unmodifiableList(builder.schedule);
             maxDispense = builder.maxDispense;
-            ValidationSupport.checkReferenceType(regulatoryAuthority, "regulatoryAuthority", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -5049,7 +5147,20 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Regulatory build() {
-                return new Regulatory(this);
+                Regulatory regulatory = new Regulatory(this);
+                if (validating) {
+                    validate(regulatory);
+                }
+                return regulatory;
+            }
+
+            protected void validate(Regulatory regulatory) {
+                super.validate(regulatory);
+                ValidationSupport.requireNonNull(regulatory.regulatoryAuthority, "regulatoryAuthority");
+                ValidationSupport.checkList(regulatory.substitution, "substitution", Substitution.class);
+                ValidationSupport.checkList(regulatory.schedule, "schedule", Schedule.class);
+                ValidationSupport.checkReferenceType(regulatory.regulatoryAuthority, "regulatoryAuthority", "Organization");
+                ValidationSupport.requireValueOrChildren(regulatory);
             }
 
             protected Builder from(Regulatory regulatory) {
@@ -5071,13 +5182,10 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final Boolean allowed;
 
-            private volatile int hashCode;
-
             private Substitution(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                allowed = ValidationSupport.requireNonNull(builder.allowed, "allowed");
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                allowed = builder.allowed;
             }
 
             /**
@@ -5323,7 +5431,18 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 @Override
                 public Substitution build() {
-                    return new Substitution(this);
+                    Substitution substitution = new Substitution(this);
+                    if (validating) {
+                        validate(substitution);
+                    }
+                    return substitution;
+                }
+
+                protected void validate(Substitution substitution) {
+                    super.validate(substitution);
+                    ValidationSupport.requireNonNull(substitution.type, "type");
+                    ValidationSupport.requireNonNull(substitution.allowed, "allowed");
+                    ValidationSupport.requireValueOrChildren(substitution);
                 }
 
                 protected Builder from(Substitution substitution) {
@@ -5342,12 +5461,9 @@ public class MedicationKnowledge extends DomainResource {
             @Required
             private final CodeableConcept schedule;
 
-            private volatile int hashCode;
-
             private Schedule(Builder builder) {
                 super(builder);
-                schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
-                ValidationSupport.requireValueOrChildren(this);
+                schedule = builder.schedule;
             }
 
             /**
@@ -5561,7 +5677,17 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 @Override
                 public Schedule build() {
-                    return new Schedule(this);
+                    Schedule schedule = new Schedule(this);
+                    if (validating) {
+                        validate(schedule);
+                    }
+                    return schedule;
+                }
+
+                protected void validate(Schedule schedule) {
+                    super.validate(schedule);
+                    ValidationSupport.requireNonNull(schedule.schedule, "schedule");
+                    ValidationSupport.requireValueOrChildren(schedule);
                 }
 
                 protected Builder from(Schedule schedule) {
@@ -5580,13 +5706,10 @@ public class MedicationKnowledge extends DomainResource {
             private final SimpleQuantity quantity;
             private final Duration period;
 
-            private volatile int hashCode;
-
             private MaxDispense(Builder builder) {
                 super(builder);
-                quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
+                quantity = builder.quantity;
                 period = builder.period;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5829,7 +5952,17 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 @Override
                 public MaxDispense build() {
-                    return new MaxDispense(this);
+                    MaxDispense maxDispense = new MaxDispense(this);
+                    if (validating) {
+                        validate(maxDispense);
+                    }
+                    return maxDispense;
+                }
+
+                protected void validate(MaxDispense maxDispense) {
+                    super.validate(maxDispense);
+                    ValidationSupport.requireNonNull(maxDispense.quantity, "quantity");
+                    ValidationSupport.requireValueOrChildren(maxDispense);
                 }
 
                 protected Builder from(MaxDispense maxDispense) {
@@ -5850,14 +5983,11 @@ public class MedicationKnowledge extends DomainResource {
         private final List<SimpleQuantity> lethalDose50;
         private final Duration halfLifePeriod;
 
-        private volatile int hashCode;
-
         private Kinetics(Builder builder) {
             super(builder);
-            areaUnderCurve = Collections.unmodifiableList(ValidationSupport.checkList(builder.areaUnderCurve, "areaUnderCurve", SimpleQuantity.class));
-            lethalDose50 = Collections.unmodifiableList(ValidationSupport.checkList(builder.lethalDose50, "lethalDose50", SimpleQuantity.class));
+            areaUnderCurve = Collections.unmodifiableList(builder.areaUnderCurve);
+            lethalDose50 = Collections.unmodifiableList(builder.lethalDose50);
             halfLifePeriod = builder.halfLifePeriod;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -6162,7 +6292,18 @@ public class MedicationKnowledge extends DomainResource {
              */
             @Override
             public Kinetics build() {
-                return new Kinetics(this);
+                Kinetics kinetics = new Kinetics(this);
+                if (validating) {
+                    validate(kinetics);
+                }
+                return kinetics;
+            }
+
+            protected void validate(Kinetics kinetics) {
+                super.validate(kinetics);
+                ValidationSupport.checkList(kinetics.areaUnderCurve, "areaUnderCurve", SimpleQuantity.class);
+                ValidationSupport.checkList(kinetics.lethalDose50, "lethalDose50", SimpleQuantity.class);
+                ValidationSupport.requireValueOrChildren(kinetics);
             }
 
             protected Builder from(Kinetics kinetics) {

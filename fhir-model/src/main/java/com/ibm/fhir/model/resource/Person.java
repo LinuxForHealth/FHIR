@@ -75,21 +75,18 @@ public class Person extends DomainResource {
     private final Boolean active;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private Person(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        name = Collections.unmodifiableList(ValidationSupport.checkList(builder.name, "name", HumanName.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.checkList(builder.address, "address", Address.class));
+        address = Collections.unmodifiableList(builder.address);
         photo = builder.photo;
         managingOrganization = builder.managingOrganization;
         active = builder.active;
-        link = Collections.unmodifiableList(ValidationSupport.checkList(builder.link, "link", Link.class));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -772,7 +769,21 @@ public class Person extends DomainResource {
          */
         @Override
         public Person build() {
-            return new Person(this);
+            Person person = new Person(this);
+            if (validating) {
+                validate(person);
+            }
+            return person;
+        }
+
+        protected void validate(Person person) {
+            super.validate(person);
+            ValidationSupport.checkList(person.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(person.name, "name", HumanName.class);
+            ValidationSupport.checkList(person.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(person.address, "address", Address.class);
+            ValidationSupport.checkList(person.link, "link", Link.class);
+            ValidationSupport.checkReferenceType(person.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Person person) {
@@ -806,14 +817,10 @@ public class Person extends DomainResource {
         )
         private final IdentityAssuranceLevel assurance;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
-            target = ValidationSupport.requireNonNull(builder.target, "target");
+            target = builder.target;
             assurance = builder.assurance;
-            ValidationSupport.checkReferenceType(target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1064,7 +1071,18 @@ public class Person extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.target, "target");
+                ValidationSupport.checkReferenceType(link.target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {

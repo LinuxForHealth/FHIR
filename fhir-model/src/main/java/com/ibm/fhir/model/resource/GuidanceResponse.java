@@ -87,32 +87,23 @@ public class GuidanceResponse extends DomainResource {
     private final Reference result;
     private final List<DataRequirement> dataRequirement;
 
-    private volatile int hashCode;
-
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        module = builder.module;
+        status = builder.status;
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        evaluationMessage = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluationMessage, "evaluationMessage", Reference.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        evaluationMessage = Collections.unmodifiableList(builder.evaluationMessage);
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.dataRequirement, "dataRequirement", DataRequirement.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Device");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
-        ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
-        ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
+        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
     }
 
     /**
@@ -1056,7 +1047,30 @@ public class GuidanceResponse extends DomainResource {
          */
         @Override
         public GuidanceResponse build() {
-            return new GuidanceResponse(this);
+            GuidanceResponse guidanceResponse = new GuidanceResponse(this);
+            if (validating) {
+                validate(guidanceResponse);
+            }
+            return guidanceResponse;
+        }
+
+        protected void validate(GuidanceResponse guidanceResponse) {
+            super.validate(guidanceResponse);
+            ValidationSupport.checkList(guidanceResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireChoiceElement(guidanceResponse.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
+            ValidationSupport.requireNonNull(guidanceResponse.status, "status");
+            ValidationSupport.checkList(guidanceResponse.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(guidanceResponse.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(guidanceResponse.note, "note", Annotation.class);
+            ValidationSupport.checkList(guidanceResponse.evaluationMessage, "evaluationMessage", Reference.class);
+            ValidationSupport.checkList(guidanceResponse.dataRequirement, "dataRequirement", DataRequirement.class);
+            ValidationSupport.checkReferenceType(guidanceResponse.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(guidanceResponse.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(guidanceResponse.performer, "performer", "Device");
+            ValidationSupport.checkReferenceType(guidanceResponse.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(guidanceResponse.evaluationMessage, "evaluationMessage", "OperationOutcome");
+            ValidationSupport.checkReferenceType(guidanceResponse.outputParameters, "outputParameters", "Parameters");
+            ValidationSupport.checkReferenceType(guidanceResponse.result, "result", "CarePlan", "RequestGroup");
         }
 
         protected Builder from(GuidanceResponse guidanceResponse) {

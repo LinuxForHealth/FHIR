@@ -124,27 +124,21 @@ public class ObservationDefinition extends DomainResource {
     @ReferenceTarget({ "ValueSet" })
     private final Reference criticalCodedValueSet;
 
-    private volatile int hashCode;
-
     private ObservationDefinition(Builder builder) {
         super(builder);
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        permittedDataType = Collections.unmodifiableList(ValidationSupport.checkList(builder.permittedDataType, "permittedDataType", ObservationDataType.class));
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        permittedDataType = Collections.unmodifiableList(builder.permittedDataType);
         multipleResultsAllowed = builder.multipleResultsAllowed;
         method = builder.method;
         preferredReportName = builder.preferredReportName;
         quantitativeDetails = builder.quantitativeDetails;
-        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.checkList(builder.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class));
+        qualifiedInterval = Collections.unmodifiableList(builder.qualifiedInterval);
         validCodedValueSet = builder.validCodedValueSet;
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
         criticalCodedValueSet = builder.criticalCodedValueSet;
-        ValidationSupport.checkReferenceType(validCodedValueSet, "validCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
     }
 
     /**
@@ -919,7 +913,24 @@ public class ObservationDefinition extends DomainResource {
          */
         @Override
         public ObservationDefinition build() {
-            return new ObservationDefinition(this);
+            ObservationDefinition observationDefinition = new ObservationDefinition(this);
+            if (validating) {
+                validate(observationDefinition);
+            }
+            return observationDefinition;
+        }
+
+        protected void validate(ObservationDefinition observationDefinition) {
+            super.validate(observationDefinition);
+            ValidationSupport.checkList(observationDefinition.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(observationDefinition.code, "code");
+            ValidationSupport.checkList(observationDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(observationDefinition.permittedDataType, "permittedDataType", ObservationDataType.class);
+            ValidationSupport.checkList(observationDefinition.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class);
+            ValidationSupport.checkReferenceType(observationDefinition.validCodedValueSet, "validCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.normalCodedValueSet, "normalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
         }
 
         protected Builder from(ObservationDefinition observationDefinition) {
@@ -962,15 +973,12 @@ public class ObservationDefinition extends DomainResource {
         private final Decimal conversionFactor;
         private final Integer decimalPrecision;
 
-        private volatile int hashCode;
-
         private QuantitativeDetails(Builder builder) {
             super(builder);
             customaryUnit = builder.customaryUnit;
             unit = builder.unit;
             conversionFactor = builder.conversionFactor;
             decimalPrecision = builder.decimalPrecision;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1264,7 +1272,16 @@ public class ObservationDefinition extends DomainResource {
              */
             @Override
             public QuantitativeDetails build() {
-                return new QuantitativeDetails(this);
+                QuantitativeDetails quantitativeDetails = new QuantitativeDetails(this);
+                if (validating) {
+                    validate(quantitativeDetails);
+                }
+                return quantitativeDetails;
+            }
+
+            protected void validate(QuantitativeDetails quantitativeDetails) {
+                super.validate(quantitativeDetails);
+                ValidationSupport.requireValueOrChildren(quantitativeDetails);
             }
 
             protected Builder from(QuantitativeDetails quantitativeDetails) {
@@ -1316,19 +1333,16 @@ public class ObservationDefinition extends DomainResource {
         private final Range gestationalAge;
         private final String condition;
 
-        private volatile int hashCode;
-
         private QualifiedInterval(Builder builder) {
             super(builder);
             category = builder.category;
             range = builder.range;
             context = builder.context;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
             gender = builder.gender;
             age = builder.age;
             gestationalAge = builder.gestationalAge;
             condition = builder.condition;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1760,7 +1774,17 @@ public class ObservationDefinition extends DomainResource {
              */
             @Override
             public QualifiedInterval build() {
-                return new QualifiedInterval(this);
+                QualifiedInterval qualifiedInterval = new QualifiedInterval(this);
+                if (validating) {
+                    validate(qualifiedInterval);
+                }
+                return qualifiedInterval;
+            }
+
+            protected void validate(QualifiedInterval qualifiedInterval) {
+                super.validate(qualifiedInterval);
+                ValidationSupport.checkList(qualifiedInterval.appliesTo, "appliesTo", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(qualifiedInterval);
             }
 
             protected Builder from(QualifiedInterval qualifiedInterval) {

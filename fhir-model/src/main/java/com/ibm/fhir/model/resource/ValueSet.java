@@ -178,23 +178,21 @@ public class ValueSet extends DomainResource {
     private final Compose compose;
     private final Expansion expansion;
 
-    private volatile int hashCode;
-
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         immutable = builder.immutable;
         purpose = builder.purpose;
         copyright = builder.copyright;
@@ -1135,7 +1133,20 @@ public class ValueSet extends DomainResource {
          */
         @Override
         public ValueSet build() {
-            return new ValueSet(this);
+            ValueSet valueSet = new ValueSet(this);
+            if (validating) {
+                validate(valueSet);
+            }
+            return valueSet;
+        }
+
+        protected void validate(ValueSet valueSet) {
+            super.validate(valueSet);
+            ValidationSupport.checkList(valueSet.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(valueSet.status, "status");
+            ValidationSupport.checkList(valueSet.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(valueSet.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(valueSet.jurisdiction, "jurisdiction", CodeableConcept.class);
         }
 
         protected Builder from(ValueSet valueSet) {
@@ -1176,15 +1187,12 @@ public class ValueSet extends DomainResource {
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
 
-        private volatile int hashCode;
-
         private Compose(Builder builder) {
             super(builder);
             lockedDate = builder.lockedDate;
             inactive = builder.inactive;
-            include = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.include, "include", Include.class));
-            exclude = Collections.unmodifiableList(ValidationSupport.checkList(builder.exclude, "exclude", ValueSet.Compose.Include.class));
-            ValidationSupport.requireValueOrChildren(this);
+            include = Collections.unmodifiableList(builder.include);
+            exclude = Collections.unmodifiableList(builder.exclude);
         }
 
         /**
@@ -1535,7 +1543,18 @@ public class ValueSet extends DomainResource {
              */
             @Override
             public Compose build() {
-                return new Compose(this);
+                Compose compose = new Compose(this);
+                if (validating) {
+                    validate(compose);
+                }
+                return compose;
+            }
+
+            protected void validate(Compose compose) {
+                super.validate(compose);
+                ValidationSupport.checkNonEmptyList(compose.include, "include", Include.class);
+                ValidationSupport.checkList(compose.exclude, "exclude", ValueSet.Compose.Include.class);
+                ValidationSupport.requireValueOrChildren(compose);
             }
 
             protected Builder from(Compose compose) {
@@ -1562,16 +1581,13 @@ public class ValueSet extends DomainResource {
             @Summary
             private final List<Canonical> valueSet;
 
-            private volatile int hashCode;
-
             private Include(Builder builder) {
                 super(builder);
                 system = builder.system;
                 version = builder.version;
-                concept = Collections.unmodifiableList(ValidationSupport.checkList(builder.concept, "concept", Concept.class));
-                filter = Collections.unmodifiableList(ValidationSupport.checkList(builder.filter, "filter", Filter.class));
-                valueSet = Collections.unmodifiableList(ValidationSupport.checkList(builder.valueSet, "valueSet", Canonical.class));
-                ValidationSupport.requireValueOrChildren(this);
+                concept = Collections.unmodifiableList(builder.concept);
+                filter = Collections.unmodifiableList(builder.filter);
+                valueSet = Collections.unmodifiableList(builder.valueSet);
             }
 
             /**
@@ -1963,7 +1979,19 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Include build() {
-                    return new Include(this);
+                    Include include = new Include(this);
+                    if (validating) {
+                        validate(include);
+                    }
+                    return include;
+                }
+
+                protected void validate(Include include) {
+                    super.validate(include);
+                    ValidationSupport.checkList(include.concept, "concept", Concept.class);
+                    ValidationSupport.checkList(include.filter, "filter", Filter.class);
+                    ValidationSupport.checkList(include.valueSet, "valueSet", Canonical.class);
+                    ValidationSupport.requireValueOrChildren(include);
                 }
 
                 protected Builder from(Include include) {
@@ -1986,14 +2014,11 @@ public class ValueSet extends DomainResource {
                 private final String display;
                 private final List<Designation> designation;
 
-                private volatile int hashCode;
-
                 private Concept(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    code = builder.code;
                     display = builder.display;
-                    designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", Designation.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    designation = Collections.unmodifiableList(builder.designation);
                 }
 
                 /**
@@ -2290,7 +2315,18 @@ public class ValueSet extends DomainResource {
                      */
                     @Override
                     public Concept build() {
-                        return new Concept(this);
+                        Concept concept = new Concept(this);
+                        if (validating) {
+                            validate(concept);
+                        }
+                        return concept;
+                    }
+
+                    protected void validate(Concept concept) {
+                        super.validate(concept);
+                        ValidationSupport.requireNonNull(concept.code, "code");
+                        ValidationSupport.checkList(concept.designation, "designation", Designation.class);
+                        ValidationSupport.requireValueOrChildren(concept);
                     }
 
                     protected Builder from(Concept concept) {
@@ -2325,15 +2361,11 @@ public class ValueSet extends DomainResource {
                     @Required
                     private final String value;
 
-                    private volatile int hashCode;
-
                     private Designation(Builder builder) {
                         super(builder);
                         language = builder.language;
                         use = builder.use;
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-                        ValidationSupport.requireValueOrChildren(this);
+                        value = builder.value;
                     }
 
                     /**
@@ -2605,7 +2637,18 @@ public class ValueSet extends DomainResource {
                          */
                         @Override
                         public Designation build() {
-                            return new Designation(this);
+                            Designation designation = new Designation(this);
+                            if (validating) {
+                                validate(designation);
+                            }
+                            return designation;
+                        }
+
+                        protected void validate(Designation designation) {
+                            super.validate(designation);
+                            ValidationSupport.requireNonNull(designation.value, "value");
+                            ValidationSupport.checkValueSetBinding(designation.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                            ValidationSupport.requireValueOrChildren(designation);
                         }
 
                         protected Builder from(Designation designation) {
@@ -2640,14 +2683,11 @@ public class ValueSet extends DomainResource {
                 @Required
                 private final String value;
 
-                private volatile int hashCode;
-
                 private Filter(Builder builder) {
                     super(builder);
-                    property = ValidationSupport.requireNonNull(builder.property, "property");
-                    op = ValidationSupport.requireNonNull(builder.op, "op");
-                    value = ValidationSupport.requireNonNull(builder.value, "value");
-                    ValidationSupport.requireValueOrChildren(this);
+                    property = builder.property;
+                    op = builder.op;
+                    value = builder.value;
                 }
 
                 /**
@@ -2931,7 +2971,19 @@ public class ValueSet extends DomainResource {
                      */
                     @Override
                     public Filter build() {
-                        return new Filter(this);
+                        Filter filter = new Filter(this);
+                        if (validating) {
+                            validate(filter);
+                        }
+                        return filter;
+                    }
+
+                    protected void validate(Filter filter) {
+                        super.validate(filter);
+                        ValidationSupport.requireNonNull(filter.property, "property");
+                        ValidationSupport.requireNonNull(filter.op, "op");
+                        ValidationSupport.requireNonNull(filter.value, "value");
+                        ValidationSupport.requireValueOrChildren(filter);
                     }
 
                     protected Builder from(Filter filter) {
@@ -2959,17 +3011,14 @@ public class ValueSet extends DomainResource {
         private final List<Parameter> parameter;
         private final List<Contains> contains;
 
-        private volatile int hashCode;
-
         private Expansion(Builder builder) {
             super(builder);
             identifier = builder.identifier;
-            timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
+            timestamp = builder.timestamp;
             total = builder.total;
             offset = builder.offset;
-            parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", Parameter.class));
-            contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", Contains.class));
-            ValidationSupport.requireValueOrChildren(this);
+            parameter = Collections.unmodifiableList(builder.parameter);
+            contains = Collections.unmodifiableList(builder.contains);
         }
 
         /**
@@ -3381,7 +3430,19 @@ public class ValueSet extends DomainResource {
              */
             @Override
             public Expansion build() {
-                return new Expansion(this);
+                Expansion expansion = new Expansion(this);
+                if (validating) {
+                    validate(expansion);
+                }
+                return expansion;
+            }
+
+            protected void validate(Expansion expansion) {
+                super.validate(expansion);
+                ValidationSupport.requireNonNull(expansion.timestamp, "timestamp");
+                ValidationSupport.checkList(expansion.parameter, "parameter", Parameter.class);
+                ValidationSupport.checkList(expansion.contains, "contains", Contains.class);
+                ValidationSupport.requireValueOrChildren(expansion);
             }
 
             protected Builder from(Expansion expansion) {
@@ -3406,13 +3467,10 @@ public class ValueSet extends DomainResource {
             @Choice({ String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class })
             private final Element value;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
-                value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
-                ValidationSupport.requireValueOrChildren(this);
+                name = builder.name;
+                value = builder.value;
             }
 
             /**
@@ -3668,7 +3726,18 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.name, "name");
+                    ValidationSupport.choiceElement(parameter.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3693,8 +3762,6 @@ public class ValueSet extends DomainResource {
             private final List<ValueSet.Compose.Include.Concept.Designation> designation;
             private final List<ValueSet.Expansion.Contains> contains;
 
-            private volatile int hashCode;
-
             private Contains(Builder builder) {
                 super(builder);
                 system = builder.system;
@@ -3703,9 +3770,8 @@ public class ValueSet extends DomainResource {
                 version = builder.version;
                 code = builder.code;
                 display = builder.display;
-                designation = Collections.unmodifiableList(ValidationSupport.checkList(builder.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class));
-                contains = Collections.unmodifiableList(ValidationSupport.checkList(builder.contains, "contains", ValueSet.Expansion.Contains.class));
-                ValidationSupport.requireValueOrChildren(this);
+                designation = Collections.unmodifiableList(builder.designation);
+                contains = Collections.unmodifiableList(builder.contains);
             }
 
             /**
@@ -4170,7 +4236,18 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Contains build() {
-                    return new Contains(this);
+                    Contains contains = new Contains(this);
+                    if (validating) {
+                        validate(contains);
+                    }
+                    return contains;
+                }
+
+                protected void validate(Contains contains) {
+                    super.validate(contains);
+                    ValidationSupport.checkList(contains.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class);
+                    ValidationSupport.checkList(contains.contains, "contains", ValueSet.Expansion.Contains.class);
+                    ValidationSupport.requireValueOrChildren(contains);
                 }
 
                 protected Builder from(Contains contains) {

@@ -171,39 +171,28 @@ public class ImagingStudy extends DomainResource {
     @Summary
     private final List<Series> series;
 
-    private volatile int hashCode;
-
     private ImagingStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        modality = Collections.unmodifiableList(ValidationSupport.checkList(builder.modality, "modality", Coding.class));
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        modality = Collections.unmodifiableList(builder.modality);
+        subject = builder.subject;
         encounter = builder.encounter;
         started = builder.started;
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
+        basedOn = Collections.unmodifiableList(builder.basedOn);
         referrer = builder.referrer;
-        interpreter = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpreter, "interpreter", Reference.class));
-        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
+        interpreter = Collections.unmodifiableList(builder.interpreter);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
         numberOfSeries = builder.numberOfSeries;
         numberOfInstances = builder.numberOfInstances;
         procedureReference = builder.procedureReference;
-        procedureCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedureCode, "procedureCode", CodeableConcept.class));
+        procedureCode = Collections.unmodifiableList(builder.procedureCode);
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
         description = builder.description;
-        series = Collections.unmodifiableList(ValidationSupport.checkList(builder.series, "series", Series.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
-        ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(interpreter, "interpreter", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
+        series = Collections.unmodifiableList(builder.series);
     }
 
     /**
@@ -1392,7 +1381,36 @@ public class ImagingStudy extends DomainResource {
          */
         @Override
         public ImagingStudy build() {
-            return new ImagingStudy(this);
+            ImagingStudy imagingStudy = new ImagingStudy(this);
+            if (validating) {
+                validate(imagingStudy);
+            }
+            return imagingStudy;
+        }
+
+        protected void validate(ImagingStudy imagingStudy) {
+            super.validate(imagingStudy);
+            ValidationSupport.checkList(imagingStudy.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(imagingStudy.status, "status");
+            ValidationSupport.checkList(imagingStudy.modality, "modality", Coding.class);
+            ValidationSupport.requireNonNull(imagingStudy.subject, "subject");
+            ValidationSupport.checkList(imagingStudy.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(imagingStudy.interpreter, "interpreter", Reference.class);
+            ValidationSupport.checkList(imagingStudy.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkList(imagingStudy.procedureCode, "procedureCode", CodeableConcept.class);
+            ValidationSupport.checkList(imagingStudy.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(imagingStudy.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(imagingStudy.note, "note", Annotation.class);
+            ValidationSupport.checkList(imagingStudy.series, "series", Series.class);
+            ValidationSupport.checkReferenceType(imagingStudy.subject, "subject", "Patient", "Device", "Group");
+            ValidationSupport.checkReferenceType(imagingStudy.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(imagingStudy.basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
+            ValidationSupport.checkReferenceType(imagingStudy.referrer, "referrer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.interpreter, "interpreter", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(imagingStudy.procedureReference, "procedureReference", "Procedure");
+            ValidationSupport.checkReferenceType(imagingStudy.location, "location", "Location");
+            ValidationSupport.checkReferenceType(imagingStudy.reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(ImagingStudy imagingStudy) {
@@ -1471,25 +1489,20 @@ public class ImagingStudy extends DomainResource {
         private final List<Performer> performer;
         private final List<Instance> instance;
 
-        private volatile int hashCode;
-
         private Series(Builder builder) {
             super(builder);
-            uid = ValidationSupport.requireNonNull(builder.uid, "uid");
+            uid = builder.uid;
             number = builder.number;
-            modality = ValidationSupport.requireNonNull(builder.modality, "modality");
+            modality = builder.modality;
             description = builder.description;
             numberOfInstances = builder.numberOfInstances;
-            endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
+            endpoint = Collections.unmodifiableList(builder.endpoint);
             bodySite = builder.bodySite;
             laterality = builder.laterality;
-            specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
+            specimen = Collections.unmodifiableList(builder.specimen);
             started = builder.started;
-            performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
-            instance = Collections.unmodifiableList(ValidationSupport.checkList(builder.instance, "instance", Instance.class));
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.requireValueOrChildren(this);
+            performer = Collections.unmodifiableList(builder.performer);
+            instance = Collections.unmodifiableList(builder.instance);
         }
 
         /**
@@ -2143,7 +2156,24 @@ public class ImagingStudy extends DomainResource {
              */
             @Override
             public Series build() {
-                return new Series(this);
+                Series series = new Series(this);
+                if (validating) {
+                    validate(series);
+                }
+                return series;
+            }
+
+            protected void validate(Series series) {
+                super.validate(series);
+                ValidationSupport.requireNonNull(series.uid, "uid");
+                ValidationSupport.requireNonNull(series.modality, "modality");
+                ValidationSupport.checkList(series.endpoint, "endpoint", Reference.class);
+                ValidationSupport.checkList(series.specimen, "specimen", Reference.class);
+                ValidationSupport.checkList(series.performer, "performer", Performer.class);
+                ValidationSupport.checkList(series.instance, "instance", Instance.class);
+                ValidationSupport.checkReferenceType(series.endpoint, "endpoint", "Endpoint");
+                ValidationSupport.checkReferenceType(series.specimen, "specimen", "Specimen");
+                ValidationSupport.requireValueOrChildren(series);
             }
 
             protected Builder from(Series series) {
@@ -2181,14 +2211,10 @@ public class ImagingStudy extends DomainResource {
             @Required
             private final Reference actor;
 
-            private volatile int hashCode;
-
             private Performer(Builder builder) {
                 super(builder);
                 function = builder.function;
-                actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-                ValidationSupport.requireValueOrChildren(this);
+                actor = builder.actor;
             }
 
             /**
@@ -2442,7 +2468,18 @@ public class ImagingStudy extends DomainResource {
                  */
                 @Override
                 public Performer build() {
-                    return new Performer(this);
+                    Performer performer = new Performer(this);
+                    if (validating) {
+                        validate(performer);
+                    }
+                    return performer;
+                }
+
+                protected void validate(Performer performer) {
+                    super.validate(performer);
+                    ValidationSupport.requireNonNull(performer.actor, "actor");
+                    ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+                    ValidationSupport.requireValueOrChildren(performer);
                 }
 
                 protected Builder from(Performer performer) {
@@ -2471,15 +2508,12 @@ public class ImagingStudy extends DomainResource {
             private final UnsignedInt number;
             private final String title;
 
-            private volatile int hashCode;
-
             private Instance(Builder builder) {
                 super(builder);
-                uid = ValidationSupport.requireNonNull(builder.uid, "uid");
-                sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
+                uid = builder.uid;
+                sopClass = builder.sopClass;
                 number = builder.number;
                 title = builder.title;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2783,7 +2817,18 @@ public class ImagingStudy extends DomainResource {
                  */
                 @Override
                 public Instance build() {
-                    return new Instance(this);
+                    Instance instance = new Instance(this);
+                    if (validating) {
+                        validate(instance);
+                    }
+                    return instance;
+                }
+
+                protected void validate(Instance instance) {
+                    super.validate(instance);
+                    ValidationSupport.requireNonNull(instance.uid, "uid");
+                    ValidationSupport.requireNonNull(instance.sopClass, "sopClass");
+                    ValidationSupport.requireValueOrChildren(instance);
                 }
 
                 protected Builder from(Instance instance) {

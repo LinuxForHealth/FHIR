@@ -218,25 +218,23 @@ public class ExplanationOfBenefit extends DomainResource {
     private final Period benefitPeriod;
     private final List<BenefitBalance> benefitBalance;
 
-    private volatile int hashCode;
-
     private ExplanationOfBenefit(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = builder.type;
         subType = builder.subType;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        use = builder.use;
+        patient = builder.patient;
         billablePeriod = builder.billablePeriod;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         enterer = builder.enterer;
-        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+        insurer = builder.insurer;
+        provider = builder.provider;
         priority = builder.priority;
         fundsReserveRequested = builder.fundsReserveRequested;
         fundsReserve = builder.fundsReserve;
-        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
+        related = Collections.unmodifiableList(builder.related);
         prescription = builder.prescription;
         originalPrescription = builder.originalPrescription;
         payee = builder.payee;
@@ -244,37 +242,27 @@ public class ExplanationOfBenefit extends DomainResource {
         facility = builder.facility;
         claim = builder.claim;
         claimResponse = builder.claimResponse;
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        outcome = builder.outcome;
         disposition = builder.disposition;
-        preAuthRef = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRef, "preAuthRef", String.class));
-        preAuthRefPeriod = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRefPeriod, "preAuthRefPeriod", Period.class));
-        careTeam = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeam, "careTeam", CareTeam.class));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", SupportingInfo.class));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
-        procedure = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedure, "procedure", Procedure.class));
+        preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
+        preAuthRefPeriod = Collections.unmodifiableList(builder.preAuthRefPeriod);
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        procedure = Collections.unmodifiableList(builder.procedure);
         precedence = builder.precedence;
-        insurance = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.insurance, "insurance", Insurance.class));
+        insurance = Collections.unmodifiableList(builder.insurance);
         accident = builder.accident;
-        item = Collections.unmodifiableList(ValidationSupport.checkList(builder.item, "item", Item.class));
-        addItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.addItem, "addItem", AddItem.class));
-        adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-        total = Collections.unmodifiableList(ValidationSupport.checkList(builder.total, "total", Total.class));
+        item = Collections.unmodifiableList(builder.item);
+        addItem = Collections.unmodifiableList(builder.addItem);
+        adjudication = Collections.unmodifiableList(builder.adjudication);
+        total = Collections.unmodifiableList(builder.total);
         payment = builder.payment;
         formCode = builder.formCode;
         form = builder.form;
-        processNote = Collections.unmodifiableList(ValidationSupport.checkList(builder.processNote, "processNote", ProcessNote.class));
+        processNote = Collections.unmodifiableList(builder.processNote);
         benefitPeriod = builder.benefitPeriod;
-        benefitBalance = Collections.unmodifiableList(ValidationSupport.checkList(builder.benefitBalance, "benefitBalance", BenefitBalance.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(prescription, "prescription", "MedicationRequest", "VisionPrescription");
-        ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "MedicationRequest");
-        ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
-        ValidationSupport.checkReferenceType(facility, "facility", "Location");
-        ValidationSupport.checkReferenceType(claim, "claim", "Claim");
-        ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
+        benefitBalance = Collections.unmodifiableList(builder.benefitBalance);
     }
 
     /**
@@ -2222,7 +2210,48 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         @Override
         public ExplanationOfBenefit build() {
-            return new ExplanationOfBenefit(this);
+            ExplanationOfBenefit explanationOfBenefit = new ExplanationOfBenefit(this);
+            if (validating) {
+                validate(explanationOfBenefit);
+            }
+            return explanationOfBenefit;
+        }
+
+        protected void validate(ExplanationOfBenefit explanationOfBenefit) {
+            super.validate(explanationOfBenefit);
+            ValidationSupport.checkList(explanationOfBenefit.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(explanationOfBenefit.status, "status");
+            ValidationSupport.requireNonNull(explanationOfBenefit.type, "type");
+            ValidationSupport.requireNonNull(explanationOfBenefit.use, "use");
+            ValidationSupport.requireNonNull(explanationOfBenefit.patient, "patient");
+            ValidationSupport.requireNonNull(explanationOfBenefit.created, "created");
+            ValidationSupport.requireNonNull(explanationOfBenefit.insurer, "insurer");
+            ValidationSupport.requireNonNull(explanationOfBenefit.provider, "provider");
+            ValidationSupport.checkList(explanationOfBenefit.related, "related", Related.class);
+            ValidationSupport.requireNonNull(explanationOfBenefit.outcome, "outcome");
+            ValidationSupport.checkList(explanationOfBenefit.preAuthRef, "preAuthRef", String.class);
+            ValidationSupport.checkList(explanationOfBenefit.preAuthRefPeriod, "preAuthRefPeriod", Period.class);
+            ValidationSupport.checkList(explanationOfBenefit.careTeam, "careTeam", CareTeam.class);
+            ValidationSupport.checkList(explanationOfBenefit.supportingInfo, "supportingInfo", SupportingInfo.class);
+            ValidationSupport.checkList(explanationOfBenefit.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.checkList(explanationOfBenefit.procedure, "procedure", Procedure.class);
+            ValidationSupport.checkNonEmptyList(explanationOfBenefit.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(explanationOfBenefit.item, "item", Item.class);
+            ValidationSupport.checkList(explanationOfBenefit.addItem, "addItem", AddItem.class);
+            ValidationSupport.checkList(explanationOfBenefit.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+            ValidationSupport.checkList(explanationOfBenefit.total, "total", Total.class);
+            ValidationSupport.checkList(explanationOfBenefit.processNote, "processNote", ProcessNote.class);
+            ValidationSupport.checkList(explanationOfBenefit.benefitBalance, "benefitBalance", BenefitBalance.class);
+            ValidationSupport.checkReferenceType(explanationOfBenefit.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.prescription, "prescription", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.originalPrescription, "originalPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.referral, "referral", "ServiceRequest");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.facility, "facility", "Location");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.claim, "claim", "Claim");
+            ValidationSupport.checkReferenceType(explanationOfBenefit.claimResponse, "claimResponse", "ClaimResponse");
         }
 
         protected Builder from(ExplanationOfBenefit explanationOfBenefit) {
@@ -2290,15 +2319,11 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept relationship;
         private final Identifier reference;
 
-        private volatile int hashCode;
-
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
-            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2568,7 +2593,17 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Related build() {
-                return new Related(this);
+                Related related = new Related(this);
+                if (validating) {
+                    validate(related);
+                }
+                return related;
+            }
+
+            protected void validate(Related related) {
+                super.validate(related);
+                ValidationSupport.checkReferenceType(related.claim, "claim", "Claim");
+                ValidationSupport.requireValueOrChildren(related);
             }
 
             protected Builder from(Related related) {
@@ -2595,14 +2630,10 @@ public class ExplanationOfBenefit extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Payee(Builder builder) {
             super(builder);
             type = builder.type;
             party = builder.party;
-            ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2847,7 +2878,17 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Payee build() {
-                return new Payee(this);
+                Payee payee = new Payee(this);
+                if (validating) {
+                    validate(payee);
+                }
+                return payee;
+            }
+
+            protected void validate(Payee payee) {
+                super.validate(payee);
+                ValidationSupport.checkReferenceType(payee.party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(payee);
             }
 
             protected Builder from(Payee payee) {
@@ -2884,17 +2925,13 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept qualification;
 
-        private volatile int hashCode;
-
         private CareTeam(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+            sequence = builder.sequence;
+            provider = builder.provider;
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3234,7 +3271,19 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public CareTeam build() {
-                return new CareTeam(this);
+                CareTeam careTeam = new CareTeam(this);
+                if (validating) {
+                    validate(careTeam);
+                }
+                return careTeam;
+            }
+
+            protected void validate(CareTeam careTeam) {
+                super.validate(careTeam);
+                ValidationSupport.requireNonNull(careTeam.sequence, "sequence");
+                ValidationSupport.requireNonNull(careTeam.provider, "provider");
+                ValidationSupport.checkReferenceType(careTeam.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(careTeam);
             }
 
             protected Builder from(CareTeam careTeam) {
@@ -3283,17 +3332,14 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final Coding reason;
 
-        private volatile int hashCode;
-
         private SupportingInfo(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            category = ValidationSupport.requireNonNull(builder.category, "category");
+            sequence = builder.sequence;
+            category = builder.category;
             code = builder.code;
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
-            value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+            timing = builder.timing;
+            value = builder.value;
             reason = builder.reason;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3674,7 +3720,20 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public SupportingInfo build() {
-                return new SupportingInfo(this);
+                SupportingInfo supportingInfo = new SupportingInfo(this);
+                if (validating) {
+                    validate(supportingInfo);
+                }
+                return supportingInfo;
+            }
+
+            protected void validate(SupportingInfo supportingInfo) {
+                super.validate(supportingInfo);
+                ValidationSupport.requireNonNull(supportingInfo.sequence, "sequence");
+                ValidationSupport.requireNonNull(supportingInfo.category, "category");
+                ValidationSupport.choiceElement(supportingInfo.timing, "timing", Date.class, Period.class);
+                ValidationSupport.choiceElement(supportingInfo.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+                ValidationSupport.requireValueOrChildren(supportingInfo);
             }
 
             protected Builder from(SupportingInfo supportingInfo) {
@@ -3728,17 +3787,13 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept packageCode;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            sequence = builder.sequence;
+            diagnosis = builder.diagnosis;
+            type = Collections.unmodifiableList(builder.type);
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
-            ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4104,7 +4159,20 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.sequence, "sequence");
+                ValidationSupport.requireChoiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(diagnosis.type, "type", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {
@@ -4146,18 +4214,13 @@ public class ExplanationOfBenefit extends DomainResource {
         @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
 
-        private volatile int hashCode;
-
         private Procedure(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
+            sequence = builder.sequence;
+            type = Collections.unmodifiableList(builder.type);
             date = builder.date;
-            procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-            ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            procedure = builder.procedure;
+            udi = Collections.unmodifiableList(builder.udi);
         }
 
         /**
@@ -4551,7 +4614,22 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Procedure build() {
-                return new Procedure(this);
+                Procedure procedure = new Procedure(this);
+                if (validating) {
+                    validate(procedure);
+                }
+                return procedure;
+            }
+
+            protected void validate(Procedure procedure) {
+                super.validate(procedure);
+                ValidationSupport.requireNonNull(procedure.sequence, "sequence");
+                ValidationSupport.checkList(procedure.type, "type", CodeableConcept.class);
+                ValidationSupport.requireChoiceElement(procedure.procedure, "procedure", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(procedure.udi, "udi", Reference.class);
+                ValidationSupport.checkReferenceType(procedure.procedure, "procedure", "Procedure");
+                ValidationSupport.checkReferenceType(procedure.udi, "udi", "Device");
+                ValidationSupport.requireValueOrChildren(procedure);
             }
 
             protected Builder from(Procedure procedure) {
@@ -4579,15 +4657,11 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Reference coverage;
         private final List<String> preAuthRef;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
-            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
-            preAuthRef = Collections.unmodifiableList(ValidationSupport.checkList(builder.preAuthRef, "preAuthRef", String.class));
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.requireValueOrChildren(this);
+            focal = builder.focal;
+            coverage = builder.coverage;
+            preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
         }
 
         /**
@@ -4892,7 +4966,20 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.focal, "focal");
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkList(insurance.preAuthRef, "preAuthRef", String.class);
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -4921,15 +5008,11 @@ public class ExplanationOfBenefit extends DomainResource {
         @Choice({ Address.class, Reference.class })
         private final Element location;
 
-        private volatile int hashCode;
-
         private Accident(Builder builder) {
             super(builder);
             date = builder.date;
             type = builder.type;
-            location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            location = builder.location;
         }
 
         /**
@@ -5207,7 +5290,18 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Accident build() {
-                return new Accident(this);
+                Accident accident = new Accident(this);
+                if (validating) {
+                    validate(accident);
+                }
+                return accident;
+            }
+
+            protected void validate(Accident accident) {
+                super.validate(accident);
+                ValidationSupport.choiceElement(accident.location, "location", Address.class, Reference.class);
+                ValidationSupport.checkReferenceType(accident.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(accident);
             }
 
             protected Builder from(Accident accident) {
@@ -5304,37 +5398,31 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            careTeamSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.careTeamSequence, "careTeamSequence", PositiveInt.class));
-            diagnosisSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosisSequence, "diagnosisSequence", PositiveInt.class));
-            procedureSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.procedureSequence, "procedureSequence", PositiveInt.class));
-            informationSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.informationSequence, "informationSequence", PositiveInt.class));
+            sequence = builder.sequence;
+            careTeamSequence = Collections.unmodifiableList(builder.careTeamSequence);
+            diagnosisSequence = Collections.unmodifiableList(builder.diagnosisSequence);
+            procedureSequence = Collections.unmodifiableList(builder.procedureSequence);
+            informationSequence = Collections.unmodifiableList(builder.informationSequence);
             revenue = builder.revenue;
             category = builder.category;
-            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
-            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = builder.serviced;
+            location = builder.location;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
-            udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
+            udi = Collections.unmodifiableList(builder.udi);
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
-            encounter = Collections.unmodifiableList(ValidationSupport.checkList(builder.encounter, "encounter", Reference.class));
-            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-            adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", Adjudication.class));
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.requireValueOrChildren(this);
+            subSite = Collections.unmodifiableList(builder.subSite);
+            encounter = Collections.unmodifiableList(builder.encounter);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -6476,7 +6564,35 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.sequence, "sequence");
+                ValidationSupport.checkList(item.careTeamSequence, "careTeamSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.diagnosisSequence, "diagnosisSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.procedureSequence, "procedureSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.informationSequence, "informationSequence", PositiveInt.class);
+                ValidationSupport.requireNonNull(item.productOrService, "productOrService");
+                ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(item.programCode, "programCode", CodeableConcept.class);
+                ValidationSupport.choiceElement(item.serviced, "serviced", Date.class, Period.class);
+                ValidationSupport.choiceElement(item.location, "location", CodeableConcept.class, Address.class, Reference.class);
+                ValidationSupport.checkList(item.udi, "udi", Reference.class);
+                ValidationSupport.checkList(item.subSite, "subSite", CodeableConcept.class);
+                ValidationSupport.checkList(item.encounter, "encounter", Reference.class);
+                ValidationSupport.checkList(item.noteNumber, "noteNumber", PositiveInt.class);
+                ValidationSupport.checkList(item.adjudication, "adjudication", Adjudication.class);
+                ValidationSupport.checkList(item.detail, "detail", Detail.class);
+                ValidationSupport.checkReferenceType(item.location, "location", "Location");
+                ValidationSupport.checkReferenceType(item.udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(item.encounter, "encounter", "Encounter");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -6531,15 +6647,12 @@ public class ExplanationOfBenefit extends DomainResource {
             private final Money amount;
             private final Decimal value;
 
-            private volatile int hashCode;
-
             private Adjudication(Builder builder) {
                 super(builder);
-                category = ValidationSupport.requireNonNull(builder.category, "category");
+                category = builder.category;
                 reason = builder.reason;
                 amount = builder.amount;
                 value = builder.value;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -6844,7 +6957,17 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 @Override
                 public Adjudication build() {
-                    return new Adjudication(this);
+                    Adjudication adjudication = new Adjudication(this);
+                    if (validating) {
+                        validate(adjudication);
+                    }
+                    return adjudication;
+                }
+
+                protected void validate(Adjudication adjudication) {
+                    super.validate(adjudication);
+                    ValidationSupport.requireNonNull(adjudication.category, "category");
+                    ValidationSupport.requireValueOrChildren(adjudication);
                 }
 
                 protected Builder from(Adjudication adjudication) {
@@ -6910,26 +7033,22 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                sequence = builder.sequence;
                 revenue = builder.revenue;
                 category = builder.category;
-                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-                programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
+                programCode = Collections.unmodifiableList(builder.programCode);
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-                adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                ValidationSupport.requireValueOrChildren(this);
+                udi = Collections.unmodifiableList(builder.udi);
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -7659,7 +7778,25 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.sequence, "sequence");
+                    ValidationSupport.requireNonNull(detail.productOrService, "productOrService");
+                    ValidationSupport.checkList(detail.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.programCode, "programCode", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.udi, "udi", Reference.class);
+                    ValidationSupport.checkList(detail.noteNumber, "noteNumber", PositiveInt.class);
+                    ValidationSupport.checkList(detail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.checkReferenceType(detail.udi, "udi", "Device");
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -7733,25 +7870,21 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
-                    sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                    sequence = builder.sequence;
                     revenue = builder.revenue;
                     category = builder.category;
-                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-                    programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
+                    productOrService = builder.productOrService;
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    programCode = Collections.unmodifiableList(builder.programCode);
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    udi = Collections.unmodifiableList(ValidationSupport.checkList(builder.udi, "udi", Reference.class));
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                    ValidationSupport.requireValueOrChildren(this);
+                    udi = Collections.unmodifiableList(builder.udi);
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -8432,7 +8565,24 @@ public class ExplanationOfBenefit extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.sequence, "sequence");
+                        ValidationSupport.requireNonNull(subDetail.productOrService, "productOrService");
+                        ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.programCode, "programCode", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.udi, "udi", Reference.class);
+                        ValidationSupport.checkList(subDetail.noteNumber, "noteNumber", PositiveInt.class);
+                        ValidationSupport.checkList(subDetail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                        ValidationSupport.checkReferenceType(subDetail.udi, "udi", "Device");
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {
@@ -8521,31 +8671,26 @@ public class ExplanationOfBenefit extends DomainResource {
         private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private AddItem(Builder builder) {
             super(builder);
-            itemSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.itemSequence, "itemSequence", PositiveInt.class));
-            detailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.detailSequence, "detailSequence", PositiveInt.class));
-            subDetailSequence = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetailSequence, "subDetailSequence", PositiveInt.class));
-            provider = Collections.unmodifiableList(ValidationSupport.checkList(builder.provider, "provider", Reference.class));
-            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
-            programCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.programCode, "programCode", CodeableConcept.class));
-            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            itemSequence = Collections.unmodifiableList(builder.itemSequence);
+            detailSequence = Collections.unmodifiableList(builder.detailSequence);
+            subDetailSequence = Collections.unmodifiableList(builder.subDetailSequence);
+            provider = Collections.unmodifiableList(builder.provider);
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = builder.serviced;
+            location = builder.location;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.checkList(builder.subSite, "subSite", CodeableConcept.class));
-            noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-            adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Detail.class));
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            subSite = Collections.unmodifiableList(builder.subSite);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -9493,7 +9638,31 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public AddItem build() {
-                return new AddItem(this);
+                AddItem addItem = new AddItem(this);
+                if (validating) {
+                    validate(addItem);
+                }
+                return addItem;
+            }
+
+            protected void validate(AddItem addItem) {
+                super.validate(addItem);
+                ValidationSupport.checkList(addItem.itemSequence, "itemSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.detailSequence, "detailSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.subDetailSequence, "subDetailSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.provider, "provider", Reference.class);
+                ValidationSupport.requireNonNull(addItem.productOrService, "productOrService");
+                ValidationSupport.checkList(addItem.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(addItem.programCode, "programCode", CodeableConcept.class);
+                ValidationSupport.choiceElement(addItem.serviced, "serviced", Date.class, Period.class);
+                ValidationSupport.choiceElement(addItem.location, "location", CodeableConcept.class, Address.class, Reference.class);
+                ValidationSupport.checkList(addItem.subSite, "subSite", CodeableConcept.class);
+                ValidationSupport.checkList(addItem.noteNumber, "noteNumber", PositiveInt.class);
+                ValidationSupport.checkList(addItem.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                ValidationSupport.checkList(addItem.detail, "detail", Detail.class);
+                ValidationSupport.checkReferenceType(addItem.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(addItem.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(addItem);
             }
 
             protected Builder from(AddItem addItem) {
@@ -9547,20 +9716,17 @@ public class ExplanationOfBenefit extends DomainResource {
             private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-                adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-                subDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.subDetail, "subDetail", SubDetail.class));
-                ValidationSupport.requireValueOrChildren(this);
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -10092,7 +10258,21 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.productOrService, "productOrService");
+                    ValidationSupport.checkList(detail.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.noteNumber, "noteNumber", PositiveInt.class);
+                    ValidationSupport.checkList(detail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -10136,19 +10316,16 @@ public class ExplanationOfBenefit extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ExplanationOfBenefit.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
-                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", CodeableConcept.class));
+                    productOrService = builder.productOrService;
+                    modifier = Collections.unmodifiableList(builder.modifier);
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.checkList(builder.noteNumber, "noteNumber", PositiveInt.class));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.checkList(builder.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class));
-                    ValidationSupport.requireValueOrChildren(this);
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -10631,7 +10808,20 @@ public class ExplanationOfBenefit extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.productOrService, "productOrService");
+                        ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.noteNumber, "noteNumber", PositiveInt.class);
+                        ValidationSupport.checkList(subDetail.adjudication, "adjudication", ExplanationOfBenefit.Item.Adjudication.class);
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {
@@ -10668,13 +10858,10 @@ public class ExplanationOfBenefit extends DomainResource {
         @Required
         private final Money amount;
 
-        private volatile int hashCode;
-
         private Total(Builder builder) {
             super(builder);
-            category = ValidationSupport.requireNonNull(builder.category, "category");
-            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-            ValidationSupport.requireValueOrChildren(this);
+            category = builder.category;
+            amount = builder.amount;
         }
 
         /**
@@ -10924,7 +11111,18 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Total build() {
-                return new Total(this);
+                Total total = new Total(this);
+                if (validating) {
+                    validate(total);
+                }
+                return total;
+            }
+
+            protected void validate(Total total) {
+                super.validate(total);
+                ValidationSupport.requireNonNull(total.category, "category");
+                ValidationSupport.requireNonNull(total.amount, "amount");
+                ValidationSupport.requireValueOrChildren(total);
             }
 
             protected Builder from(Total total) {
@@ -10959,8 +11157,6 @@ public class ExplanationOfBenefit extends DomainResource {
         private final Money amount;
         private final Identifier identifier;
 
-        private volatile int hashCode;
-
         private Payment(Builder builder) {
             super(builder);
             type = builder.type;
@@ -10969,7 +11165,6 @@ public class ExplanationOfBenefit extends DomainResource {
             date = builder.date;
             amount = builder.amount;
             identifier = builder.identifier;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -11323,7 +11518,16 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public Payment build() {
-                return new Payment(this);
+                Payment payment = new Payment(this);
+                if (validating) {
+                    validate(payment);
+                }
+                return payment;
+            }
+
+            protected void validate(Payment payment) {
+                super.validate(payment);
+                ValidationSupport.requireValueOrChildren(payment);
             }
 
             protected Builder from(Payment payment) {
@@ -11361,16 +11565,12 @@ public class ExplanationOfBenefit extends DomainResource {
         )
         private final CodeableConcept language;
 
-        private volatile int hashCode;
-
         private ProcessNote(Builder builder) {
             super(builder);
             number = builder.number;
             type = builder.type;
             text = builder.text;
             language = builder.language;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -11664,7 +11864,17 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public ProcessNote build() {
-                return new ProcessNote(this);
+                ProcessNote processNote = new ProcessNote(this);
+                if (validating) {
+                    validate(processNote);
+                }
+                return processNote;
+            }
+
+            protected void validate(ProcessNote processNote) {
+                super.validate(processNote);
+                ValidationSupport.checkValueSetBinding(processNote.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(processNote);
             }
 
             protected Builder from(ProcessNote processNote) {
@@ -11716,19 +11926,16 @@ public class ExplanationOfBenefit extends DomainResource {
         private final CodeableConcept term;
         private final List<Financial> financial;
 
-        private volatile int hashCode;
-
         private BenefitBalance(Builder builder) {
             super(builder);
-            category = ValidationSupport.requireNonNull(builder.category, "category");
+            category = builder.category;
             excluded = builder.excluded;
             name = builder.name;
             description = builder.description;
             network = builder.network;
             unit = builder.unit;
             term = builder.term;
-            financial = Collections.unmodifiableList(ValidationSupport.checkList(builder.financial, "financial", Financial.class));
-            ValidationSupport.requireValueOrChildren(this);
+            financial = Collections.unmodifiableList(builder.financial);
         }
 
         /**
@@ -12167,7 +12374,18 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             @Override
             public BenefitBalance build() {
-                return new BenefitBalance(this);
+                BenefitBalance benefitBalance = new BenefitBalance(this);
+                if (validating) {
+                    validate(benefitBalance);
+                }
+                return benefitBalance;
+            }
+
+            protected void validate(BenefitBalance benefitBalance) {
+                super.validate(benefitBalance);
+                ValidationSupport.requireNonNull(benefitBalance.category, "category");
+                ValidationSupport.checkList(benefitBalance.financial, "financial", Financial.class);
+                ValidationSupport.requireValueOrChildren(benefitBalance);
             }
 
             protected Builder from(BenefitBalance benefitBalance) {
@@ -12201,14 +12419,11 @@ public class ExplanationOfBenefit extends DomainResource {
             @Choice({ UnsignedInt.class, Money.class })
             private final Element used;
 
-            private volatile int hashCode;
-
             private Financial(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
-                used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, Money.class);
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                allowed = builder.allowed;
+                used = builder.used;
             }
 
             /**
@@ -12493,7 +12708,19 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 @Override
                 public Financial build() {
-                    return new Financial(this);
+                    Financial financial = new Financial(this);
+                    if (validating) {
+                        validate(financial);
+                    }
+                    return financial;
+                }
+
+                protected void validate(Financial financial) {
+                    super.validate(financial);
+                    ValidationSupport.requireNonNull(financial.type, "type");
+                    ValidationSupport.choiceElement(financial.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
+                    ValidationSupport.choiceElement(financial.used, "used", UnsignedInt.class, Money.class);
+                    ValidationSupport.requireValueOrChildren(financial);
                 }
 
                 protected Builder from(Financial financial) {

@@ -20,11 +20,8 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Code extends String {
-    private volatile int hashCode;
-
     protected Code(Builder builder) {
         super(builder);
-        ValidationSupport.checkCode(value);
     }
 
     @Override
@@ -199,7 +196,16 @@ public class Code extends String {
          */
         @Override
         public Code build() {
-            return new Code(this);
+            Code code = new Code(this);
+            if (validating) {
+                validate(code);
+            }
+            return code;
+        }
+
+        protected void validate(Code code) {
+            super.validate(code);
+            ValidationSupport.checkCode(code.value);
         }
 
         protected Builder from(Code code) {

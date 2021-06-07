@@ -230,11 +230,7 @@ public class NutritionOrderIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -289,7 +285,20 @@ public class NutritionOrderIntent extends Code {
 
         @Override
         public NutritionOrderIntent build() {
-            return new NutritionOrderIntent(this);
+            NutritionOrderIntent nutritionOrderIntent = new NutritionOrderIntent(this);
+            if (validating) {
+                validate(nutritionOrderIntent);
+            }
+            return nutritionOrderIntent;
+        }
+
+        protected void validate(NutritionOrderIntent nutritionOrderIntent) {
+            super.validate(nutritionOrderIntent);
+        }
+
+        protected Builder from(NutritionOrderIntent nutritionOrderIntent) {
+            super.from(nutritionOrderIntent);
+            return this;
         }
     }
 

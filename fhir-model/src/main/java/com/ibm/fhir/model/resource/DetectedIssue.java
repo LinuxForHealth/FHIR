@@ -112,24 +112,20 @@ public class DetectedIssue extends DomainResource {
     private final Uri reference;
     private final List<Mitigation> mitigation;
 
-    private volatile int hashCode;
-
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
-        identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
+        identified = builder.identified;
         author = builder.author;
-        implicated = Collections.unmodifiableList(ValidationSupport.checkList(builder.implicated, "implicated", Reference.class));
-        evidence = Collections.unmodifiableList(ValidationSupport.checkList(builder.evidence, "evidence", Evidence.class));
+        implicated = Collections.unmodifiableList(builder.implicated);
+        evidence = Collections.unmodifiableList(builder.evidence);
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = Collections.unmodifiableList(ValidationSupport.checkList(builder.mitigation, "mitigation", Mitigation.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
+        mitigation = Collections.unmodifiableList(builder.mitigation);
     }
 
     /**
@@ -881,7 +877,23 @@ public class DetectedIssue extends DomainResource {
          */
         @Override
         public DetectedIssue build() {
-            return new DetectedIssue(this);
+            DetectedIssue detectedIssue = new DetectedIssue(this);
+            if (validating) {
+                validate(detectedIssue);
+            }
+            return detectedIssue;
+        }
+
+        protected void validate(DetectedIssue detectedIssue) {
+            super.validate(detectedIssue);
+            ValidationSupport.checkList(detectedIssue.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(detectedIssue.status, "status");
+            ValidationSupport.choiceElement(detectedIssue.identified, "identified", DateTime.class, Period.class);
+            ValidationSupport.checkList(detectedIssue.implicated, "implicated", Reference.class);
+            ValidationSupport.checkList(detectedIssue.evidence, "evidence", Evidence.class);
+            ValidationSupport.checkList(detectedIssue.mitigation, "mitigation", Mitigation.class);
+            ValidationSupport.checkReferenceType(detectedIssue.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(detectedIssue.author, "author", "Practitioner", "PractitionerRole", "Device");
         }
 
         protected Builder from(DetectedIssue detectedIssue) {
@@ -916,13 +928,10 @@ public class DetectedIssue extends DomainResource {
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
-            detail = Collections.unmodifiableList(ValidationSupport.checkList(builder.detail, "detail", Reference.class));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1198,7 +1207,18 @@ public class DetectedIssue extends DomainResource {
              */
             @Override
             public Evidence build() {
-                return new Evidence(this);
+                Evidence evidence = new Evidence(this);
+                if (validating) {
+                    validate(evidence);
+                }
+                return evidence;
+            }
+
+            protected void validate(Evidence evidence) {
+                super.validate(evidence);
+                ValidationSupport.checkList(evidence.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(evidence.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(evidence);
             }
 
             protected Builder from(Evidence evidence) {
@@ -1228,15 +1248,11 @@ public class DetectedIssue extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference author;
 
-        private volatile int hashCode;
-
         private Mitigation(Builder builder) {
             super(builder);
-            action = ValidationSupport.requireNonNull(builder.action, "action");
+            action = builder.action;
             date = builder.date;
             author = builder.author;
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1516,7 +1532,18 @@ public class DetectedIssue extends DomainResource {
              */
             @Override
             public Mitigation build() {
-                return new Mitigation(this);
+                Mitigation mitigation = new Mitigation(this);
+                if (validating) {
+                    validate(mitigation);
+                }
+                return mitigation;
+            }
+
+            protected void validate(Mitigation mitigation) {
+                super.validate(mitigation);
+                ValidationSupport.requireNonNull(mitigation.action, "action");
+                ValidationSupport.checkReferenceType(mitigation.author, "author", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(mitigation);
             }
 
             protected Builder from(Mitigation mitigation) {

@@ -143,34 +143,25 @@ public class MedicationStatement extends DomainResource {
     private final List<Annotation> note;
     private final List<Dosage> dosage;
 
-    private volatile int hashCode;
-
     private MedicationStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusReason, "statusReason", CodeableConcept.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        statusReason = Collections.unmodifiableList(builder.statusReason);
         category = builder.category;
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        medication = builder.medication;
+        subject = builder.subject;
         context = builder.context;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         dateAsserted = builder.dateAsserted;
         informationSource = builder.informationSource;
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Reference.class));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        dosage = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosage, "dosage", Dosage.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        dosage = Collections.unmodifiableList(builder.dosage);
     }
 
     /**
@@ -1248,7 +1239,35 @@ public class MedicationStatement extends DomainResource {
          */
         @Override
         public MedicationStatement build() {
-            return new MedicationStatement(this);
+            MedicationStatement medicationStatement = new MedicationStatement(this);
+            if (validating) {
+                validate(medicationStatement);
+            }
+            return medicationStatement;
+        }
+
+        protected void validate(MedicationStatement medicationStatement) {
+            super.validate(medicationStatement);
+            ValidationSupport.checkList(medicationStatement.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicationStatement.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(medicationStatement.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(medicationStatement.status, "status");
+            ValidationSupport.checkList(medicationStatement.statusReason, "statusReason", CodeableConcept.class);
+            ValidationSupport.requireChoiceElement(medicationStatement.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(medicationStatement.subject, "subject");
+            ValidationSupport.choiceElement(medicationStatement.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(medicationStatement.derivedFrom, "derivedFrom", Reference.class);
+            ValidationSupport.checkList(medicationStatement.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(medicationStatement.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(medicationStatement.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationStatement.dosage, "dosage", Dosage.class);
+            ValidationSupport.checkReferenceType(medicationStatement.basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(medicationStatement.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
+            ValidationSupport.checkReferenceType(medicationStatement.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationStatement.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationStatement.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationStatement.informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(medicationStatement.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(MedicationStatement medicationStatement) {

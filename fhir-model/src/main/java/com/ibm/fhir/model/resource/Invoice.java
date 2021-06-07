@@ -92,30 +92,24 @@ public class Invoice extends DomainResource {
     private final Markdown paymentTerms;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Invoice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         cancelledReason = builder.cancelledReason;
         type = builder.type;
         subject = builder.subject;
         recipient = builder.recipient;
         date = builder.date;
-        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
+        participant = Collections.unmodifiableList(builder.participant);
         issuer = builder.issuer;
         account = builder.account;
-        lineItem = Collections.unmodifiableList(ValidationSupport.checkList(builder.lineItem, "lineItem", LineItem.class));
-        totalPriceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class));
+        lineItem = Collections.unmodifiableList(builder.lineItem);
+        totalPriceComponent = Collections.unmodifiableList(builder.totalPriceComponent);
         totalNet = builder.totalNet;
         totalGross = builder.totalGross;
         paymentTerms = builder.paymentTerms;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1006,7 +1000,25 @@ public class Invoice extends DomainResource {
          */
         @Override
         public Invoice build() {
-            return new Invoice(this);
+            Invoice invoice = new Invoice(this);
+            if (validating) {
+                validate(invoice);
+            }
+            return invoice;
+        }
+
+        protected void validate(Invoice invoice) {
+            super.validate(invoice);
+            ValidationSupport.checkList(invoice.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(invoice.status, "status");
+            ValidationSupport.checkList(invoice.participant, "participant", Participant.class);
+            ValidationSupport.checkList(invoice.lineItem, "lineItem", LineItem.class);
+            ValidationSupport.checkList(invoice.totalPriceComponent, "totalPriceComponent", Invoice.LineItem.PriceComponent.class);
+            ValidationSupport.checkList(invoice.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(invoice.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(invoice.recipient, "recipient", "Organization", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(invoice.issuer, "issuer", "Organization");
+            ValidationSupport.checkReferenceType(invoice.account, "account", "Account");
         }
 
         protected Builder from(Invoice invoice) {
@@ -1040,14 +1052,10 @@ public class Invoice extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
             role = builder.role;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1302,7 +1310,18 @@ public class Invoice extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.requireNonNull(participant.actor, "actor");
+                ValidationSupport.checkReferenceType(participant.actor, "actor", "Practitioner", "Organization", "Patient", "PractitionerRole", "Device", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -1326,15 +1345,11 @@ public class Invoice extends DomainResource {
         private final Element chargeItem;
         private final List<PriceComponent> priceComponent;
 
-        private volatile int hashCode;
-
         private LineItem(Builder builder) {
             super(builder);
             sequence = builder.sequence;
-            chargeItem = ValidationSupport.requireChoiceElement(builder.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
-            priceComponent = Collections.unmodifiableList(ValidationSupport.checkList(builder.priceComponent, "priceComponent", PriceComponent.class));
-            ValidationSupport.checkReferenceType(chargeItem, "chargeItem", "ChargeItem");
-            ValidationSupport.requireValueOrChildren(this);
+            chargeItem = builder.chargeItem;
+            priceComponent = Collections.unmodifiableList(builder.priceComponent);
         }
 
         /**
@@ -1648,7 +1663,19 @@ public class Invoice extends DomainResource {
              */
             @Override
             public LineItem build() {
-                return new LineItem(this);
+                LineItem lineItem = new LineItem(this);
+                if (validating) {
+                    validate(lineItem);
+                }
+                return lineItem;
+            }
+
+            protected void validate(LineItem lineItem) {
+                super.validate(lineItem);
+                ValidationSupport.requireChoiceElement(lineItem.chargeItem, "chargeItem", Reference.class, CodeableConcept.class);
+                ValidationSupport.checkList(lineItem.priceComponent, "priceComponent", PriceComponent.class);
+                ValidationSupport.checkReferenceType(lineItem.chargeItem, "chargeItem", "ChargeItem");
+                ValidationSupport.requireValueOrChildren(lineItem);
             }
 
             protected Builder from(LineItem lineItem) {
@@ -1679,15 +1706,12 @@ public class Invoice extends DomainResource {
             private final Decimal factor;
             private final Money amount;
 
-            private volatile int hashCode;
-
             private PriceComponent(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1990,7 +2014,17 @@ public class Invoice extends DomainResource {
                  */
                 @Override
                 public PriceComponent build() {
-                    return new PriceComponent(this);
+                    PriceComponent priceComponent = new PriceComponent(this);
+                    if (validating) {
+                        validate(priceComponent);
+                    }
+                    return priceComponent;
+                }
+
+                protected void validate(PriceComponent priceComponent) {
+                    super.validate(priceComponent);
+                    ValidationSupport.requireNonNull(priceComponent.type, "type");
+                    ValidationSupport.requireValueOrChildren(priceComponent);
                 }
 
                 protected Builder from(PriceComponent priceComponent) {

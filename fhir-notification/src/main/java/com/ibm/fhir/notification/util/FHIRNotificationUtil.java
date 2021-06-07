@@ -8,13 +8,13 @@ package com.ibm.fhir.notification.util;
 
 import java.io.StringReader;
 
-import javax.json.Json;
-import javax.json.JsonBuilderFactory;
-import javax.json.JsonException;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonException;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.util.JsonSupport;

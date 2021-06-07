@@ -169,11 +169,7 @@ public class SubscriptionStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class SubscriptionStatus extends Code {
 
         @Override
         public SubscriptionStatus build() {
-            return new SubscriptionStatus(this);
+            SubscriptionStatus subscriptionStatus = new SubscriptionStatus(this);
+            if (validating) {
+                validate(subscriptionStatus);
+            }
+            return subscriptionStatus;
+        }
+
+        protected void validate(SubscriptionStatus subscriptionStatus) {
+            super.validate(subscriptionStatus);
+        }
+
+        protected Builder from(SubscriptionStatus subscriptionStatus) {
+            super.from(subscriptionStatus);
+            return this;
         }
     }
 

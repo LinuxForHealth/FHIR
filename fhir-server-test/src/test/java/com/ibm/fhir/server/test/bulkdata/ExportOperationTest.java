@@ -33,11 +33,11 @@ import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.ws.rs.client.Entity;
@@ -723,6 +723,19 @@ public class ExportOperationTest extends FHIRServerTestBase {
         } else {
             System.out.println("Base Export Test Disabled, Skipping");
         }
+    }
+
+    @Test
+    public void testBaseExportToNotExistsStorageProvider() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Patient");
+            Response response =
+                    doPost(BASE_VALID_URL, FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON, Instant.of("2019-01-01T08:21:26.94-04:00"), types, null, "idontexist", "idontexist2");
+            assertEquals(response.getStatus(), Response.Status.INTERNAL_SERVER_ERROR.getStatusCode());
+        } else {
+            System.out.println("Export Tests are Disabled, Skipping");
+        }
+
     }
 
     /**

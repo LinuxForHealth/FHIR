@@ -67,8 +67,6 @@ public class Attachment extends Element {
     @Summary
     private final DateTime creation;
 
-    private volatile int hashCode;
-
     private Attachment(Builder builder) {
         super(builder);
         contentType = builder.contentType;
@@ -79,8 +77,6 @@ public class Attachment extends Element {
         hash = builder.hash;
         title = builder.title;
         creation = builder.creation;
-        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -441,7 +437,17 @@ public class Attachment extends Element {
          */
         @Override
         public Attachment build() {
-            return new Attachment(this);
+            Attachment attachment = new Attachment(this);
+            if (validating) {
+                validate(attachment);
+            }
+            return attachment;
+        }
+
+        protected void validate(Attachment attachment) {
+            super.validate(attachment);
+            ValidationSupport.checkValueSetBinding(attachment.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.requireValueOrChildren(attachment);
         }
 
         protected Builder from(Attachment attachment) {

@@ -128,24 +128,19 @@ public class MeasureReport extends DomainResource {
     private final List<Group> group;
     private final List<Reference> evaluatedResource;
 
-    private volatile int hashCode;
-
     private MeasureReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        measure = ValidationSupport.requireNonNull(builder.measure, "measure");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = builder.type;
+        measure = builder.measure;
         subject = builder.subject;
         date = builder.date;
         reporter = builder.reporter;
-        period = ValidationSupport.requireNonNull(builder.period, "period");
+        period = builder.period;
         improvementNotation = builder.improvementNotation;
-        group = Collections.unmodifiableList(ValidationSupport.checkList(builder.group, "group", Group.class));
-        evaluatedResource = Collections.unmodifiableList(ValidationSupport.checkList(builder.evaluatedResource, "evaluatedResource", Reference.class));
-        ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
-        ValidationSupport.checkReferenceType(reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
+        group = Collections.unmodifiableList(builder.group);
+        evaluatedResource = Collections.unmodifiableList(builder.evaluatedResource);
     }
 
     /**
@@ -858,7 +853,25 @@ public class MeasureReport extends DomainResource {
          */
         @Override
         public MeasureReport build() {
-            return new MeasureReport(this);
+            MeasureReport measureReport = new MeasureReport(this);
+            if (validating) {
+                validate(measureReport);
+            }
+            return measureReport;
+        }
+
+        protected void validate(MeasureReport measureReport) {
+            super.validate(measureReport);
+            ValidationSupport.checkList(measureReport.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(measureReport.status, "status");
+            ValidationSupport.requireNonNull(measureReport.type, "type");
+            ValidationSupport.requireNonNull(measureReport.measure, "measure");
+            ValidationSupport.requireNonNull(measureReport.period, "period");
+            ValidationSupport.checkList(measureReport.group, "group", Group.class);
+            ValidationSupport.checkList(measureReport.evaluatedResource, "evaluatedResource", Reference.class);
+            ValidationSupport.checkValueSetBinding(measureReport.improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+            ValidationSupport.checkReferenceType(measureReport.subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Location", "Device", "RelatedPerson", "Group");
+            ValidationSupport.checkReferenceType(measureReport.reporter, "reporter", "Practitioner", "PractitionerRole", "Location", "Organization");
         }
 
         protected Builder from(MeasureReport measureReport) {
@@ -889,15 +902,12 @@ public class MeasureReport extends DomainResource {
         private final Quantity measureScore;
         private final List<Stratifier> stratifier;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
-            population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
+            population = Collections.unmodifiableList(builder.population);
             measureScore = builder.measureScore;
-            stratifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratifier, "stratifier", Stratifier.class));
-            ValidationSupport.requireValueOrChildren(this);
+            stratifier = Collections.unmodifiableList(builder.stratifier);
         }
 
         /**
@@ -1236,7 +1246,18 @@ public class MeasureReport extends DomainResource {
              */
             @Override
             public Group build() {
-                return new Group(this);
+                Group group = new Group(this);
+                if (validating) {
+                    validate(group);
+                }
+                return group;
+            }
+
+            protected void validate(Group group) {
+                super.validate(group);
+                ValidationSupport.checkList(group.population, "population", Population.class);
+                ValidationSupport.checkList(group.stratifier, "stratifier", Stratifier.class);
+                ValidationSupport.requireValueOrChildren(group);
             }
 
             protected Builder from(Group group) {
@@ -1265,15 +1286,11 @@ public class MeasureReport extends DomainResource {
             @ReferenceTarget({ "List" })
             private final Reference subjectResults;
 
-            private volatile int hashCode;
-
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
                 count = builder.count;
                 subjectResults = builder.subjectResults;
-                ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1544,7 +1561,17 @@ public class MeasureReport extends DomainResource {
                  */
                 @Override
                 public Population build() {
-                    return new Population(this);
+                    Population population = new Population(this);
+                    if (validating) {
+                        validate(population);
+                    }
+                    return population;
+                }
+
+                protected void validate(Population population) {
+                    super.validate(population);
+                    ValidationSupport.checkReferenceType(population.subjectResults, "subjectResults", "List");
+                    ValidationSupport.requireValueOrChildren(population);
                 }
 
                 protected Builder from(Population population) {
@@ -1565,13 +1592,10 @@ public class MeasureReport extends DomainResource {
             private final List<CodeableConcept> code;
             private final List<Stratum> stratum;
 
-            private volatile int hashCode;
-
             private Stratifier(Builder builder) {
                 super(builder);
-                code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", CodeableConcept.class));
-                stratum = Collections.unmodifiableList(ValidationSupport.checkList(builder.stratum, "stratum", Stratum.class));
-                ValidationSupport.requireValueOrChildren(this);
+                code = Collections.unmodifiableList(builder.code);
+                stratum = Collections.unmodifiableList(builder.stratum);
             }
 
             /**
@@ -1850,7 +1874,18 @@ public class MeasureReport extends DomainResource {
                  */
                 @Override
                 public Stratifier build() {
-                    return new Stratifier(this);
+                    Stratifier stratifier = new Stratifier(this);
+                    if (validating) {
+                        validate(stratifier);
+                    }
+                    return stratifier;
+                }
+
+                protected void validate(Stratifier stratifier) {
+                    super.validate(stratifier);
+                    ValidationSupport.checkList(stratifier.code, "code", CodeableConcept.class);
+                    ValidationSupport.checkList(stratifier.stratum, "stratum", Stratum.class);
+                    ValidationSupport.requireValueOrChildren(stratifier);
                 }
 
                 protected Builder from(Stratifier stratifier) {
@@ -1871,15 +1906,12 @@ public class MeasureReport extends DomainResource {
                 private final List<Population> population;
                 private final Quantity measureScore;
 
-                private volatile int hashCode;
-
                 private Stratum(Builder builder) {
                     super(builder);
                     value = builder.value;
-                    component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
-                    population = Collections.unmodifiableList(ValidationSupport.checkList(builder.population, "population", Population.class));
+                    component = Collections.unmodifiableList(builder.component);
+                    population = Collections.unmodifiableList(builder.population);
                     measureScore = builder.measureScore;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2217,7 +2249,18 @@ public class MeasureReport extends DomainResource {
                      */
                     @Override
                     public Stratum build() {
-                        return new Stratum(this);
+                        Stratum stratum = new Stratum(this);
+                        if (validating) {
+                            validate(stratum);
+                        }
+                        return stratum;
+                    }
+
+                    protected void validate(Stratum stratum) {
+                        super.validate(stratum);
+                        ValidationSupport.checkList(stratum.component, "component", Component.class);
+                        ValidationSupport.checkList(stratum.population, "population", Population.class);
+                        ValidationSupport.requireValueOrChildren(stratum);
                     }
 
                     protected Builder from(Stratum stratum) {
@@ -2239,13 +2282,10 @@ public class MeasureReport extends DomainResource {
                     @Required
                     private final CodeableConcept value;
 
-                    private volatile int hashCode;
-
                     private Component(Builder builder) {
                         super(builder);
-                        code = ValidationSupport.requireNonNull(builder.code, "code");
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.requireValueOrChildren(this);
+                        code = builder.code;
+                        value = builder.value;
                     }
 
                     /**
@@ -2491,7 +2531,18 @@ public class MeasureReport extends DomainResource {
                          */
                         @Override
                         public Component build() {
-                            return new Component(this);
+                            Component component = new Component(this);
+                            if (validating) {
+                                validate(component);
+                            }
+                            return component;
+                        }
+
+                        protected void validate(Component component) {
+                            super.validate(component);
+                            ValidationSupport.requireNonNull(component.code, "code");
+                            ValidationSupport.requireNonNull(component.value, "value");
+                            ValidationSupport.requireValueOrChildren(component);
                         }
 
                         protected Builder from(Component component) {
@@ -2518,15 +2569,11 @@ public class MeasureReport extends DomainResource {
                     @ReferenceTarget({ "List" })
                     private final Reference subjectResults;
 
-                    private volatile int hashCode;
-
                     private Population(Builder builder) {
                         super(builder);
                         code = builder.code;
                         count = builder.count;
                         subjectResults = builder.subjectResults;
-                        ValidationSupport.checkReferenceType(subjectResults, "subjectResults", "List");
-                        ValidationSupport.requireValueOrChildren(this);
                     }
 
                     /**
@@ -2799,7 +2846,17 @@ public class MeasureReport extends DomainResource {
                          */
                         @Override
                         public Population build() {
-                            return new Population(this);
+                            Population population = new Population(this);
+                            if (validating) {
+                                validate(population);
+                            }
+                            return population;
+                        }
+
+                        protected void validate(Population population) {
+                            super.validate(population);
+                            ValidationSupport.checkReferenceType(population.subjectResults, "subjectResults", "List");
+                            ValidationSupport.requireValueOrChildren(population);
                         }
 
                         protected Builder from(Population population) {

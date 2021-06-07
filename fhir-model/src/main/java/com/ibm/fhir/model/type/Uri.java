@@ -21,13 +21,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Uri extends Element {
     protected final java.lang.String value;
 
-    private volatile int hashCode;
-
     protected Uri(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkUri(value);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -208,7 +204,17 @@ public class Uri extends Element {
          */
         @Override
         public Uri build() {
-            return new Uri(this);
+            Uri uri = new Uri(this);
+            if (validating) {
+                validate(uri);
+            }
+            return uri;
+        }
+
+        protected void validate(Uri uri) {
+            super.validate(uri);
+            ValidationSupport.checkUri(uri.value);
+            ValidationSupport.requireValueOrChildren(uri);
         }
 
         protected Builder from(Uri uri) {

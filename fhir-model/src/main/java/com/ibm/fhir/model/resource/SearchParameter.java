@@ -180,36 +180,34 @@ public class SearchParameter extends DomainResource {
     private final List<String> chain;
     private final List<Component> component;
 
-    private volatile int hashCode;
-
     private SearchParameter(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         derivedFrom = builder.derivedFrom;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
-        description = ValidationSupport.requireNonNull(builder.description, "description");
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        base = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.base, "base", ResourceType.class));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        code = builder.code;
+        base = Collections.unmodifiableList(builder.base);
+        type = builder.type;
         expression = builder.expression;
         xpath = builder.xpath;
         xpathUsage = builder.xpathUsage;
-        target = Collections.unmodifiableList(ValidationSupport.checkList(builder.target, "target", ResourceType.class));
+        target = Collections.unmodifiableList(builder.target);
         multipleOr = builder.multipleOr;
         multipleAnd = builder.multipleAnd;
-        comparator = Collections.unmodifiableList(ValidationSupport.checkList(builder.comparator, "comparator", SearchComparator.class));
-        modifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.modifier, "modifier", SearchModifierCode.class));
-        chain = Collections.unmodifiableList(ValidationSupport.checkList(builder.chain, "chain", String.class));
-        component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
+        comparator = Collections.unmodifiableList(builder.comparator);
+        modifier = Collections.unmodifiableList(builder.modifier);
+        chain = Collections.unmodifiableList(builder.chain);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -1501,7 +1499,30 @@ public class SearchParameter extends DomainResource {
          */
         @Override
         public SearchParameter build() {
-            return new SearchParameter(this);
+            SearchParameter searchParameter = new SearchParameter(this);
+            if (validating) {
+                validate(searchParameter);
+            }
+            return searchParameter;
+        }
+
+        protected void validate(SearchParameter searchParameter) {
+            super.validate(searchParameter);
+            ValidationSupport.requireNonNull(searchParameter.url, "url");
+            ValidationSupport.requireNonNull(searchParameter.name, "name");
+            ValidationSupport.requireNonNull(searchParameter.status, "status");
+            ValidationSupport.checkList(searchParameter.contact, "contact", ContactDetail.class);
+            ValidationSupport.requireNonNull(searchParameter.description, "description");
+            ValidationSupport.checkList(searchParameter.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(searchParameter.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(searchParameter.code, "code");
+            ValidationSupport.checkNonEmptyList(searchParameter.base, "base", ResourceType.class);
+            ValidationSupport.requireNonNull(searchParameter.type, "type");
+            ValidationSupport.checkList(searchParameter.target, "target", ResourceType.class);
+            ValidationSupport.checkList(searchParameter.comparator, "comparator", SearchComparator.class);
+            ValidationSupport.checkList(searchParameter.modifier, "modifier", SearchModifierCode.class);
+            ValidationSupport.checkList(searchParameter.chain, "chain", String.class);
+            ValidationSupport.checkList(searchParameter.component, "component", Component.class);
         }
 
         protected Builder from(SearchParameter searchParameter) {
@@ -1545,13 +1566,10 @@ public class SearchParameter extends DomainResource {
         @Required
         private final String expression;
 
-        private volatile int hashCode;
-
         private Component(Builder builder) {
             super(builder);
-            definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            definition = builder.definition;
+            expression = builder.expression;
         }
 
         /**
@@ -1799,7 +1817,18 @@ public class SearchParameter extends DomainResource {
              */
             @Override
             public Component build() {
-                return new Component(this);
+                Component component = new Component(this);
+                if (validating) {
+                    validate(component);
+                }
+                return component;
+            }
+
+            protected void validate(Component component) {
+                super.validate(component);
+                ValidationSupport.requireNonNull(component.definition, "definition");
+                ValidationSupport.requireNonNull(component.expression, "expression");
+                ValidationSupport.requireValueOrChildren(component);
             }
 
             protected Builder from(Component component) {

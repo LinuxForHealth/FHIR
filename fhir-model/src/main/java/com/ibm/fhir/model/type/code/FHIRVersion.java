@@ -367,11 +367,7 @@ public class FHIRVersion extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -426,7 +422,20 @@ public class FHIRVersion extends Code {
 
         @Override
         public FHIRVersion build() {
-            return new FHIRVersion(this);
+            FHIRVersion fHIRVersion = new FHIRVersion(this);
+            if (validating) {
+                validate(fHIRVersion);
+            }
+            return fHIRVersion;
+        }
+
+        protected void validate(FHIRVersion fHIRVersion) {
+            super.validate(fHIRVersion);
+        }
+
+        protected Builder from(FHIRVersion fHIRVersion) {
+            super.from(fHIRVersion);
+            return this;
         }
     }
 

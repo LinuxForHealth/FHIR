@@ -21,11 +21,13 @@
         },
         "CareTeam": {
         },
+        "CodeSystem": {
+        },
         "Condition": {
         },
-        "Coverage": {
+        "Consent": {
         },
-        "CodeSystem": {
+        "Coverage": {
         },
         "Device": {
         },
@@ -54,6 +56,8 @@
         "MedicationDispense": {
         },
         "MedicationRequest": {
+        },
+        "MedicationStatement": {
         },
         "Observation": {
         },
@@ -174,32 +178,19 @@
           "truststorePassword": "change-password",
           "trustAll": true
         },
-        "cos" : {
-          "partUploadTriggerSizeMB": 10,
-          "objectSizeThresholdMB": 200,
-          "objectResourceCountThreshold": 200000,
-          "useServerTruststore": true
-        },
-        "pageSize": 100,
-        "batchIdEncryptionKey": "change-password",
-        "maxPartitions": 3,
-        "maxInputs": 5
+        "defaultImportProvider": "in",
+        "defaultExportProvider": "out"
       },
       "storageProviders": {
-        "default" : {
-          "type": "ibm-cos",
-          "bucketName": "${COS_BUCKET}",
-          "location": "${COS_LOCATION}",
-          "endpointInternal": "${COS_ENDPOINT_INTERNAL}",
-          "endpointExternal": "${COS_ENDPOINT_EXTERNAL}",
-          "auth" : {
-            "type": "hmac",
-            "accessKeyId": "${COS_ACCESS_KEY}",
-            "secretAccessKey": "${COS_SECRET_KEY}"
-          },
-          "__exportPublic": false,
-          "__disableOperationOutcomes": true,
-          "presigned": true
+        "in" : {
+            "type": "file",
+            "fileBase": "/output/bulkdata/in",
+            "duplicationCheck": false,
+            "validateResources": false
+        },
+        "out" : {
+            "type": "file",
+            "fileBase": "/output/bulkdata/out"
         }
       }
     }

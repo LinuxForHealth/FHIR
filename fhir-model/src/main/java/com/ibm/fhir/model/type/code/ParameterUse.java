@@ -147,11 +147,7 @@ public class ParameterUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class ParameterUse extends Code {
 
         @Override
         public ParameterUse build() {
-            return new ParameterUse(this);
+            ParameterUse parameterUse = new ParameterUse(this);
+            if (validating) {
+                validate(parameterUse);
+            }
+            return parameterUse;
+        }
+
+        protected void validate(ParameterUse parameterUse) {
+            super.validate(parameterUse);
+        }
+
+        protected Builder from(ParameterUse parameterUse) {
+            super.from(parameterUse);
+            return this;
         }
     }
 

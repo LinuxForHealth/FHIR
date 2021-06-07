@@ -169,11 +169,7 @@ public class RemittanceOutcome extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class RemittanceOutcome extends Code {
 
         @Override
         public RemittanceOutcome build() {
-            return new RemittanceOutcome(this);
+            RemittanceOutcome remittanceOutcome = new RemittanceOutcome(this);
+            if (validating) {
+                validate(remittanceOutcome);
+            }
+            return remittanceOutcome;
+        }
+
+        protected void validate(RemittanceOutcome remittanceOutcome) {
+            super.validate(remittanceOutcome);
+        }
+
+        protected Builder from(RemittanceOutcome remittanceOutcome) {
+            super.from(remittanceOutcome);
+            return this;
         }
     }
 

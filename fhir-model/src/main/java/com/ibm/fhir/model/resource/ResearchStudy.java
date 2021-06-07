@@ -181,40 +181,32 @@ public class ResearchStudy extends DomainResource {
     private final List<Arm> arm;
     private final List<Objective> objective;
 
-    private volatile int hashCode;
-
     private ResearchStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         title = builder.title;
-        protocol = Collections.unmodifiableList(ValidationSupport.checkList(builder.protocol, "protocol", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        protocol = Collections.unmodifiableList(builder.protocol);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
         primaryPurposeType = builder.primaryPurposeType;
         phase = builder.phase;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", CodeableConcept.class));
-        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", CodeableConcept.class));
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        keyword = Collections.unmodifiableList(ValidationSupport.checkList(builder.keyword, "keyword", CodeableConcept.class));
-        location = Collections.unmodifiableList(ValidationSupport.checkList(builder.location, "location", CodeableConcept.class));
+        category = Collections.unmodifiableList(builder.category);
+        focus = Collections.unmodifiableList(builder.focus);
+        condition = Collections.unmodifiableList(builder.condition);
+        contact = Collections.unmodifiableList(builder.contact);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        keyword = Collections.unmodifiableList(builder.keyword);
+        location = Collections.unmodifiableList(builder.location);
         description = builder.description;
-        enrollment = Collections.unmodifiableList(ValidationSupport.checkList(builder.enrollment, "enrollment", Reference.class));
+        enrollment = Collections.unmodifiableList(builder.enrollment);
         period = builder.period;
         sponsor = builder.sponsor;
         principalInvestigator = builder.principalInvestigator;
-        site = Collections.unmodifiableList(ValidationSupport.checkList(builder.site, "site", Reference.class));
+        site = Collections.unmodifiableList(builder.site);
         reasonStopped = builder.reasonStopped;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        arm = Collections.unmodifiableList(ValidationSupport.checkList(builder.arm, "arm", Arm.class));
-        objective = Collections.unmodifiableList(ValidationSupport.checkList(builder.objective, "objective", Objective.class));
-        ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
-        ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");
-        ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
-        ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(site, "site", "Location");
+        note = Collections.unmodifiableList(builder.note);
+        arm = Collections.unmodifiableList(builder.arm);
+        objective = Collections.unmodifiableList(builder.objective);
     }
 
     /**
@@ -1582,7 +1574,37 @@ public class ResearchStudy extends DomainResource {
          */
         @Override
         public ResearchStudy build() {
-            return new ResearchStudy(this);
+            ResearchStudy researchStudy = new ResearchStudy(this);
+            if (validating) {
+                validate(researchStudy);
+            }
+            return researchStudy;
+        }
+
+        protected void validate(ResearchStudy researchStudy) {
+            super.validate(researchStudy);
+            ValidationSupport.checkList(researchStudy.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(researchStudy.protocol, "protocol", Reference.class);
+            ValidationSupport.checkList(researchStudy.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(researchStudy.status, "status");
+            ValidationSupport.checkList(researchStudy.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.focus, "focus", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.condition, "condition", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchStudy.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchStudy.keyword, "keyword", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.location, "location", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.enrollment, "enrollment", Reference.class);
+            ValidationSupport.checkList(researchStudy.site, "site", Reference.class);
+            ValidationSupport.checkList(researchStudy.note, "note", Annotation.class);
+            ValidationSupport.checkList(researchStudy.arm, "arm", Arm.class);
+            ValidationSupport.checkList(researchStudy.objective, "objective", Objective.class);
+            ValidationSupport.checkReferenceType(researchStudy.protocol, "protocol", "PlanDefinition");
+            ValidationSupport.checkReferenceType(researchStudy.partOf, "partOf", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchStudy.enrollment, "enrollment", "Group");
+            ValidationSupport.checkReferenceType(researchStudy.sponsor, "sponsor", "Organization");
+            ValidationSupport.checkReferenceType(researchStudy.principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(researchStudy.site, "site", "Location");
         }
 
         protected Builder from(ResearchStudy researchStudy) {
@@ -1625,14 +1647,11 @@ public class ResearchStudy extends DomainResource {
         private final CodeableConcept type;
         private final String description;
 
-        private volatile int hashCode;
-
         private Arm(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             type = builder.type;
             description = builder.description;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1904,7 +1923,17 @@ public class ResearchStudy extends DomainResource {
              */
             @Override
             public Arm build() {
-                return new Arm(this);
+                Arm arm = new Arm(this);
+                if (validating) {
+                    validate(arm);
+                }
+                return arm;
+            }
+
+            protected void validate(Arm arm) {
+                super.validate(arm);
+                ValidationSupport.requireNonNull(arm.name, "name");
+                ValidationSupport.requireValueOrChildren(arm);
             }
 
             protected Builder from(Arm arm) {
@@ -1931,13 +1960,10 @@ public class ResearchStudy extends DomainResource {
         )
         private final CodeableConcept type;
 
-        private volatile int hashCode;
-
         private Objective(Builder builder) {
             super(builder);
             name = builder.name;
             type = builder.type;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2173,7 +2199,16 @@ public class ResearchStudy extends DomainResource {
              */
             @Override
             public Objective build() {
-                return new Objective(this);
+                Objective objective = new Objective(this);
+                if (validating) {
+                    validate(objective);
+                }
+                return objective;
+            }
+
+            protected void validate(Objective objective) {
+                super.validate(objective);
+                ValidationSupport.requireValueOrChildren(objective);
             }
 
             protected Builder from(Objective objective) {

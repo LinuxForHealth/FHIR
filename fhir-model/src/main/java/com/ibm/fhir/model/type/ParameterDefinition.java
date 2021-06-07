@@ -55,18 +55,15 @@ public class ParameterDefinition extends Element {
     @Summary
     private final Canonical profile;
 
-    private volatile int hashCode;
-
     private ParameterDefinition(Builder builder) {
         super(builder);
         name = builder.name;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
+        use = builder.use;
         min = builder.min;
         max = builder.max;
         documentation = builder.documentation;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         profile = builder.profile;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -406,7 +403,18 @@ public class ParameterDefinition extends Element {
          */
         @Override
         public ParameterDefinition build() {
-            return new ParameterDefinition(this);
+            ParameterDefinition parameterDefinition = new ParameterDefinition(this);
+            if (validating) {
+                validate(parameterDefinition);
+            }
+            return parameterDefinition;
+        }
+
+        protected void validate(ParameterDefinition parameterDefinition) {
+            super.validate(parameterDefinition);
+            ValidationSupport.requireNonNull(parameterDefinition.use, "use");
+            ValidationSupport.requireNonNull(parameterDefinition.type, "type");
+            ValidationSupport.requireValueOrChildren(parameterDefinition);
         }
 
         protected Builder from(ParameterDefinition parameterDefinition) {

@@ -54,7 +54,7 @@ public class ImportOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
         common.checkEnabled();
-        common.checkAllowed(operationContext);
+        common.checkAllowed(operationContext, true);
 
         if (!"POST".equals(operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE))) {
             throw buildExceptionWithIssue("Invalid call $import operation only POST allowed",
@@ -81,7 +81,7 @@ public class ImportOperation extends AbstractOperation {
         Preflight preflight =  PreflightFactory.getInstance(operationContext, inputs, null, inputFormat);
         preflight.checkStorageAllowed(storageDetail);
         preflight.preflight();
-        return BulkDataFactory.getInstance(operationContext)
+        return BulkDataFactory.getInstance(operationContext, true)
                 .importBulkData(inputFormat, inputSource, inputs, storageDetail, operationContext);
     }
 

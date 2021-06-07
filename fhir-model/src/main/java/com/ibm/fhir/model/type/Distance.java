@@ -44,8 +44,6 @@ import com.ibm.fhir.model.visitor.Visitor;
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Distance extends Quantity {
-    private volatile int hashCode;
-
     private Distance(Builder builder) {
         super(builder);
     }
@@ -254,7 +252,15 @@ public class Distance extends Quantity {
          */
         @Override
         public Distance build() {
-            return new Distance(this);
+            Distance distance = new Distance(this);
+            if (validating) {
+                validate(distance);
+            }
+            return distance;
+        }
+
+        protected void validate(Distance distance) {
+            super.validate(distance);
         }
 
         protected Builder from(Distance distance) {

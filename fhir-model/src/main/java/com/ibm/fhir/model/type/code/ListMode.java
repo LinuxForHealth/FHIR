@@ -160,11 +160,7 @@ public class ListMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -219,7 +215,20 @@ public class ListMode extends Code {
 
         @Override
         public ListMode build() {
-            return new ListMode(this);
+            ListMode listMode = new ListMode(this);
+            if (validating) {
+                validate(listMode);
+            }
+            return listMode;
+        }
+
+        protected void validate(ListMode listMode) {
+            super.validate(listMode);
+        }
+
+        protected Builder from(ListMode listMode) {
+            super.from(listMode);
+            return this;
         }
     }
 

@@ -212,54 +212,41 @@ public class ServiceRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
-    private volatile int hashCode;
-
     private ServiceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesCanonical, "instantiatesCanonical", Canonical.class));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.checkList(builder.instantiatesUri, "instantiatesUri", Uri.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        replaces = Collections.unmodifiableList(ValidationSupport.checkList(builder.replaces, "replaces", Reference.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
         requisition = builder.requisition;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        status = builder.status;
+        intent = builder.intent;
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         code = builder.code;
-        orderDetail = Collections.unmodifiableList(ValidationSupport.checkList(builder.orderDetail, "orderDetail", CodeableConcept.class));
-        quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        orderDetail = Collections.unmodifiableList(builder.orderDetail);
+        quantity = builder.quantity;
+        subject = builder.subject;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        occurrence = builder.occurrence;
+        asNeeded = builder.asNeeded;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performerType = builder.performerType;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
-        locationCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationCode, "locationCode", CodeableConcept.class));
-        locationReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.locationReference, "locationReference", Reference.class));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        insurance = Collections.unmodifiableList(ValidationSupport.checkList(builder.insurance, "insurance", Reference.class));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInfo, "supportingInfo", Reference.class));
-        specimen = Collections.unmodifiableList(ValidationSupport.checkList(builder.specimen, "specimen", Reference.class));
-        bodySite = Collections.unmodifiableList(ValidationSupport.checkList(builder.bodySite, "bodySite", CodeableConcept.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        performer = Collections.unmodifiableList(builder.performer);
+        locationCode = Collections.unmodifiableList(builder.locationCode);
+        locationReference = Collections.unmodifiableList(builder.locationReference);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        note = Collections.unmodifiableList(builder.note);
         patientInstruction = builder.patientInstruction;
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.relevantHistory, "relevantHistory", Reference.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
-        ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(locationReference, "locationReference", "Location");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
     }
 
     /**
@@ -2075,7 +2062,50 @@ public class ServiceRequest extends DomainResource {
          */
         @Override
         public ServiceRequest build() {
-            return new ServiceRequest(this);
+            ServiceRequest serviceRequest = new ServiceRequest(this);
+            if (validating) {
+                validate(serviceRequest);
+            }
+            return serviceRequest;
+        }
+
+        protected void validate(ServiceRequest serviceRequest) {
+            super.validate(serviceRequest);
+            ValidationSupport.checkList(serviceRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(serviceRequest.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(serviceRequest.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(serviceRequest.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(serviceRequest.replaces, "replaces", Reference.class);
+            ValidationSupport.requireNonNull(serviceRequest.status, "status");
+            ValidationSupport.requireNonNull(serviceRequest.intent, "intent");
+            ValidationSupport.checkList(serviceRequest.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.orderDetail, "orderDetail", CodeableConcept.class);
+            ValidationSupport.choiceElement(serviceRequest.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
+            ValidationSupport.requireNonNull(serviceRequest.subject, "subject");
+            ValidationSupport.choiceElement(serviceRequest.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.choiceElement(serviceRequest.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.performer, "performer", Reference.class);
+            ValidationSupport.checkList(serviceRequest.locationCode, "locationCode", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.locationReference, "locationReference", Reference.class);
+            ValidationSupport.checkList(serviceRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(serviceRequest.insurance, "insurance", Reference.class);
+            ValidationSupport.checkList(serviceRequest.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(serviceRequest.specimen, "specimen", Reference.class);
+            ValidationSupport.checkList(serviceRequest.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.note, "note", Annotation.class);
+            ValidationSupport.checkList(serviceRequest.relevantHistory, "relevantHistory", Reference.class);
+            ValidationSupport.checkReferenceType(serviceRequest.basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.replaces, "replaces", "ServiceRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.subject, "subject", "Patient", "Group", "Location", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(serviceRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(serviceRequest.locationReference, "locationReference", "Location");
+            ValidationSupport.checkReferenceType(serviceRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(serviceRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(serviceRequest.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(serviceRequest.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(ServiceRequest serviceRequest) {

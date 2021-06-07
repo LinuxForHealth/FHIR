@@ -59,8 +59,6 @@ public class Identifier extends Element {
     @ReferenceTarget({ "Organization" })
     private final Reference assigner;
 
-    private volatile int hashCode;
-
     private Identifier(Builder builder) {
         super(builder);
         use = builder.use;
@@ -69,8 +67,6 @@ public class Identifier extends Element {
         value = builder.value;
         period = builder.period;
         assigner = builder.assigner;
-        ValidationSupport.checkReferenceType(assigner, "assigner", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -376,7 +372,17 @@ public class Identifier extends Element {
          */
         @Override
         public Identifier build() {
-            return new Identifier(this);
+            Identifier identifier = new Identifier(this);
+            if (validating) {
+                validate(identifier);
+            }
+            return identifier;
+        }
+
+        protected void validate(Identifier identifier) {
+            super.validate(identifier);
+            ValidationSupport.checkReferenceType(identifier.assigner, "assigner", "Organization");
+            ValidationSupport.requireValueOrChildren(identifier);
         }
 
         protected Builder from(Identifier identifier) {

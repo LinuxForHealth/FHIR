@@ -35,15 +35,12 @@ public class ProductShelfLife extends BackboneElement {
     @Summary
     private final List<CodeableConcept> specialPrecautionsForStorage;
 
-    private volatile int hashCode;
-
     private ProductShelfLife(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        period = ValidationSupport.requireNonNull(builder.period, "period");
-        specialPrecautionsForStorage = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialPrecautionsForStorage, "specialPrecautionsForStorage", CodeableConcept.class));
-        ValidationSupport.requireValueOrChildren(this);
+        type = builder.type;
+        period = builder.period;
+        specialPrecautionsForStorage = Collections.unmodifiableList(builder.specialPrecautionsForStorage);
     }
 
     /**
@@ -387,7 +384,19 @@ public class ProductShelfLife extends BackboneElement {
          */
         @Override
         public ProductShelfLife build() {
-            return new ProductShelfLife(this);
+            ProductShelfLife productShelfLife = new ProductShelfLife(this);
+            if (validating) {
+                validate(productShelfLife);
+            }
+            return productShelfLife;
+        }
+
+        protected void validate(ProductShelfLife productShelfLife) {
+            super.validate(productShelfLife);
+            ValidationSupport.requireNonNull(productShelfLife.type, "type");
+            ValidationSupport.requireNonNull(productShelfLife.period, "period");
+            ValidationSupport.checkList(productShelfLife.specialPrecautionsForStorage, "specialPrecautionsForStorage", CodeableConcept.class);
+            ValidationSupport.requireValueOrChildren(productShelfLife);
         }
 
         protected Builder from(ProductShelfLife productShelfLife) {

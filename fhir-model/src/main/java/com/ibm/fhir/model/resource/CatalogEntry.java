@@ -75,24 +75,21 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> additionalClassification;
     private final List<RelatedEntry> relatedEntry;
 
-    private volatile int hashCode;
-
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
-        orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
-        referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalIdentifier, "additionalIdentifier", Identifier.class));
-        classification = Collections.unmodifiableList(ValidationSupport.checkList(builder.classification, "classification", CodeableConcept.class));
+        orderable = builder.orderable;
+        referencedItem = builder.referencedItem;
+        additionalIdentifier = Collections.unmodifiableList(builder.additionalIdentifier);
+        classification = Collections.unmodifiableList(builder.classification);
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class));
-        additionalClassification = Collections.unmodifiableList(ValidationSupport.checkList(builder.additionalClassification, "additionalClassification", CodeableConcept.class));
-        relatedEntry = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedEntry, "relatedEntry", RelatedEntry.class));
-        ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
+        additionalCharacteristic = Collections.unmodifiableList(builder.additionalCharacteristic);
+        additionalClassification = Collections.unmodifiableList(builder.additionalClassification);
+        relatedEntry = Collections.unmodifiableList(builder.relatedEntry);
     }
 
     /**
@@ -906,7 +903,24 @@ public class CatalogEntry extends DomainResource {
          */
         @Override
         public CatalogEntry build() {
-            return new CatalogEntry(this);
+            CatalogEntry catalogEntry = new CatalogEntry(this);
+            if (validating) {
+                validate(catalogEntry);
+            }
+            return catalogEntry;
+        }
+
+        protected void validate(CatalogEntry catalogEntry) {
+            super.validate(catalogEntry);
+            ValidationSupport.checkList(catalogEntry.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(catalogEntry.orderable, "orderable");
+            ValidationSupport.requireNonNull(catalogEntry.referencedItem, "referencedItem");
+            ValidationSupport.checkList(catalogEntry.additionalIdentifier, "additionalIdentifier", Identifier.class);
+            ValidationSupport.checkList(catalogEntry.classification, "classification", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.additionalClassification, "additionalClassification", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.relatedEntry, "relatedEntry", RelatedEntry.class);
+            ValidationSupport.checkReferenceType(catalogEntry.referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
         }
 
         protected Builder from(CatalogEntry catalogEntry) {
@@ -944,14 +958,10 @@ public class CatalogEntry extends DomainResource {
         @Required
         private final Reference item;
 
-        private volatile int hashCode;
-
         private RelatedEntry(Builder builder) {
             super(builder);
-            relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
-            item = ValidationSupport.requireNonNull(builder.item, "item");
-            ValidationSupport.checkReferenceType(item, "item", "CatalogEntry");
-            ValidationSupport.requireValueOrChildren(this);
+            relationtype = builder.relationtype;
+            item = builder.item;
         }
 
         /**
@@ -1202,7 +1212,19 @@ public class CatalogEntry extends DomainResource {
              */
             @Override
             public RelatedEntry build() {
-                return new RelatedEntry(this);
+                RelatedEntry relatedEntry = new RelatedEntry(this);
+                if (validating) {
+                    validate(relatedEntry);
+                }
+                return relatedEntry;
+            }
+
+            protected void validate(RelatedEntry relatedEntry) {
+                super.validate(relatedEntry);
+                ValidationSupport.requireNonNull(relatedEntry.relationtype, "relationtype");
+                ValidationSupport.requireNonNull(relatedEntry.item, "item");
+                ValidationSupport.checkReferenceType(relatedEntry.item, "item", "CatalogEntry");
+                ValidationSupport.requireValueOrChildren(relatedEntry);
             }
 
             protected Builder from(RelatedEntry relatedEntry) {

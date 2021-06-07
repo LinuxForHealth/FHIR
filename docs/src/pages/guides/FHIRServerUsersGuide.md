@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-05-18"
+lastupdated: "2021-06-07"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -16,14 +16,15 @@ permalink: /FHIRServerUsersGuide/
   * [3.1 Liberty server configuration](#31-liberty-server-configuration)
   * [3.2 FHIR server configuration](#32-fhir-server-configuration)
   * [3.3 Persistence layer configuration](#33-persistence-layer-configuration)
+  * [3.4 "Update/Create" feature](#34-updatecreate-feature)
 - [4 Customization](#4-customization)
   * [4.1 Extended operations](#41-extended-operations)
   * [4.2 Notification Service](#42-notification-service)
   * [4.3 Persistence interceptors](#43-persistence-interceptors)
-  * [4.4 Resource validation](#44-resource-validation)
-  * [4.5 "Update/Create" feature](#45-updatecreate-feature)
-  * [4.6 FHIR client API](#46-fhir-client-api)
-  * [4.7 FHIR command-line interface (fhir-cli)](#47-fhir-command-line-interface-fhir-cli)
+  * [4.4 Registry resources](#44-registry-resources)
+  * [4.5 Resource validation](#45-resource-validation)
+  * [4.6 Extending search](#46-extending-search)
+  * [4.7 FHIR client API](#47-fhir-client-api)
   * [4.8 Using local references within request bundles](#48-using-local-references-within-request-bundles)
   * [4.9 Multi-tenancy](#49-multi-tenancy)
   * [4.10 Bulk data operations](#410-bulk-data-operations)
@@ -202,6 +203,7 @@ The IBM FHIR Server supports the ability to compute and store compartment member
         }
     }
 ```
+
 Note that this parameter only enables or disables the compartment search query optimization feature. The compartment membership values are always computed and stored during ingestion or reindexing, regardless of the setting of this value. After the reindex operation is complete, it is recommended to set `useStoredCompartmentParam` to true. No reindex is required if this value is subsequently set to false.
 
 ## 3.3 Persistence layer configuration
@@ -472,6 +474,26 @@ The TransactionManager controls the timeout of database queries.
 
 To modify the default transaction timeout value, set the environment variable `FHIR_TRANSACTION_MANAGER_TIMEOUT` or enter the value in the server.env file at the root of the WLP fhir-server instance. Example values are `120s` (seconds) or `2m` (minutes).
 
+## 3.4 “Update/Create” feature
+Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
+
+The FHIR specification defines optional behavior for the _update_ operation where it can create a new resource if a non-existent resource is specified in the invocation. The FHIR server supports this optional behavior via the `fhirServer/persistence/common/updateCreateEnabled` configuration parameter. If this configuration parameter is set to `true` (the default), then the _update_ operation will create a new resource if it is invoked with a resource containing a non-existent id. If the option is set to false, then the optional behavior is disabled and an error would be returned.
+
+The following example shows the JSON for enabling _update_ operations to create resources:
+```
+{
+    "fhirServer":{
+        …
+        "persistence":{
+            "common":{
+                "updateCreateEnabled":true
+            }
+        }
+        …
+    }
+}
+```
+
 # 4 Customization
 You can modify the default server implementation by taking advantage of the IBM FHIR server's extensibility. The following extension points are available:
  * Custom operations framework:  The IBM FHIR Server defines an operations framework that builds on the FHIR OperationDefinition resource in order to extend the FHIR REST API with custom endpoints.
@@ -480,14 +502,14 @@ You can modify the default server implementation by taking advantage of the IBM 
  * Resource validation:  FHIRPath-based validation of FHIR resources on create or update with the ability to extend the system with custom constraints.
 
 ## 4.1 Extended operations
-In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification]( https://www.hl7.org/fhir/r4/operations.html).
+In addition to the standard REST API (create, update, search, and so forth), the IBM FHIR Server supports the FHIR operations framework as described in the [FHIR specification](https://www.hl7.org/fhir/r4/operations.html).
 
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
 The server also bundles `$reindex` to reindex instances of Resources so they are searchable, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
-No other extended operations are packaged with the server at this time, but you can extend the server with your own operations.
+To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
 #### 4.1.1.1 $validate
 The `$validate` operation checks whether the attached content would be acceptable either generally, or as a create, update, or delete against an existing resource instance or type.
@@ -659,7 +681,7 @@ By default, notification messages are published for all _create_ and _update_ pe
 With the `includeResourceTypes`property set as in the preceding example, the FHIR server publishes notification events only for `Patient` and `Observation` resources. If you omit this property or set its value to `[]` (an empty array), then the FHIR server publishes notifications for all resource types.
 
 ## 4.3 Persistence interceptors
-The FHIR server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This could be used to enforce application-specific business rules associated with resources. Interceptor methods can be called immediately before or after _create_ and _update_ persistence operations.
+The IBM FHIR Server supports a persistence interceptor feature that enables users to add their own logic to the REST API processing flow around persistence events. This can be used to enforce application-specific business rules associated with resources. Interceptor methods are called immediately before or after each persistence operation.
 
 ### 4.3.1 FHIRPersistenceInterceptor interface
 A persistence interceptor implementation must implement the `com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor`
@@ -667,13 +689,13 @@ interface.
 
 Each interceptor method receives a parameter of type `FHIRPersistenceEvent`, which contains context information related to the request being processed at the time that the interceptor method is invoked. It includes the FHIR resource, security information, request URI information, and the collection of HTTP headers associated with the request.
 
-There are two primary use cases for persistence interceptors:
+There are many use cases for persistence interceptors:
 
-1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be stored in the FHIR server's datastore. In this case, the `beforeCreate` or `beforeUpdate` interceptor methods could verify that the patient has a consent agreement on file, and if not then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ persistence events from completing normally. The exception thrown by the interceptor method will be propagated back to the FHIR server request processing flow and would result in an `OperationOutcome` being returned in the REST API response, along with a `Bad Request` HTTP status code.
+1.  Enforce certain application-specific governance rules, such as making sure that a patient has signed a consent form prior to allowing his/her data to be persisted. For example, the `beforeCreate` and `beforeUpdate` methods could verify that the patient has a consent agreement on file and, if not, then throw a `FHIRPersistenceInterceptorException` to prevent the _create_ or _update_ events from completing. The exception thrown by the interceptor method should include one or more OperationOutcome issues and these issues will be added to an `OperationOutcome` in the REST API response. The HTTP status code of the response will be determined by the IssueType of the first issue in the list.
 
-2.  Perform some additional processing steps associated with a _create_ or _update_ persistence event, such as additional audit logging. In this case, the `afterCreate` and `afterUpdate` interceptor methods could add records to an audit log to indicate the request URI that was invoked, the user associated with the invocation request, and so forth.
+2.  Perform additional access control. For example, `beforeSearch` can be used to alter the incoming SearchContext (e.g. by adding additional search parameters). Similarly `afterRead`, `afterVRead`, `afterHistory`, and `afterSearch` can be used to verify that the end user is authorized to access the resources before they are returned.
 
-In general, the `beforeCreate` and `beforeUpdate` interceptor methods would be useful to perform an enforcement-type action where you would potentially want to prevent the request processing flow from finishing. Conversely, the `afterCreate` and `afterUpdate` interceptor methods would be useful in situations where you need to perform additional steps after the _create_ or _update_ persistence events have been performed.
+It is also possible to modify the incoming resources from the `beforeCreate` and `beforeUpdate` methods. For example, an interceptor could be used to add tags to resources on their way into the server. However, it is important to realize that interceptors are called *after* resource validation. Therefore, interceptor authors must be careful not to alter the resources in a way that breaks conformance with the profiles claimed in Resource.meta.profile or the secondary constraints in the specification. When in doubt, interceptors that modify the incoming resource can use the FHIRValidator to re-validate the resource(s) after they are altered.
 
 ### 4.3.2 Implementing a persistence interceptor
 To implement a persistence interceptor, complete the following steps:
@@ -691,9 +713,30 @@ To implement a persistence interceptor, complete the following steps:
 
 4.  Re-start the FHIR server.
 
-## 4.4 Resource validation
+## 4.4 Registry resources
+The IBM FHIR Server includes a dynamic registry of conformance resources.
+The registry pre-packages all [FHIR Definitions from the specification](https://www.hl7.org/fhir/R4/downloads.html)
+and uses a Java ServiceLoader to discover additional registry resource providers on the classpath.
 
-### 4.4.1 HL7 spec-defined validation support
+The server consults this registry for:
+* StructureDefinition, ValueSet, and CodeSystem resources for resource validation.
+* SearchParameter and CompartmentDefinition resources for search.
+* ValueSet and CodeSystem resources for terminology operations.
+* And more.
+
+One common technique for extending FHIR with a set of conformance resources is to build or reference an [Implementation Guide](https://www.hl7.org/fhir/implementationguide.html).
+
+The IBM FHIR Server includes a [PackageRegistryResourceProvider](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for registering implementation guide resources.
+
+Additionally, we [pre-package a number of popular implementation guides](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#optional-profile-support) and make those available from both our GitHub Releases and [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/).
+
+Finally, the IBM FHIR Server includes a built-in ServerRegistryResourceProvider that can be used to bridge conformance resources from the tenant data store (uploaded through the REST API) to the registry.
+This provider can be enabled/disabled via the `fhirServer/core/serverRegistryResourceProviderEnabled` property, but we recommend leaving it disabled for performance-intensive workloads.
+
+## 4.5 Resource validation
+As mentioned in the previous section, the IBM FHIR Server registry is consulted during resource validation.
+
+### 4.5.1 HL7 spec-defined validation support
 The FHIR specification provides a number of different validation resources including:
 
 1.  XML Schemas
@@ -701,10 +744,18 @@ The FHIR specification provides a number of different validation resources inclu
 3.  Structure Definitions / Profiles for standard resource types, data types and built-in value sets
 
 The FHIR server validates incoming resources for create and update interactions using the resource definitions and their corresponding FHIRPath constraints. Additionally, the FHIR server provides the following `$validate` operation that API consumers can use to POST resources and get validation feedback:
- `POST <base>/Resource/$validate`
+```
+POST <base>/<resourceType>/$validate
+```
 
-### 4.4.2 User-provided validation
-The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` codes included on the resource instance.
+### 4.5.2 Extension validation
+FHIR resources can be extended. Each extension has a url and servers can use these urls to validate the contents of the extension.
+
+The IBM FHIR Server performs extension validation by looking up the extension definition in its internal registry.
+If an instance contains extensions that are unknown to the server, then the server will include a validation warning that indicates this extension could not be validated.
+
+### 4.5.3 Profile validation
+The IBM FHIR Server can be extended with custom profile validation. This allows one to apply validation rules on the basis of the `Resource.meta.profile` values included on the resource instance.
 
 For example, you can configure a set of FHIRPath Constraints to run for resources that claim conformance to the `http://ibm.com/fhir/profile/partner` profile when you see an input resource like the following:
 ```
@@ -741,32 +792,20 @@ See [Validation Guide - Optional profile support](https://ibm.github.io/FHIR/gui
 
 See [Validation Guide - Making profiles available to the fhir registry](https://ibm.github.io/FHIR/guides/FHIRValidationGuide#making-profiles-available-to-the-fhir-registry-component-fhirregistry) for information about how to extend the server with additional Implementation Guide artifacts.
 
-## 4.5 “Update/Create” feature
-Normally, the _update_ operation is invoked with a FHIR resource which represents a new version of an existing resource. The resource specified in the _update_ operation would contain the same id of that existing resource. If a resource containing a non-existent id were specified in the _update_ invocation, an error would result.
+## 4.6 Extending search
+In addition to supporting tenant-specific search parameter extensions as described in [Section 3.2.2 Tenant-specific configuration properties](#322-tenant-specific-configuration-properties), the IBM FHIR Server also supports loading
+search parameters from the registry.
 
-The FHIR specification defines optional behavior for the _update_ operation where it can create a new resource if a non-existent resource is specified in the invocation. The FHIR server supports this optional behavior via the `fhirServer/persistence/common/updateCreateEnabled` configuration parameter. If this configuration parameter is set to `true` (the default), then the _update_ operation will create a new resource if it is invoked with a resource containing a non-existent id. If the option is set to false, then the optional behavior is disabled and an error would be returned.
+For performance reasons, the registry search parameters are retrieved once and only once during startup.
 
-The following example shows the JSON for enabling _update_ operations to create resources:
-```
-{
-    "fhirServer":{
-        …
-        "persistence":{
-            "common":{
-                "updateCreateEnabled":true
-            }
-        }
-        …
-    }
-}
-```
+The set of search parameters can filtered / refined via `fhirServer/resources/[resourceType]/searchParameters` as described in the [Search configuration guide](https://ibm.github.io/FHIR/guides/FHIRSearchConfiguration#12-filtering).
 
-## 4.6 FHIR client API
+## 4.7 FHIR client API
 
-### 4.6.1 Overview
+### 4.7.1 Overview
 In addition to the server, we also offer a Java API for invoking the FHIR REST APIs. The IBM FHIR Client API is based on the JAX-RS 2.0 standard and provides a simple properties-driven client that can be easily configured for a given endpoint, mutual authentication, request/response logging, and more.
 
-### 4.6.2 Maven coordinates
+### 4.7.2 Maven coordinates
 To use the FHIR Client from your application, specify the `fhir-client` artifact as a dependency within your `pom.xml` file, as in the following example:
 
 ```
@@ -777,13 +816,13 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
         </dependency>
 ```
 
-### 4.6.3 Sample usage
+### 4.7.3 Sample usage
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
-## 4.7 FHIR command-line interface (fhir-cli)
+## 4.7.4 FHIR command-line interface (fhir-cli)
 The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool is available from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-cli/).
 
-### 4.7.1 Installing fhir-cli
+### 4.7.4.1 Installing fhir-cli
 Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
 
 1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Maven.
@@ -799,12 +838,12 @@ Because the fhir-cli tool is intended to be used by clients that need to access 
     export PATH=$PATH:/mydir/fhir-cli
     ```
 
-### 4.7.2 Configuring fhir-cli
+### 4.7.4.2 Configuring fhir-cli
 The fhir-cli tool requires a properties file containing various configuration properties, such as the base endpoint URL, the username and password for basic authentication, amd so forth. The properties contained in this file are the same properties supported by the FHIR client API. The fhir-cli tool comes with a sample properties file named `fhir-cli.properties` which contains a collection of default property settings.
 
 Using the sample properties file as a guide, you can create your own properties file to reflect the required endpoint configuration associated with the FHIR server endpoint that you would like to access. In the examples that follow, we'll refer to this file as `my-fhir-cli.properties`, although you can name the file anything you'd like.
 
-### 4.7.3 Running fhir-cli
+### 4.7.4.3 Running fhir-cli
 The fhir-cli tool comes with two shell scripts: `fhir-cli` (Linux&reg;) and `fhir-cli.bat` (Windows&trade;). In the examples that follow, we'll use `<fhir-cli-home>` as the location of the fhir-cli tool (that is, the `/mydir/fhir-cli` directory mentioned in preceding section).
 
 The following examples illustrate how to invoke the fhir-cli tool:
@@ -1320,7 +1359,7 @@ The Bulk Data web application writes the exported FHIR resources to an IBM Cloud
     "storageProviders": {
         "default" : {
             "type": "file",
-            "fileBase": "${WLP_OUTPUT_DIR}/fhir-server/output",
+            "fileBase": "/output/bulkdata",
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false
@@ -1559,6 +1598,8 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+
+Note for Batch/Transactions, attachments/content includes counts of the number of C-R-U-D-E actions.
 
 ### 4.11.2 Enable audit logging service
 Please refer to the property names that start with `fhirServer/audit/` in [5.1 Configuration properties reference](#51-configuration-properties-reference) for how to enable and configure the CADF audit logging service.
@@ -1948,11 +1989,16 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/allowClientHandlingPref`|boolean|Indicates whether the client is allowed to override the server default handling preference using the `Prefer:handling` header value part.|
 |`fhirServer/core/checkReferenceTypes`|boolean|Indicates whether reference type checking is performed by the server during parsing / deserialization.|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|boolean|Indicates whether the server registry resource provider should be used by the FHIR registry component to access definitional resources through the persistence layer.|
-|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The max number of matches supported in conditional delete. |
+|`fhirServer/core/serverResolveFunctionEnabled`|boolean|Indicates whether the server resolve function should be used by the FHIRPath evaluator to resolve references through the persistence layer.|
+|`fhirServer/core/conditionalDeleteMaxNumber`|integer|The maximum number of matches supported in conditional delete. |
 |`fhirServer/core/capabilityStatementCacheTimeout`|integer|The number of minutes that a tenant's CapabilityStatement is cached for the metadata endpoint. |
 |`fhirServer/core/extendedCodeableConceptValidation`|boolean|A boolean flag which indicates whether extended validation is performed by the server during object construction for code, Coding, CodeableConcept, Quantity, Uri, and String elements which have required bindings to value sets.|
 |`fhirServer/core/disabledOperations`|string|A comma-separated list of operations which are not allowed to run on the IBM FHIR Server, for example, `validate,import`. Note, do not include the dollar sign `$`|
-|`fhirServer/core/defaultPageSize`|integer|Sets the pageSize to use in search and history when no _count parameter is specified in the request. If a user-specified value exceeds the max page size (1000), then a warning is logged and max page size will be used. If not provided, the default page size (10) is used.|
+|`fhirServer/core/defaultPageSize`|integer|Sets the page size for search and history request results when no `_count` parameter is specified.|
+|`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
+|`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
+|`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
+|`fhirServer/term/capabilitiesUrl`|string|The URL that is embedded in the Terminology Capabilities statement using `mode=terminology`|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
 |`fhirServer/term/graphTermServiceProviders`|array of objects|The `graphTermServiceProviders` element is an array of objects|
 |`fhirServer/term/graphTermServiceProviders/enabled`|boolean|Indicates whether the graph term service provider should be used by the FHIR term service to access code system content|
@@ -1967,6 +2013,9 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|boolean|Indicates whether hostname verification should be performed when using SSL transport|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/username`|string|The basic authentication username for this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth/password`|string|The basic authentication password for this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/headers`|array of objects|The `headers` element is an array of objects|
+|`fhirServer/term/remoteTermServiceProviders/headers/name`|string|The HTTP header name that will be added to requests by this remote term service provider|
+|`fhirServer/term/remoteTermServiceProviders/headers/value`|string|The HTTP header value that will be added to requests by this remote term service provider|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|integer|The HTTP read timeout for this remote term service provider (in milliseconds)|
 |`fhirServer/term/remoteTermServiceProviders/supports`|array of objects|The `supports` element is an array of objects|
 |`fhirServer/term/remoteTermServiceProviders/supports/system`|string|The system URI supported by this remote term service provider|
@@ -2057,13 +2106,17 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
 |`fhirServer/bulkdata/core/maxInputs`|number| The number of inputs allowed for $import |
 |`fhirServer/bulkdata/core/iamEndpoint`|string| Override the system's IAM endpoint |
-|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Max time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
+|`fhirServer/bulkdata/core/maxChunkReadTime`|string| Maximum time in milliseconds to read during a bulkdata export without type filters. The time should be three quarters of the transactionManager timeout (often the FHIR_TRANSACTION_MANAGER_TIMEOUT value). Note, this value is a string representation of a long value.|
+|`fhirServer/bulkdata/core/defaultExportProvider`|string| The default storage provider used by Bulk Data Export|
+|`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|boolean|Enables the skipping of identical resources|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
 |`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|string|Object store end point url used to read/write from COS |
 |`fhirServer/bulkdata/storageProviders/<source>/endpointExternal`|string|Object store end point url used in the constructed download URLs|
-|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory |
+|`fhirServer/bulkdata/storageProviders/<source>/fileBase`|string| The absolute path of the output directory. It is recommended this path is not the mount point of a volume. For instance, if a volume is mounted to /output/bulkdata, use /output/bulkdata/data to ensure a failed mount does not result in writing to the root file system.|
 |`fhirServer/bulkdata/storageProviders/<source>/validBaseUrls`|list|The list of supported urls which are approved for the fhir server to access|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|boolean|Disables the URL checking feature, allowing all URLs to be imported|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|boolean|Whether or not the server is configured to support export to parquet; to properly enable it the administrator must first make spark and stocator available to the fhir-bulkdata-webapp (e.g through the shared lib at `wlp/user/shared/resources/lib`)|
@@ -2073,12 +2126,13 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, or basic|
-|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|string|For HMAC, API key for accessing COS|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For HMAC, secret key for accessing COS|
-|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|string|For IAM, API key for accessing IBM COS|
-|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
-|`fhirServer/bulkdata/storageProviders/<source>/user`|string|For basic, user COS|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|string|For basic, password for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|string|For HMAC, API key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|string|For HMAC, secret key for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|string|For IAM, API key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|string|For basic, user COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|string|For basic, password for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 
@@ -2094,10 +2148,15 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/allowClientHandlingPref`|true|
 |`fhirServer/core/checkReferenceTypes`|true|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|false|
+|`fhirServer/core/serverResolveFunctionEnabled`|false|
 |`fhirServer/core/conditionalDeleteMaxNumber`|10|
 |`fhirServer/core/capabilityStatementCacheTimeout`|60|
 |`fhirServer/core/extendedCodeableConceptValidation`|true|
 |`fhirServer/core/defaultPageSize`|10|
+|`fhirServer/core/maxPageSize`|1000|
+|`fhirServer/core/maxPageIncludeCount`|1000|
+|`fhirServer/core/capabilitiesUrl`|string|null|
+|`fhirServer/term/capabilitiesUrl`|string|null|
 |`fhirServer/term/cachingDisabled`|false|
 |`fhirServer/term/graphTermServiceProviders/enabled`|false|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
@@ -2181,6 +2240,10 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/maxInputs`|5|
 |`fhirServer/bulkdata/core/iamEndpoint`|https://iam.cloud.ibm.com/oidc/token|
 |`fhirServer/bulkdata/core/maxChunkReadTime`|90000|
+|`fhirServer/bulkdata/core/defaultExportProvider`|default|
+|`fhirServer/bulkdata/core/defaultImportProvider`|default|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|default|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|true|
 |`fhirServer/bulkdata/storageProviders/<source>/disableBaseUrlValidation`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/enableParquet`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/disableOperationOutcomes`|false|
@@ -2211,11 +2274,15 @@ must restart the server for that change to take effect.
 |`fhirServer/core/allowClientHandlingPref`|Y|Y|
 |`fhirServer/core/checkReferenceTypes`|N|N|
 |`fhirServer/core/serverRegistryResourceProviderEnabled`|N|N|
+|`fhirServer/core/serverResolveFunctionEnabled`|N|N|
 |`fhirServer/core/conditionalDeleteMaxNumber`|Y|Y|
 |`fhirServer/core/capabilityStatementCacheTimeout`|Y|Y|
 |`fhirServer/core/extendedCodeableConceptValidation`|N|N|
 |`fhirServer/core/disabledOperations`|N|N|
 |`fhirServer/core/defaultPageSize`|Y|Y|
+|`fhirServer/core/maxPageSize`|Y|Y|
+|`fhirServer/core/maxPageIncludeCount`|Y|Y|
+|`fhirServer/core/capabilitiesUrl`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|N|N|
@@ -2225,8 +2292,10 @@ must restart the server for that change to take effect.
 |`fhirServer/term/remoteTermServiceProviders/trustStore`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/hostnameVerificationEnabled`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/basicAuth`|N|N|
+|`fhirServer/term/remoteTermServiceProviders/headers`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/httpTimeout`|N|N|
 |`fhirServer/term/remoteTermServiceProviders/supports`|N|N|
+|`fhirServer/term/capabilitiesUrl`|Y|Y|
 |`fhirServer/resources/open`|Y|Y|
 |`fhirServer/resources/Resource/interactions`|Y|Y|
 |`fhirServer/resources/Resource/searchParameters`|Y|Y|
@@ -2306,6 +2375,10 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/maxInputs`|Y|Y|
 |`fhirServer/bulkdata/core/iamEndpoint`|N|N|
 |`fhirServer/bulkdata/core/fastTxTimeout`|N|N|
+|`fhirServer/bulkdata/core/defaultExportProvider`|Y|Y|
+|`fhirServer/bulkdata/core/defaultImportProvider`|Y|Y|
+|`fhirServer/bulkdata/core/defaultOutcomeProvider`|Y|Y|
+|`fhirServer/bulkdata/core/enableSkippableUpdates`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/type`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/location`|Y|Y|
@@ -2321,12 +2394,13 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/type`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/accessKeyId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/iamApiKey`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/iamResourceInstanceId`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/user`|Y|Y|
-|`fhirServer/bulkdata/storageProviders/<source>/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
 
@@ -2436,7 +2510,7 @@ A copy of this snippet is provided here for illustrative purposes:
             </security-role>
         </application-bnd>
     </webApplication>
-    
+
     <mpJwt id="jwtConsumer"
            jwksUri="http://keycloak:8080/auth/realms/test/protocol/openid-connect/certs"
            issuer="https://localhost:8443/auth/realms/test"

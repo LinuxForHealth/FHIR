@@ -169,11 +169,7 @@ public class DeviceMetricOperationalStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class DeviceMetricOperationalStatus extends Code {
 
         @Override
         public DeviceMetricOperationalStatus build() {
-            return new DeviceMetricOperationalStatus(this);
+            DeviceMetricOperationalStatus deviceMetricOperationalStatus = new DeviceMetricOperationalStatus(this);
+            if (validating) {
+                validate(deviceMetricOperationalStatus);
+            }
+            return deviceMetricOperationalStatus;
+        }
+
+        protected void validate(DeviceMetricOperationalStatus deviceMetricOperationalStatus) {
+            super.validate(deviceMetricOperationalStatus);
+        }
+
+        protected Builder from(DeviceMetricOperationalStatus deviceMetricOperationalStatus) {
+            super.from(deviceMetricOperationalStatus);
+            return this;
         }
     }
 

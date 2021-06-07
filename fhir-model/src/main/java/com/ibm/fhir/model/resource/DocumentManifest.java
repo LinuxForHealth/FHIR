@@ -85,25 +85,20 @@ public class DocumentManifest extends DomainResource {
     private final List<Reference> content;
     private final List<Related> related;
 
-    private volatile int hashCode;
-
     private DocumentManifest(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         type = builder.type;
         subject = builder.subject;
         created = builder.created;
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", Reference.class));
-        recipient = Collections.unmodifiableList(ValidationSupport.checkList(builder.recipient, "recipient", Reference.class));
+        author = Collections.unmodifiableList(builder.author);
+        recipient = Collections.unmodifiableList(builder.recipient);
         source = builder.source;
         description = builder.description;
-        content = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.content, "content", Reference.class));
-        related = Collections.unmodifiableList(ValidationSupport.checkList(builder.related, "related", Related.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+        content = Collections.unmodifiableList(builder.content);
+        related = Collections.unmodifiableList(builder.related);
     }
 
     /**
@@ -909,7 +904,24 @@ public class DocumentManifest extends DomainResource {
          */
         @Override
         public DocumentManifest build() {
-            return new DocumentManifest(this);
+            DocumentManifest documentManifest = new DocumentManifest(this);
+            if (validating) {
+                validate(documentManifest);
+            }
+            return documentManifest;
+        }
+
+        protected void validate(DocumentManifest documentManifest) {
+            super.validate(documentManifest);
+            ValidationSupport.checkList(documentManifest.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(documentManifest.status, "status");
+            ValidationSupport.checkList(documentManifest.author, "author", Reference.class);
+            ValidationSupport.checkList(documentManifest.recipient, "recipient", Reference.class);
+            ValidationSupport.checkNonEmptyList(documentManifest.content, "content", Reference.class);
+            ValidationSupport.checkList(documentManifest.related, "related", Related.class);
+            ValidationSupport.checkReferenceType(documentManifest.subject, "subject", "Patient", "Practitioner", "Group", "Device");
+            ValidationSupport.checkReferenceType(documentManifest.author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(documentManifest.recipient, "recipient", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
         }
 
         protected Builder from(DocumentManifest documentManifest) {
@@ -937,13 +949,10 @@ public class DocumentManifest extends DomainResource {
         private final Identifier identifier;
         private final Reference ref;
 
-        private volatile int hashCode;
-
         private Related(Builder builder) {
             super(builder);
             identifier = builder.identifier;
             ref = builder.ref;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1179,7 +1188,16 @@ public class DocumentManifest extends DomainResource {
              */
             @Override
             public Related build() {
-                return new Related(this);
+                Related related = new Related(this);
+                if (validating) {
+                    validate(related);
+                }
+                return related;
+            }
+
+            protected void validate(Related related) {
+                super.validate(related);
+                ValidationSupport.requireValueOrChildren(related);
             }
 
             protected Builder from(Related related) {

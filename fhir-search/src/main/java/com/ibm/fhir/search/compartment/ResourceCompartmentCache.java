@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -37,6 +37,7 @@ public class ResourceCompartmentCache {
      * In the schema, we therefore have to store (unique) values for this parameter
      * as both patient_compartment and relatedperson_compartment token references.
      * @param params a list of model parameter names
+     * @param compartmentName the compartment associated with these parameters
      */
     public void add(List<com.ibm.fhir.model.type.String> params, java.lang.String compartmentName) {
         if (params != null) {

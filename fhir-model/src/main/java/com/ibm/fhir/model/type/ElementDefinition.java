@@ -268,45 +268,42 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     private final List<Mapping> mapping;
 
-    private volatile int hashCode;
-
     private ElementDefinition(Builder builder) {
         super(builder);
-        path = ValidationSupport.requireNonNull(builder.path, "path");
-        representation = Collections.unmodifiableList(ValidationSupport.checkList(builder.representation, "representation", PropertyRepresentation.class));
+        path = builder.path;
+        representation = Collections.unmodifiableList(builder.representation);
         sliceName = builder.sliceName;
         sliceIsConstraining = builder.sliceIsConstraining;
         label = builder.label;
-        code = Collections.unmodifiableList(ValidationSupport.checkList(builder.code, "code", Coding.class));
+        code = Collections.unmodifiableList(builder.code);
         slicing = builder.slicing;
         _short = builder._short;
         definition = builder.definition;
         comment = builder.comment;
         requirements = builder.requirements;
-        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
+        alias = Collections.unmodifiableList(builder.alias);
         min = builder.min;
         max = builder.max;
         base = builder.base;
         contentReference = builder.contentReference;
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", Type.class));
-        defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+        type = Collections.unmodifiableList(builder.type);
+        defaultValue = builder.defaultValue;
         meaningWhenMissing = builder.meaningWhenMissing;
         orderMeaning = builder.orderMeaning;
-        fixed = ValidationSupport.choiceElement(builder.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        pattern = ValidationSupport.choiceElement(builder.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        example = Collections.unmodifiableList(ValidationSupport.checkList(builder.example, "example", Example.class));
-        minValue = ValidationSupport.choiceElement(builder.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
-        maxValue = ValidationSupport.choiceElement(builder.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+        fixed = builder.fixed;
+        pattern = builder.pattern;
+        example = Collections.unmodifiableList(builder.example);
+        minValue = builder.minValue;
+        maxValue = builder.maxValue;
         maxLength = builder.maxLength;
-        condition = Collections.unmodifiableList(ValidationSupport.checkList(builder.condition, "condition", Id.class));
-        constraint = Collections.unmodifiableList(ValidationSupport.checkList(builder.constraint, "constraint", Constraint.class));
+        condition = Collections.unmodifiableList(builder.condition);
+        constraint = Collections.unmodifiableList(builder.constraint);
         mustSupport = builder.mustSupport;
         isModifier = builder.isModifier;
         isModifierReason = builder.isModifierReason;
         isSummary = builder.isSummary;
         binding = builder.binding;
-        mapping = Collections.unmodifiableList(ValidationSupport.checkList(builder.mapping, "mapping", Mapping.class));
-        ValidationSupport.requireValueOrChildren(this);
+        mapping = Collections.unmodifiableList(builder.mapping);
     }
 
     /**
@@ -1926,7 +1923,30 @@ public class ElementDefinition extends BackboneElement {
          */
         @Override
         public ElementDefinition build() {
-            return new ElementDefinition(this);
+            ElementDefinition elementDefinition = new ElementDefinition(this);
+            if (validating) {
+                validate(elementDefinition);
+            }
+            return elementDefinition;
+        }
+
+        protected void validate(ElementDefinition elementDefinition) {
+            super.validate(elementDefinition);
+            ValidationSupport.requireNonNull(elementDefinition.path, "path");
+            ValidationSupport.checkList(elementDefinition.representation, "representation", PropertyRepresentation.class);
+            ValidationSupport.checkList(elementDefinition.code, "code", Coding.class);
+            ValidationSupport.checkList(elementDefinition.alias, "alias", String.class);
+            ValidationSupport.checkList(elementDefinition.type, "type", Type.class);
+            ValidationSupport.choiceElement(elementDefinition.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.choiceElement(elementDefinition.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.choiceElement(elementDefinition.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.checkList(elementDefinition.example, "example", Example.class);
+            ValidationSupport.choiceElement(elementDefinition.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+            ValidationSupport.choiceElement(elementDefinition.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+            ValidationSupport.checkList(elementDefinition.condition, "condition", Id.class);
+            ValidationSupport.checkList(elementDefinition.constraint, "constraint", Constraint.class);
+            ValidationSupport.checkList(elementDefinition.mapping, "mapping", Mapping.class);
+            ValidationSupport.requireValueOrChildren(elementDefinition);
         }
 
         protected Builder from(ElementDefinition elementDefinition) {
@@ -1993,15 +2013,12 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final SlicingRules rules;
 
-        private volatile int hashCode;
-
         private Slicing(Builder builder) {
             super(builder);
-            discriminator = Collections.unmodifiableList(ValidationSupport.checkList(builder.discriminator, "discriminator", Discriminator.class));
+            discriminator = Collections.unmodifiableList(builder.discriminator);
             description = builder.description;
             ordered = builder.ordered;
-            rules = ValidationSupport.requireNonNull(builder.rules, "rules");
-            ValidationSupport.requireValueOrChildren(this);
+            rules = builder.rules;
         }
 
         /**
@@ -2330,7 +2347,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Slicing build() {
-                return new Slicing(this);
+                Slicing slicing = new Slicing(this);
+                if (validating) {
+                    validate(slicing);
+                }
+                return slicing;
+            }
+
+            protected void validate(Slicing slicing) {
+                super.validate(slicing);
+                ValidationSupport.checkList(slicing.discriminator, "discriminator", Discriminator.class);
+                ValidationSupport.requireNonNull(slicing.rules, "rules");
+                ValidationSupport.requireValueOrChildren(slicing);
             }
 
             protected Builder from(Slicing slicing) {
@@ -2362,13 +2390,10 @@ public class ElementDefinition extends BackboneElement {
             @Required
             private final String path;
 
-            private volatile int hashCode;
-
             private Discriminator(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                path = ValidationSupport.requireNonNull(builder.path, "path");
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                path = builder.path;
             }
 
             /**
@@ -2614,7 +2639,18 @@ public class ElementDefinition extends BackboneElement {
                  */
                 @Override
                 public Discriminator build() {
-                    return new Discriminator(this);
+                    Discriminator discriminator = new Discriminator(this);
+                    if (validating) {
+                        validate(discriminator);
+                    }
+                    return discriminator;
+                }
+
+                protected void validate(Discriminator discriminator) {
+                    super.validate(discriminator);
+                    ValidationSupport.requireNonNull(discriminator.type, "type");
+                    ValidationSupport.requireNonNull(discriminator.path, "path");
+                    ValidationSupport.requireValueOrChildren(discriminator);
                 }
 
                 protected Builder from(Discriminator discriminator) {
@@ -2645,14 +2681,11 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final String max;
 
-        private volatile int hashCode;
-
         private Base(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            min = ValidationSupport.requireNonNull(builder.min, "min");
-            max = ValidationSupport.requireNonNull(builder.max, "max");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            min = builder.min;
+            max = builder.max;
         }
 
         /**
@@ -2932,7 +2965,19 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Base build() {
-                return new Base(this);
+                Base base = new Base(this);
+                if (validating) {
+                    validate(base);
+                }
+                return base;
+            }
+
+            protected void validate(Base base) {
+                super.validate(base);
+                ValidationSupport.requireNonNull(base.path, "path");
+                ValidationSupport.requireNonNull(base.min, "min");
+                ValidationSupport.requireNonNull(base.max, "max");
+                ValidationSupport.requireValueOrChildren(base);
             }
 
             protected Builder from(Base base) {
@@ -2979,16 +3024,13 @@ public class ElementDefinition extends BackboneElement {
         )
         private final ReferenceVersionRules versioning;
 
-        private volatile int hashCode;
-
         private Type(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            profile = Collections.unmodifiableList(ValidationSupport.checkList(builder.profile, "profile", Canonical.class));
-            targetProfile = Collections.unmodifiableList(ValidationSupport.checkList(builder.targetProfile, "targetProfile", Canonical.class));
-            aggregation = Collections.unmodifiableList(ValidationSupport.checkList(builder.aggregation, "aggregation", AggregationMode.class));
+            code = builder.code;
+            profile = Collections.unmodifiableList(builder.profile);
+            targetProfile = Collections.unmodifiableList(builder.targetProfile);
+            aggregation = Collections.unmodifiableList(builder.aggregation);
             versioning = builder.versioning;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3407,7 +3449,20 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Type build() {
-                return new Type(this);
+                Type type = new Type(this);
+                if (validating) {
+                    validate(type);
+                }
+                return type;
+            }
+
+            protected void validate(Type type) {
+                super.validate(type);
+                ValidationSupport.requireNonNull(type.code, "code");
+                ValidationSupport.checkList(type.profile, "profile", Canonical.class);
+                ValidationSupport.checkList(type.targetProfile, "targetProfile", Canonical.class);
+                ValidationSupport.checkList(type.aggregation, "aggregation", AggregationMode.class);
+                ValidationSupport.requireValueOrChildren(type);
             }
 
             protected Builder from(Type type) {
@@ -3434,13 +3489,10 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final Element value;
 
-        private volatile int hashCode;
-
         private Example(Builder builder) {
             super(builder);
-            label = ValidationSupport.requireNonNull(builder.label, "label");
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-            ValidationSupport.requireValueOrChildren(this);
+            label = builder.label;
+            value = builder.value;
         }
 
         /**
@@ -3738,7 +3790,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Example build() {
-                return new Example(this);
+                Example example = new Example(this);
+                if (validating) {
+                    validate(example);
+                }
+                return example;
+            }
+
+            protected void validate(Example example) {
+                super.validate(example);
+                ValidationSupport.requireNonNull(example.label, "label");
+                ValidationSupport.requireChoiceElement(example.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                ValidationSupport.requireValueOrChildren(example);
             }
 
             protected Builder from(Example example) {
@@ -3779,18 +3842,15 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final Canonical source;
 
-        private volatile int hashCode;
-
         private Constraint(Builder builder) {
             super(builder);
-            key = ValidationSupport.requireNonNull(builder.key, "key");
+            key = builder.key;
             requirements = builder.requirements;
-            severity = ValidationSupport.requireNonNull(builder.severity, "severity");
-            human = ValidationSupport.requireNonNull(builder.human, "human");
+            severity = builder.severity;
+            human = builder.human;
             expression = builder.expression;
             xpath = builder.xpath;
             source = builder.source;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4184,7 +4244,19 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Constraint build() {
-                return new Constraint(this);
+                Constraint constraint = new Constraint(this);
+                if (validating) {
+                    validate(constraint);
+                }
+                return constraint;
+            }
+
+            protected void validate(Constraint constraint) {
+                super.validate(constraint);
+                ValidationSupport.requireNonNull(constraint.key, "key");
+                ValidationSupport.requireNonNull(constraint.severity, "severity");
+                ValidationSupport.requireNonNull(constraint.human, "human");
+                ValidationSupport.requireValueOrChildren(constraint);
             }
 
             protected Builder from(Constraint constraint) {
@@ -4220,14 +4292,11 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final Canonical valueSet;
 
-        private volatile int hashCode;
-
         private Binding(Builder builder) {
             super(builder);
-            strength = ValidationSupport.requireNonNull(builder.strength, "strength");
+            strength = builder.strength;
             description = builder.description;
             valueSet = builder.valueSet;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4499,7 +4568,17 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Binding build() {
-                return new Binding(this);
+                Binding binding = new Binding(this);
+                if (validating) {
+                    validate(binding);
+                }
+                return binding;
+            }
+
+            protected void validate(Binding binding) {
+                super.validate(binding);
+                ValidationSupport.requireNonNull(binding.strength, "strength");
+                ValidationSupport.requireValueOrChildren(binding);
             }
 
             protected Builder from(Binding binding) {
@@ -4533,15 +4612,12 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final String comment;
 
-        private volatile int hashCode;
-
         private Mapping(Builder builder) {
             super(builder);
-            identity = ValidationSupport.requireNonNull(builder.identity, "identity");
+            identity = builder.identity;
             language = builder.language;
-            map = ValidationSupport.requireNonNull(builder.map, "map");
+            map = builder.map;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4843,7 +4919,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Mapping build() {
-                return new Mapping(this);
+                Mapping mapping = new Mapping(this);
+                if (validating) {
+                    validate(mapping);
+                }
+                return mapping;
+            }
+
+            protected void validate(Mapping mapping) {
+                super.validate(mapping);
+                ValidationSupport.requireNonNull(mapping.identity, "identity");
+                ValidationSupport.requireNonNull(mapping.map, "map");
+                ValidationSupport.requireValueOrChildren(mapping);
             }
 
             protected Builder from(Mapping mapping) {

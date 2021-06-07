@@ -101,27 +101,21 @@ public class CareTeam extends DomainResource {
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CareTeam(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
+        category = Collections.unmodifiableList(builder.category);
         name = builder.name;
         subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
-        participant = Collections.unmodifiableList(ValidationSupport.checkList(builder.participant, "participant", Participant.class));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonCode, "reasonCode", CodeableConcept.class));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.checkList(builder.reasonReference, "reasonReference", Reference.class));
-        managingOrganization = Collections.unmodifiableList(ValidationSupport.checkList(builder.managingOrganization, "managingOrganization", Reference.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
+        participant = Collections.unmodifiableList(builder.participant);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        managingOrganization = Collections.unmodifiableList(builder.managingOrganization);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -983,7 +977,27 @@ public class CareTeam extends DomainResource {
          */
         @Override
         public CareTeam build() {
-            return new CareTeam(this);
+            CareTeam careTeam = new CareTeam(this);
+            if (validating) {
+                validate(careTeam);
+            }
+            return careTeam;
+        }
+
+        protected void validate(CareTeam careTeam) {
+            super.validate(careTeam);
+            ValidationSupport.checkList(careTeam.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(careTeam.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(careTeam.participant, "participant", Participant.class);
+            ValidationSupport.checkList(careTeam.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(careTeam.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(careTeam.managingOrganization, "managingOrganization", Reference.class);
+            ValidationSupport.checkList(careTeam.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(careTeam.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(careTeam.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(careTeam.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(careTeam.reasonReference, "reasonReference", "Condition");
+            ValidationSupport.checkReferenceType(careTeam.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(CareTeam careTeam) {
@@ -1025,17 +1039,12 @@ public class CareTeam extends DomainResource {
         private final Reference onBehalfOf;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
+            role = Collections.unmodifiableList(builder.role);
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
-            ValidationSupport.checkReferenceType(member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1367,7 +1376,19 @@ public class CareTeam extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.role, "role", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(participant.member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
+                ValidationSupport.checkReferenceType(participant.onBehalfOf, "onBehalfOf", "Organization");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {

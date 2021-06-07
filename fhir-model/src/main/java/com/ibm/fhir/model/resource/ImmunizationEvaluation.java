@@ -103,26 +103,21 @@ public class ImmunizationEvaluation extends DomainResource {
     @Choice({ PositiveInt.class, String.class })
     private final Element seriesDoses;
 
-    private volatile int hashCode;
-
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        patient = builder.patient;
         date = builder.date;
         authority = builder.authority;
-        targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
-        immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
-        doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = Collections.unmodifiableList(ValidationSupport.checkList(builder.doseStatusReason, "doseStatusReason", CodeableConcept.class));
+        targetDisease = builder.targetDisease;
+        immunizationEvent = builder.immunizationEvent;
+        doseStatus = builder.doseStatus;
+        doseStatusReason = Collections.unmodifiableList(builder.doseStatusReason);
         description = builder.description;
         series = builder.series;
-        doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-        seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
+        doseNumber = builder.doseNumber;
+        seriesDoses = builder.seriesDoses;
     }
 
     /**
@@ -876,7 +871,27 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         @Override
         public ImmunizationEvaluation build() {
-            return new ImmunizationEvaluation(this);
+            ImmunizationEvaluation immunizationEvaluation = new ImmunizationEvaluation(this);
+            if (validating) {
+                validate(immunizationEvaluation);
+            }
+            return immunizationEvaluation;
+        }
+
+        protected void validate(ImmunizationEvaluation immunizationEvaluation) {
+            super.validate(immunizationEvaluation);
+            ValidationSupport.checkList(immunizationEvaluation.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunizationEvaluation.status, "status");
+            ValidationSupport.requireNonNull(immunizationEvaluation.patient, "patient");
+            ValidationSupport.requireNonNull(immunizationEvaluation.targetDisease, "targetDisease");
+            ValidationSupport.requireNonNull(immunizationEvaluation.immunizationEvent, "immunizationEvent");
+            ValidationSupport.requireNonNull(immunizationEvaluation.doseStatus, "doseStatus");
+            ValidationSupport.checkList(immunizationEvaluation.doseStatusReason, "doseStatusReason", CodeableConcept.class);
+            ValidationSupport.choiceElement(immunizationEvaluation.doseNumber, "doseNumber", PositiveInt.class, String.class);
+            ValidationSupport.choiceElement(immunizationEvaluation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            ValidationSupport.checkReferenceType(immunizationEvaluation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.immunizationEvent, "immunizationEvent", "Immunization");
         }
 
         protected Builder from(ImmunizationEvaluation immunizationEvaluation) {

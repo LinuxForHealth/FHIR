@@ -21,13 +21,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class String extends Element {
     protected final java.lang.String value;
 
-    private volatile int hashCode;
-
     protected String(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkString(value);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -208,7 +204,17 @@ public class String extends Element {
          */
         @Override
         public String build() {
-            return new String(this);
+            String string = new String(this);
+            if (validating) {
+                validate(string);
+            }
+            return string;
+        }
+
+        protected void validate(String string) {
+            super.validate(string);
+            ValidationSupport.checkString(string.value);
+            ValidationSupport.requireValueOrChildren(string);
         }
 
         protected Builder from(String string) {

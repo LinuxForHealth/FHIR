@@ -165,11 +165,7 @@ public class ActionGroupingBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -224,7 +220,20 @@ public class ActionGroupingBehavior extends Code {
 
         @Override
         public ActionGroupingBehavior build() {
-            return new ActionGroupingBehavior(this);
+            ActionGroupingBehavior actionGroupingBehavior = new ActionGroupingBehavior(this);
+            if (validating) {
+                validate(actionGroupingBehavior);
+            }
+            return actionGroupingBehavior;
+        }
+
+        protected void validate(ActionGroupingBehavior actionGroupingBehavior) {
+            super.validate(actionGroupingBehavior);
+        }
+
+        protected Builder from(ActionGroupingBehavior actionGroupingBehavior) {
+            super.from(actionGroupingBehavior);
+            return this;
         }
     }
 

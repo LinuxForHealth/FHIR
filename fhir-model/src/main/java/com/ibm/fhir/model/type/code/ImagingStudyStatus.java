@@ -184,11 +184,7 @@ public class ImagingStudyStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -243,7 +239,20 @@ public class ImagingStudyStatus extends Code {
 
         @Override
         public ImagingStudyStatus build() {
-            return new ImagingStudyStatus(this);
+            ImagingStudyStatus imagingStudyStatus = new ImagingStudyStatus(this);
+            if (validating) {
+                validate(imagingStudyStatus);
+            }
+            return imagingStudyStatus;
+        }
+
+        protected void validate(ImagingStudyStatus imagingStudyStatus) {
+            super.validate(imagingStudyStatus);
+        }
+
+        protected Builder from(ImagingStudyStatus imagingStudyStatus) {
+            super.from(imagingStudyStatus);
+            return this;
         }
     }
 

@@ -92,20 +92,16 @@ public class AppointmentResponse extends DomainResource {
     private final ParticipantStatus participantStatus;
     private final String comment;
 
-    private volatile int hashCode;
-
     private AppointmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        appointment = builder.appointment;
         start = builder.start;
         end = builder.end;
-        participantType = Collections.unmodifiableList(ValidationSupport.checkList(builder.participantType, "participantType", CodeableConcept.class));
+        participantType = Collections.unmodifiableList(builder.participantType);
         actor = builder.actor;
-        participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
+        participantStatus = builder.participantStatus;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
     }
 
     /**
@@ -700,7 +696,21 @@ public class AppointmentResponse extends DomainResource {
          */
         @Override
         public AppointmentResponse build() {
-            return new AppointmentResponse(this);
+            AppointmentResponse appointmentResponse = new AppointmentResponse(this);
+            if (validating) {
+                validate(appointmentResponse);
+            }
+            return appointmentResponse;
+        }
+
+        protected void validate(AppointmentResponse appointmentResponse) {
+            super.validate(appointmentResponse);
+            ValidationSupport.checkList(appointmentResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(appointmentResponse.appointment, "appointment");
+            ValidationSupport.checkList(appointmentResponse.participantType, "participantType", CodeableConcept.class);
+            ValidationSupport.requireNonNull(appointmentResponse.participantStatus, "participantStatus");
+            ValidationSupport.checkReferenceType(appointmentResponse.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(appointmentResponse.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(AppointmentResponse appointmentResponse) {

@@ -159,11 +159,7 @@ public class NamingSystemType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -218,7 +214,20 @@ public class NamingSystemType extends Code {
 
         @Override
         public NamingSystemType build() {
-            return new NamingSystemType(this);
+            NamingSystemType namingSystemType = new NamingSystemType(this);
+            if (validating) {
+                validate(namingSystemType);
+            }
+            return namingSystemType;
+        }
+
+        protected void validate(NamingSystemType namingSystemType) {
+            super.validate(namingSystemType);
+        }
+
+        protected Builder from(NamingSystemType namingSystemType) {
+            super.from(namingSystemType);
+            return this;
         }
     }
 

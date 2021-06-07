@@ -192,6 +192,17 @@ public class EverythingOperationTest extends FHIRServerTestBase {
         assertResponseBundle(everythingBundle, BundleType.SEARCHSET, 895);
     }
 
+    @Test(groups = { "fhir-operation" })
+    public void testPatientEverythingAtTypeLevel() {
+        if (SKIP) {
+            logger.warning("Skipping integration test for $everything");
+            return;
+        }
+        Response response = getWebTarget().path("Patient/$everything").queryParam("_count", 1).request().get(Response.class);
+
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
     @Test(groups = { "fhir-operation" }, dependsOnMethods = { "testPatientEverything" })
     public void testPatientEverythingWithStartAndStop() {
         if (SKIP) {

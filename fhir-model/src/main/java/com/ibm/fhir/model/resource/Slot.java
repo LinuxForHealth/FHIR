@@ -117,22 +117,19 @@ public class Slot extends DomainResource {
     private final Boolean overbooked;
     private final String comment;
 
-    private volatile int hashCode;
-
     private Slot(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceCategory, "serviceCategory", CodeableConcept.class));
-        serviceType = Collections.unmodifiableList(ValidationSupport.checkList(builder.serviceType, "serviceType", CodeableConcept.class));
-        specialty = Collections.unmodifiableList(ValidationSupport.checkList(builder.specialty, "specialty", CodeableConcept.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
         appointmentType = builder.appointmentType;
-        schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        start = ValidationSupport.requireNonNull(builder.start, "start");
-        end = ValidationSupport.requireNonNull(builder.end, "end");
+        schedule = builder.schedule;
+        status = builder.status;
+        start = builder.start;
+        end = builder.end;
         overbooked = builder.overbooked;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
     }
 
     /**
@@ -850,7 +847,24 @@ public class Slot extends DomainResource {
          */
         @Override
         public Slot build() {
-            return new Slot(this);
+            Slot slot = new Slot(this);
+            if (validating) {
+                validate(slot);
+            }
+            return slot;
+        }
+
+        protected void validate(Slot slot) {
+            super.validate(slot);
+            ValidationSupport.checkList(slot.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(slot.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(slot.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(slot.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.requireNonNull(slot.schedule, "schedule");
+            ValidationSupport.requireNonNull(slot.status, "status");
+            ValidationSupport.requireNonNull(slot.start, "start");
+            ValidationSupport.requireNonNull(slot.end, "end");
+            ValidationSupport.checkReferenceType(slot.schedule, "schedule", "Schedule");
         }
 
         protected Builder from(Slot slot) {

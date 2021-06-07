@@ -23,12 +23,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Base64Binary extends Element {
     private final byte[] value;
 
-    private volatile int hashCode;
-
     private Base64Binary(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -225,7 +222,16 @@ public class Base64Binary extends Element {
          */
         @Override
         public Base64Binary build() {
-            return new Base64Binary(this);
+            Base64Binary base64Binary = new Base64Binary(this);
+            if (validating) {
+                validate(base64Binary);
+            }
+            return base64Binary;
+        }
+
+        protected void validate(Base64Binary base64Binary) {
+            super.validate(base64Binary);
+            ValidationSupport.requireValueOrChildren(base64Binary);
         }
 
         protected Builder from(Base64Binary base64Binary) {

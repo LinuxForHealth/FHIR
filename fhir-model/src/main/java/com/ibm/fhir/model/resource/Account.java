@@ -87,24 +87,19 @@ public class Account extends DomainResource {
     @ReferenceTarget({ "Account" })
     private final Reference partOf;
 
-    private volatile int hashCode;
-
     private Account(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         type = builder.type;
         name = builder.name;
-        subject = Collections.unmodifiableList(ValidationSupport.checkList(builder.subject, "subject", Reference.class));
+        subject = Collections.unmodifiableList(builder.subject);
         servicePeriod = builder.servicePeriod;
-        coverage = Collections.unmodifiableList(ValidationSupport.checkList(builder.coverage, "coverage", Coverage.class));
+        coverage = Collections.unmodifiableList(builder.coverage);
         owner = builder.owner;
         description = builder.description;
-        guarantor = Collections.unmodifiableList(ValidationSupport.checkList(builder.guarantor, "guarantor", Guarantor.class));
+        guarantor = Collections.unmodifiableList(builder.guarantor);
         partOf = builder.partOf;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
-        ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Account");
     }
 
     /**
@@ -841,7 +836,23 @@ public class Account extends DomainResource {
          */
         @Override
         public Account build() {
-            return new Account(this);
+            Account account = new Account(this);
+            if (validating) {
+                validate(account);
+            }
+            return account;
+        }
+
+        protected void validate(Account account) {
+            super.validate(account);
+            ValidationSupport.checkList(account.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(account.status, "status");
+            ValidationSupport.checkList(account.subject, "subject", Reference.class);
+            ValidationSupport.checkList(account.coverage, "coverage", Coverage.class);
+            ValidationSupport.checkList(account.guarantor, "guarantor", Guarantor.class);
+            ValidationSupport.checkReferenceType(account.subject, "subject", "Patient", "Device", "Practitioner", "PractitionerRole", "Location", "HealthcareService", "Organization");
+            ValidationSupport.checkReferenceType(account.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(account.partOf, "partOf", "Account");
         }
 
         protected Builder from(Account account) {
@@ -873,14 +884,10 @@ public class Account extends DomainResource {
         @Summary
         private final PositiveInt priority;
 
-        private volatile int hashCode;
-
         private Coverage(Builder builder) {
             super(builder);
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             priority = builder.priority;
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1134,7 +1141,18 @@ public class Account extends DomainResource {
              */
             @Override
             public Coverage build() {
-                return new Coverage(this);
+                Coverage coverage = new Coverage(this);
+                if (validating) {
+                    validate(coverage);
+                }
+                return coverage;
+            }
+
+            protected void validate(Coverage coverage) {
+                super.validate(coverage);
+                ValidationSupport.requireNonNull(coverage.coverage, "coverage");
+                ValidationSupport.checkReferenceType(coverage.coverage, "coverage", "Coverage");
+                ValidationSupport.requireValueOrChildren(coverage);
             }
 
             protected Builder from(Coverage coverage) {
@@ -1156,15 +1174,11 @@ public class Account extends DomainResource {
         private final Boolean onHold;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Guarantor(Builder builder) {
             super(builder);
-            party = ValidationSupport.requireNonNull(builder.party, "party");
+            party = builder.party;
             onHold = builder.onHold;
             period = builder.period;
-            ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1443,7 +1457,18 @@ public class Account extends DomainResource {
              */
             @Override
             public Guarantor build() {
-                return new Guarantor(this);
+                Guarantor guarantor = new Guarantor(this);
+                if (validating) {
+                    validate(guarantor);
+                }
+                return guarantor;
+            }
+
+            protected void validate(Guarantor guarantor) {
+                super.validate(guarantor);
+                ValidationSupport.requireNonNull(guarantor.party, "party");
+                ValidationSupport.checkReferenceType(guarantor.party, "party", "Patient", "RelatedPerson", "Organization");
+                ValidationSupport.requireValueOrChildren(guarantor);
             }
 
             protected Builder from(Guarantor guarantor) {

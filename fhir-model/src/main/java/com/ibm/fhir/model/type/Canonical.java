@@ -18,8 +18,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Canonical extends Uri {
-    private volatile int hashCode;
-
     private Canonical(Builder builder) {
         super(builder);
     }
@@ -227,7 +225,15 @@ public class Canonical extends Uri {
          */
         @Override
         public Canonical build() {
-            return new Canonical(this);
+            Canonical canonical = new Canonical(this);
+            if (validating) {
+                validate(canonical);
+            }
+            return canonical;
+        }
+
+        protected void validate(Canonical canonical) {
+            super.validate(canonical);
         }
 
         protected Builder from(Canonical canonical) {

@@ -143,13 +143,11 @@ public class List extends DomainResource {
     )
     private final CodeableConcept emptyReason;
 
-    private volatile int hashCode;
-
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        mode = builder.mode;
         title = builder.title;
         code = builder.code;
         subject = builder.subject;
@@ -157,12 +155,9 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        entry = Collections.unmodifiableList(ValidationSupport.checkList(builder.entry, "entry", Entry.class));
+        note = Collections.unmodifiableList(builder.note);
+        entry = Collections.unmodifiableList(builder.entry);
         emptyReason = builder.emptyReason;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
     }
 
     /**
@@ -924,7 +919,23 @@ public class List extends DomainResource {
          */
         @Override
         public List build() {
-            return new List(this);
+            List list = new List(this);
+            if (validating) {
+                validate(list);
+            }
+            return list;
+        }
+
+        protected void validate(List list) {
+            super.validate(list);
+            ValidationSupport.checkList(list.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(list.status, "status");
+            ValidationSupport.requireNonNull(list.mode, "mode");
+            ValidationSupport.checkList(list.note, "note", Annotation.class);
+            ValidationSupport.checkList(list.entry, "entry", Entry.class);
+            ValidationSupport.checkReferenceType(list.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(list.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(list.source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
         }
 
         protected Builder from(List list) {
@@ -962,15 +973,12 @@ public class List extends DomainResource {
         @Required
         private final Reference item;
 
-        private volatile int hashCode;
-
         private Entry(Builder builder) {
             super(builder);
             flag = builder.flag;
             deleted = builder.deleted;
             date = builder.date;
-            item = ValidationSupport.requireNonNull(builder.item, "item");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -1271,7 +1279,17 @@ public class List extends DomainResource {
              */
             @Override
             public Entry build() {
-                return new Entry(this);
+                Entry entry = new Entry(this);
+                if (validating) {
+                    validate(entry);
+                }
+                return entry;
+            }
+
+            protected void validate(Entry entry) {
+                super.validate(entry);
+                ValidationSupport.requireNonNull(entry.item, "item");
+                ValidationSupport.requireValueOrChildren(entry);
             }
 
             protected Builder from(Entry entry) {

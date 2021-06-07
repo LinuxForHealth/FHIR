@@ -46,18 +46,15 @@ public class RelatedArtifact extends Element {
     @Summary
     private final Canonical resource;
 
-    private volatile int hashCode;
-
     private RelatedArtifact(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         label = builder.label;
         display = builder.display;
         citation = builder.citation;
         url = builder.url;
         document = builder.document;
         resource = builder.resource;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -398,7 +395,17 @@ public class RelatedArtifact extends Element {
          */
         @Override
         public RelatedArtifact build() {
-            return new RelatedArtifact(this);
+            RelatedArtifact relatedArtifact = new RelatedArtifact(this);
+            if (validating) {
+                validate(relatedArtifact);
+            }
+            return relatedArtifact;
+        }
+
+        protected void validate(RelatedArtifact relatedArtifact) {
+            super.validate(relatedArtifact);
+            ValidationSupport.requireNonNull(relatedArtifact.type, "type");
+            ValidationSupport.requireValueOrChildren(relatedArtifact);
         }
 
         protected Builder from(RelatedArtifact relatedArtifact) {

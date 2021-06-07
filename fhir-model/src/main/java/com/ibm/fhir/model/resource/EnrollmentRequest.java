@@ -62,21 +62,15 @@ public class EnrollmentRequest extends DomainResource {
     @ReferenceTarget({ "Coverage" })
     private final Reference coverage;
 
-    private volatile int hashCode;
-
     private EnrollmentRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         created = builder.created;
         insurer = builder.insurer;
         provider = builder.provider;
         candidate = builder.candidate;
         coverage = builder.coverage;
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(candidate, "candidate", "Patient");
-        ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
     }
 
     /**
@@ -609,7 +603,20 @@ public class EnrollmentRequest extends DomainResource {
          */
         @Override
         public EnrollmentRequest build() {
-            return new EnrollmentRequest(this);
+            EnrollmentRequest enrollmentRequest = new EnrollmentRequest(this);
+            if (validating) {
+                validate(enrollmentRequest);
+            }
+            return enrollmentRequest;
+        }
+
+        protected void validate(EnrollmentRequest enrollmentRequest) {
+            super.validate(enrollmentRequest);
+            ValidationSupport.checkList(enrollmentRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkReferenceType(enrollmentRequest.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.candidate, "candidate", "Patient");
+            ValidationSupport.checkReferenceType(enrollmentRequest.coverage, "coverage", "Coverage");
         }
 
         protected Builder from(EnrollmentRequest enrollmentRequest) {

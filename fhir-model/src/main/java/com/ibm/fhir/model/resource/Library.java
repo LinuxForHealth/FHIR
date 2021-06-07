@@ -174,42 +174,39 @@ public class Library extends DomainResource {
     @Summary
     private final List<Attachment> content;
 
-    private volatile int hashCode;
-
     private Library(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        type = builder.type;
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.checkList(builder.jurisdiction, "jurisdiction", CodeableConcept.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.checkList(builder.topic, "topic", CodeableConcept.class));
-        author = Collections.unmodifiableList(ValidationSupport.checkList(builder.author, "author", ContactDetail.class));
-        editor = Collections.unmodifiableList(ValidationSupport.checkList(builder.editor, "editor", ContactDetail.class));
-        reviewer = Collections.unmodifiableList(ValidationSupport.checkList(builder.reviewer, "reviewer", ContactDetail.class));
-        endorser = Collections.unmodifiableList(ValidationSupport.checkList(builder.endorser, "endorser", ContactDetail.class));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.checkList(builder.relatedArtifact, "relatedArtifact", RelatedArtifact.class));
-        parameter = Collections.unmodifiableList(ValidationSupport.checkList(builder.parameter, "parameter", ParameterDefinition.class));
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.checkList(builder.dataRequirement, "dataRequirement", DataRequirement.class));
-        content = Collections.unmodifiableList(ValidationSupport.checkList(builder.content, "content", Attachment.class));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        parameter = Collections.unmodifiableList(builder.parameter);
+        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
+        content = Collections.unmodifiableList(builder.content);
     }
 
     /**
@@ -1730,7 +1727,32 @@ public class Library extends DomainResource {
          */
         @Override
         public Library build() {
-            return new Library(this);
+            Library library = new Library(this);
+            if (validating) {
+                validate(library);
+            }
+            return library;
+        }
+
+        protected void validate(Library library) {
+            super.validate(library);
+            ValidationSupport.checkList(library.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(library.status, "status");
+            ValidationSupport.requireNonNull(library.type, "type");
+            ValidationSupport.choiceElement(library.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(library.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(library.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(library.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(library.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(library.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(library.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(library.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(library.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(library.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(library.parameter, "parameter", ParameterDefinition.class);
+            ValidationSupport.checkList(library.dataRequirement, "dataRequirement", DataRequirement.class);
+            ValidationSupport.checkList(library.content, "content", Attachment.class);
+            ValidationSupport.checkReferenceType(library.subject, "subject", "Group");
         }
 
         protected Builder from(Library library) {

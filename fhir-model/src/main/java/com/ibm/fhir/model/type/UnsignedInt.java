@@ -21,12 +21,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class UnsignedInt extends Integer {
     private static final int MIN_VALUE = 0;
 
-    private volatile int hashCode;
-
     private UnsignedInt(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, MIN_VALUE);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override
@@ -210,7 +206,17 @@ public class UnsignedInt extends Integer {
          */
         @Override
         public UnsignedInt build() {
-            return new UnsignedInt(this);
+            UnsignedInt unsignedInt = new UnsignedInt(this);
+            if (validating) {
+                validate(unsignedInt);
+            }
+            return unsignedInt;
+        }
+
+        protected void validate(UnsignedInt unsignedInt) {
+            super.validate(unsignedInt);
+            ValidationSupport.checkValue(unsignedInt.value, MIN_VALUE);
+            ValidationSupport.requireValueOrChildren(unsignedInt);
         }
 
         protected Builder from(UnsignedInt unsignedInt) {

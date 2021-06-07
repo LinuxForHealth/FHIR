@@ -79,7 +79,7 @@ public class S3Provider implements Provider {
 
         String cosLocation = adapter.getStorageProviderLocation(source);
         String cosEndpointUrl = adapter.getStorageProviderEndpointInternal(source);
-        String bucketName = adapter.getStorageProviderBucketName(source);
+        bucketName = adapter.getStorageProviderBucketName(source);
 
         boolean iam = adapter.isStorageProviderAuthTypeIam(source);
 
@@ -167,12 +167,19 @@ public class S3Provider implements Provider {
      * checks to see if the bucket exists.
      *
      * @return
+     * @implNote to maintain the exists method behavior, we're only checking the client exists or does not  (true  or false), and warning if the bucket is not found as the S3 client does not do an exists properly when using a doesBucketExistV2 when using a vanity url to access the service on AWS.
      */
     public boolean exists() {
-        boolean ex = client != null && client.doesBucketExistV2(bucketName);
-        if (ex == false) {
+        boolean ex = client != null;
+
+        // We only want to log a warning here, and assume it's true if the client exists.
+        // In certain circumstances, a direct url to the bucket can be used. https://mybucketdemo123.s3.us.east-2.amazonaws.com
+        // versus an API enabled url e.g. https://s3.us.east-2.amazonaws.com
+        // These end up with TWO different responses, the former is false, and the latter is true.
+        if (!ex || !client.doesBucketExistV2(bucketName)) {
             logger.warning("Bucket '" + bucketName + "' not found! Client [" + (client != null) + "]");
         }
+
         return ex;
     }
 

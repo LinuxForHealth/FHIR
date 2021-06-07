@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import com.ibm.cloud.objectstorage.services.s3.model.ListObjectsV2Result;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectSummary;
+import com.ibm.fhir.bulkdata.jbatch.load.exception.FHIRLoadException;
 import com.ibm.fhir.bulkdata.load.partition.transformer.PartitionSourceTransformer;
 import com.ibm.fhir.bulkdata.provider.impl.S3Provider;
 import com.ibm.fhir.exception.FHIRException;
@@ -29,11 +30,11 @@ public class S3Transformer implements PartitionSourceTransformer {
 
     @Override
     public List<BulkDataSource> transformToDataSources(String source, String type, String location) throws FHIRException {
-        S3Provider wrapper = new S3Provider(source);
-        wrapper.listBuckets();
+        S3Provider provider = new S3Provider(source);
+
         // Checks and return empty list.
-        if (!wrapper.exists()) {
-            wrapper.listBuckets();
+        if (!provider.exists()) {
+            provider.listBuckets();
             return Collections.emptyList();
         }
 
@@ -42,10 +43,11 @@ public class S3Transformer implements PartitionSourceTransformer {
         ListObjectsV2Result result = null;
         boolean shouldContinue = true;
         while (shouldContinue) {
-            result = wrapper.getListObject(continuationToken);
+            result = provider.getListObject(continuationToken);
             for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
                 boolean isToBeProccessed = false;
                 if (location != null && !location.trim().isEmpty()) {
+                    // We read multiple files that start with the same pattern.
                     if (objectSummary.getKey().startsWith(location.trim())) {
                         isToBeProccessed = true;
                     }
@@ -55,7 +57,8 @@ public class S3Transformer implements PartitionSourceTransformer {
                 if (isToBeProccessed) {
                     logger.info("ObjectStorge Object -'" + objectSummary.getKey()
                             + "' - '" + objectSummary.getSize() + "' bytes.");
-                    if (objectSummary.getSize() > 0) {
+                    if (objectSummary.getSize() >= 0) {
+                        // We  want these to line up when we align with the output of the Job Listener
                         sources.add(new BulkDataSource(type, objectSummary.getKey()));
                     }
                 }
@@ -63,6 +66,11 @@ public class S3Transformer implements PartitionSourceTransformer {
 
             shouldContinue = result != null && result.isTruncated();
             continuationToken = result.getNextContinuationToken();
+        }
+
+        // We shouldn't hit this situation.
+        if (sources.isEmpty()) {
+            throw new FHIRLoadException("The source is not found '" + location + "'");
         }
 
         return sources;

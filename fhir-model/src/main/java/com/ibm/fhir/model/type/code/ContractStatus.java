@@ -323,11 +323,7 @@ public class ContractStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -382,7 +378,20 @@ public class ContractStatus extends Code {
 
         @Override
         public ContractStatus build() {
-            return new ContractStatus(this);
+            ContractStatus contractStatus = new ContractStatus(this);
+            if (validating) {
+                validate(contractStatus);
+            }
+            return contractStatus;
+        }
+
+        protected void validate(ContractStatus contractStatus) {
+            super.validate(contractStatus);
+        }
+
+        protected Builder from(ContractStatus contractStatus) {
+            super.from(contractStatus);
+            return this;
         }
     }
 
