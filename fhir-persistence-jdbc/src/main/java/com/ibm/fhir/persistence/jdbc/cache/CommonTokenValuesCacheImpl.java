@@ -388,4 +388,25 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
         return result;
     }
+
+    @Override
+    public Integer getCanonicalId(String canonicalValue) {
+        Integer result;
+
+        LinkedHashMap<String,Integer> valMap = canonicalValues.get();
+        result = valMap != null ? valMap.get(canonicalValue) : null;
+        if (result == null) {
+            // not found in the local cache, try the shared cache
+            synchronized (canonicalValuesCache) {
+                result = canonicalValuesCache.get(canonicalValue);
+            }
+
+            if (result != null) {
+                // add to the local cache so we can find it again without locking
+                addCanonicalValue(canonicalValue, result);
+            }
+        }
+
+        return result;
+    }
 }

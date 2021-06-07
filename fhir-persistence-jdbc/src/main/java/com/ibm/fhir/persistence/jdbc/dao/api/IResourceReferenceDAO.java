@@ -63,4 +63,11 @@ public interface IResourceReferenceDAO {
      * @return
      */
     List<Long> readCommonTokenValueIdList(String tokenValue);
+
+    /**
+     * Read the database canonical_id for the given value
+     * @param canonicalValue
+     * @return
+     */
+    Integer readCanonicalId(String canonicalValue);
 }

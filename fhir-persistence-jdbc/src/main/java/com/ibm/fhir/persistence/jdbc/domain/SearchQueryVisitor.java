@@ -87,6 +87,16 @@ public interface SearchQueryVisitor<T> {
     T addTokenParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
+     * Filter the query using the given tag query parameter
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addTagParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
      * Filter the query using the given string parameter
      * @param query
      * @param resourceType
@@ -94,6 +104,15 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addStringParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
+     * Filter the query using the given canonical parameter
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     */
+    T addCanonicalParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Filter the query using the given number parameter

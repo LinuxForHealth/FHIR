@@ -95,6 +95,21 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     }
 
     @Override
+    public Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+        Integer result = cache.getResourceReferenceCache().getCanonicalId(canonicalValue);
+        if (result == null) {
+            result = resourceReferenceDAO.readCanonicalId(canonicalValue);
+            if (result != null) {
+                cache.getResourceReferenceCache().addCanonicalValue(canonicalValue, result);
+            } else {
+                result = -1;
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     public Long getCommonTokenValueId(String codeSystem, String tokenValue) {
         Long result = cache.getResourceReferenceCache().getCommonTokenValueId(codeSystem, tokenValue);
         if (result == null) {

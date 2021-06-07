@@ -34,6 +34,15 @@ public interface JDBCIdentityCache {
     Integer getCodeSystemId(String codeSystem) throws FHIRPersistenceException;
 
     /**
+     * Get the database id for the given canonical value. Read only. If the value
+     * does not exist, -1 is returned.
+     * @param canonicalValue
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    Integer getCanonicalId(String canonicalValue) throws FHIRPersistenceException;
+
+    /**
      * Get the database id for the given parameter name. Creates new records if necessary.
      * @param parameterName
      * @return

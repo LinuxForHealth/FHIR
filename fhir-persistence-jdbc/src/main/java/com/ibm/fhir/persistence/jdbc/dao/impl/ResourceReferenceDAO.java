@@ -153,6 +153,29 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
+    public Integer readCanonicalId(String canonicalValue) {
+        Integer result;
+        final String SQL = ""
+                + "SELECT canonical_id "
+                + "  FROM common_canonical_values "
+                + " WHERE url = ? ";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, canonicalValue);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result = rs.getInt(1);
+            } else {
+                result = null;
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    @Override
     public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs) {
         // Grab the ids for all the code-systems, and upsert any misses
 //        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();

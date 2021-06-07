@@ -115,4 +115,11 @@ public interface ICommonTokenValuesCache {
      * @return
      */
     Long getCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Get the cached database id for the given canonical url
+     * @param url
+     * @return
+     */
+    Integer getCanonicalId(String url);
 }

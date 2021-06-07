@@ -56,6 +56,8 @@ import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
+import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
 import com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
@@ -183,6 +185,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      */
     protected int getCodeSystemId(String codeSystemName) throws FHIRPersistenceException {
         return this.identityCache.getCodeSystemId(codeSystemName);
+    }
+
+    protected int getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
+        return this.identityCache.getCanonicalId(canonicalValue);
     }
 
     @Override
@@ -415,7 +421,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     }
                 } else {
                     // Traditional approach, using a join to xx_TOKEN_VALUES_V
-                    
+
                     // Include code if present
                     if (code != null) {
                         where.col(paramAlias, TOKEN_VALUE).operator(operator);
@@ -426,7 +432,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                                     .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
                                     .replace("+", "++")+ PERCENT_WILDCARD;
                             where.bind(SearchUtil.normalizeForSearch(textSearchString)).escape("+");
-    
+
                         } else {
                             where.bind(normalizedCode);
                         }
@@ -1348,6 +1354,47 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     }
 
     @Override
+    public QueryData addTagParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        // Add a join to the query. The NOT/NOT_IN modifiers are trickier because
+        // they need to be handled as a NOT EXISTS clause.
+        final int aliasIndex = getNextAliasIndex();
+        final SelectAdapter query = queryData.getQuery();
+        final String paramAlias = "P" + aliasIndex;
+        final String lrAlias = queryData.getLRAlias(); // join to LR at the same query level
+
+        // :text treated like a normal token
+        if (Modifier.TEXT.equals(queryParm.getModifier())) {
+            return addTokenParam(queryData, resourceType, queryParm);
+        }
+
+
+        // TAGs are stored in their own parameter table and therefore don't need a parameter_name_id
+        // but otherwise are just like any other token
+        final ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
+        final String xxTags = resourceType + "_TAGS";
+
+        String parameterName = queryParm.getCode();
+
+        if (queryParm.getModifier() == Modifier.NOT || queryParm.getModifier() == Modifier.NOT_IN) {
+            // Use a nested NOT EXISTS (...) instead of a simple join
+            SelectAdapter exists = Select.select("1");
+            exists.from(xxTags, alias(paramAlias))
+            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
+            .and(filter);
+
+            // Add as a not exists to the main query
+            query.from().where().and().notExists(exists.build());
+        } else {
+            // Attach the parameter table to the single parameter exists join
+            query.from().innerJoin(xxTags, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                .and(filter));
+        }
+
+        // We're not changing the level, so we return the same queryData we were given
+        return queryData;
+    }
+
+    @Override
     public QueryData addStringParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // Join to the string parameter table
         // Attach an exists clause to filter the result based on the string query parameter definition
@@ -1364,6 +1411,62 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
             .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
             .and(filter));
+
+        return queryData;
+    }
+
+    @Override
+    public QueryData addCanonicalParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        // Join to the canonical parameter table...which in this case means the xx_profiles table
+        // because current _profile is the only search parameter to be defined as a canonical
+        final int aliasIndex = getNextAliasIndex();
+        final String lrAlias = queryData.getLRAlias();
+        final String paramTableName = resourceType + "_PROFILES";
+        final String paramAlias = getParamAlias(aliasIndex);
+        final String parameterName = queryParm.getCode();
+        if (!"_profile".equals(parameterName)) {
+            throw new FHIRPersistenceException("Only _profile is supported as a canonical");
+        }
+
+        // Build the filter predicate for the canonical values, handling the parse
+        WhereFragment whereFragment = new WhereFragment();
+        whereFragment.leftParen();
+
+        boolean multiple = false;
+        for (QueryParameterValue value : queryParm.getValues()) {
+            // Concatenate multiple matches with an OR
+            if (multiple) {
+                whereFragment.or();
+            } else {
+                multiple = true;
+            }
+
+            // Reuse the same CanonicalSupport code used for param extraction to parse the search value
+            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(-1, resourceType, -1, -1, value.getValueString(), false);
+            int canonicalId = getCanonicalId(rpc.getCanonicalValue());
+            whereFragment.col(paramAlias, "CANONICAL_ID").eq(canonicalId);
+
+            // TODO double-check semantics of ABOVE and BELOW in this context
+            if (rpc.getVersion() != null && !rpc.getVersion().isEmpty()) {
+                if (queryParm.getModifier() == Modifier.ABOVE) {
+                    whereFragment.and(paramAlias, "VERSION").gte().bind(rpc.getVersion());
+                } else if (queryParm.getModifier() == Modifier.BELOW) {
+                    whereFragment.and(paramAlias, "VERSION").lt().bind(rpc.getVersion());
+                } else {
+                    whereFragment.and(paramAlias, "VERSION").eq().bind(rpc.getVersion());
+                }
+            }
+
+            if (rpc.getFragment() != null && !rpc.getFragment().isEmpty()) {
+                whereFragment.and(paramAlias, "FRAGMENT").eq().bind(rpc.getFragment());
+            }
+        }
+
+        whereFragment.rightParen();
+
+        SelectAdapter query = queryData.getQuery();
+        query.from().innerJoin(paramTableName, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
+            .and(whereFragment.getExpression()));
 
         return queryData;
     }

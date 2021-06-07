@@ -50,9 +50,6 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ParameterVisitorBatchDAO.class.getName());
 
-    private static final String PROFILE = "_profile";
-    private static final String TAG = "_tag";
-
     // the connection to use for the inserts
     private final Connection connection;
 
@@ -213,7 +210,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String parameterName = param.getName();
         String value = param.getValueString();
 
-        if (PROFILE.equals(parameterName)) {
+        if (JDBCConstants.PARAM_NAME_PROFILE.equals(parameterName)) {
             // profile canonicals are now stored in their own tables.
             processProfile(param);
             return;
@@ -431,7 +428,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
             ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
-            if (TAG.equals(parameterName)) {
+            if (JDBCConstants.PARAM_NAME_TAG.equals(parameterName)) {
                 // tag search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
                 // optimizer
