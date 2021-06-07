@@ -359,4 +359,9 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
         String hostSyle = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/accessType", "path");
         return S3HostStyle.from(hostSyle);
     }
+
+    @Override
+    public boolean enableSkippableUpdates() {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/enableSkippableUpdates", Boolean.TRUE);
+    }
 }

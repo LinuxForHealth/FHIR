@@ -6,10 +6,14 @@
 
 package com.ibm.fhir.bulkdata.jbatch.load;
 
+import static com.ibm.fhir.model.type.String.string;
+
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,8 +40,14 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.SaltHash;
+import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
@@ -46,6 +56,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -165,6 +176,9 @@ public class ChunkWriter extends AbstractItemWriter {
             boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
                     && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
 
+            // Get the Skippable Update status
+            boolean skip = adapter.enableSkippableUpdates();
+            Map<String,SaltHash> localCache = new HashMap<>();
             try {
                 for (Object objResJsonList : arg0) {
                     @SuppressWarnings("unchecked")
@@ -190,8 +204,7 @@ public class ChunkWriter extends AbstractItemWriter {
                                 }
                             } else {
                                 long startTime = System.currentTimeMillis();
-                                operationOutcome =
-                                        fhirPersistence.update(persistenceContext, id, fhirResource).getOutcome();
+                                operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
                                 if (auditLogger.shouldLog()) {
                                     long endTime = System.currentTimeMillis();
                                     String location = "@source:" + ctx.getSource() + "/" + ctx.getImportPartitionWorkitem();
@@ -247,5 +260,77 @@ public class ChunkWriter extends AbstractItemWriter {
             logger.log(Level.SEVERE, "Import ChunkWriter.writeItems during job[" + executionId + "]", e);
             throw e;
         }
+    }
+
+    /**
+     * conditional update checks to see if our cache contains the key, if not reads from the db, and calculates the cache.
+     * The cache is saved within the context of this particular execution, and then destroyed.
+     *
+     * @implNote considered using a shared cache, a few things with that to consider:
+     * 1 - the shared cache would have to be updated at the end of a transaction (we don't control it).
+     * 2 - we would have to use a transaction sync registry to control the synchronization of the cache.
+     * 3 - Instead, we're doing a read then update.
+     *
+     * @param chunkData the transient user data used increment the number of skips
+     * @param skip should skip the resource if it matches
+     * @param localCache map containing the key-saltHash
+     * @param persistence used to facilitate the calls to the underlying db
+     * @param context used in db calls
+     * @param logicalId the logical id of the FHIR resource (e.g. 1-2-3-4)
+     * @param resource the FHIR Resource
+     * @return outcomes including information or warnings
+     * @throws FHIRPersistenceException
+     */
+    public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
+        OperationOutcome oo;
+        if (!skip) {
+            // Key is scoped to the ResourceType.
+            String key = resourceType + "/" + logicalId;
+            SaltHash oldBaseLine = localCache.get(key);
+
+            Resource oldResource = null;
+            ResourceFingerprintVisitor fp = new ResourceFingerprintVisitor();
+            if (oldBaseLine == null) {
+                // Go get the latest resource in the database and fingerprint the resource.
+                // If the resource exists, then we need to fingerprint.
+                oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                if (oldResource != null) {
+                    ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
+                    oldResource.accept(fpOld);
+                    oldBaseLine = fpOld.getSaltAndHash();
+                    fp = new ResourceFingerprintVisitor(oldBaseLine);
+                }
+            }
+
+            resource.accept(fp);
+            SaltHash newBaseLine = fp.getSaltAndHash();
+
+            if (oldBaseLine != null && oldBaseLine.equals(newBaseLine)) {
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine("Skipping $import - update for '" + key + "'");
+                }
+                chunkData.addToNumOfSkippedResources(1);
+                oo =  OperationOutcome.builder()
+                    .issue(Issue.builder()
+                        .severity(IssueSeverity.INFORMATION)
+                        .code(IssueType.INFORMATIONAL)
+                        .details(CodeableConcept.builder()
+                            .text(string("Update resource matches the existing resource; skipping the update for '" + key + "'"))
+                            .build())
+                        .build())
+                    .build();
+            } else {
+                // We need to update the db and update the local cache
+                if (oldResource != null) {
+                    // Old Resource is set so we avoid an extra read
+                    context.getPersistenceEvent().setPrevFhirResource(oldResource);
+                }
+                oo = persistence.update(context, logicalId, resource).getOutcome();
+                localCache.put(key, newBaseLine);
+            }
+        } else {
+            oo = persistence.update(context, logicalId, resource).getOutcome();
+        }
+        return oo;
     }
 }

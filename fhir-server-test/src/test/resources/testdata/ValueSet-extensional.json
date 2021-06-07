@@ -1,0 +1,62 @@
+{
+    "resourceType": "ValueSet",
+    "id": "179814145dd-affc9873-c326-43c3-bf0f-7d7d695644b5",
+    "url": "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1114.7",
+    "version": "20200331",
+    "name": "2019 Novel Coronavirus COVID 19 Codeset",
+    "title": "2019 Novel Coronavirus COVID 19 Codeset",
+    "status": "active",
+    "compose": {
+        "include": [
+            {
+                "system": "http://snomed.info/sct",
+                "concept": [
+                    {
+                        "code": "260373001",
+                        "display": "Detected (qualifier value)"
+                    },
+                    {
+                        "code": "260415000",
+                        "display": "Not detected (qualifier value)"
+                    },
+                    {
+                        "code": "461911000124106",
+                        "display": "Swab specimen from oropharynx (specimen)"
+                    },
+                    {
+                        "code": "82334004",
+                        "display": "Indeterminate (qualifier value)"
+                    },
+                    {
+                        "code": "840533007",
+                        "display": "Severe acute respiratory syndrome coronavirus 2 (organism)"
+                    },
+                    {
+                        "code": "840534001",
+                        "display": "Severe acute respiratory syndrome coronavirus 2 vaccination (procedure)"
+                    },
+                    {
+                        "code": "840535000",
+                        "display": "Antibody to Severe acute respiratory syndrome coronavirus 2 (substance)"
+                    },
+                    {
+                        "code": "840536004",
+                        "display": "Antigen of Severe acute respiratory syndrome coronavirus 2 (substance)"
+                    },
+                    {
+                        "code": "840539006",
+                        "display": "Disease caused by Severe acute respiratory syndrome coronavirus 2 (disorder)"
+                    },
+                    {
+                        "code": "840544004",
+                        "display": "Suspected disease caused by Severe acute respiratory coronavirus 2 (situation)"
+                    },
+                    {
+                        "code": "840546002",
+                        "display": "Exposure to Severe acute respiratory syndrome coronavirus 2 (event)"
+                    }
+                ]
+            }
+        ]
+    }
+}

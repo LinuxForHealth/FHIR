@@ -135,7 +135,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
     public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
     public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";

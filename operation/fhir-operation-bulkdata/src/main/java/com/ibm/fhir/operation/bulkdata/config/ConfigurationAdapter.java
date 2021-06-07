@@ -382,6 +382,7 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
+    @Deprecated
     boolean isStorageProviderExportPublic(String provider);
 
     /**
@@ -498,6 +499,11 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * @return the status of skippable updates
+     */
+    boolean enableSkippableUpdates();
 
     /**
      * gets the storage type

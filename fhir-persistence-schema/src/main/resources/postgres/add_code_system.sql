@@ -4,8 +4,6 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
--- LOADED ON: {{DATE}}
-
 -- ----------------------------------------------------------------------------
 -- Procedure to add a new code system in a thread-safe way
 -- ----------------------------------------------------------------------------
@@ -14,7 +12,8 @@
     LANGUAGE plpgsql
       AS $$
 
-  BEGIN  
+BEGIN  
+    -- LOADED ON: {{DATE}}
     SELECT code_system_id INTO p_code_system_id
     FROM {{SCHEMA_NAME}}.code_systems
     WHERE code_system_name = p_code_system_name;

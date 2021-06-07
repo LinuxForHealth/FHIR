@@ -23,6 +23,7 @@ public class ImportCheckPointData implements Serializable {
     protected long numOfProcessedResources = 0;
     protected long numOfImportedResources = 0;
     protected long numOfImportFailures = 0;
+    protected long numOfSkipped = 0;
     protected long totalReadMilliSeconds = 0;
     protected long totalWriteMilliSeconds = 0;
     protected long totalValidationMilliSeconds = 0;
@@ -88,6 +89,18 @@ public class ImportCheckPointData implements Serializable {
         this.numOfImportedResources += numOfImportedResources;
     }
 
+    public long getNumOfSkippedResources() {
+        return numOfSkipped;
+    }
+
+    public void setNumOfSkippedResources(long skipped) {
+        this.numOfSkipped = skipped;
+    }
+
+    public void addToNumOfSkippedResources(long skipped) {
+        this.numOfSkipped += skipped;
+    }
+
     public long getNumOfImportFailures() {
         return numOfImportFailures;
     }
@@ -132,6 +145,7 @@ public class ImportCheckPointData implements Serializable {
                 .totalWriteMilliSeconds(userData.getTotalWriteMilliSeconds())
                 .importFileSize(userData.getImportFileSize())
                 .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
+                .numOfSkippedResources(userData.getNumOfSkippedResources())
                 .build();
     }
 
@@ -267,6 +281,7 @@ public class ImportCheckPointData implements Serializable {
         protected long totalWriteMilliSeconds;
         protected long importFileSize;
         protected long inFlyRateBeginMilliSeconds;
+        protected long numOfSkippedResources;
 
         public Builder() {
             super();
@@ -293,6 +308,11 @@ public class ImportCheckPointData implements Serializable {
 
         public Builder numOfImportedResources(long numOfImportedResources) {
             this.numOfImportedResources = numOfImportedResources;
+            return this;
+        }
+
+        public Builder numOfSkippedResources(long numOfSkippedResources) {
+            this.numOfSkippedResources = numOfSkippedResources;
             return this;
         }
 
@@ -386,6 +406,7 @@ public class ImportCheckPointData implements Serializable {
             importCheckPointData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
             importCheckPointData.importFileSize = this.importFileSize;
             importCheckPointData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+            importCheckPointData.numOfSkipped = this.numOfSkippedResources;
             return importCheckPointData;
         }
     }
