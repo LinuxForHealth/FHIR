@@ -606,8 +606,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             }
         }
 
-        // Process any tokens and references we've collected along the way
-        if (!tokenValueRecs.isEmpty()) {
+        if (this.transactionData == null) {
+            // Not using transaction data, so we need to process collected values right here
             this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs);
         }
 
