@@ -343,6 +343,23 @@
         }
     },
     {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-unicodeLessThan",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Quantity-unicodeLessThan",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Quantity-unicodeLessThan",
+            "name": "Quantity-unicodeLessThan",
+            "status": "active",
+            "description": "test param",
+            "code": "Quantity-unicodeLessThan",
+            "base": ["Basic"],
+            "type": "quantity",
+            "expression": "Basic.extension.where(url='http://example.org/Quantity-unicodeLessThan').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Quantity-unicodeLessThan']/f:valueQuantity",
+            "xpathUsage": "normal"
+        }
+    },
+    {
         "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Quantity-lessThan",
         "resource": {
             "resourceType": "SearchParameter",
@@ -444,7 +461,40 @@
             "xpathUsage": "normal"
         }
     },
-    
+    {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range-noHigh",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Range-noHigh",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Range-noHigh",
+            "name": "Range-noHigh",
+            "status": "active",
+            "description": "test param",
+            "code": "Range-noHigh",
+            "base": ["Basic"],
+            "type": "quantity",
+            "expression": "Basic.extension.where(url='http://example.org/Range-noHigh').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Range-noHigh']/f:valueRange",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-Range-noLow",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-Range-noLow",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-Range-noLow",
+            "name": "Range-noLow",
+            "status": "active",
+            "description": "test param",
+            "code": "Range-noLow",
+            "base": ["Basic"],
+            "type": "quantity",
+            "expression": "Basic.extension.where(url='http://example.org/Range-noLow').value",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/Range-noLow']/f:valueRange",
+            "xpathUsage": "normal"
+        }
+    },
     {
         "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-Quantity",
         "resource": {
