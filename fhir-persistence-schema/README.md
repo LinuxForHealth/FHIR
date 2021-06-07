@@ -142,6 +142,7 @@ Once the server has determined the tenant id for a given request, it uses this t
 used in conjunction to create or retrieve data for this tenant.
 For more information on multi-tenancy, see section [4.9 Multi-tenancy of the IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy).
 
+
 ### Refresh Tenant Following Schema Update (Db2 only)
 
 After a schema update you must run the refresh-tenants command to ensure that any new tables added by the update have the correct partitions. The refresh-tenants process will iterate over each tenant and allocate new partitions as needed. This step is idempotent, so you can run it more than once if required.
@@ -209,6 +210,48 @@ To add a tenant key for an existing tenant, replace FHIRDATA with your client sc
 ```
 
 Note, you may want to add a tenant key when a key is lost or needs to be changed.
+
+Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
+
+
+### Remove all tenant keys from an Existing Tenant (Db2 only)
+To remove all tenant keys for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--db-type db2
+--revoke-all-tenant-keys default
+```
+
+**Example Output**
+```
+2021-06-07 15:30:41.782 00000001    INFO .common.JdbcConnectionProvider Opening connection to database: jdbc:db2://demodb2:50000/fhirdb
+2021-06-07 15:30:42.405 00000001    INFO   com.ibm.fhir.schema.app.Main Tenant Key revoked for 'default' total removed=[1]
+2021-06-07 15:30:42.419 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.699 s
+2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
+```
+
+Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
+
+### Remove a tenant key key from an Existing Tenant (Db2 only)
+To remove a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--db-type db2
+--revoke-tenant-key default
+--tenant-key rZ59TLyEpjU+FAKEtgVk8J44J0=
+```
+
+**Example Output**
+```
+2021-06-07 15:30:41.782 00000001    INFO .common.JdbcConnectionProvider Opening connection to database: jdbc:db2://demodb2:50000/fhirdb
+2021-06-07 15:30:42.405 00000001    INFO   com.ibm.fhir.schema.app.Main Tenant Key revoked for 'default' total removed=[1]
+2021-06-07 15:30:42.419 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.699 s
+2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
+```
 
 Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
 

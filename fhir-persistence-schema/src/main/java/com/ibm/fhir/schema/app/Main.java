@@ -61,6 +61,7 @@ import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
@@ -170,6 +171,7 @@ public class Main {
     private boolean listTenants;
     private boolean dropDetached;
     private boolean deleteTenantMeta;
+    private boolean revokeTenantKey;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -1237,7 +1239,40 @@ public class Main {
                 throw x;
             }
         }
+    }
 
+    /**
+     * revokes a tenant key or if no tenant key is specified remove all of them for the
+     * given tenant.
+     */
+    protected void revokeTenantKey() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        TenantInfo tenantInfo = getTenantInfo();
+        int tenantId = tenantInfo.getTenantId();
+
+        // Only if the Tenant Key file is provided as a parameter is it not null.
+        // in  this case we want special behavior.
+        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+        }
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                DeleteTenantKeyDAO dtk = new DeleteTenantKeyDAO(schema.getAdminSchemaName(), tenantId, tenantKey);
+
+                Db2Adapter adapter = new Db2Adapter(connectionPool);
+                adapter.runStatement(dtk);
+                int count = dtk.getCount();
+                logger.info("Tenant Key revoked for '" + tenantInfo.getTenantName() + "' total removed=[" + count + "]");
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -1326,6 +1361,20 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
+                break;
+            case "--revoke-tenant-key":
+                if (++i >= args.length) {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                this.tenantName = args[i];
+                this.revokeTenantKey = true;
+                break;
+            case "--revoke-all-tenant-keys":
+                if (++i >= args.length) {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                this.tenantName = args[i];
+                this.revokeTenantKey = true;
                 break;
             case "--update-proc":
                 this.updateProc = true;
@@ -1824,6 +1873,8 @@ public class Main {
             deleteTenantMeta();
         } else if (this.dropTenant) {
             dropTenant();
+        } else if (this.revokeTenantKey) {
+            revokeTenantKey();
         }
 
         if (this.grantTo != null) {
