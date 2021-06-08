@@ -232,8 +232,6 @@ To remove all tenant keys for an existing tenant, replace FHIRDATA with your cli
 2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
 ```
 
-Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
-
 ### Remove a tenant key key from an Existing Tenant (Db2 only)
 To remove a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
 
@@ -253,7 +251,7 @@ To remove a tenant key for an existing tenant, replace FHIRDATA with your client
 2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
 ```
 
-Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
+Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.
 
 ### Update the stored procedures and functions for FHIRDATA (and not FHIR_ADMIN) (Db2 and PostgreSQL)
 
