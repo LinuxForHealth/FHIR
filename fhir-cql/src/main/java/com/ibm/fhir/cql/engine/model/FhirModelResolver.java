@@ -1,7 +1,10 @@
 package com.ibm.fhir.cql.engine.model;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,9 +33,9 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.Uuid;
+import com.ibm.fhir.model.util.ModelSupport;
 
 public class FhirModelResolver implements ModelResolver {
-
     private static final Logger log = Logger.getLogger(FhirModelResolver.class.getName());
 
     public static final String BASE_PACKAGE_NAME = "com.ibm.fhir.model";
@@ -42,18 +45,75 @@ public class FhirModelResolver implements ModelResolver {
             BASE_PACKAGE_NAME + ".type",
             BASE_PACKAGE_NAME + ".type.code" };
 
+
+    private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
+
     private String packageName = BASE_PACKAGE_NAME;
 
+    @Override
     public String getPackageName() {
         return this.packageName;
     }
 
+    private static Map<String, Class<?>> buildTypeMap() {
+        Map<String, Class<?>> typeMap = new LinkedHashMap<>();
+
+        // add all model classes (resource / data types)
+        for (Class<?> modelClass : ModelSupport.getModelClasses()) {
+            String typeName = modelClass.getName()
+                    .replace("com.ibm.fhir.model.resource.", "")
+                    .replace("com.ibm.fhir.model.type.", "")
+                    .replace("$", ".");
+            if (ModelSupport.isPrimitiveType(modelClass)) {
+                typeName = typeName.substring(0, 1)
+                        .toLowerCase()
+                        .concat(typeName.substring(1));
+            }
+            typeMap.put(typeName, modelClass);
+        }
+
+        // add all code subtypes
+        for (Class<?> codeSubtype : ModelSupport.getCodeSubtypes()) {
+            typeMap.put(codeSubtype.getSimpleName(), codeSubtype);
+        }
+
+        // typo in the 4.0.1 modelinfo
+        typeMap.put("NutritiionOrderIntent", com.ibm.fhir.model.type.code.NutritionOrderIntent.class);
+
+        // custom stuff carried over from OSS and mapped to IBM FHIR
+        typeMap.put("ConfidentialityClassification", com.ibm.fhir.model.type.code.DocumentConfidentiality.class);
+        typeMap.put("ContractResourceStatusCodes", com.ibm.fhir.model.type.code.ContractStatus.class);
+        typeMap.put("EventStatus", com.ibm.fhir.model.type.code.ProcedureStatus.class);
+        typeMap.put("FinancialResourceStatusCodes", com.ibm.fhir.model.type.code.ClaimResponseStatus.class);
+        typeMap.put("SampledDataDataType", com.ibm.fhir.model.type.String.class);
+        typeMap.put("ClaimProcessingCodes", com.ibm.fhir.model.type.code.RemittanceOutcome.class);
+        typeMap.put("vConfidentialityClassification", com.ibm.fhir.model.type.code.DocumentConfidentiality.class);
+        typeMap.put("ContractResourcePublicationStatusCodes", com.ibm.fhir.model.type.code.ContractPublicationStatus.class);
+
+        // stuff for 4.0.0 modelinfo
+        typeMap.put("MedicationStatusCodes", com.ibm.fhir.model.type.code.MedicationStatus.class);
+        typeMap.put("ImmunizationEvaluationStatusCodes", com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus.class);
+        typeMap.put("ImmunizationStatusCodes", com.ibm.fhir.model.type.code.ImmunizationStatus.class);
+        typeMap.put("ExpressionLanguage", com.ibm.fhir.model.type.Expression.class);
+        typeMap.put("RequestResourceType", com.ibm.fhir.model.type.Code.class);
+
+        // These were reported as bugs in HAPI 4.2 the OSS impl
+        typeMap.put("CurrencyCode", com.ibm.fhir.model.type.Code.class);
+        typeMap.put("MimeType", com.ibm.fhir.model.type.Code.class);
+        typeMap.put("Messageheader_Response_Request", com.ibm.fhir.model.type.code.MessageHeaderResponseRequest.class);
+        typeMap.put("messageheaderResponseRequest", com.ibm.fhir.model.type.code.MessageHeaderResponseRequest.class);
+
+        return Collections.unmodifiableMap(typeMap);
+    }
+
+    @Override
     public void setPackageName(String packageName) {
         this.packageName = packageName;
     }
 
+    @Override
     public Object resolvePath(Object target, String path) {
-        // TODO - use FHIRPath to resolve 
+        // TODO - use FHIRPath to resolve
         Object result = null;
 
         try {
@@ -67,6 +127,7 @@ public class FhirModelResolver implements ModelResolver {
         return result;
     }
 
+    @Override
     public Object getContextPath(String contextType, String targetType) {
         Object result = null;
         if (targetType != null && contextType != null) {
@@ -150,113 +211,25 @@ public class FhirModelResolver implements ModelResolver {
         }
     }
 
+    @Override
     public Class<?> resolveType(String typeName) {
-
-        if (typeName.contains(".")) {
-            typeName = typeName.replaceAll("\\.", "\\$");
+        Class<?> result = TYPE_MAP.get(typeName);
+        if (result == null && Character.isLowerCase(typeName.charAt(0))) {
+            // special case for handling 4.0.0 naming anomalies
+            typeName = typeName.substring(0, 1)
+                    .toUpperCase()
+                    .concat(typeName.substring(1));
+            result = TYPE_MAP.get(typeName);
         }
-
-        switch (typeName) {
-        // typo in the 4.0.1 modelinfo
-        case "NutritiionOrderIntent":
-            typeName = "NutritionOrderIntent";
-            break;
-
-        // custom stuff carried over from OSS and mapped to IBM FHIR
-        case "ConfidentialityClassification":
-            typeName = "DocumentConfidentiality";
-            break;
-        case "ContractResourceStatusCodes":
-            typeName = "ContractStatus";
-            break;
-        case "EventStatus":
-            typeName = "ProcedureStatus";
-            break;
-        case "FinancialResourceStatusCodes":
-            typeName = "ClaimResponseStatus";
-            break;
-        case "SampledDataDataType":
-            typeName = "String";
-            break;
-        case "ClaimProcessingCodes":
-            typeName = "RemittanceOutcome";
-            break;
-        case "vConfidentialityClassification":
-            typeName = "DocumentConfidentiality";
-            break;
-        case "ContractResourcePublicationStatusCodes":
-            typeName = "ContractPublicationStatus";
-            break;
-
-        // stuff for 4.0.0 modelinfo
-        case "MedicationStatusCodes":
-            typeName = "MedicationStatus";
-            break;
-        case "ImmunizationEvaluationStatusCodes":
-            typeName = "ImmunizationEvaluationStatus";
-            break;
-        case "ImmunizationStatusCodes":
-            typeName = "ImmunizationStatus";
-            break;
-        case "ExpressionLanguage":
-            typeName = "Expression";
-            break;
-        case "RequestResourceType":
-            typeName = "Code";
-            break;
-
-        // These were reported as bugs in HAPI 4.2 the OSS impl
-        case "CurrencyCode":
-            typeName = "Code";
-            break;
-        case "MimeType":
-            typeName = "Code";
-            break;
-        case "Messageheader_Response_Request":
-        case "messageheaderResponseRequest":
-            typeName = "Code";
-            break;
-        }
-
-        Class<?> result = null;
-
-        // TODO - These are types. Are they the only ones that will be in the .type package?
-        // We could optimize the search path if we know what to expect.
-        if (Character.isLowerCase(typeName.charAt(0))) {
-            typeName = StringUtils.capitalize(typeName);
-        }
-
-        for (String prefix : ALL_PACKAGES) {
-            try {
-                result = Class.forName(prefix + "." + typeName);
-                break;
-            } catch (ClassNotFoundException cnfe) {
-                // do nothing
-            }
-        }
-
         if (result == null) {
             if (log.isLoggable(Level.WARNING)) {
-                log.warning("Failed to resolve type " + typeName);
+                log.warning("Failed to resolve type '" + typeName + "'");
             }
-        } /*
-           * else if( Element.class.isAssignableFrom(result) ) {
-           * Method m;
-           * try {
-           * m = result.getMethod("getValue");
-           * result = m.getReturnType();
-           * } catch (Exception e) {
-           * //throw new RuntimeException(String.
-           * format("While processing %s, failed to retrieve getValue method from primitive FHIR type %s", typeName,
-           * result.getName()));
-           * // Some things, such as Address, are "FHIR primitives" but don't have a getValue method
-           * }
-           * }
-           */
-
+        }
         return result;
     }
 
+    @Override
     public Class<?> resolveType(Object value) {
         Class<?> result = null;
 
@@ -269,6 +242,7 @@ public class FhirModelResolver implements ModelResolver {
         return result;
     }
 
+    @Override
     public Boolean is(Object value, Class<?> type) {
         Boolean result = null;
         if (value != null) {
@@ -278,6 +252,7 @@ public class FhirModelResolver implements ModelResolver {
         return result;
     }
 
+    @Override
     public Object as(Object value, Class<?> type, boolean isStrict) {
         Object result = null;
         if (value != null) {
@@ -360,6 +335,7 @@ public class FhirModelResolver implements ModelResolver {
         return result;
     }
 
+    @Override
     public Object createInstance(String typeName) {
         throw new UnsupportedOperationException("IBM FHIR model types must be constructed with a value or children");
         // Object result = null;
@@ -384,6 +360,7 @@ public class FhirModelResolver implements ModelResolver {
         // return result;
     }
 
+    @Override
     public void setValue(Object target, String path, Object value) {
         // TODO - consider implementing a pattern where new objects are constructed
         // each time this method is called. The models have the ability
@@ -392,6 +369,7 @@ public class FhirModelResolver implements ModelResolver {
         throw new UnsupportedOperationException("IBM FHIR model types are immutable");
     }
 
+    @Override
     public Boolean objectEqual(Object left, Object right) {
         Boolean result = null;
         if (left != null && right != null) {
@@ -400,6 +378,7 @@ public class FhirModelResolver implements ModelResolver {
         return result;
     }
 
+    @Override
     public Boolean objectEquivalent(Object left, Object right) {
         Boolean result = null;
 
