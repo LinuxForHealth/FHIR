@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,7 +12,7 @@ package com.ibm.fhir.database.utils.api;
 public class TableSpaceRemovalException extends DataAccessException {
 
     // All exceptions are serializable
-    private static final long serialVersionUID = -3385697603070014498L;
+    private static final long serialVersionUID = -338568883070014498L;
 
     private boolean transactionRetryable;
 
