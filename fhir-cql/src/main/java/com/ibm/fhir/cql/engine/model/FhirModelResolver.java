@@ -60,8 +60,8 @@ public class FhirModelResolver implements ModelResolver {
     public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
     public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
     public static final Pattern valuePattern = Pattern.compile("(^|.+\\.)value$");
-    
-    
+
+
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
     private String packageName = BASE_PACKAGE_NAME;
@@ -94,33 +94,54 @@ public class FhirModelResolver implements ModelResolver {
             typeMap.put(codeSubtype.getSimpleName(), codeSubtype);
         }
 
-        // typo in the 4.0.1 modelinfo
-        typeMap.put("NutritiionOrderIntent", com.ibm.fhir.model.type.code.NutritionOrderIntent.class);
-
-        // custom stuff carried over from OSS and mapped to IBM FHIR
-        typeMap.put("ConfidentialityClassification", com.ibm.fhir.model.type.code.DocumentConfidentiality.class);
-        typeMap.put("ContractResourceStatusCodes", com.ibm.fhir.model.type.code.ContractStatus.class);
-        typeMap.put("EventStatus", com.ibm.fhir.model.type.code.ProcedureStatus.class);
-        typeMap.put("FinancialResourceStatusCodes", com.ibm.fhir.model.type.code.ClaimResponseStatus.class);
-        typeMap.put("SampledDataDataType", com.ibm.fhir.model.type.String.class);
-        typeMap.put("ClaimProcessingCodes", com.ibm.fhir.model.type.code.RemittanceOutcome.class);
-        typeMap.put("vConfidentialityClassification", com.ibm.fhir.model.type.code.DocumentConfidentiality.class);
-        typeMap.put("ContractResourcePublicationStatusCodes", com.ibm.fhir.model.type.code.ContractPublicationStatus.class);
-
-        // stuff for 4.0.0 modelinfo
-        typeMap.put("MedicationStatusCodes", com.ibm.fhir.model.type.code.MedicationStatus.class);
-        typeMap.put("ImmunizationEvaluationStatusCodes", com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus.class);
-        typeMap.put("ImmunizationStatusCodes", com.ibm.fhir.model.type.code.ImmunizationStatus.class);
-        typeMap.put("ExpressionLanguage", com.ibm.fhir.model.type.Expression.class);
-        typeMap.put("RequestResourceType", com.ibm.fhir.model.type.Code.class);
-
-        // These were reported as bugs in HAPI 4.2 the OSS impl
-        typeMap.put("CurrencyCode", com.ibm.fhir.model.type.Code.class);
-        typeMap.put("MimeType", com.ibm.fhir.model.type.Code.class);
-        typeMap.put("Messageheader_Response_Request", com.ibm.fhir.model.type.code.MessageHeaderResponseRequest.class);
-        typeMap.put("messageheaderResponseRequest", com.ibm.fhir.model.type.code.MessageHeaderResponseRequest.class);
-
         return Collections.unmodifiableMap(typeMap);
+    }
+
+    private String toKey(String typeName) {
+        switch (typeName) {
+        case "NutritiionOrderIntent":
+            return "NutritionOrderIntent";
+        case "Messageheader_Response_Request":
+        case "messageheaderResponseRequest":
+            return "MessageHeaderResponseRequest";
+        case "ConfidentialityClassification":
+        case "vConfidentialityClassification":
+            return "DocumentConfidentiality";
+        case "ContractResourceStatusCodes":
+            return "ContractStatus";
+        case "EventStatus":
+            return "ProcedureStatus";
+        case "FinancialResourceStatusCodes":
+            return "ClaimResponseStatus";
+        case "SampledDataDataType":
+            return "string";
+        case "ClaimProcessingCodes":
+            return "RemittanceOutcome";
+        case "ContractResourcePublicationStatusCodes":
+            return "ContractPublicationStatus";
+        case "MedicationStatusCodes":
+            return "MedicationStatus";
+        case "ImmunizationEvaluationStatusCodes":
+            return "ImmunizationEvaluationStatus";
+        case "ImmunizationStatusCodes":
+            return "ImmunizationStatus";
+        case "ExpressionLanguage":
+            return "Expression";
+        case "CurrencyCode":
+        case "MimeType":
+        case "RequestResourceType":
+            return "code";
+        case "strandType":
+        case "orientationType":
+        case "repositoryType":
+        case "qualityType":
+        case "status":
+        case "sequenceType":
+            return typeName.substring(0, 1)
+                    .toUpperCase()
+                    .concat(typeName.substring(1));
+        }
+        return typeName;
     }
 
     @Override
@@ -136,7 +157,7 @@ public class FhirModelResolver implements ModelResolver {
             if (target != null) {
                 // TODO - use FHIRPath to resolve
                 result = PropertyUtils.getProperty(target, path);
-                
+
                 if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
                     // Patch the model to match the CQL translator modelinfo expectations
                     result = Uri.of((String) result);
@@ -145,7 +166,7 @@ public class FhirModelResolver implements ModelResolver {
                     result = toCqlTemporal(result, ta);
                 } else if ( result instanceof byte[] ) {
                     result = Base64.getEncoder().encode((byte[])result);
-                } else if ( result instanceof Id ) { 
+                } else if ( result instanceof Id ) {
                     result = ((Id)result).getValue();
                 }
             }
@@ -270,14 +291,7 @@ public class FhirModelResolver implements ModelResolver {
 
     @Override
     public Class<?> resolveType(String typeName) {
-        Class<?> result = TYPE_MAP.get(typeName);
-        if (result == null && Character.isLowerCase(typeName.charAt(0))) {
-            // special case for handling 4.0.0 naming anomalies
-            typeName = typeName.substring(0, 1)
-                    .toUpperCase()
-                    .concat(typeName.substring(1));
-            result = TYPE_MAP.get(typeName);
-        }
+        Class<?> result = TYPE_MAP.get(toKey(typeName));
         if (result == null) {
             if (log.isLoggable(Level.WARNING)) {
                 log.warning("Failed to resolve type '" + typeName + "'");
