@@ -373,7 +373,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            T updatedResource = copyAndSetResourceMetaFields(logicalId, resource, newVersionNumber, lastUpdated);
+            T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
@@ -423,8 +423,19 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
     }
 
-    private <T extends Resource> com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
-            Instant lastUpdated, T updatedResource) throws IOException, FHIRGeneratorException {
+    /**
+     * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
+     *
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @param updatedResource
+     * @return
+     * @throws IOException
+     * @throws FHIRGeneratorException
+     */
+    private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
+            Instant lastUpdated, Resource updatedResource) throws IOException, FHIRGeneratorException {
 
         Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
 
@@ -447,8 +458,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return resourceDTO;
     }
 
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
     @SuppressWarnings("unchecked")
-    private <T extends Resource> T copyAndSetResourceMetaFields(String logicalId, T resource, int newVersionNumber, Instant lastUpdated) {
+    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
         Meta meta = resource.getMeta();
         Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
         metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
@@ -580,7 +601,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            T updatedResource = copyAndSetResourceMetaFields(resource.getId(), resource, newVersionNumber, lastUpdated);
+            T updatedResource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
@@ -1374,7 +1395,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
 
             // Update the soft-delete resource to reflect the new version and lastUpdated values.
-            T updatedResource = copyAndSetResourceMetaFields(existingResource.getId(), existingResource, newVersionNumber, lastUpdated);
+            T updatedResource = copyAndSetResourceMetaFields(existingResource, existingResource.getId(), newVersionNumber, lastUpdated);
 
             // Create a new Resource DTO instance to represent the deleted version.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
