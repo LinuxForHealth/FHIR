@@ -15,7 +15,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * DAO to delete a tenant key record
+ * Db2-only DAO to delete a tenant key record
  */
 public class DeleteTenantKeyDAO implements IDatabaseStatement {
     private final String schemaName;
