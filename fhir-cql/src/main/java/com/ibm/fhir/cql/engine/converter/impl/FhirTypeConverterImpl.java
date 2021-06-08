@@ -18,11 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
 import org.opencds.cqf.cql.engine.runtime.BaseTemporal;
 import org.opencds.cqf.cql.engine.runtime.Concept;
 import org.opencds.cqf.cql.engine.runtime.CqlType;
 import org.opencds.cqf.cql.engine.runtime.Interval;
+import org.opencds.cqf.cql.engine.runtime.Tuple;
 
 import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
 import com.ibm.fhir.model.resource.Resource;
@@ -99,7 +101,7 @@ public class FhirTypeConverterImpl implements FhirTypeConverter {
             case "Interval":
                 result = toFhirInterval((org.opencds.cqf.cql.engine.runtime.Interval) value);
                 break;
-            // case "Tuple": result = toFhirTuple((Tuple) value); break;
+            case "Tuple": result = toFhirTuple((Tuple) value); break;
             default:
                 throw new IllegalArgumentException(String.format("missing case statement for: %s", value.getClass().getName()));
             }
@@ -299,6 +301,15 @@ public class FhirTypeConverterImpl implements FhirTypeConverter {
             result = false;
         }
 
+        return result;
+    }
+    
+    @Override
+    public Object toFhirTuple(Tuple value) {
+        Object result = null;
+        if (value != null) {
+            throw new NotImplementedException("can't convert Tuples");
+        } 
         return result;
     }
 

@@ -1,9 +1,9 @@
 package com.ibm.fhir.cql.engine.model;
 
+import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-//import static com.ibm.fhir.cql.engine.model.ModelUtil.*;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -23,17 +23,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Date;
+import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
+import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 public class FhirModelResolverTest {
-    //private static final Logger log = LoggerFactory.getLogger(FhirModelResolverTest.class);
-    
+  
     ModelResolver resolver = null;
     
     @Before
@@ -254,18 +259,107 @@ public class FhirModelResolverTest {
         assertNotNull( clazz );
     }
     
-//    @Test
-//    public void testResolvePathStringPrimitive() throws Exception {
-//    	Parameters.Parameter p = Parameters.Parameter.builder().name(fhirstring("name")).build();
-//    	Object result = resolver.resolvePath(p, "name");
-//    	assertEquals( "java.lang.String", result.getClass().getName() );
-//    	assertEquals( "name", result );
-//    }
-//    
-//    @Test
-//    public void testResolveTypeStringPrimitive() throws Exception {
-//    	com.ibm.fhir.model.type.String str = fhirstring("str");
-//    	Class<?> result = resolver.resolveType(str);
-//    	assertEquals( "java.lang.String", result.getName() );
-//    }
+    @Test
+    public void testResolveTypeUri() throws Exception {
+        Class<?> clazz = resolver.resolveType("Uri");
+        assertNotNull( "Failed to resolve type", clazz );
+    }
+
+    @Test
+    public void testResolveTypeString() throws Exception {
+        Class<?> clazz = resolver.resolveType("string");
+        assertNotNull( "Failed to resolve type", clazz );
+    }    
+    
+    @Test
+    public void testResolvePathExtensionUrlSimple() throws Exception {
+        Extension extension = Extension.builder().url("http://somewhere.com/profile/Something").build();
+        Object result = resolver.resolvePath(extension, "url");
+        assertNotNull( "Null result", result );
+        assertEquals( com.ibm.fhir.model.type.Uri.class, result.getClass() );
+    }
+    
+    @Test
+    public void testResolvePathExtensionUrlCompound() throws Exception {
+        Extension extension = Extension.builder().url("http://somewhere.com/profile/Something").build();
+        Patient patient = john_doe().extension(extension).build();
+
+        Object result = resolver.resolvePath(patient, "extension[0].url");
+        assertNotNull( "Null result", result );
+        assertEquals( com.ibm.fhir.model.type.Uri.class, result.getClass() );
+    }
+
+    @Test
+    public void testResolveResourceIdSimple() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath(patient, "id");
+        assertNotNull( "Null result", result );
+        assertEquals( java.lang.String.class, result.getClass() );
+    }
+    
+    @Test
+    public void testResolveResourceIdCompound() throws Exception {
+        Patient patient = john_doe().build();
+        Bundle bundle = Bundle.builder().type(BundleType.SEARCHSET).entry(Bundle.Entry.builder().resource(patient).build()).build();
+        Object result = resolver.resolvePath(bundle, "entry[0].resource.id");
+        assertNotNull( "Null result", result );
+        assertEquals( java.lang.String.class, result.getClass() );
+    }
+
+    @Test
+    public void testResolveElementIdSimple() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath(patient, "name[0].id");
+        assertNotNull( "Null result", result );
+        assertEquals( java.lang.String.class, result.getClass() );
+    }
+    
+    @Test
+    public void testResolveElementIdCompound() throws Exception {
+        Patient patient = john_doe().build();
+        Object result = resolver.resolvePath( patient.getName().get(0), "id");
+        assertNotNull( "Null result", result );
+        assertEquals( java.lang.String.class, result.getClass() );
+    }
+    
+    @Test
+    public void resolveContextPathPatientAppointment() {
+        String result = (String) resolver.getContextPath("Patient", "Appointment");
+        assertNotNull(result);
+        assertEquals(result, "participant.actor");
+    }
+
+    @Test
+    public void resolvePathPatientGender() {
+        Patient p = john_doe().build();
+
+        String result = (String) resolver.resolvePath(p, "gender.value");
+        assertNotNull(result);
+        assertEquals(result, "male");
+    }
+    
+    @Test
+    public void resolvePathPatientBirthDateValue() {
+        Patient p = john_doe().build();
+
+        Object result = resolver.resolvePath(p, "birthDate.value");
+        assertNotNull(result);
+        assertTrue("Unexpected class " + result.getClass().getName(), result instanceof org.opencds.cqf.cql.engine.runtime.Date);
+    }
+    
+    @Test
+    public void resolvePathPatientDeceasedChoice() {
+        Patient p = john_doe().deceased(DateTime.now()).build();
+        
+        Object result = resolver.resolvePath(p, "deceased");
+        assertNotNull("Null result", result);
+    }
+
+    
+    protected Patient.Builder john_doe() {
+        return Patient.builder().id("123")
+                .gender(AdministrativeGender.MALE)
+                .name(HumanName.builder().id("human-name").text(fhirstring("John Doe")).build())
+                .birthDate(Date.of("1969-02-15"));
+    }
 }

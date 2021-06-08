@@ -117,8 +117,7 @@
 
                             <artifactSet>
                                 <includes>
-                                    <include>com.ibm.cohort.fhir.ibm</include>
-                                    <include>com.ibm.fhir.cql.engine:*</include>
+                                    <include>com.ibm.fhir:fhir-cql*</include>
                                     <include>org.opencds.cqf.cql:*</include>
                                     <include>info.cqframework:*</include>
                                     <include>org.fhir:ucum</include>

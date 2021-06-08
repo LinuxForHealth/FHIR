@@ -7,8 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
 import org.opencds.cqf.cql.engine.data.CompositeDataProvider;
@@ -38,6 +40,8 @@ import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
+    
+    private static final Logger log = Logger.getLogger(AbstractCqlOperation.class.getName());
 
     protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, Map<String, Parameter> paramMap, Library primaryLibrary) {
         Parameters result;
@@ -79,7 +83,11 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
             String name = entry.getKey();
             Object value = entry.getValue();
 
-            output.parameter(parameterConverter.toParameter(value).name(fhirstring(name)).build());
+            try { 
+                output.parameter(parameterConverter.toParameter(value).name(fhirstring(name)).build());
+            } catch( NotImplementedException nex ) {
+                log.warning( "Ignoring not-implemented parameter type" );
+            }
         }
         result = output.build();
         return result;
