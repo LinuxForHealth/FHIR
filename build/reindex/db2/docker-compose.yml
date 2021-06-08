@@ -1,0 +1,96 @@
+version: '3.8'
+services:
+  zookeeper-1:
+    image: confluentinc/cp-zookeeper:latest
+    env_file:
+      - ./.zookeeper-1.env
+    domainname: fhir.dev
+    networks:
+      - fhir
+  zookeeper-2:
+    image: confluentinc/cp-zookeeper:latest
+    env_file:
+      - ./.zookeeper-2.env
+    domainname: fhir.dev
+    networks:
+      - fhir
+  kafka-1:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    volumes:
+      - ./resources:/etc/kafka/secrets
+      - ./workarea/output:/output
+    env_file:
+      - ./.kafka-1.env
+    domainname: fhir.dev
+    networks:
+      - fhir
+    stdin_open: false
+    tty: false
+    ports:
+      - 19092:19092
+  kafka-2:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper-1
+      - zookeeper-2
+    volumes:
+      - ./resources:/etc/kafka/secrets
+      - ./workarea/output:/output
+    env_file:
+      - ./.kafka-2.env
+    domainname: fhir.dev
+    networks:
+       - fhir
+    stdin_open: false
+    tty: false
+    ports:
+      - 29092:29092
+  fhir-server:
+    image: ibmcom/ibm-fhir-server:latest
+    depends_on:
+      - kafka-1
+      - kafka-2
+    hostname: fhir
+    volumes:
+      - type: bind
+        source: ./workarea/volumes/dist/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/userlib/
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+    environment:
+      - BOOTSTRAP_DB=true
+    command: bash -c "
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        /opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 120s
+      interval: 10s
+      timeout: 10s
+      retries: 2
+      test: curl --max-time 5 -v -f -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    ports:
+      - 9443:9443
+    env_file:
+      - ./.fhir.env
+    networks:
+      - fhir
+networks:
+  fhir:
+    driver: bridge

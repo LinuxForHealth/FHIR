@@ -1,0 +1,49 @@
+name: Reindex - Integration Tests
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'demo/**'
+      - '.github/workflows/site.yml'
+      - '.github/workflows/release.yml'
+
+jobs:
+  reindex-it:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
+    strategy:
+      matrix:
+        datastore: [ 'db2', 'derby', 'postgres' ]
+        configuration: [ 'dynamic', 'ig', 'file' ]
+      fail-fast: true
+    steps:
+    - name: Checkout source code
+      uses: actions/checkout@v2.3.4
+    - name: Set up java
+      uses: joschi/setup-jdk@v2.3.0
+      with:
+        java-version: 11
+    - name: Setup prerequisites
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/reindex/bin/setup-prerequisites.sh ${{matrix.datastore}}
+    - name: Integration Tests
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      shell: 'script -q -e -c "bash {0}"'
+      run: |
+        bash build/reindex/bin/pre-integration-test.sh ${{matrix.datastore}}
+        bash build/reindex/bin/integration-test.sh ${{matrix.datastore}} ${{ matrix.configuration }}
+        bash build/reindex/bin/post-integration-test.sh ${{matrix.datastore}}
+    - name: Gather error logs
+      if: failure()
+      env:
+        WORKSPACE: ${{ github.workspace }}
+      run: bash build/reindex/bin/gather-logs.sh ${{matrix.datastore}} ${{ matrix.configuration }}
+    - name: Upload logs
+      if: always()
+      uses: actions/upload-artifact@v2.2.0
+      with:
+        name: integration-test-results-${{ matrix.datastore }}-${{ matrix.configuration }}
+        path: build/reindex/integration-test-results
