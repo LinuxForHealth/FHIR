@@ -1,6 +1,15 @@
 package com.ibm.fhir.cql.engine.model;
 
 import java.lang.reflect.Field;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalQueries;
+import java.time.temporal.TemporalUnit;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -8,10 +17,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.opencds.cqf.cql.engine.exception.InvalidCast;
+import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
 import com.ibm.fhir.model.annotation.ReferenceTarget;
@@ -46,6 +57,11 @@ public class FhirModelResolver implements ModelResolver {
             BASE_PACKAGE_NAME + ".type.code" };
 
 
+    public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
+    public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
+    public static final Pattern valuePattern = Pattern.compile("(^|.+\\.)value$");
+    
+    
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
     private String packageName = BASE_PACKAGE_NAME;
@@ -65,9 +81,10 @@ public class FhirModelResolver implements ModelResolver {
                     .replace("com.ibm.fhir.model.type.", "")
                     .replace("$", ".");
             if (ModelSupport.isPrimitiveType(modelClass)) {
-                typeName = typeName.substring(0, 1)
+                String lcfirst = typeName.substring(0, 1)
                         .toLowerCase()
                         .concat(typeName.substring(1));
+                typeMap.put(lcfirst, modelClass);
             }
             typeMap.put(typeName, modelClass);
         }
@@ -113,17 +130,57 @@ public class FhirModelResolver implements ModelResolver {
 
     @Override
     public Object resolvePath(Object target, String path) {
-        // TODO - use FHIRPath to resolve
         Object result = null;
 
         try {
             if (target != null) {
+                // TODO - use FHIRPath to resolve
                 result = PropertyUtils.getProperty(target, path);
+                
+                if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
+                    // Patch the model to match the CQL translator modelinfo expectations
+                    result = Uri.of((String) result);
+                } else if( result instanceof TemporalAccessor ) {
+                    TemporalAccessor ta = (TemporalAccessor) result;
+                    result = toCqlTemporal(result, ta);
+                } else if ( result instanceof byte[] ) {
+                    result = Base64.getEncoder().encode((byte[])result);
+                } else if ( result instanceof Id ) { 
+                    result = ((Id)result).getValue();
+                }
             }
         } catch (Exception ex) {
             // do nothing
         }
 
+        return result;
+    }
+
+    // TODO - resolve this with the logic in FhirTypeConverter
+    private Object toCqlTemporal(Object result, TemporalAccessor ta) {
+        if( ta instanceof ZonedDateTime ) {
+            ZonedDateTime zdt = (ZonedDateTime) ta;
+            OffsetDateTime odt = OffsetDateTime.from(zdt);
+            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
+        } else if( ta instanceof OffsetDateTime ) {
+            OffsetDateTime odt = (OffsetDateTime) ta;
+            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
+        } else if( ta instanceof LocalTime ) {
+            LocalTime lt = (LocalTime) result;
+            result = new org.opencds.cqf.cql.engine.runtime.Time(lt.getHour(), lt.getMinute(), lt.getSecond(), lt.getNano());
+        } else {
+            TemporalUnit precision = ta.query(TemporalQueries.precision());
+            if (precision.equals(ChronoUnit.YEARS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR));
+            } else if (precision.equals(ChronoUnit.MONTHS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR) + 1);
+            } else if (precision.equals(ChronoUnit.DAYS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR)
+                        + 1, ta.get(ChronoField.DAY_OF_MONTH));
+            } else {
+                throw new InvalidPrecision(String.format("Invalid temporal precision %s", precision.toString()));
+            }
+        }
         return result;
     }
 

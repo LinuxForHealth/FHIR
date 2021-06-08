@@ -21,9 +21,15 @@ public class ParameterConverter {
         return builder;
     }
 
+    @SuppressWarnings("unchecked")
     public Parameter.Builder toParameter(Parameter.Builder p, Object value) {
         if (value != null) {
-            Object obj = typeConverter.toFhirType(value);
+            Object obj;
+            if( value instanceof Iterable ) {
+                obj = typeConverter.toFhirTypes((Iterable<Object>)value);
+            } else { 
+                obj = typeConverter.toFhirType(value);
+            }
 
             if (obj instanceof Element) {
                 p.value((Element) obj);

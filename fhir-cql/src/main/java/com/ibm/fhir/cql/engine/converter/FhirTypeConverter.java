@@ -11,6 +11,7 @@ import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.runtime.Quantity;
 import org.opencds.cqf.cql.engine.runtime.Ratio;
 import org.opencds.cqf.cql.engine.runtime.Time;
+import org.opencds.cqf.cql.engine.runtime.Tuple;
 
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
@@ -203,7 +204,8 @@ public interface FhirTypeConverter {
      *            the value to convert
      * @return a FHIR Structure
      */
-    // public com.ibm.fhir.model.type.S toFhirTuple(Tuple value);
+    public Object toFhirTuple(Tuple value);
+
 
     // FHIR-to-CQL conversions
 
@@ -402,8 +404,10 @@ public interface FhirTypeConverter {
      */
     public Interval toCqlInterval(com.ibm.fhir.model.type.Element value);
 
+
     /**
-     * Converts a FHIR Structure to a CQL Tuple
+     * Converts a FHIR Structure to a CQL Tuple@Override
+    
      * 
      * @param value
      *            the value to convert
