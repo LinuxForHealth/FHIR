@@ -6,37 +6,38 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
-
 # pre_integration
 pre_integration(){
     cleanup
+    setup_db2_docker
     config
     bringup
 }
 
+# setup_db2_docker - setup docker
+setup_db2_docker(){
+    docker build -t test/fhir-db2 .
+}
+
 # config - update configuration
 config(){
-    mkdir -p ${DIST}/userlib
-    mkdir -p ${DIST}/
-    mkdir -p ${WORKSPACE}/build/reindex/db2/workarea/output
-
-    chmod -R 777 ${WORKSPACE}/build/reindex/db2/workarea/output/
-
-
+    DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
+    
+    # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
+    mkdir -p ${DIST}/config
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
-    mkdir -p $USERLIB
+    mkdir -p "${USERLIB}"
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/reindex/db2/resources/* ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/
-    mv ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json
+    echo "Copying over the fhir-server-config.json and updating"
+    mv ${$DIST}/config/default/fhir-server-config-db2.json \
+        ${$DIST}/config/default/fhir-server-config.json
 }
 
 # cleanup - cleanup existing docker

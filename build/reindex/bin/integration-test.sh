@@ -21,7 +21,8 @@ run_tests(){
     else 
         # Go to the Default
         echo "Executing the default integration tests"
-        mvn -B test -DskipTests=false -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress
+        mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
+            -DskipTests=false -Dtest="com.ibm.fhir.server.test.operation.ReindexOperationTest" | tee build/reindex/${reindex}/workarea/${reindex}-test.log
     fi
 }
 
