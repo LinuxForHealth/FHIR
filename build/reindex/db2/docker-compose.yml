@@ -2,7 +2,7 @@ version: '3.9'
 services:
   db:
     image: test/fhir-db2
-    hostname: db
+    hostname: db2
     privileged: true
     tty: true
     environment:
@@ -26,12 +26,17 @@ services:
   fhir:
     image: ibmcom/ibm-fhir-server:latest
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     hostname: fhir
     volumes:
       - type: bind
         source: ./workarea/volumes/dist/config
         target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./workarea/volumes/dist/overrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: bind
         source: ./workarea/volumes/dist/userlib/
@@ -40,13 +45,13 @@ services:
     command: bash -c "
         echo 'change-password' > /opt/ibm-fhir-server/tools/tenant.key &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
+          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
           --create-schemas &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
+          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
           --update-schema &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
+          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
           --allocate-tenant default --tenant-key-file /opt/ibm-fhir-server/tools/tenant.key &&
         /opt/ol/wlp/bin/server run"
     healthcheck:

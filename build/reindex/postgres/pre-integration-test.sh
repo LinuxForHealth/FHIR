@@ -11,8 +11,14 @@ DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 # pre_integration
 pre_integration(){
     cleanup
+    setup_docker
     config
     bringup
+}
+
+# setup_docker - setup docker
+setup_docker(){
+    docker build -t test/fhir-pg .
 }
 
 # config - update configuration
@@ -49,12 +55,34 @@ cleanup(){
 
 # bringup
 bringup(){
-    echo "Bringing up containers"
-    docker-compose up --remove-orphans -d
-    echo ">>> Current time: " $(date)
+    echo "Bringing up containers >>> Current time: " $(date)
+    # Startup db
+    docker compose up --remove-orphans -d db
+    cx=0
+    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "db").State' | wc -l) -ge 0 ] && [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    do
+        echo "Waiting on startup of db ${cx}"
+        cx=$((cx + 1))
+        if [ ${cx} -ge 300 ]
+        then
+            echo "Failed to start"
+        fi
+        sleep 1
+    done
 
-    # Allow extra time due to bootstrapping
-    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 120 && kill $P)
+    # Startup FHIR
+    docker compose up --remove-orphans -d fhir
+    cx=0
+    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    do
+        echo "Waiting on startup of fhir ${cx}"
+        cx=$((cx + 1))
+        if [ ${cx} -ge 300 ]
+        then
+            echo "Failed to start fhir"
+        fi
+        sleep 1
+    done
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup
     cd -

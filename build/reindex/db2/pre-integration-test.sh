@@ -9,13 +9,13 @@
 # pre_integration
 pre_integration(){
     cleanup
-    setup_db2_docker
+    setup_docker
     config
     bringup
 }
 
-# setup_db2_docker - setup docker
-setup_db2_docker(){
+# setup_docker - setup docker
+setup_docker(){
     docker build -t test/fhir-db2 .
 }
 
@@ -37,10 +37,22 @@ config(){
     mkdir -p "${USERLIB}"
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
 
+    echo "Copying over the overrides for the datasource"
+    mkdir -p ${DIST}/overrides
+    cp ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating"
     mv ${$DIST}/config/default/fhir-server-config-db2.json \
         ${$DIST}/config/default/fhir-server-config.json
+
+    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${$DIST}/config/default/fhir-server-config.json) = 'true' ]
+    then 
+        echo "serverRegistryResourceProviderEnabled is true"
+    else 
+        echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
+        exit -1;
+    fi
 }
 
 # cleanup - cleanup existing docker

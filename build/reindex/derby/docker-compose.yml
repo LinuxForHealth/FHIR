@@ -23,8 +23,3 @@ services:
       - 9443:9443
     env_file:
       - ./.fhir.env
-    networks:
-      - fhir
-networks:
-  fhir:
-    driver: bridge

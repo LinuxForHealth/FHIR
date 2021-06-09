@@ -10,8 +10,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-DIST="${WORKSPACE}/build/reindex/derby/workarea/volumes/dist"
-
 # pre_integration
 pre_integration(){
     cleanup
@@ -21,28 +19,31 @@ pre_integration(){
 
 # config - update configuration
 config(){
-    mkdir -p ${DIST}/userlib
-    mkdir -p ${DIST}/
-    mkdir -p ${WORKSPACE}/build/reindex/derby/workarea/output
+    DIST="${WORKSPACE}/build/reindex/derby/workarea/volumes/dist"
+    echo "Create the db volume..."
+    mkdir -p ${DIST}/db
 
-    touch ${WORKSPACE}/build/reindex/derby/workarea/output/fhir_reindex-messages.log
-    chmod +rwx ${WORKSPACE}/build/reindex/derby/workarea/output/fhir_reindex-messages.log
-    chmod -R 777 ${WORKSPACE}/build/reindex/derby/workarea/output/
-
-
+    # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
+    mkdir -p ${DIST}/config
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
-    mkdir -p $USERLIB
+    mkdir -p "${USERLIB}"
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/reindex/derby/resources/* ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/
-    mv ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/fhir-server-config.json
+    echo "Checking dynamic resource provider"
+    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${$DIST}/config/default/fhir-server-config.json) = 'true' ]
+    then 
+        echo "serverRegistryResourceProviderEnabled is true"
+    else 
+        echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
+        exit -1;
+    fi
+
 }
 
 # cleanup - cleanup existing docker
@@ -59,22 +60,30 @@ bringup(){
     docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
-    # Allow extra time due to bootstrapping
-    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 120 && kill $P)
+    # Startup FHIR
+    cx=0
+    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    do
+        echo "Waiting on startup of fhir ${cx}"
+        cx=$((cx + 1))
+        if [ ${cx} -ge 300 ]
+        then
+            echo "Failed to start fhir"
+        fi
+        sleep 1
+    done
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup
-    cd -
     pre_it_logs=${WORKSPACE}/pre-it-logs
     zip_file=${WORKSPACE}/pre-it-logs.zip
     rm -rf ${pre_it_logs} 2>/dev/null
     mkdir -p ${pre_it_logs}
     rm -f ${zip_file}
 
-    echo "
-    Docker container status:"
+    echo "Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep derby_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep derby_fhir_1 | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]
     then
         echo "Warning: Could not find the fhir container!!!"
