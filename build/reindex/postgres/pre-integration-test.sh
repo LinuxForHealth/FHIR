@@ -6,6 +6,10 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
 DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 
 # pre_integration
@@ -48,7 +52,7 @@ config(){
     mv ${$DIST}/config/default/fhir-server-config-postgresql.json \
         ${$DIST}/config/default/fhir-server-config.json
 
-    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${$DIST}/config/default/fhir-server-config.json) = 'true' ]
+    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json) = 'true' ]
     then 
         echo "serverRegistryResourceProviderEnabled is true"
     else 
@@ -71,7 +75,7 @@ bringup(){
     # Startup db
     docker-compose up --remove-orphans -d db
     cx=0
-    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "db").State' | wc -l) -ge 0 ] && [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_db_1 | jq -r '.[] | select (.Config.Hostname == "postgres_postgres_1").State.Running' | grep false | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of db ${cx}"
         cx=$((cx + 1))
@@ -85,7 +89,7 @@ bringup(){
     # Startup FHIR
     docker-compose up --remove-orphans -d fhir
     cx=0
-    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker container inspect postgres_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect postgres_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Running' | grep false | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of fhir ${cx}"
         cx=$((cx + 1))

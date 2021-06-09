@@ -6,7 +6,9 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -ex
+set -o errexit
+set -o nounset
+set -o pipefail
 
 # required_build - executes for every build
 required_build(){
@@ -29,6 +31,8 @@ required_build(){
     sudo apt clean
     docker system prune -f
     df -h
+
+    docker version
 
     # Build dockerfile
     cd fhir-install

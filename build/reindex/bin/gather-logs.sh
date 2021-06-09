@@ -5,7 +5,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
-set -ex
+
+set -o errexit
+set -o nounset
+set -o pipefail
 
 # Gathers the logs
 package_logs(){

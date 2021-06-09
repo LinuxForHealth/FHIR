@@ -62,7 +62,7 @@ bringup(){
 
     # Startup FHIR
     cx=0
-    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while while [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Running' | grep false | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of fhir ${cx}"
         cx=$((cx + 1))
