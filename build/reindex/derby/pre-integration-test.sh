@@ -6,7 +6,11 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
+set -o errexit
+set -o nounset
+set -o pipefail
+
+DIST="${WORKSPACE}/build/reindex/derby/workarea/volumes/dist"
 
 # pre_integration
 pre_integration(){
@@ -19,9 +23,11 @@ pre_integration(){
 config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
-    mkdir -p ${WORKSPACE}/build/reindex/db2/workarea/output
+    mkdir -p ${WORKSPACE}/build/reindex/derby/workarea/output
 
-    chmod -R 777 ${WORKSPACE}/build/reindex/db2/workarea/output/
+    touch ${WORKSPACE}/build/reindex/derby/workarea/output/fhir_reindex-messages.log
+    chmod +rwx ${WORKSPACE}/build/reindex/derby/workarea/output/fhir_reindex-messages.log
+    chmod -R 777 ${WORKSPACE}/build/reindex/derby/workarea/output/
 
 
     echo "Copying fhir configuration files..."
@@ -35,8 +41,8 @@ config(){
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/reindex/db2/resources/* ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/
-    mv ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json
+    cp -pr ${WORKSPACE}/build/reindex/derby/resources/* ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/
+    mv ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/derby/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 
 # cleanup - cleanup existing docker
@@ -68,7 +74,7 @@ bringup(){
     Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep db2_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep derby_fhir-server_1 | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]
     then
         echo "Warning: Could not find the fhir container!!!"
@@ -111,6 +117,7 @@ bringup(){
     fi
 
     echo "The fhir-server appears to be running..."
+    exit 0
 }
 
 # is_ready_to_run - is this ready to run?
@@ -126,7 +133,7 @@ is_ready_to_run(){
 ###############################################################################
 is_ready_to_run
 
-cd build/reindex/db2
+cd build/reindex/derby
 pre_integration
 
 # EOF

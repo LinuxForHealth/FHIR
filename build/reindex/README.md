@@ -11,13 +11,12 @@ The automation runs with these steps:
 - **Gather error logs** - This step only runs upon a failure condition. 
 - **Upload logs** - The step uploads the results of the integration tests and the operational logs are posted to the job. 
 
-The GitHub Action is parameterized with a matrix for each new $reindex tests. Each additional entry in the array ends up creating multiple automation steps which must complete successfully for the workflow. The job is set to fail-fast when a job fails.
+The GitHub Action is parameterized with a matrix for each new $reindex tests. Each additional entry in the array ends up creating multiple automation steps which must complete successfully for the workflow. The job is set to fail-fast when a matrix job fails.
 
 ``` yaml
     strategy:
       matrix:
         datastore: [ 'db2', 'derby', 'postgres' ]
-        configuration: [ 'dynamic', 'ig', 'file' ]
     fail-fast: true
 ```
 
@@ -27,10 +26,11 @@ Each datastore layer that is tested as part of the framework uses the default bu
 |----------|----------------|
 |bin/gather-logs.sh|Gathers the logs from the build|
 |bin/integration-test.sh|Run after the tests complete to release resources and package tests results|
+|bin/setup-prerequisites.sh|Builds the fhir-server|
+|bin/pre-integration-test.sh|Call the pre-integration-test step for `<datastore>`|
+|bin/post-integration-test.sh|Call the post-integration-test step for `<datastore>`|
 |`<datastore>`/integration-test.sh|Overrides bin/integration-test.sh, replacing the prior test behavior.|
-|bin/pre-integration-test.sh|Call the pre-integration-test step for `db2`|
 |`<datastore>`/pre-integration-test.sh|Run before integration-test.sh to startup image and services for the integration testing|
-|bin/post-integration-test.sh|Call the post-integration-test step for `db2`|
 |`<datastore>`/post-integration-test.sh|Run after integration-test.sh to stop image and services from the integration testing|
 |`<datastore>`/resources| Stores files used to support the end-to-end tests. |
 |`<datastore>`/.gitignore|Ignores files related to the reindex layer's tests|

@@ -1,4 +1,4 @@
-# $reindex - db2
+# $reindex - derby
 
 1. Build the Docker Compose File 
 

@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         datastore: [ 'db2', 'derby', 'postgres' ]
-        configuration: [ 'dynamic', 'ig', 'file' ]
       fail-fast: true
     steps:
     - name: Checkout source code
@@ -34,16 +33,16 @@ jobs:
       shell: 'script -q -e -c "bash {0}"'
       run: |
         bash build/reindex/bin/pre-integration-test.sh ${{matrix.datastore}}
-        bash build/reindex/bin/integration-test.sh ${{matrix.datastore}} ${{ matrix.configuration }}
+        bash build/reindex/bin/integration-test.sh ${{matrix.datastore}}
         bash build/reindex/bin/post-integration-test.sh ${{matrix.datastore}}
     - name: Gather error logs
       if: failure()
       env:
         WORKSPACE: ${{ github.workspace }}
-      run: bash build/reindex/bin/gather-logs.sh ${{matrix.datastore}} ${{ matrix.configuration }}
+      run: bash build/reindex/bin/gather-logs.sh ${{matrix.datastore}}
     - name: Upload logs
       if: always()
       uses: actions/upload-artifact@v2.2.0
       with:
-        name: integration-test-results-${{ matrix.datastore }}-${{ matrix.configuration }}
+        name: integration-test-results-${{ matrix.datastore }}
         path: build/reindex/integration-test-results

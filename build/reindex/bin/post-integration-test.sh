@@ -13,6 +13,9 @@ reindex_post(){
     then 
         echo "Running [${reindex}] post-integration-test"
         bash build/reindex/${reindex}/post-integration-test.sh
+    else
+        cd build/reindex/${reindex}
+        docker-compose down --remove-orphans --rmi local -v --timeout 30
     fi
 }
 

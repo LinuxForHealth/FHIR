@@ -1,20 +1,7 @@
 version: '3.9'
 services:
-  db:
-    build:
-      context: db2
-    hostname: db
-    privileged: true
-    tty: true
-    environment:
-      - LICENSE=accept
-      - DB2INST1_PASSWORD=change-password
-    ports:
-      - 50000:50000
   fhir:
     image: ibmcom/ibm-fhir-server:latest
-    depends_on:
-      - db
     hostname: fhir
     volumes:
       - type: bind
@@ -25,12 +12,7 @@ services:
         source: ./workarea/volumes/dist/userlib/
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
-    command: bash -c "
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
-          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
-          --update-schema &&
-        /opt/ol/wlp/bin/server run"
+    command: bash -c "/opt/ol/wlp/bin/server run"
     healthcheck:
       start_period: 120s
       interval: 10s

@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
+DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 
 # pre_integration
 pre_integration(){
@@ -19,9 +19,9 @@ pre_integration(){
 config(){
     mkdir -p ${DIST}/userlib
     mkdir -p ${DIST}/
-    mkdir -p ${WORKSPACE}/build/reindex/db2/workarea/output
+    mkdir -p ${WORKSPACE}/build/reindex/postgres/workarea/output
 
-    chmod -R 777 ${WORKSPACE}/build/reindex/db2/workarea/output/
+    chmod -R 777 ${WORKSPACE}/build/reindex/postgres/workarea/output/
 
 
     echo "Copying fhir configuration files..."
@@ -35,8 +35,8 @@ config(){
     echo "Finished copying fhir-server dependencies..."
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/reindex/db2/resources/* ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/
-    mv ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/db2/workarea/volumes/dist/config/default/fhir-server-config.json
+    cp -pr ${WORKSPACE}/build/reindex/postgres/resources/* ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/
+    mv ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/fhir-server-config.json
 }
 
 # cleanup - cleanup existing docker
@@ -68,7 +68,7 @@ bringup(){
     Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep db2_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep postgres_fhir-server_1 | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]
     then
         echo "Warning: Could not find the fhir container!!!"
@@ -126,7 +126,7 @@ is_ready_to_run(){
 ###############################################################################
 is_ready_to_run
 
-cd build/reindex/db2
+cd build/reindex/postgres
 pre_integration
 
 # EOF
