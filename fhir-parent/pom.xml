@@ -555,6 +555,21 @@
                 <artifactId>snakeyaml</artifactId>
                 <version>1.28</version>
             </dependency>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-storage-blob</artifactId>
+                <version>12.6.0</version>
+            </dependency>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-core-http-okhttp</artifactId>
+                <version>1.6.2</version>
+            </dependency>
+            <dependency>
+                <groupId>com.azure</groupId>
+                <artifactId>azure-core</artifactId>
+                <version>1.15.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
