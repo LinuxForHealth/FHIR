@@ -6,9 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -o errexit
-set -o nounset
-set -o pipefail
+set -ex
 
 # Gathers the logs
 package_logs(){
@@ -23,6 +21,9 @@ package_logs(){
     mkdir -p ${it_results}
     mkdir -p ${it_results}/server-logs
     mkdir -p ${it_results}/fhir-server-test
+
+    # Runtime Date
+    echo $(date) > ${it_results}/runtime.txt
 
     # Look for the FHIR Server Container
     containerId=$(docker ps -a | grep ibm-fhir-server | cut -d ' ' -f 1)

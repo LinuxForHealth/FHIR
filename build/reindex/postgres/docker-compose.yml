@@ -61,7 +61,7 @@ services:
       - 9080:9080
       - 9443:9443
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
     networks:
       - fhir

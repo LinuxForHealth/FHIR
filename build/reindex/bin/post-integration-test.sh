@@ -6,9 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -o errexit
-set -o nounset
-set -o pipefail
+set -ex
 
 # reindex_post - executes for each reindex post integration steps
 reindex_post(){
