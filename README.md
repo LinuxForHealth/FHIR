@@ -111,7 +111,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
-|fhir-cli|Experimental command line interface utility for working with the IBM FHIR Server client from the command line|false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|

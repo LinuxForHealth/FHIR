@@ -30,6 +30,9 @@ public class ImportCheckPointData implements Serializable {
     protected long totalValidationMilliSeconds = 0;
     protected long importFileSize = 0;
 
+    // Track the Azure Progress
+    protected long currentBytes = 0;
+
     protected long inFlyRateBeginMilliSeconds = 0;
 
     // Value used to sign the successful ending of the import.
@@ -126,6 +129,14 @@ public class ImportCheckPointData implements Serializable {
         return importPartitionResourceType;
     }
 
+    public long getCurrentBytes() {
+        return currentBytes;
+    }
+
+    public void setCurrentBytes(long currentBytes) {
+        this.currentBytes = currentBytes;
+    }
+
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {
         return ImportCheckPointData.Builder.builder()
                 .importPartitionWorkitem(userData.getImportPartitionWorkitem())
@@ -148,6 +159,7 @@ public class ImportCheckPointData implements Serializable {
                 .importFileSize(userData.getImportFileSize())
                 .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
                 .numOfSkippedResources(userData.getNumOfSkippedResources())
+                .currentBytes(userData.getCurrentBytes())
                 .build();
     }
 
@@ -292,6 +304,7 @@ public class ImportCheckPointData implements Serializable {
         protected long totalWriteMilliSeconds;
         protected long importFileSize;
         protected long inFlyRateBeginMilliSeconds;
+        protected long currentBytes;
         protected long numOfSkippedResources;
 
         public Builder() {
@@ -402,6 +415,11 @@ public class ImportCheckPointData implements Serializable {
             return this;
         }
 
+        public Builder currentBytes(long currentBytes) {
+            this.currentBytes = currentBytes;
+            return this;
+        }
+
         public ImportCheckPointData build() {
             ImportCheckPointData importCheckPointData = new ImportCheckPointData();
             importCheckPointData.importPartitionWorkitem = this.importPartitionWorkitem;
@@ -424,6 +442,7 @@ public class ImportCheckPointData implements Serializable {
             importCheckPointData.importFileSize = this.importFileSize;
             importCheckPointData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
             importCheckPointData.numOfSkipped = this.numOfSkippedResources;
+            importCheckPointData.currentBytes = this.currentBytes;
             return importCheckPointData;
         }
     }
@@ -434,12 +453,12 @@ public class ImportCheckPointData implements Serializable {
                 + ", matrixWorkItem=" + matrixWorkItem
                 + ", numOfImportedResources=" + numOfImportedResources + ", numOfImportFailures=" + numOfImportFailures + ", totalReadMilliSeconds="
                 + totalReadMilliSeconds + ", totalWriteMilliSeconds=" + totalWriteMilliSeconds + ", totalValidationMilliSeconds=" + totalValidationMilliSeconds
-                + ", importFileSize=" + importFileSize + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds + ", numOfToBeImported="
-                + numOfToBeImported + ", numOfParseFailures=" + numOfParseFailures + ", importPartitionResourceType=" + importPartitionResourceType
-                + ", uniqueIDForImportOperationOutcomes=" + uniqueIDForImportOperationOutcomes + ", partNumForOperationOutcomes=" + partNumForOperationOutcomes
-                + ", uploadIdForOperationOutcomes=" + uploadIdForOperationOutcomes + ", dataPacksForOperationOutcomes=" + dataPacksForOperationOutcomes
-                + ", uniqueIDForImportFailureOperationOutcomes=" + uniqueIDForImportFailureOperationOutcomes + ", partNumForFailureOperationOutcomes="
-                + partNumForFailureOperationOutcomes + ", uploadIdForFailureOperationOutcomes=" + uploadIdForFailureOperationOutcomes
-                + ", dataPacksForFailureOperationOutcomes=" + dataPacksForFailureOperationOutcomes + "]";
+                + ", importFileSize=" + importFileSize + ", currentBytes=" + currentBytes + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds
+                + ", numOfToBeImported=" + numOfToBeImported + ", numOfParseFailures=" + numOfParseFailures + ", importPartitionResourceType="
+                + importPartitionResourceType + ", uniqueIDForImportOperationOutcomes=" + uniqueIDForImportOperationOutcomes + ", partNumForOperationOutcomes="
+                + partNumForOperationOutcomes + ", uploadIdForOperationOutcomes=" + uploadIdForOperationOutcomes + ", dataPacksForOperationOutcomes="
+                + dataPacksForOperationOutcomes + ", uniqueIDForImportFailureOperationOutcomes=" + uniqueIDForImportFailureOperationOutcomes
+                + ", partNumForFailureOperationOutcomes=" + partNumForFailureOperationOutcomes + ", uploadIdForFailureOperationOutcomes="
+                + uploadIdForFailureOperationOutcomes + ", dataPacksForFailureOperationOutcomes=" + dataPacksForFailureOperationOutcomes + "]";
     }
 }
