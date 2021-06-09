@@ -55,7 +55,7 @@ config(){
         echo "serverRegistryResourceProviderEnabled is true"
     else 
         echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
-        exit -1;
+        exit 1;
     fi
 }
 
@@ -102,9 +102,9 @@ bringup(){
     cd -
     pre_it_logs=${WORKSPACE}/pre-it-logs
     zip_file=${WORKSPACE}/pre-it-logs.zip
-    rm -rf ${pre_it_logs} 2>/dev/null
-    mkdir -p ${pre_it_logs}
-    rm -f ${zip_file}
+    rm -rf "${pre_it_logs}" 2>/dev/null
+    mkdir -p "${pre_it_logs}"
+    rm -f "${zip_file}"
 
     echo "
     Docker container status:"

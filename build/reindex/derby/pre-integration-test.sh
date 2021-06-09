@@ -9,28 +9,28 @@
 set -ex
 
 # pre_integration
-pre_integration(){
+pre_integration() {
     cleanup
     config
     bringup
 }
 
 # config - update configuration
-config(){
+config() {
     DIST="${WORKSPACE}/build/reindex/derby/workarea/volumes/dist"
     echo "Create the db volume..."
-    mkdir -p ${DIST}/db
+    mkdir -p "${DIST}/db"
 
     # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
-    mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
+    mkdir -p "${DIST}/config"
+    cp -pr "${WORKSPACE}/fhir-server/liberty-config/config" "$DIST"
+    cp -pr "${WORKSPACE}/fhir-server/liberty-config-tenants/config/*" "$DIST/config"
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
     mkdir -p "${USERLIB}"
-    find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
+    find "${WORKSPACE}/conformance" -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} "${USERLIB}" \;
 
     # Move over the test configurations
     echo "Checking dynamic resource provider"
@@ -39,13 +39,13 @@ config(){
         echo "serverRegistryResourceProviderEnabled is true"
     else 
         echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
-        exit -1;
+        exit 1;
     fi
 
 }
 
 # cleanup - cleanup existing docker
-cleanup(){
+cleanup() {
     # Stand up a docker container running the fhir server configured for integration tests
     echo "Bringing down any containers that might already be running as a precaution"
     docker-compose kill
@@ -53,14 +53,14 @@ cleanup(){
 }
 
 # bringup
-bringup(){
+bringup() {
     echo "Bringing up containers"
     docker-compose up --remove-orphans -d
-    echo ">>> Current time: " $(date)
+    echo ">>> Current time: $(date)"
 
     # Startup FHIR
     cx=0
-    while while [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Running' | grep false | wc -l) -eq 1 ]
+    while [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Status' | wc -l) -gt 0 ] && [ $(docker container inspect derby_fhir_1 | jq -r '.[] | select (.Config.Hostname == "fhir").State.Running' | grep false | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of fhir ${cx}"
         cx=$((cx + 1))
@@ -74,15 +74,15 @@ bringup(){
     # Gather up all the server logs so we can trouble-shoot any problems during startup
     pre_it_logs=${WORKSPACE}/pre-it-logs
     zip_file=${WORKSPACE}/pre-it-logs.zip
-    rm -rf ${pre_it_logs} 2>/dev/null
-    mkdir -p ${pre_it_logs}
-    rm -f ${zip_file}
+    rm -rf "${pre_it_logs}" 2>/dev/null
+    mkdir -p "${pre_it_logs}"
+    rm -f "${zip_file}"
 
     echo "Docker container status:"
     docker ps -a
 
     containerId=$(docker ps -a | grep derby_fhir_1 | cut -d ' ' -f 1)
-    if [[ -z "${containerId}" ]]
+    if [ -z "${containerId}" ]
     then
         echo "Warning: Could not find the fhir container!!!"
     else
@@ -100,7 +100,8 @@ bringup(){
     healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
     tries=0
     status=0
-    while [ $status -ne 200 -a $tries -lt 30 ]; do
+    while [ $status -ne 200 ] && [ $tries -lt 30 ]
+    do
         tries=$((tries + 1))
 
         set +o errexit
@@ -128,7 +129,7 @@ bringup(){
 }
 
 # is_ready_to_run - is this ready to run?
-is_ready_to_run(){
+is_ready_to_run() {
     echo "Preparing environment for fhir-server integration tests..."
     if [ -z "${WORKSPACE}" ]
     then

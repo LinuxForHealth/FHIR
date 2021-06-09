@@ -53,7 +53,7 @@ config(){
         echo "serverRegistryResourceProviderEnabled is true"
     else 
         echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
-        exit -1;
+        exit 1;
     fi
 }
 
