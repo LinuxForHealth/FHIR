@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -ex
+
 # reindex_post - executes for each reindex post integration steps
 reindex_post(){
     reindex="${1}"

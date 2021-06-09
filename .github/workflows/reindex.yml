@@ -9,13 +9,13 @@ on:
       - '.github/workflows/release.yml'
 
 jobs:
-  reindex-it:
+  reindex:
     runs-on: ubuntu-latest
     if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         datastore: [ 'db2', 'derby', 'postgres' ]
-      fail-fast: true
+      fail-fast: false
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2.3.4

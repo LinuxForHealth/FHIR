@@ -36,7 +36,7 @@ config(){
 
     # Move over the test configurations
     echo "Checking dynamic resource provider"
-    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${$DIST}/config/default/fhir-server-config.json) = 'true' ]
+    if [ "$(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json)" = "true" ]
     then 
         echo "serverRegistryResourceProviderEnabled is true"
     else 
@@ -50,14 +50,14 @@ config(){
 cleanup(){
     # Stand up a docker container running the fhir server configured for integration tests
     echo "Bringing down any containers that might already be running as a precaution"
-    docker-compose kill
-    docker-compose rm -f
+    docker compose kill
+    docker compose rm -f
 }
 
 # bringup
 bringup(){
     echo "Bringing up containers"
-    docker-compose up --remove-orphans -d
+    docker compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
     # Startup FHIR

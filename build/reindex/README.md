@@ -11,13 +11,12 @@ The automation runs with these steps:
 - **Gather error logs** - This step only runs upon a failure condition. 
 - **Upload logs** - The step uploads the results of the integration tests and the operational logs are posted to the job. 
 
-The GitHub Action is parameterized with a matrix for each new $reindex tests. Each additional entry in the array ends up creating multiple automation steps which must complete successfully for the workflow. The job is set to fail-fast when a matrix job fails.
+The GitHub Action is parameterized with a matrix for each new `$reindex` tests. Each additional entry in the array ends up creating multiple automation steps which must complete successfully for the workflow.
 
 ``` yaml
 strategy:
-    matrix:
+  matrix:
     datastore: [ 'db2', 'derby', 'postgres' ]
-fail-fast: true
 ```
 
 Each datastore layer that is tested as part of the framework uses the default build files and the files that match the `matrix.datastore` name added to the `reindex.yml`.

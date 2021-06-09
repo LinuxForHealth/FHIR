@@ -23,7 +23,8 @@ package_logs(){
 
     # Look for the FHIR Server Container
     containerId=$(docker ps -a | grep ibm-fhir-server | cut -d ' ' -f 1)
-    if [[ -z "${containerId}" ]]; then
+    if [ -z "${containerId}" ]
+    then
         echo "Warning: Could not find fhir container!!!"
     else
         echo "fhir container id: $containerId"
@@ -35,10 +36,16 @@ package_logs(){
     fi
 
     echo "Gathering integration test output"
-    cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
-    
-    echo "Move the ${1} Elements too the output area'"
-    cp -pr ${WORKSPACE}/build/reindex/${1}/workarea/* ${it_results}
+    if [ -d ${WORKSPACE}/fhir-server-test/target/surefire-reports ]
+    then
+        cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
+    fi
+
+    if [ -d ${WORKSPACE}/build/reindex/${1}/workarea ]
+    then
+        echo "Move the '${1}' Elements to the output area'"
+        cp -pr build/reindex/${reindex}/workarea/${reindex}-test.log ${it_results}
+    fi
 }
 
 ###############################################################################

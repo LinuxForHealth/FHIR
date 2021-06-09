@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -ex
+
 # reindex_pre - executes for each reindex pre integration steps
 reindex_pre(){
     reindex="${1}"
