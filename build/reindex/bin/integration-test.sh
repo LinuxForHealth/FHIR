@@ -7,6 +7,7 @@
 ###############################################################################
 
 set -ex
+set -o pipefail
 
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 

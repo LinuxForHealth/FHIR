@@ -25,7 +25,7 @@ config() {
     echo "Copying fhir configuration files..."
     mkdir -p "${DIST}/config"
     cp -pr "${WORKSPACE}/fhir-server/liberty-config/config" "$DIST"
-    cp -pr "${WORKSPACE}/fhir-server/liberty-config-tenants/config/*" "$DIST/config"
+    cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* "$DIST/config"
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
