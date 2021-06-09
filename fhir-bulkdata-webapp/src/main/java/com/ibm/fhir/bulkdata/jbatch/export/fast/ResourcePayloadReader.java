@@ -38,6 +38,8 @@ import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.checkpoint.ResourceExportCheckpointAlgorithm;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.data.CheckpointUserData;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.data.TransientUserData;
+import com.ibm.fhir.bulkdata.provider.Provider;
+import com.ibm.fhir.bulkdata.provider.impl.AzureProvider;
 import com.ibm.fhir.bulkdata.provider.impl.S3Provider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -45,6 +47,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -86,8 +89,8 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
-    // S3 client API to IBM Cloud Object Storage
-    private S3Provider wrapper = null;
+    // Provider client API to IBM Cloud Object Storage or Azure
+    private Provider provider = null;
     private AmazonS3 cosClient = null;
 
     // The handle to the persistence instance used to fetch the resources we want to export
@@ -262,12 +265,15 @@ public class ResourcePayloadReader extends AbstractItemReader {
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         resourceType = ModelSupport.getResourceType(fhirResourceType);
 
-        wrapper = new S3Provider(source);
-
-        // Make sure we have the bucket and conditionally create it.
-        wrapper.createSource();
-
-        cosClient = wrapper.getClient();
+        if (StorageType.AZURE == adapter.getStorageProviderStorageType(source)) {
+            provider = new AzureProvider(source);
+        } else {
+            // Make sure we have the bucket and conditionally create it.
+            S3Provider s3 = new S3Provider(source);
+            cosClient = s3.getClient();
+            provider = s3;
+        }
+        provider.createSource();
     }
 
     @Override
@@ -440,7 +446,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
      */
     private void uploadWhenReady() throws Exception {
         // Initiate the upload if we don't have one active
-        if (this.uploadId == null) {
+        if (this.uploadId == null && cosClient != null) {
             // Start a new upload
             if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
                 this.currentObjectName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
@@ -459,8 +465,31 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // upload would take too long and exceed our transaction
         // timeout.
         if (this.ioBuffer.size() > this.partUploadTriggerSize) {
-            uploadPart();
+            if (cosClient != null) {
+                uploadPart();
+            } else {
+                // Must be Azure
+                uploadPartToAzure();
+            }
         }
+    }
+
+    /**
+     * writes to Azure blob
+     * @throws Exception
+     */
+    private void uploadPartToAzure() throws Exception {
+        // Azure API: Part number must be an integer between 1 and 10000
+        int currentObjectPartNumber = uploadedParts.size() + 1;
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");
+        }
+
+        // The ioBuffer can provide us with an InputStream without having to copy the byte-buffer
+        InputStream in = ioBuffer.inputStream();
+        AzureProvider pro = (AzureProvider) provider;
+        pro.writeDirectly(currentObjectName, in, ioBuffer.size());
+        ioBuffer.reset();
     }
 
     /**

@@ -81,6 +81,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
                 .totalWriteMilliSeconds(importCheckPointData.totalWriteMilliSeconds)
                 .importFileSize(importCheckPointData.importFileSize)
                 .inFlyRateBeginMilliSeconds(importCheckPointData.inFlyRateBeginMilliSeconds)
+                .currentBytes(importCheckPointData.currentBytes)
                 .build();
     }
 
@@ -186,6 +187,11 @@ public class ImportTransientUserData extends ImportCheckPointData {
         }
 
         @Override
+        public Builder currentBytes(long currentBytes) {
+            return (Builder) super.currentBytes(currentBytes);
+        }
+
+        @Override
         public ImportTransientUserData build() {
             ImportTransientUserData importTransientUserData = new ImportTransientUserData();
             importTransientUserData.importPartitionWorkitem = this.importPartitionWorkitem;
@@ -207,6 +213,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
             importTransientUserData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
             importTransientUserData.importFileSize = this.importFileSize;
             importTransientUserData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+            importTransientUserData.currentBytes = this.currentBytes;
             return importTransientUserData;
         }
     }
