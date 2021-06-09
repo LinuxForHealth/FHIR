@@ -23,26 +23,38 @@ setup_docker(){
 
 # config - update configuration
 config(){
-    mkdir -p ${DIST}/userlib
-    mkdir -p ${DIST}/
-    mkdir -p ${WORKSPACE}/build/reindex/postgres/workarea/output
+    DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
 
-    chmod -R 777 ${WORKSPACE}/build/reindex/postgres/workarea/output/
+    echo "Create the db volume..."
+    mkdir -p ${DIST}/db
 
-
+    # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
+    mkdir -p ${DIST}/config
     cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
     USERLIB="${DIST}/userlib"
-    mkdir -p $USERLIB
+    mkdir -p "${USERLIB}"
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
-    echo "Finished copying fhir-server dependencies..."
+
+    echo "Copying over the overrides for the datasource"
+    mkdir -p ${DIST}/overrides
+    cp ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
 
     # Move over the test configurations
-    cp -pr ${WORKSPACE}/build/reindex/postgres/resources/* ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/
-    mv ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/fhir-server-config.json ${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist/config/default/fhir-server-config.json
+    echo "Copying over the fhir-server-config.json and updating"
+    mv ${$DIST}/config/default/fhir-server-config-postgresql.json \
+        ${$DIST}/config/default/fhir-server-config.json
+
+    if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${$DIST}/config/default/fhir-server-config.json) = 'true' ]
+    then 
+        echo "serverRegistryResourceProviderEnabled is true"
+    else 
+        echo "serverRegistryResourceProviderEnabled is false, tests cannot run"
+        exit -1;
+    fi
 }
 
 # cleanup - cleanup existing docker
