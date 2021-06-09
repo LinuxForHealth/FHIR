@@ -20,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HttpMethod;
 
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 
 /**
  * Based on the IBM Cloud Documentation
@@ -46,7 +47,7 @@ public class DownloadUrl {
     private boolean path = true;
     private ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC);
 
-    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey, String accessKey, String secretKey, boolean parquet, boolean presigned, boolean path) {
+    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey, String accessKey, String secretKey, boolean parquet, boolean presigned, S3HostStyle hostStyle) {
         this.server = server;
         this.region = region;
         this.bucketName = bucketName;
@@ -56,7 +57,7 @@ public class DownloadUrl {
         this.secretKey = secretKey;
         this.parquet = parquet;
         this.presigned = presigned;
-        this.path = path;
+        this.path = S3HostStyle.PATH.equals(hostStyle);
     }
 
     /*

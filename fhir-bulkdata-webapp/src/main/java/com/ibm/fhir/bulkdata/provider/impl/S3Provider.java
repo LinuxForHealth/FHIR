@@ -128,11 +128,9 @@ public class S3Provider implements Provider {
             logger.fine("Succeed to get client!");
         }
 
-        if (bucketName == null) {
-            logger.warning("Failed to get BucketName!");
-            this.bucketName = "";
-        } else {
+        if (bucketName != null) {
             logger.fine("Succeed to get BucketName!");
+            // Naming convention has it as - The bucket name can be between 3 and 63 characters long, and can contain only lower-case characters, numbers, periods, and dashes.
             this.bucketName = bucketName.trim().toLowerCase();
         }
 

@@ -48,7 +48,6 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
-import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceRequest;
 import com.ibm.fhir.operation.bulkdata.model.JobInstanceResponse;
@@ -715,8 +714,7 @@ public class BulkDataClient {
                         String accessKey = adapter.getStorageProviderAuthTypeHmacAccessKey(source);
                         String secretKey = adapter.getStorageProviderAuthTypeHmacSecretKey(source);
                         boolean presigned = adapter.isStorageProviderHmacPresigned(source);
-                        boolean path = S3HostStyle.PATH.equals(adapter.getS3HostStyleByStorageProvider(source));
-                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, path);
+                        DownloadUrl url = new DownloadUrl(baseUrl, region, bucketName, cosBucketPathPrefix, objectKey, accessKey, secretKey, parquet, presigned, adapter.getS3HostStyleByStorageProvider(source));
                         sUrl = url.getUrl();
                     } else {
                         // Must be File

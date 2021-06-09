@@ -24,6 +24,11 @@ public final class OperationFields {
     // Partition
     public static final String PARTITION_RESOURCETYPE = "partition.resourcetype";
     public static final String PARTITION_WORKITEM = "partition.workitem";
+    /*
+     * Used to identify the original file imported when it matrixes to segments
+     * e.g. original import file is Patient.ndjson matrixes to
+     * Patient.ndjson_seg0, Patient.ndjson_seg1 which are individual partitions.
+     */
     public static final String PARTITION_MATRIX = "partition.matrix";
 
     // Parameters
