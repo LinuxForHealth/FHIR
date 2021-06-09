@@ -1143,10 +1143,14 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            Collection<FHIRPathNode> result = currentContext.stream()
-                    .flatMap(node -> node.children().stream())
-                    .filter(node -> identifier.equals(node.name()))
-                    .collect(Collectors.toList());
+            List<FHIRPathNode> result = new ArrayList<>();
+            for (FHIRPathNode node : currentContext) {
+                for (FHIRPathNode child : node.children()) {
+                    if (identifier.equals(child.name())) {
+                        result.add(child);
+                    }
+                }
+            }
 
             indentLevel--;
 
