@@ -58,5 +58,6 @@ public class ReindexOperationTest extends FHIRServerTestBase {
                 .post(entity, Response.class);
 
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        assertFalse(true);
     }
 }
