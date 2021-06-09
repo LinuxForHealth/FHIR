@@ -69,9 +69,9 @@ cleanup(){
 bringup(){
     echo "Bringing up containers >>> Current time: " $(date)
     # Startup db
-    docker compose up --remove-orphans -d db
+    docker-compose up --remove-orphans -d db
     cx=0
-    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "db").State' | wc -l) -ge 0 ] && [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "db").State' | wc -l) -ge 0 ] && [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of db ${cx}"
         cx=$((cx + 1))
@@ -83,9 +83,9 @@ bringup(){
     done
 
     # Startup FHIR
-    docker compose up --remove-orphans -d fhir
+    docker-compose up --remove-orphans -d fhir
     cx=0
-    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of fhir ${cx}"
         cx=$((cx + 1))

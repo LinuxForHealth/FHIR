@@ -6,7 +6,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
-set -ex
+set -eu -o pipefail
 
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 

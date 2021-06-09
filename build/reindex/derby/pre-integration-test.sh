@@ -50,19 +50,19 @@ config(){
 cleanup(){
     # Stand up a docker container running the fhir server configured for integration tests
     echo "Bringing down any containers that might already be running as a precaution"
-    docker compose kill
-    docker compose rm -f
+    docker-compose kill
+    docker-compose rm -f
 }
 
 # bringup
 bringup(){
     echo "Bringing up containers"
-    docker compose up --remove-orphans -d
+    docker-compose up --remove-orphans -d
     echo ">>> Current time: " $(date)
 
     # Startup FHIR
     cx=0
-    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    while [ $(docker-compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker-compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
     do
         echo "Waiting on startup of fhir ${cx}"
         cx=$((cx + 1))
