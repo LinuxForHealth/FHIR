@@ -9,6 +9,7 @@ package com.ibm.fhir.server.test.operation;
 import static com.ibm.fhir.model.type.Integer.of;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
