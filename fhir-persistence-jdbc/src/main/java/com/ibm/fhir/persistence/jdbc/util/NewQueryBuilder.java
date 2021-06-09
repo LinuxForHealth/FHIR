@@ -8,6 +8,8 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
 
 import java.util.Comparator;
@@ -16,9 +18,9 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.domain.CanonicalSearchParam;
@@ -42,6 +44,8 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchIncludeQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryRenderer;
 import com.ibm.fhir.persistence.jdbc.domain.SearchSortQuery;
+import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemDataQuery;
+import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemFilterQuery;
 import com.ibm.fhir.persistence.jdbc.domain.StringSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TagSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
@@ -181,8 +185,9 @@ public class NewQueryBuilder {
                 new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
         final SearchQuery domainModel;
-
-        if (searchContext.hasSortParameters()) {
+        if (Resource.class.equals(resourceType)) {
+            domainModel = new SearchWholeSystemFilterQuery();
+        } else if (searchContext.hasSortParameters()) {
             // Special variant of the query which will sort based on the given sort params
             // and return a list of resource-ids which are then used to fetch the actual data
             // (matching the old query builder design...for now).
@@ -273,6 +278,27 @@ public class NewQueryBuilder {
     }
 
     /**
+     * Builds a query that returns resource data for the specified resource type and logical resource IDs.
+     *
+     * @param resourceType - the type of resource being searched for.
+     * @param searchContext - the search context.
+     * @param logicalResourceIds - the list of logical resource IDs being searched for.
+     * @return Select the query to fetch the specified list of resources
+     * @throws Exception
+     */
+    public Select buildWholeSystemDataQuery(String resourceType, FHIRSearchContext searchContext, List<Long> logicalResourceIds) throws Exception {
+        final String METHODNAME = "buildWholeSystemDataQuery";
+        log.entering(CLASSNAME, METHODNAME);
+
+        final SearchQuery domainModel = new SearchWholeSystemDataQuery(resourceType);
+        domainModel.add(new WholeSystemDataExtension(resourceType, logicalResourceIds));
+
+        Select result = renderQuery(domainModel, searchContext);
+
+        return result;
+    }
+
+    /**
      * Contains logic common to the building of both 'count' resource queries and
      * 'data' resource queries.
      * @param domainModel   Domain model of the query we are trying to build
@@ -348,11 +374,7 @@ public class NewQueryBuilder {
                 final Type type = queryParm.getType();
                 switch (type) {
                 case STRING:
-                    if (JDBCConstants.PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
-                        domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-                    } else {
-                        domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-                    }
+                    domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case REFERENCE:
                     if (queryParm.isReverseChained()) {
@@ -369,7 +391,7 @@ public class NewQueryBuilder {
                     domainModel.add(new DateSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case TOKEN:
-                    if (JDBCConstants.PARAM_NAME_TAG.equals(queryParm.getCode())) {
+                    if (PARAM_NAME_TAG.equals(queryParm.getCode())) {
                         domainModel.add(new TagSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
@@ -382,7 +404,11 @@ public class NewQueryBuilder {
                     domainModel.add(new QuantitySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case URI:
-                    domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    if (PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
+                        domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    } else {
+                        domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    }
                     break;
                 case COMPOSITE:
                     domainModel.add(new CompositeSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));

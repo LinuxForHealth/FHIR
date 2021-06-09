@@ -654,14 +654,12 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code for whole-system searches which are not yet supported
+        // Fall back to the old search code for whole-system searches with _type which are not yet supported
         // by the new code.
-        if (isSystemLevelSearch(resourceType) || !this.optQueryBuilderEnabled) {
-            // New query builder doesn't support system-level search at this point, so route
-            // to the old way.
+        if (context.getSearchContext().getSearchResourceTypes() != null || !this.optQueryBuilderEnabled) {
             return oldSearch(context, resourceType);
         } else {
-            // non-system-level search and the new query builder hasn't been disabled (it is enabled by default)
+            // new query builder hasn't been disabled (it is enabled by default)
             return newSearch(context, resourceType);
         }
     }
@@ -756,7 +754,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // path than other sorted searches. Since _include and _revinclude are not supported
                 // with system-level search, no special logic to handle it differently is needed here.
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
-                if (searchContext.hasSortParameters() && !resourceType.equals(Resource.class)) {
+                if (isSystemLevelSearch(resourceType)) {
+                    Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
+                    resourceDTOList = searchWholeSystemData(searchContext, queryBuilder, resourceTypeIdToLogicalResourceIdMap,
+                        resourceDao);
+                } else if (searchContext.hasSortParameters()) {
                     resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
                 } else {
                     resourceDTOList = resourceDao.search(query);
@@ -1321,6 +1323,36 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         return includeDTOs;
+    }
+    
+    /**
+     * Build and execute a set of queries for whole-system search, one query per resource type found by
+     * the whole-system filter query.
+     *
+     * @param searchContext - the current search context
+     * @param queryBuilder - the query builder
+     * @param resourceTypeIdToLogicalResourceIdMap - map of resource type Ids to logical resource Ids
+     * @param resourceDao - the resource data access object
+     * @return the list of resources returned from the queries
+     * @throws Exception
+     */
+    private List<com.ibm.fhir.persistence.jdbc.dto.Resource> searchWholeSystemData(FHIRSearchContext searchContext,
+        NewQueryBuilder queryBuilder, Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap,
+        ResourceDAO resourceDao) throws Exception {
+
+        List<com.ibm.fhir.persistence.jdbc.dto.Resource> wholeSystemDTOs = new ArrayList<>();
+        for (Integer resourceTypeId : resourceTypeIdToLogicalResourceIdMap.keySet()) {
+            String resourceType = cache.getResourceTypeNameCache().getName(resourceTypeId);
+            
+            // Build the query
+            Select wholeSystemDataSearchQuery = queryBuilder.buildWholeSystemDataQuery(resourceType,
+                    searchContext, resourceTypeIdToLogicalResourceIdMap.get(resourceTypeId));
+            
+            // Execute the query and add results to resources list
+            wholeSystemDTOs.addAll(resourceDao.search(wholeSystemDataSearchQuery));
+        }
+
+        return wholeSystemDTOs;
     }
 
     /**

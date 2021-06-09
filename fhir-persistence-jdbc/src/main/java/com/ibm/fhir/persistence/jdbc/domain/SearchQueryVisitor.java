@@ -77,6 +77,19 @@ public interface SearchQueryVisitor<T> {
     T sortRoot(String rootResourceType);
 
     /**
+     * The root of the FHIR whole-system filter search query
+     * @return
+     */
+    T wholeSystemFilterRoot();
+
+    /**
+     * The root of the FHIR whole-system data search query
+     * @param rootResourceType
+     * @return
+     */
+    T wholeSystemDataRoot(String rootResourceType);
+
+    /**
      * Filter the query using the given parameter id and token value
      * @param query
      * @param resourceType
@@ -264,6 +277,14 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addRevIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param resourceType
+     * @param logicalResourceIds
+     * @return
+     */
+    T addWholeSystemDataFilter(T query, String resourceType, List<Long> logicalResourceIds) throws FHIRPersistenceException;
 
     /**
      * Add the given sort parameter to the sort query

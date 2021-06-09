@@ -180,6 +180,15 @@ public interface ResourceDAO extends FHIRDbDAO {
     int searchCount(String sqlSelectCount) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
+     * Executes the whole-system filter search contained in the passed {@link Select}, using its encapsulated search string and bind variables.
+     * @param select - Contains a search query and (optionally) bind variables.
+     * @return Map<Integer, List<Long>> A map of FHIR resource type ID to list of logical resource IDs satisfying the passed search.
+     * @throws FHIRPersistenceDataAccessException
+     * @throws FHIRPersistenceDBConnectException
+     */
+    Map<Integer, List<Long>> searchWholeSystem(Select select) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
+
+    /**
      * Sets the current persistence context
      * @param context
      */
