@@ -64,7 +64,8 @@ public class IndexGenerator {
                         continue;
                     }
 
-                    if (resource instanceof SearchParameter && id.equals("clinical-patient")) {
+                    if (resource instanceof SearchParameter &&
+                            (id.equals("clinical-patient") || id.equals("Provenance-patient"))) {
                         // Workaround for https://jira.hl7.org/browse/FHIR-13601
                         resource = ((SearchParameter) resource).toBuilder()
                                 .target(Collections.singleton(ResourceType.PATIENT))

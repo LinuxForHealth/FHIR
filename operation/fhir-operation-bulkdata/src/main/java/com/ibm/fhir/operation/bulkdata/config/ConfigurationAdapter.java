@@ -500,6 +500,20 @@ public interface ConfigurationAdapter {
     int getPresignedUrlExpiry();
 
     /**
+     * get the connection string for the azure type account with a connection string.
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
+     * checks the provider to see if this is an azure connection string.
+     * @param provider
+     * @return true, if connectionString
+     */
+    boolean isStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
      * @return the status of skippable updates
      */
     boolean enableSkippableUpdates();
