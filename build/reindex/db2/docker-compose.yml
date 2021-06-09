@@ -10,6 +10,19 @@ services:
       - DB2INST1_PASSWORD=change-password
     ports:
       - 50000:50000
+    volumes:
+      - type: bind
+        source: ./workarea/volumes/dist/db
+        target: /database
+        read_only: false
+    healthcheck:
+      test: id db2inst1 && su - db2inst1 -c 'db2 list db directory && exit 0' || exit -1
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+    networks:
+      - fhir
   fhir:
     image: ibmcom/ibm-fhir-server:latest
     depends_on:
@@ -26,6 +39,9 @@ services:
         read_only: true
     command: bash -c "
         echo 'change-password' > /opt/ibm-fhir-server/tools/tenant.key &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type db2 --prop db.host=db --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
+          --create-schemas &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type db2 --prop db.host=db --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
           --update-schema &&

@@ -22,7 +22,9 @@ required_build(){
     mvn -T2C -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress
 
     # Build dockerfile
-    mvn -B dockerfile:build -f fhir-install --no-transfer-progress
+    cd fhir-install
+    docker build -t ibmcom/fhir-server:latest 
+    cd ..
 }
 
 # reindex_build - executes for each reindex type.

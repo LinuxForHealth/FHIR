@@ -22,7 +22,10 @@ setup_db2_docker(){
 # config - update configuration
 config(){
     DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
-    
+
+    echo "Create the db volume..."
+    mkdir -p ${DIST}/db
+
     # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
@@ -44,32 +47,54 @@ config(){
 cleanup(){
     # Stand up a docker container running the fhir server configured for integration tests
     echo "Bringing down any containers that might already be running as a precaution"
-    docker-compose kill
-    docker-compose rm -f
+    docker compose kill
+    docker compose rm -f
 }
 
 # bringup
 bringup(){
-    echo "Bringing up containers"
-    docker-compose up --remove-orphans -d
-    echo ">>> Current time: " $(date)
+    echo "Bringing up containers >>> Current time: " $(date)
+    # Startup db
+    docker compose up --remove-orphans -d db
+    cx=0
+    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "db").State' | wc -l) -ge 0 ] && [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    do
+        echo "Waiting on startup of db ${cx}"
+        cx=$((cx + 1))
+        if [ ${cx} -ge 300 ]
+        then
+            echo "Failed to start"
+        fi
+        sleep 1
+    done
 
-    # Allow extra time due to bootstrapping
-    (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 120 && kill $P)
+    # Startup FHIR
+    docker compose up --remove-orphans -d fhir
+    cx=0
+    while [ $(docker compose ps --format json | jq -r '.[] | select(.Service == "fhir").State' | wc -l) -ge 0 ] || [ $(docker compose ps --format json | jq -r '.[].Health' | grep starting | wc -l) -eq 1 ]
+    do
+        echo "Waiting on startup of fhir ${cx}"
+        cx=$((cx + 1))
+        if [ ${cx} -ge 300 ]
+        then
+            echo "Failed to start fhir"
+        fi
+        sleep 1
+    done
 
     # Gather up all the server logs so we can trouble-shoot any problems during startup
-    cd -
     pre_it_logs=${WORKSPACE}/pre-it-logs
-    zip_file=${WORKSPACE}/pre-it-logs.zip
     rm -rf ${pre_it_logs} 2>/dev/null
     mkdir -p ${pre_it_logs}
+
+    zip_file=${WORKSPACE}/pre-it-logs.zip
     rm -f ${zip_file}
 
-    echo "
-    Docker container status:"
+    echo ""
+    echo "Docker container status:"
     docker ps -a
 
-    containerId=$(docker ps -a | grep db2_fhir-server_1 | cut -d ' ' -f 1)
+    containerId=$(docker ps -a | grep db2_fhir_1 | cut -d ' ' -f 1)
     if [[ -z "${containerId}" ]]
     then
         echo "Warning: Could not find the fhir container!!!"
