@@ -10,6 +10,7 @@ set -ex
 
 # Gathers the logs
 package_logs(){
+    reindex="${1}"
     echo "Gathering logs for [${1}]"
 
     it_results=${WORKSPACE}/build/reindex/integration-test-results
@@ -45,9 +46,9 @@ package_logs(){
         cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     fi
 
-    if [ -d ${WORKSPACE}/build/reindex/${1}/workarea ]
+    if [ -d ${WORKSPACE}/build/reindex/${reindex}/workarea ]
     then
-        echo "Move the '${1}' Elements to the output area'"
+        echo "Move the '${reindex}' Elements to the output area'"
         cp -pr build/reindex/${reindex}/workarea/${reindex}-test.log ${it_results}
     fi
 }
