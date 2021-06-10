@@ -107,7 +107,7 @@ public class ReindexOperation extends AbstractOperation {
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
-                        // reindex a specific resource (useful for debug/testing)
+                        // reindex a specific resource or resourceType
                         resourceLogicalId = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         String rt = resourceLogicalId;
                         if (resourceLogicalId.contains("/")) {
