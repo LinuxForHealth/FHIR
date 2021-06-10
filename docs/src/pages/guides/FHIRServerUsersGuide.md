@@ -1429,7 +1429,7 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
-|`target/id`                                           |Value is the UUID from the resource|
+|`target/id`                                           |Value is the Logical ID from the resource|
 |`target/typeUri`                                      |Value is always "compute/node".|
 |`target/addresses/url`                                |Value determined by the HttpServletRequest for the server. The value does not use the `X-FHIR-FORWARDED-URL` http header|
 |`target/geolocation/city`                             |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
