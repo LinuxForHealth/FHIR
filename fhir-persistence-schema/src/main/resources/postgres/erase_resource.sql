@@ -72,11 +72,19 @@ BEGIN
     USING v_logical_resource_id;
     EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values           WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_profiles            WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values          WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
-    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs  WHERE logical_resource_id = $1'
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.str_values                 WHERE logical_resource_id = $1'
+    USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.date_values                WHERE logical_resource_id = $1'
+    USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.resource_token_refs        WHERE logical_resource_id = $1'
+    USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_profiles  WHERE logical_resource_id = $1'
+    USING v_logical_resource_id;
+    EXECUTE 'DELETE FROM {{SCHEMA_NAME}}.logical_resource_tags      WHERE logical_resource_id = $1'
     USING v_logical_resource_id;
 
     -- Step 4: Delete from Logical Resources table 

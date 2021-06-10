@@ -19,6 +19,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OFFSET;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
@@ -655,6 +657,12 @@ public class QuerySegmentAggregator {
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
+            if (PARAM_NAME_PROFILE.equals(param.getCode())) {
+                name.append("_PROFILES ");
+            } else {
+                name.append("_STR_VALUES ");
+            }
+            break;
         case STRING:
         case NUMBER:
         case QUANTITY:
@@ -666,6 +674,8 @@ public class QuerySegmentAggregator {
         case TOKEN:
             if (param.isReverseChained()) {
                 name.append("_LOGICAL_RESOURCES");
+            } else if (PARAM_NAME_TAG.equals(param.getCode())) {
+                name.append("_TAGS ");
             } else {
                 name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
             }

@@ -20,6 +20,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EXISTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.GTE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.IS_DELETED_NO;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
@@ -27,12 +28,15 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LEFT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NOT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
@@ -71,6 +75,7 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.util.type.DateParmBehaviorUtil;
@@ -399,7 +404,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case TOKEN:
-                    databaseQueryParm = this.processTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
+                    if (PARAM_NAME_TAG.equals(queryParm.getCode())) {
+                        databaseQueryParm = this.processTagParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
+                    } else {
+                        databaseQueryParm = this.processTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
+                    }
                     break;
                 case NUMBER:
                     databaseQueryParm = this.processNumberParm(resourceType, queryParm, paramTableAlias);
@@ -408,7 +417,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processQuantityParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case URI:
-                    databaseQueryParm = this.processUriParm(queryParm, paramTableAlias);
+                    if (PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
+                        databaseQueryParm = this.processProfileParm(resourceType, queryParm, paramTableAlias);
+                    } else {
+                        databaseQueryParm = this.processUriParm(queryParm, paramTableAlias);
+                    }
                     break;
                 case COMPOSITE:
                     databaseQueryParm = this.processCompositeParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias);
@@ -1607,9 +1620,16 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
             String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
             whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
-            this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
-            whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
-            whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
+            if (!PARAM_NAME_PROFILE.equals(queryParm.getCode()) && !PARAM_NAME_TAG.equals(queryParm.getCode())) {
+                this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
+                whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ")
+                        .append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+                whereClauseSegment.append(RIGHT_PAREN);
+            } else {
+                whereClauseSegment.append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ")
+                        .append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
+            }
+            whereClauseSegment.append(RIGHT_PAREN);
         }
 
         SqlQueryData queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
@@ -2072,6 +2092,204 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         }
 
         log.exiting(CLASSNAME, METHODNAME);
+    }
+
+    private SqlQueryData processProfileParm(Class<?> resourceType, QueryParameter queryParm, String tableAlias)
+            throws FHIRPersistenceException {
+        final String METHODNAME = "processProfileParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+
+        // Join to the canonical parameter table...which in this case means the xx_profiles table
+        // because currently _profile is the only search parameter to be defined as a canonical
+
+        StringBuilder whereClauseSegment = new StringBuilder();
+        boolean parmValueProcessed = false;
+        SqlQueryData queryData;
+        List<Object> bindVariables = new ArrayList<>();
+
+        whereClauseSegment.append(LEFT_PAREN);
+        for (QueryParameterValue value : queryParm.getValues()) {
+            // If multiple values are present, we need to OR them together.
+            if (parmValueProcessed) {
+                whereClauseSegment.append(OR);
+            }
+
+            // Reuse the same CanonicalSupport code used for param extraction to parse the search value
+            ResourceProfileRec rpc = CanonicalSupport.makeResourceProfileRec(-1, resourceType.getSimpleName(), -1, -1,
+                    value.getValueString(), false);
+            int canonicalId = identityCache.getCanonicalId(rpc.getCanonicalValue());
+            whereClauseSegment.append(tableAlias).append(DOT).append("CANONICAL_ID").append(EQ).append(canonicalId);
+            
+            // TODO double-check semantics of ABOVE and BELOW in this context
+            if (rpc.getVersion() != null && !rpc.getVersion().isEmpty()) {
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append("VERSION");
+                if (queryParm.getModifier() == Modifier.ABOVE) {
+                    whereClauseSegment.append(GTE);
+                } else if (queryParm.getModifier() == Modifier.BELOW) {
+                    whereClauseSegment.append(LT);
+                } else {
+                    whereClauseSegment.append(EQ);
+                }
+                whereClauseSegment.append(BIND_VAR);
+                bindVariables.add(rpc.getVersion());
+            }
+
+            if (rpc.getFragment() != null && !rpc.getFragment().isEmpty()) {
+                whereClauseSegment.append(AND).append(tableAlias).append(DOT).append("FRAGMENT").append(EQ).append(BIND_VAR);
+                bindVariables.add(rpc.getFragment());
+            }
+            
+            parmValueProcessed = true;
+        }
+        whereClauseSegment.append(RIGHT_PAREN);
+
+        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+        log.exiting(CLASSNAME, METHODNAME);
+        return queryData;
+    }
+
+    private SqlQueryData processTagParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain) throws FHIRPersistenceException {
+        final String METHODNAME = "processTagParm";
+        log.entering(CLASSNAME, METHODNAME, queryParm.toString());
+
+        StringBuilder whereClauseSegment = new StringBuilder();
+        String operator = this.getOperator(queryParm, EQ);
+        boolean parmValueProcessed = false;
+        boolean appendEscape;
+        SqlQueryData queryData;
+        List<Object> bindVariables = new ArrayList<>();
+        String tableAlias = paramTableAlias;
+        String queryParmCode = queryParm.getCode();
+
+        if (!QuerySegmentAggregator.ID.equals(queryParmCode)) {
+
+            // Append the suffix for :text modifier
+            if (Modifier.TEXT.equals(queryParm.getModifier())) {
+                queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
+            }
+
+            // Only generate NOT EXISTS subquery if :not modifier is within chained query;
+            // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
+            boolean surroundWithNotExistsSubquery = Modifier.NOT.equals(queryParm.getModifier()) && endOfChain;
+            if (surroundWithNotExistsSubquery) {
+                whereClauseSegment.append(NOT).append(EXISTS);
+
+                // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
+                String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
+                tableAlias = paramTableAlias + "_param0";
+                whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + tableAlias + WHERE);
+            }
+
+            whereClauseSegment.append(LEFT_PAREN);
+            for (QueryParameterValue value : queryParm.getValues()) {
+                appendEscape = false;
+
+                // If multiple values are present, we need to OR them together.
+                if (parmValueProcessed) {
+                    whereClauseSegment.append(OR);
+                }
+
+                whereClauseSegment.append(LEFT_PAREN);
+
+                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                        Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+                    populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
+                } else {
+                    final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
+                    final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
+
+                    // Determine code normalization based on code system case-sensitivity
+                    String normalizedCode = null;
+                    if (code != null) {
+                        if (system != null) {
+                            boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(system);
+                            normalizedCode = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                                                code : SearchUtil.normalizeForSearch(code));
+                        } else {
+                            normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
+                        }
+                    }
+
+                    // Include code
+                    if (EQ.equals(operator) && code != null) {
+                        if (system == null || system.equals("*")) {
+                            // Even though we don't have a system, we can still use a list of
+                            // common_token_value_ids matching the value-code, allowing a similar optimization
+                            Set<Long> ctvs = new HashSet<>();
+                            ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(code)));
+                            ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code))));
+                            List<Long> ctvList = new ArrayList<>(ctvs);
+                            if (ctvs.isEmpty()) {
+                                // use -1...resulting in no data
+                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                                        .append(-1);
+                            } else if (ctvs.size() == 1) {
+                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                                        .append(ctvList.get(0));
+                            } else {
+                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(IN)
+                                        .append(LEFT_PAREN)
+                                        .append(ctvList.stream().map(c -> c.toString()).collect(Collectors.joining(",")))
+                                        .append(RIGHT_PAREN);
+                            }
+                        } else {
+                            Long commonTokenValueId = getCommonTokenValueId(system, normalizedCode);
+                            whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                                    .append(commonTokenValueId != null ? commonTokenValueId : -1);
+                        }
+                    } else {
+                        // Traditional approach, using a join to xx_TOKEN_VALUES_V
+
+                        // Include code if present
+                        if (code != null) {
+                            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+                            if (LIKE.equals(operator)) {
+                                // Must escape special wildcard characters _ and % in the parameter value string.
+                                String textSearchString = normalizedCode
+                                        .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                        .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
+                                        .replace("+", "++")+ PERCENT_WILDCARD;
+                                bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
+                                appendEscape = true;
+
+                            } else {
+                                bindVariables.add(normalizedCode);
+                            }
+                        }
+
+                        // Include system if present
+                        if (system != null) {
+                            if (code != null) {
+                                whereClauseSegment.append(AND);
+                            }
+
+                            // Filter on the code system for the given parameter
+                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
+                                    .append(nullCheck(identityCache.getCodeSystemId(system)));
+                        }
+                    }
+                }
+
+                // Build this piece: ESCAPE '+'
+                if (appendEscape) {
+                    whereClauseSegment.append(ESCAPE_EXPR);
+                }
+
+                whereClauseSegment.append(RIGHT_PAREN);
+                parmValueProcessed = true;
+            }
+
+            whereClauseSegment.append(RIGHT_PAREN);
+
+            if (surroundWithNotExistsSubquery) {
+                whereClauseSegment.append(AND).append(tableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID");
+                whereClauseSegment.append(RIGHT_PAREN);
+            }
+        }
+        queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
+
+        log.exiting(CLASSNAME, METHODNAME);
+        return queryData;
     }
 
 }
