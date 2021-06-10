@@ -46,7 +46,7 @@ package_logs(){
         cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     fi
 
-    if [ -d ${WORKSPACE}/build/reindex/${reindex}/workarea ]
+    if [ -f ${WORKSPACE}/build/reindex/${reindex}/workarea/${reindex}-test.log ]
     then
         echo "Move the '${reindex}' Elements to the output area'"
         cp -pr build/reindex/${reindex}/workarea/${reindex}-test.log ${it_results}

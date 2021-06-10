@@ -44,9 +44,8 @@ config(){
     cp ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
 
     # Move over the test configurations
-    echo "Copying over the fhir-server-config.json and updating"
-    mv ${DIST}/config/default/fhir-server-config-db2.json \
-        ${DIST}/config/default/fhir-server-config.json
+    echo "Copying over the fhir-server-config.json and updating publishing"
+    jq '.fhirServer.notifications.nats.enabled = false' ${DIST}/config/default/fhir-server-config-db2.json > ${DIST}/config/default/fhir-server-config.json
 
     if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json) = 'true' ]
     then 
