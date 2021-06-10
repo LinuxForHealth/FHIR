@@ -18,6 +18,7 @@ public class ImportCheckPointData implements Serializable {
     private static final long serialVersionUID = 2189917861035732241L;
     // URL or COS/S3 object name.
     protected String importPartitionWorkitem;
+    protected String matrixWorkItem;
 
     // Values for metrics calculation.
     protected long numOfProcessedResources = 0;
@@ -139,6 +140,7 @@ public class ImportCheckPointData implements Serializable {
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {
         return ImportCheckPointData.Builder.builder()
                 .importPartitionWorkitem(userData.getImportPartitionWorkitem())
+                .matrixWorkItem(userData.matrixWorkItem)
                 .numOfProcessedResources(userData.getNumOfProcessedResources())
                 .importPartitionResourceType(userData.getImportPartitionResourceType())
                 .numOfImportedResources(userData.getNumOfImportedResources())
@@ -273,9 +275,18 @@ public class ImportCheckPointData implements Serializable {
         this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 
+    public void setMatrixWorkItem(String matrixWorkItem) {
+        this.matrixWorkItem = matrixWorkItem;
+    }
+
+    public String getMatrixWorkItem() {
+        return matrixWorkItem;
+    }
+
     public static class Builder {
 
         protected String importPartitionWorkitem;
+        protected String matrixWorkItem;
         protected long numOfProcessedResources;
         protected String importPartitionResourceType;
         protected long numOfImportedResources;
@@ -306,6 +317,11 @@ public class ImportCheckPointData implements Serializable {
 
         public Builder importPartitionWorkitem(String importPartitionWorkitem) {
             this.importPartitionWorkitem = importPartitionWorkitem;
+            return this;
+        }
+
+        public Builder matrixWorkItem(String matrixWorkItem) {
+            this.matrixWorkItem = matrixWorkItem;
             return this;
         }
 
@@ -407,6 +423,7 @@ public class ImportCheckPointData implements Serializable {
         public ImportCheckPointData build() {
             ImportCheckPointData importCheckPointData = new ImportCheckPointData();
             importCheckPointData.importPartitionWorkitem = this.importPartitionWorkitem;
+            importCheckPointData.matrixWorkItem = this.matrixWorkItem;
             importCheckPointData.numOfProcessedResources = this.numOfProcessedResources;
             importCheckPointData.importPartitionResourceType = this.importPartitionResourceType;
             importCheckPointData.numOfImportedResources = this.numOfImportedResources;
@@ -433,6 +450,7 @@ public class ImportCheckPointData implements Serializable {
     @Override
     public String toString() {
         return "ImportCheckPointData [importPartitionWorkitem=" + importPartitionWorkitem + ", numOfProcessedResources=" + numOfProcessedResources
+                + ", matrixWorkItem=" + matrixWorkItem
                 + ", numOfImportedResources=" + numOfImportedResources + ", numOfImportFailures=" + numOfImportFailures + ", totalReadMilliSeconds="
                 + totalReadMilliSeconds + ", totalWriteMilliSeconds=" + totalWriteMilliSeconds + ", totalValidationMilliSeconds=" + totalValidationMilliSeconds
                 + ", importFileSize=" + importFileSize + ", currentBytes=" + currentBytes + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds
