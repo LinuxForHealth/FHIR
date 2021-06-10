@@ -473,4 +473,9 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
         throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("API not supported at this time");
     }
+
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("API not supported at this time");
+    }
 }

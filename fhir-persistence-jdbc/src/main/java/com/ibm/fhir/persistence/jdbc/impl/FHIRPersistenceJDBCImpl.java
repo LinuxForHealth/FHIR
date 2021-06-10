@@ -129,6 +129,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -2764,4 +2765,23 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return true;
     }
 
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+        final String METHODNAME = "retrieveIndex";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try (Connection connection = openConnection()) {
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), count, notModifiedAfter, afterLogicalResourceId);
+            return dao.run(connection);
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while retrieving logical resource IDs.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
 }

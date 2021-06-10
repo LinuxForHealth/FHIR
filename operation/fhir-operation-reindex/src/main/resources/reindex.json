@@ -26,7 +26,7 @@
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
             "type": "string"
         },
         {
@@ -34,7 +34,7 @@
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only resources with a logical resource ID in the specified list. Format as a comma-delimited list of strings.",
+            "documentation": "Reindex only resources with a logical resource ID in the specified list, formatted as a comma-delimited list of strings.",
             "type": "string"
           },
           {

@@ -212,4 +212,15 @@ public interface FHIRPersistence {
     default ResourceEraseRecord erase(EraseDTO eraseDto) throws FHIRPersistenceException {
         throw new FHIRPersistenceException("Erase is not supported");
     }
+
+    /**
+     * Retrieves a list of logicalResourceIds (primary keys) available for reindexing.
+     * @param count the maximum nuber of logical resource IDs to retrieve
+     * @param notModifiedAfter only retrieve logical resource IDs (primary keys) for resources not last updated after the specified timestamp
+     * @param afterLogicalResourceId retrieve logical resource IDs (primary keys) starting after this specified ID, or null to start with first ID
+     * @return list of logical resource IDs available for reindexing
+     * @throws FHIRPersistenceException
+     */
+    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException;
+
 }
