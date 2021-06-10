@@ -25,7 +25,7 @@ setup_docker(){
 
 # config - update configuration
 config(){
-    DIST="${WORKSPACE}/build/reindex/db2/workarea/volumes/dist"
+    DIST="${WORKSPACE}/build/reindex/postgres/workarea/volumes/dist"
 
     echo "Create the db volume..."
     mkdir -p ${DIST}/db
