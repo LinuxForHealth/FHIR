@@ -1429,6 +1429,12 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`target/id`                                           |Value is the Logical ID from the resource|
+|`target/typeUri`                                      |Value is always "compute/node".|
+|`target/addresses/url`                                |Value determined by the HttpServletRequest for the server. The value does not use the `X-FHIR-FORWARDED-URL` http header|
+|`target/geolocation/city`                             |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`target/geolocation/state`                            |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`target/geolocation/region`                           |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
 Note for Batch/Transactions, attachments/content includes counts of the number of C-R-U-D-E actions.
 
@@ -1555,14 +1561,7 @@ The service can map to the CADF format or the FHIR AuditEvent resource format by
             "region": "USA",
             "annotations": [
             ]
-        },
-        "addresses": [
-            {
-                "url": "https://test.io:443/fhir-server/api/v4/Patient",
-                "name": "",
-                "port": ""
-            }
-        ]
+        }
     },
     "attachments": [
         {
