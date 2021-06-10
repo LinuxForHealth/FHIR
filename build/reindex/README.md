@@ -36,6 +36,8 @@ Each datastore layer that is tested as part of the framework uses the default bu
 
 Note, `<datastore>` is replaced with your reindex layer such as `db2`. 
 
+Transaction Timeout is 300 seconds.
+
 Consult the reference implementation (`db2`) to start a new reindex tests. The minimum that must be implemented are the `pre-integration-test.sh` and `.gitignore`.
 
 ## Test the Automation

@@ -46,7 +46,7 @@ config(){
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"
     jq '.fhirServer.notifications.nats.enabled = false' ${DIST}/config/default/fhir-server-config-db2.json > ${DIST}/config/default/fhir-server-config-t.json
-    jq ".fhirServer.persistence.datasources.default.tenantKey = 'change-password'" ${DIST}/config/default/fhir-server-config-t.json > ${DIST}/config/default/fhir-server-config.json
+    jq '.fhirServer.persistence.datasources.default.tenantKey = "change-password"' ${DIST}/config/default/fhir-server-config-t.json > ${DIST}/config/default/fhir-server-config.json
 
     if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json) = 'true' ]
     then 
