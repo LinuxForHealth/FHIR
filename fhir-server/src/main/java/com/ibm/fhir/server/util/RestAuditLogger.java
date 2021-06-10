@@ -643,7 +643,6 @@ public class RestAuditLogger {
         final String METHODNAME = "populateAuditLogEntry";
         log.entering(CLASSNAME, METHODNAME);
 
-        StringBuilder requestUrl;
         String patientIdExtUrl;
         List<String> userList = new ArrayList<>();
 
@@ -665,10 +664,13 @@ public class RestAuditLogger {
         entry.setLocation(new StringBuilder().append(request.getRemoteAddr()).append("/").append(request.getRemoteHost()).toString());
         entry.setContext(new Context());
 
-        // Uses the FHIRRestServletFilter to pass the OriginalRequestUri to the backend.
-        requestUrl = new StringBuilder(FHIRRequestContext.get().getOriginalRequestUri());
-
-        entry.getContext().setApiParameters(ApiParameters.builder().request(requestUrl.toString()).status(responseStatus.getStatusCode()).build());
+        // Per Issue 2473, the audit log is what changed on the server.
+        entry.getContext()
+            .setApiParameters(
+                ApiParameters.builder()
+                    .request(request.getRequestURI())
+                    .status(responseStatus.getStatusCode())
+                    .build());
         entry.getContext().setStartTime(FHIRUtilities.formatTimestamp(startTime));
         entry.getContext().setEndTime(FHIRUtilities.formatTimestamp(endTime));
         if (resource != null) {

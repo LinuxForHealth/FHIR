@@ -67,8 +67,9 @@ public class ImportPartitionMapper implements PartitionMapper {
             int propCount = 0;
             for (BulkDataSource fhirDataSource : bdSources) {
                 Properties p = new Properties();
-                p.setProperty(OperationFields.PARTITTION_WORKITEM, fhirDataSource.getUrl());
+                p.setProperty(OperationFields.PARTITION_WORKITEM, fhirDataSource.getUrl());
                 p.setProperty(OperationFields.PARTITION_RESOURCETYPE, fhirDataSource.getType());
+                p.setProperty(OperationFields.PARTITION_MATRIX, fhirDataSource.getOriginalLocation());
                 partitionProps[propCount++] = p;
             }
             pp.setPartitionProperties(partitionProps);

@@ -20,6 +20,7 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.HttpMethod;
 
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 
 /**
  * Based on the IBM Cloud Documentation
@@ -43,9 +44,10 @@ public class DownloadUrl {
     private String secretKey = null;
     private boolean parquet = false;
     private boolean presigned = false;
+    private boolean path = true;
     private ZonedDateTime time = ZonedDateTime.now(ZoneOffset.UTC);
 
-    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey, String accessKey, String secretKey, boolean parquet, boolean presigned) {
+    public DownloadUrl(String server, String region, String bucketName, String cosBucketPathPrefix, String objectKey, String accessKey, String secretKey, boolean parquet, boolean presigned, S3HostStyle hostStyle) {
         this.server = server;
         this.region = region;
         this.bucketName = bucketName;
@@ -55,6 +57,7 @@ public class DownloadUrl {
         this.secretKey = secretKey;
         this.parquet = parquet;
         this.presigned = presigned;
+        this.path = S3HostStyle.PATH.equals(hostStyle);
     }
 
     /*
@@ -88,8 +91,10 @@ public class DownloadUrl {
         builder.append(server);
         builder.append('/');
         builder.append(bucketName);
-        builder.append('/');
-        builder.append(cosBucketPathPrefix);
+        if (path) {
+            builder.append('/');
+            builder.append(cosBucketPathPrefix);
+        }
         builder.append('/');
         builder.append(objectKey);
         if(parquet) {
@@ -119,10 +124,15 @@ public class DownloadUrl {
                 "&X-Amz-Expires=" + expirySeconds +
                 "&X-Amz-SignedHeaders=host";
 
-        String standardizedResource = "/" + bucketName + "/" + cosBucketPathPrefix + "/"+ objectKey;
+        // VirtualHost/Path - we inline the bucket if it's path based access.
+        String bucketResource = "";
+        if (path) {
+            bucketResource = "/" + bucketName;
+        }
+        String standardizedResource = bucketResource + "/" + cosBucketPathPrefix + "/"+ objectKey;
 
         String payloadHash = "UNSIGNED-PAYLOAD";
-        String standardizedHeaders = "host:" + server.replaceAll("https://", "");
+        String standardizedHeaders = "host:" + server.replace("https://", "");
         String signedHeaders = "host";
 
         String standardizedRequest = HTTP_METHOD + "\n" +
@@ -145,9 +155,15 @@ public class DownloadUrl {
         byte[] signatureKey = createSignatureKey(secretKey, datestamp, region, "s3");
         String signature = toHexString(hash(signatureKey, sts));
 
+        // There are two styles of endpoint - virtual host and path.
+        // we now selectively generate the externalURL for the virtualhost endpoint.
+        String bucketSegment = "";
+        if (path) {
+            bucketSegment = bucketName + "/";
+        }
         // create and send the request
         return server + "/" +
-                bucketName + "/" +
+                bucketSegment +
                 cosBucketPathPrefix + "/" +
                 objectKey + "?" +
                 standardizedQuerystring +
