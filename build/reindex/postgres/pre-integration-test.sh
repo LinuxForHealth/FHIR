@@ -47,8 +47,8 @@ config(){
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating"
-    mv ${$DIST}/config/default/fhir-server-config-postgresql.json \
-        ${$DIST}/config/default/fhir-server-config.json
+    mv ${DIST}/config/default/fhir-server-config-postgresql.json \
+        ${DIST}/config/default/fhir-server-config.json
 
     if [ $(jq -r '.fhirServer.core.serverRegistryResourceProviderEnabled' ${DIST}/config/default/fhir-server-config.json) = 'true' ]
     then 

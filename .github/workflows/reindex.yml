@@ -30,7 +30,6 @@ jobs:
     - name: Integration Tests
       env:
         WORKSPACE: ${{ github.workspace }}
-      shell: 'script -q -e -c "bash {0}"'
       run: |
         bash build/reindex/bin/pre-integration-test.sh ${{matrix.datastore}}
         bash build/reindex/bin/integration-test.sh ${{matrix.datastore}}
