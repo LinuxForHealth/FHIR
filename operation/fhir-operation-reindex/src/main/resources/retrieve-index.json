@@ -1,0 +1,53 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "retrieve-index",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>retrieve-index</h2><p>OPERATION: Retrieve logical resource IDs of resources</p><p>The retrieve-index operation retrieves the logical resource IDs from the database. These logical resource IDs can then be passed into the reindex operation to indicate the specific resources to reindex.</p><p>URL: [base]/$retrieve-index</p></div>"
+	  },
+	"url": "http://ibm.com/fhir/OperationDefinition/retrieve-index",
+	"name": "RetrieveIndex",
+	"status": "draft",
+	"kind": "operation",
+	"publisher": "IBM FHIR Server",
+	"date": "2021-06-09",
+	"description": "The retrieve-index operation retrieves the logical resource IDs from the database.",
+	"code": "retrieve-index",
+	"system": true,
+	"type": false,
+	"instance": false,
+        "parameter": [
+          {
+            "name": "_count",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of logical resource IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.",
+            "type": "integer"
+          },
+          {
+            "name": "notModifiedAfter",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Only retrieve logical resource IDs for resources not updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
+            "type": "string"
+          },
+          {
+            "name": "afterLogicalResourceId",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Retrieves logical resource IDs starting with the first logical resource ID after this logical resource ID. If this parameter is not specified, the retrieved logical resource IDs start with the first logical resource ID.",
+            "type": "string"
+          },
+          {
+            "name": "logicalResourceIds",
+            "use": "out",
+            "min": 0,
+            "max": "1",
+            "documentation": "The logical resource IDs, formatted as a comma-delimited list of strings. This parameter is not returned if there are no logical resource IDs.",
+            "type": "string"
+          }
+        ]
+}

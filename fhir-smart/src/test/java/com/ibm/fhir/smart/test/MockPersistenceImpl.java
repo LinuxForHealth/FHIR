@@ -173,4 +173,9 @@ public class MockPersistenceImpl implements FHIRPersistence {
         throws FHIRPersistenceException {
         return null;
     }
+
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+        return null;
+    }
 }

@@ -3475,4 +3475,22 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } while (attempt++ < TX_ATTEMPTS);
         return eraseRecord;
     }
+
+    @Override
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterLogicalResourceId) throws Exception {
+        List<Long> logicalResourceIds = Collections.emptyList();
+
+        FHIRTransactionHelper txn = null;
+        try {
+            txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
+            logicalResourceIds = persistence.retrieveIndex(count, notModifiedAfter, afterLogicalResourceId);
+        } finally {
+            if (txn != null) {
+                txn.end();
+            }
+        }
+
+        return logicalResourceIds;
+    }
 }

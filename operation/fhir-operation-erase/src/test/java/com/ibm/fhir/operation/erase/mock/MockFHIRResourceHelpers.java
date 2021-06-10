@@ -160,4 +160,10 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
 
         return null;
     }
+
+    @Override
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws Exception {
+
+        return null;
+    }
 }

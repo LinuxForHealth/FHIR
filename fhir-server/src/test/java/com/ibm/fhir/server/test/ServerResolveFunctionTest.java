@@ -420,6 +420,11 @@ public class ServerResolveFunctionTest {
 
             return resultBuilder.build();
         }
+
+        @Override
+        public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+            throw new UnsupportedOperationException();
+        }
     }
 
     public static class PersistenceTransactionImpl implements FHIRPersistenceTransaction {
