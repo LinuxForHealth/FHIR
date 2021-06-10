@@ -9,6 +9,39 @@
 set -ex
 set -o pipefail
 
+# spins for a set time until the server is up
+wait_for_it(){
+    # Wait until the fhir server is up and running...
+    echo "Waiting for fhir-server to complete initialization..."
+    healthcheck_url='https://localhost:9443/fhir-server/api/v4/$healthcheck'
+    tries=0
+    status=0
+    while [ $status -ne 200 -a $tries -lt 30 ]; do
+        tries=$((tries + 1))
+
+        set +o errexit
+        cmd="curl -k -o ${WORKSPACE}/health.json --max-time 5 -I -w "%{http_code}" -u fhiruser:change-password $healthcheck_url"
+        echo "Executing[$tries]: $cmd"
+        status=$($cmd)
+        set -o errexit
+
+        echo "Status code: $status"
+        if [ $status -ne 200 ]
+        then
+            echo "Sleeping 30 secs..."
+            sleep 30
+        fi
+    done
+
+    if [ $status -ne 200 ]
+    then
+        echo "Could not establish a connection to the fhir-server within $tries REST API invocations!"
+        exit 1
+    fi
+
+    echo "The fhir-server appears to be running..."
+}
+
 run_tests(){
     # The integration tests may be overriden completely, or fall through to the default. 
     reindex="${1}"
@@ -42,6 +75,7 @@ run_tests(){
         cd build/reindex/${reindex}
         docker-compose restart --timeout 30
         cd -
+        wait_for_it
 
         # Test 3 Phase 2
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
@@ -55,6 +89,7 @@ run_tests(){
         cd build/reindex/${reindex}
         docker-compose restart --timeout 30
         cd -
+        wait_for_it
 
         # Test 3 Phase 3
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
