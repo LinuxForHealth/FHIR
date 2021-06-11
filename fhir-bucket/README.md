@@ -355,13 +355,15 @@ java.util.logging.FileHandler.pattern=fhirbucket-%u-%g.log
 
 When the IBM FHIR Server stores a FHIR resource, it extracts a configurable set of searchable parameter values and stores them in specially indexed tables which are used to support search queries. When the search parameter configuration is changed (perhaps because a profile has been updated), users may want to apply this new configuration to resources already stored. By default, such configuration changes only apply to new resources.
 
-The IBM FHIR Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. The user selects a date or timestamp as the reindex "marker". This value is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue indicating that the reindex is complete.
+The IBM FHIR Server supports a custom operation to rebuild or "reindex" the search parameters extracted from resources currently stored. There are two options for driving the reindex, server-side-driven or client-side-driven. Using server-side-driven is the default; to use client-side-driven, include the `--index-client-side-driven` parameter.
+
+With server-side-driven, the fhir-bucket will just repeatedly call the `$reindex` operation. The user selects a date or timestamp as the reindex "marker", which is used to determine which resources have been reindexed, and which still need to be reindexed. When a resource is successfully reindexed, it is marked with this user-selected timestamp. Each reindex REST call will process up to the requested number of resources and return an OperationOutcome resource containing issues describing which resources were processed. When there are no resources left to update, the call returns an OperationOutcome with one issue, with an issue diagnostic value "Reindex complete", indicating that the reindex is complete.
+
+With client-side-driven, the fhir-bucket will repeatedly call the `$retrieve-index` operation to determine the resources available to reindex, and call the `$reindex` operation for the those resources to reindex.
 
 To avoid read timeouts, the number of resources processed in a single reindex call can be limited. Reindex calls can be made in parallel to increase throughput. The best number for concurrent requests depends on the capabilities of the underlying platform and any desire to balance load with other users. Concurrency up to 200 threads have been tested. Monitor the IBM FHIR Server response times when increasing concurrency. Also, make sure that the connection pool configured in the FHIR server cluster can support the required number of threads. This also means that the database needs to be configured to support this number of connections (sessions) plus any overhead.
 
-
-The fhir-bucket main app has been extended to support driving a reindex operation with high concurrency. Processing will stop once the FHIR server returns the OperationOutcome with an issue diagnostic value "Reindex complete".
-
+The fhir-bucket main app has been extended to support driving a reindex operation with high concurrency. 
 
 ```
 java \
@@ -373,7 +375,8 @@ java \
   --no-scan \
   --reindex-tstamp 2020-12-01T00:00:00Z \
   --reindex-resource-count 50 \
-  --reindex-concurrent-requests 20
+  --reindex-concurrent-requests 20 \
+  --reindex-client-side-driven
 ```
 
 The format of the reindex timestamp can be a date `YYYY-MM-DD` representing `00:00:00` UTC on the given day, or an ISO timestamp `YYYY-MM-DDThh:mm:ssZ`.

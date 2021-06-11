@@ -35,7 +35,9 @@ import com.ibm.fhir.bucket.interop.InteropWorkload;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
+import com.ibm.fhir.bucket.reindex.ClientDrivenReindexOperation;
 import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
+import com.ibm.fhir.bucket.reindex.ServerDrivenReindexOperation;
 import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
@@ -190,6 +192,10 @@ public class Main {
 
     // How many reindex calls should we run in parallel
     private int reindexConcurrentRequests = 1;
+
+    // Whether to use client-side-driven reindex, which uses $retrieve-index and $reindex in parallel
+    private boolean clientSideDrivenReindex = false;
+
 
     /**
      * Parse command line arguments
@@ -385,6 +391,9 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("missing value for --reindex-concurrent-requests");
                 }
+                break;
+            case "--reindex-client-side-driven":
+                this.clientSideDrivenReindex = true;
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -831,9 +840,13 @@ public class Main {
 
         // Optionally start the $reindex loops
         if (this.reindexTstampParam != null) {
-            this.driveReindexOperation = new DriveReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            if (this.clientSideDrivenReindex) {
+                this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            } else {
+                this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            }
             this.driveReindexOperation.init();
-        }
+       }
 
         // JVM won't exit until the threads are stopped via the
         // shutdown hook
