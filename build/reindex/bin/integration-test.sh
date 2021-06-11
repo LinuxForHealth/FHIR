@@ -73,7 +73,7 @@ run_tests(){
 
         # Restart
         cd build/reindex/${reindex}
-        docker-compose restart --timeout 30
+        docker-compose restart --timeout 30 fhir
         cd -
         wait_for_it
 
@@ -87,7 +87,7 @@ run_tests(){
 
         # Restart
         cd build/reindex/${reindex}
-        docker-compose restart --timeout 30
+        docker-compose restart --timeout 30 fhir
         cd -
         wait_for_it
 
