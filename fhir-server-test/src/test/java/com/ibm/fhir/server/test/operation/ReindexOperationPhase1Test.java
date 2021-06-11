@@ -78,7 +78,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                         .path("Patient/REIN-DEX-TEST-1")
                         .request()
                         .put(entity, Response.class);
-                assertResponse(response, Response.Status.OK.getStatusCode());
+                assertResponse(response, Response.Status.CREATED.getStatusCode());
             }
 
             // Search and Confirm the search using the test-code1 does not return anything.
