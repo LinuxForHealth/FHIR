@@ -43,6 +43,7 @@ services:
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
     command: bash -c "
+        [ [ -f /opt/ibm-fhir-server/tools/tenant.key ] && /opt/ol/wlp/bin/server run ] ||
         echo 'change-password' > /opt/ibm-fhir-server/tools/tenant.key &&
         java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
           --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
