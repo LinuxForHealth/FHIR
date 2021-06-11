@@ -11,6 +11,7 @@ import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Properties;
@@ -27,6 +28,7 @@ import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
+import com.ibm.fhir.model.resource.Basic;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
@@ -78,12 +80,275 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                         .path("Patient/REIN-DEX-TEST-1")
                         .request()
                         .put(entity, Response.class);
-                assertResponse(response, Response.Status.CREATED.getStatusCode());
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
             // Search and Confirm the search using the test-code1 does not return anything.
             Response response = getWebTarget().path("/Patient")
                     .queryParam("test-code1", "VALUE1")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_String_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicString.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-STRING")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-STRING")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-string", "testString")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Token_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicToken.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+
+                // "http://example.org/ContactPoint-noSystem"
+                // This is a negative example which needs to be removed.
+                // As it generates {"text":"cpt-2: A system is required if a value is provided."}
+                java.util.List<Extension> exts = r.getExtension();
+                java.util.List<Extension> newExts = new ArrayList<>();
+
+                for (Extension ext : exts) {
+                    if (!"http://example.org/ContactPoint-noSystem".equals(ext.getUrl())) {
+                        newExts.add(ext);
+                    }
+                }
+
+                r = r.toBuilder()
+                        .id("REINDEX-TOKEN")
+                        .extension(newExts)
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-TOKEN")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-token", "http://example.org/codesystem|code")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_URI_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicURI.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-URI")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-URI")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-uri", "Basic/123")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Reference_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicReference.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-REFERENCE")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-REFERENCE")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-reference", "Basic/123")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Quantity_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicQuantity.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-QUANTITY")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-QUANTITY")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-quantity", "25|http://unitsofmeasure.org|s")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Number_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicNumber.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-NUMBER")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-NUMBER")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-decimal", "99.99")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Date_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicDate.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+
+                r = r.toBuilder()
+                        .id("REINDEX-DATE")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-DATE")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-date", "2018-10-29")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 1 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {})
+    public void testReindex_Composite_Phase1() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Basic r = null;
+            try (Reader example = ExamplesUtil.resourceReader(("json/ibm/basic/BasicComposite.json"))) {
+                r = FHIRParser.parser(Format.JSON).parse(example);
+                r = r.toBuilder()
+                        .id("REINDEX-COMPOSITE")
+                    .build();
+
+                Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+                Response response = getWebTarget()
+                        .path("Basic/REINDEX-COMPOSITE")
+                        .request()
+                        .put(entity, Response.class);
+                assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
+            }
+
+            // Search and Confirm the search using the 'code' does not return anything.
+            Response response = getWebTarget().path("/Basic")
+                    .queryParam("reindex-composite", "code$code")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .header("X-FHIR-TENANT-ID", "default")
                     .header("X-FHIR-DSID", "default")
