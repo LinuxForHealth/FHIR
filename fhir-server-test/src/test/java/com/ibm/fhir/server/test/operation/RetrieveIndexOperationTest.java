@@ -29,7 +29,6 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * This class tests the $retrieve-index operation.
- *
  */
 public class RetrieveIndexOperationTest extends FHIRServerTestBase {
 

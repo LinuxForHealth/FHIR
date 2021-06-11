@@ -128,7 +128,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * Pick a specific resource to process by logicalResourceId (primary key).
      * Since the logicalResourceId is specified, we avoid updating the record as the caller of $reindex operation
      * is passing in an explicit list of resources, so no need to lock for the purpose of picking a random resource.
-     * This can improve performance (especially with PostgreSQL by avoid the generation of tombstones).
+     * This can improve performance (especially with PostgreSQL by avoiding the generation of tombstones).
      * @param reindexTstamp only get resource with a reindex_tstamp less than this
      * @param logicalResourceId the logical resource ID (primary key) of a specific resource
      * @return the resource record, or null when the resource is not found
@@ -184,13 +184,12 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
         final String select;
 
         if (resourceTypeId != null && logicalId != null) {
-            // Just pick the requested resource by resource type and resource ID
+            // Just pick the requested resource
             select = PICK_SINGLE_RESOURCE;
         } else if (resourceTypeId != null) {
             // Limit to the given resource type
             select = PICK_SINGLE_RESOURCE_TYPE;
         } else if (resourceTypeId == null && logicalId == null) {
-            // Pick the next resource needing to be reindexed regardless of type
             select = PICK_ANY_RESOURCE;
         } else {
             // programming error
@@ -206,17 +205,14 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             int offset = random.nextInt(offsetRange);
             try (PreparedStatement stmt = connection.prepareStatement(select)) {
                 if (resourceTypeId != null && logicalId != null) {
-                    // specific resource by resource type and resource ID
                     stmt.setInt(1, resourceTypeId);
                     stmt.setString(2, logicalId);
                     stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
                 } else if (resourceTypeId != null) {
-                    // limit to resource type
                     stmt.setInt(1, resourceTypeId);
                     stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
                     stmt.setInt(3, offset);
                 } else {
-                    // any resource type
                     stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
                     stmt.setInt(2, offset);
                 }

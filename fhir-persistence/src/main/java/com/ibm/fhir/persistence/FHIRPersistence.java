@@ -161,7 +161,7 @@ public interface FHIRPersistence {
      * @param logicalResourceIds list of logical resource IDs (primary keys) of resources to reindex, or null
      * @param resourceLogicalId resourceType/logicalId value of a specific resource to reindex, or null;
      * this parameter is ignored if the logicalResourceIds parameter value is non-null
-     * @return count of the number of resources reindexed by this call (0 or 1)
+     * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
     int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,

@@ -3,14 +3,14 @@
 	"id": "retrieve-index",
 	"text": {
 		"status": "generated",
-		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>retrieve-index</h2><p>OPERATION: Retrieve logical resource IDs of resources</p><p>The retrieve-index operation retrieves the logical resource IDs from the database. These logical resource IDs can then be passed into the reindex operation to indicate the specific resources to reindex.</p><p>URL: [base]/$retrieve-index</p></div>"
+		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>retrieve-index</h2><p>OPERATION: Retrieve logical resource IDs of resources available to reindex</p><p>The retrieve-index operation retrieves the logical resource IDs from the database. These logical resource IDs can then be passed into the reindex operation to indicate the specific resources to reindex.</p><p>URL: [base]/$retrieve-index</p></div>"
 	  },
 	"url": "http://ibm.com/fhir/OperationDefinition/retrieve-index",
 	"name": "RetrieveIndex",
 	"status": "draft",
 	"kind": "operation",
 	"publisher": "IBM FHIR Server",
-	"date": "2021-06-09",
+	"date": "2021-06-11",
 	"description": "The retrieve-index operation retrieves the logical resource IDs from the database.",
 	"code": "retrieve-index",
 	"system": true,
@@ -30,7 +30,7 @@
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Only retrieve logical resource IDs for resources not updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
+            "documentation": "Only retrieve logical resource IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
             "type": "string"
           },
           {
@@ -38,7 +38,7 @@
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Retrieves logical resource IDs starting with the first logical resource ID after this logical resource ID. If this parameter is not specified, the retrieved logical resource IDs start with the first logical resource ID.",
+            "documentation": "Retrieve logical resource IDs starting with the first logical resource ID after this logical resource ID. If this parameter is not specified, the retrieved logical resource IDs start with the first logical resource ID.",
             "type": "string"
           },
           {
@@ -46,7 +46,7 @@
             "use": "out",
             "min": 0,
             "max": "1",
-            "documentation": "The logical resource IDs, formatted as a comma-delimited list of strings. This parameter is not returned if there are no logical resource IDs.",
+            "documentation": "The logical resource IDs, formatted as a comma-delimited list of strings. This parameter is not returned if there are no logical resource IDs retrieved.",
             "type": "string"
           }
         ]

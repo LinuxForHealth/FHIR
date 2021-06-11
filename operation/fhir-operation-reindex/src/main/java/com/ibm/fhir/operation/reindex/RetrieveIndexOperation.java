@@ -90,7 +90,7 @@ public class RetrieveIndexOperation extends AbstractOperation {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
                             if (val > MAX_COUNT) {
-                                logger.info("Clamping resourceCount " + val + " to max allowed: " + MAX_COUNT);
+                                logger.info("Clamping _count " + val + " to max allowed: " + MAX_COUNT);
                                 val = MAX_COUNT;
                             }
                             count = val;

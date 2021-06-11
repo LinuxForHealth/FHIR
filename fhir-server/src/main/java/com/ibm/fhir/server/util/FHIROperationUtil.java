@@ -198,11 +198,10 @@ public final class FHIROperationUtil {
     }
 
     /**
-     * Generates an output parameters with a parameter if the element has a value.
-     *
+     * Generates an output parameters, with a parameter for a specified element.
      * @param name the parameter name
-     * @param element the element
-     * @return builder parameters
+     * @param element the element, or null
+     * @return output parameters
      */
     public static Parameters getOutputParameters(String name, Element element) {
         Parameters.Builder builder = Parameters.builder();

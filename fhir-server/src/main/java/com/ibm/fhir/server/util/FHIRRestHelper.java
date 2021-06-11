@@ -3478,7 +3478,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
     @Override
     public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterLogicalResourceId) throws Exception {
-        List<Long> logicalResourceIds = Collections.emptyList();
+        List<Long> logicalResourceIds = null;
 
         FHIRTransactionHelper txn = null;
         try {
