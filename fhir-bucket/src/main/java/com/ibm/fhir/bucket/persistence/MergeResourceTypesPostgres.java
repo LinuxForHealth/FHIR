@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,24 +17,28 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
- * in the schema. 
+ * in the schema.
  * Supports only: PostgreSQL
  */
 public class MergeResourceTypesPostgres implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    private final String schemaName;
     // The list of resource types we want to add
     private final List<String> resourceTypes;
-    
+
     /**
      * Public constructor
+     * @param schemaName
      * @param resourceTypes the list of resource types to merge into the RESOURCE_TYPES
      * table
      */
-    public MergeResourceTypesPostgres(Collection<String> resourceTypes) {
+    public MergeResourceTypesPostgres(String schemaName, Collection<String> resourceTypes) {
+        this.schemaName = schemaName;
         // copy the list for safety
         this.resourceTypes = new ArrayList<String>(resourceTypes);
     }
@@ -43,11 +47,12 @@ public class MergeResourceTypesPostgres implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
 
         // UPSERT PostgreSQL style
+        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "resource_types");
         final String dml = ""
-                + " INSERT INTO resource_types (resource_type) "
+                + " INSERT INTO " + tableName + "(resource_type) "
                 + "      VALUES (?) "
                 + " ON CONFLICT (resource_type) DO NOTHING";
-        
+
         try (PreparedStatement ps = c.prepareStatement(dml)) {
             for (String resourceType: resourceTypes) {
                 ps.setString(1, resourceType);

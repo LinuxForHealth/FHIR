@@ -68,6 +68,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
 
+/**
+ * The fhir-bucket application for loading data from COS into a FHIR server
+ * and tracking the returned ids along with response times.
+ */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int DEFAULT_CONNECTION_POOL_SIZE = 10;
@@ -208,6 +212,13 @@ public class Main {
                 break;
             case "--create-schema":
                 this.createSchema = true;
+                break;
+            case "--schema-name":
+                if (i < args.length + 1) {
+                    this.schemaName = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --schema-name");
+                }
                 break;
             case "--cos-properties":
                 if (i < args.length + 1) {
@@ -653,10 +664,10 @@ public class Main {
 
                 if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT
-                    MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(resourceTypes);
+                    MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(schemaName, resourceTypes);
                     adapter.runStatement(mrt);
                 } else {
-                    MergeResourceTypes mrt = new MergeResourceTypes(resourceTypes);
+                    MergeResourceTypes mrt = new MergeResourceTypes(schemaName, resourceTypes);
                     adapter.runStatement(mrt);
                 }
             } catch (Exception x) {

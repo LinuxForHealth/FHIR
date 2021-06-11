@@ -594,6 +594,11 @@ public class Main {
             driver.setValidator(new ValidationProcessor());
         }
 
+        // If we're testing concurrency, pass in a thread pool
+        if (this.pool != null) {
+            driver.setPool(this.pool, this.maxInflight);
+        }
+
         runDriver(driver);
     }
 

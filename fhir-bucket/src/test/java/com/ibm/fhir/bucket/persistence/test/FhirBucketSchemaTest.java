@@ -137,12 +137,12 @@ public class FhirBucketSchemaTest {
         DerbyAdapter adapter = new DerbyAdapter(connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                RegisterLoaderInstance c1 = new RegisterLoaderInstance(uuid.toString(), "host", 1234);
+                RegisterLoaderInstance c1 = new RegisterLoaderInstance(DATA_SCHEMA_NAME, uuid.toString(), "host", 1234);
                 Long lid = adapter.runStatement(c1);
                 assertNotNull(lid);
                 this.loaderInstanceId = lid; // save for future tests
 
-                AddBucketPath c2 = new AddBucketPath("bucket1", "/path/to/dir1/");
+                AddBucketPath c2 = new AddBucketPath(DATA_SCHEMA_NAME, "bucket1", "/path/to/dir1/");
                 Long bucketId = adapter.runStatement(c2);
                 assertNotNull(bucketId);
 
@@ -151,13 +151,13 @@ public class FhirBucketSchemaTest {
                 assertNotNull(id2);
                 assertEquals(id2, bucketId);
 
-                AddBucketPath c3 = new AddBucketPath("bucket1", "/path/to/dir1/");
+                AddBucketPath c3 = new AddBucketPath(DATA_SCHEMA_NAME, "bucket1", "/path/to/dir1/");
                 Long id3 = adapter.runStatement(c3);
                 assertNotNull(id3);
                 assertEquals(id3, id2);
 
                 // Register a resource bundle under the first bucket path "bucket1:/path/to/dir1/"
-                AddResourceBundle c4 = new AddResourceBundle(bucketId, "patient1.json", 1024, FileType.JSON, "1234abcd", new Date());
+                AddResourceBundle c4 = new AddResourceBundle(DATA_SCHEMA_NAME, bucketId, "patient1.json", 1024, FileType.JSON, "1234abcd", new Date());
                 ResourceBundleData id4 = adapter.runStatement(c4);
                 assertNotNull(id4);
 
@@ -167,7 +167,7 @@ public class FhirBucketSchemaTest {
                 assertEquals(id4.getResourceBundleId(), id5.getResourceBundleId());
 
                 // Add a second resource bundle record
-                AddResourceBundle c5 = new AddResourceBundle(bucketId, "patient2.json", 1024, FileType.JSON, "1234abcd", new Date());
+                AddResourceBundle c5 = new AddResourceBundle(DATA_SCHEMA_NAME, bucketId, "patient2.json", 1024, FileType.JSON, "1234abcd", new Date());
                 ResourceBundleData id6 = adapter.runStatement(c5);
                 assertNotNull(id6);
                 assertNotEquals(id6.getResourceBundleId(), id5.getResourceBundleId());
@@ -176,7 +176,7 @@ public class FhirBucketSchemaTest {
                 Set<String> resourceTypes = Arrays.stream(FHIRResourceType.Value.values())
                         .map(FHIRResourceType.Value::value)
                         .collect(Collectors.toSet());
-                MergeResourceTypes c6 = new MergeResourceTypes(resourceTypes);
+                MergeResourceTypes c6 = new MergeResourceTypes(DATA_SCHEMA_NAME, resourceTypes);
                 adapter.runStatement(c6);
 
 
@@ -193,7 +193,7 @@ public class FhirBucketSchemaTest {
         DerbyAdapter adapter = new DerbyAdapter(connectionPool);
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
-                ResourceTypesReader c1 = new ResourceTypesReader();
+                ResourceTypesReader c1 = new ResourceTypesReader(DATA_SCHEMA_NAME);
                 List<ResourceTypeRec> resourceTypes = adapter.runStatement(c1);
 
                 // Check against our reference set of resources
@@ -221,11 +221,11 @@ public class FhirBucketSchemaTest {
         try (ITransaction tx = transactionProvider.getTransaction()) {
             try {
                 // Need a bucket_path so we can create a resource_bundle
-                AddBucketPath c1 = new AddBucketPath("bucket1", "/path/to/dir2/");
+                AddBucketPath c1 = new AddBucketPath(DATA_SCHEMA_NAME, "bucket1", "/path/to/dir2/");
                 Long bucketPathId = adapter.runStatement(c1);
 
                 // Test creation of resource bundles
-                AddResourceBundle c2 = new AddResourceBundle(bucketPathId, "patient1.json", 1024, FileType.JSON, "abcd123", new Date());
+                AddResourceBundle c2 = new AddResourceBundle(DATA_SCHEMA_NAME, bucketPathId, "patient1.json", 1024, FileType.JSON, "abcd123", new Date());
                 ResourceBundleData resourceBundleData = adapter.runStatement(c2);
                 assertNotNull(resourceBundleData);
             } catch (Throwable t) {
@@ -261,7 +261,7 @@ public class FhirBucketSchemaTest {
                 // Remove any stale allocations. Give a fake loaderInstanceId because
                 // we don't touch stuff that we own. Make the timeout negative to force
                 // the timeout
-                ClearStaleAllocations c4 = new ClearStaleAllocations(loaderInstanceId + 1, -60000, -1);
+                ClearStaleAllocations c4 = new ClearStaleAllocations(DATA_SCHEMA_NAME, loaderInstanceId + 1, -60000, -1);
                 adapter.runStatement(c4);
 
                 // Now we should be able to see all 3 allocations be reassigned
@@ -270,11 +270,11 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c5);
                 assertEquals(jobList.size(), 3);
 
-                MarkBundleDone c6 = new MarkBundleDone(jobList.get(0).getResourceBundleLoadId(), 0, 1);
+                MarkBundleDone c6 = new MarkBundleDone(DATA_SCHEMA_NAME, jobList.get(0).getResourceBundleLoadId(), 0, 1);
                 adapter.runStatement(c6);
 
                 // recycle completed jobs immediately
-                ClearStaleAllocations c7 = new ClearStaleAllocations(loaderInstanceId + 1, 100000, 0);
+                ClearStaleAllocations c7 = new ClearStaleAllocations(DATA_SCHEMA_NAME, loaderInstanceId + 1, 100000, 0);
                 adapter.runStatement(c7);
 
                 // Grab the job-list again. Should get 3
@@ -284,7 +284,7 @@ public class FhirBucketSchemaTest {
 
                 // With a job, we have a resource_bundle_loads record, so we can create some resources
                 Map<String, Integer> resourceTypeMap = new HashMap<>();
-                List<ResourceTypeRec> resourceTypes = adapter.runStatement(new ResourceTypesReader());
+                List<ResourceTypeRec> resourceTypes = adapter.runStatement(new ResourceTypesReader(DATA_SCHEMA_NAME));
                 resourceTypes.stream().forEach(rt -> resourceTypeMap.put(rt.getResourceType(), rt.getResourceTypeId()));
                 final int patientTypeId = resourceTypeMap.get("Patient");
                 BucketLoaderJob job = jobList.get(0);
@@ -297,11 +297,11 @@ public class FhirBucketSchemaTest {
 
                 // Single logical id upload
                 final int lineNumber = LINE_COUNT;
-                RecordLogicalId c8 = new RecordLogicalId(patientTypeId, "patient-5", job.getResourceBundleLoadId(), lineNumber, 0);
+                RecordLogicalId c8 = new RecordLogicalId(DATA_SCHEMA_NAME, patientTypeId, "patient-5", job.getResourceBundleLoadId(), lineNumber, 0);
                 adapter.runStatement(c8);
 
                 // Check that the max line number for the given bundle
-                GetLastProcessedLineNumber c9 = new GetLastProcessedLineNumber(job.getResourceBundleId(), job.getVersion());
+                GetLastProcessedLineNumber c9 = new GetLastProcessedLineNumber(DATA_SCHEMA_NAME, job.getResourceBundleId(), job.getVersion());
                 Integer lastLine = adapter.runStatement(c9);
                 assertNotNull(lastLine);
                 assertEquals(lastLine.intValue(), lineNumber);
@@ -312,17 +312,17 @@ public class FhirBucketSchemaTest {
                 List<ResourceBundleError> errors = new ArrayList<>();
                 errors.add(new ResourceBundleError(0, "error1", null, null, null));
                 errors.add(new ResourceBundleError(1, "error2", 60000, 400, "timeout"));
-                AddResourceBundleErrors c10 = new AddResourceBundleErrors(job.getResourceBundleLoadId(), errors, 10);
+                AddResourceBundleErrors c10 = new AddResourceBundleErrors(DATA_SCHEMA_NAME, job.getResourceBundleLoadId(), errors, 10);
                 adapter.runStatement(c10);
 
                 // Fetch some ResourceRefs for a line we know we have loaded
-                GetResourceRefsForBundleLine c11 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lineNumber);
+                GetResourceRefsForBundleLine c11 = new GetResourceRefsForBundleLine(DATA_SCHEMA_NAME, job.getResourceBundleId(), job.getVersion(), lineNumber);
                 List<ResourceRef> refs = adapter.runStatement(c11);
                 assertNotNull(refs);
                 assertEquals(refs.size(), 1);
 
                 // And an empty list
-                GetResourceRefsForBundleLine c12 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lineNumber+1);
+                GetResourceRefsForBundleLine c12 = new GetResourceRefsForBundleLine(DATA_SCHEMA_NAME, job.getResourceBundleId(), job.getVersion(), lineNumber+1);
                 refs = adapter.runStatement(c12);
                 assertNotNull(refs);
                 assertEquals(refs.size(), 0);
@@ -335,7 +335,7 @@ public class FhirBucketSchemaTest {
                 adapter.runStatement(c13);
 
                 // Make sure we can find both resources
-                GetResourceRefsForBundleLine c14 = new GetResourceRefsForBundleLine(job.getResourceBundleId(), job.getVersion(), lastLine+1);
+                GetResourceRefsForBundleLine c14 = new GetResourceRefsForBundleLine(DATA_SCHEMA_NAME, job.getResourceBundleId(), job.getVersion(), lastLine+1);
                 refs = adapter.runStatement(c14);
                 assertNotNull(refs);
                 assertEquals(refs.size(), 2);
