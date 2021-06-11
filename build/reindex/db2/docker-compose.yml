@@ -42,19 +42,8 @@ services:
         source: ./workarea/volumes/dist/userlib/
         target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
-    command: bash -c "
-        [ [ -f /opt/ibm-fhir-server/tools/tenant.key ] && /opt/ol/wlp/bin/server run ] ||
-        echo 'change-password' > /opt/ibm-fhir-server/tools/tenant.key &&
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
-          --create-schemas &&
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
-          --update-schema &&
-        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
-          --db-type db2 --prop db.host=db2 --prop db.port=50000 --prop db.database=fhirdb --prop user=db2inst1 --prop password=change-password
-          --allocate-tenant default --tenant-key-file /opt/ibm-fhir-server/tools/tenant.key --grant-to fhirserver &&
-        /opt/ol/wlp/bin/server run"
+      - ./resources/startup.sh:/opt/ol/wlp/usr/servers/defaultServer/startup.sh
+    command: sh -c "chmod +x /opt/ol/wlp/usr/servers/defaultServer/startup.sh && /opt/ol/wlp/usr/servers/defaultServer/startup.sh"
     healthcheck:
       start_period: 120s
       interval: 10s
