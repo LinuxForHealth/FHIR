@@ -1,9 +1,8 @@
 package com.ibm.fhir.operation.cpg;
 
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
 import java.io.InputStream;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,9 +24,9 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
-public class LibraryEvaluate extends AbstractCqlOperation {
+public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
-    private static Logger logger = Logger.getLogger(LibraryEvaluate.class.getName());
+    private static Logger logger = Logger.getLogger(LibraryEvaluateOperation.class.getName());
 
     @Override
     protected OperationDefinition buildOperationDefinition() {
@@ -45,7 +44,7 @@ public class LibraryEvaluate extends AbstractCqlOperation {
 
         Parameters result = null;
 
-        Map<String, Parameter> paramMap = indexParametersByName(parameters);
+        ParameterMap paramMap = new ParameterMap(parameters);
 
         try {
             Library primaryLibrary = null;
@@ -53,7 +52,7 @@ public class LibraryEvaluate extends AbstractCqlOperation {
                 SingleResourceResult<?> readResult = resourceHelper.doRead(ResourceType.LIBRARY.getValue(), logicalId, true, false, null);
                 primaryLibrary = (Library) readResult.getResource();
             } else if (operationContext.getType().equals(FHIROperationContext.Type.RESOURCE_TYPE)) {
-                Parameter param = getRequiredParameter(paramMap, "library");
+                Parameter param = paramMap.getSingletonParameter("library");
                 String canonicalURL = ((com.ibm.fhir.model.type.Uri) param.getValue()).getValue();
                 primaryLibrary = FHIRRegistry.getInstance().getResource(canonicalURL, Library.class);
             } else {

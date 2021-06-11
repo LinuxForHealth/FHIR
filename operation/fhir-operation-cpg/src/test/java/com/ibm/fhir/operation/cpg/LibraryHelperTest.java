@@ -1,10 +1,9 @@
 package com.ibm.fhir.operation.cpg;
 
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
-
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhircode;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -30,7 +29,7 @@ public class LibraryHelperTest {
     public void testDeserializeElmAttachment() throws Exception {
         Library library = TestHelper.getTestLibraryResource("library-EXM104-8.2.000.json");
 
-        org.cqframework.cql.elm.execution.Library cqlLibrary = LibraryHelper.loadLibrary(library);
+        List<org.cqframework.cql.elm.execution.Library> cqlLibrary = LibraryHelper.loadLibrary(null, library);
         assertNotNull(cqlLibrary);
     }
 
@@ -42,7 +41,7 @@ public class LibraryHelperTest {
 
             Library template = TestHelper.getTestLibraryResource("library-EXM104-8.2.000.json");
 
-            CodeableConcept valid = TestHelper.getLogicLibraryConcept();
+            CodeableConcept valid = LibraryHelper.getLogicLibraryConcept();
 
             // valid type, valid content
             Library l1 =
@@ -67,7 +66,7 @@ public class LibraryHelperTest {
             Library parent =
                     TestHelper.buildBasicLibrary("parent", "http://localhost/fhir/Library/parent", "parent", "1.0.1").type(valid).relatedArtifact(related).content(template.getContent()).build();
 
-            List<org.cqframework.cql.elm.execution.Library> actual = LibraryHelper.loadLibraries(parent);
+            List<Library> actual = LibraryHelper.loadLibraries(parent);
             assertEquals(2, actual.size());
         }
     }
@@ -75,9 +74,9 @@ public class LibraryHelperTest {
     @Test(expected = IllegalArgumentException.class)
     public void testUnsupportedContent() {
         Library library =
-                TestHelper.buildBasicLibrary("3", "http://localhost/fhir/Library/FHIR-Model", "FHIR-Model", "4.0.1").type(TestHelper.getLogicLibraryConcept()).content(Attachment.builder().contentType(fhircode("text/xml")).build()).build();
+                TestHelper.buildBasicLibrary("3", "http://localhost/fhir/Library/FHIR-Model", "FHIR-Model", "4.0.1").type(LibraryHelper.getLogicLibraryConcept()).content(Attachment.builder().contentType(fhircode("text/xml")).build()).build();
 
-        LibraryHelper.loadLibrary(library);
+        LibraryHelper.loadLibrary(null, library);
     }
 
     private CodeableConcept getIrrelevantConcept() {

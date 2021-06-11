@@ -1,7 +1,7 @@
 package com.ibm.fhir.cql.engine.server.terminology;
 
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhircode;
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
 import java.util.ArrayList;
 import java.util.Collections;

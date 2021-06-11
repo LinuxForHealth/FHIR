@@ -8,12 +8,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.cql.engine.retrieve.FhirBundleCursor;
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterFhirRetrieveProvider;
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterMap;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
 import com.ibm.fhir.cql.engine.searchparam.ReferenceParameter;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
+import com.ibm.fhir.cql.helpers.FhirBundleCursor;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;

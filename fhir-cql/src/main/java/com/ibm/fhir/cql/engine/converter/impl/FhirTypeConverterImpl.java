@@ -1,8 +1,8 @@
 package com.ibm.fhir.cql.engine.converter.impl;
 
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhiruri;
-import static com.ibm.fhir.cql.engine.model.ModelUtil.javastring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
+import static com.ibm.fhir.cql.helpers.ModelHelper.javastring;
 
 import java.math.BigDecimal;
 import java.time.LocalTime;
@@ -112,7 +112,7 @@ public class FhirTypeConverterImpl implements FhirTypeConverter {
     @Override
     public Iterable<Object> toFhirTypes(Iterable<?> values) {
         List<Object> converted = new ArrayList<>();
-        values.forEach(obj -> toFhirType(obj));
+        values.forEach(obj -> converted.add( toFhirType(obj) ));
         return converted;
     }
 

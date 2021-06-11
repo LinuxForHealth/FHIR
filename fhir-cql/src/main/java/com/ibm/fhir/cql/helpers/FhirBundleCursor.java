@@ -1,10 +1,10 @@
-package com.ibm.fhir.cql.engine.retrieve;
+package com.ibm.fhir.cql.helpers;
 
 import java.util.Collections;
-import java.util.function.Function;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.Bundle;
@@ -54,9 +54,7 @@ public class FhirBundleCursor implements Iterable<Object> {
         }
 
         private Optional<String> getLink() {
-            return this.results.getLink().stream().filter(l -> l.getRelation().getValue().equals("next")).map(l -> l.getUrl().getValue()).reduce((a, b) -> {
-                throw new IllegalStateException("Multiple 'next' links found");
-            });
+            return ModelHelper.getLinkByType(this.results, "next");
         }
 
         public Object next() {

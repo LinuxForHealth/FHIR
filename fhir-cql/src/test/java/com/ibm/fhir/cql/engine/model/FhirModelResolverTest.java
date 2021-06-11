@@ -1,6 +1,6 @@
 package com.ibm.fhir.cql.engine.model;
 
-import static com.ibm.fhir.cql.engine.model.ModelUtil.fhirstring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;

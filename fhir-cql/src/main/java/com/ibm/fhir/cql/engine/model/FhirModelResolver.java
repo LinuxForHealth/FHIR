@@ -50,11 +50,16 @@ public class FhirModelResolver implements ModelResolver {
     private static final Logger log = Logger.getLogger(FhirModelResolver.class.getName());
 
     public static final String BASE_PACKAGE_NAME = "com.ibm.fhir.model";
-
+    public static final String RESOURCE_PACKAGE_NAME = BASE_PACKAGE_NAME + ".resource";
+    public static final String TYPE_PACKAGE_NAME = BASE_PACKAGE_NAME + ".type";
+    public static final String CODE_PACKAGE_NAME = TYPE_PACKAGE_NAME + ".code";
+    
+    
+    
     public static final String[] ALL_PACKAGES = new String[] {
-            BASE_PACKAGE_NAME + ".resource",
-            BASE_PACKAGE_NAME + ".type",
-            BASE_PACKAGE_NAME + ".type.code" };
+            RESOURCE_PACKAGE_NAME,
+            TYPE_PACKAGE_NAME,
+            CODE_PACKAGE_NAME };
 
 
     public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
