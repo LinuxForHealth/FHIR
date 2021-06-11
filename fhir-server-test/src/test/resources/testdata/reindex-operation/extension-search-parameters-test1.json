@@ -3,19 +3,23 @@
     "type": "collection",
     "entry": [
         {
-        "resourceType": "SearchParameter",
-        "url": "test-code1",
-        "name": "test-code1",
-        "status": "draft",
-        "description": "test",
-        "code": "test-code1",
-        "base": [
-            "Resource"
-        ],
-        "type": "string",
-        "expression": "Patient.extension.extension.where(url ='NAME1').value",
-        "target": [
-            "Resource"
-        ]
-    }]
+            "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-boolean",
+            "resource": {
+                "resourceType": "SearchParameter",
+                "url": "test-code1",
+                "name": "test-code1",
+                "status": "draft",
+                "description": "test",
+                "code": "test-code1",
+                "base": [
+                    "Resource"
+                ],
+                "type": "string",
+                "expression": "Patient.extension.extension.where(url ='NAME1').value",
+                "target": [
+                    "Resource"
+                ]
+            }
+        }
+    ]
 }
