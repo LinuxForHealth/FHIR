@@ -34,7 +34,7 @@
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only resources with a logical resource ID in the specified list, formatted as a comma-delimited list of strings.",
+            "documentation": "Reindex only resources with a logical resource ID in the specified list, formatted as a comma-delimited list of strings. If number of logical resource IDs in the list is too large, the processing time might exceed the transaction timeout and fail.",
             "type": "string"
           },
           {
