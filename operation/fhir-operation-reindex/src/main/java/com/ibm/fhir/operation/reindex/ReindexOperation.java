@@ -144,7 +144,7 @@ public class ReindexOperation extends AbstractOperation {
             checkOperationOutcome(operationOutcome);
             return FHIROperationUtil.getOutputParameters(operationOutcome);
         } catch (java.time.format.DateTimeParseException dtpe) {
-            throw FHIROperationUtil.buildExceptionWithIssue("Invalid format for 'tstamp' value, 'yyyy-MM-dd' or iso-date format are valid", IssueType.INVALID);
+            throw FHIROperationUtil.buildExceptionWithIssue("Invalid format for 'tstamp' value, only 'yyyy-MM-dd' or ISO 8601 dateTime format is valid", IssueType.INVALID);
         } catch (FHIROperationException e) {
             throw e;
         } catch (Throwable t) {
