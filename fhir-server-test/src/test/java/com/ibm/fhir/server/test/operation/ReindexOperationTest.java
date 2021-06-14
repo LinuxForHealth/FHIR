@@ -58,6 +58,84 @@ public class ReindexOperationTest extends FHIRServerTestBase {
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
     }
 
+    @Test(groups = { "reindex" })
+    public void testReindexWithType() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder()
+            .name(string("resourceCount"))
+            .value(of(5))
+            .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+                .path("/Patient/$reindex")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { "reindex" })
+    public void testReindexWithType_BadResourceLogicalIdParameter() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder()
+            .name(string("resourceCount"))
+            .value(of(5))
+            .build());
+        parameters.add(Parameter.builder()
+            .name(string("resourceLogicalId"))
+            .value(string("Patient"))
+            .build());
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+                .path("/Patient/$reindex")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test(groups = { "reindex" })
+    public void testReindexWithInstanceDoesntExist() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder()
+            .name(string("resourceCount"))
+            .value(of(5))
+            .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+                .path("/Patient/NOT-EXISTS/$reindex")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
+
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexFromTimestampInstant() {
         List<Parameter> parameters = new ArrayList<>();

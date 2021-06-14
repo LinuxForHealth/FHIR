@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test.operation;
 
+import static com.ibm.fhir.model.type.Integer.of;
 import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
@@ -97,6 +98,73 @@ public class ReindexOperationPhase2Test extends FHIRServerTestBase {
         } else {
             System.out.println("Skipping Phase 2 of Reindex Operation Tests");
         }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {"testReindex_ChangedExpression_Phase2_Search"})
+    public void testReindex_ChangedExpression_Phase2_Reindex_Type() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            List<Parameter> parameters = new ArrayList<>();
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
+
+            Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+            Response response = getWebTarget()
+                    .path("/$reindex/Patient/REIN-DEX-TEST-1")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .post(entity, Response.class);
+            assertResponse(response, Response.Status.OK.getStatusCode());
+            OperationOutcome oo = response.readEntity(OperationOutcome.class);
+            assertEquals(oo.getIssue().get(0).getDiagnostics().getValue(), "Processed Patient/REIN-DEX-TEST-1");
+        } else {
+            System.out.println("Skipping Phase 2 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = {"reindex"}, dependsOnMethods = {"testReindex_ChangedExpression_Phase2_Reindex_Type"})
+    public void testReindex_ChangedExpression_Phase2_Search_Type() throws IOException, FHIRParserException, FHIRPathException {
+        if (runIt) {
+            Response response = getWebTarget().path("/Patient")
+                    .queryParam("test-code1", "VALUE1")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .get(Response.class);
+            assertResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundle = response.readEntity(Bundle.class);
+            assertFalse(bundle.getEntry().isEmpty());
+        } else {
+            System.out.println("Skipping Phase 2 of Reindex Operation Tests");
+        }
+    }
+
+    @Test(groups = { "reindex" }, dependsOnMethods = {"testReindex_ChangedExpression_Phase2_Search_Type"})
+    public void testReindexWithInstanceExists_Phase2() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(Parameter.builder()
+            .name(string("resourceCount"))
+            .value(of(5))
+            .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+                .path("/Patient/REIN-DEX-TEST-1/$reindex")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
     }
 
     /**

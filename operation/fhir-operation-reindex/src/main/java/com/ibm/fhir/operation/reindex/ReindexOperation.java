@@ -80,6 +80,15 @@ public class ReindexOperation extends AbstractOperation {
             int resourceCount = 10;
             String resourceLogicalId = null;
 
+            boolean hasSpecificResourceType = false;
+            if (resourceType != null) {
+                resourceLogicalId = resourceType.getSimpleName();
+                if (logicalId != null) {
+                    resourceLogicalId +=  "/" + logicalId;
+                }
+                hasSpecificResourceType = true;
+            }
+
             if (parameters != null) {
                 for (Parameters.Parameter parameter : parameters.getParameter()) {
                     if (parameter.getValue() != null && logger.isLoggable(Level.FINE)) {
@@ -107,6 +116,9 @@ public class ReindexOperation extends AbstractOperation {
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
+                        if (hasSpecificResourceType) {
+                            throw FHIROperationUtil.buildExceptionWithIssue("resourceLogicalId already specified using call to Operation on Type or Instance", IssueType.INVALID);
+                        }
                         // reindex a specific resource or resourceType
                         resourceLogicalId = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         String rt = resourceLogicalId;
