@@ -1,19 +1,26 @@
 package com.ibm.fhir.operation.cpg;
 
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.javastring;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
 import org.opencds.cqf.cql.engine.data.CompositeDataProvider;
 import org.opencds.cqf.cql.engine.data.DataProvider;
+import org.opencds.cqf.cql.engine.debug.DebugLibraryResultEntry;
+import org.opencds.cqf.cql.engine.debug.DebugLocator;
 import org.opencds.cqf.cql.engine.debug.DebugMap;
+import org.opencds.cqf.cql.engine.debug.DebugResult;
+import org.opencds.cqf.cql.engine.debug.DebugResultEntry;
 import org.opencds.cqf.cql.engine.execution.CqlEngine;
 import org.opencds.cqf.cql.engine.execution.EvaluationResult;
 import org.opencds.cqf.cql.engine.execution.InMemoryLibraryLoader;
@@ -40,6 +47,13 @@ import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
+    
+    public static final String PARAM_IN_EXPRESSIONS = "expressions";
+    public static final String PARAM_IN_PARAMETERS = "parameters";
+    public static final String PARAM_IN_SUBJECT = "subject";
+    public static final String PARAM_IN_DEBUG= "debug";
+    public static final String PARAM_OUT_RETURN = "return";
+    public static final String PARAM_OUT_DEBUG_RESULT = "debugResult";
     
     protected Parameters doEvaluation(FHIRResourceHelpers resourceHelper, ParameterMap paramMap, Library primaryLibrary) {
         List<Library> libraries = LibraryHelper.loadLibraries(primaryLibrary);
@@ -73,20 +87,51 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
         Set<String> expressions = getCqlExpressionsToEvaluate(paramMap);
 
-        DebugMap debugMap = new DebugMap();
-        debugMap.setIsLoggingEnabled(true);
-        debugMap.setIsCoverageEnabled(true);
+        DebugMap debugMap = getDebugMap(paramMap);
 
         // TODO - add configuration support for the CQL engine's local time zone
         CqlEngine engine = new CqlEngine(ll, dataProviders, termProvider);
         EvaluationResult evaluationResult = engine.evaluate(vid, expressions, context, engineParameters, debugMap);
-
-        return Parameters.builder()
-                .parameter(parameterConverter.toParameter("return", evaluationResult.expressionResults))
-                .build();
+        
+        Parameters.Builder output = Parameters.builder()
+                .parameter(parameterConverter.toParameter(PARAM_OUT_RETURN, evaluationResult.expressionResults));
+        
+        if( debugMap != null) {
+            // Need to experiment with how valuable this is right now. There are a couple of issues 
+            // that I noted. Most importantly, I don't think this information will be available when
+            // the engine throws an exception (e.g. NPE). After that, the information that is available
+            // is not ordered, so it can't be used to track the actual path through the engine. Lastly,
+            // the data captured is incomplete. The best path currently is to use the logging produced 
+            // in System.out
+            Parameter debugResult = convertDebugResultToParameter(evaluationResult);
+            output.parameter(debugResult);
+        }
+        
+        return output.build();
     }
 
-
+    private Parameter convertDebugResultToParameter(EvaluationResult evaluationResult) {
+        Parameter.Builder debugResultBuilder = Parameter.builder().name(fhirstring(PARAM_OUT_DEBUG_RESULT));
+        
+        Parameter debugResultParameter = null;
+        DebugResult debugResult = evaluationResult.getDebugResult();
+        if( debugResult != null ) {
+            Parameters.Builder debugResultEntries = Parameters.builder();
+            for( Map.Entry<String,DebugLibraryResultEntry> libraryResult : debugResult.getLibraryResults().entrySet() ) {
+                String libraryId = libraryResult.getKey();
+                DebugLibraryResultEntry librayResultEntry = libraryResult.getValue();
+                
+                for( Map.Entry<DebugLocator,List<DebugResultEntry>> e : librayResultEntry.getResults().entrySet() ) {
+                    DebugLocator dl = e.getKey();
+                    //The DebugResultEntry class captures no object state right now, so it is useless
+                    debugResultEntries.parameter( Parameter.builder().name(fhirstring(libraryId)).value(fhirstring(dl.getLocatorType().toString() + "|" + dl.getLocator())).build() );
+                }
+                debugResultBuilder.resource(debugResultEntries.build());
+            }
+            debugResultParameter = debugResultBuilder.build();
+        }
+        return debugResultParameter;
+    }
 
     protected Map<String, DataProvider> createDataProviders(RetrieveProvider retrieveProvider) {
         String suffix = "";
@@ -107,7 +152,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     protected Pair<String, Object> getCqlContext(ParameterMap paramMap) {
         Pair<String, Object> context = null;
-        Parameter subjectParam = paramMap.getSingletonParameter("subject");
+        Parameter subjectParam = paramMap.getSingletonParameter(PARAM_IN_SUBJECT);
         if (subjectParam != null) {
             context = getCqlContext(context, subjectParam);
         }
@@ -127,7 +172,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
 
     protected Map<String, Object> getCqlParameters(ParameterConverter converter, ParameterMap paramMap) {
         Map<String, Object> engineParameters = null;
-        Parameter parametersParam = paramMap.getOptionalSingletonParameter("parameters");
+        Parameter parametersParam = paramMap.getOptionalSingletonParameter(PARAM_IN_PARAMETERS);
         if (parametersParam != null) {
             engineParameters = getCqlEngineParameters(converter, parametersParam);
         }
@@ -149,7 +194,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     @SuppressWarnings("unchecked")
     protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
         Set<String> expressions = null;
-        Parameter expressionsParam = paramMap.getOptionalSingletonParameter("expressions");
+        Parameter expressionsParam = paramMap.getOptionalSingletonParameter(PARAM_IN_EXPRESSIONS);
         if (expressionsParam != null) {
             ((List<com.ibm.fhir.model.type.String>) expressionsParam).stream().map(p -> p.getValue()).collect(Collectors.toSet());
         }
@@ -160,10 +205,22 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         FhirLibraryLibrarySourceProvider sourceProvider = new FhirLibraryLibrarySourceProvider(libraries);
         CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
         
-        List<org.cqframework.cql.elm.execution.Library> result = libraries.stream()
+        Collection<org.cqframework.cql.elm.execution.Library> result = libraries.stream()
                 .flatMap( fl -> LibraryHelper.loadLibrary(translator, fl).stream() )
                 .filter( Objects::nonNull )
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(
+                    () -> new TreeSet<>( CqlLibraryComparator.INSTANCE ) ));
         return new InMemoryLibraryLoader(result);
+    }
+    
+    protected DebugMap getDebugMap(ParameterMap paramMap) {
+        DebugMap debugMap = null;
+        Parameter pDebug = paramMap.getOptionalSingletonParameter(PARAM_IN_DEBUG);
+        if( pDebug != null && ((com.ibm.fhir.model.type.Boolean) pDebug.getValue()).getValue().equals(Boolean.TRUE) ) {
+            debugMap = new DebugMap();
+            debugMap.setIsLoggingEnabled(true);
+            //debugMap.setIsCoverageEnabled(true);
+        }
+        return debugMap;
     }
 }

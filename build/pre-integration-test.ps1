@@ -121,6 +121,9 @@ Copy-Item $CP_ITEM -Destination $USERLIB_DST
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-term-cache\target\fhir-operation-term-cache-*.jar'
 Copy-Item $CP_ITEM -Destination $USERLIB_DST
 
+$CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-cpg\target\fhir-operation-cpg-*-shaded.jar'
+Copy-Item $CP_ITEM -Destination $USERLIB_DST
+
 # Start up the fhir server
 $DATE_PS=[System.TimeZoneInfo]::ConvertTimeBySystemTimeZoneId((Get-Date), 'Greenwich Standard Time').ToString('t')
 Write-Host '>>> Current time: ' $DATE_PS

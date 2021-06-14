@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.cql.translator.CqlTranslationException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -67,7 +68,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
         } catch (FHIROperationException fex) {
             throw fex;
-        } catch (IllegalArgumentException iex) {
+        } catch (IllegalArgumentException | CqlTranslationException iex) {
             logger.log(Level.SEVERE, "Bad Request", iex);
             throw new FHIROperationException(iex.getMessage(), iex).withIssue(Issue.builder().severity(IssueSeverity.ERROR).code(IssueType.INVALID).details(CodeableConcept.builder().text(fhirstring(iex.getMessage())).build()).build());
         } catch (Exception ex) {

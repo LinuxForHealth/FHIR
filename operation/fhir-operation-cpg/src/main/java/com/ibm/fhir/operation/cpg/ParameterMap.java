@@ -34,20 +34,19 @@ public class ParameterMap extends ArrayListValuedHashMap<String, Parameter> {
     }
     
     public Parameter getSingletonParameter(String paramName) {
-        List<Parameter> values = get(paramName);
-        if( values != null && values.size() == 1 ) {
+        List<Parameter> values = getRequiredParameter(paramName);
+        if( values.size() == 1 ) {
             return values.get(0);
         } else {
-            throw new IllegalArgumentException(String.format("Parameter %s does not meet singleton constraints", paramName));
+            throw new IllegalArgumentException(String.format("Found more than one value for parameter %s which was expected to be a singleton", paramName));
         }
     }
 
     public List<Parameter> getRequiredParameter(String paramName) {
-        List<Parameter> p = get(paramName);
-        if (p == null) {
+        if ( ! containsKey(paramName) ) {
             throw new IllegalArgumentException("Missing required parameter " + paramName);
         }
-        return p;
+        return get(paramName);
     }
     
     public Parameter getOptionalSingletonParameter(String paramName) {

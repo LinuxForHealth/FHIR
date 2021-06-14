@@ -9,4 +9,6 @@ public class Constants {
 
     public static final String HL7_TERMINOLOGY_LIBRARY_TYPE = "http://terminology.hl7.org/CodeSystem/library-type";
     public static final String LIBRARY_TYPE_LOGIC_LIBRARY = "logic-library";
+    public static final String LIBRARY_TYPE_MODEL_DEFINITION = "model-definition";
+
 }

@@ -17,6 +17,7 @@ import org.opencds.cqf.cql.engine.execution.CqlLibraryReader;
 
 import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.helpers.ModelHelper;
+import com.ibm.fhir.cql.translator.CqlTranslationException;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.type.Attachment;
@@ -110,7 +111,9 @@ public class LibraryHelper {
                 if (cql.isPresent()) {
                     try {
                         result = translator.translate(getAttachmentData(cql.get()));
-                    } catch (Exception ex) {
+                    } catch (CqlTranslationException cex) {
+                        throw cex;
+                    } catch( Exception ex ) {
                         throw new RuntimeException(ex);
                     }
                 } else {

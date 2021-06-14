@@ -18,6 +18,7 @@ import org.cqframework.cql.cql2elm.LibraryManager;
 import org.cqframework.cql.cql2elm.LibrarySourceProvider;
 import org.cqframework.cql.cql2elm.ModelManager;
 import org.cqframework.cql.elm.execution.Library;
+import org.cqframework.cql.elm.tracking.TrackBack;
 import org.fhir.ucum.UcumService;
 import org.opencds.cqf.cql.engine.execution.CqlLibraryReader;
 
@@ -73,10 +74,11 @@ public class InJVMCqlTranslationProvider extends BaseCqlTranslationProvider {
             LOG.info( String.format("Translated CQL contains %d errors, %d exceptions", translator.getErrors().size(), translator.getExceptions().size()) );
             
             List<CqlTranslatorException> badStuff = new ArrayList<>();
+            // the translator will duplicate exceptions with assigned severity in the errors, warnings, and messages lists
+            badStuff.addAll(translator.getExceptions().stream().filter( e -> e.getSeverity() == null ).collect(Collectors.toList()));
             badStuff.addAll(translator.getErrors());
-            badStuff.addAll(translator.getExceptions());
-            if (!badStuff.isEmpty()) {
-                throw new CqlTranslationException("CQL translation contained failed", badStuff);
+            if (!badStuff.isEmpty()) {                
+                throw new CqlTranslationException(formatMsg(badStuff));
             }
     
             switch (targetFormat) {
@@ -102,4 +104,23 @@ public class InJVMCqlTranslationProvider extends BaseCqlTranslationProvider {
 
         return result;
     }
+    
+    /**
+     * This was cribbed from the CQL Translation Server TranslationFailureException.
+     * 
+     * @param translationErrs List of translation errors.
+     * @return String representation of the list of translation errors.
+     */
+    private static String formatMsg(List<CqlTranslatorException> translationErrs) {
+        StringBuilder msg = new StringBuilder();
+        msg.append("Translation failed due to errors:");
+        for (CqlTranslatorException error : translationErrs) {
+          TrackBack tb = error.getLocator();
+          String lines = tb == null ? "[n/a]" : String.format("[%d:%d, %d:%d]",
+                  tb.getStartLine(), tb.getStartChar(), tb.getEndLine(),
+                  tb.getEndChar());
+          msg.append(String.format("%s %s%n", lines, error.getMessage()));
+        }
+        return msg.toString();
+      }
 }

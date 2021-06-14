@@ -16,6 +16,7 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.RelatedArtifact;
 import com.ibm.fhir.model.type.UnsignedInt;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
@@ -90,8 +91,16 @@ public class ModelHelper {
     public static RelatedArtifact relatedArtifact(RelatedArtifactType type, com.ibm.fhir.model.type.Uri uri, com.ibm.fhir.model.type.String version) {
         return RelatedArtifact.builder().type(type).resource( canonical(uri, version) ).build();
     }
+    
+    public static RelatedArtifact relatedArtifact(RelatedArtifactType type, String uri, String version) {
+        return RelatedArtifact.builder().type(type).resource( canonical(Uri.of(uri), fhirstring(version)) ).build();
+    }
+    
+    public static RelatedArtifact relatedArtifact(RelatedArtifactType type, String uri) {
+        return RelatedArtifact.builder().type(type).resource( Canonical.of(uri) ).build();
+    }
 
-    public static Canonical canonical(com.ibm.fhir.model.type.Uri uri, com.ibm.fhir.model.type.String version) {
+    public static Canonical canonical(Uri uri, com.ibm.fhir.model.type.String version) {
         StringBuilder url = new StringBuilder(uri.getValue());
         if( version != null ) {
             url.append("|");
