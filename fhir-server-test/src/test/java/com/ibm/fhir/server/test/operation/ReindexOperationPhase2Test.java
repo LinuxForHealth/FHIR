@@ -219,7 +219,7 @@ public class ReindexOperationPhase2Test extends FHIRServerTestBase {
     public void testReindex_String_Phase2() throws IOException, FHIRParserException, FHIRPathException {
         if (runIt) {
             reindex("REINDEX-STRING");
-            verifyFoundBySearch("reindex-string", "REINDEX-STRING", "");
+            verifyFoundBySearch("reindex-string", "REINDEX-STRING", "testString");
         } else {
             System.out.println("Skipping Phase 2 of Reindex Operation Tests");
         }

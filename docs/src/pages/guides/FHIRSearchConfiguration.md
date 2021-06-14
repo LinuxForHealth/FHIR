@@ -263,7 +263,7 @@ In order to avoid this issue, inclusion criteria search parameters should not be
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
-The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`, `[base]/[type]/$reindex` or , `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`, `[base]/[type]/$reindex`, or `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|

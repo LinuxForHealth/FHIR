@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -126,7 +126,7 @@ public class ReindexOperation extends AbstractOperation {
                             String[] parts = resourceLogicalId.split("/");
                             rt = parts[0];
                         }
-                        if (!ModelSupport.isResourceType(rt)) {
+                        if (!ModelSupport.isConcreteResourceType(rt)) {
                             throw FHIROperationUtil.buildExceptionWithIssue("ResourceType is not valid", IssueType.INVALID);
                         }
                     }

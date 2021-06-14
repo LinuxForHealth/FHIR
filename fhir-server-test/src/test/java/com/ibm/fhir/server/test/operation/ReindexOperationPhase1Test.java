@@ -83,7 +83,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the test-code1 does not return anything.
+            // Search and Confirm the search using the test-code1 fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Patient")
                     .queryParam("test-code1", "VALUE1")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -114,7 +114,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-string", "testString")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -159,7 +159,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-token", "http://example.org/codesystem|code")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -190,7 +190,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-uri", "Basic/123")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -221,7 +221,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-reference", "Basic/123")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -252,7 +252,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-quantity", "25|http://unitsofmeasure.org|s")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -283,7 +283,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-decimal", "99.99")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -315,7 +315,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-date", "2018-10-29")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -346,7 +346,7 @@ public class ReindexOperationPhase1Test extends FHIRServerTestBase {
                 assertEquals(Response.Status.Family.familyOf(response.getStatus()), Response.Status.Family.SUCCESSFUL);
             }
 
-            // Search and Confirm the search using the 'code' does not return anything.
+            // Search and Confirm the search using the 'code' fails with BAD_REQUEST as the code does not yet exist
             Response response = getWebTarget().path("/Basic")
                     .queryParam("reindex-composite", "code$code")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
