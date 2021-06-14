@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Search Configuration Overview
-date:   2020-01-15 08:37:05 -0400
+date:   2021-06-10
 permalink: /FHIRSearchConfiguration/
 markdown: kramdown
 ---
@@ -263,12 +263,56 @@ In order to avoid this issue, inclusion criteria search parameters should not be
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
-The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`. By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`, `[base]/[type]/$reindex`, or `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|
 |`tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
 |`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
+|`resourceLogicalId`|string|The ResourceType or the ResourceType/Logical id for targetted reindexing, only valid at System-level|
+
+An example request is:
+
+``` sh
+curl --location --request POST 'https://localhost:9443/fhir-server/api/v4/$reindex' \
+--header 'X-FHIR-TENANT-ID: default' \
+--header 'Content-Type: application/fhir+json' \
+-u 'fhiruser:change-password' \
+--data-raw '{
+  "resourceType": "Parameters",
+  "parameter": [
+    {
+      "name": "resourceCount",
+      "valueInteger": 100
+    },
+    {
+      "name": "tstamp",
+      "valueString": "2021-01-01"
+    }
+  ]
+}'
+```
+
+An example response when processing in a loop: 
+
+``` json
+{
+    "resourceType": "OperationOutcome",
+    "issue": [
+        {
+            "severity": "information",
+            "code": "informational",
+            "diagnostics": "Processed Patient/1795df2b501-04f88a35-9f2f-4871-a05e-ba8090fa18f5"
+        }
+    ]
+}
+```
+
+An example response when processing is complete: 
+
+``` json 
+{"resourceType":"OperationOutcome","issue":[{"severity":"information","code":"informational","diagnostics":"Reindex complete"}]}
+```
 
 The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
