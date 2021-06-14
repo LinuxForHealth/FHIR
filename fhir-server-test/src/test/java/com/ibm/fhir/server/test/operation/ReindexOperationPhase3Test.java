@@ -34,7 +34,7 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * This integration tests the <b>fhir-operation-reindex</b> $reindex operation.
- * Phase 3: Completes the reindex changes
+ * Phase 3: Completes the reindex changes after Expression Change
  */
 public class ReindexOperationPhase3Test extends FHIRServerTestBase {
     private boolean runIt = false;

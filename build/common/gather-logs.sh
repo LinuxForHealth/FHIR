@@ -10,10 +10,11 @@ set -ex
 
 # Gathers the logs
 package_logs(){
-    reindex="${1}"
-    echo "Gathering logs for [${1}]"
+    workflow="${1}"
+    job="${2}"
+    echo "Gathering logs for [${workflow}/${job}]"
 
-    it_results=${WORKSPACE}/build/reindex/integration-test-results
+    it_results=${WORKSPACE}/build/${workflow}/integration-test-results
     if [ ! -d ${it_results} ]
     then
         rm -fr ${it_results} 2>/dev/null
@@ -46,10 +47,10 @@ package_logs(){
         cp -pr ${WORKSPACE}/fhir-server-test/target/surefire-reports/* ${it_results}/fhir-server-test
     fi
 
-    if [ -f ${WORKSPACE}/build/reindex/${reindex}/workarea/${reindex}-test1.log ]
+    if [ -f ${WORKSPACE}/build/${workflow}/${job}/workarea/${job}-test1.log ]
     then
-        echo "Move the '${reindex}' Elements to the output area'"
-        cp -pr build/reindex/${reindex}/workarea/${reindex}-test*.log ${it_results}
+        echo "Move the '${job}' Elements to the output area'"
+        cp -pr build/${workflow}/${job}/workarea/${job}-test*.log ${it_results}
     fi
 }
 
@@ -64,7 +65,7 @@ fi
 # Store the current directory to reset to
 pushd $(pwd) > /dev/null
 
-package_logs "${1}"
+package_logs "${1}" "${2}"
 
 # Reset to Original Directory
 popd > /dev/null

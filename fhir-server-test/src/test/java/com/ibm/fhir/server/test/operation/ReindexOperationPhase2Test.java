@@ -35,8 +35,13 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
  * This integration tests the <b>fhir-operation-reindex</b> $reindex operation.
- * Phase 2: Completes the reindex changes
- * Followed by Server Side Restart
+ *
+ * <b>Phase 2</b>:
+ * Pre-condition: The Phase 1 loaded Resources which were not previously found.
+ * Completes the reindexes with the newly found SearchParameters (extension-search-parameters.json).
+ * These SearchParameters include the original FHIR Path Expressions important for the `ChangedExpression`.
+ *
+ * This test is followed by a Server Side Restart and then Phase3.
  */
 public class ReindexOperationPhase2Test extends FHIRServerTestBase {
     private boolean runIt = false;
