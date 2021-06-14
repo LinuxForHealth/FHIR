@@ -18,6 +18,7 @@ import static org.testng.Assert.assertFalse;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -420,4 +421,47 @@ public class SearchQueryTest {
         };
         bindMarker.visit(v);
     }
+
+    /**
+     * Simple union all of select statements
+     */
+    @Test
+    public void unionAllTest() {
+
+        List<String> resourceTypes = Arrays.asList("Patient", "Condition", "Observation");
+        Select first = null;
+        Select previous = null;
+        
+        // Create a set of selects combined by UNION ALL
+        for (String resourceType : resourceTypes) {
+            // Create a simple select statement
+            Select select = Select.select("1")
+                    .from(resourceType + "_TOKEN_VALUES_V", alias("param"))
+                    .where("param", "PARAMETER_NAME_ID").eq(1274)
+                    .build();
+            
+            // Link to previous select via UNION ALL
+            if (previous != null) {
+                previous.addUnionAll(select);
+            } else {
+                first = select;
+            }
+            previous = select;
+        }
+
+        // And make sure it renders to the correct string
+        final String SQL = "SELECT 1"
+                + " FROM Patient_TOKEN_VALUES_V AS param"
+                + " WHERE param.PARAMETER_NAME_ID = 1274"
+                + " UNION ALL"
+                + " SELECT 1"
+                + " FROM Condition_TOKEN_VALUES_V AS param"
+                + " WHERE param.PARAMETER_NAME_ID = 1274"
+                + " UNION ALL"
+                + " SELECT 1"
+                + " FROM Observation_TOKEN_VALUES_V AS param"
+                + " WHERE param.PARAMETER_NAME_ID = 1274";
+        assertEquals(first.toString(), SQL);
+    }
+
 }

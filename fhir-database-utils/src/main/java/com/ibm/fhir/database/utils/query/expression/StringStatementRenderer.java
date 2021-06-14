@@ -9,6 +9,8 @@ package com.ibm.fhir.database.utils.query.expression;
 import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
+import static com.ibm.fhir.database.utils.query.SqlConstants.UNION;
+import static com.ibm.fhir.database.utils.query.SqlConstants.UNION_ALL;
 import static com.ibm.fhir.database.utils.query.SqlConstants.WHERE;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import com.ibm.fhir.database.utils.query.GroupByClause;
 import com.ibm.fhir.database.utils.query.HavingClause;
 import com.ibm.fhir.database.utils.query.OrderByClause;
 import com.ibm.fhir.database.utils.query.PaginationClause;
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
 import com.ibm.fhir.database.utils.query.node.BindMarkerNode;
@@ -59,7 +62,7 @@ public class StringStatementRenderer implements StatementRenderer<String> {
 
     @Override
     public String select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
-        OrderByClause orderByClause, PaginationClause paginationClause) {
+        OrderByClause orderByClause, PaginationClause paginationClause, boolean unionAll, Select union) {
 
         StringExpNodeVisitor whereClauseRenderer = new StringExpNodeVisitor(this.translator, this.collectBindMarkersInto, this.pretty);
 
@@ -113,6 +116,13 @@ public class StringStatementRenderer implements StatementRenderer<String> {
                 result.append(NEWLINE).append("");
             }
             result.append(SPACE).append(paginationClause.getSqlString(this.translator));
+        }
+
+        if (union != null) {
+            if (this.pretty) {
+                result.append(NEWLINE).append("     "); // 5 spaces
+            }
+            result.append(SPACE).append(unionAll ? UNION_ALL : UNION);
         }
 
         return result.toString();

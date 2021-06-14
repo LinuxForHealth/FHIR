@@ -6,6 +6,9 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -16,13 +19,23 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * is a set of logical resource id + resource type.
  */
 public class SearchWholeSystemFilterQuery extends SearchQuery {
+    
+    // Sort parameters
+    final List<DomainSortParameter> sortParameters = new ArrayList<>();
 
     /**
      * Public constructor
-     * @param resourceTypes
      */
     public SearchWholeSystemFilterQuery() {
         super(Resource.class.getSimpleName());
+    }
+
+    /**
+     * Add the given sort parameter to the sortParameters list.
+     * @param dsp
+     */
+    public void add(DomainSortParameter dsp) {
+        this.sortParameters.add(dsp);
     }
 
     @Override
@@ -37,7 +50,7 @@ public class SearchWholeSystemFilterQuery extends SearchQuery {
         T query = super.visit(visitor);
 
         // now attach the requisite ordering and pagination clauses
-        query = visitor.addSorting(query, "LR0");
+        query = visitor.addWholeSystemSorting(query, sortParameters, "LR0");
         query = visitor.addPagination(query);
 
         return query;

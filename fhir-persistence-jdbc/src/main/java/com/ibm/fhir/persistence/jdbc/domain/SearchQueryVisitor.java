@@ -90,6 +90,14 @@ public interface SearchQueryVisitor<T> {
     T wholeSystemDataRoot(String rootResourceType);
 
     /**
+     * The wrapper for whole-system search
+     * @param queries
+     * @param isCountQuery
+     * @return
+     */
+    T wrapWholeSystem(List<T> queries, boolean isCountQuery);
+        
+    /**
      * Filter the query using the given parameter id and token value
      * @param query
      * @param resourceType
@@ -223,6 +231,15 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addSorting(T query, String lrAlias);
+
+    /**
+     * Add sorting (order by) for whole-system search to the query
+     * @param query
+     * @param sortParms
+     * @param lrAlias
+     * @return
+     */
+    T addWholeSystemSorting(T query, List<DomainSortParameter> sortParms, String lrAlias);
 
     /**
      * Add pagination (LIMIT/OFFSET) to the query

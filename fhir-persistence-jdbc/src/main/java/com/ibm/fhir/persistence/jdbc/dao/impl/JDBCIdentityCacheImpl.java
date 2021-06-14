@@ -7,6 +7,8 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -66,6 +68,30 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             }
 
             cache.getResourceTypeCache().addEntry(resourceType, result);
+        }
+        return result;
+    }
+
+    @Override
+    public String getResourceTypeName(Integer resourceTypeId) throws FHIRPersistenceException {
+        String result = cache.getResourceTypeNameCache().getName(resourceTypeId);
+        if (result == null) {
+            // try the database instead and cache the result
+            Map<String, Integer> resourceMap = resourceDAO.readAllResourceTypeNames();
+            for (Map.Entry<String, Integer> entry : resourceMap.entrySet()) {
+                if (entry.getValue() == resourceTypeId) {
+                    result = entry.getKey();
+                    break;
+                }
+            }
+
+            if (result == null) {
+                // likely a configuration error, caused by the schema being generated
+                // for a subset of all possible resource types
+                throw new FHIRPersistenceDataAccessException("Resource type ID not registered in database: '" + resourceTypeId + "'");
+            }
+
+            cache.getResourceTypeNameCache().addEntry(resourceTypeId, result);
         }
         return result;
     }
@@ -136,5 +162,10 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     @Override
     public List<Long> getCommonTokenValueIdList(String tokenValue) {
         return resourceReferenceDAO.readCommonTokenValueIdList(tokenValue);
+    }
+
+    @Override
+    public Set<String> getResourceTypeNames() throws FHIRPersistenceException {
+        return resourceDAO.readAllResourceTypeNames().keySet();
     }
 }

@@ -14,6 +14,7 @@ import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.str
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DATE_START;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DESCENDING;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_PERCENT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ESCAPE_UNDERSCORE;
@@ -23,6 +24,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MAX;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
@@ -413,6 +415,60 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return new QueryData(select, lrAliasName, null, rootResourceType, 0);
     }
 
+    @Override
+    public QueryData wrapWholeSystem(List<QueryData> queries, boolean isCountQuery) {
+        /* We need to either sum the counts of each individual count query or
+           aggregate the data of each individual data query.
+           Final query should look something like this for a count query:
+        SELECT SUM(CNT)
+                FROM (
+                   <count-query-1>
+           UNION ALL
+                   <count-query-2>
+           UNION ALL
+                   ...
+           UNION ALL
+                   <count-query-n>
+                ) AS COMBINED RESULTS
+           
+           Final query should look something like this for a data query:
+        SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID
+                FROM (
+                   <data-query-1>
+           UNION ALL
+                   <data-query-2>
+           UNION ALL
+                   ...
+           UNION ALL
+                   <data-query-n>
+                ) AS COMBINED RESULTS
+            ORDER BY COMBINED RESULTS.LOGICAL_RESOURCE_ID
+         FETCH FIRST 10 ROWS ONLY 
+         */
+        SelectAdapter select;
+        if (isCountQuery) {
+            select = Select.select("SUM(CNT)");
+        } else {
+            select = Select.select("RESOURCE_ID", "LOGICAL_RESOURCE_ID", "VERSION_ID", "LAST_UPDATED", "IS_DELETED", "DATA", "LOGICAL_ID");
+        }
+        SelectAdapter first = null;
+        SelectAdapter previous = null;
+        for (QueryData query : queries) {
+            SelectAdapter subSelect = query.getQuery();
+            if (previous == null) {
+                // Save head of UNION'd selects
+                first = subSelect;
+            } else {
+                // Add current select as union of previous
+                previous.unionAll(subSelect.getSelect());
+            }
+            previous = subSelect;
+        }
+        select.from(first.getSelect(), alias("COMBINED_RESULTS"));
+        
+        return new QueryData(select, null, null, Resource.class.getSimpleName(), 0);
+    }
+
     /**
      * Get the filter predicate for the given token query parameter.
      * @param queryParm the token query parameter
@@ -768,6 +824,26 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     public QueryData addSorting(QueryData queryData, String lrAlias) {
         final String lrLogicalResourceId = DataDefinitionUtil.getQualifiedName(lrAlias, "LOGICAL_RESOURCE_ID");
         queryData.getQuery().from().orderBy(lrLogicalResourceId);
+        return queryData;
+    }
+
+    @Override
+    public QueryData addWholeSystemSorting(QueryData queryData, List<DomainSortParameter> sortParms, String lrAlias) {
+        if (sortParms == null || sortParms.isEmpty()) {
+            return addSorting(queryData, lrAlias);
+        } else {
+            for (DomainSortParameter sortParm : sortParms) {
+                // for whole-system searches, code has been validated to only be _id or _lastUpdated
+                StringBuilder expression = new StringBuilder();
+                expression.append(PARAM_NAME_ID.equals(sortParm.getSortParameter().getCode()) ?
+                        DataDefinitionUtil.getQualifiedName(lrAlias, "LOGICAL_ID") :
+                        DataDefinitionUtil.getQualifiedName(lrAlias, "LAST_UPDATED"))
+                    .append(" ")
+                    .append(Direction.DECREASING.equals(sortParm.getSortParameter().getDirection()) ? DESCENDING : "");
+
+                queryData.getQuery().from().orderBy(expression.toString());
+            }
+        }
         return queryData;
     }
 

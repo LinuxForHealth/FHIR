@@ -9,6 +9,8 @@ package com.ibm.fhir.database.utils.query;
 import static com.ibm.fhir.database.utils.query.SqlConstants.FROM;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SELECT;
 import static com.ibm.fhir.database.utils.query.SqlConstants.SPACE;
+import static com.ibm.fhir.database.utils.query.SqlConstants.UNION;
+import static com.ibm.fhir.database.utils.query.SqlConstants.UNION_ALL;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
@@ -47,6 +49,12 @@ public class Select {
 
     // offset/limit for pagination
     private PaginationClause paginationClause;
+
+    // Another Select to UNION with this select. Optional
+    private Select union;
+
+    // If true, the specified UNION is a UNION ALL
+    private boolean unionAll = false;
 
     /**
      * Default constructor. Not a DISTINCT select.
@@ -218,6 +226,11 @@ public class Select {
             result.append(SPACE).append(this.paginationClause.toString());
         }
 
+        if (this.union != null) {
+            result.append(SPACE).append(unionAll ? UNION_ALL : UNION).append(SPACE)
+                    .append(this.union.toString());
+        }
+
         return result.toString();
     }
 
@@ -233,7 +246,13 @@ public class Select {
             // Generate a pretty-printed string using the renderer so we
             // get an accurate version of the string.
             StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, null, true);
-            return this.render(renderer);
+            if (union != null) {
+                StringBuilder result = new StringBuilder();
+                result.append(this.render(renderer)).append(union.toDebugString());
+                return result.toString();
+            } else {
+                return this.render(renderer);
+            }
         } catch (Exception x) {
             // If we can't render, it's very likely this debug is being used already
             // in a catch clause from an earlier exception. So rather than propagating
@@ -249,8 +268,18 @@ public class Select {
      * @param renderer
      * @return
      */
+    @SuppressWarnings("unchecked")
     public <T> T render(StatementRenderer<T> renderer) {
-        return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause, orderByClause, paginationClause);
+        if (union != null) {
+            StringBuilder result = new StringBuilder();
+            T rendered = renderer.select(distinct, selectList, fromClause, whereClause,
+                groupByClause, havingClause, orderByClause, paginationClause, unionAll, union);
+            result.append(rendered).append(union.render(renderer));
+            return (T) result.toString();
+        } else {
+            return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause,
+                orderByClause, paginationClause, unionAll, union);
+        }
     }
 
     /**
@@ -318,5 +347,21 @@ public class Select {
      */
     public OrderByClause getOrderByClause() {
         return this.orderByClause;
+    }
+
+    /**
+     * Add a select to UNION with this query.
+     */
+    public void addUnion(Select union) {
+        this.union = union;
+        this.unionAll = false;
+    }
+
+    /**
+     * Add a select to UNION ALL with this query.
+     */
+    public void addUnionAll(Select unionAll) {
+        this.union = unionAll;
+        this.unionAll = true;
     }
 }

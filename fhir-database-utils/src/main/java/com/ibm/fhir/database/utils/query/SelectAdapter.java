@@ -124,6 +124,26 @@ public class SelectAdapter {
     }
 
     /**
+     * Add a select via UNION
+     *
+     * @param unionSelect the select to be UNION'd to this select statement
+     * @return
+     */
+    public void union(Select unionSelect) {
+        select.addUnion(unionSelect);
+    }
+
+    /**
+     * Add a select via UNION ALL
+     *
+     * @param unionAllSelect the select to be UNION ALL'd to this select statement
+     * @return
+     */
+    public void unionAll(Select unionAllSelect) {
+        select.addUnionAll(unionAllSelect);
+    }
+
+    /**
      * Get the statement we've been constructing
      *
      * @return

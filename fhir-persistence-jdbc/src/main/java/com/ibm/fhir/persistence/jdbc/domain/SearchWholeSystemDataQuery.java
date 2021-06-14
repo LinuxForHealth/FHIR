@@ -43,9 +43,6 @@ public class SearchWholeSystemDataQuery extends SearchQuery {
         // Join the core logical resource selection to the resource versions table
         query = visitor.joinResources(query);
 
-        // now attach the requisite ordering clause
-        query = visitor.addSorting(query, "LR");
-
         return query;
     }
 }
