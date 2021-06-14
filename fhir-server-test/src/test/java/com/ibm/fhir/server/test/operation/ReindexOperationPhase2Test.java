@@ -112,7 +112,7 @@ public class ReindexOperationPhase2Test extends FHIRServerTestBase {
             Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
 
             Response response = getWebTarget()
-                    .path("/$reindex/Patient/REIN-DEX-TEST-1")
+                    .path("/Patient/$reindex")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .header("X-FHIR-TENANT-ID", "default")
                     .header("X-FHIR-DSID", "default")
