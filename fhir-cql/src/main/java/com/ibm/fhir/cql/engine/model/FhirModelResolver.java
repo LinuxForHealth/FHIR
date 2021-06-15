@@ -9,7 +9,9 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQueries;
 import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -18,8 +20,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.opencds.cqf.cql.engine.exception.InvalidCast;
 import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
@@ -45,6 +47,12 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.util.ModelSupport.ElementInfo;
+import com.ibm.fhir.model.visitor.Visitable;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.FHIRPathSystemValue;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.exception.FHIRPathException;
 
 public class FhirModelResolver implements ModelResolver {
     private static final Logger log = Logger.getLogger(FhirModelResolver.class.getName());
@@ -59,13 +67,9 @@ public class FhirModelResolver implements ModelResolver {
     public static final String[] ALL_PACKAGES = new String[] {
             RESOURCE_PACKAGE_NAME,
             TYPE_PACKAGE_NAME,
-            CODE_PACKAGE_NAME };
-
+            CODE_PACKAGE_NAME }; 
 
     public static final Pattern urlPattern = Pattern.compile("(^|.+\\.)url$");
-    public static final Pattern idPattern = Pattern.compile("(^|.+\\.)id$");
-    public static final Pattern valuePattern = Pattern.compile("(^|.+\\.)value$");
-
 
     private static final Map<String, Class<?>> TYPE_MAP = buildTypeMap();
 
@@ -155,35 +159,107 @@ public class FhirModelResolver implements ModelResolver {
     }
 
     @Override
-    public Object resolvePath(Object target, String path) {
-        Object result = null;
-
-        try {
-            if (target != null) {
-                // TODO - use FHIRPath to resolve
-                result = PropertyUtils.getProperty(target, path);
-
-                if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
-                    // Patch the model to match the CQL translator modelinfo expectations
-                    result = Uri.of((String) result);
-                } else if( result instanceof TemporalAccessor ) {
-                    TemporalAccessor ta = (TemporalAccessor) result;
-                    result = toCqlTemporal(result, ta);
-                } else if ( result instanceof byte[] ) {
-                    result = Base64.getEncoder().encode((byte[])result);
-                } else if ( result instanceof Id ) {
-                    result = ((Id)result).getValue();
+    public Object resolvePath(Object target, String path ) {
+        String[] identifiers = path.split("\\.");
+        for (String identifier : identifiers) {
+            // handling indexes: i.e. item[0].code
+            if (identifier.contains("[")) {
+                int index = Character.getNumericValue(identifier.charAt(identifier.indexOf("[") + 1));
+                target = resolveProperty(target, identifier.replaceAll("\\[\\d\\]", ""));
+                target = ((ArrayList<?>) target).get(index);
+            } else {
+                target = resolveProperty(target, identifier);
+            }
+        }
+        
+        return target;
+    }
+    
+    private Object resolveProperty(Object target, String path) {
+        Object value = null;
+        
+        if( target != null ) {
+            if( target instanceof Visitable) {
+                Visitable visitable = (Visitable) target;
+                try {
+                    // is there such a thing as a compile step? Do we need to cache the compile like we do with regex?
+                    Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(visitable, path);
+                    if( ! result.isEmpty() ) {
+                        Class<?> clazz = target.getClass();
+                        if( Code.class.isAssignableFrom(clazz) ) {
+                            clazz = Code.class;
+                        }
+                        
+                        ElementInfo elementInfo = ModelSupport.getElementInfo(clazz, path);
+                        if( elementInfo.isRepeating() ) {
+                            value = result.stream().map( n -> unpack(n, path) ).collect(Collectors.toList());
+                        } else { 
+                            value = unpack( result.iterator().next(), path);
+                        }
+                    }
+                } catch( FHIRPathException fpex ) {
+                    // intentionally empty
                 }
             }
-        } catch (Exception ex) {
-            // do nothing
         }
+        
+        return value;
+    }
+    
+    private Object unpack(FHIRPathNode node, String path) {
+        Object result = null;
+        
+        if( node.isResourceNode() ) {
+            result = node.asResourceNode().resource();
+        } else if( node.isElementNode() ) {
+            result = node.asElementNode().element();
+        } else if( node.isSystemValue() ) {
+            FHIRPathSystemValue system = node.asSystemValue();
+            if( system.isBooleanValue() ) {
+                result = system.asBooleanValue()._boolean();
+            } else if( system.isNumberValue() ) {
+                result = system.asNumberValue().number();
+            } else if( system.isQuantityValue() ) { 
+                result = system.asQuantityValue().value();
+            } else if( system.isStringValue() ) {
+                result = system.asStringValue().string();
+            } else if( system.isTemporalValue() ) {
+                result = system.asTemporalValue().temporal();
+            } else {
+                throw new IllegalArgumentException("Unexpected node type " + node.type().toString() );
+            }
+        } else if( node.isTermServiceNode() ) {
+            throw new UnsupportedOperationException("TermServiceNode");
+        } else if( node.isTypeInfoNode() ) {
+            result = node.asTypeInfoNode().typeInfo();
+        }
+        
+        result = patchResult(path, result);
+        
+        return result;
+    }
 
+
+
+    private Object patchResult(String path, Object result) {
+        if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
+            // Patch the model to match the CQL translator modelinfo expectations
+            result = Uri.of((String) result);
+        } else if( result instanceof TemporalAccessor ) {
+            TemporalAccessor ta = (TemporalAccessor) result;
+            result = toCqlTemporal(ta);
+        } else if ( result instanceof byte[] ) {
+            result = Base64.getEncoder().encode((byte[])result);
+        } else if ( result instanceof Id ) {
+            result = ((Id)result).getValue();
+        }
         return result;
     }
 
     // TODO - resolve this with the logic in FhirTypeConverter
-    private Object toCqlTemporal(Object result, TemporalAccessor ta) {
+    private Object toCqlTemporal(TemporalAccessor ta) {
+        Object result = null;
+        
         if( ta instanceof ZonedDateTime ) {
             ZonedDateTime zdt = (ZonedDateTime) ta;
             OffsetDateTime odt = OffsetDateTime.from(zdt);
@@ -192,7 +268,7 @@ public class FhirModelResolver implements ModelResolver {
             OffsetDateTime odt = (OffsetDateTime) ta;
             result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
         } else if( ta instanceof LocalTime ) {
-            LocalTime lt = (LocalTime) result;
+            LocalTime lt = (LocalTime) ta;
             result = new org.opencds.cqf.cql.engine.runtime.Time(lt.getHour(), lt.getMinute(), lt.getSecond(), lt.getNano());
         } else {
             TemporalUnit precision = ta.query(TemporalQueries.precision());

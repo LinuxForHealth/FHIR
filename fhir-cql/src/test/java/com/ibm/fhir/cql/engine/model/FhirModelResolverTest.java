@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -24,17 +25,26 @@ import org.junit.Test;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.TestReport;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Markdown;
 import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.EncounterStatus;
+import com.ibm.fhir.model.type.code.TestReportActionResult;
+import com.ibm.fhir.model.type.code.TestReportResult;
+import com.ibm.fhir.model.type.code.TestReportStatus;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
 public class FhirModelResolverTest {
@@ -330,7 +340,7 @@ public class FhirModelResolverTest {
     }
 
     @Test
-    public void resolvePathPatientGender() {
+    public void testResolvePathPatientGender() {
         Patient p = john_doe().build();
 
         String result = (String) resolver.resolvePath(p, "gender.value");
@@ -339,7 +349,7 @@ public class FhirModelResolverTest {
     }
     
     @Test
-    public void resolvePathPatientBirthDateValue() {
+    public void testResolvePathPatientBirthDateValue() {
         Patient p = john_doe().build();
 
         Object result = resolver.resolvePath(p, "birthDate.value");
@@ -354,6 +364,40 @@ public class FhirModelResolverTest {
         Object result = resolver.resolvePath(p, "deceased");
         assertNotNull("Null result", result);
     }
+    
+    @Test
+    public void resolveEncounterClass() {
+        Encounter enc = Encounter.builder()
+                .status( EncounterStatus.FINISHED )
+                .clazz( Coding.builder()
+                    .code( Code.of("test") ).build() )
+                .build();
+                
+        Object result = resolver.resolvePath(enc, "class");
+        assertNotNull("Null result", result);
+    }
+    
+    @Test
+    public void resolveTestReportAssertClass() {
+        TestReport.Setup.Action action = TestReport.Setup.Action.builder()
+            ._assert(
+                TestReport.Setup.Action.Assert.builder()
+                    .message(Markdown.of("markdown"))
+                    .result(TestReportActionResult.PASS)
+                    .build()
+                ).build();
+        
+        TestReport report = TestReport.builder()
+                .status(TestReportStatus.COMPLETED)
+                .setup( TestReport.Setup.builder().action(action).build() )
+                .testScript(Reference.builder().reference(fhirstring("TestScript/123")).build())
+                .result(TestReportResult.PASS)
+                .build();
+
+        for( String path : Arrays.asList("setup", "setup.action", "setup.action[0].assert" ) ) {
+            assertNotNull(path, resolver.resolvePath(report, path));            
+        }
+    }    
 
     
     protected Patient.Builder john_doe() {
@@ -363,3 +407,4 @@ public class FhirModelResolverTest {
                 .birthDate(Date.of("1969-02-15"));
     }
 }
+ 

@@ -39,7 +39,7 @@ public class ParameterConverter {
                     returnParameter.part(toParameter(value).name(fhirstring(name)).build());
                 }
             } catch( NotImplementedException nex ) {
-                LOG.warning( "Ignoring not-implemented parameter type" );
+                LOG.warning( "Ignoring not-implemented parameter type - " + nex.getMessage() );
             }
         }
         return returnParameter.build();
