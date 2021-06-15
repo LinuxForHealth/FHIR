@@ -46,6 +46,13 @@ import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
+import net.jcip.annotations.NotThreadSafe;
+
+/**
+ * A validator that uses conformance resources from the {@link com.ibm.fhir.registry.FHIRRegistry}
+ * to validate resource instances against the base specification and, optionally, extended profiles.
+ */
+@NotThreadSafe
 public class FHIRValidator {
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
