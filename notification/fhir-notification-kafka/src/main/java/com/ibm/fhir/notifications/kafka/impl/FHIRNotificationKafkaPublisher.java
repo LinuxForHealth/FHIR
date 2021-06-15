@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -121,8 +121,8 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
                 LOG.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
             }
 
-            boolean aysnc = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_SYNC, false);
-            if (aysnc) {
+            boolean sysnc = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_SYNC, false);
+            if (sysnc) {
                 producer.send(new ProducerRecord<String, String>(topicName, jsonString), new KafkaPublisherCallback(event, jsonString, topicId));
                 if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Returned from async kafka send...");
@@ -130,7 +130,7 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
             } else {
                 RecordMetadata metadata = producer.send(new ProducerRecord<String, String>(topicName, jsonString), new KafkaPublisherCallback(event, jsonString, topicId)).get();
                 if (LOG.isLoggable(Level.FINE)) {
-                    LOG.fine(" Record Produced to Topic '" + metadata.topic() + "' at time " + metadata.timestamp());
+                    LOG.fine("Record Produced to Topic '" + metadata.topic() + "' at time " + metadata.timestamp());
                 }
             }
         } catch (Throwable e) {

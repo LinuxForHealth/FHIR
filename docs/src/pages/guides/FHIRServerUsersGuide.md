@@ -568,6 +568,8 @@ The following JSON is an example of a serialized notification event:
   "location":"Observation/3859/_history/1",
   "operationType":"create",
   "resourceId":"3859",
+  "tenantId":"default",
+  "datasourceId":"default",
   "resource":{ …<contents of resource>… }
 }
 ```

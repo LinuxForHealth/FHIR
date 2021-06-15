@@ -120,8 +120,8 @@ public class FHIRNotificationUtil {
                 builder.add("datasourceId", event.getDatasourceId());
                 builder.add("tenantId", event.getTenantId());
                 jsonObject = builder.build();
+                jsonString = jsonObject.toString();
             }
-            jsonString = jsonObject.toString();
         } else {
             JsonObject jsonObject = builder.build();
             jsonString = jsonObject.toString();
