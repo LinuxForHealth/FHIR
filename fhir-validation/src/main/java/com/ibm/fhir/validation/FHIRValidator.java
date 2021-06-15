@@ -51,6 +51,8 @@ import net.jcip.annotations.NotThreadSafe;
 /**
  * A validator that uses conformance resources from the {@link com.ibm.fhir.registry.FHIRRegistry}
  * to validate resource instances against the base specification and, optionally, extended profiles.
+ *
+ * The static factory method {@link #validator()} is threadsafe, but the created instances are not.
  */
 @NotThreadSafe
 public class FHIRValidator {
