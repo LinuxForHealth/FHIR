@@ -473,9 +473,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
             appendEscape = false;
             if (LIKE.equals(operator)) {
-                // Must escape special wildcard characters _ and % in the parameter value string.
+                // Must escape special wildcard characters _ and % in the parameter value string
+                // as well as the escape character itself.
                 tempSearchValue =
                         SqlParameterEncoder.encode(value.getValueString()
+                                .replace("+", "++")
                                 .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
                                 .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE));
                 if (Modifier.CONTAINS.equals(queryParm.getModifier())) {
@@ -1275,8 +1277,10 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         if (LIKE.equals(operator)) {
                             whereClauseSegment.append(tableAlias + DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
 
-                            // Must escape special wildcard characters _ and % in the parameter value string.
+                            // Must escape special wildcard characters _ and % in the parameter value string
+                            // as well as the escape character itself.
                             String textSearchString = SqlParameterEncoder.encode(value.getValueCode())
+                                    .replace("+", "++")
                                     .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
                                     .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
                             bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
@@ -2244,11 +2248,12 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                         if (code != null) {
                             whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
                             if (LIKE.equals(operator)) {
-                                // Must escape special wildcard characters _ and % in the parameter value string.
+                                // Must escape special wildcard characters _ and % in the parameter value string
+                                // as well as the escape character itself.
                                 String textSearchString = normalizedCode
+                                        .replace("+", "++")
                                         .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
-                                        .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE)
-                                        .replace("+", "++")+ PERCENT_WILDCARD;
+                                        .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
                                 bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
                                 appendEscape = true;
 

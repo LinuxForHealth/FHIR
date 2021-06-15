@@ -674,7 +674,9 @@ public class QuerySegmentAggregator {
         case TOKEN:
             if (param.isReverseChained()) {
                 name.append("_LOGICAL_RESOURCES");
-            } else if (PARAM_NAME_TAG.equals(param.getCode())) {
+            } else if (PARAM_NAME_TAG.equals(param.getCode()) &&
+                    (param.getModifier() == null ||
+                    !Modifier.TEXT.equals(param.getModifier()))) {
                 name.append("_TAGS ");
             } else {
                 name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema

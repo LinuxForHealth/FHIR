@@ -24,6 +24,9 @@ public class SearchWholeSystemQuery extends SearchQuery {
     // Flag indicating if a count query or a data query
     boolean isCountQuery;
 
+    // Is pagination required?
+    boolean addPagination = true;
+
     // Sort parameters
     final List<DomainSortParameter> sortParameters = new ArrayList<>();
 
@@ -31,11 +34,13 @@ public class SearchWholeSystemQuery extends SearchQuery {
      * Public constructor
      * @param domainModels
      * @param isCountQuery
+     * @param addPagination
      */
-    public SearchWholeSystemQuery(List<SearchQuery> domainModels, boolean isCountQuery) {
+    public SearchWholeSystemQuery(List<SearchQuery> domainModels, boolean isCountQuery, boolean addPagination) {
         super(Resource.class.getSimpleName());
         this.domainModels = domainModels;
         this.isCountQuery = isCountQuery;
+        this.addPagination = addPagination;
     }
 
     /**
@@ -66,6 +71,11 @@ public class SearchWholeSystemQuery extends SearchQuery {
         // Add sorting
         if (!isCountQuery) {
             query = visitor.addWholeSystemSorting(query, sortParameters, "COMBINED_RESULTS");
+        }
+
+        // Add pagination
+        if (addPagination) {
+            query = visitor.addPagination(query);
         }
 
         return query;

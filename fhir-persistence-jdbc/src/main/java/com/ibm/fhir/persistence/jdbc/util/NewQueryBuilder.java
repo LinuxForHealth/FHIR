@@ -162,7 +162,7 @@ public class NewQueryBuilder {
                 subDomainModels.add(subDomainModel);
             }
             // Create whole-system search domain model
-            domainModel = new SearchWholeSystemQuery(subDomainModels, true);
+            domainModel = new SearchWholeSystemQuery(subDomainModels, true, false);
         } else {
             domainModel = new SearchCountQuery(resourceType.getSimpleName());
         }
@@ -219,7 +219,7 @@ public class NewQueryBuilder {
                 }
                 // Create whole-system search domain model
                 SearchWholeSystemQuery wholeSystemAllDataQuery =
-                        new SearchWholeSystemQuery(subDomainModels, false);
+                        new SearchWholeSystemQuery(subDomainModels, false, true);
                 for (SortParameter sp: searchContext.getSortParameters()) {
                     wholeSystemAllDataQuery.add(new DomainSortParameter(sp));
                 }
@@ -340,7 +340,7 @@ public class NewQueryBuilder {
         }
         // Create whole-system search domain model
         SearchWholeSystemQuery wholeSystemAllDataQuery =
-                new SearchWholeSystemQuery(subDomainModels, false);
+                new SearchWholeSystemQuery(subDomainModels, false, false);
         for (SortParameter sp: searchContext.getSortParameters()) {
             wholeSystemAllDataQuery.add(new DomainSortParameter(sp));
         }

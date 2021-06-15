@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,8 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ORDER_BY;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
@@ -26,6 +28,7 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -205,7 +208,11 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         StringBuilder expression = new StringBuilder();
         List<String> valueAttributeNames;
 
-        valueAttributeNames = this.getValueAttributeNames(sortParm);
+        if (PARAM_NAME_TAG.equals(sortParm.getCode()) || PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
+            valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
+        } else {
+            valueAttributeNames = this.getValueAttributeNames(sortParm);
+        }
         boolean nameProcessed = false;
         for (String attributeName : valueAttributeNames) {
             if (nameProcessed) {
@@ -306,20 +313,35 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
             if (!SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
-                sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
-                if (sortParameterNameId == null) {
-                    // Only read...don't try and create the parameter name if it doesn't exist
-                    sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
-                    if (sortParameterNameId != null) {
-                        this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
-                    } else {
-                        sortParameterNameId = -1; // so we don't break the query syntax
+                if (PARAM_NAME_TAG.equals(sortParm.getCode()) || PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
+                    // For a sort by _tag or _profile, we need to join the parameter-specific token
+                    // table with the common token values table.
+                    joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append("_P")
+                        .append(ON)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append("_P")
+                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
+                        .append(" INNER JOIN ").append("COMMON_TOKEN_VALUES").append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(ON)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(".COMMON_TOKEN_VALUE_ID = ").append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append("_P.COMMON_TOKEN_VALUE_ID").append(SPACE);
+                } else {
+                    sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
+                    if (sortParameterNameId == null) {
+                        // Only read...don't try and create the parameter name if it doesn't exist
+                        sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
+                        if (sortParameterNameId != null) {
+                            this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
+                        } else {
+                            sortParameterNameId = -1; // so we don't break the query syntax
+                        }
                     }
-                }
 
-                // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
-                // the query optimizer significantly with index range scan cardinality estimation
-                joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
+                    // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
+                    // the query optimizer significantly with index range scan cardinality estimation
+                    joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
                         .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
                         .append(ON)
                         .append(LEFT_PAREN)
@@ -329,6 +351,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                         .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
                         .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
                         .append(RIGHT_PAREN).append(SPACE);
+                }
 
                 sortParmIndex++;
             }
@@ -356,14 +379,22 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         switch (sortParm.getType()) {
         case URI:
         case STRING:
-            sortParameterTableName.append("STR_VALUES");
+            if (PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
+                sortParameterTableName.append("PROFILES");
+            } else {
+                sortParameterTableName.append("STR_VALUES");
+            }
             break;
         case DATE:
             sortParameterTableName.append("DATE_VALUES");
             break;
         case REFERENCE:
         case TOKEN:
-            sortParameterTableName.append("TOKEN_VALUES_V");
+            if (PARAM_NAME_TAG.equals(sortParm.getCode())) {
+                sortParameterTableName.append("TAGS");
+            } else {
+                sortParameterTableName.append("TOKEN_VALUES_V");
+            }
             break;
         case NUMBER:
             sortParameterTableName.append("NUMBER_VALUES");
