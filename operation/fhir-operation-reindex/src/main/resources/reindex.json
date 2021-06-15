@@ -30,28 +30,28 @@
             "type": "string"
         },
         {
-            "name": "logicalResourceIds",
-            "use": "in",
+            "name": "indexIds",
+           "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only resources with a logical resource ID in the specified list, formatted as a comma-delimited list of strings. If number of logical resource IDs in the list is too large, the processing time might exceed the transaction timeout and fail.",
+            "documentation": "Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.",
             "type": "string"
-          },
-          {
+        },
+        {
             "name": "resourceCount",
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail. If logicalResourceIds is specified, this parameter is not used.",
+            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail. If indexIds is specified, this parameter is not used.",
             "type": "integer"
-          },
-          {
+        },
+        {
             "name": "resourceLogicalId",
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient. If logicalResourceIds is specified, this parameter is not used.",
+            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient. If indexIds is specified, this parameter is not used.",
             "type": "string"
-          }
-        ]
+        }
+    ]
 }

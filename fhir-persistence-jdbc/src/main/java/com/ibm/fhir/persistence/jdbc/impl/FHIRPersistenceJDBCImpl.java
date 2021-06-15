@@ -2454,7 +2454,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> logicalResourceIds,
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
@@ -2495,14 +2495,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
-            int lrIdIndex = 0;
+            int indexIdsProcessed = 0;
 
-            // If list of logicalResourceIds was specified, loop over those. Otherwise, since we skip over
+            // If list of indexIds was specified, loop over those. Otherwise, since we skip over
             // deleted resources we have to loop until we find something not deleted, or reach the end.
             ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
-                rir = reindexDAO.getResourceToReindex(tstamp, logicalResourceIds != null ? logicalResourceIds.get(lrIdIndex++) : null, resourceTypeId, logicalId);
+                rir = reindexDAO.getResourceToReindex(tstamp, indexIds != null ? indexIds.get(indexIdsProcessed++) : null, resourceTypeId, logicalId);
                 long end = System.nanoTime();
 
                 if (log.isLoggable(Level.FINER)) {
@@ -2534,7 +2534,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         rir.setDeleted(true);
                     }
                 }
-            } while ((logicalResourceIds != null && lrIdIndex < logicalResourceIds.size()) || (logicalResourceIds == null && rir != null && rir.isDeleted()));
+            } while ((indexIds != null && indexIdsProcessed < indexIds.size()) || (indexIds == null && rir != null && rir.isDeleted()));
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
@@ -2766,13 +2766,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException {
         final String METHODNAME = "retrieveIndex";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), count, notModifiedAfter, afterLogicalResourceId);
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), count, notModifiedAfter, afterIndexId);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;

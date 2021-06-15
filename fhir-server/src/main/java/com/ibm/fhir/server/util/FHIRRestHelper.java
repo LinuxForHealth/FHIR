@@ -3069,7 +3069,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
@@ -3080,7 +3080,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, logicalResourceIds, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, indexIds, resourceLogicalId);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
@@ -3477,20 +3477,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterLogicalResourceId) throws Exception {
-        List<Long> logicalResourceIds = null;
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception {
+        List<Long> indexIds = null;
 
         FHIRTransactionHelper txn = null;
         try {
             txn = new FHIRTransactionHelper(getTransaction());
             txn.begin();
-            logicalResourceIds = persistence.retrieveIndex(count, notModifiedAfter, afterLogicalResourceId);
+            indexIds = persistence.retrieveIndex(count, notModifiedAfter, afterIndexId);
         } finally {
             if (txn != null) {
                 txn.end();
             }
         }
 
-        return logicalResourceIds;
+        return indexIds;
     }
 }

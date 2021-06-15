@@ -23,7 +23,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * Simple DAO to retrieve logical resource IDs from the LOGICAL_RESOURCES table.
+ * Simple DAO to retrieve index IDs (i.e. logical resource IDs) from the LOGICAL_RESOURCES table.
  */
 public class RetrieveIndexDAO {
     private static final Logger logger = Logger.getLogger(RetrieveIndexDAO.class.getName());
@@ -39,15 +39,15 @@ public class RetrieveIndexDAO {
      * Public constructor.
      * @param tx translator
      * @param schemaName schema name
-     * @param count maximum number of logical resource IDs to return
-     * @param notModifiedAfter only return resources last updated at or before the specified instant
-     * @param afterLogicalResourceId only return logical resource IDs after this ID, or null
+     * @param count maximum number of index IDs to return
+     * @param notModifiedAfter only return resources last updated at or before the specified instant, or null
+     * @param afterIndexId only return index IDs after this index ID, or null
      */
-    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, int count, Instant notModifiedAfter, Long afterLogicalResourceId) {
+    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, int count, Instant notModifiedAfter, Long afterIndexId) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.count = count;
-        this.afterLogicalResourceId = afterLogicalResourceId;
+        this.afterLogicalResourceId = afterIndexId;
         this.notModifiedAfter = notModifiedAfter;
     }
 

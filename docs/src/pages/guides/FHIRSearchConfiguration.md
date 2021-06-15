@@ -278,26 +278,26 @@ By default, the operation will select 10 resources and re-extract their search p
 The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
 ### 2.2 Client-side-driven approach
-Another option is to have the client utilize the `$retrieve-index` and ``$reindex` in parallel to drive the processing.
+Another option is to have the client utilize the `$retrieve-index` and `$reindex` in parallel to drive the processing.
 
-The `$retrieve-index` operation is called to retrieve logical resource IDs of resources available for reindexing. This can be done repeated by using the `_count` and `afterLogicalResourceId` parameters for pagination. The operation supports the following parameters to control the behavior:
-
-|name|type|description|
-|----|----|-----------|
-|`_count`|string|The maximum number of logical resource IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.|
-|`notModifiedAfter`|string|Only retrieve logical resource IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
-|`afterLogicalResourceId`|string|Retrieve logical resource IDs starting with the first logical resource ID after this logical resource ID. If this parameter is not specified, the retrieved logical resource IDs start with the first logical resource ID.|
-
-The `$reindex` operation is called to reindex the resources with logical resource IDs in the specified list. The operation supports the following parameters to control the behavior:
+The `$retrieve-index` operation is called to retrieve index IDs of resources available for reindexing. This can be done repeated by using the `_count` and `afterIndexId` parameters for pagination. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|
-|`logicalResourceIds`|string|Reindex only resources with a logical resource ID in the specified list, formatted as a comma-delimited list of strings. If number of logical resource IDs in the list is too large, the processing time might exceed the transaction timeout and fail.|
+|`_count`|string|The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.|
+|`notModifiedAfter`|string|Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
+|`afterIndexId`|string|Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.|
 
-By specifying the logical resource IDs on the `$reindex` operation, the IBM FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to tracking the reindex progress, it should allow for an overall faster reindex.
+The `$reindex` operation is called to reindex the resources with index IDs in the specified list. The operation supports the following parameters to control the behavior:
+
+|name|type|description|
+|----|----|-----------|
+|`indexIds`|string|Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.|
+
+By specifying the index IDs on the `$reindex` operation, the IBM FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to track the reindex progress, it should allow for an overall faster reindex.
 
 ### 2.3 fhir-bucket
-To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and ``$reindex` custom operations.
+To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and `$reindex` custom operations.
 
 For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
 

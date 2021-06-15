@@ -30,15 +30,15 @@ import com.ibm.fhir.model.resource.Resource;
 
 /**
  * Drives the $reindex custom operation in parallel from the client side via use of the $retrieve-index operation.
- * Processing continues until logical resource IDs indicate that no resources remain to be reindexed.
+ * Processing continues until index IDs indicate that no resources remain to be reindexed.
  */
 public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final Logger logger = Logger.getLogger(ClientDrivenReindexOperation.class.getName());
 
     private static final String COUNT_PARAM = "_count";
     private static final String NOT_MODIFIED_AFTER_PARAM = "notModifiedAfter";
-    private static final String AFTER_LOGICAL_RESOURCE_ID_PARAM = "afterLogicalResourceId";
-    private static final String LOGICAL_RESOURCE_IDS_PARAM = "logicalResourceIds";
+    private static final String AFTER_INDEX_ID_PARAM = "afterIndexId";
+    private static final String INDEX_IDS_PARAM = "indexIds";
     private static final int MAX_RETRIEVE_COUNT = 1000;
     private static final int OFFER_TIMEOUT_IN_SEC = 10;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
@@ -61,11 +61,11 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     // Maximum number of resources reindexed per thread
     private final int maxResourceCount;
 
-    // Queue for holding logical resource IDs to reindex
+    // Queue for holding index IDs of resources to reindex
     private BlockingQueue<String> blockingQueue;
 
-    // Last logical resource ID found by monitor thread
-    private String lastLogicalResourceId;
+    // Last index ID found by monitor thread
+    private String lastIndexId;
 
     // Monitor thread
     private Thread monitorThread;
@@ -156,7 +156,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                     doneRetrieving = doneRetrieving || !callRetrieveIndex();
                     if (!blockingQueue.isEmpty()) {
                         // Should be OK now to fill the pool with workers
-                        logger.info("Logical resource IDs available for processing - filling worker pool");
+                        logger.info("Index IDs available for processing - filling worker pool");
                         this.active = true;
                     }
 
@@ -169,7 +169,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                         safeSleep(1000);
                     }
 
-                    // Keep attempting to retrieve logical resource IDs if we need to
+                    // Keep attempting to retrieve index IDs if we need to
                     while (this.active && this.running) {
                         doneRetrieving = doneRetrieving || !callRetrieveIndex();
                         if (doneRetrieving) {
@@ -199,7 +199,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
     /**
      * Call the FHIR server $retrieve-index operation.
-     * @return true if the call was successful (200 OK) and logical resources IDs were found, otherwise false
+     * @return true if the call was successful (200 OK) and index IDs were found, otherwise false
      */
     private boolean callRetrieveIndex() {
         boolean result = false;
@@ -207,13 +207,13 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
         Builder builder = Parameters.builder();
         builder.parameter(Parameter.builder().name(str(COUNT_PARAM)).value(intValue(MAX_RETRIEVE_COUNT)).build());
         builder.parameter(Parameter.builder().name(str(NOT_MODIFIED_AFTER_PARAM)).value(str(reindexTimestamp)).build());
-        if (lastLogicalResourceId != null) {
-            builder.parameter(Parameter.builder().name(str(AFTER_LOGICAL_RESOURCE_ID_PARAM)).value(str(lastLogicalResourceId)).build());
+        if (lastIndexId != null) {
+            builder.parameter(Parameter.builder().name(str(AFTER_INDEX_ID_PARAM)).value(str(lastIndexId)).build());
         }
         Parameters parameters = builder.build();
         String requestBody = FHIRBucketClientUtil.resourceToString(parameters);
 
-        // Get logical resource IDs of resources available to be reindexed
+        // Get index IDs of resources available to be reindexed
         long start = System.nanoTime();
         FhirServerResponse response = fhirClient.post(RETRIEVE_INDEX_URL, requestBody);
         long end = System.nanoTime();
@@ -226,9 +226,9 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
             if (resource != null) {
                 if (resource.is(Parameters.class)) {
                     // Check the result to see if we should keep running
-                    result = extractLogicalResourceIds((Parameters) resource);
+                    result = extractIndexIds((Parameters) resource);
                     if (!result) {
-                        logger.info("No more logical resource IDs to retrieve");
+                        logger.info("No more index IDs to retrieve");
                     }
                 } else {
                     logger.severe("FHIR Server retrieve-index response is not an Parameters: " + response.getStatusCode() + " " + response.getStatusMessage());
@@ -247,29 +247,29 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     }
 
     /**
-     * Extract the logical resource IDs from the retrieve-index operation output.
+     * Extract the index IDs from the retrieve-index operation output.
      * @param output the retrieve-index operation output
-     * @return true if logical resources IDs were found, otherwise false
+     * @return true if index IDs were found, otherwise false
      */
-    private boolean extractLogicalResourceIds(Parameters output) {
+    private boolean extractIndexIds(Parameters output) {
         for (Parameter parameter : output.getParameter()) {
-            if (LOGICAL_RESOURCE_IDS_PARAM.equals(parameter.getName().getValue())) {
-                String lrIdsString = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                if (lrIdsString != null) {
-                    String[] lrIdArray = lrIdsString.split(",");
-                    for (String logicalResourceId : lrIdArray) {
+            if (INDEX_IDS_PARAM.equals(parameter.getName().getValue())) {
+                String indexIdsString = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                if (indexIdsString != null) {
+                    String[] indexIdsArray = indexIdsString.split(",");
+                    for (String indexId : indexIdsArray) {
                         boolean queued = false;
                         while (!queued && this.running) {
                             try {
-                                queued = blockingQueue.offer(logicalResourceId, OFFER_TIMEOUT_IN_SEC, TimeUnit.SECONDS);
+                                queued = blockingQueue.offer(indexId, OFFER_TIMEOUT_IN_SEC, TimeUnit.SECONDS);
                             } catch (InterruptedException e) {
                                 // NOP
                             }
 
                             if (queued) {
-                                lastLogicalResourceId = logicalResourceId;
+                                lastIndexId = indexId;
                             } else {
-                                logger.warning("Unable to add logicalResourceId '" + logicalResourceId + "' to queue");
+                                logger.warning("Unable to add indexId '" + indexId + "' to queue");
                                 if (!this.active) {
                                     logger.warning("Worker threads are not active yet, so try adding again later");
                                     return true;
@@ -277,7 +277,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                             }
                         }
                     }
-                    return lrIdArray.length > 0;
+                    return indexIdsArray.length > 0;
                 }
             }
         }
@@ -289,11 +289,11 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      */
     private void callReindexOperationInLoop() {
         while (this.running && this.active) {
-            String logicalResourceIds = getLogicalResourceIdsToReindex();
-            if (!logicalResourceIds.isEmpty()) {
+            String indexIds = getIndexIdsToReindex();
+            if (!indexIds.isEmpty()) {
                 boolean ok = false;
                 try {
-                    ok = callReindexOperation(logicalResourceIds);
+                    ok = callReindexOperation(indexIds);
                 } catch (DataAccessException x) {
                     // allow active be set to false.  This will notify monitorLoop something is wrong.
                     // Probably all threads will encounter the same exception and monitorLoop will
@@ -319,14 +319,14 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
 
     /**
      * Call the FHIR server $reindex operation.
-     * @param logicalResourceIds the logical resource IDs to reindex
+     * @param indexIds the index IDs to reindex
      * @return true if the call was successful (200 OK), otherwise false
      */
-    private boolean callReindexOperation(String logicalResourceIds) {
+    private boolean callReindexOperation(String indexIds) {
         boolean result = true;
 
         Builder builder = Parameters.builder();
-        builder.parameter(Parameter.builder().name(str(LOGICAL_RESOURCE_IDS_PARAM)).value(str(logicalResourceIds)).build());
+        builder.parameter(Parameter.builder().name(str(INDEX_IDS_PARAM)).value(str(indexIds)).build());
         Parameters parameters = builder.build();
         String requestBody = FHIRBucketClientUtil.resourceToString(parameters);
 
@@ -348,10 +348,10 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     }
 
     /**
-     * Get a comma-delimited string of the next logical resource IDs to reindex.
+     * Get a comma-delimited string of the next index IDs to reindex.
      * @return a comma-delimited string
      */
-    private String getLogicalResourceIdsToReindex() {
+    private String getIndexIdsToReindex() {
         List<String> drainToList = new ArrayList<>(maxResourceCount);
         blockingQueue.drainTo(drainToList, maxResourceCount);
         return drainToList.stream().collect(Collectors.joining(","));

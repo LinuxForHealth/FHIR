@@ -42,7 +42,7 @@ public class ReindexOperation extends AbstractOperation {
     private static final Logger logger = Logger.getLogger(ReindexOperation.class.getName());
 
     private static final String PARAM_TSTAMP = "tstamp";
-    private static final String PARAM_LOGICAL_RESOURCE_IDS = "logicalResourceIds";
+    private static final String PARAM_INDEX_IDS = "indexIds";
     private static final String PARAM_RESOURCE_COUNT = "resourceCount";
     private static final String PARAM_RESOURCE_LOGICAL_ID = "resourceLogicalId";
 
@@ -81,7 +81,7 @@ public class ReindexOperation extends AbstractOperation {
 
         try {
             Instant tstamp = Instant.now();
-            List<Long> logicalResourceIds = null;
+            List<Long> indexIds = null;
             int resourceCount = 10;
             String resourceLogicalId = null;
 
@@ -111,8 +111,8 @@ public class ReindexOperation extends AbstractOperation {
                             // assume full ISO format
                             tstamp = Instant.parse(val);
                         }
-                    } else if (PARAM_LOGICAL_RESOURCE_IDS.equals(parameter.getName().getValue())) {
-                        // reindex a specific list of resources by logicial resource ID (comma-delimited), which is different than resource ID
+                    } else if (PARAM_INDEX_IDS.equals(parameter.getName().getValue())) {
+                        // reindex a specific list of resources by index ID (comma-delimited), which is different than resource logical ID
                         String lrIdsString = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         if (lrIdsString != null) {
                             Set<Long> lrIdSet = new LinkedHashSet<>();
@@ -123,9 +123,9 @@ public class ReindexOperation extends AbstractOperation {
                             for (String lrIdString : lrIdArray) {
                                 lrIdSet.add(Long.valueOf(lrIdString));
                             }
-                            logicalResourceIds = new ArrayList<>(lrIdSet);
-                            if (logicalResourceIds.size() > MAX_RESOURCE_COUNT) {
-                                throw FHIROperationUtil.buildExceptionWithIssue("The specified number of logical resource IDs exceeds the maximum allowed number of resources to reindex", IssueType.INVALID);
+                            indexIds = new ArrayList<>(lrIdSet);
+                            if (indexIds.size() > MAX_RESOURCE_COUNT) {
+                                throw FHIROperationUtil.buildExceptionWithIssue("The specified number of index IDs exceeds the maximum allowed number of resources to reindex", IssueType.INVALID);
                             }
                         }
                     } else if (PARAM_RESOURCE_COUNT.equals(parameter.getName().getValue())) {
@@ -160,9 +160,9 @@ public class ReindexOperation extends AbstractOperation {
             // Delegate the heavy lifting to the helper
             OperationOutcome.Builder result = OperationOutcome.builder();
             int totalProcessed = 0;
-            if (logicalResourceIds != null) {
+            if (indexIds != null) {
                 // All resources in one transaction
-                totalProcessed = resourceHelper.doReindex(operationContext, result, tstamp, logicalResourceIds, null);
+                totalProcessed = resourceHelper.doReindex(operationContext, result, tstamp, indexIds, null);
             } else {
                 int processed = 1;
                 // One resource per transaction

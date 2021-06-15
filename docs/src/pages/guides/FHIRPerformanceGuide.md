@@ -202,7 +202,7 @@ The following table summarizes how the transaction timeout is used for different
 | POST/PUT           | Single transaction scope for entire request |
 | Batch Bundle       | Transaction per bundle entry. Request processing time can therefore exceed totalTranLifetimeTimeout |
 | Transaction Bundle | Single transaction scope for entire request |
-| $reindex           | One HTTP call can request multiple resources to be reindexed. By default, each resource is reindexed in the scope of its own transaction. Reindexing is a relatively quick operation per resource - usually well under 1s - so transaction timeouts are unlikely. However, if a list of logical resource IDs is specified, all those resources will be reindexed within a single tranaction, so reduce the number logical resource IDs specified if transaction timeouts occur. Use concurrent requests to increase overall throughput. |
+| $reindex           | One HTTP call can request multiple resources to be reindexed. By default, each resource is reindexed in the scope of its own transaction. Reindexing is a relatively quick operation per resource - usually well under 1s - so transaction timeouts are unlikely. However, if a list of index IDs is specified, all those resources will be reindexed within a single tranaction, so reduce the number index IDs specified if transaction timeouts occur. Use concurrent requests to increase overall throughput. |
 
 Because some requests use multiple transactions under the covers, the overall request response time can sometimes be greater than the transaction timeout. There is no server-side tuneable property for the overall request processing time. Tuning of the client read timeout and/or network configuration may be required when extending the maximum transaction time to more than 2 minutes, or supporting multi-transaction requests which also exceed 2 minutes.
 
@@ -356,11 +356,11 @@ See the [PostgreSQL Query Planning](https://www.postgresql.org/docs/12/runtime-c
 
 ### 4.1.1. Fillfactor
 
-In PostgreSQL, the default `fillfactor` for each table is 100 - no room is reserved for updates. This maximizes storage utilization, but impacts performance for updates which occur when new versions of a resource are ingested. Update statements are also used frequently during the reindex process, if logical resource IDs are not specified.
+In PostgreSQL, the default `fillfactor` for each table is 100 - no room is reserved for updates. This maximizes storage utilization, but impacts performance for updates which occur when new versions of a resource are ingested. Update statements are also used frequently during the reindex process, if index IDs are not specified.
 
 To provide space for updates, all the `<resourceType>_logical_resources` should be configured with a `fillfactor` of 80 as a starting point. DBAs may specify their own `fillfactor` values based on their own knowledge and understanding of the system.
 
-The `fillfactor` for the `logical_resources` table may benefit from an even lower value to support the heavy update load during a reindex operation, if logical resource IDs are not specified. This is a special case due to the fact that every row in the table is updated once.
+The `fillfactor` for the `logical_resources` table may benefit from an even lower value to support the heavy update load during a reindex operation, if index IDs are not specified. This is a special case due to the fact that every row in the table is updated once.
 
 To change the fillfactor for existing data, a `VACUUM FULL` operation is required:
 
@@ -374,7 +374,7 @@ This should only be performed during a maintenance window when there is no load 
 
 ### 4.1.2. Tuning Auto-vacuum
 
-When running reindex operations (after a search parameter configuration change, for example), the `logical_resources` table undergoes frequent updates to an indexed column. Due to the nature of how PostgreSQL handles updates, this results in a significant amount of old index blocks which slows progress. The table storage parameters may need to be tuned to vacuum the `logical_resources` table more aggressively. To address this, tune the storage parameters for this table as follows:
+When running reindex operations (after a search parameter configuration change, for example) without specifying index IDs, the `logical_resources` table undergoes frequent updates to an indexed column. Due to the nature of how PostgreSQL handles updates, this results in a significant amount of old index blocks which slows progress. The table storage parameters may need to be tuned to vacuum the `logical_resources` table more aggressively. To address this, tune the storage parameters for this table as follows:
 
 ``` sql
 -- Lower the trigger threshold for starting work
@@ -384,7 +384,7 @@ alter table fhirdata.logical_resources SET (autovacuum_vacuum_scale_factor = 0.0
 alter table fhirdata.logical_resources SET (autovacuum_vacuum_cost_limit=2000);
 ```
 
-The default value for autovacuum_vacuum_cost_limit is likely too restrictive for a system with good IO performance. Increasing the value to 2000 increases the throttling threshold 10x, significantly improving throughput and helping the `logical_resources` vacuuming to be completed before it negatively impacts performance of the reindex operation (when logical resource IDs are not specified on the reindex operation).
+The default value for autovacuum_vacuum_cost_limit is likely too restrictive for a system with good IO performance. Increasing the value to 2000 increases the throttling threshold 10x, significantly improving throughput and helping the `logical_resources` vacuuming to be completed before it negatively impacts performance of the reindex operation (when index IDs are not specified on the reindex operation).
 
 See the [PostSQL VACUUM documentation](https://www.postgresql.org/docs/12/sql-vacuum.html) for more details.
 

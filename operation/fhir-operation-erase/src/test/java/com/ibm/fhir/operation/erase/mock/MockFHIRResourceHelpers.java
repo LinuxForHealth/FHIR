@@ -64,7 +64,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+    public int doReindex(FHIROperationContext operationContext, Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws Exception {
         return 0;
     }
@@ -162,7 +162,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws Exception {
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
 
         return null;
     }

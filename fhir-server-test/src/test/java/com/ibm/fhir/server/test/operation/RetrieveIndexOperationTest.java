@@ -50,7 +50,7 @@ public class RetrieveIndexOperationTest extends FHIRServerTestBase {
                 .build());
         parameters.add(
             Parameter.builder()
-                .name(string("afterLogicalResourceId"))
+                .name(string("afterIndexId"))
                 .value(string("8"))
                 .build());
 

@@ -31,17 +31,17 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.util.FHIROperationUtil;
 
 /**
- * Custom operation to invoke the persistence layer to retrieve a list of logical resource IDs.
+ * Custom operation to invoke the persistence layer to retrieve a list of index IDs.
  */
 public class RetrieveIndexOperation extends AbstractOperation {
     private static final Logger logger = Logger.getLogger(RetrieveIndexOperation.class.getName());
 
     private static final String PARAM_COUNT = "_count";
-    private static final String PARAM_AFTER_LOGICAL_RESOURCE_ID = "afterLogicalResourceId";
+    private static final String PARAM_AFTER_INDEX_ID = "afterIndexId";
     private static final String PARAM_NOT_MODIFIED_AFTER = "notModifiedAfter";
-    private static final String PARAM_LOGICAL_RESOURCE_IDS = "logicalResourceIds";
+    private static final String PARAM_INDEX_IDS = "indexIds";
 
-    // The max number of logical resource IDs we allow to be retrieved by one request
+    // The max number of index IDs we allow to be retrieved by one request
     private static final int MAX_COUNT = 1000;
 
     static final DateTimeFormatter DAY_FORMAT = new DateTimeFormatterBuilder()
@@ -75,9 +75,9 @@ public class RetrieveIndexOperation extends AbstractOperation {
         }
 
         try {
-            String logicalResourceIdsString = "";
+            String indexIdsString = "";
             int count = MAX_COUNT;
-            Long afterLogicalResourceId = null;
+            Long afterIndexId = null;
             Instant notModifiedAfter = Instant.now();
 
             if (parameters != null) {
@@ -96,7 +96,7 @@ public class RetrieveIndexOperation extends AbstractOperation {
                             count = val;
                         }
                     } else if (PARAM_NOT_MODIFIED_AFTER.equals(parameter.getName().getValue())) {
-                        // Only retrieve logical resource IDs for resources not last updated after the specified timestamp
+                        // Only retrieve index IDs for resources not last updated after the specified timestamp
                         String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         if (val.length() == 10) {
                             notModifiedAfter = DAY_FORMAT.parse(val, Instant::from);
@@ -104,21 +104,21 @@ public class RetrieveIndexOperation extends AbstractOperation {
                             // assume full ISO format
                             notModifiedAfter = Instant.parse(val);
                         }
-                    } else if (PARAM_AFTER_LOGICAL_RESOURCE_ID.equals(parameter.getName().getValue())) {
-                        // Start retrieving logical resource IDs after this specified logical resource ID
-                        afterLogicalResourceId = Long.valueOf(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
+                    } else if (PARAM_AFTER_INDEX_ID.equals(parameter.getName().getValue())) {
+                        // Start retrieving index IDs after this specified index ID
+                        afterIndexId = Long.valueOf(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
                     }
                 }
             }
 
-            // Get logical resource IDs
-            List<Long> logicalResourceIds = resourceHelper.doRetrieveIndex(operationContext, count, notModifiedAfter, afterLogicalResourceId);
-            if (logicalResourceIds != null) {
-                logicalResourceIdsString = logicalResourceIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(","));
+            // Get index IDs
+            List<Long> indexIds = resourceHelper.doRetrieveIndex(operationContext, count, notModifiedAfter, afterIndexId);
+            if (indexIds != null) {
+                indexIdsString = indexIds.stream().map(l -> String.valueOf(l)).collect(Collectors.joining(","));
             }
 
             // Return output
-            return FHIROperationUtil.getOutputParameters(PARAM_LOGICAL_RESOURCE_IDS, !logicalResourceIdsString.isEmpty() ? string(logicalResourceIdsString) : null);
+            return FHIROperationUtil.getOutputParameters(PARAM_INDEX_IDS, !indexIdsString.isEmpty() ? string(indexIdsString) : null);
 
         } catch (FHIROperationException e) {
             throw e;

@@ -456,7 +456,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, List<Long> logicalResourceIds,
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
@@ -475,7 +475,7 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException {
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("API not supported at this time");
     }
 }

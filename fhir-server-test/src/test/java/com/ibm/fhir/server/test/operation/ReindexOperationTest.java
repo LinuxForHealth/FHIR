@@ -439,11 +439,11 @@ public class ReindexOperationTest extends FHIRServerTestBase {
     }
 
     @Test
-    public void testReindex_logicalResourceIds() {
+    public void testReindex_indexIds() {
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(
             Parameter.builder()
-                .name(string("logicalResourceIds"))
+                .name(string("indexIds"))
                 .value(string("2,4,6,8,10"))
                 .build());
 

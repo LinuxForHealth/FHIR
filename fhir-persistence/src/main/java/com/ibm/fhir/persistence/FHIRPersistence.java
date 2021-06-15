@@ -152,19 +152,19 @@ public interface FHIRPersistence {
     }
 
     /**
-     * Initiates reindexing for either a specified list of logicalResourceIds (primary keys),
+     * Initiates reindexing for either a specified list of index IDs,
      * or a randomly chosen resource. The number of resources processed is returned.
      * This can be used by a controller to continue processing until everything is complete.
      * @param context the FHIRPersistenceContext instance associated with the current request.
      * @param operationOutcomeResult accumulate issues in this {@link OperationOutcome.Builder}
      * @param tstamp only reindex resources with a reindex_tstamp less than this
-     * @param logicalResourceIds list of logical resource IDs (primary keys) of resources to reindex, or null
+     * @param indexIds list of index IDs of resources to reindex, or null
      * @param resourceLogicalId resourceType/logicalId value of a specific resource to reindex, or null;
-     * this parameter is ignored if the logicalResourceIds parameter value is non-null
+     * this parameter is ignored if the indexIds parameter value is non-null
      * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
-    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> logicalResourceIds,
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws FHIRPersistenceException;
 
     /**
@@ -214,13 +214,13 @@ public interface FHIRPersistence {
     }
 
     /**
-     * Retrieves a list of logicalResourceIds (primary keys) available for reindexing.
-     * @param count the maximum nuber of logical resource IDs to retrieve
-     * @param notModifiedAfter only retrieve logical resource IDs (primary keys) for resources not last updated after the specified timestamp
-     * @param afterLogicalResourceId retrieve logical resource IDs (primary keys) starting after this specified ID, or null to start with first ID
-     * @return list of logical resource IDs available for reindexing
+     * Retrieves a list of index IDs available for reindexing.
+     * @param count the maximum nuber of index IDs to retrieve
+     * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
+     * @param afterIndexId retrieve index IDs starting after this specified index ID, or null to start with first index ID
+     * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterLogicalResourceId) throws FHIRPersistenceException;
+    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException;
 
 }

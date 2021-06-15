@@ -876,7 +876,7 @@ public class Main {
                 this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
             }
             this.driveReindexOperation.init();
-       }
+        }
 
         // JVM won't exit until the threads are stopped via the
         // shutdown hook
