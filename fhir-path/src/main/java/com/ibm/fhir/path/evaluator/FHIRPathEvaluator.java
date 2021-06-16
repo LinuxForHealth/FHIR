@@ -83,9 +83,14 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
+ *
+ * The static factory method {@link #evaluator()} is threadsafe, but the created instances are not.
  */
+@NotThreadSafe
 public class FHIRPathEvaluator {
     private static final Logger log = Logger.getLogger(FHIRPathEvaluator.class.getName());
 
@@ -1143,10 +1148,14 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            Collection<FHIRPathNode> result = currentContext.stream()
-                    .flatMap(node -> node.children().stream())
-                    .filter(node -> identifier.equals(node.name()))
-                    .collect(Collectors.toList());
+            List<FHIRPathNode> result = new ArrayList<>();
+            for (FHIRPathNode node : currentContext) {
+                for (FHIRPathNode child : node.children()) {
+                    if (identifier.equals(child.name())) {
+                        result.add(child);
+                    }
+                }
+            }
 
             indentLevel--;
 

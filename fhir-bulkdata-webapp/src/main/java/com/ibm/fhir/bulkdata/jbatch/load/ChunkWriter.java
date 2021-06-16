@@ -81,8 +81,13 @@ public class ChunkWriter extends AbstractItemWriter {
 
     @Inject
     @Any
-    @BatchProperty (name = OperationFields.PARTITTION_WORKITEM)
+    @BatchProperty (name = OperationFields.PARTITION_WORKITEM)
     private String workItem;
+
+    @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_MATRIX)
+    private String matrix;
 
     @Inject
     @Any
@@ -174,7 +179,7 @@ public class ChunkWriter extends AbstractItemWriter {
             // Similar code @see ImportPartitionCollector
             StorageType type = adapter.getStorageProviderStorageType(ctx.getOutcome());
             boolean collectImportOperationOutcomes = adapter.shouldStorageProviderCollectOperationOutcomes(ctx.getSource())
-                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type));
+                    && (StorageType.AWSS3.equals(type) || StorageType.IBMCOS.equals(type) ||  StorageType.AZURE.equals(type));
 
             // Get the Skippable Update status
             boolean skip = adapter.enableSkippableUpdates();
@@ -249,9 +254,10 @@ public class ChunkWriter extends AbstractItemWriter {
 
             // Pushes to the Outcome Site
             if (collectImportOperationOutcomes) {
-                Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getOutcome(), "ibm-cos");
-                wrapper.registerTransient(chunkData);
-                wrapper.pushOperationOutcomes();
+                Provider provider = ProviderFactory.getSourceWrapper(ctx.getOutcome(),
+                    ConfigurationFactory.getInstance().getStorageProviderType(ctx.getOutcome()));
+                provider.registerTransient(chunkData);
+                provider.pushOperationOutcomes();
             }
         } catch (FHIRException e) {
             logger.log(Level.SEVERE, "Import ChunkWriter.writeItems during job[" + executionId + "] - " + e.getMessage(), e);

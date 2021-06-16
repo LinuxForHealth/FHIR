@@ -26,10 +26,10 @@ class InsertingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @throws IllegalArgumentException
      */
     public InsertingVisitor(Visitable parent, String parentPath, String elementName, int index, Visitable value) {
-        this.parentPath = Objects.requireNonNull(parentPath);
-        this.elementNameToInsert = Objects.requireNonNull(elementName);
+        this.parentPath = Objects.requireNonNull(parentPath, "parentPath");
+        this.elementNameToInsert = Objects.requireNonNull(elementName, "elementName");
         this.index = index;
-        this.value = Objects.requireNonNull(value) instanceof Code ?
+        this.value = Objects.requireNonNull(value, "value") instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
 

@@ -5,13 +5,14 @@
  */
 package com.ibm.fhir.bulkdata.provider;
 
+import com.ibm.fhir.bulkdata.provider.impl.AzureProvider;
 import com.ibm.fhir.bulkdata.provider.impl.FileProvider;
 import com.ibm.fhir.bulkdata.provider.impl.HttpsProvider;
 import com.ibm.fhir.bulkdata.provider.impl.S3Provider;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
- * Wrapper
+ * Provider Factory picks the ideal provider based on the type.
  */
 public class ProviderFactory {
 
@@ -27,21 +28,24 @@ public class ProviderFactory {
      */
     public static Provider getSourceWrapper(String source, String type) throws Exception {
         StorageType storageType = StorageType.from(type);
-        Provider wrapper = null;
+        Provider provider = null;
         switch (storageType) {
         case HTTPS:
-            wrapper = new HttpsProvider(source);
+            provider = new HttpsProvider(source);
             break;
         case FILE:
-            wrapper = new FileProvider(source);
+            provider = new FileProvider(source);
             break;
         case AWSS3:
         case IBMCOS:
-            wrapper = new S3Provider(source);
+            provider = new S3Provider(source);
+            break;
+        case AZURE:
+            provider = new AzureProvider(source);
             break;
         default:
             throw new IllegalStateException ("Doesn't support data source storage type '" + type + "'!");
         }
-        return wrapper;
+        return provider;
     }
 }

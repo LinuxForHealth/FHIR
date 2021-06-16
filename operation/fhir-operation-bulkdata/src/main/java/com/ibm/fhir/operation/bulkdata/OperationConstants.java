@@ -23,7 +23,8 @@ public class OperationConstants {
     public static final List<String> STORAGE_TYPES =
             Collections
                     .unmodifiableList(Arrays.asList(StorageType.HTTPS.value(), StorageType.FILE.value(),
-                            StorageType.AWSS3.value(), StorageType.IBMCOS.value()));
+                            StorageType.AWSS3.value(), StorageType.IBMCOS.value(),
+                            StorageType.AZURE.value()));
     public static final List<String> STORAGE_CONTENT_ENCODING =
             Collections.unmodifiableList(Arrays.asList("text", "text/plain"));
     public static final int IMPORT_MAX_DEFAULT_INPUTS = 5;

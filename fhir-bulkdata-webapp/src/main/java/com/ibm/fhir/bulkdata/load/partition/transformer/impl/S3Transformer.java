@@ -6,7 +6,6 @@
 package com.ibm.fhir.bulkdata.load.partition.transformer.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -26,41 +25,34 @@ import com.ibm.fhir.operation.bulkdata.model.type.BulkDataSource;
  */
 public class S3Transformer implements PartitionSourceTransformer {
 
-    private static final Logger logger = Logger.getLogger(S3Transformer.class.getName());
+    private static final Logger LOG = Logger.getLogger(S3Transformer.class.getName());
 
     @Override
     public List<BulkDataSource> transformToDataSources(String source, String type, String location) throws FHIRException {
-        S3Provider provider = new S3Provider(source);
+        List<BulkDataSource> sources = new ArrayList<>();
 
-        // Checks and return empty list.
+        S3Provider provider = new S3Provider(source);
         if (!provider.exists()) {
             provider.listBuckets();
-            return Collections.emptyList();
         }
 
-        List<BulkDataSource> sources = new ArrayList<>();
+        String loc = location.trim();
+        LOG.fine(() -> "Location being verified is'" + loc + "'");
+
         String continuationToken = null;
         ListObjectsV2Result result = null;
         boolean shouldContinue = true;
         while (shouldContinue) {
-            result = provider.getListObject(continuationToken);
+            result = provider.getListObject(loc, continuationToken);
             for (S3ObjectSummary objectSummary : result.getObjectSummaries()) {
-                boolean isToBeProccessed = false;
-                if (location != null && !location.trim().isEmpty()) {
-                    // We read multiple files that start with the same pattern.
-                    if (objectSummary.getKey().startsWith(location.trim())) {
-                        isToBeProccessed = true;
-                    }
-                } else {
-                    isToBeProccessed = true;
-                }
-                if (isToBeProccessed) {
-                    logger.info("ObjectStorge Object -'" + objectSummary.getKey()
-                            + "' - '" + objectSummary.getSize() + "' bytes.");
-                    if (objectSummary.getSize() >= 0) {
-                        // We  want these to line up when we align with the output of the Job Listener
-                        sources.add(new BulkDataSource(type, objectSummary.getKey()));
-                    }
+                LOG.fine(() -> "Object to be added [" + objectSummary.getKey() + "]");
+
+                if (!loc.isEmpty() && objectSummary.getKey().startsWith(loc)) {
+                    LOG.fine(() -> "Object Summary -'" + objectSummary.getKey() + "' - '" + objectSummary.getSize() + "' bytes.");
+
+                    BulkDataSource ds = new BulkDataSource(type, objectSummary.getKey());
+                    ds.setOriginalLocation(location);
+                    sources.add(ds);
                 }
             }
 

@@ -187,7 +187,7 @@ public class BatchContextAdapter {
 
     private void addImport(BulkDataContext ctx) {
         ctx.setPartitionResourceType(props.getProperty(OperationFields.PARTITION_RESOURCETYPE));
-        ctx.setImportPartitionWorkitem(props.getProperty(OperationFields.PARTITTION_WORKITEM));
+        ctx.setImportPartitionWorkitem(props.getProperty(OperationFields.PARTITION_WORKITEM));
         ctx.setDataSourceStorageType(props.getProperty(OperationFields.FHIR_IMPORT_STORAGE_TYPE));
     }
 }

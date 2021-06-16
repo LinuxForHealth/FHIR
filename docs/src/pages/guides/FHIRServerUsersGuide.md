@@ -823,179 +823,6 @@ To use the FHIR Client from your application, specify the `fhir-client` artifact
 ### 4.7.3 Sample usage
 For examples on how to use the IBM FHIR Client, look for tests like `com.ibm.fhir.client.test.mains.FHIRClientSample` from the `fhir-client` project in git. Additionally, the FHIR Client is heavilly used from our integration tests in `fhir-server-test`.
 
-## 4.7.4 FHIR command-line interface (fhir-cli)
-The FHIR command-line interface (fhir-cli for short) is a command that can be used to invoke FHIR REST API operations from the command line. The compressed file for installing the fhir-cli tool is available from [Maven Central](https://repo1.maven.org/maven2/com/ibm/fhir/fhir-cli/).
-
-### 4.7.4.1 Installing fhir-cli
-Because the fhir-cli tool is intended to be used by clients that need to access the FHIR server, it has its own installation process separate from the server. To install the fhir-cli tool, complete the following steps:
-
-1.  Obtain the `fhir-cli.zip` file from the FHIR server installation zip or Maven.
-2.  Decompress the `fhir-cli.zip` file into a directory of your choosing, for example:
-
-    ```
-    cd /mydir
-    unzip fhir-cli.zip
-    ```
-
-3.  [Optional] To enable you to run fhir-cli from multiple directories, run the following command to add `fhir-cli` to your `PATH` environment variable.
-    ```
-    export PATH=$PATH:/mydir/fhir-cli
-    ```
-
-### 4.7.4.2 Configuring fhir-cli
-The fhir-cli tool requires a properties file containing various configuration properties, such as the base endpoint URL, the username and password for basic authentication, amd so forth. The properties contained in this file are the same properties supported by the FHIR client API. The fhir-cli tool comes with a sample properties file named `fhir-cli.properties` which contains a collection of default property settings.
-
-Using the sample properties file as a guide, you can create your own properties file to reflect the required endpoint configuration associated with the FHIR server endpoint that you would like to access. In the examples that follow, we'll refer to this file as `my-fhir-cli.properties`, although you can name the file anything you'd like.
-
-### 4.7.4.3 Running fhir-cli
-The fhir-cli tool comes with two shell scripts: `fhir-cli` (Linux&reg;) and `fhir-cli.bat` (Windows&trade;). In the examples that follow, we'll use `<fhir-cli-home>` as the location of the fhir-cli tool (that is, the `/mydir/fhir-cli` directory mentioned in preceding section).
-
-The following examples illustrate how to invoke the fhir-cli tool:
-
-*   Display help text
-```
-$ <fhir-cli-home>/fhir-cli –help
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-usage: fhir-cli [options]
-
-Provides access to the FHIR Client API via the command line.
-
-Options:
-   -h,--help                           Display this help text
-   -id,--resourceId <ID>               Use resource identifier <ID> for the operation invocation
-   -o,--output <FILE>                  Write output resource to <FILE> (e.g. searchresults.json)
-   -op,--operation <OPERATION>         The operation to be invoked
-   -p,--properties <FILE>              Use FHIR Client properties contained in <FILE> (e.g.
-                                       fhir-cli.properties)
-   -qp,--queryParameter <NAME=VALUE>   Include query parameter NAME=VALUE with the operation
-                                       invocation (e.g. _count=100).
-   -r,--resource <FILE>                Use FHIR resource contained in <FILE> for operation
-                                       invocation (e.g. patient.json)
-   -t,--type <TYPE>                    Use resource type <TYPE> for the operation invocation (e.g.
-                                       "Patient")
-   -v,--verbose                        Display detailed output
-   -vid,--versionId <VID>              Use version # <VID> for the operation invocation
-
-OPERATION should be one of: batch | create | history | metadata | read | search | search-all |
-search-post | transaction | update | validate | vread
-```
-*   Invoke the 'metadata' operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation metadata --output conformance.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'metadata'... done! (651ms)
-Status code: 200
-Response resource written to file: conformance.json
-```
-Note: in this example the “--output” option is used to specify that the Conformance resource should be saved in file 'conformance.json'.
-*   Perform a _create_ operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation create --resource newpatient.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation _create_... done! (2719ms)
-Status code: 201
-Location URI: http://localhost:9443/fhir-server/api/v4/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/1
-ETag: W/"1"
-Last modified: 2016-09-13T20:51:21.048Z
-```
-Note: In this example, the “--resource” option is used to indicate that the contents of the new resource to be created should be read from file 'newpatient.json'.
-*   Perform a 'read' operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation read --type Patient --resourceId 26b694ef-cea7-4485-a896-5ac2a1da9f64 -o patient1.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'read'... done! (321ms)
-Status code: 200
-ETag: W/"1"
-Last modified: 2016-09-13T20:51:21.048Z
-Response resource written to file: patient1.json
-```
-Note: the “-o” option is used as a shortcut for “--output”
-*   Perform an _update_ operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation update --resource updatedpatient1.json
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation _update_... done! (2707ms)
-Status code: 200
-Location URI: http://localhost:9443/fhir-server/api/v4/Patient/26b694ef-cea7-4485-a896-5ac2a1da9f64/_history/2
-ETag: W/"2"
-Last modified: 2016-09-13T21:11:48.988Z
-```
-*   Perform a 'vread' operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation vread -t Patient -id 26b694ef-cea7-4485-a896-5ac2a1da9f64 -vid 3 -o patient1v3.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'vread'... done! (290ms)
-Status code: 200
-ETag: W/"3"
-Last modified: 2016-09-13T21:18:28.412Z
-Response resource written to file: patient1v3.json
-```
-*   Perform a 'history' operation
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation history -t Patient -id 26b694ef-cea7-4485-a896-5ac2a1da9f64 -o patient1history.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'history'... done! (414ms)
-Status code: 200
-Response resource written to file: patient1history.json
-```
-Note: in this example, the response resource is a Bundle containing the versions of the Patient resource.
-
-
-*   Perform a 'search' operation
-
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation search -t Patient -qp name=Doe -o searchresults.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'search'... done! (543ms)
-Status code: 200
-Response resource written to file: searchresults.json
-```
-
-Note: in this example the `-qp` option (shortcut for `–queryParameter`) is used to specify the search criteria (that is, `name=Doe`). The response resource is a Bundle that is written to the file `searchresults.json`.
-
-*   Perform a 'validate' operation
-
-```
-$ <fhir-cli-home>/fhir-cli --properties my-fhir-cli.properties --operation validate --resource newpatient.json
-
-FHIR Client Command Line Interface (fhir-cli)    (c) Copyright IBM Corporation, 2016.
-
-Invoking operation 'validate'... done! (3182ms)
-Status code: 200
-Response resource:
-
-{
-    "resourceType" : "OperationOutcome",
-    "id" : "allok",
-    "text" : {
-        "status" : "additional",
-        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p>All OK</p></div>"
-    },
-    "issue" : [ {
-        "severity" : "information",
-        "code" : "informational",
-        "details" : {
-            "text" : "All OK"
-        }
-    } ]
-}
-```
-
 ## 4.8 Using local references within request bundles
 Inter-dependencies between resources are typically defined by one resource containing a field of type `Reference` which contains an _external reference_<sup id="a5">[5](#f5)</sup> to another resource. For example, an `Observation` resource could reference a `Patient` resource via the Observation's `subject` field. The value that is stored in the `Reference-type` field (for example, `subject` in the case of the `Observation` resource) could be an absolute URL, such as `https://fhirserver1:9443/fhir-server/api/v4/Patient/12345`, or a relative URL (for example, `Patient/12345`).
 
@@ -1523,10 +1350,139 @@ Note: If you use PostgreSQL database as IBM FHIR Server data store or the JavaBa
 
 For more information about Liberty JavaBatch configuration, please refer to [IBM WebSphere Liberty Java Batch White paper](https://www-03.ibm.com/support/techdocs/atsmastr.nsf/webindex/wp102544).
 
-### 4.10.1 Integration Testing
+### 4.10.1 *Path* and *Virtual Host* Bucket Access
+
+For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
+
+With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json. 
+
+There are three critical elements in the configuration to configure path style: 
+
+|Configuration|Details|
+|-------------|-------|
+|`endpointInternal`|the direct S3 API provider for the S3 API|
+|`endpointExternal`|the endpoint url used to generate the downloadUrl used in S3 Export|
+|`accessType`|"path", the default access type|
+
+Example of `path` based access: 
+
+``` json
+"bulkdata": {
+    ...
+    "storageProviders": {
+        "default" : {
+            "type": "aws-s3",
+            "bucketName": "bucket-name",
+            "location": "us",
+            "endpointInternal": "https://s3.region.host-name.com",
+            "endpointExternal": "https://s3.region.host-name.com",
+            "auth" : {
+                "type": "hmac",
+                "accessKeyId": "example",
+                "secretAccessKey": "example-password"
+            },
+            "enableParquet": false,
+            "disableBaseUrlValidation": true,
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false,
+            "validateResources": false,
+            "create": false,
+            "presigned": true,
+            "accessType": "path"
+        }
+    }
+}
+```
+
+With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API. 
+
+There are three critical elements in the configuration to configure virtual host style: 
+
+|Configuration|Details|
+|-------------|-------|
+|`endpointInternal`|the direct API provider for the S3 API, and not the virtual host, the underlying S3 libraries generate the virtual host url|
+|`endpointExternal`|the Virtual Host endpoint url used to generate the downloadUrl generated after an Export|
+|`accessType`|"host"|
+
+Note, while the endpointInternal is specified with the S3 region endpoint, the calls to the API will use the virtual host directly.
+
+Example of `host` based access: 
+
+``` json
+"bulkdata": {
+    ...
+    "storageProviders": {
+        "default" : {
+            "type": "aws-s3",
+            "bucketName": "bucket-name",
+            "location": "us",
+            "endpointInternal": "https://s3.region.host-name.com",
+            "endpointExternal": "https://bucket-name.s3.region.host-name.com",
+            "auth" : {
+                "type": "hmac",
+                "accessKeyId": "example",
+                "secretAccessKey": "example-password"
+            },
+            "enableParquet": false,
+            "disableBaseUrlValidation": true,
+            "exportPublic": true,
+            "disableOperationOutcomes": true,
+            "duplicationCheck": false,
+            "validateResources": false,
+            "create": false,
+            "presigned": true,
+            "accessType": "host"
+        }
+    }
+}
+```
+
+### 4.10.2 S3 Import File with matching segments
+
+When Importing from an S3 Bucket, the IBM FHIR Server identifies the matching file segments. The `parameter.input.url` is used to query the S3 API to find the matching files.  For instance, the following import of `Patient.ndjson` matches `Patient.ndjson_seg0` and `Patient.ndjson_seg1` which are imported to the IBM FHIR Server.
+
+This feature is useful for imports which follow a prefix pattern:
+
+``` json
+{
+    "resourceType": "Parameters",
+    "id": "30321130-5032-49fb-be54-9b8b82b2445a",
+    "parameter": [
+        {
+            "name": "inputFormat",
+            "valueString": "application/fhir+ndjson"
+        },
+        {
+            "name": "inputSource",
+            "valueUri": "https://localhost:9443/source-fhir-server"
+        },
+        {
+            "name": "input",
+            "part": [
+                {
+                    "name": "type",
+                    "valueString": "Patient"
+                },
+                {
+                    "name": "url",
+                    "valueUrl": "test-import.ndjson"
+                }
+            ]
+        },
+        {
+            "name": "storageDetail",
+            "valueString": "ibm-cos"
+        }
+    ]
+}
+```
+
+
+### 4.10.3 Integration Testing
 To integration test, there are tests in `ExportOperationTest.java` in `fhir-server-test` module with server integration test cases for system, patient and group export. Further, there are tests in `ImportOperationTest.java` in `fhir-server-test` module. These tests rely on the `fhir-server-config-db2.json` which specifies two storageProviders.
 
-### 4.10.2 Export to Parquet
+### 4.10.4 Export to Parquet
 Version 4.4 of the IBM FHIR Server introduced experimental support for exporting to Parquet format (as an alternative to the default NDJSON export). However, due to the size of the dependencies needed to make this work, this feature is disabled by default.
 
 To enable export to parquet, an administrator must:
@@ -1535,7 +1491,7 @@ To enable export to parquet, an administrator must:
 
 An alternative way to accomplish the first part of this is to change the scope of these dependencies from the fhir-bulkdata-webapp pom.xml and rebuild the webapp to include them.
 
-### 4.10.3 Job Logs
+### 4.10.5 Job Logs
 Because the bulk import and export operations are built on Liberty's java batch implementation, users may need to check the [Liberty batch job logs](https://www.ibm.com/support/knowledgecenter/SSEQTP_liberty/com.ibm.websphere.wlp.doc/ae/rwlp_batch_view_joblog.html) for detailed step information / troubleshooting.
 
 In a standard installation, these logs will be at `wlp/usr/servers/fhir-server/logs/joblogs`.
@@ -1602,6 +1558,12 @@ The following table describes the JSON fields of the CADF audit log entries logg
 |`observer/geolocation/city`                           |Value is determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
 |`observer/geolocation/state`                          |Value is determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
 |`observer/geolocation/region`                         |Value is determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
+|`target/id`                                           |Value is the Logical ID from the resource|
+|`target/typeUri`                                      |Value is always "compute/node".|
+|`target/addresses/url`                                |Value determined by the HttpServletRequest for the server. The value does not use the `X-FHIR-FORWARDED-URL` http header|
+|`target/geolocation/city`                             |Value determined by "fhirServer/audit/serviceProperties/geoCity" configuration property.|
+|`target/geolocation/state`                            |Value determined by "fhirServer/audit/serviceProperties/geoState" configuration property.|
+|`target/geolocation/region`                           |Value determined by "fhirServer/audit/serviceProperties/geoCounty" configuration property.|
 
 Note for Batch/Transactions, attachments/content includes counts of the number of C-R-U-D-E actions.
 
@@ -1728,14 +1690,7 @@ The service can map to the CADF format or the FHIR AuditEvent resource format by
             "region": "USA",
             "annotations": [
             ]
-        },
-        "addresses": [
-            {
-                "url": "https://test.io:443/fhir-server/api/v4/Patient",
-                "name": "",
-                "port": ""
-            }
-        ]
+        }
     },
     "attachments": [
         {
@@ -2118,7 +2073,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/defaultImportProvider`|string| The default storage provider used by Bulk Data Import|
 |`fhirServer/bulkdata/core/defaultOutcomeProvider`|string| The default storage provider used to output Operation Outcomes (file, s3 only)|
 |`fhirServer/bulkdata/core/enableSkippableUpdates`|boolean|Enables the skipping of identical resources|
-|`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https |
+|`fhirServer/bulkdata/storageProviders/<source>/type`|string|The type of storageProvider aws-s3, ibm-cos, file, https, azure-blob |
 |`fhirServer/bulkdata/storageProviders/<source>/bucketName`|string| Object store bucket name |
 |`fhirServer/bulkdata/storageProviders/<source>/location`|string|Object store location |
 |`fhirServer/bulkdata/storageProviders/<source>/endpointInternal`|string|Object store end point url used to read/write from COS |
@@ -2132,14 +2087,16 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|boolean|Enables the validation of imported resources|
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|boolean|When an hmac auth type is used, presigns the URLs of an export|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|boolean|Enables the creation of buckets|
-|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, or basic|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/type`|string|A type of hmac, iam, basic or connection|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/accessKeyId`|string|For HMAC, API key for accessing COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/secretAccessKey`|string|For HMAC, secret key for accessing COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/iamApiKey`|string|For IAM, API key for accessing IBM COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|string|For IAM, secret key for accessing IBM COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/username`|string|For basic, user COS|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/password`|string|For basic, password for accessing COS|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/connection`|string|For Azure Blob Service, the connection string is used|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|string| the default storage provider used to output Operation Outcomes (file, s3 only)|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|string| The s3 access type, `host` or `path` (s3 only) [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)|
 |`fhirServer/operations/erase/enabled`|boolean|Enables the $erase operation|
 |`fhirServer/operations/erase/allowedRoles`|list|The list of allowed roles, allowed entries are: `FHIRUsers` every authenticated user, `FHIROperationAdmin` which is authenticated `FHIRAdmin` users|
 
@@ -2260,6 +2217,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/storageProviders/<source>/validateResources`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/presigned`|false|
 |`fhirServer/bulkdata/storageProviders/<source>/create`|false|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|`path`|
 |`fhirServer/operations/erase/enabled`|false|
 |`fhirServer/operations/erase/allowedRoles`|empty, all roles|
 
@@ -2411,7 +2369,9 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/storageProviders/<source>/auth/iamResourceInstanceId`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/username`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/auth/password`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/auth/connection`|Y|Y|
 |`fhirServer/bulkdata/storageProviders/<source>/operationOutcomeProvider`|Y|Y|
+|`fhirServer/bulkdata/storageProviders/<source>/accessType`|Y|Y|
 |`fhirServer/operations/erase/enabled`|Y|Y|
 |`fhirServer/operations/erase/allowedRoles`|Y|Y|
 

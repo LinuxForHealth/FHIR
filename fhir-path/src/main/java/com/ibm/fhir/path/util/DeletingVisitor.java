@@ -14,7 +14,7 @@ class DeletingVisitor<T extends Visitable> extends CopyingVisitor<T> {
     private String pathToDelete;
 
     public DeletingVisitor(String pathToDelete) {
-        this.pathToDelete = Objects.requireNonNull(pathToDelete);
+        this.pathToDelete = Objects.requireNonNull(pathToDelete, "pathToDelete");
     }
 
     @Override

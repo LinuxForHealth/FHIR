@@ -105,6 +105,8 @@ public class S3Preflight extends NopPreflight {
             if (user == null || password == null || user.isEmpty() || password.isEmpty()) {
                 throw export.buildOperationException("bad configuration for the basic configuration", IssueType.EXCEPTION);
             }
+        } else if (adapter.getStorageProviderBucketName(source) == null || adapter.getStorageProviderBucketName(source).isEmpty()) {
+            throw export.buildOperationException("bad configuration for the basic configuration with bucketname", IssueType.EXCEPTION);
         } else {
             throw export.buildOperationException("Failed to specify the source or outcome bucket's authentication mechanism", IssueType.EXCEPTION);
         }

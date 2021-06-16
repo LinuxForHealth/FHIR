@@ -49,13 +49,18 @@ public class ChunkReader extends AbstractItemReader {
 
     @Inject
     @Any
-    @BatchProperty(name = OperationFields.PARTITTION_WORKITEM)
+    @BatchProperty(name = OperationFields.PARTITION_WORKITEM)
     private String workItem;
 
     @Inject
     @Any
     @BatchProperty(name = OperationFields.PARTITION_RESOURCETYPE)
     private String resourceType;
+
+    @Inject
+    @Any
+    @BatchProperty(name = OperationFields.PARTITION_MATRIX)
+    private String matrix;
 
     long numOfLinesToSkip = 0;
 
@@ -89,6 +94,7 @@ public class ChunkReader extends AbstractItemReader {
         } else {
             ImportTransientUserData chunkData = ImportTransientUserData.Builder.builder()
                     .importPartitionWorkitem(ctx.getImportPartitionWorkitem())
+                    .matrixWorkItem(matrix)
                     .numOfProcessedResources(numOfLinesToSkip)
                     .importPartitionResourceType(ctx.getPartitionResourceType())
                     // This naming pattern is used in bulkdata operation to generate file links for import
@@ -135,6 +141,7 @@ public class ChunkReader extends AbstractItemReader {
 
         ImportTransientUserData chunkData = (ImportTransientUserData) stepCtx.getTransientUserData();
         numOfLinesToSkip = chunkData.getNumOfProcessedResources();
+        logger.fine(() -> "Number of lines to skip are: '" + numOfLinesToSkip + "'");
 
         Provider wrapper = ProviderFactory.getSourceWrapper(ctx.getSource(), ctx.getDataSourceStorageType());
         wrapper.registerTransient(chunkData);

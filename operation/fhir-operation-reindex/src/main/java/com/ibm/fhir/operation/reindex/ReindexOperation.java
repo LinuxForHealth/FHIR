@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,6 +26,7 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -71,13 +72,22 @@ public class ReindexOperation extends AbstractOperation {
         // Allow only POST because we're changing the state of the database
         String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
         if (!"POST".equalsIgnoreCase(method)) {
-            throw new FHIROperationException("HTTP method not supported: " + method);
+            throw FHIROperationUtil.buildExceptionWithIssue("HTTP method not supported: " + method, IssueType.NOT_SUPPORTED);
         }
 
         try {
             Instant tstamp = Instant.now();
             int resourceCount = 10;
             String resourceLogicalId = null;
+
+            boolean hasSpecificResourceType = false;
+            if (resourceType != null) {
+                resourceLogicalId = resourceType.getSimpleName();
+                if (logicalId != null) {
+                    resourceLogicalId +=  "/" + logicalId;
+                }
+                hasSpecificResourceType = true;
+            }
 
             if (parameters != null) {
                 for (Parameters.Parameter parameter : parameters.getParameter()) {
@@ -90,7 +100,6 @@ public class ReindexOperation extends AbstractOperation {
                             && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         String val = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
 
-
                         if (val.length() == 10) {
                             tstamp = DAY_FORMAT.parse(val, Instant::from);
                         } else {
@@ -101,14 +110,25 @@ public class ReindexOperation extends AbstractOperation {
                         Integer val = parameter.getValue().as(com.ibm.fhir.model.type.Integer.class).getValue();
                         if (val != null) {
                             if (val > MAX_RESOURCE_COUNT) {
-                                logger.info("Clamping resourceCount " + val + " to max allowed: " + MAX_RESOURCE_COUNT);
+                                logger.info("Clamping resourceCount '" + val + "' to max allowed: " + MAX_RESOURCE_COUNT);
                                 val = MAX_RESOURCE_COUNT;
                             }
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
-                        // reindex a specific resource (useful for debug/testing)
+                        if (hasSpecificResourceType) {
+                            throw FHIROperationUtil.buildExceptionWithIssue("resourceLogicalId already specified using call to Operation on Type or Instance", IssueType.INVALID);
+                        }
+                        // reindex a specific resource or resourceType
                         resourceLogicalId = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
+                        String rt = resourceLogicalId;
+                        if (resourceLogicalId.contains("/")) {
+                            String[] parts = resourceLogicalId.split("/");
+                            rt = parts[0];
+                        }
+                        if (!ModelSupport.isConcreteResourceType(rt)) {
+                            throw FHIROperationUtil.buildExceptionWithIssue("ResourceType is not valid", IssueType.INVALID);
+                        }
                     }
                 }
             }
@@ -125,12 +145,18 @@ public class ReindexOperation extends AbstractOperation {
             if (totalProcessed == 0) {
                 // must have at least one issue for a valid OperationOutcome resource
                 final String diag = "Reindex complete";
-                result.issue(Issue.builder().code(IssueType.INFORMATIONAL).severity(IssueSeverity.INFORMATION).diagnostics(com.ibm.fhir.model.type.String.of(diag)).build());
+                result.issue(Issue.builder()
+                    .code(IssueType.INFORMATIONAL)
+                    .severity(IssueSeverity.INFORMATION)
+                    .diagnostics(com.ibm.fhir.model.type.String.of(diag))
+                    .build());
             }
 
             OperationOutcome operationOutcome = result.build();
             checkOperationOutcome(operationOutcome);
             return FHIROperationUtil.getOutputParameters(operationOutcome);
+        } catch (java.time.format.DateTimeParseException dtpe) {
+            throw FHIROperationUtil.buildExceptionWithIssue("Invalid format for 'tstamp' value, only 'yyyy-MM-dd' or ISO 8601 dateTime format is valid", IssueType.INVALID);
         } catch (FHIROperationException e) {
             throw e;
         } catch (Throwable t) {

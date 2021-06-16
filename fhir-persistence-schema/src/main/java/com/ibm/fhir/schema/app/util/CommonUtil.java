@@ -137,6 +137,12 @@ public final class CommonUtil {
         ps.println("--list-tenants");
         ps.println(" * fetches list of tenants and current status");
 
+        ps.println("--revoke-all-tenant-keys");
+        ps.println(" * revokes the all of the keys for the specified tenant");
+
+        ps.println("--revoke-tenant-key");
+        ps.println(" * revokes the key for the specified tenant and tenant key");
+
         // Dry Run functionality
         ps.println("--dry-run ");
         ps.println(" * simulates the actions of the actions that change the datastore");
