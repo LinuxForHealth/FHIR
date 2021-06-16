@@ -1497,13 +1497,11 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         }
 
         String tokenValuesAlias = paramAlias;
-        boolean wholeSystemTagTextSearch = isWholeSystemSearch(resourceType) && isTagTextSearch(queryParm);
-        if (wholeSystemTagTextSearch) {
-            // For a whole-system search where we're searching against the _tag parameter
-            // text, we'll join the common token values table to the token refs table. Since the filter
-            // is using paramAlias and the filter will get ANDed to the common token values join, we
-            // need to use paramAlias as the common token values alias and generate a new alias for the
-            // resource token refs table.
+        if (isWholeSystemSearch(resourceType)) {
+            // For a whole-system search we'll join the common token values table to the token refs table.
+            // Since the filter is using paramAlias and the filter will get ANDed to the common token values
+            // join, we need to use paramAlias as the common token values alias and generate a new alias
+            // for the resource token refs table.
             tokenValuesAlias = getParamAlias(getNextAliasIndex());
         }
         
@@ -1511,25 +1509,25 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // Use a nested NOT EXISTS (...) instead of a simple join
             SelectAdapter exists = Select.select("1");
             exists.from(xxTokenValues, alias(tokenValuesAlias))
-                .where(tokenValuesAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-                .and(tokenValuesAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName));
+                .where(tokenValuesAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate with the main query
 
-            if (wholeSystemTagTextSearch) {
+            if (isWholeSystemSearch(resourceType)) {
                 // add the filter predicate to the common token values join on clause
                 exists.from().innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias), on(paramAlias, "COMMON_TOKEN_VALUE_ID")
                     .eq(tokenValuesAlias, "COMMON_TOKEN_VALUE_ID")
                     .and(filter));
             } else {
                 // add the filter predicate to the exists where clause
-                exists.from().where().and(filter);
+                exists.from().where()
+                    .and(tokenValuesAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName))
+                    .and(filter);
             }
             query.from().where().and().notExists(exists.build());
         } else {
-            if (wholeSystemTagTextSearch) {
+            if (isWholeSystemSearch(resourceType)) {
                 // Join the token refs table and the common token values table to the exists
                 query.from().innerJoin(xxTokenValues, alias(tokenValuesAlias), on(tokenValuesAlias, "LOGICAL_RESOURCE_ID")
-                    .eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                    .and(tokenValuesAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(parameterName)));
+                    .eq(lrAlias, "LOGICAL_RESOURCE_ID"));
                 query.from().innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias), on(paramAlias, "COMMON_TOKEN_VALUE_ID")
                     .eq(tokenValuesAlias, "COMMON_TOKEN_VALUE_ID")
                     .and(filter));
@@ -1555,14 +1553,23 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String paramAlias = getParamAlias(aliasIndex);
         final String lrAlias = queryData.getLRAlias(); // join to LR at the same query level
 
-        // Searches against tag text are treated like a normal token search
-        if (isTagTextSearch(queryParm)) {
+        // :text treated like a normal token
+        if (Modifier.TEXT.equals(queryParm.getModifier())) {
             return addTokenParam(queryData, resourceType, queryParm);
         }
+        
+        String tokenValuesAlias = paramAlias;
+        if (isTagValueSearch(queryParm)) {
+            // For a whole-system search or a search where we're searching against the _tag
+            // parameter value, we'll join the common token values table to the xx_TAGS table.
+            // Since the filter is using paramAlias and the filter will get ANDed to the
+            // common token values join, we need to use paramAlias as the common token values
+            // alias and generate a new alias for the xx_TAGS table.
+            tokenValuesAlias = getParamAlias(getNextAliasIndex());
+        }
 
-
-        // TAGs are stored in their own parameter table and therefore don't need a parameter_name_id
-        // but otherwise are just like any other token
+        // TAGs are stored in their own parameter table and therefore don't need a
+        // parameter_name_id but otherwise are just like any other token
         final ExpNode filter = getTokenFilter(queryParm, paramAlias).getExpression();
         final String xxTags;
         if (isWholeSystemSearch(resourceType)) {
@@ -1574,16 +1581,33 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         if (queryParm.getModifier() == Modifier.NOT || queryParm.getModifier() == Modifier.NOT_IN) {
             // Use a nested NOT EXISTS (...) instead of a simple join
             SelectAdapter exists = Select.select("1");
-            exists.from(xxTags, alias(paramAlias))
-            .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID") // correlate with the main query
-            .and(filter);
-
+            exists.from(xxTags, alias(tokenValuesAlias))
+                .where(tokenValuesAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate with the main query
+            if (isTagValueSearch(queryParm)) {
+                // Join to common token values table and add filter predicate to the common token values join on clause
+                exists.from().innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias), on(paramAlias, "COMMON_TOKEN_VALUE_ID")
+                    .eq(tokenValuesAlias, "COMMON_TOKEN_VALUE_ID")
+                    .and(filter));
+            } else {
+                // Add the filter predicate to the exists where clause
+                exists.from().where().and(filter);
+            }
             // Add as a not exists to the main query
             query.from().where().and().notExists(exists.build());
         } else {
-            // Attach the parameter table to the single parameter exists join
-            query.from().innerJoin(xxTags, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
-                .and(filter));
+            if (isTagValueSearch(queryParm)) {
+                // Join the xx_TAGS table and the common token values table to the exists
+                query.from().innerJoin(xxTags, alias(tokenValuesAlias), on(tokenValuesAlias, "LOGICAL_RESOURCE_ID")
+                    .eq(lrAlias, "LOGICAL_RESOURCE_ID"));
+                query.from().innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias), on(paramAlias, "COMMON_TOKEN_VALUE_ID")
+                    .eq(tokenValuesAlias, "COMMON_TOKEN_VALUE_ID")
+                    .and(filter));
+            } else {
+                // Attach the parameter table to the single parameter exists join
+                query.from().innerJoin(xxTags, alias(tokenValuesAlias), on(tokenValuesAlias, "LOGICAL_RESOURCE_ID")
+                    .eq(lrAlias, "LOGICAL_RESOURCE_ID")
+                    .and(filter));
+            }
         }
 
         // We're not changing the level, so we return the same queryData we were given
@@ -2349,14 +2373,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
     /**
      * Check if query parameter is a _tag parameter whose modifier requires
-     * search of the tag's text.
+     * search of the tag's value.
      * @param queryParm
-     * @return true if tag text search, false otherwise
+     * @return true if tag value search, false otherwise
      */
-    private boolean isTagTextSearch(QueryParameter queryParm) {
+    private boolean isTagValueSearch(QueryParameter queryParm) {
         return PARAM_NAME_TAG.equals(queryParm.getCode()) &&
-                (Modifier.TEXT.equals(queryParm.getModifier()) ||
-                 Modifier.IN.equals(queryParm.getModifier()) ||
+                (Modifier.IN.equals(queryParm.getModifier()) ||
                  Modifier.NOT_IN.equals(queryParm.getModifier()) ||
                  Modifier.ABOVE.equals(queryParm.getModifier()) ||
                  Modifier.BELOW.equals(queryParm.getModifier()));
