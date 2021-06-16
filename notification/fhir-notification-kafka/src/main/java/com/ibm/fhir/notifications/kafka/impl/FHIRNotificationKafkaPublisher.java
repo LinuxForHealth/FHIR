@@ -121,8 +121,8 @@ public class FHIRNotificationKafkaPublisher implements FHIRNotificationSubscribe
                 LOG.fine("Publishing kafka notification event to topic '" + topicId + "',\nmessage: " + jsonString);
             }
 
-            boolean sysnc = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_SYNC, false);
-            if (sysnc) {
+            boolean sync = FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_SYNC, false);
+            if (!sync) {
                 producer.send(new ProducerRecord<String, String>(topicName, jsonString), new KafkaPublisherCallback(event, jsonString, topicId));
                 if (LOG.isLoggable(Level.FINE)) {
                     LOG.fine("Returned from async kafka send...");
