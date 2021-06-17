@@ -217,6 +217,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * After insert, the generated primary key is acquired and set in the Resource object.
      * @param resource A Resource Data Transfer Object
      * @param parameters A collection of search parameters to be persisted along with the passed Resource
+     * @param parameterHashB64 Base64 encoded SHA-256 hash of parameters
      * @param parameterDao The Parameter DAO
      * @return Resource The Resource DTO
      * @throws FHIRPersistenceDataAccessException
@@ -224,6 +225,6 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceVersionIdMismatchException
      * @throws FHIRPersistenceException
      */
-    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException;
 }

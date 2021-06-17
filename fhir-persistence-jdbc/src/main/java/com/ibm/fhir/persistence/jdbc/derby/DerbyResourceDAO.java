@@ -82,6 +82,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * by sql.
      * @param resource The FHIR Resource to be inserted.
      * @param parameters The Resource's search parameters to be inserted.
+     * @oaram parameterHashB64
      * @param parameterDao
      * @return The Resource DTO
      * @throws FHIRPersistenceDataAccessException
@@ -89,7 +90,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @throws FHIRPersistenceVersionIdMismatchException
      */
     @Override
-    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource  insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -129,6 +130,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 resource.isDeleted(),
                 sourceKey,
                 resource.getVersionId(),
+                parameterHashB64,
                 connection,
                 parameterDao
                 );
@@ -194,12 +196,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param p_is_deleted
      * @param p_source_key
      * @param p_version
+     * @param p_parameterHashB64 Base64 encoded parameter hash value
      *
      * @return the resource_id for the entry we created
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version, Connection conn, ParameterDAO parameterDao) throws Exception {
+        String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, ParameterDAO parameterDao) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -211,6 +214,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         boolean v_not_found = false;
         boolean v_duplicate = false;
         int v_current_version;
+
+        // used to bypass param delete/insert if all param values are the same
+        String currentParameterHash = null;
+        boolean requireParameterUpdate = true;
 
         String v_resource_type = tablePrefix;
 
@@ -245,7 +252,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         if (logger.isLoggable(Level.FINEST)) {
             logger.finest("Getting LOGICAL_RESOURCES row lock for: " + v_resource_type + "/" + p_logical_id);
         }
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE WITH RS";
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR UPDATE WITH RS";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
             stmt.setString(2, p_logical_id);
@@ -255,6 +262,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                     logger.finest("Resource locked: " + v_resource_type + "/" + p_logical_id);
                 }
                 v_logical_resource_id = rs.getLong(1);
+                currentParameterHash = rs.getString(2);
             }
             else {
                 if (logger.isLoggable(Level.FINEST)) {
@@ -287,7 +295,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Creating new logical_resources row for: " + v_resource_type + "/" + p_logical_id);
                 }
-                final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated) VALUES (?, ?, ?, ?, ?, ?)";
+                final String sql4 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, is_deleted, last_updated, parameter_hash) VALUES (?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement stmt = conn.prepareStatement(sql4)) {
                     // bind parameters
                     stmt.setLong(1, v_logical_resource_id);
@@ -296,6 +304,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                     stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
                     stmt.setString(5, p_is_deleted ? "Y" : "N"); // from V0014
                     stmt.setTimestamp(6, p_last_updated, UTC);   // from V0014
+                    stmt.setString(7, p_parameterHashB64);       // from V0015
                     stmt.executeUpdate();
 
                     if (logger.isLoggable(Level.FINEST)) {
@@ -333,16 +342,15 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                                 logger.finest("Resource locked: " + v_resource_type + "/" + p_logical_id);
                             }
                             v_logical_resource_id = res.getLong(1);
+                            currentParameterHash = res.getString(2);
                             res.next();
-                        }
-                        else {
+                        } else {
                             // Extremely unlikely as we should never delete logical resource records
                             throw new IllegalStateException("Logical resource was deleted: " + tablePrefix + "/" + p_logical_id);
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 v_new_resource = true;
 
                 // Insert the resource-specific logical resource record. Remember that logical_id is denormalized
@@ -402,22 +410,26 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
                 throw new SQLException("Concurrent update - mismatch of version in JSON", "99001");
             }
 
-            // existing resource, so need to delete all its parameters
-            deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
+            // existing resource, so need to delete all its parameters unless they share
+            // an identical hash, in which case we can bypass the delete/insert
+            requireParameterUpdate = currentParameterHash == null || currentParameterHash.isEmpty() || !currentParameterHash.equals(p_parameterHashB64);
+            if (requireParameterUpdate) {
+                deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
+                deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
 
-            // delete any system level parameters we have for this resource
-            deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
-            deleteFromParameterTable(conn, "logical_resource_profiles", v_logical_resource_id);
-            deleteFromParameterTable(conn, "logical_resource_tags", v_logical_resource_id);
+                // delete any system level parameters we have for this resource
+                deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
+                deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
+                deleteFromParameterTable(conn, "logical_resource_profiles", v_logical_resource_id);
+                deleteFromParameterTable(conn, "logical_resource_tags", v_logical_resource_id);
+            }
         }
 
         // Finally we get to the big resource data insert
@@ -460,12 +472,13 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
             // For schema V0014, now we also need to update the is_deleted and last_updated values
             // in LOGICAL_RESOURCES to support whole-system search
-            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
+            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql4b)) {
                 // bind parameters
                 stmt.setString(1, p_is_deleted ? "Y" : "N");
                 stmt.setTimestamp(2, p_last_updated, UTC);
-                stmt.setLong(3, v_logical_resource_id);
+                stmt.setString(3, p_parameterHashB64);
+                stmt.setLong(4, v_logical_resource_id);
                 stmt.executeUpdate();
                 if (logger.isLoggable(Level.FINEST)) {
                     logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
@@ -476,7 +489,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
         // To keep things simple for the Derby use-case, we just use a visitor to
         // handle inserts of parameters directly in the resource parameter tables.
         // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null) {
+        if (parameters != null && requireParameterUpdate) {
             // Derby doesn't support partitioned multi-tenancy, so we disable it on the DAO:
             if (logger.isLoggable(Level.FINEST)) {
                 logger.finest("Storing parameters for: " + v_resource_type + "/" + p_logical_id);

@@ -106,6 +106,8 @@ public class FhirSchemaConstants {
     public static final String VERSION = "VERSION";
     public static final String IS_DELETED = "IS_DELETED";
     public static final String LAST_UPDATED = "LAST_UPDATED";
+    public static final String PARAMETER_HASH = "PARAMETER_HASH";
+    public static final int PARAMETER_HASH_BYTES = 44; // For SHA-256 encoded as Base64
     public static final String PARAMETER_NAME = "PARAMETER_NAME";
     public static final String PARAMETER_NAME_ID = "PARAMETER_NAME_ID";
     public static final String STR_VALUE = "STR_VALUE";

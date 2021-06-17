@@ -84,7 +84,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @throws FHIRPersistenceVersionIdMismatchException
      */
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -95,6 +95,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
+        boolean requireParameterUpdate = true;
 
         try {
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());

@@ -410,8 +410,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
             // Persist the Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterHashB64, parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -596,8 +597,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             zipStream.close();
 
             // Persist the Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterHashB64, parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -1418,8 +1420,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, null, null);
+            resourceDao.insert(resourceDTO, null, parameterHashB64, null);
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()

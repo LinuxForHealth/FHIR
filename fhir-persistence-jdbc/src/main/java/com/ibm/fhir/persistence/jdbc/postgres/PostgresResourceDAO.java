@@ -53,7 +53,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(CLASSNAME);
 
     private static final String SQL_READ_RESOURCE_TYPE = "{CALL %s.add_resource_type(?, ?)}";
-    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?)}";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "{CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?)}";
 
     // DAO used to obtain sequence values from FHIR_REF_SEQUENCE
     private FhirRefSequenceDAO fhirRefSequenceDAO;
@@ -76,7 +76,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
      * @throws FHIRPersistenceException
      */
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue, ParameterDAO>";
         logger.entering(CLASSNAME, METHODNAME);
@@ -115,19 +115,23 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setString(6, UUID.randomUUID().toString());
             stmt.setInt(7, resource.getVersionId());
-            stmt.registerOutParameter(8, Types.BIGINT);
+            stmt.setString(8, parameterHashB64);
+            stmt.registerOutParameter(9, Types.BIGINT);
+            stmt.registerOutParameter(10, Types.VARCHAR); // The old parameter_hash
 
             dbCallStartTime = System.nanoTime();
             stmt.execute();
             dbCallDuration = (System.nanoTime()-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(8));
+            resource.setId(stmt.getLong(9));
 
             // Parameter time
             // To keep things simple for the postgresql use-case, we just use a visitor to
             // handle inserts of parameters directly in the resource parameter tables.
             // Note we don't get any parameters for the resource soft-delete operation
-            if (parameters != null) {
+            final String currentParameterHash = stmt.getString(10);
+            if (parameters != null && (parameterHashB64 == null || parameterHashB64.isEmpty()
+                    || !parameterHashB64.equals(currentParameterHash))) {
                 // postgresql doesn't support partitioned multi-tenancy, so we disable it on the DAO:
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, resource.getResourceType(), false, resource.getId(), 100,

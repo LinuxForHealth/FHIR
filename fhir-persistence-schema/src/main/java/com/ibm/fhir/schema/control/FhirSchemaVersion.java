@@ -29,6 +29,7 @@ public enum FhirSchemaVersion {
     ,V0012(12, "issue-2109 add VERSION_ID to each xxx_LOGICAL_RESOURCES table")
     ,V0013(13, "Add $erase operation for hard delete scenarios")
     ,V0014(14, "whole-system search and canonical references")
+    ,V0015(15, "issue-2155 add parameter hash to bypass update during reindex")
     ;
 
     // The version number recorded in the VERSION_HISTORY

@@ -539,7 +539,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert(Resource, List<ExtractedParameterValue>";
         log.entering(CLASSNAME, METHODNAME);

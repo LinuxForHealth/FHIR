@@ -40,6 +40,8 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_T
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_HASH_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
@@ -518,6 +520,7 @@ public class FhirSchemaGenerator {
                 .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
                 .addTimestampColumn(LAST_UPDATED, true)                         // new column for V0014
                 .addCharColumn(IS_DELETED, 1, false, "'X'")
+                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)           // new column for V0015
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
@@ -526,7 +529,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setVersion(FhirSchemaVersion.V0015.vid())
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -567,6 +570,17 @@ public class FhirSchemaGenerator {
                         List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(LAST_UPDATED, OrderedColumnDef.Direction.ASC, null));
                         statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_LUPD, tableName, mtId, indexCols));
                     }
+
+
+                    if (priorVersion < FhirSchemaVersion.V0015.vid()) {
+                        // Add PARAM_HASH logical_resources
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)
+                                .buildColumns();
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                    }
+
+
                     return statements;
                 })
                 .build(pdm);
