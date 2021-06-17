@@ -557,17 +557,24 @@ Field name     | Type   | Description
 `lastUpdated`  | String | The date and time of the last update made to the resource associated with the notification event.
 `resourceId`   | String | The logical id of the resource associated with the notification event.
 `resource`     | String | A stringified JSON object which is the resource associated with the notification event.
+`tenantId`     | String | The tenant that generated this notification
+`datasourceId` | String | The datasource used by the tenant
 
 The following JSON is an example of a serialized notification event:
+
 ```
 {
   "lastUpdated":"2016-06-01T10:36:23.232-05:00",
   "location":"Observation/3859/_history/1",
   "operationType":"create",
   "resourceId":"3859",
+  "tenantId":"default",
+  "datasourceId":"default",
   "resource":{ …<contents of resource>… }
 }
 ```
+
+If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta` and `resourceType` and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
 
 ### 4.2.2 WebSocket
 The WebSocket implementation of the notification service will publish notification event messages to a WebSocket. To enable WebSocket notifications, set the `fhirServer/notifications/websocket/enabled` property to `true`, as in the following example:
@@ -629,6 +636,8 @@ In the `connectionProperties` property group in preceding example, you'll notice
 Before you enable Kafka notifications, it's important to understand the topology of the environment in which the FHIR server instance will be running. Your topic name selection should be done in consideration of the topology. If you have multiple instances of the FHIR server clustered together to form a single logical endpoint, then each of those instances should be configured to use the same Kafka topic for notifications. This is so that notification consumers (subscribers) can subscribe to a single topic and receive all the notifications published by each of the FHIR server instances within the cluster.
 
 On the other hand, if you have two completely independent FHIR server instances, then you should configure each one with its own topic name.
+
+The FHIRNotificationEvent is asynchronous by default. If you want to specify a synchronous request, you can set `fhirServer/notifications/kafka/sync` to true, which ensures no message is lost in publishing, however it does add latency in each request.
 
 ### 4.2.3 NATS
 The [NATS](http://nats.io) implementation of the notification service publishes notification event messages to a NATS streaming cluster. To configure the NATS notification publisher, configure properties in the `fhir-server-config.json` file as shown in the following example:
@@ -1995,8 +2004,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|The maximum size in byte of the notification that should be sent|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|The behavior of the notification framework when a notification is over the maxNotificationSizeBytes. Valid values are subset and omit|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
+|`fhirServer/notifications/kafka/sync`|boolean|A boolean flag which indicates whether or not the FHIRNotificationEvent is sent in a synchronous mode|
 |`fhirServer/notifications/kafka/topicName`|string|The name of the topic to which kafka notification event messages should be published.|
 |`fhirServer/notifications/kafka/connectionProperties`|property list|A group of connection properties used to configure the KafkaProducer. These properties are used as-is when instantiating the KafkaProducer used by the FHIR server for publishing notification event messages.|
 |`fhirServer/notifications/nats/enabled`|boolean|A boolean flag which indicates whether or not NATS notifications are enabled.|
@@ -2142,8 +2154,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|1000000|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|subset|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
+|`fhirServer/notifications/kafka/sync`|false|
 |`fhirServer/notifications/kafka/topicName`|fhirNotifications|
 |`fhirServer/notifications/kafka/connectionProperties`|`{}`|
 |`fhirServer/notifications/nats/enabled`|false|
@@ -2279,8 +2294,11 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|N|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
+|`fhirServer/notifications/kafka/sync`|Y|N|
 |`fhirServer/notifications/kafka/topicName`|N|N|
 |`fhirServer/notifications/kafka/connectionProperties`|N|N|
 |`fhirServer/notifications/nats/enabled`|N|N|
