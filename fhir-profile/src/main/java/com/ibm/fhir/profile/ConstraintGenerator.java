@@ -277,6 +277,21 @@ public class ConstraintGenerator {
                 sb.append(".where(");
             }
             sb.append(generate(node.children));
+
+            if (isSlice(elementDefinition) && hasConstraintKeys(elementDefinition)) {
+                // append slice specific constraints
+                StringJoiner joiner = new StringJoiner(" and ");
+                for (String key : getConstraintKeys(elementDefinition)) {
+                    String expr = getConstraintExpression(elementDefinition, key);
+                    if (expr != null) {
+                        joiner.add("(" + expr + ")");
+                    }
+                }
+                if (joiner.length() > 0) {
+                    sb.append(" and ").append(joiner.toString());
+                }
+            }
+
             sb.append(")");
         }
 
@@ -677,6 +692,31 @@ public class ConstraintGenerator {
         return sb.toString();
     }
 
+    private ElementDefinition getBaseDefinition(ElementDefinition elementDefinition) {
+        String basePath = elementDefinition.getBase().getPath().getValue();
+        return ProfileSupport.getElementDefinition(basePath);
+    }
+
+    private String getConstraintExpression(ElementDefinition elementDefinition, String key) {
+        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+            if (constraint.getKey() != null &&
+                    constraint.getKey().getValue() != null &&
+                    constraint.getKey().getValue().equals(key) &&
+                    constraint.getExpression() != null &&
+                    constraint.getExpression().getValue() != null) {
+                return constraint.getExpression().getValue();
+            }
+        }
+        return null;
+    }
+
+    private Set<String> getConstraintKeys(ElementDefinition elementDefinition) {
+        Set<String> keys = new HashSet<>(ProfileSupport.getConstraintKeys(elementDefinition));
+        keys.removeAll(ProfileSupport.getConstraintKeys(getBaseDefinition(elementDefinition)));
+        keys.removeAll(ProfileSupport.getReferencedProfileConstraintKeys(elementDefinition));
+        return keys;
+    }
+
     private String getExtensionUrl(Node node) {
         for (Node child : node.children) {
             if (isExtensionUrl(child.elementDefinition) && child.elementDefinition.getFixed() instanceof Uri) {
@@ -795,6 +835,10 @@ public class ConstraintGenerator {
             }
         }
         return false;
+    }
+
+    private boolean hasConstraintKeys(ElementDefinition elementDefinition) {
+        return !getConstraintKeys(elementDefinition).isEmpty();
     }
 
     private boolean hasDiscriminatorPath(ElementDefinition slice, String path) {

@@ -67,13 +67,13 @@ public final class ProfileSupport {
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         Objects.requireNonNull(profile.getSnapshot(), "StructureDefinition.snapshot element is required");
         List<Constraint> constraints = new ArrayList<>();
-        Set<String> difference = new HashSet<>(getKeys(profile));
-        difference.removeAll(getKeys(getStructureDefinition(type)));
+        Set<String> difference = new HashSet<>(getConstraintKeys(profile));
+        difference.removeAll(getConstraintKeys(getStructureDefinition(type)));
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
-            if (elementDefinition.getConstraint().isEmpty()) {
+            if (elementDefinition.getConstraint().isEmpty() || isSlice(elementDefinition)) {
                 continue;
             }
-            Set<String> profileKeys = getProfileKeys(elementDefinition);
+            Set<String> profileKeys = getReferencedProfileConstraintKeys(elementDefinition);
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
                 String key = constraint.getKey().getValue();
@@ -88,7 +88,11 @@ public final class ProfileSupport {
         return constraints;
     }
 
-    private static Set<String> getProfileKeys(ElementDefinition elementDefinition) {
+    public static boolean isSlice(ElementDefinition elementDefinition) {
+        return elementDefinition.getSliceName() != null;
+    }
+
+    public static Set<String> getReferencedProfileConstraintKeys(ElementDefinition elementDefinition) {
         Set<String> profileKeys = new HashSet<>();
         for (Type type : elementDefinition.getType()) {
             for (Canonical canonical : type.getProfile()) {
@@ -100,7 +104,7 @@ public final class ProfileSupport {
                 if (profile == null || profile.getSnapshot() == null) {
                     continue;
                 }
-                profileKeys.addAll(getKeys(profile.getSnapshot().getElement().get(0)));
+                profileKeys.addAll(getConstraintKeys(profile.getSnapshot().getElement().get(0)));
             }
         }
         return profileKeys;
@@ -289,16 +293,16 @@ public final class ProfileSupport {
         return elementDefinitionMap;
     }
 
-    private static Set<String> getKeys(StructureDefinition structureDefinition) {
+    public static Set<String> getConstraintKeys(StructureDefinition structureDefinition) {
         Set<String> keys = new HashSet<>();
         Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
         for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
-            keys.addAll(getKeys(elementDefinition));
+            keys.addAll(getConstraintKeys(elementDefinition));
         }
         return keys;
     }
 
-    private static Set<String> getKeys(ElementDefinition elementDefinition) {
+    public static Set<String> getConstraintKeys(ElementDefinition elementDefinition) {
         Set<String> keys = new HashSet<>();
         for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
             keys.add(constraint.getKey().getValue());
