@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -67,5 +67,18 @@ public abstract class FHIRPathAbstractFunction implements FHIRPathFunction {
     @Override
     public int hashCode() {
         return Objects.hash(getName(), getMinArity(), getMaxArity());
+    }
+
+    protected Collection<FHIRPathNode> getCachedFunctionResult(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        return evaluationContext.getCachedFunctionResult(getName(), context, arguments);
+    }
+
+    protected Collection<FHIRPathNode> cacheFunctionResult(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments, Collection<FHIRPathNode> result) {
+        evaluationContext.cacheFunctionResult(getName(), context, arguments, result);
+        return result;
+    }
+
+    protected boolean hasCachedFunctionResult(EvaluationContext evaluationContext, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+        return evaluationContext.hasCachedFunctionResult(getName(), context, arguments);
     }
 }
