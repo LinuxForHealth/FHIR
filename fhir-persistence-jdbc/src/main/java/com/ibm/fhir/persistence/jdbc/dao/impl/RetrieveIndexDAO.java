@@ -31,6 +31,7 @@ public class RetrieveIndexDAO {
 
     private final IDatabaseTranslator translator;
     private final String schemaName;
+    private final String resourceTypeName;
     private final int count;
     private final Long afterLogicalResourceId;
     private final Instant notModifiedAfter;
@@ -39,13 +40,15 @@ public class RetrieveIndexDAO {
      * Public constructor.
      * @param tx translator
      * @param schemaName schema name
+     * @param resourceTypeName the resource type of index IDs to return, or null
      * @param count maximum number of index IDs to return
      * @param notModifiedAfter only return resources last updated at or before the specified instant, or null
      * @param afterIndexId only return index IDs after this index ID, or null
      */
-    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, int count, Instant notModifiedAfter, Long afterIndexId) {
+    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) {
         this.translator = tx;
         this.schemaName = schemaName;
+        this.resourceTypeName = resourceTypeName;
         this.count = count;
         this.afterLogicalResourceId = afterIndexId;
         this.notModifiedAfter = notModifiedAfter;
@@ -61,28 +64,42 @@ public class RetrieveIndexDAO {
         List<Long> logicalResourceIds = new ArrayList<>();
 
         StringBuilder query = new StringBuilder();
-        query.append(" SELECT lr.logical_resource_id")
-            .append(" FROM ")
-            .append(schemaName).append(".logical_resources lr ")
-            .append(" WHERE lr.is_deleted = 'N' ")
-            .append(" AND lr.last_updated <= ? ");
-            ;
+        query.append(" SELECT lr.logical_resource_id");
+        query.append(" FROM ");
+        if (resourceTypeName != null) {
+            query.append(schemaName).append(".resource_types rt, ");
+        }
+        query.append(schemaName).append(".logical_resources lr ");
 
+        query.append(" WHERE lr.is_deleted = 'N' ");
+        if (resourceTypeName != null) {
+            query.append(" AND rt.resource_type = ? ");
+            query.append(" AND rt.resource_type_id = lr.resource_type_id ");
+        }
+        if (notModifiedAfter != null) {
+            query.append(" AND lr.last_updated <= ? ");
+        }
         if (afterLogicalResourceId != null) {
             query.append(" AND lr.logical_resource_id > ? ");
         }
+
         query.append(" ORDER BY lr.logical_resource_id ");
         query.append(translator.limit(Integer.toString(count)));
 
         final String SQL = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("RETRIEVE LOGICAL RESOURCE IDS: " + SQL + "; [" + notModifiedAfter + ", " + afterLogicalResourceId + "]");
+            logger.fine("RETRIEVE LOGICAL RESOURCE IDS: " + SQL + "; [" + resourceTypeName + ", " + notModifiedAfter + ", " + afterLogicalResourceId + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             int i = 1;
-            ps.setTimestamp(i++, Timestamp.from(notModifiedAfter), UTC_CALENDAR);
+            if (resourceTypeName != null) {
+                ps.setString(i++, resourceTypeName);
+            }
+            if (notModifiedAfter != null) {
+                ps.setTimestamp(i++, Timestamp.from(notModifiedAfter), UTC_CALENDAR);
+            }
             if (afterLogicalResourceId != null) {
                 ps.setLong(i++, afterLogicalResourceId);
             }

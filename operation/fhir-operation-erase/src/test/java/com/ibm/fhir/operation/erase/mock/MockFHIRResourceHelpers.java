@@ -162,7 +162,7 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     }
 
     @Override
-    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
 
         return null;
     }

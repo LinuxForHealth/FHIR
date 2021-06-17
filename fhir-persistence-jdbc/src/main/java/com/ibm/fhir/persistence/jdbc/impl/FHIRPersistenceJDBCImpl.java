@@ -2766,13 +2766,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException {
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         final String METHODNAME = "retrieveIndex";
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), count, notModifiedAfter, afterIndexId);
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceTypeName, count, notModifiedAfter, afterIndexId);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;

@@ -341,12 +341,13 @@ public interface FHIRResourceHelpers {
     /**
      * Invoke the FHIR persistence retrieve index operation to retrieve a list of indexIds available for reindexing.
      * @param operationContext the operation context
+     * @param resourceTypeName the resource type of index IDs to return, or null
      * @param count the maximum nuber of index IDs to retrieve
      * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
      * @param afterIndexId retrieve index IDs starting after this specified ID, or null to start with first ID
      * @return list of index IDs available for reindexing
      * @throws Exception
      */
-    List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
+    List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
 
 }

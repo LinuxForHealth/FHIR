@@ -288,6 +288,8 @@ The `$retrieve-index` operation is called to retrieve index IDs of resources ava
 |`notModifiedAfter`|string|Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
 |`afterIndexId`|string|Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.|
 
+The `$retrieve-index` operation can be invoked via an HTTP(s) POST to `[base]/$retrieve-index` or `[base]/[type]/$retrieve-index`. Invoking this operation at the type-level only retrieves indexIDs for resources of that type.
+
 The `$reindex` operation is called to reindex the resources with index IDs in the specified list. The operation supports the following parameters to control the behavior:
 
 |name|type|description|

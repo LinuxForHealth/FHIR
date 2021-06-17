@@ -218,9 +218,10 @@ public interface FHIRPersistence {
      * @param count the maximum nuber of index IDs to retrieve
      * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
      * @param afterIndexId retrieve index IDs starting after this specified index ID, or null to start with first index ID
+     * @param resourceTypeName the resource type of index IDs to return, or null
      * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException;
+    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
 
 }

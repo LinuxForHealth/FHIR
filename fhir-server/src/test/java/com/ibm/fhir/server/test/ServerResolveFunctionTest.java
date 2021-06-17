@@ -422,7 +422,7 @@ public class ServerResolveFunctionTest {
         }
 
         @Override
-        public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException {
+        public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
     }

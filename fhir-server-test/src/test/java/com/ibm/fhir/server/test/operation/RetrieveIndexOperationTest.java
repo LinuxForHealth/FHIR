@@ -68,4 +68,78 @@ public class RetrieveIndexOperationTest extends FHIRServerTestBase {
 
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
     }
+
+    @Test
+    public void testRetrieveIndex_type() {
+        WebTarget target = getWebTarget();
+        target = target.path("/Patient/$retrieve-index");
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(
+            Parameter.builder()
+                .name(string("_count"))
+                .value(of(5))
+                .build());
+        parameters.add(
+            Parameter.builder()
+                .name(string("notModifiedAfter"))
+                .value(string(Instant.now().toString()))
+                .build());
+        parameters.add(
+            Parameter.builder()
+                .name(string("afterIndexId"))
+                .value(string("8"))
+                .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
+
+    @Test
+    public void testRetrieveIndex_invalidType() {
+        WebTarget target = getWebTarget();
+        target = target.path("/Resource/$retrieve-index");
+
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(
+            Parameter.builder()
+                .name(string("_count"))
+                .value(of(5))
+                .build());
+        parameters.add(
+            Parameter.builder()
+                .name(string("notModifiedAfter"))
+                .value(string(Instant.now().toString()))
+                .build());
+        parameters.add(
+            Parameter.builder()
+                .name(string("afterIndexId"))
+                .value(string("8"))
+                .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.BAD_REQUEST.getStatusCode());
+    }
 }

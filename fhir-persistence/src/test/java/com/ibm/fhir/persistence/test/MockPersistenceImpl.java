@@ -101,7 +101,7 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws FHIRPersistenceException {
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         return Collections.emptyList();
     }
 }

@@ -3477,14 +3477,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception {
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception {
         List<Long> indexIds = null;
 
         FHIRTransactionHelper txn = null;
         try {
             txn = new FHIRTransactionHelper(getTransaction());
             txn.begin();
-            indexIds = persistence.retrieveIndex(count, notModifiedAfter, afterIndexId);
+            indexIds = persistence.retrieveIndex(count, notModifiedAfter, afterIndexId, resourceTypeName);
         } finally {
             if (txn != null) {
                 txn.end();
