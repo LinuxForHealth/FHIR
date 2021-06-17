@@ -32,37 +32,40 @@ public class InteropWorkload {
 
     // The scenario we use to process each randomly picked patient
     private final IPatientScenario patientScenario;
-    
+
     // the maximum number of requests we permit
     private final int maxConcurrentRequests;
-    
+
     private final Lock lock = new ReentrantLock();
     private final Condition capacityCondition = lock.newCondition();
-    
+
     private volatile int runningRequests;
-    
+
     private volatile boolean running = true;
 
     // The thread running the main loop
     private Thread thread;
-    
+
     // How many patients should we load into the buffer
     private final int patientBufferSize;
-    
+
+    // How many times should we use the same set of patient ids?
+    private final int bufferRecycleCount;
+
     // Access to the FHIRBATCH schema
     private final DataAccess dataAccess;
 
     // thread pool for processing requests
     private final ExecutorService pool = Executors.newCachedThreadPool();
-    
+
     // for picking random patient ids
     private final SecureRandom random = new SecureRandom();
-    
+
     private long statsResetTime = -1;
     private final AtomicInteger fhirRequests = new AtomicInteger();
     private final AtomicLong fhirRequestTime = new AtomicLong();
     private final AtomicInteger resourceCount = new AtomicInteger();
-    
+
     // how many nanoseconds between stats reports
     private static final long STATS_REPORT_TIME = 10L * 1000000000L;
 
@@ -71,13 +74,17 @@ public class InteropWorkload {
      * @param client
      * @param maxConcurrentRequests
      */
-    public InteropWorkload(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize) {
+    public InteropWorkload(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize, int bufferRecycleCount) {
+        if (bufferRecycleCount < 1) {
+            throw new IllegalArgumentException("bufferRecycleCount must be >= 1");
+        }
         this.dataAccess = dataAccess;
         this.patientScenario = patientScenario;
         this.maxConcurrentRequests = maxConcurrentRequests;
         this.patientBufferSize = patientBufferSize;
+        this.bufferRecycleCount = bufferRecycleCount;
     }
-    
+
 
     /**
      * Start the main loop
@@ -90,10 +97,10 @@ public class InteropWorkload {
         thread = new Thread(() -> mainLoop());
         thread.start();
     }
-    
+
     public void signalStop() {
         this.running = false;
-        
+
         lock.lock();
         try {
             // wake up the thread if it's waiting on the capacity condition
@@ -101,17 +108,17 @@ public class InteropWorkload {
         } finally {
             lock.unlock();
         }
-        
-        
+
+
         // try to break into any IO operation for a quicker exit
         if (thread != null) {
             thread.interrupt();
         }
-        
+
         // make sure the pool doesn't start new work
         pool.shutdown();
     }
-    
+
     /**
      * Wait until things are stopped
      */
@@ -119,20 +126,20 @@ public class InteropWorkload {
         if (this.running) {
             signalStop();
         }
-        
+
         try {
             pool.awaitTermination(5, TimeUnit.SECONDS);
         } catch (InterruptedException x) {
             logger.warning("Wait for pool shutdown interrupted");
         }
     }
-    
+
     /**
      * The main loop in this object which starts when {@link #init()} is called
      * and will run until {@link #shutdown()}.
      */
     protected void mainLoop() {
-        
+
         // How many samples have we taken from the current buffer?
         int samples = 0;
         // The list of patientIds we process
@@ -142,13 +149,13 @@ public class InteropWorkload {
         while (this.running) {
 
             try {
-                if (patientIdBuffer.isEmpty() || samples > patientIdBuffer.size()) {
+                if (patientIdBuffer.isEmpty() || samples > patientIdBuffer.size() * this.bufferRecycleCount) {
                     // Refill the buffer of patient ids. There might be more available now
                     patientIdBuffer.clear();
                     samples = 0;
                     dataAccess.selectRandomPatientIds(patientIdBuffer, this.patientBufferSize);
                 }
-    
+
                 // calculate how many requests we want to submit from the buffer, based
                 // on the maxConcurrentRequests.
                 int batchSize = 0;
@@ -157,8 +164,8 @@ public class InteropWorkload {
                     while (running && runningRequests == maxConcurrentRequests) {
                         capacityCondition.await(5, TimeUnit.SECONDS);
                     }
-                    
-                    // Submit as many requests as we have available. If we have a small 
+
+                    // Submit as many requests as we have available. If we have a small
                     // patient buffer, then patients are more likely to be picked more than once
                     int freeCapacity = maxConcurrentRequests - runningRequests;
                     batchSize = Math.min(patientIdBuffer.size(), freeCapacity);
@@ -171,7 +178,7 @@ public class InteropWorkload {
                 } finally {
                     lock.unlock();
                 }
-    
+
                 // Submit a request for each allocated patient to the thread pool
                 for (int i=0; i<batchSize && running; i++) {
                     // pick a random patient id in the buffer
@@ -180,7 +187,7 @@ public class InteropWorkload {
                     samples++; // track how many times we've sampled from the buffer
                     pool.submit(() -> processPatientThr(patientId));
                 }
-                
+
                 long now = System.nanoTime();
                 if (now >= nextStatsReport) {
                     // Time to report average throughput stats
@@ -191,10 +198,10 @@ public class InteropWorkload {
                     if (this.fhirRequests.get() > 0) {
                         avgResponseTime = this.fhirRequestTime.get() / 1e9 / this.fhirRequests.get();
                     }
-                    
-                    logger.info(String.format("STATS: FHIR=%7.1f calls/s, rate=%7.1f resources/s, response time=%5.3f s", 
+
+                    logger.info(String.format("STATS: FHIR=%7.1f calls/s, rate=%7.1f resources/s, response time=%5.3f s",
                         avgCallPerSecond, avgResourcesPerSecond, avgResponseTime));
-                    
+
                     // Reset the stats for the next report window
                     statsStartTime = now;
                     nextStatsReport = now + STATS_REPORT_TIME;
@@ -231,7 +238,7 @@ public class InteropWorkload {
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("Processing patient: '" + patientId + "'");
             }
-            
+
             patientScenario.process(patientId, fhirRequests, fhirRequestTime, resourceCount);
         } catch (Exception x) {
             logger.log(Level.SEVERE, "Processing patient '" + patientId + "'" , x);

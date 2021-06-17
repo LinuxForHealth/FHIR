@@ -195,6 +195,12 @@ public class Main {
     // How many reindex calls should we run in parallel
     private int reindexConcurrentRequests = 1;
 
+    // The number of patients to fetch into the buffer
+    private int patientBufferSize = 500000;
+
+    // How many times should we cycle through the patient buffer before refilling
+    private int bufferRecycleCount = 1;
+
     /**
      * Parse command line arguments
      * @param args
@@ -365,6 +371,20 @@ public class Main {
                     this.maxResourcesPerBundle = Integer.parseInt(args[++i]);
                 } else {
                     throw new IllegalArgumentException("missing value for --max-resources-per-bundle");
+                }
+                break;
+            case "--patient-buffer-size":
+                if (i < args.length + 1) {
+                    this.patientBufferSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --patient-buffer-size");
+                }
+                break;
+            case "--buffer-recycle-count":
+                if (i < args.length + 1) {
+                    this.bufferRecycleCount = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --buffer-recycle-count");
                 }
                 break;
             case "--incremental":
@@ -836,7 +856,7 @@ public class Main {
         if (this.concurrentPayerRequests > 0 && fhirClient != null) {
             // set up the CMS payer thread to add some read-load to the system
             InteropScenario scenario = new InteropScenario(this.fhirClient);
-            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, 500000);
+            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, this.patientBufferSize, this.bufferRecycleCount);
             cmsPayerWorkload.init();
         }
 
