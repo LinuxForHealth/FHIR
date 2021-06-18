@@ -12,6 +12,8 @@ import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_P
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
+import static com.ibm.fhir.profile.ProfileSupport.isSlice;
+import static com.ibm.fhir.profile.ProfileSupport.isSliceDefinition;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -278,13 +280,12 @@ public class ConstraintGenerator {
             }
             sb.append(generate(node.children));
 
-            if (isSlice(elementDefinition) && hasConstraintKeys(elementDefinition)) {
+            if (isSlice(elementDefinition)) {
                 // append slice specific constraints
                 StringJoiner joiner = new StringJoiner(" and ");
-                for (String key : getConstraintKeys(elementDefinition)) {
-                    String expr = getConstraintExpression(elementDefinition, key);
-                    if (expr != null) {
-                        joiner.add("(" + expr + ")");
+                for (ElementDefinition.Constraint constraint : ProfileSupport.getConstraintDifferential(elementDefinition)) {
+                    if (constraint.getExpression() != null && constraint.getExpression().getValue() != null) {
+                        joiner.add("(" + constraint.getExpression().getValue() + ")");
                     }
                 }
                 if (joiner.length() > 0) {
@@ -579,6 +580,10 @@ public class ConstraintGenerator {
         String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
         sb.append("conformsTo('").append(profile).append("')");
 
+        if (hasChildren(node)) {
+            sb.append(" and ").append(generate(node.children));
+        }
+
         if (isRepeating(elementDefinition)) {
             sb.append(")");
             if (isSlice(elementDefinition) && !discriminator) {
@@ -690,31 +695,6 @@ public class ConstraintGenerator {
         }
 
         return sb.toString();
-    }
-
-    private ElementDefinition getBaseDefinition(ElementDefinition elementDefinition) {
-        String basePath = elementDefinition.getBase().getPath().getValue();
-        return ProfileSupport.getElementDefinition(basePath);
-    }
-
-    private String getConstraintExpression(ElementDefinition elementDefinition, String key) {
-        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-            if (constraint.getKey() != null &&
-                    constraint.getKey().getValue() != null &&
-                    constraint.getKey().getValue().equals(key) &&
-                    constraint.getExpression() != null &&
-                    constraint.getExpression().getValue() != null) {
-                return constraint.getExpression().getValue();
-            }
-        }
-        return null;
-    }
-
-    private Set<String> getConstraintKeys(ElementDefinition elementDefinition) {
-        Set<String> keys = new HashSet<>(ProfileSupport.getConstraintKeys(elementDefinition));
-        keys.removeAll(ProfileSupport.getConstraintKeys(getBaseDefinition(elementDefinition)));
-        keys.removeAll(ProfileSupport.getReferencedProfileConstraintKeys(elementDefinition));
-        return keys;
     }
 
     private String getExtensionUrl(Node node) {
@@ -835,10 +815,6 @@ public class ConstraintGenerator {
             }
         }
         return false;
-    }
-
-    private boolean hasConstraintKeys(ElementDefinition elementDefinition) {
-        return !getConstraintKeys(elementDefinition).isEmpty();
     }
 
     private boolean hasDiscriminatorPath(ElementDefinition slice, String path) {
@@ -1005,14 +981,6 @@ public class ConstraintGenerator {
             return ModelSupport.isResourceType(s);
         }
         return false;
-    }
-
-    private boolean isSlice(ElementDefinition elementDefinition) {
-        return elementDefinition.getSliceName() != null;
-    }
-
-    private boolean isSliceDefinition(ElementDefinition elementDefinition) {
-        return elementDefinition.getSlicing() != null;
     }
 
     private boolean isStringElement(ElementDefinition elementDefinition) {

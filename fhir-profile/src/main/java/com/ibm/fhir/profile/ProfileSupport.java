@@ -67,19 +67,13 @@ public final class ProfileSupport {
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         Objects.requireNonNull(profile.getSnapshot(), "StructureDefinition.snapshot element is required");
         List<Constraint> constraints = new ArrayList<>();
-        Set<String> difference = new HashSet<>(getConstraintKeys(profile));
-        difference.removeAll(getConstraintKeys(getStructureDefinition(type)));
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             if (elementDefinition.getConstraint().isEmpty() || isSlice(elementDefinition)) {
                 continue;
             }
-            Set<String> profileKeys = getReferencedProfileConstraintKeys(elementDefinition);
             String path = elementDefinition.getPath().getValue();
-            for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                String key = constraint.getKey().getValue();
-                if (difference.contains(key) && !profileKeys.contains(key)) {
-                    constraints.add(createConstraint(path, constraint));
-                }
+            for (ElementDefinition.Constraint constraint : getConstraintDifferential(elementDefinition)) {
+                constraints.add(createConstraint(path, constraint));
             }
         }
         Collections.sort(constraints, CONSTRAINT_COMPARATOR);
@@ -90,6 +84,10 @@ public final class ProfileSupport {
 
     public static boolean isSlice(ElementDefinition elementDefinition) {
         return elementDefinition.getSliceName() != null;
+    }
+
+    public static boolean isSliceDefinition(ElementDefinition elementDefinition) {
+        return elementDefinition.getSlicing() != null;
     }
 
     public static Set<String> getReferencedProfileConstraintKeys(ElementDefinition elementDefinition) {
@@ -108,6 +106,38 @@ public final class ProfileSupport {
             }
         }
         return profileKeys;
+    }
+
+    public static List<ElementDefinition.Constraint> getConstraintDifferential(ElementDefinition elementDefinition) {
+        return getConstraints(elementDefinition, getConstraintKeyDifferential(elementDefinition));
+    }
+
+    private static Set<String> getConstraintKeyDifferential(ElementDefinition elementDefinition) {
+        if (elementDefinition.getConstraint().isEmpty()) {
+            return Collections.emptySet();
+        }
+        Set<String> keys = new HashSet<>(getConstraintKeys(elementDefinition));
+        keys.removeAll(getConstraintKeys(getBaseDefinition(elementDefinition)));
+        keys.removeAll(getReferencedProfileConstraintKeys(elementDefinition));
+        return keys;
+    }
+
+    private static List<ElementDefinition.Constraint> getConstraints(ElementDefinition elementDefinition, Set<String> keys) {
+        if (keys.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<ElementDefinition.Constraint> constraints = new ArrayList<>();
+        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+            if (keys.contains(constraint.getKey().getValue())) {
+                constraints.add(constraint);
+            }
+        }
+        return constraints;
+    }
+
+    private static ElementDefinition getBaseDefinition(ElementDefinition elementDefinition) {
+        String basePath = elementDefinition.getBase().getPath().getValue();
+        return getElementDefinition(basePath);
     }
 
     private static Map<String, ElementDefinition> computeElementDefinitionMap(String url) {
@@ -320,7 +350,7 @@ public final class ProfileSupport {
         return (profile != null && isApplicable(profile, type)) ? profile : null;
     }
 
-    private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
+    public static StructureDefinition getStructureDefinition(Class<?> modelClass) {
         return getStructureDefinition(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
 
