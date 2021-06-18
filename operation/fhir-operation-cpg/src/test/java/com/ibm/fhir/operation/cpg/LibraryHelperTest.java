@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 import org.mockito.MockedStatic;
 
+import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.Canonical;

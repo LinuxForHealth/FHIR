@@ -34,4 +34,16 @@ public class SearchParameterResolverTest {
         SearchParameter param = resolver.getSearchParameterDefinition("Patient", "id");
         assertNotNull("Could not resolve search parameter for Patient.id", param);
     }
+    
+    @Test
+    public void testResolveMedicationRequestMedication() throws Exception {
+        SearchParameter param = resolver.getSearchParameterDefinition("MedicationRequest", "medication");
+        assertNotNull("Could not resolve search parameter for MedicationRequest.medication", param);
+    }
+    
+    @Test
+    public void testResolveAllergyIntoleranceCode() throws Exception {
+        SearchParameter param = resolver.getSearchParameterDefinition("AllergyIntolerance", "code");
+        assertNotNull("Could not resolve search parameter for MedicationRequest.medication", param);
+    }
 }

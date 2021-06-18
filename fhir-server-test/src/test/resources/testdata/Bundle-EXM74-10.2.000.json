@@ -29,7 +29,11 @@
 					"system": "http://terminology.hl7.org/CodeSystem/definition-topic",
 					"code": "treatment",
 					"display": "Treatment"
-				}],
+				},{
+                    "system": "http://ibm.com/health/CodeSystem/measure-topic",
+                    "code": "test",
+                    "display": "Test"
+                }],
 				"text": "The definition is related to treatment of the patient."
 			}],
 			"author": [{

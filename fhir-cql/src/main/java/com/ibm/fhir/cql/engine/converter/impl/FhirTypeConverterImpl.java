@@ -294,8 +294,8 @@ public class FhirTypeConverterImpl implements FhirTypeConverter {
 
         if (value instanceof CqlType) {
             result = true;
-        } else if (value instanceof BigDecimal || value instanceof String || value instanceof Integer
-                || value instanceof Boolean) {
+        } else if (value instanceof java.math.BigDecimal || value instanceof java.lang.String || value instanceof java.lang.Integer
+                || value instanceof java.lang.Boolean) {
             result = true;
         } else {
             result = false;

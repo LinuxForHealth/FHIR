@@ -19,6 +19,7 @@ import org.opencds.cqf.cql.engine.execution.Context;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 
 import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;

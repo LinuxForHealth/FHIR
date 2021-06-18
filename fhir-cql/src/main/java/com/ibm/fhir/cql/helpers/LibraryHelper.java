@@ -1,4 +1,4 @@
-package com.ibm.fhir.operation.cpg;
+package com.ibm.fhir.cql.helpers;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 
@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.opencds.cqf.cql.engine.execution.CqlLibraryReader;
 
 import com.ibm.fhir.cql.Constants;
-import com.ibm.fhir.cql.helpers.ModelHelper;
 import com.ibm.fhir.cql.translator.CqlTranslationException;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
 import com.ibm.fhir.model.resource.Library;
