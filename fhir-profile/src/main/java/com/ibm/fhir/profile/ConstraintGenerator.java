@@ -563,7 +563,7 @@ public class ConstraintGenerator {
         String prefix = prefix(node);
         sb.append(prefix);
 
-        if (!isOptional(elementDefinition)) {
+        if (!isOptional(elementDefinition) && !isRepeating(elementDefinition)) {
             sb.append(".exists() and ").append(prefix);
         }
 
@@ -588,6 +588,8 @@ public class ConstraintGenerator {
             sb.append(")");
             if (isSlice(elementDefinition) && !discriminator) {
                 sb.append(cardinality(node, sb.toString()));
+            } else {
+                sb.append(" and ").append(prefix).append(cardinality(node, sb.toString()));
             }
         }
 
