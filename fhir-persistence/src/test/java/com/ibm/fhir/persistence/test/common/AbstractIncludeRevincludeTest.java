@@ -1023,10 +1023,10 @@ public abstract class AbstractIncludeRevincludeTest extends AbstractPersistenceT
                 assertTrue(resource.getId().equals(savedPatient1.getId()) || resource.getId().equals(savedPatient2.getId()));
             } else if (resource instanceof Observation) {
                 assertTrue(resource.getId().equals(savedObservation3.getId()) || resource.getId().equals(savedObservation4.getId()));
-                if (resource.getId().equals(savedObservation3)) {
+                if (resource.getId().equals(savedObservation3.getId())) {
                     assertEquals("Patient/" + savedPatient1.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
                     assertEquals("Encounter/" + savedEncounter1.getId(), resource.as(Observation.class).getEncounter().getReference().getValue());
-                } else if (resource.getId().equals(savedObservation4)) {
+                } else if (resource.getId().equals(savedObservation4.getId())) {
                     assertEquals("Patient/" + savedPatient2.getId(), resource.as(Observation.class).getSubject().getReference().getValue());
                     assertEquals("Encounter/" + savedEncounter1.getId(), resource.as(Observation.class).getEncounter().getReference().getValue());
                 }
