@@ -7,9 +7,11 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_QUANTITY_VALUES tables.
@@ -82,5 +84,16 @@ public class QuantityParmVal extends ExtractedParameterValue {
     @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getHash(ParameterHashUtil parameterHashUtil) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Objects.toString(valueNumber, ""));
+        sb.append("|").append(Objects.toString(valueNumberLow, ""));
+        sb.append("|").append(Objects.toString(valueNumberHigh, ""));
+        sb.append("|").append(getValueSystem());
+        sb.append("|").append(getValueCode());
+        return parameterHashUtil.getNameValueHash(getHashHeader(), sb.toString());
     }
 }

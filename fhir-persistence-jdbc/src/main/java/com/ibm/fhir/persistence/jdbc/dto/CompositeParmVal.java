@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a composite parameter.
@@ -28,8 +29,14 @@ public class CompositeParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
+    }
+
+    @Override
+    public String getHash(ParameterHashUtil parameterHashUtil) {
+        return parameterHashUtil.getNameValueHash(getHashHeader(), parameterHashUtil.getParametersHash(component));
     }
 
     /**

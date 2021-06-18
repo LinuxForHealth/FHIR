@@ -7,8 +7,10 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
@@ -50,13 +52,22 @@ public class DateParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 
     @Override
+    public String getHash(ParameterHashUtil parameterHashUtil) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(Objects.toString(valueDateStart, ""));
+        sb.append("|").append(Objects.toString(valueDateEnd, ""));
+        return parameterHashUtil.getNameValueHash(getHashHeader(), sb.toString());
+    }
+
+    @Override
     public String toString() {
         return "DateParmVal [resourceType=" + getResourceType() + ", name=" + getName()
-                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + getBase() + "]";
+                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + "]";
     }
 }
