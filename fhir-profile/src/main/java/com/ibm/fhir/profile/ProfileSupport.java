@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
@@ -32,6 +33,8 @@ import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public final class ProfileSupport {
+    private static final Logger log = Logger.getLogger(ProfileSupport.class.getName());
+
     public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
 
@@ -71,6 +74,10 @@ public final class ProfileSupport {
             if (elementDefinition.getConstraint().isEmpty() || isSlice(elementDefinition)) {
                 continue;
             }
+            if (elementDefinition.getId().contains(":") && hasConstraintDifferential(elementDefinition)) {
+                log.warning("Slice-specific constraints: " + getConstraintKeyDifferential(elementDefinition) + " found on element: " + elementDefinition.getId() + " are not supported");
+                continue;
+            }
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : getConstraintDifferential(elementDefinition)) {
                 constraints.add(createConstraint(path, constraint));
@@ -106,6 +113,10 @@ public final class ProfileSupport {
             }
         }
         return profileKeys;
+    }
+
+    public static boolean hasConstraintDifferential(ElementDefinition elementDefinition) {
+        return !getConstraintKeyDifferential(elementDefinition).isEmpty();
     }
 
     public static List<ElementDefinition.Constraint> getConstraintDifferential(ElementDefinition elementDefinition) {

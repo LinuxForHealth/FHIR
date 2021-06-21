@@ -59,6 +59,7 @@ public class SliceSpecificConstraintTest {
         StructureDefinition profile = FHIRRegistry.getInstance().getResource("http://hl7.org/fhir/us/spl/StructureDefinition/IdentifiedOrganization", StructureDefinition.class);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
+        constraints.forEach(System.out::println);
         assertTrue(constraints.get(0).expression().contains("value.length() = 9"));
     }
 

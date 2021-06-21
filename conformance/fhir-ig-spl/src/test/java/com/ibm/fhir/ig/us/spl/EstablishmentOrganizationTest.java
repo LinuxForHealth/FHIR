@@ -59,7 +59,6 @@ public class EstablishmentOrganizationTest {
                     return null;
                 }
             });
-            ProfileSupport.getConstraints("http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentOrganization", Organization.class).forEach(System.out::println);
         }
 
         try (InputStream in = EstablishmentOrganizationTest.class.getClassLoader().getResourceAsStream("xml/StructureDefinition-SPLContactPoint.xml")) {
@@ -73,8 +72,10 @@ public class EstablishmentOrganizationTest {
                     return null;
                 }
             });
-            ProfileSupport.getConstraints("http://hl7.org/fhir/us/spl/StructureDefinition/SPLContactPoint", ContactPoint.class).forEach(System.out::println);
         }
+
+        ProfileSupport.getConstraints("http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentOrganization", Organization.class).forEach(System.out::println);
+        ProfileSupport.getConstraints("http://hl7.org/fhir/us/spl/StructureDefinition/SPLContactPoint", ContactPoint.class).forEach(System.out::println);
 
         try (InputStream in = EstablishmentOrganizationTest.class.getClassLoader().getResourceAsStream("xml/Organization-ExampleEstablishment.xml")) {
             Organization organization = FHIRParser.parser(Format.XML).parse(in);

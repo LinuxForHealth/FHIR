@@ -279,20 +279,10 @@ public class ConstraintGenerator {
                 sb.append(".where(");
             }
             sb.append(generate(node.children));
-
             if (isSlice(elementDefinition)) {
                 // append slice specific constraints
-                StringJoiner joiner = new StringJoiner(" and ");
-                for (ElementDefinition.Constraint constraint : ProfileSupport.getConstraintDifferential(elementDefinition)) {
-                    if (constraint.getExpression() != null && constraint.getExpression().getValue() != null) {
-                        joiner.add("(" + constraint.getExpression().getValue() + ")");
-                    }
-                }
-                if (joiner.length() > 0) {
-                    sb.append(" and ").append(joiner.toString());
-                }
+                sb.append(constraints(elementDefinition));
             }
-
             sb.append(")");
         }
 
@@ -303,6 +293,20 @@ public class ConstraintGenerator {
 
     private Constraint constraint(String id, String expr, String description) {
         return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
+    }
+
+    private String constraints(ElementDefinition elementDefinition) {
+        StringBuilder sb = new StringBuilder();
+        StringJoiner joiner = new StringJoiner(" and ");
+        for (ElementDefinition.Constraint constraint : ProfileSupport.getConstraintDifferential(elementDefinition)) {
+            if (constraint.getExpression() != null && constraint.getExpression().getValue() != null) {
+                joiner.add("(" + constraint.getExpression().getValue() + ")");
+            }
+        }
+        if (joiner.length() > 0) {
+            sb.append(" and ").append(joiner.toString());
+        }
+        return sb.toString();
     }
 
     private Node copy(Node node, List<String> paths, String prefix) {
@@ -582,6 +586,10 @@ public class ConstraintGenerator {
 
         if (hasChildren(node)) {
             sb.append(" and ").append(generate(node.children));
+            if (isSlice(elementDefinition)) {
+                // append slice specific constraints
+                sb.append(constraints(elementDefinition));
+            }
         }
 
         if (isRepeating(elementDefinition)) {
