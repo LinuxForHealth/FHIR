@@ -56,7 +56,7 @@ public class NumberParmBehaviorUtil {
     public static void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm,
             List<Object> bindVariables, Class<?> resourceType, String tableAlias, JDBCQueryBuilder queryBuilder)
             throws FHIRPersistenceException {
-        // Start the Clause 
+        // Start the Clause
         // Query: AND (
         whereClauseSegment.append(AND).append(LEFT_PAREN);
 
@@ -73,8 +73,8 @@ public class NumberParmBehaviorUtil {
             }
             BigDecimal originalNumber = value.getValueNumber();
 
-            // seen is used to optimize against a repeated value passed in. 
-            // the hash must use the prefix and original number. 
+            // seen is used to optimize against a repeated value passed in.
+            // the hash must use the prefix and original number.
             String hash = prefix.value() + originalNumber.toPlainString();
             if (!seen.contains(hash)) {
                 seen.add(hash);
@@ -84,7 +84,7 @@ public class NumberParmBehaviorUtil {
                     // ) OR (
                     whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
                 } else {
-                    // Signal to the downstream to treat any subsequent value as an OR condition 
+                    // Signal to the downstream to treat any subsequent value as an OR condition
                     parmValueProcessed = true;
                 }
 
@@ -92,8 +92,8 @@ public class NumberParmBehaviorUtil {
             }
         }
 
-        // End the Clause started above, and closes the parameter expression. 
-        // Query: )) 
+        // End the Clause started above, and closes the parameter expression.
+        // Query: ))
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN);
     }
 
@@ -101,7 +101,7 @@ public class NumberParmBehaviorUtil {
      * Append the condition and bind the variables according to the semantics of the
      * passed prefix
      * adds the value to the whereClause.
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -139,7 +139,7 @@ public class NumberParmBehaviorUtil {
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, GT, value, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, GT, value, upperBound);
             break;
         case LE:
             // LE - Less Than Equal
@@ -150,7 +150,7 @@ public class NumberParmBehaviorUtil {
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, LT, value, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, columnBase, LT, value, lowerBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -179,7 +179,7 @@ public class NumberParmBehaviorUtil {
      * circuits double matches.
      * If one exists, great, we'll return it, else we'll peek at the other column.
      * <br>
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -190,7 +190,7 @@ public class NumberParmBehaviorUtil {
      */
     public static void buildCommonClause(StringBuilder whereClauseSegment, List<Object> bindVariables, String tableAlias,
             String columnBase, String operator, BigDecimal value, BigDecimal bound) {
-        
+
         String orEqualsOperator = null;
         if (GTE.equals(operator)) {
             operator = GT;
@@ -200,7 +200,7 @@ public class NumberParmBehaviorUtil {
             orEqualsOperator = LTE;
         }
         boolean gtOp = GT.equals(operator);
-        
+
         whereClauseSegment
             .append(LEFT_PAREN)
                 .append(tableAlias).append(DOT).append(gtOp ? columnBase + _HIGH : columnBase + _LOW).append(operator).append(BIND_VAR)
@@ -216,10 +216,10 @@ public class NumberParmBehaviorUtil {
         bindVariables.add(value);
         bindVariables.add(orEqualsOperator != null ? bound : value);
     }
-    
+
     /**
      * the build eb or sa clause considers only _VALUE_LOW and _VALUE_HIGH
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param tableAlias
@@ -232,7 +232,7 @@ public class NumberParmBehaviorUtil {
         whereClauseSegment.append(tableAlias).append(DOT).append(columnNameLowOrHigh).append(operator).append(BIND_VAR);
         bindVariables.add(bound);
     }
-    
+
     /**
      * Add the equals range clause to the given whereClauseSegment
      * @param whereClauseSegment
@@ -254,7 +254,7 @@ public class NumberParmBehaviorUtil {
         bindVariables.add(lowerBound);
         bindVariables.add(upperBound);
     }
-    
+
     /**
      * Add the approx range clause to the given whereClauseSegment
      * @param whereClauseSegment
@@ -311,7 +311,7 @@ public class NumberParmBehaviorUtil {
         bindVariables.add(approximateLowerBound);
         bindVariables.add(approximateUpperBound);
     }
-    
+
     /**
      * Add the not-equals range clause to the given whereClauseSegment
      * @param whereClauseSegment

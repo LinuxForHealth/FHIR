@@ -32,7 +32,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 public class DateParmBehaviorUtilTest {
     private static final Logger log = java.util.logging.Logger.getLogger(DateParmBehaviorUtilTest.class.getName());
-    private static final Level LOG_LEVEL = Level.FINE;
+    private static final Level LOG_LEVEL = Level.INFO;
 
     //---------------------------------------------------------------------------------------------------------
     // Supporting Methods:
@@ -109,20 +109,18 @@ public class DateParmBehaviorUtilTest {
 
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testHandleDateRangeComparisonWithExact() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
 
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
         Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         // gt - Greater Than
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.GT, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(upper);
         String expectedSql =
                 " AND ((Date.DATE_END > ?)))";
         runTest(queryParm,
@@ -132,7 +130,7 @@ public class DateParmBehaviorUtilTest {
         // lt - Less Than
         queryParm             = generateQueryParameter(SearchConstants.Prefix.LT, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(upper);
+        expectedBindVariables.add(lower);
         expectedSql =
                 " AND ((Date.DATE_START < ?)))";
         runTest(queryParm,
@@ -142,7 +140,7 @@ public class DateParmBehaviorUtilTest {
         // ge - Greater than Equal
         queryParm             = generateQueryParameter(SearchConstants.Prefix.GE, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(lower);
         expectedSql =
                 " AND ((Date.DATE_END >= ?)))";
         runTest(queryParm,
@@ -172,7 +170,7 @@ public class DateParmBehaviorUtilTest {
         // eb - Ends before
         queryParm             = generateQueryParameter(SearchConstants.Prefix.EB, null, vTime);
         expectedBindVariables = new ArrayList<>();
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(lower);
         expectedSql =
                 " AND ((Date.DATE_END < ?)))";
         runTest(queryParm,
@@ -184,15 +182,13 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
+        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
         String expectedSql =
                 " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
         runTest(queryParm,
@@ -204,19 +200,15 @@ public class DateParmBehaviorUtilTest {
     public void testPrecisionWithMultipleValuesForEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
+        Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.EQ, null, vTime, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
+        expectedBindVariables.add(lower);
+        expectedBindVariables.add(lower);
+        expectedBindVariables.add(lower);
 
         String expectedSql =
                 " AND (((Date.DATE_START >= ? AND Date.DATE_END <= ?)) OR ((Date.DATE_START >= ? AND Date.DATE_END <= ?))))";
@@ -225,21 +217,17 @@ public class DateParmBehaviorUtilTest {
                 expectedSql);
     }
 
-    @SuppressWarnings("unused")
     @Test
     public void testPrecisionWithNotEqual() throws Exception {
         String vTime = "2019-12-11T00:00:00+00:00";
         TemporalAccessor v = DateTimeHandler.parse(vTime);
-        Timestamp value = Timestamp.from(DateTimeHandler.generateValue(v, vTime));
         Timestamp lower = Timestamp.from(DateTimeHandler.generateLowerBound(Prefix.EQ, v, vTime));
         Timestamp upper = Timestamp.from(DateTimeHandler.generateUpperBound(Prefix.EQ, v, vTime));
 
         QueryParameter queryParm = generateQueryParameter(SearchConstants.Prefix.NE, null, vTime);
         List<Timestamp> expectedBindVariables = new ArrayList<>();
+        expectedBindVariables.add(lower);
         expectedBindVariables.add(upper);
-        expectedBindVariables.add(upper);
-        expectedBindVariables.add(value);
-        expectedBindVariables.add(value);
 
         String expectedSql =
                 " AND (((Date.DATE_START < ? OR Date.DATE_END > ?))))";

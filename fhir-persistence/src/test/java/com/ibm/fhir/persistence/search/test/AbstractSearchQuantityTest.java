@@ -110,6 +110,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("Quantity", "lt24|http://unitsofmeasure.org|s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.4999||s");
         assertSearchDoesntReturnSavedResource("Quantity", "lt24.5||s");
+        assertSearchReturnsSavedResource("Quantity", "lt24.5001||s");
         assertSearchReturnsSavedResource("Quantity", "lt25||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.4999||s");
         assertSearchReturnsSavedResource("Quantity", "lt25.5||s");
@@ -339,7 +340,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThan", "sa2||gt"); // > 3 starts after 2
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "sa4||gt"); // > 3 does not start after 4
         assertSearchDoesntReturnSavedResource("Quantity-greaterThan", "sa3||gt"); // > 3 does not start after 3 (due to ranges)
-        
+
         // eb
         // The target upper bound (positive infinity) ensures that range of target cannot be contained
         // by the range below the search value, so an ends-before search will never match.
@@ -431,7 +432,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("Quantity-greaterThanOrEqual", "sa2||gte"); // >= 3 starts after 2
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "sa4||gte"); // >= 3 does not start after 4
         assertSearchDoesntReturnSavedResource("Quantity-greaterThanOrEqual", "sa3||gte"); // >= 3 does not start after 3
-        
+
         // eb
         // The target upper bound (positive infinity) ensures that range of target cannot be contained
         // by the range below the search value, so an ends-before search will never match.

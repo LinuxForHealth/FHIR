@@ -137,8 +137,8 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$2018-10-29");
 
         assertSearchDoesntReturnSavedResource("composite-date", "ne2018-10-29$2018-10-29");
-        assertSearchReturnsSavedResource("composite-date", "lt2018-10-29$2018-10-29");
-        assertSearchReturnsSavedResource("composite-date", "gt2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "lt2018-10-29$2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "gt2018-10-29$2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "le2018-10-29$2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "ge2018-10-29$2018-10-29");
         assertSearchDoesntReturnSavedResource("composite-date", "sa2018-10-29$2018-10-29");
@@ -146,8 +146,8 @@ public abstract class AbstractSearchCompositeTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("composite-date", "ap2018-10-29$2018-10-29");
 
         assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$ne2018-10-29");
-        assertSearchReturnsSavedResource("composite-date", "2018-10-29$lt2018-10-29");
-        assertSearchReturnsSavedResource("composite-date", "2018-10-29$gt2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$lt2018-10-29");
+        assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$gt2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$le2018-10-29");
         assertSearchReturnsSavedResource("composite-date", "2018-10-29$ge2018-10-29");
         assertSearchDoesntReturnSavedResource("composite-date", "2018-10-29$sa2018-10-29");
