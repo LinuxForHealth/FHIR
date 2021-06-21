@@ -1,0 +1,40 @@
+<Organization xmlns="http://hl7.org/fhir">
+  <id value="ExampleEstablishmentRegistrant"/>
+  <meta>
+    <profile value="http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentOrganization"/>
+  </meta>
+  <text>
+    <status value="generated"/><div xmlns="http://www.w3.org/1999/xhtml"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 111111111</p><p><b>type</b>: <span title="Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splOrganizationTypes EstablishmentRegistrant}">An organization that registers establishment organizations.</span></p><p><b>name</b>: REGISTRANT SERVICES INC</p><h3>Contacts</h3><table class="grid"><tr><td>-</td><td><b>Name</b></td><td><b>Telecom</b></td><td><b>Address</b></td></tr><tr><td>*</td><td>Charles Smith</td><td><a href="tel:+1-703-362-1280;ext=1234">+1-703-362-1280;ext=1234</a>, <a href="mailto:charles@anywhere.com">charles@anywhere.com</a></td><td>123 IVY LANE ROAD SMITH FALLS MD 12345 USA </td></tr></table></div>
+  </text>
+  <identifier>
+    <system value="urn:oid:1.3.6.1.4.1.519.1"/>
+    <value value="111111111"/>
+  </identifier>
+  <type>
+    <coding>
+      <system value="http://hl7.org/fhir/us/spl/CodeSystem/codesystem-splOrganizationTypes"/>
+      <code value="Establishment"/>
+    </coding>
+  </type>
+  <name value="REGISTRANT SERVICES INC"/>
+  <contact>
+    <name>
+      <text value="Charles Smith"/>
+    </name>
+    <telecom>
+      <system value="phone"/>
+      <value value="+1-703-362-1280"/>
+    </telecom>
+    <telecom>
+      <system value="email"/>
+      <value value="charles@anywhere.com"/>
+    </telecom>
+    <address>
+      <line value="123 IVY LANE ROAD"/>
+      <city value="SMITH FALLS"/>
+      <state value="MD"/>
+      <postalCode value="12345"/>
+      <country value="USA"/>
+    </address>
+  </contact>
+</Organization>
