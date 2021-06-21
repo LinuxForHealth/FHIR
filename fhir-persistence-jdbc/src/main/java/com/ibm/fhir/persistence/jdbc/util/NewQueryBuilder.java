@@ -8,14 +8,18 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.query.Select;
@@ -47,13 +51,13 @@ import com.ibm.fhir.persistence.jdbc.domain.SearchIncludeQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchQueryRenderer;
 import com.ibm.fhir.persistence.jdbc.domain.SearchSortQuery;
-import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemDataQuery;
 import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemFilterQuery;
+import com.ibm.fhir.persistence.jdbc.domain.SearchWholeSystemQuery;
+import com.ibm.fhir.persistence.jdbc.domain.SecuritySearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.StringSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TagSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
-import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Type;
@@ -153,16 +157,38 @@ public class NewQueryBuilder {
                 new Object[] { resourceType.getSimpleName(), searchContext.getSearchParameters() });
 
         final SearchQuery domainModel;
-        if (Resource.class.equals(resourceType) && searchContext.getSearchResourceTypes() != null) {
-            // Create domain models for each resource type
-            List<SearchQuery> subDomainModels = new ArrayList<>();
-            for (String domainResourceType : searchContext.getSearchResourceTypes()) {
-                SearchQuery subDomainModel = new SearchCountQuery(domainResourceType);
-                buildModelCommon(subDomainModel, ModelSupport.getResourceType(domainResourceType), searchContext);
-                subDomainModels.add(subDomainModel);
+        if (Resource.class.equals(resourceType)) {
+            // Whole-system search
+            if (allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
+                // Can do query against global tables
+                domainModel = new SearchCountQuery(resourceType.getSimpleName());
+                if (searchContext.getSearchResourceTypes() != null) {
+                    // The _type parameter was specified, so we need to filter the
+                    // query by resource type. Add an extension to the domain model
+                    // with the specified resource type IDs.
+                    addResourceTypeExtension(domainModel, searchContext.getSearchResourceTypes());
+                }
+            } else {
+                // Not all search parameters are global (values indexed into global values tables).
+                // Need to do old-style UNION'd query against all resource types.
+                List<String> resourceTypes = searchContext.getSearchResourceTypes();
+                if (resourceTypes == null) {
+                    // The _type parameter was not specified, so we need to generate a list
+                    // of all supported resource types for our UNION query.
+                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes.remove("Resource");
+                    resourceTypes.remove("DomainResource");
+                }
+                // Create a domain model for each resource type
+                List<SearchQuery> subDomainModels = new ArrayList<>();
+                for (String domainResourceType : resourceTypes) {
+                    SearchQuery subDomainModel = new SearchCountQuery(domainResourceType);
+                    buildModelCommon(subDomainModel, ModelSupport.getResourceType(domainResourceType), searchContext);
+                    subDomainModels.add(subDomainModel);
+                }
+                // Create a wrapper whole-system search domain model
+                domainModel = new SearchWholeSystemQuery(subDomainModels, true, false);
             }
-            // Create whole-system search domain model
-            domainModel = new SearchWholeSystemQuery(subDomainModels, true, false);
         } else {
             domainModel = new SearchCountQuery(resourceType.getSimpleName());
         }
@@ -200,31 +226,46 @@ public class NewQueryBuilder {
 
         final SearchQuery domainModel;
         if (Resource.class.equals(resourceType)) {
-            // Whole-system search. If _type was specified, we have to build an old-style
-            // query with UNION ALL. If not, we'll build a filter query, the results of which will be used
-            // to build a data query.
-            if (searchContext.getSearchResourceTypes() == null) {
+            // Whole-system search
+            if (allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
+                // Can do a filter query against global tables
                 SearchWholeSystemFilterQuery wholeSystemFilterQuery = new SearchWholeSystemFilterQuery();
                 for (SortParameter sp: searchContext.getSortParameters()) {
                     wholeSystemFilterQuery.add(new DomainSortParameter(sp));
                 }
+                if (searchContext.getSearchResourceTypes() != null) {
+                    // The _type parameter was specified, so we need to filter the
+                    // query by resource type. Add an extension to the domain model
+                    // with the specified resource type IDs.
+                    addResourceTypeExtension(wholeSystemFilterQuery, searchContext.getSearchResourceTypes());
+                }
                 domainModel = wholeSystemFilterQuery;
             } else {
-                // Create domain model for each resource type specified in _type parameter
+                // Not all search parameters are global (values indexed into global values tables).
+                // Need to do old-style UNION'd query against all resource types.
+                List<String> resourceTypes = searchContext.getSearchResourceTypes();
+                if (resourceTypes == null) {
+                    // The _type parameter was not specified, so we need to generate a list
+                    // of all supported resource types for our UNION query.
+                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes.remove("Resource");
+                    resourceTypes.remove("DomainResource");
+                }
+                // Create a domain model for each resource type
                 List<SearchQuery> subDomainModels = new ArrayList<>();
-                for (String domainResourceType : searchContext.getSearchResourceTypes()) {
+                for (String domainResourceType : resourceTypes) {
                     SearchQuery subDomainModel = new SearchDataQuery(domainResourceType, false, false);
                     buildModelCommon(subDomainModel, ModelSupport.getResourceType(domainResourceType), searchContext);
                     subDomainModels.add(subDomainModel);
                 }
-                // Create whole-system search domain model
+                // Create a wrapper whole-system search domain model
                 SearchWholeSystemQuery wholeSystemAllDataQuery =
                         new SearchWholeSystemQuery(subDomainModels, false, true);
                 for (SortParameter sp: searchContext.getSortParameters()) {
                     wholeSystemAllDataQuery.add(new DomainSortParameter(sp));
                 }
                 domainModel = wholeSystemAllDataQuery;
-            }
+           }
         } else if (searchContext.hasSortParameters()) {
             // Special variant of the query which will sort based on the given sort params
             // and return a list of resource-ids which are then used to fetch the actual data
@@ -377,9 +418,9 @@ public class NewQueryBuilder {
             @Override
             public int compare(QueryParameter leftParameter, QueryParameter rightParameter) {
                 int result = 0;
-                if (QuerySegmentAggregator.ID.equals(leftParameter.getCode())) {
+                if (ID.equals(leftParameter.getCode())) {
                     result = -100;
-                } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(leftParameter.getCode())) {
+                } else if (LAST_UPDATED.equals(leftParameter.getCode())) {
                     result = -90;
                 }
                 return result;
@@ -421,9 +462,9 @@ public class NewQueryBuilder {
             final String code = queryParm.getCode();
             if (LocationUtil.isLocation(resourceType, queryParm)) {
                 domainModel.add(new LocationSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-            } else if ("_id".equals(code)) {
+            } else if (ID.equals(code)) {
                 domainModel.add(new IdSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-            } else if ("_lastUpdated".equals(code)) {
+            } else if (LAST_UPDATED.equals(code)) {
                 domainModel.add(new LastUpdatedSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
             } else {
                 final Type type = queryParm.getType();
@@ -446,8 +487,10 @@ public class NewQueryBuilder {
                     domainModel.add(new DateSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case TOKEN:
-                    if (PARAM_NAME_TAG.equals(queryParm.getCode())) {
+                    if (TAG.equals(queryParm.getCode())) {
                         domainModel.add(new TagSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
+                    } else if (SECURITY.equals(queryParm.getCode())) {
+                        domainModel.add(new SecuritySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     }
@@ -459,7 +502,7 @@ public class NewQueryBuilder {
                     domainModel.add(new QuantitySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case URI:
-                    if (PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
+                    if (PROFILE.equals(queryParm.getCode())) {
                         domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
@@ -538,5 +581,22 @@ public class NewQueryBuilder {
 
         log.exiting(CLASSNAME, METHODNAME, operator);
         return operator;
+    }
+    
+    private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
+        for (QueryParameter queryParm : queryParms) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    private void addResourceTypeExtension(SearchQuery domainModel, List<String> resourceTypes) throws FHIRPersistenceException {
+        List<Integer> resourceTypeIds = new ArrayList<>();
+        for (String resourceType : resourceTypes) {
+            resourceTypeIds.add(this.identityCache.getResourceTypeId(resourceType));
+        }
+        domainModel.add(new WholeSystemResourceTypeExtension(resourceTypeIds));
     }
 }

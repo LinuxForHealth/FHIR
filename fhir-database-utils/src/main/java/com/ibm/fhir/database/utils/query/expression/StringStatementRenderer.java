@@ -122,7 +122,8 @@ public class StringStatementRenderer implements StatementRenderer<String> {
             if (this.pretty) {
                 result.append(NEWLINE).append("     "); // 5 spaces
             }
-            result.append(SPACE).append(unionAll ? UNION_ALL : UNION);
+            result.append(SPACE).append(unionAll ? UNION_ALL : UNION)
+                .append(SPACE).append(union.render(this));
         }
 
         return result.toString();

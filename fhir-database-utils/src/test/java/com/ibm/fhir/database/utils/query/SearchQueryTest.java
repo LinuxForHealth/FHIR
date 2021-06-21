@@ -461,7 +461,10 @@ public class SearchQueryTest {
                 + " SELECT 1"
                 + " FROM Observation_TOKEN_VALUES_V AS param"
                 + " WHERE param.PARAMETER_NAME_ID = 1274";
-        assertEquals(first.toString(), SQL);
+        final List<BindMarkerNode> bindMarkers = new ArrayList<>();
+        StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, bindMarkers, false);
+        assertEquals(first.render(renderer), SQL);
+        assertEquals(bindMarkers.size(), 0);
     }
 
 }

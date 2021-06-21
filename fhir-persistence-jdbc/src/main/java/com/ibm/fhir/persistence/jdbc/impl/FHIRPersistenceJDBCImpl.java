@@ -754,7 +754,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // with system-level search, no special logic to handle it differently is needed here.
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
                 if (isSystemLevelSearch(resourceType)) {
-                    if (searchContext.getSearchResourceTypes() != null) {
+                    // If search parameters were specified other than those whose values get indexed
+                    // in global values tables, then we will execute the old-style UNION'd query that
+                    // was built. Otherwise, we need to execute the new whole-system filter query and
+                    // then build and execute the new whole-system data query.
+                    if (!allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
                         resourceDTOList = resourceDao.search(query);
                     } else {
                         Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
@@ -2751,4 +2755,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return eraseRecord;
     }
+
+    private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
+        for (QueryParameter queryParm : queryParms) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

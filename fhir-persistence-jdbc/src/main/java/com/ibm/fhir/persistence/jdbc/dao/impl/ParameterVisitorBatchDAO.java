@@ -7,6 +7,9 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -213,7 +216,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String parameterName = param.getName();
         String value = param.getValueString();
 
-        if (JDBCConstants.PARAM_NAME_PROFILE.equals(parameterName)) {
+        if (PROFILE.equals(parameterName)) {
             // profile canonicals are now stored in their own tables.
             processProfile(param);
             return;
@@ -431,7 +434,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
             ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
-            if (JDBCConstants.PARAM_NAME_TAG.equals(parameterName)) {
+            if (TAG.equals(parameterName)) {
                 // tag search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
                 // optimizer
@@ -440,7 +443,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 } else {
                     this.tagTokenRecs.add(rec);
                 }
-            } else if (JDBCConstants.PARAM_NAME_SECURITY.equals(parameterName)) {
+            } else if (SECURITY.equals(parameterName)) {
                 // search search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
                 // optimizer

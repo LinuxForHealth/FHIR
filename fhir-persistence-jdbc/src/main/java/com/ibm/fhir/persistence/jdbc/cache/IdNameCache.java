@@ -18,8 +18,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
  */
 public class IdNameCache<T> implements IIdNameCache<T> {
 
-    // We use LinkedHashMap for the local map because we also need to maintain order
-    // of insertion to make sure we have correct LRU behavior when updating the shared cache
+    // The local cache
     private final ThreadLocal<Map<T,String>> local = new ThreadLocal<>();
     
     // The cache shared at the server level

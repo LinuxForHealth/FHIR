@@ -35,8 +35,6 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OR;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PERCENT_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RESOURCE_ID;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
@@ -50,6 +48,11 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -236,7 +239,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             @Override
             public int compare(QueryParameter leftParameter, QueryParameter rightParameter) {
                 int result = 0;
-                if (QuerySegmentAggregator.ID.equals(leftParameter.getCode())) {
+                if (ID.equals(leftParameter.getCode())) {
                     result = -100;
                 } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(leftParameter.getCode())) {
                     result = -90;
@@ -404,8 +407,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case TOKEN:
-                    if (PARAM_NAME_TAG.equals(queryParm.getCode())) {
-                        databaseQueryParm = this.processTagParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
+                    if (TAG.equals(queryParm.getCode()) || SECURITY.equals(queryParm.getCode())) {
+                        databaseQueryParm = this.processGlobalTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
                     } else {
                         databaseQueryParm = this.processTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
                     }
@@ -417,7 +420,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processQuantityParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case URI:
-                    if (PARAM_NAME_PROFILE.equals(queryParm.getCode())) {
+                    if (PROFILE.equals(queryParm.getCode())) {
                         databaseQueryParm = this.processProfileParm(resourceType, queryParm, paramTableAlias);
                     } else {
                         databaseQueryParm = this.processUriParm(queryParm, paramTableAlias);
@@ -816,11 +819,11 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
 
                 String code = currentParm.getCode();
                 SqlQueryData sqlQueryData;
-                if ("_id".equals(code)) {
+                if (ID.equals(code)) {
                     // The code '_id' is only going to be the end of the change as it is a base element.
                     // We know at this point this is an '_id' and at the tail of the parameter chain
                     sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
-                } else if ("_lastUpdated".equals(code)) {
+                } else if (LAST_UPDATED.equals(code)) {
                     // Build the rest: (LAST_UPDATED <operator> ?)
                     LastUpdatedParmBehaviorUtil util = new LastUpdatedParmBehaviorUtil();
                     StringBuilder lastUpdatedWhereClause = new StringBuilder();
@@ -934,7 +937,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             whereClauseSegment.append(COMMA).append(resourceTypeName).append(_RESOURCES).append(SPACE).append(chainedResourceVar);
 
             // If we're dealing with anything other than id, then proceed to add the parameters table.
-            if (nextParameter != null && !"_id".equals(nextParameter.getCode())) {
+            if (nextParameter != null && !ID.equals(nextParameter.getCode())) {
                 whereClauseSegment.append(COMMA)
                     .append(QuerySegmentAggregator.tableName(resourceTypeName, nextParameter)).append(chainedParmVar);
             }
@@ -949,7 +952,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 .append(AND);
 
             // CP1.LOGICAL_RESOURCE_ID = CLR1.LOGICAL_RESOURCE_ID AND
-            if (nextParameter != null && !"_id".equals(nextParameter.getCode())) {
+            if (nextParameter != null && !ID.equals(nextParameter.getCode())) {
                 whereClauseSegment.append(chainedParmTableAlias).append(LOGICAL_RESOURCE_ID).append(EQ)
                     .append(chainedResourceTableAlias).append(LOGICAL_RESOURCE_ID)
                     .append(AND);
@@ -1232,7 +1235,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         String tableAlias = paramTableAlias;
         String queryParmCode = queryParm.getCode();
 
-        if (!QuerySegmentAggregator.ID.equals(queryParmCode)) {
+        if (!ID.equals(queryParmCode)) {
 
             // Append the suffix for :text modifier
             if (Modifier.TEXT.equals(queryParm.getModifier())) {
@@ -1624,7 +1627,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
             String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
             whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
-            if (!PARAM_NAME_PROFILE.equals(queryParm.getCode()) && !PARAM_NAME_TAG.equals(queryParm.getCode())) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
                 this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
                 whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ")
                         .append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery
@@ -1832,7 +1835,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             } else if (parmIndex == lastParmIndex) {
                 // This logic processes the LAST parameter in the chain.
                 SqlQueryData sqlQueryData;
-                if ("_id".equals(currentParm.getCode())) {
+                if (ID.equals(currentParm.getCode())) {
                     if (!chainedParmProcessed) {
                         // Build this join:
                         // @formatter:off
@@ -1847,7 +1850,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     }
                     // Build the rest: CLRx.LOGICAL_ID IN (?)
                     sqlQueryData = buildChainedIdClause(currentParm, chainedParmVar);
-                } else if ("_lastUpdated".equals(currentParm.getCode())) {
+                } else if (LAST_UPDATED.equals(currentParm.getCode())) {
                     if (!chainedParmProcessed) {
                         // Build this join:
                         // @formatter:off
@@ -2152,8 +2155,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         return queryData;
     }
 
-    private SqlQueryData processTagParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain) throws FHIRPersistenceException {
-        final String METHODNAME = "processTagParm";
+    private SqlQueryData processGlobalTokenParm(Class<?> resourceType, QueryParameter queryParm, String paramTableAlias, String logicalRsrcTableAlias, boolean endOfChain) throws FHIRPersistenceException {
+        final String METHODNAME = "processGlobalTokenParm";
         log.entering(CLASSNAME, METHODNAME, queryParm.toString());
 
         StringBuilder whereClauseSegment = new StringBuilder();
@@ -2163,133 +2166,124 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         SqlQueryData queryData;
         List<Object> bindVariables = new ArrayList<>();
         String tableAlias = paramTableAlias;
-        String queryParmCode = queryParm.getCode();
 
-        if (!QuerySegmentAggregator.ID.equals(queryParmCode)) {
+        // Only generate NOT EXISTS subquery if :not modifier is within chained query;
+        // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
+        boolean surroundWithNotExistsSubquery = Modifier.NOT.equals(queryParm.getModifier()) && endOfChain;
+        if (surroundWithNotExistsSubquery) {
+            whereClauseSegment.append(NOT).append(EXISTS);
 
-            // Append the suffix for :text modifier
-            if (Modifier.TEXT.equals(queryParm.getModifier())) {
-                queryParmCode += SearchConstants.TEXT_MODIFIER_SUFFIX;
-            }
+            // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
+            String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
+            tableAlias = paramTableAlias + "_param0";
+            whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + tableAlias + WHERE);
+        }
 
-            // Only generate NOT EXISTS subquery if :not modifier is within chained query;
-            // when :not modifier is within non-chained query QuerySegmentAggregator.buildWhereClause generates the NOT EXISTS subquery
-            boolean surroundWithNotExistsSubquery = Modifier.NOT.equals(queryParm.getModifier()) && endOfChain;
-            if (surroundWithNotExistsSubquery) {
-                whereClauseSegment.append(NOT).append(EXISTS);
+        whereClauseSegment.append(LEFT_PAREN);
+        for (QueryParameterValue value : queryParm.getValues()) {
+            appendEscape = false;
 
-                // PARAMETER_TABLE_NAME_PLACEHOLDER is replaced by the actual table name for the resource type by QuerySegmentAggregator.buildWhereClause(...)
-                String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
-                tableAlias = paramTableAlias + "_param0";
-                whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + tableAlias + WHERE);
+            // If multiple values are present, we need to OR them together.
+            if (parmValueProcessed) {
+                whereClauseSegment.append(OR);
             }
 
             whereClauseSegment.append(LEFT_PAREN);
-            for (QueryParameterValue value : queryParm.getValues()) {
-                appendEscape = false;
 
-                // If multiple values are present, we need to OR them together.
-                if (parmValueProcessed) {
-                    whereClauseSegment.append(OR);
+            if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                    Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+                populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
+            } else {
+                final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
+                final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
+
+                // Determine code normalization based on code system case-sensitivity
+                String normalizedCode = null;
+                if (code != null) {
+                    if (system != null) {
+                        boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(system);
+                        normalizedCode = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
+                                code : SearchUtil.normalizeForSearch(code));
+                    } else {
+                        normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
+                    }
                 }
 
-                whereClauseSegment.append(LEFT_PAREN);
-
-                if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
-                        Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
-                    populateCodesSubSegment(whereClauseSegment, queryParm.getModifier(), value, tableAlias);
-                } else {
-                    final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
-                    final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
-
-                    // Determine code normalization based on code system case-sensitivity
-                    String normalizedCode = null;
-                    if (code != null) {
-                        if (system != null) {
-                            boolean codeSystemIsCaseSensitive = CodeSystemSupport.isCaseSensitive(system);
-                            normalizedCode = SqlParameterEncoder.encode(codeSystemIsCaseSensitive ?
-                                                code : SearchUtil.normalizeForSearch(code));
-                        } else {
-                            normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
-                        }
-                    }
-
-                    // Include code
-                    if (EQ.equals(operator) && code != null) {
-                        if (system == null || system.equals("*")) {
-                            // Even though we don't have a system, we can still use a list of
-                            // common_token_value_ids matching the value-code, allowing a similar optimization
-                            Set<Long> ctvs = new HashSet<>();
-                            ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(code)));
-                            ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code))));
-                            List<Long> ctvList = new ArrayList<>(ctvs);
-                            if (ctvs.isEmpty()) {
-                                // use -1...resulting in no data
-                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                                        .append(-1);
-                            } else if (ctvs.size() == 1) {
-                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                                        .append(ctvList.get(0));
-                            } else {
-                                whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(IN)
-                                        .append(LEFT_PAREN)
-                                        .append(ctvList.stream().map(c -> c.toString()).collect(Collectors.joining(",")))
-                                        .append(RIGHT_PAREN);
-                            }
-                        } else {
-                            Long commonTokenValueId = getCommonTokenValueId(system, normalizedCode);
+                // Include code
+                if (EQ.equals(operator) && code != null) {
+                    if (system == null || system.equals("*")) {
+                        // Even though we don't have a system, we can still use a list of
+                        // common_token_value_ids matching the value-code, allowing a similar optimization
+                        Set<Long> ctvs = new HashSet<>();
+                        ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(code)));
+                        ctvs.addAll(identityCache.getCommonTokenValueIdList(SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code))));
+                        List<Long> ctvList = new ArrayList<>(ctvs);
+                        if (ctvs.isEmpty()) {
+                            // use -1...resulting in no data
                             whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
-                                    .append(commonTokenValueId != null ? commonTokenValueId : -1);
+                                .append(-1);
+                        } else if (ctvs.size() == 1) {
+                            whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                                .append(ctvList.get(0));
+                        } else {
+                            whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(IN)
+                                .append(LEFT_PAREN)
+                                .append(ctvList.stream().map(c -> c.toString()).collect(Collectors.joining(",")))
+                                .append(RIGHT_PAREN);
                         }
                     } else {
-                        // Traditional approach, using a join to xx_TOKEN_VALUES_V
+                        Long commonTokenValueId = getCommonTokenValueId(system, normalizedCode);
+                        whereClauseSegment.append(tableAlias).append(DOT).append(COMMON_TOKEN_VALUE_ID).append(EQ)
+                            .append(commonTokenValueId != null ? commonTokenValueId : -1);
+                    }
+                } else {
+                    // Traditional approach, using a join to xx_TOKEN_VALUES_V
 
-                        // Include code if present
-                        if (code != null) {
-                            whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
-                            if (LIKE.equals(operator)) {
-                                // Must escape special wildcard characters _ and % in the parameter value string
-                                // as well as the escape character itself.
-                                String textSearchString = normalizedCode
-                                        .replace("+", "++")
-                                        .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
-                                        .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
-                                bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
-                                appendEscape = true;
+                    // Include code if present
+                    if (code != null) {
+                        whereClauseSegment.append(tableAlias).append(DOT).append(TOKEN_VALUE).append(operator).append(BIND_VAR);
+                        if (LIKE.equals(operator)) {
+                            // Must escape special wildcard characters _ and % in the parameter value string
+                            // as well as the escape character itself.
+                            String textSearchString = normalizedCode
+                                    .replace("+", "++")
+                                    .replace(PERCENT_WILDCARD, ESCAPE_PERCENT)
+                                    .replace(UNDERSCORE_WILDCARD, ESCAPE_UNDERSCORE) + PERCENT_WILDCARD;
+                            bindVariables.add(SearchUtil.normalizeForSearch(textSearchString));
+                            appendEscape = true;
 
-                            } else {
-                                bindVariables.add(normalizedCode);
-                            }
-                        }
-
-                        // Include system if present
-                        if (system != null) {
-                            if (code != null) {
-                                whereClauseSegment.append(AND);
-                            }
-
-                            // Filter on the code system for the given parameter
-                            whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
-                                    .append(nullCheck(identityCache.getCodeSystemId(system)));
+                        } else {
+                            bindVariables.add(normalizedCode);
                         }
                     }
-                }
 
-                // Build this piece: ESCAPE '+'
-                if (appendEscape) {
-                    whereClauseSegment.append(ESCAPE_EXPR);
-                }
+                    // Include system if present
+                    if (system != null) {
+                        if (code != null) {
+                            whereClauseSegment.append(AND);
+                        }
 
-                whereClauseSegment.append(RIGHT_PAREN);
-                parmValueProcessed = true;
+                        // Filter on the code system for the given parameter
+                        whereClauseSegment.append(tableAlias).append(DOT).append(CODE_SYSTEM_ID).append(EQ)
+                            .append(nullCheck(identityCache.getCodeSystemId(system)));
+                    }
+                }
+            }
+
+            // Build this piece: ESCAPE '+'
+            if (appendEscape) {
+                whereClauseSegment.append(ESCAPE_EXPR);
             }
 
             whereClauseSegment.append(RIGHT_PAREN);
+            parmValueProcessed = true;
+        }
 
-            if (surroundWithNotExistsSubquery) {
-                whereClauseSegment.append(AND).append(tableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID");
-                whereClauseSegment.append(RIGHT_PAREN);
-            }
+        whereClauseSegment.append(RIGHT_PAREN);
+
+        if (surroundWithNotExistsSubquery) {
+            whereClauseSegment.append(AND).append(tableAlias).append(".LOGICAL_RESOURCE_ID = ").append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID");
+            whereClauseSegment.append(RIGHT_PAREN);
         }
         queryData = new SqlQueryData(whereClauseSegment.toString(), bindVariables);
 

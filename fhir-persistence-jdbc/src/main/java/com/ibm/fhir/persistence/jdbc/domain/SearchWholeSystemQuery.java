@@ -68,14 +68,12 @@ public class SearchWholeSystemQuery extends SearchQuery {
         // Get the overall query
         T query = visitor.wrapWholeSystem(queries, isCountQuery);
         
-        // Add sorting
+        // Add sorting and pagination
         if (!isCountQuery) {
             query = visitor.addWholeSystemSorting(query, sortParameters, "COMBINED_RESULTS");
-        }
-
-        // Add pagination
-        if (addPagination) {
-            query = visitor.addPagination(query);
+            if (addPagination) {
+                query = visitor.addPagination(query);
+            }
         }
 
         return query;

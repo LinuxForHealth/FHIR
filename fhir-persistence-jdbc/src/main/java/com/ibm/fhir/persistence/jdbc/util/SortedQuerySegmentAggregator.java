@@ -19,13 +19,16 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.MIN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.NUMBER_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ORDER_BY;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_PROFILE;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAM_NAME_TAG;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.QUANTITY_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -208,7 +211,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         StringBuilder expression = new StringBuilder();
         List<String> valueAttributeNames;
 
-        if (PARAM_NAME_TAG.equals(sortParm.getCode()) || PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
+        if (SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(sortParm.getCode())) {
             valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
         } else {
             valueAttributeNames = this.getValueAttributeNames(sortParm);
@@ -225,7 +228,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             }
             expression.append(LEFT_PAREN);
 
-            if (SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
+            if (LAST_UPDATED.equals(sortParm.getCode())) {
                 expression.append("R.LAST_UPDATED");
             } else {
                 expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
@@ -312,9 +315,9 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         // Build the LEFT OUTER JOINs needed to access the required sort parameters.
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
-            if (!SearchConstants.LAST_UPDATED.equals(sortParm.getCode())) {
-                if (PARAM_NAME_TAG.equals(sortParm.getCode()) || PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
-                    // For a sort by _tag or _profile, we need to join the parameter-specific token
+            if (!LAST_UPDATED.equals(sortParm.getCode())) {
+                if (SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(sortParm.getCode())) {
+                    // For a sort by _tag or _profile or _security, we need to join the parameter-specific token
                     // table with the common token values table.
                     joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
                         .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append("_P")
@@ -379,7 +382,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         switch (sortParm.getType()) {
         case URI:
         case STRING:
-            if (PARAM_NAME_PROFILE.equals(sortParm.getCode())) {
+            if (PROFILE.equals(sortParm.getCode())) {
                 sortParameterTableName.append("PROFILES");
             } else {
                 sortParameterTableName.append("STR_VALUES");
@@ -390,8 +393,10 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             break;
         case REFERENCE:
         case TOKEN:
-            if (PARAM_NAME_TAG.equals(sortParm.getCode())) {
+            if (TAG.equals(sortParm.getCode())) {
                 sortParameterTableName.append("TAGS");
+            } else if (SECURITY.equals(sortParm.getCode())) {
+                sortParameterTableName.append("SECURITY");
             } else {
                 sortParameterTableName.append("TOKEN_VALUES_V");
             }
@@ -468,7 +473,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             String code = sortParm.getCode();
             if (ID.equals(code)) {
                 orderByBuffer.append(ID_COLUMN_NAME);
-            } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(code)) {
+            } else if (LAST_UPDATED.equals(code)) {
                 orderByBuffer.append(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME).append(SPACE);
             } else {
                 throw new FHIRPersistenceNotSupportedException(

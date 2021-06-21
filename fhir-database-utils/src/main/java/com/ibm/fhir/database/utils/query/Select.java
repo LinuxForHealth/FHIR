@@ -246,13 +246,7 @@ public class Select {
             // Generate a pretty-printed string using the renderer so we
             // get an accurate version of the string.
             StringStatementRenderer renderer = new StringStatementRenderer(TRANSLATOR, null, true);
-            if (union != null) {
-                StringBuilder result = new StringBuilder();
-                result.append(this.render(renderer)).append(union.toDebugString());
-                return result.toString();
-            } else {
-                return this.render(renderer);
-            }
+            return this.render(renderer);
         } catch (Exception x) {
             // If we can't render, it's very likely this debug is being used already
             // in a catch clause from an earlier exception. So rather than propagating
@@ -268,18 +262,9 @@ public class Select {
      * @param renderer
      * @return
      */
-    @SuppressWarnings("unchecked")
     public <T> T render(StatementRenderer<T> renderer) {
-        if (union != null) {
-            StringBuilder result = new StringBuilder();
-            T rendered = renderer.select(distinct, selectList, fromClause, whereClause,
-                groupByClause, havingClause, orderByClause, paginationClause, unionAll, union);
-            result.append(rendered).append(union.render(renderer));
-            return (T) result.toString();
-        } else {
-            return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause,
-                orderByClause, paginationClause, unionAll, union);
-        }
+        return renderer.select(distinct, selectList, fromClause, whereClause, groupByClause, havingClause,
+            orderByClause, paginationClause, unionAll, union);
     }
 
     /**

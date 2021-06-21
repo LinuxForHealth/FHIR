@@ -68,6 +68,7 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
             }
 
             cache.getResourceTypeCache().addEntry(resourceType, result);
+            cache.getResourceTypeNameCache().addEntry(result, resourceType);
         }
         return result;
     }
@@ -76,13 +77,15 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     public String getResourceTypeName(Integer resourceTypeId) throws FHIRPersistenceException {
         String result = cache.getResourceTypeNameCache().getName(resourceTypeId);
         if (result == null) {
-            // try the database instead and cache the result
+            // try the database instead and just cache all results found in this cache
+            // and in the resource type cache as well
             Map<String, Integer> resourceMap = resourceDAO.readAllResourceTypeNames();
             for (Map.Entry<String, Integer> entry : resourceMap.entrySet()) {
                 if (entry.getValue() == resourceTypeId) {
                     result = entry.getKey();
-                    break;
                 }
+                cache.getResourceTypeNameCache().addEntry(entry.getValue(), entry.getKey());
+                cache.getResourceTypeCache().addEntry(entry.getKey(), entry.getValue());
             }
 
             if (result == null) {
@@ -90,8 +93,6 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
                 // for a subset of all possible resource types
                 throw new FHIRPersistenceDataAccessException("Resource type ID not registered in database: '" + resourceTypeId + "'");
             }
-
-            cache.getResourceTypeNameCache().addEntry(resourceTypeId, result);
         }
         return result;
     }

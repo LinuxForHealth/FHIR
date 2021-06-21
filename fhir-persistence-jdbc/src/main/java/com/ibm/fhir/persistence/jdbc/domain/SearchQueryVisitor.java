@@ -118,6 +118,16 @@ public interface SearchQueryVisitor<T> {
     T addTagParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
+     * Filter the query using the given security query parameter
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addSecurityParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
      * Filter the query using the given string parameter
      * @param query
      * @param resourceType
@@ -302,6 +312,13 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addWholeSystemDataFilter(T query, String resourceType, List<Long> logicalResourceIds) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param resourceTypeIds
+     * @return
+     */
+    T addWholeSystemResourceTypeFilter(T query, List<Integer> resourceTypeIds) throws FHIRPersistenceException;
 
     /**
      * Add the given sort parameter to the sort query
