@@ -169,11 +169,7 @@ public class SpecimenStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class SpecimenStatus extends Code {
 
         @Override
         public SpecimenStatus build() {
-            return new SpecimenStatus(this);
+            SpecimenStatus specimenStatus = new SpecimenStatus(this);
+            if (validating) {
+                validate(specimenStatus);
+            }
+            return specimenStatus;
+        }
+
+        protected void validate(SpecimenStatus specimenStatus) {
+            super.validate(specimenStatus);
+        }
+
+        protected Builder from(SpecimenStatus specimenStatus) {
+            super.from(specimenStatus);
+            return this;
         }
     }
 

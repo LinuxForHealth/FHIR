@@ -158,11 +158,7 @@ public class ConditionalDeleteStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ConditionalDeleteStatus extends Code {
 
         @Override
         public ConditionalDeleteStatus build() {
-            return new ConditionalDeleteStatus(this);
+            ConditionalDeleteStatus conditionalDeleteStatus = new ConditionalDeleteStatus(this);
+            if (validating) {
+                validate(conditionalDeleteStatus);
+            }
+            return conditionalDeleteStatus;
+        }
+
+        protected void validate(ConditionalDeleteStatus conditionalDeleteStatus) {
+            super.validate(conditionalDeleteStatus);
+        }
+
+        protected Builder from(ConditionalDeleteStatus conditionalDeleteStatus) {
+            super.from(conditionalDeleteStatus);
+            return this;
         }
     }
 

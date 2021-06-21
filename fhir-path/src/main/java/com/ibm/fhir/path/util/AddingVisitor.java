@@ -29,10 +29,10 @@ class AddingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @throws IllegalArgumentException
      */
     public AddingVisitor(Visitable parent, String parentPath, String elementName, Visitable value) {
-        this.path = Objects.requireNonNull(parentPath);
-        this.elementNameToAdd = Objects.requireNonNull(elementName);
+        this.path = Objects.requireNonNull(parentPath, "parentPath");
+        this.elementNameToAdd = Objects.requireNonNull(elementName, "elementName");
         this.isRepeatingElement = ModelSupport.isRepeatingElement(parent.getClass(), elementName);
-        this.value = Objects.requireNonNull(value) instanceof Code ?
+        this.value = Objects.requireNonNull(value, "value") instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)value) : value;
     }
 

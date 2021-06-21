@@ -158,11 +158,7 @@ public class ResearchElementType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ResearchElementType extends Code {
 
         @Override
         public ResearchElementType build() {
-            return new ResearchElementType(this);
+            ResearchElementType researchElementType = new ResearchElementType(this);
+            if (validating) {
+                validate(researchElementType);
+            }
+            return researchElementType;
+        }
+
+        protected void validate(ResearchElementType researchElementType) {
+            super.validate(researchElementType);
+        }
+
+        protected Builder from(ResearchElementType researchElementType) {
+            super.from(researchElementType);
+            return this;
         }
     }
 

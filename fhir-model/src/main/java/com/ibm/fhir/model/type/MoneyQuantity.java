@@ -236,7 +236,15 @@ public class MoneyQuantity extends Quantity {
          */
         @Override
         public MoneyQuantity build() {
-            return new MoneyQuantity(this);
+            MoneyQuantity moneyQuantity = new MoneyQuantity(this);
+            if (validating) {
+                validate(moneyQuantity);
+            }
+            return moneyQuantity;
+        }
+
+        protected void validate(MoneyQuantity moneyQuantity) {
+            super.validate(moneyQuantity);
         }
 
         protected Builder from(MoneyQuantity moneyQuantity) {

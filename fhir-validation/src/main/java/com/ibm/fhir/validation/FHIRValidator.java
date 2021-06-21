@@ -35,19 +35,26 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.path.FHIRPathBooleanValue;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.path.function.ResolveFunction;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
+import net.jcip.annotations.NotThreadSafe;
+
+/**
+ * A validator that uses conformance resources from the {@link com.ibm.fhir.registry.FHIRRegistry}
+ * to validate resource instances against the base specification and, optionally, extended profiles.
+ *
+ * The static factory method {@link #validator()} is threadsafe, but the created instances are not.
+ */
+@NotThreadSafe
 public class FHIRValidator {
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
@@ -170,7 +177,7 @@ public class FHIRValidator {
             throw new IllegalArgumentException("Root must be resource node");
         }
         try {
-            evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.TRUE);
+            evaluationContext.setResolveRelativeReferences(true);
             List<Issue> issues = new ArrayList<>();
             validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
             issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));

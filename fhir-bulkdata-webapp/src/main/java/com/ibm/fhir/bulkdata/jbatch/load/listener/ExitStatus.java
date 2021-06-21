@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonValue;
-
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportCheckPointData;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonValue;
 
 /**
  * Adapts the partitionSummaries and DatasourceArray into an Exit Status
@@ -45,14 +45,22 @@ public class ExitStatus {
         }
 
         String[] resultInExitStatus = new String[sequenceNum];
-        System.out.println(partitionSummaries);
+        logger.fine(() -> "The partitions are " + partitionSummaries);
         for (ImportCheckPointData partitionSummary : partitionSummaries) {
-            String key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem();
+            String key;
+            if (partitionSummary.getMatrixWorkItem() == null) {
+                key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getImportPartitionWorkitem();
+            } else {
+                // must be matrixed
+                key = partitionSummary.getImportPartitionResourceType() + ":" + partitionSummary.getMatrixWorkItem();
+            }
+
             if (!inputUrlSequenceMap.containsKey(key)) {
                 // Highly unlikely to hit now that the partition-resource-type is fixed
                 // So... this means that the Key is some how mutated.
-                logger.warning("Partition Key is incorrect '" + key + "'");
+                logger.warning("Partition Key is incorrect '" + key + "' matrix='" + partitionSummary.getMatrixWorkItem() + "'");
             }
+
             int index = inputUrlSequenceMap.get(key);
             resultInExitStatus[index] = partitionSummary.getNumOfImportedResources() + ":" + partitionSummary.getNumOfImportFailures();
         }

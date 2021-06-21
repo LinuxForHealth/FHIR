@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.8.0-SNAPSHOT</version>
+        <version>4.9.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -49,12 +49,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification-kafka</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-cli</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>

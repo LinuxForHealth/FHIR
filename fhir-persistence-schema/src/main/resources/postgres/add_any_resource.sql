@@ -53,6 +53,7 @@
   lock_cur CURSOR (t_resource_type_id INT, t_logical_id VARCHAR(255)) FOR SELECT logical_resource_id, parameter_hash FROM {{SCHEMA_NAME}}.logical_resources WHERE resource_type_id = t_resource_type_id AND logical_id = t_logical_id FOR NO KEY UPDATE;
 
 BEGIN
+  -- LOADED ON: {{DATE}}
   v_schema_name := '{{SCHEMA_NAME}}';
   SELECT resource_type_id INTO v_resource_type_id 
     FROM {{SCHEMA_NAME}}.resource_types WHERE resource_type = p_resource_type;

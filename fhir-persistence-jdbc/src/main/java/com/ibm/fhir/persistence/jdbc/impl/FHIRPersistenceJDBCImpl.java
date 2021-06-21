@@ -59,11 +59,13 @@ import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRJsonParser;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.type.Code;
@@ -357,12 +359,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
 
-        // Most resources are well under 10K after being serialized and compressed
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
         String logicalId;
-
-        // We need to update the meta in the resource, so we need a modifiable version
-        Resource.Builder resultResourceBuilder = resource.toBuilder();
 
         try (Connection connection = openConnection()) {
 
@@ -378,31 +375,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // Set the resource id and meta fields.
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            resultResourceBuilder.id(logicalId);
-            Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resultResourceBuilder.meta(metaBuilder.build());
-
-            // rebuild the resource with updated meta
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resultResourceBuilder.build();
+            T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator( Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
 
             // The DAO objects are now created on-the-fly (not expensive to construct) and
             // given the connection to use while processing this request
@@ -450,6 +427,66 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     /**
+     * Creates and returns a data transfer object (DTO) with the contents of the passed arguments.
+     *
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @param updatedResource
+     * @return
+     * @throws IOException
+     * @throws FHIRGeneratorException
+     */
+    private com.ibm.fhir.persistence.jdbc.dto.Resource createResourceDTO(String logicalId, int newVersionNumber,
+            Instant lastUpdated, Resource updatedResource) throws IOException, FHIRGeneratorException {
+
+        Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
+
+        com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
+        resourceDTO.setLogicalId(logicalId);
+        resourceDTO.setVersionId(newVersionNumber);
+        resourceDTO.setLastUpdated(timestamp);
+        resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
+
+        // Most resources are well under 10K after being serialized and compressed
+        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
+
+        // Serialize and compress the Resource
+        try (GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream())) {
+            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
+            zipStream.finish();
+            resourceDTO.setDataStream(ioStream);
+        }
+
+        return resourceDTO;
+    }
+
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
+    /**
      * Convenience method to construct a new instance of the {@link ResourceDAO}
      * @param connection the connection to the database for the DAO to use
      * @return a properly constructed implementation of a ResourceDAO
@@ -457,7 +494,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @throws FHIRPersistenceException
      * @throws FHIRPersistenceDataAccessException
      */
-    private ResourceDAO makeResourceDAO(Connection connection) throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
+    private ResourceDAO makeResourceDAO(Connection connection)
+            throws FHIRPersistenceDataAccessException, FHIRPersistenceException, IllegalArgumentException {
 
         // The resourceDAO is made before any database interaction, so this is a great spot
         // to prefill the caches if needed
@@ -515,10 +553,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         Class<? extends Resource> resourceType = resource.getClass();
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO;
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-
-        // Resources are immutable, so we need a new builder to update it (since R4)
-        Resource.Builder resultResourceBuilder = resource.toBuilder();
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -568,33 +602,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 log.fine("Storing new FHIR Resource '" + resource.getClass().getSimpleName() + "/" + logicalId + "', version=" + newVersionNumber);
             }
 
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-
             // Set the resource id and meta fields.
-//            resultBuilder.id(logicalId);
-            Meta meta = resource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resultResourceBuilder.meta(metaBuilder.build());
-
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resultResourceBuilder.build();
+            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+            T updatedResource = copyAndSetResourceMetaFields(resource, resource.getId(), newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(updatedResource.getClass().getSimpleName());
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
 
             // Persist the Resource DTO.
             final String parameterHashB64 = "";
@@ -1338,7 +1352,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
                         .extension(Extension.builder()
-                            .url("http://ibm.com/fhir/extension/not-supported-detail")
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
                             .value(Code.of("interaction"))
                             .build())
                         .build())
@@ -1354,9 +1368,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = null;
         T existingResource = null;
-        InputOutputByteStream ioStream = new InputOutputByteStream(DATA_BUFFER_INITIAL_SIZE);
-
-        Resource.Builder resourceBuilder;
 
         try (Connection connection = openConnection()) {
             ResourceDAO resourceDao = makeResourceDAO(connection);
@@ -1370,7 +1381,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             if (existingResourceDTO.isDeleted()) {
                 existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
-                resourceBuilder = existingResource.toBuilder();
 
                 addWarning(IssueType.DELETED, "Resource of type'" + resourceType.getSimpleName() +
                         "' with id '" + logicalId + "' is already deleted.");
@@ -1385,38 +1395,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             existingResource = this.convertResourceDTO(existingResourceDTO, resourceType, null);
 
-            // Resources are immutable, so we need a new builder to update it (since R4)
-            resourceBuilder = existingResource.toBuilder();
-
             int newVersionNumber = existingResourceDTO.getVersionId() + 1;
             Instant lastUpdated = Instant.now(ZoneOffset.UTC);
 
             // Update the soft-delete resource to reflect the new version and lastUpdated values.
-            Meta meta = existingResource.getMeta();
-            Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
-            metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
-            metaBuilder.lastUpdated(lastUpdated);
-            resourceBuilder.meta(metaBuilder.build());
-
-
-            @SuppressWarnings("unchecked")
-            T updatedResource = (T) resourceBuilder.build();
+            T updatedResource = copyAndSetResourceMetaFields(existingResource, existingResource.getId(), newVersionNumber, lastUpdated);
 
             // Create a new Resource DTO instance to represent the deleted version.
-            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO = new com.ibm.fhir.persistence.jdbc.dto.Resource();
-            resourceDTO.setLogicalId(logicalId);
-            resourceDTO.setVersionId(newVersionNumber);
-
-            // Serialize and compress the Resource
-            GZIPOutputStream zipStream = new GZIPOutputStream(ioStream.outputStream());
-            FHIRGenerator.generator(Format.JSON, false).generate(updatedResource, zipStream);
-            zipStream.finish();
-            resourceDTO.setDataStream(ioStream);
-            zipStream.close();
-
-            Timestamp timestamp = FHIRUtilities.convertToTimestamp(lastUpdated.getValue());
-            resourceDTO.setLastUpdated(timestamp);
-            resourceDTO.setResourceType(resourceType.getSimpleName());
+            com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =
+                    createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
@@ -2332,16 +2319,18 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         InputStream in = null;
         try {
             if (resourceDTO != null && resourceDTO.getDataStream() != null) {
+                FHIRParser parser = FHIRParser.parser(Format.JSON);
+                parser.setValidating(false);
                 in = new GZIPInputStream(resourceDTO.getDataStream().inputStream());
                 if (elements != null) {
                     // parse/filter the resource using elements
-                    resource = FHIRParser.parser(Format.JSON).as(FHIRJsonParser.class).parseAndFilter(in, elements);
+                    resource = parser.as(FHIRJsonParser.class).parseAndFilter(in, elements);
                     if (resourceType.equals(resource.getClass()) && !FHIRUtil.hasTag(resource, SearchConstants.SUBSETTED_TAG)) {
                         // add a SUBSETTED tag to this resource to indicate that its elements have been filtered
                         resource = FHIRUtil.addTag(resource, SearchConstants.SUBSETTED_TAG);
                     }
                 } else {
-                    resource = FHIRParser.parser(Format.JSON).parse(in);
+                    resource = parser.parse(in);
                 }
             }
         } finally {

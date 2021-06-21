@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,18 +13,18 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.json.JsonValue;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIRException;
 
 /**
- * This class defines the Batch parameters section of the FHIR server
+ * This class defines the Batch parameters section of the IBM FHIR server
  * AuditLogEntry.
  */
 public class Batch {
@@ -36,6 +36,10 @@ public class Batch {
     private Long resourcesCreated;
 
     private Long resourcesUpdated;
+
+    private Long resourcesDeleted;
+
+    private Long resourcesExecuted;
 
     public Batch() {
         super();
@@ -71,6 +75,22 @@ public class Batch {
 
     public void setResourcesUpdated(Long resourcesUpdated) {
         this.resourcesUpdated = resourcesUpdated;
+    }
+
+    public Long getResourcesDeleted() {
+        return resourcesDeleted;
+    }
+
+    public void setResourcesDeleted(Long resourcesDeleted) {
+        this.resourcesDeleted = resourcesDeleted;
+    }
+
+    public Long getResourcesExecuted() {
+        return resourcesExecuted;
+    }
+
+    public void setResourcesExecuted(Long resourcesExecuted) {
+        this.resourcesExecuted = resourcesExecuted;
     }
 
     /**
@@ -118,6 +138,14 @@ public class Batch {
 
             if (obj.getResourcesUpdated() != null) {
                 generator.write("resources_updated", obj.getResourcesUpdated());
+            }
+
+            if (obj.getResourcesDeleted() != null) {
+                generator.write("resources_deleted", obj.getResourcesDeleted());
+            }
+
+            if (obj.getResourcesExecuted() != null) {
+                generator.write("resources_executed", obj.getResourcesExecuted());
             }
 
             if (obj.getStatus() != null) {
@@ -169,6 +197,18 @@ public class Batch {
                 builder.resourcesUpdated(resourcesUpdated);
             }
 
+            t = jsonObject.get("resources_deleted");
+            if (t != null) {
+                long resourcesDeleted = jsonObject.getInt("resources_deleted");
+                builder.resourcesDeleted(resourcesDeleted);
+            }
+
+            t = jsonObject.get("resources_executed");
+            if (t != null) {
+                long resourcesExecuted = jsonObject.getInt("resources_executed");
+                builder.resourcesExecuted(resourcesExecuted);
+            }
+
             t = jsonObject.get("status");
             if (t != null) {
                 String status = jsonObject.getString("status");
@@ -206,6 +246,16 @@ public class Batch {
 
         public Builder resourcesUpdated(long resourcesUpdated) {
             batch.setResourcesUpdated(resourcesUpdated);
+            return this;
+        }
+
+        public Builder resourcesDeleted(long resourcesDeleted) {
+            batch.setResourcesDeleted(resourcesDeleted);
+            return this;
+        }
+
+        public Builder resourcesExecuted(long resourcesExecuted) {
+            batch.setResourcesExecuted(resourcesExecuted);
             return this;
         }
 

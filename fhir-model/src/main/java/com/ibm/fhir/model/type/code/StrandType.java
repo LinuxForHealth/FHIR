@@ -147,11 +147,7 @@ public class StrandType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class StrandType extends Code {
 
         @Override
         public StrandType build() {
-            return new StrandType(this);
+            StrandType strandType = new StrandType(this);
+            if (validating) {
+                validate(strandType);
+            }
+            return strandType;
+        }
+
+        protected void validate(StrandType strandType) {
+            super.validate(strandType);
+        }
+
+        protected Builder from(StrandType strandType) {
+            super.from(strandType);
+            return this;
         }
     }
 

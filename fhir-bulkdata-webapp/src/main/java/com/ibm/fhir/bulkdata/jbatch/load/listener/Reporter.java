@@ -65,6 +65,7 @@ public class Reporter {
                 partitionSummaryInMap.setNumOfImportFailures(partitionSummaryInMap.getNumOfImportFailures() + partitionSummary.getNumOfImportFailures());
                 partitionSummaryInMap.setNumOfImportedResources(partitionSummaryInMap.getNumOfImportedResources() + partitionSummary.getNumOfImportedResources());
                 partitionSummaryInMap.setNumOfProcessedResources(partitionSummaryInMap.getNumOfProcessedResources() + partitionSummary.getNumOfProcessedResources());
+                partitionSummaryInMap.setNumOfSkippedResources(partitionSummaryInMap.getNumOfSkippedResources() + partitionSummary.getNumOfSkippedResources());
                 partitionSummaryInMap.setTotalReadMilliSeconds(partitionSummaryInMap.getTotalReadMilliSeconds() + partitionSummary.getTotalReadMilliSeconds());
                 partitionSummaryInMap.setTotalValidationMilliSeconds(partitionSummaryInMap.getTotalValidationMilliSeconds() + partitionSummary.getTotalValidationMilliSeconds());
                 partitionSummaryInMap.setTotalWriteMilliSeconds(partitionSummaryInMap.getTotalWriteMilliSeconds() + partitionSummary.getTotalWriteMilliSeconds());
@@ -77,8 +78,8 @@ public class Reporter {
 
         // log the simple metrics.
         logger.info("Operation Type: $import");
-        logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
-            "Resource Type","failures", "success", "processed", "totalRead", "totalValidation", "totalWrite", "fileSize", "Resource Size"));
+        logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
+            "Resource Type","failures", "success", "processed", "totalRead", "totalSkip", "totalValidation", "totalWrite", "fileSize", "Resource Size"));
         long totalImportedFhirResources = 0;
         for (ImportCheckPointData importedResourceTypeSummary : importedResourceTypeSummaries.values()) {
             String resourceType = importedResourceTypeSummary.getImportPartitionResourceType();
@@ -86,6 +87,7 @@ public class Reporter {
             long success = importedResourceTypeSummary.getNumOfImportedResources();
             long totalRead = importedResourceTypeSummary.getTotalReadMilliSeconds();
             long totalWrite = importedResourceTypeSummary.getTotalWriteMilliSeconds();
+            long totalSkip = importedResourceTypeSummary.getNumOfSkippedResources();
             long totalValidation = importedResourceTypeSummary.getTotalValidationMilliSeconds();
             long processed = importedResourceTypeSummary.getNumOfImportedResources();
             long fileSize = importedResourceTypeSummary.getImportFileSize();
@@ -98,8 +100,8 @@ public class Reporter {
             } else {
                 logger.fine("No Content was imported");
             }
-            logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
-               resourceType,failures, success, processed, totalRead, totalValidation, totalWrite, fileSize, resourceSize));
+            logger.info(String.format("%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s%-22s",
+               resourceType,failures, success, processed, totalRead, totalSkip, totalValidation, totalWrite, fileSize, resourceSize));
         }
         logger.info(" ---- Total: " + totalImportedFhirResources
                 + " ImportRate: " + new DecimalFormat("#0.00").format(totalImportedFhirResources/jobProcessingSeconds) + " ----");

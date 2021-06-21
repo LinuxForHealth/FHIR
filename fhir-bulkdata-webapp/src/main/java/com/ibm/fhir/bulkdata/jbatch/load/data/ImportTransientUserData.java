@@ -63,6 +63,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
     public static ImportTransientUserData fromImportCheckPointData(ImportCheckPointData importCheckPointData) {
         return ImportTransientUserData.Builder.builder()
                 .importPartitionWorkitem(importCheckPointData.importPartitionWorkitem)
+                .matrixWorkItem(importCheckPointData.matrixWorkItem)
                 .numOfProcessedResources(importCheckPointData.numOfProcessedResources)
                 .importPartitionResourceType(importCheckPointData.importPartitionResourceType)
                 .numOfImportedResources(importCheckPointData.numOfImportedResources)
@@ -80,6 +81,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
                 .totalWriteMilliSeconds(importCheckPointData.totalWriteMilliSeconds)
                 .importFileSize(importCheckPointData.importFileSize)
                 .inFlyRateBeginMilliSeconds(importCheckPointData.inFlyRateBeginMilliSeconds)
+                .currentBytes(importCheckPointData.currentBytes)
                 .build();
     }
 
@@ -92,6 +94,11 @@ public class ImportTransientUserData extends ImportCheckPointData {
         @Override
         public Builder importPartitionWorkitem(String importPartitionWorkitem) {
             return (Builder) super.importPartitionWorkitem(importPartitionWorkitem);
+        }
+
+        @Override
+        public Builder matrixWorkItem(String matrixWorkItem) {
+            return (Builder) super.matrixWorkItem(matrixWorkItem);
         }
 
         @Override
@@ -180,9 +187,15 @@ public class ImportTransientUserData extends ImportCheckPointData {
         }
 
         @Override
+        public Builder currentBytes(long currentBytes) {
+            return (Builder) super.currentBytes(currentBytes);
+        }
+
+        @Override
         public ImportTransientUserData build() {
             ImportTransientUserData importTransientUserData = new ImportTransientUserData();
             importTransientUserData.importPartitionWorkitem = this.importPartitionWorkitem;
+            importTransientUserData.matrixWorkItem = this.matrixWorkItem;
             importTransientUserData.numOfProcessedResources = this.numOfProcessedResources;
             importTransientUserData.importPartitionResourceType = this.importPartitionResourceType;
             importTransientUserData.numOfImportedResources = this.numOfImportedResources;
@@ -200,6 +213,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
             importTransientUserData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
             importTransientUserData.importFileSize = this.importFileSize;
             importTransientUserData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+            importTransientUserData.currentBytes = this.currentBytes;
             return importTransientUserData;
         }
     }
@@ -207,6 +221,7 @@ public class ImportTransientUserData extends ImportCheckPointData {
     @Override
     public String toString() {
         return "ImportTransientUserData [bufferStreamForImportError=" + bufferStreamForImportError + ", bufferStreamForImport=" + bufferStreamForImport
+                + ", matrix=" + matrixWorkItem
                 + ", inputStream=" + inputStream + ", bufferReader=" + bufferReader + ", importPartitionWorkitem=" + importPartitionWorkitem
                 + ", numOfProcessedResources=" + numOfProcessedResources + ", numOfImportedResources=" + numOfImportedResources + ", numOfImportFailures="
                 + numOfImportFailures + ", totalReadMilliSeconds=" + totalReadMilliSeconds + ", totalWriteMilliSeconds=" + totalWriteMilliSeconds

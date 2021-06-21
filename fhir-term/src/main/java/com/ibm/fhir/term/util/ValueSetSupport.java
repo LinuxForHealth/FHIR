@@ -92,9 +92,32 @@ public final class ValueSetSupport {
         if (valueSet.getUrl() == null || valueSet.getVersion() == null || FHIRTermConfig.isCachingDisabled()) {
             return computeCodeSetMap(valueSet);
         }
-        java.lang.String url = valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
+        java.lang.String url = cacheKey(valueSet);
         Map<java.lang.String, Map<java.lang.String, Set<java.lang.String>>> cacheAsMap = CacheManager.getCacheAsMap(CODE_SET_MAP_CACHE_NAME, CODE_SET_MAP_CACHE_CONFIG);
         return cacheAsMap.computeIfAbsent(url, k -> computeCodeSetMap(valueSet));
+    }
+
+    /**
+     * Clear the code set map cache for the given value set.
+     *
+     * @param valueSet
+     *     the value set
+     */
+    public static void clearCache(ValueSet valueSet) {
+        CacheManager.invalidate(CODE_SET_MAP_CACHE_NAME, cacheKey(valueSet));
+    }
+
+    /**
+     * Compute the code set map cache key for the given value set.
+     * 
+     * @param valueSet
+     *     the value set
+     * 
+     * @return 
+     *     computed cache key
+     */
+    private static java.lang.String cacheKey(ValueSet valueSet) {
+        return valueSet.getUrl().getValue() + "|" + valueSet.getVersion().getValue();
     }
 
     /**

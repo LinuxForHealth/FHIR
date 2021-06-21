@@ -18,15 +18,20 @@ public class ImportCheckPointData implements Serializable {
     private static final long serialVersionUID = 2189917861035732241L;
     // URL or COS/S3 object name.
     protected String importPartitionWorkitem;
+    protected String matrixWorkItem;
 
     // Values for metrics calculation.
     protected long numOfProcessedResources = 0;
     protected long numOfImportedResources = 0;
     protected long numOfImportFailures = 0;
+    protected long numOfSkipped = 0;
     protected long totalReadMilliSeconds = 0;
     protected long totalWriteMilliSeconds = 0;
     protected long totalValidationMilliSeconds = 0;
     protected long importFileSize = 0;
+
+    // Track the Azure Progress
+    protected long currentBytes = 0;
 
     protected long inFlyRateBeginMilliSeconds = 0;
 
@@ -88,6 +93,18 @@ public class ImportCheckPointData implements Serializable {
         this.numOfImportedResources += numOfImportedResources;
     }
 
+    public long getNumOfSkippedResources() {
+        return numOfSkipped;
+    }
+
+    public void setNumOfSkippedResources(long skipped) {
+        this.numOfSkipped = skipped;
+    }
+
+    public void addToNumOfSkippedResources(long skipped) {
+        this.numOfSkipped += skipped;
+    }
+
     public long getNumOfImportFailures() {
         return numOfImportFailures;
     }
@@ -112,9 +129,18 @@ public class ImportCheckPointData implements Serializable {
         return importPartitionResourceType;
     }
 
+    public long getCurrentBytes() {
+        return currentBytes;
+    }
+
+    public void setCurrentBytes(long currentBytes) {
+        this.currentBytes = currentBytes;
+    }
+
     public static ImportCheckPointData fromImportTransientUserData(ImportTransientUserData userData) {
         return ImportCheckPointData.Builder.builder()
                 .importPartitionWorkitem(userData.getImportPartitionWorkitem())
+                .matrixWorkItem(userData.matrixWorkItem)
                 .numOfProcessedResources(userData.getNumOfProcessedResources())
                 .importPartitionResourceType(userData.getImportPartitionResourceType())
                 .numOfImportedResources(userData.getNumOfImportedResources())
@@ -132,6 +158,8 @@ public class ImportCheckPointData implements Serializable {
                 .totalWriteMilliSeconds(userData.getTotalWriteMilliSeconds())
                 .importFileSize(userData.getImportFileSize())
                 .inFlyRateBeginMilliSeconds(userData.getInFlyRateBeginMilliSeconds())
+                .numOfSkippedResources(userData.getNumOfSkippedResources())
+                .currentBytes(userData.getCurrentBytes())
                 .build();
     }
 
@@ -247,9 +275,18 @@ public class ImportCheckPointData implements Serializable {
         this.inFlyRateBeginMilliSeconds = inFlyRateBeginMilliSeconds;
     }
 
+    public void setMatrixWorkItem(String matrixWorkItem) {
+        this.matrixWorkItem = matrixWorkItem;
+    }
+
+    public String getMatrixWorkItem() {
+        return matrixWorkItem;
+    }
+
     public static class Builder {
 
         protected String importPartitionWorkitem;
+        protected String matrixWorkItem;
         protected long numOfProcessedResources;
         protected String importPartitionResourceType;
         protected long numOfImportedResources;
@@ -267,6 +304,8 @@ public class ImportCheckPointData implements Serializable {
         protected long totalWriteMilliSeconds;
         protected long importFileSize;
         protected long inFlyRateBeginMilliSeconds;
+        protected long currentBytes;
+        protected long numOfSkippedResources;
 
         public Builder() {
             super();
@@ -278,6 +317,11 @@ public class ImportCheckPointData implements Serializable {
 
         public Builder importPartitionWorkitem(String importPartitionWorkitem) {
             this.importPartitionWorkitem = importPartitionWorkitem;
+            return this;
+        }
+
+        public Builder matrixWorkItem(String matrixWorkItem) {
+            this.matrixWorkItem = matrixWorkItem;
             return this;
         }
 
@@ -293,6 +337,11 @@ public class ImportCheckPointData implements Serializable {
 
         public Builder numOfImportedResources(long numOfImportedResources) {
             this.numOfImportedResources = numOfImportedResources;
+            return this;
+        }
+
+        public Builder numOfSkippedResources(long numOfSkippedResources) {
+            this.numOfSkippedResources = numOfSkippedResources;
             return this;
         }
 
@@ -366,9 +415,15 @@ public class ImportCheckPointData implements Serializable {
             return this;
         }
 
+        public Builder currentBytes(long currentBytes) {
+            this.currentBytes = currentBytes;
+            return this;
+        }
+
         public ImportCheckPointData build() {
             ImportCheckPointData importCheckPointData = new ImportCheckPointData();
             importCheckPointData.importPartitionWorkitem = this.importPartitionWorkitem;
+            importCheckPointData.matrixWorkItem = this.matrixWorkItem;
             importCheckPointData.numOfProcessedResources = this.numOfProcessedResources;
             importCheckPointData.importPartitionResourceType = this.importPartitionResourceType;
             importCheckPointData.numOfImportedResources = this.numOfImportedResources;
@@ -386,6 +441,8 @@ public class ImportCheckPointData implements Serializable {
             importCheckPointData.totalWriteMilliSeconds = this.totalWriteMilliSeconds;
             importCheckPointData.importFileSize = this.importFileSize;
             importCheckPointData.inFlyRateBeginMilliSeconds = this.inFlyRateBeginMilliSeconds;
+            importCheckPointData.numOfSkipped = this.numOfSkippedResources;
+            importCheckPointData.currentBytes = this.currentBytes;
             return importCheckPointData;
         }
     }
@@ -393,14 +450,15 @@ public class ImportCheckPointData implements Serializable {
     @Override
     public String toString() {
         return "ImportCheckPointData [importPartitionWorkitem=" + importPartitionWorkitem + ", numOfProcessedResources=" + numOfProcessedResources
+                + ", matrixWorkItem=" + matrixWorkItem
                 + ", numOfImportedResources=" + numOfImportedResources + ", numOfImportFailures=" + numOfImportFailures + ", totalReadMilliSeconds="
                 + totalReadMilliSeconds + ", totalWriteMilliSeconds=" + totalWriteMilliSeconds + ", totalValidationMilliSeconds=" + totalValidationMilliSeconds
-                + ", importFileSize=" + importFileSize + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds + ", numOfToBeImported="
-                + numOfToBeImported + ", numOfParseFailures=" + numOfParseFailures + ", importPartitionResourceType=" + importPartitionResourceType
-                + ", uniqueIDForImportOperationOutcomes=" + uniqueIDForImportOperationOutcomes + ", partNumForOperationOutcomes=" + partNumForOperationOutcomes
-                + ", uploadIdForOperationOutcomes=" + uploadIdForOperationOutcomes + ", dataPacksForOperationOutcomes=" + dataPacksForOperationOutcomes
-                + ", uniqueIDForImportFailureOperationOutcomes=" + uniqueIDForImportFailureOperationOutcomes + ", partNumForFailureOperationOutcomes="
-                + partNumForFailureOperationOutcomes + ", uploadIdForFailureOperationOutcomes=" + uploadIdForFailureOperationOutcomes
-                + ", dataPacksForFailureOperationOutcomes=" + dataPacksForFailureOperationOutcomes + "]";
+                + ", importFileSize=" + importFileSize + ", currentBytes=" + currentBytes + ", inFlyRateBeginMilliSeconds=" + inFlyRateBeginMilliSeconds
+                + ", numOfToBeImported=" + numOfToBeImported + ", numOfParseFailures=" + numOfParseFailures + ", importPartitionResourceType="
+                + importPartitionResourceType + ", uniqueIDForImportOperationOutcomes=" + uniqueIDForImportOperationOutcomes + ", partNumForOperationOutcomes="
+                + partNumForOperationOutcomes + ", uploadIdForOperationOutcomes=" + uploadIdForOperationOutcomes + ", dataPacksForOperationOutcomes="
+                + dataPacksForOperationOutcomes + ", uniqueIDForImportFailureOperationOutcomes=" + uniqueIDForImportFailureOperationOutcomes
+                + ", partNumForFailureOperationOutcomes=" + partNumForFailureOperationOutcomes + ", uploadIdForFailureOperationOutcomes="
+                + uploadIdForFailureOperationOutcomes + ", dataPacksForFailureOperationOutcomes=" + dataPacksForFailureOperationOutcomes + "]";
     }
 }

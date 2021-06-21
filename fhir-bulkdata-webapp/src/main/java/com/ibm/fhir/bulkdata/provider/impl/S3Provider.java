@@ -44,6 +44,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.operation.bulkdata.client.HttpWrapper;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 
 /**
  * S3Provider for ibm-cos and aws-s3
@@ -64,15 +65,21 @@ public class S3Provider implements Provider {
     private SparkParquetWriter parquetWriter = null;
 
     private String bucketName = null;
+    private boolean pathStyle;
 
     private boolean create = false;
 
-    private boolean isExportPublic = false;
     private long executionId = -1;
 
     private String cosBucketPathPrefix = null;
     private String fhirResourceType = null;
 
+    /**
+     * The provider loads the Client based on the Source.
+     * The Source (storageProvider) must be s3 compatible.
+     * @param source
+     * @throws FHIRException
+     */
     public S3Provider(String source) throws FHIRException {
         ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
 
@@ -80,10 +87,9 @@ public class S3Provider implements Provider {
 
         String cosLocation = adapter.getStorageProviderLocation(source);
         String cosEndpointUrl = adapter.getStorageProviderEndpointInternal(source);
-        String bucketName = adapter.getStorageProviderBucketName(source);
+        bucketName = adapter.getStorageProviderBucketName(source);
 
         boolean iam = adapter.isStorageProviderAuthTypeIam(source);
-        isExportPublic = adapter.isStorageProviderExportPublic(source);
 
         String apiKey = null;
         String resourceId = null;
@@ -103,10 +109,14 @@ public class S3Provider implements Provider {
 
         // Set up the connection to Cos
         if (logger.isLoggable(Level.FINE)) {
-            logger.fine("Connecting to S3: " + cosEndpointUrl + " [" + cosLocation + "]");
+            logger.fine("Connecting to S3: [" + cosEndpointUrl + "] [" + cosLocation + "]");
         }
 
         create = adapter.shouldStorageProviderCreate(source);
+
+        // There are two styles PATH/VIRTUAL_HOST
+        S3HostStyle kind = adapter.getS3HostStyleByStorageProvider(source);
+        pathStyle = S3HostStyle.PATH.equals(kind);
 
         // Create a COS/S3 client if it's not created yet.
         client = getClient(iam, apiKey, resourceId, cosEndpointUrl, cosLocation, useFhirServerTrustStore);
@@ -115,15 +125,14 @@ public class S3Provider implements Provider {
             logger.warning("Failed to get client!");
             throw new FHIRException("Failed to get client!!");
         } else {
-            logger.fine("Succeed get client!");
+            logger.fine("Succeed to get client!");
         }
 
-        if (bucketName == null) {
-            logger.warning("Failed to get BucketName!");
-        } else {
-            logger.fine("Succeed get BucketName!");
+        if (bucketName != null) {
+            logger.fine("Succeed to get BucketName!");
+            // Naming convention has it as - The bucket name can be between 3 and 63 characters long, and can contain only lower-case characters, numbers, periods, and dashes.
+            this.bucketName = bucketName.trim().toLowerCase();
         }
-        this.bucketName = bucketName.trim().toLowerCase();
 
         if (adapter.isStorageProviderParquetEnabled(source)) {
             try {
@@ -135,8 +144,17 @@ public class S3Provider implements Provider {
         }
     }
 
-    private static AmazonS3 getClient(boolean iam, String cosApiKeyProperty, String cosSrvinstId,
-        String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
+    /**
+     * gets the s3 client used with ibm/aws/minio
+     * @param iam
+     * @param cosApiKeyProperty
+     * @param cosSrvinstId
+     * @param cosEndpointUrl
+     * @param cosLocation
+     * @param useFhirServerTrustStore
+     * @return
+     */
+    private AmazonS3 getClient(boolean iam, String cosApiKeyProperty, String cosSrvinstId, String cosEndpointUrl, String cosLocation, boolean useFhirServerTrustStore) {
         ConfigurationAdapter configAdapter = ConfigurationFactory.getInstance();
 
         AWSCredentials credentials;
@@ -148,7 +166,10 @@ public class S3Provider implements Provider {
         }
 
         ClientConfiguration clientConfig =
-                new ClientConfiguration().withRequestTimeout(configAdapter.getCoreCosRequestTimeout()).withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive()).withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
+                new ClientConfiguration()
+                    .withRequestTimeout(configAdapter.getCoreCosRequestTimeout())
+                    .withTcpKeepAlive(configAdapter.getCoreCosTcpKeepAlive())
+                    .withSocketTimeout(configAdapter.getCoreCosSocketTimeout());
 
         if (useFhirServerTrustStore) {
             ApacheHttpClientConfig apacheClientConfig = clientConfig.getApacheHttpClientConfig();
@@ -162,7 +183,16 @@ public class S3Provider implements Provider {
             }
         }
 
-        return AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation)).withPathStyleAccessEnabled(true).withClientConfiguration(clientConfig).build();
+        logger.fine(() -> "The Path Style access is '" + pathStyle + "'");
+
+        // A useful link for the builder describing the pathStyle:
+        // https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/services/s3/AmazonS3Builder.html#withPathStyleAccessEnabled-java.lang.Boolean-
+        return AmazonS3ClientBuilder.standard()
+                .withCredentials(new AWSStaticCredentialsProvider(credentials))
+                .withEndpointConfiguration(new EndpointConfiguration(cosEndpointUrl, cosLocation))
+                .withClientConfiguration(clientConfig)
+                .withPathStyleAccessEnabled(pathStyle)
+                .build();
     }
 
     /**
@@ -171,15 +201,13 @@ public class S3Provider implements Provider {
      * @return
      */
     public boolean exists() {
-        boolean ex = client != null && client.doesBucketExistV2(bucketName);
-        if (ex == false) {
-            logger.warning("Bucket '" + bucketName + "' not found! Client [" + (client != null) + "]");
-        }
-        return ex;
+        // Only valid with a path access style, else we short circuit
+        return client != null &&
+                (!pathStyle || !client.doesBucketExistV2(bucketName));
     }
 
     /**
-     * lists the buckets when logging
+     * lists the buckets when logging out bucket details
      */
     public void listBuckets() {
         if (client != null && logger.isLoggable(Level.FINE)) {
@@ -195,15 +223,20 @@ public class S3Provider implements Provider {
     /**
      * get the list of objects based on the continuation token.
      *
+     * @param prefix the search key
      * @param continuationToken
      *            null or string indicating a continuation token.
      * @return
      * @throws FHIRException
      */
-    public ListObjectsV2Result getListObject(String continuationToken) throws FHIRException {
+    public ListObjectsV2Result getListObject(String prefix, String continuationToken) throws FHIRException {
         if (client != null) {
             ListObjectsV2Request request =
-                    new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(1000).withContinuationToken(continuationToken);
+                    new ListObjectsV2Request()
+                            .withPrefix(prefix)
+                            .withMaxKeys(1000)
+                            .withContinuationToken(continuationToken)
+                            .withBucketName(bucketName);
             return client.listObjectsV2(request);
         } else {
             throw new FHIRException("Client is not created");
@@ -256,7 +289,7 @@ public class S3Provider implements Provider {
             if (transientUserData.getBufferStreamForImport().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForOperationOutcomes() == null) {
                     transientUserData.setUploadIdForOperationOutcomes(BulkDataUtils.startPartUpload(client,
-                            bucketName, transientUserData.getUniqueIDForImportOperationOutcomes(), true));
+                            bucketName, transientUserData.getUniqueIDForImportOperationOutcomes()));
                 }
 
                 transientUserData.getDataPacksForOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
@@ -279,7 +312,7 @@ public class S3Provider implements Provider {
             if (transientUserData.getBufferStreamForImportError().size() > COS_PART_MINIMALSIZE) {
                 if (transientUserData.getUploadIdForFailureOperationOutcomes() == null) {
                     transientUserData.setUploadIdForFailureOperationOutcomes(BulkDataUtils.startPartUpload(client,
-                            bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes(), true));
+                            bucketName, transientUserData.getUniqueIDForImportFailureOperationOutcomes()));
                 }
 
                 transientUserData.getDataPacksForFailureOperationOutcomes().add(BulkDataUtils.multiPartUpload(client,
@@ -350,8 +383,7 @@ public class S3Provider implements Provider {
     }
 
     @Override
-    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType,
-            boolean isExportPublic) throws Exception {
+    public void registerTransient(long executionId, ExportTransientUserData transientUserData, String cosBucketPathPrefix, String fhirResourceType) throws Exception {
         if (transientUserData == null) {
             logger.warning("registerTransient: chunkData is null, this should never happen!");
             throw new Exception("registerTransient: chunkData is null, this should never happen!");
@@ -361,7 +393,6 @@ public class S3Provider implements Provider {
         this.chunkData = transientUserData;
         this.cosBucketPathPrefix = cosBucketPathPrefix;
         this.fhirResourceType = fhirResourceType;
-        this.isExportPublic = isExportPublic;
     }
 
     private void pushFhirJsonsToCos(InputStream in, int dataLength) throws Exception {
@@ -374,7 +405,7 @@ public class S3Provider implements Provider {
 
         String uploadId = chunkData.getUploadId();
         if (uploadId == null) {
-            uploadId = BulkDataUtils.startPartUpload(client, bucketName, itemName, isExportPublic);
+            uploadId = BulkDataUtils.startPartUpload(client, bucketName, itemName);
             chunkData.setUploadId(uploadId);
         }
 

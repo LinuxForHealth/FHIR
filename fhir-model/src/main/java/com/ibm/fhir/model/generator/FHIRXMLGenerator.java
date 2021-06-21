@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.generator;
 
-import static com.ibm.fhir.model.type.Xhtml.xhtml;
 import static com.ibm.fhir.model.util.ModelSupport.isPrimitiveType;
 import static com.ibm.fhir.model.util.XMLSupport.FHIR_NS_URI;
 import static com.ibm.fhir.model.util.XMLSupport.createNonClosingStreamWriterDelegate;
@@ -16,10 +15,7 @@ import static com.ibm.fhir.model.util.XMLSupport.createTransformer;
 import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.Writer;
-import java.time.LocalDate;
-import java.time.ZoneOffset;
 import java.util.Base64;
-import java.util.UUID;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -28,9 +24,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stax.StAXResult;
 import javax.xml.transform.stream.StreamSource;
 
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
-import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Base64Binary;
 import com.ibm.fhir.model.type.Boolean;
@@ -39,17 +33,12 @@ import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
-import com.ibm.fhir.model.type.HumanName;
-import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
-import com.ibm.fhir.model.type.Meta;
-import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Xhtml;
-import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.util.XMLSupport.StreamWriterDelegate;
 import com.ibm.fhir.model.visitor.Visitable;
 
@@ -329,61 +318,5 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public static void main(java.lang.String[] args) throws Exception {
-        java.lang.String div = "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p></div>";
-
-        java.lang.String id = UUID.randomUUID().toString();
-
-        Meta meta = Meta.builder().versionId(Id.of("1"))
-                .lastUpdated(Instant.now(ZoneOffset.UTC))
-                .build();
-
-        String given = String.builder().value("John")
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("value and extension"))
-                    .build())
-                .build();
-
-        String otherGiven = String.builder()
-                .extension(Extension.builder()
-                    .url("http://www.ibm.com/someExtension")
-                    .value(String.of("extension only"))
-                    .build())
-                .build();
-
-        HumanName name = HumanName.builder()
-                .id("someId")
-                .given(given)
-                .given(otherGiven)
-                .given(String.of("value no extension"))
-                .family(String.of("Doe"))
-                .build();
-
-        Narrative text = Narrative.builder().status(NarrativeStatus.GENERATED).div(xhtml(div)).build();
-
-        Patient patient = Patient.builder()
-                .id(id)
-                .text(text)
-                .active(Boolean.TRUE)
-                .multipleBirth(Integer.of(2))
-                .meta(meta)
-                .name(name)
-                .birthDate(Date.of(LocalDate.now()))
-                .build();
-
-        FHIRGenerator generator = FHIRGenerator.generator(Format.XML, true);
-        generator.generate(patient, System.out);
-
-        System.out.println("");
-
-        generator.setProperty(PROPERTY_INDENT_AMOUNT, 4);
-        generator.generate(patient, System.out);
-
-        System.out.println("");
-
-        System.out.println(patient.getMultipleBirth());
     }
 }

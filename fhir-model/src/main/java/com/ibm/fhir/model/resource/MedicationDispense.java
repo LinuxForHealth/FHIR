@@ -146,41 +146,30 @@ public class MedicationDispense extends DomainResource {
 
     private MedicationDispense(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
+        identifier = Collections.unmodifiableList(builder.identifier);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        statusReason = builder.statusReason;
         category = builder.category;
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        medication = builder.medication;
         subject = builder.subject;
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.checkList(builder.supportingInformation, "supportingInformation", Reference.class));
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Performer.class));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        performer = Collections.unmodifiableList(builder.performer);
         location = builder.location;
-        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.checkList(builder.authorizingPrescription, "authorizingPrescription", Reference.class));
+        authorizingPrescription = Collections.unmodifiableList(builder.authorizingPrescription);
         type = builder.type;
         quantity = builder.quantity;
         daysSupply = builder.daysSupply;
         whenPrepared = builder.whenPrepared;
         whenHandedOver = builder.whenHandedOver;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.checkList(builder.receiver, "receiver", Reference.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
-        dosageInstruction = Collections.unmodifiableList(ValidationSupport.checkList(builder.dosageInstruction, "dosageInstruction", Dosage.class));
+        receiver = Collections.unmodifiableList(builder.receiver);
+        note = Collections.unmodifiableList(builder.note);
+        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
         substitution = builder.substitution;
-        detectedIssue = Collections.unmodifiableList(ValidationSupport.checkList(builder.detectedIssue, "detectedIssue", Reference.class));
-        eventHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.eventHistory, "eventHistory", Reference.class));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
-        ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(authorizingPrescription, "authorizingPrescription", "MedicationRequest");
-        ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
-        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
-        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
+        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1495,7 +1484,39 @@ public class MedicationDispense extends DomainResource {
          */
         @Override
         public MedicationDispense build() {
-            return new MedicationDispense(this);
+            MedicationDispense medicationDispense = new MedicationDispense(this);
+            if (validating) {
+                validate(medicationDispense);
+            }
+            return medicationDispense;
+        }
+
+        protected void validate(MedicationDispense medicationDispense) {
+            super.validate(medicationDispense);
+            ValidationSupport.checkList(medicationDispense.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicationDispense.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(medicationDispense.status, "status");
+            ValidationSupport.choiceElement(medicationDispense.statusReason, "statusReason", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireChoiceElement(medicationDispense.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(medicationDispense.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkList(medicationDispense.performer, "performer", Performer.class);
+            ValidationSupport.checkList(medicationDispense.authorizingPrescription, "authorizingPrescription", Reference.class);
+            ValidationSupport.checkList(medicationDispense.receiver, "receiver", Reference.class);
+            ValidationSupport.checkList(medicationDispense.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationDispense.dosageInstruction, "dosageInstruction", Dosage.class);
+            ValidationSupport.checkList(medicationDispense.detectedIssue, "detectedIssue", Reference.class);
+            ValidationSupport.checkList(medicationDispense.eventHistory, "eventHistory", Reference.class);
+            ValidationSupport.checkReferenceType(medicationDispense.partOf, "partOf", "Procedure");
+            ValidationSupport.checkReferenceType(medicationDispense.statusReason, "statusReason", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationDispense.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationDispense.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationDispense.location, "location", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.authorizingPrescription, "authorizingPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationDispense.destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.receiver, "receiver", "Patient", "Practitioner");
+            ValidationSupport.checkReferenceType(medicationDispense.detectedIssue, "detectedIssue", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationDispense medicationDispense) {
@@ -1546,9 +1567,7 @@ public class MedicationDispense extends DomainResource {
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1803,7 +1822,18 @@ public class MedicationDispense extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -1842,12 +1872,10 @@ public class MedicationDispense extends DomainResource {
 
         private Substitution(Builder builder) {
             super(builder);
-            wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
+            wasSubstituted = builder.wasSubstituted;
             type = builder.type;
-            reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
-            responsibleParty = Collections.unmodifiableList(ValidationSupport.checkList(builder.responsibleParty, "responsibleParty", Reference.class));
-            ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
+            reason = Collections.unmodifiableList(builder.reason);
+            responsibleParty = Collections.unmodifiableList(builder.responsibleParty);
         }
 
         /**
@@ -2200,7 +2228,20 @@ public class MedicationDispense extends DomainResource {
              */
             @Override
             public Substitution build() {
-                return new Substitution(this);
+                Substitution substitution = new Substitution(this);
+                if (validating) {
+                    validate(substitution);
+                }
+                return substitution;
+            }
+
+            protected void validate(Substitution substitution) {
+                super.validate(substitution);
+                ValidationSupport.requireNonNull(substitution.wasSubstituted, "wasSubstituted");
+                ValidationSupport.checkList(substitution.reason, "reason", CodeableConcept.class);
+                ValidationSupport.checkList(substitution.responsibleParty, "responsibleParty", Reference.class);
+                ValidationSupport.checkReferenceType(substitution.responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(substitution);
             }
 
             protected Builder from(Substitution substitution) {

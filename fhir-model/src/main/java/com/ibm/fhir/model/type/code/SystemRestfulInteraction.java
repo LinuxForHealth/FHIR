@@ -149,11 +149,7 @@ public class SystemRestfulInteraction extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -208,7 +204,20 @@ public class SystemRestfulInteraction extends Code {
 
         @Override
         public SystemRestfulInteraction build() {
-            return new SystemRestfulInteraction(this);
+            SystemRestfulInteraction systemRestfulInteraction = new SystemRestfulInteraction(this);
+            if (validating) {
+                validate(systemRestfulInteraction);
+            }
+            return systemRestfulInteraction;
+        }
+
+        protected void validate(SystemRestfulInteraction systemRestfulInteraction) {
+            super.validate(systemRestfulInteraction);
+        }
+
+        protected Builder from(SystemRestfulInteraction systemRestfulInteraction) {
+            super.from(systemRestfulInteraction);
+            return this;
         }
     }
 

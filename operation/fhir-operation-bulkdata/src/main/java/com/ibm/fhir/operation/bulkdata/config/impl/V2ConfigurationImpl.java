@@ -147,7 +147,7 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
 
     @Override
     public boolean isStorageProviderExportPublic(String provider) {
-        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/exportPublic", Boolean.FALSE);
+        return false;
     }
 
     @Override

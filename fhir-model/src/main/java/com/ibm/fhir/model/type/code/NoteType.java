@@ -158,11 +158,7 @@ public class NoteType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class NoteType extends Code {
 
         @Override
         public NoteType build() {
-            return new NoteType(this);
+            NoteType noteType = new NoteType(this);
+            if (validating) {
+                validate(noteType);
+            }
+            return noteType;
+        }
+
+        protected void validate(NoteType noteType) {
+            super.validate(noteType);
+        }
+
+        protected Builder from(NoteType noteType) {
+            super.from(noteType);
+            return this;
         }
     }
 

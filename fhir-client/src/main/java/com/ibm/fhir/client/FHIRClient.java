@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2021
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,7 @@ package com.ibm.fhir.client;
 
 import java.security.KeyStore;
 
-import javax.json.JsonObject;
+import jakarta.json.JsonObject;
 import javax.ws.rs.client.WebTarget;
 
 import com.ibm.fhir.model.resource.Bundle;
@@ -139,13 +139,6 @@ public interface FHIRClient {
      * @throws Exception
      */
     WebTarget getWebTarget(String baseURL) throws Exception;
-
-    /**
-     * Returns a JAX-RS 2.0 WebTarget object associated with a given REST API endpoint.
-     * @return a WebTarget instance that can be used to invoke REST APIs.
-     * @throws Exception
-     */
-    WebTarget getWebTargetUsingBasicAuth(String baseURL, String username, String pwd) throws Exception;
 
     /**
      * Sets the default mime-type to be used by the FHIRClient interface when invoking REST API operations.
@@ -486,5 +479,5 @@ public interface FHIRClient {
     /**
      * Allow the client consumer to be able to get and reuse the same TrustStore if necessary.
      */
-    public KeyStore getTrustStore();
+    KeyStore getTrustStore();
 }

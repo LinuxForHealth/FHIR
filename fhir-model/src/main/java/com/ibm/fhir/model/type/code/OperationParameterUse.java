@@ -147,11 +147,7 @@ public class OperationParameterUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class OperationParameterUse extends Code {
 
         @Override
         public OperationParameterUse build() {
-            return new OperationParameterUse(this);
+            OperationParameterUse operationParameterUse = new OperationParameterUse(this);
+            if (validating) {
+                validate(operationParameterUse);
+            }
+            return operationParameterUse;
+        }
+
+        protected void validate(OperationParameterUse operationParameterUse) {
+            super.validate(operationParameterUse);
+        }
+
+        protected Builder from(OperationParameterUse operationParameterUse) {
+            super.from(operationParameterUse);
+            return this;
         }
     }
 

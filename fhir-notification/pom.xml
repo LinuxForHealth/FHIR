@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.8.0-SNAPSHOT</version>
+        <version>4.9.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
@@ -24,6 +24,11 @@
             <groupId>jakarta.ws.rs</groupId>
             <artifactId>jakarta.ws.rs-api</artifactId>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

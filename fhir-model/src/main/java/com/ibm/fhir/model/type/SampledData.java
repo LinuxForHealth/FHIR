@@ -41,14 +41,13 @@ public class SampledData extends Element {
 
     private SampledData(Builder builder) {
         super(builder);
-        origin = ValidationSupport.requireNonNull(builder.origin, "origin");
-        period = ValidationSupport.requireNonNull(builder.period, "period");
+        origin = builder.origin;
+        period = builder.period;
         factor = builder.factor;
         lowerLimit = builder.lowerLimit;
         upperLimit = builder.upperLimit;
-        dimensions = ValidationSupport.requireNonNull(builder.dimensions, "dimensions");
+        dimensions = builder.dimensions;
         data = builder.data;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -401,7 +400,19 @@ public class SampledData extends Element {
          */
         @Override
         public SampledData build() {
-            return new SampledData(this);
+            SampledData sampledData = new SampledData(this);
+            if (validating) {
+                validate(sampledData);
+            }
+            return sampledData;
+        }
+
+        protected void validate(SampledData sampledData) {
+            super.validate(sampledData);
+            ValidationSupport.requireNonNull(sampledData.origin, "origin");
+            ValidationSupport.requireNonNull(sampledData.period, "period");
+            ValidationSupport.requireNonNull(sampledData.dimensions, "dimensions");
+            ValidationSupport.requireValueOrChildren(sampledData);
         }
 
         protected Builder from(SampledData sampledData) {

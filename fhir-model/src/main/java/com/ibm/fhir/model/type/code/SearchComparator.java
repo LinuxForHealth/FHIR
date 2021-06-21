@@ -224,11 +224,7 @@ public class SearchComparator extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -283,7 +279,20 @@ public class SearchComparator extends Code {
 
         @Override
         public SearchComparator build() {
-            return new SearchComparator(this);
+            SearchComparator searchComparator = new SearchComparator(this);
+            if (validating) {
+                validate(searchComparator);
+            }
+            return searchComparator;
+        }
+
+        protected void validate(SearchComparator searchComparator) {
+            super.validate(searchComparator);
+        }
+
+        protected Builder from(SearchComparator searchComparator) {
+            super.from(searchComparator);
+            return this;
         }
     }
 

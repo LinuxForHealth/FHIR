@@ -16,6 +16,7 @@ import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
@@ -351,5 +352,27 @@ public abstract class AbstractSystemConfigurationImpl implements ConfigurationAd
     @Override
     public boolean hasStorageProvider(String storageProvider) {
         return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + storageProvider + "/type", null) != null;
+    }
+
+    @Override
+    public S3HostStyle getS3HostStyleByStorageProvider(String provider) {
+        String hostSyle = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/accessType", "path");
+        return S3HostStyle.from(hostSyle);
+    }
+
+    @Override
+    public boolean enableSkippableUpdates() {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/core/enableSkippableUpdates", Boolean.TRUE);
+    }
+
+    @Override
+    public String getStorageProviderAuthTypeConnectionString(String provider) {
+        return FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/storageProviders/" + provider + "/auth/connection", null);
+    }
+
+    @Override
+    public boolean isStorageProviderAuthTypeConnectionString(String provider) {
+        String auth = getStorageProviderAuthType(provider);
+        return "connection".equalsIgnoreCase(auth);
     }
 }

@@ -158,11 +158,7 @@ public class DocumentReferenceStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class DocumentReferenceStatus extends Code {
 
         @Override
         public DocumentReferenceStatus build() {
-            return new DocumentReferenceStatus(this);
+            DocumentReferenceStatus documentReferenceStatus = new DocumentReferenceStatus(this);
+            if (validating) {
+                validate(documentReferenceStatus);
+            }
+            return documentReferenceStatus;
+        }
+
+        protected void validate(DocumentReferenceStatus documentReferenceStatus) {
+            super.validate(documentReferenceStatus);
+        }
+
+        protected Builder from(DocumentReferenceStatus documentReferenceStatus) {
+            super.from(documentReferenceStatus);
+            return this;
         }
     }
 

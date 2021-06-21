@@ -147,11 +147,7 @@ public class AdverseEventActuality extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class AdverseEventActuality extends Code {
 
         @Override
         public AdverseEventActuality build() {
-            return new AdverseEventActuality(this);
+            AdverseEventActuality adverseEventActuality = new AdverseEventActuality(this);
+            if (validating) {
+                validate(adverseEventActuality);
+            }
+            return adverseEventActuality;
+        }
+
+        protected void validate(AdverseEventActuality adverseEventActuality) {
+            super.validate(adverseEventActuality);
+        }
+
+        protected Builder from(AdverseEventActuality adverseEventActuality) {
+            super.from(adverseEventActuality);
+            return this;
         }
     }
 

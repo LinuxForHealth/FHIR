@@ -13,6 +13,7 @@ public class BulkDataSource {
 
     private String type;
     private String url;
+    private String originalLocation = "";
 
     public BulkDataSource(String type, String url) {
         super();
@@ -36,8 +37,16 @@ public class BulkDataSource {
         this.url = url;
     }
 
+    public String getOriginalLocation() {
+        return originalLocation;
+    }
+
+    public void setOriginalLocation(String originalLocation) {
+        this.originalLocation = originalLocation;
+    }
+
     @Override
     public String toString() {
-        return "BulkDataSource [type=" + type + ", url=" + url + "]";
+        return "BulkDataSource [type=" + type + ", url=" + url + ", originalLocation=" + originalLocation + "]";
     }
 }

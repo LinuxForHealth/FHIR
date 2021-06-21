@@ -185,11 +185,7 @@ public class TaskIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -244,7 +240,20 @@ public class TaskIntent extends Code {
 
         @Override
         public TaskIntent build() {
-            return new TaskIntent(this);
+            TaskIntent taskIntent = new TaskIntent(this);
+            if (validating) {
+                validate(taskIntent);
+            }
+            return taskIntent;
+        }
+
+        protected void validate(TaskIntent taskIntent) {
+            super.validate(taskIntent);
+        }
+
+        protected Builder from(TaskIntent taskIntent) {
+            super.from(taskIntent);
+            return this;
         }
     }
 

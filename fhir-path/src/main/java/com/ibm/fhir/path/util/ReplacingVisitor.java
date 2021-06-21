@@ -25,8 +25,8 @@ class ReplacingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @throws IllegalArgumentException
      */
     public ReplacingVisitor(Visitable parent, String elementName, String pathToReplace, Visitable newValue) {
-        this.pathToReplace = Objects.requireNonNull(pathToReplace);
-        this.newValue = Objects.requireNonNull(newValue) instanceof Code ?
+        this.pathToReplace = Objects.requireNonNull(pathToReplace, "pathToReplace");
+        this.newValue = Objects.requireNonNull(newValue, "newValue") instanceof Code ?
                 convertToCodeSubtype(parent, elementName, (Code)newValue) : newValue;
     }
 

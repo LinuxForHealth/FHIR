@@ -259,11 +259,7 @@ public class TaskStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -318,7 +314,20 @@ public class TaskStatus extends Code {
 
         @Override
         public TaskStatus build() {
-            return new TaskStatus(this);
+            TaskStatus taskStatus = new TaskStatus(this);
+            if (validating) {
+                validate(taskStatus);
+            }
+            return taskStatus;
+        }
+
+        protected void validate(TaskStatus taskStatus) {
+            super.validate(taskStatus);
+        }
+
+        protected Builder from(TaskStatus taskStatus) {
+            super.from(taskStatus);
+            return this;
         }
     }
 

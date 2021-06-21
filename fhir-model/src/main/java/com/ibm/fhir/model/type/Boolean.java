@@ -27,7 +27,6 @@ public class Boolean extends Element {
     private Boolean(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -213,7 +212,16 @@ public class Boolean extends Element {
          */
         @Override
         public Boolean build() {
-            return new Boolean(this);
+            Boolean _boolean = new Boolean(this);
+            if (validating) {
+                validate(_boolean);
+            }
+            return _boolean;
+        }
+
+        protected void validate(Boolean _boolean) {
+            super.validate(_boolean);
+            ValidationSupport.requireValueOrChildren(_boolean);
         }
 
         protected Builder from(Boolean _boolean) {

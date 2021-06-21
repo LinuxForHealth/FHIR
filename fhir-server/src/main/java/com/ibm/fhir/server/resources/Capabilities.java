@@ -13,6 +13,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_MANA
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REG_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_REVOKE_URL;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SECURITY_OAUTH_TOKEN_URL;
+import static com.ibm.fhir.core.FHIRConstants.EXT_BASE;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.server.util.IssueTypeToHttpStatusMapper.issueListToStatus;
 
@@ -110,7 +111,6 @@ public class Capabilities extends FHIRResource {
     private static final String FHIR_SERVER_NAME = "IBM FHIR Server";
     private static final String FHIR_COPYRIGHT = "(C) Copyright IBM Corporation 2016, 2021";
     private static final String FHIR_PUBLISHER = "IBM Corporation";
-    private static final String EXTENSION_URL = "http://ibm.com/fhir/extension";
     private static final String BASE_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base";
     private static final String BASE_2_CAPABILITY_URL = "http://hl7.org/fhir/CapabilityStatement/base2";
     private static final List<String> ALL_INTERACTIONS = Arrays.asList("create", "read", "vread", "update", "patch", "delete", "history", "search");
@@ -194,6 +194,24 @@ public class Capabilities extends FHIRResource {
     private TerminologyCapabilities buildTerminologyCapabilities() {
         FHIRBuildIdentifier buildInfo = new FHIRBuildIdentifier();
         String buildDescription = FHIR_SERVER_NAME + " version " + buildInfo.getBuildVersion() + " build id " + buildInfo.getBuildId() + "";
+
+        /*
+         * The following checks to see if there is a Terminology Service URL that we want to inline into the Terminology Capabilities Statement
+         * else the minimal implementation.description.
+         */
+        String customTerminologyImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_TERM_SERVICE_CAPABILITIES_URL, null);
+        TerminologyCapabilities.Implementation impl;
+        if (customTerminologyImpl != null) {
+            impl = TerminologyCapabilities.Implementation.builder()
+                    .description(string(buildDescription))
+                    .url(com.ibm.fhir.model.type.Url.of(customTerminologyImpl))
+                    .build();
+        } else {
+            impl = TerminologyCapabilities.Implementation.builder()
+                    .description(string(buildDescription))
+                    .build();
+        }
+
         return TerminologyCapabilities.builder()
             .status(PublicationStatus.ACTIVE)
             .experimental(com.ibm.fhir.model.type.Boolean.TRUE)
@@ -209,6 +227,7 @@ public class Capabilities extends FHIRResource {
                 .version(string(buildInfo.getBuildVersion()))
                 .id(buildInfo.getBuildId())
                 .build())
+            .implementation(impl)
             .codeSystem(buildCodeSystem())
             .expansion(Expansion.builder()
                 .hierarchical(com.ibm.fhir.model.type.Boolean.FALSE)
@@ -483,6 +502,23 @@ public class Capabilities extends FHIRResource {
         format.add(Code.of(FHIRMediaType.APPLICATION_XML));
         format.add(Code.of(FHIRMediaType.APPLICATION_FHIR_XML));
 
+        /*
+         * The following checks to see if there is a IBM FHIR Server Service URL that we want to inline into the Capabilities Statement
+         * else the minimal implementation.description.
+         */
+        String customImpl = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_CAPABILITIES_URL, null);
+        CapabilityStatement.Implementation impl;
+        if (customImpl != null) {
+            impl = CapabilityStatement.Implementation.builder()
+                    .description(string(buildDescription))
+                    .url(com.ibm.fhir.model.type.Url.of(customImpl))
+                    .build();
+        } else {
+            impl = CapabilityStatement.Implementation.builder()
+                    .description(string(buildDescription))
+                    .build();
+        }
+
         // Finally, create the CapabilityStatement resource itself.
         CapabilityStatement conformance = CapabilityStatement.builder()
                 .status(PublicationStatus.ACTIVE)
@@ -505,6 +541,7 @@ public class Capabilities extends FHIRResource {
                           .build())
                 .rest(rest)
                 .instantiates(buildInstantiates())
+                .implementation(impl)
                 .build();
 
         try {
@@ -688,25 +725,25 @@ public class Capabilities extends FHIRResource {
         throws Exception {
         List<Extension> extentions = new ArrayList<>();
         Extension extension = Extension.builder()
-                .url(EXTENSION_URL + "/defaultTenantId")
+                .url(EXT_BASE + "defaultTenantId")
                 .value(string(fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_DEFAULT_TENANT_ID, FHIRConfiguration.DEFAULT_TENANT_ID)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/websocketNotificationsEnabled")
+                .url(EXT_BASE + "websocketNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/kafkaNotificationsEnabled")
+                .url(EXT_BASE + "kafkaNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_KAFKA_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/natsNotificationsEnabled")
+                .url(EXT_BASE + "natsNotificationsEnabled")
                 .value(com.ibm.fhir.model.type.Boolean.of(fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_NATS_ENABLED, Boolean.FALSE)))
                 .build();
         extentions.add(extension);
@@ -717,7 +754,7 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/notificationResourceTypes")
+                .url(EXT_BASE + "notificationResourceTypes")
                 .value(string(notificationResourceTypes))
                 .build();
         extentions.add(extension);
@@ -733,13 +770,13 @@ public class Capabilities extends FHIRResource {
         }
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/auditLogServiceName")
+                .url(EXT_BASE + "auditLogServiceName")
                 .value(string(auditLogServiceName))
                 .build();
         extentions.add(extension);
 
         extension = Extension.builder()
-                .url(EXTENSION_URL + "/persistenceType")
+                .url(EXT_BASE + "persistenceType")
                 .value(string(getPersistenceImpl().getClass().getSimpleName()))
                 .build();
         extentions.add(extension);

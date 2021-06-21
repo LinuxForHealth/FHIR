@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,8 +17,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonObject;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

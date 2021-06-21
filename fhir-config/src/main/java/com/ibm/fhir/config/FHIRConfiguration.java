@@ -40,8 +40,10 @@ public class FHIRConfiguration {
     public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
     public static final String PROPERTY_MAX_PAGE_SIZE = "fhirServer/core/maxPageSize";
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
+    public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
 
     // Terminology service properties
+    public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";
@@ -83,10 +85,13 @@ public class FHIRConfiguration {
 
     // Notification config properties
     public static final String PROPERTY_NOTIFICATION_RESOURCE_TYPES = "fhirServer/notifications/common/includeResourceTypes";
+    public static final String PROPERTY_NOTIFICATION_NOTIFICATION_SIZE_BEHAVIOR = "fhirServer/notifications/common/maxNotificationSizeBehavior";
+    public static final String PROPERTY_NOTIFICATION_MAX_SIZE = "fhirServer/notifications/common/maxNotificationSizeBytes";
     public static final String PROPERTY_WEBSOCKET_ENABLED = "fhirServer/notifications/websocket/enabled";
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_KAFKA_SYNC = "fhirServer/notifications/kafka/sync";
     public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
     public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
     public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
@@ -133,7 +138,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
     public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
     public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";

@@ -9,6 +9,7 @@ package com.ibm.fhir.operation.bulkdata.config;
 import java.util.List;
 
 import com.ibm.fhir.exception.FHIRException;
+import com.ibm.fhir.operation.bulkdata.config.s3.S3HostStyle;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 
 /**
@@ -381,6 +382,7 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
+    @Deprecated
     boolean isStorageProviderExportPublic(String provider);
 
     /**
@@ -497,4 +499,30 @@ public interface ConfigurationAdapter {
      * @return
      */
     int getPresignedUrlExpiry();
+
+    /**
+     * get the connection string for the azure type account with a connection string.
+     * @param provider
+     * @return
+     */
+    String getStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
+     * checks the provider to see if this is an azure connection string.
+     * @param provider
+     * @return true, if connectionString
+     */
+    boolean isStorageProviderAuthTypeConnectionString(String provider);
+
+    /**
+     * @return the status of skippable updates
+     */
+    boolean enableSkippableUpdates();
+
+    /**
+     * gets the storage type
+     * @param provider
+     * @return
+     */
+    S3HostStyle getS3HostStyleByStorageProvider(String provider);
 }

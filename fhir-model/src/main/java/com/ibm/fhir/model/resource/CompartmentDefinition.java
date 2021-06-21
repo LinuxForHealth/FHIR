@@ -103,20 +103,20 @@ public class CompartmentDefinition extends DomainResource {
 
     private CompartmentDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        name = builder.name;
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.checkList(builder.contact, "contact", ContactDetail.class));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.checkList(builder.useContext, "useContext", UsageContext.class));
+        useContext = Collections.unmodifiableList(builder.useContext);
         purpose = builder.purpose;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        search = ValidationSupport.requireNonNull(builder.search, "search");
-        resource = Collections.unmodifiableList(ValidationSupport.checkList(builder.resource, "resource", Resource.class));
+        code = builder.code;
+        search = builder.search;
+        resource = Collections.unmodifiableList(builder.resource);
     }
 
     /**
@@ -917,7 +917,23 @@ public class CompartmentDefinition extends DomainResource {
          */
         @Override
         public CompartmentDefinition build() {
-            return new CompartmentDefinition(this);
+            CompartmentDefinition compartmentDefinition = new CompartmentDefinition(this);
+            if (validating) {
+                validate(compartmentDefinition);
+            }
+            return compartmentDefinition;
+        }
+
+        protected void validate(CompartmentDefinition compartmentDefinition) {
+            super.validate(compartmentDefinition);
+            ValidationSupport.requireNonNull(compartmentDefinition.url, "url");
+            ValidationSupport.requireNonNull(compartmentDefinition.name, "name");
+            ValidationSupport.requireNonNull(compartmentDefinition.status, "status");
+            ValidationSupport.checkList(compartmentDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(compartmentDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.requireNonNull(compartmentDefinition.code, "code");
+            ValidationSupport.requireNonNull(compartmentDefinition.search, "search");
+            ValidationSupport.checkList(compartmentDefinition.resource, "resource", Resource.class);
         }
 
         protected Builder from(CompartmentDefinition compartmentDefinition) {
@@ -959,10 +975,9 @@ public class CompartmentDefinition extends DomainResource {
 
         private Resource(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            param = Collections.unmodifiableList(ValidationSupport.checkList(builder.param, "param", String.class));
+            code = builder.code;
+            param = Collections.unmodifiableList(builder.param);
             documentation = builder.documentation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1257,7 +1272,18 @@ public class CompartmentDefinition extends DomainResource {
              */
             @Override
             public Resource build() {
-                return new Resource(this);
+                Resource resource = new Resource(this);
+                if (validating) {
+                    validate(resource);
+                }
+                return resource;
+            }
+
+            protected void validate(Resource resource) {
+                super.validate(resource);
+                ValidationSupport.requireNonNull(resource.code, "code");
+                ValidationSupport.checkList(resource.param, "param", String.class);
+                ValidationSupport.requireValueOrChildren(resource);
             }
 
             protected Builder from(Resource resource) {

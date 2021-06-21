@@ -222,11 +222,7 @@ public class DetectedIssueStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -281,7 +277,20 @@ public class DetectedIssueStatus extends Code {
 
         @Override
         public DetectedIssueStatus build() {
-            return new DetectedIssueStatus(this);
+            DetectedIssueStatus detectedIssueStatus = new DetectedIssueStatus(this);
+            if (validating) {
+                validate(detectedIssueStatus);
+            }
+            return detectedIssueStatus;
+        }
+
+        protected void validate(DetectedIssueStatus detectedIssueStatus) {
+            super.validate(detectedIssueStatus);
+        }
+
+        protected Builder from(DetectedIssueStatus detectedIssueStatus) {
+            super.from(detectedIssueStatus);
+            return this;
         }
     }
 

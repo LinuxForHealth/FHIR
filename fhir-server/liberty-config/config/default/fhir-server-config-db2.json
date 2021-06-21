@@ -147,12 +147,11 @@
             "storageProviders": {
                 "default" : {
                     "type": "file",
-                    "_type": "ibm-cos|aws-s3|file|https",
+                    "_type": "ibm-cos|aws-s3|file|https|azure-blob",
                     "validBaseUrls": [],
                     "fileBase": "/output/bulkdata",
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
-                    "exportPublic": true,
                     "disableOperationOutcomes": true,
                     "duplicationCheck": false, 
                     "validateResources": false
@@ -170,12 +169,24 @@
                     },
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
-                    "exportPublic": true,
                     "disableOperationOutcomes": true,
                     "duplicationCheck": false, 
                     "validateResources": false, 
                     "create": false,
                     "presigned": true
+                },
+                "azure" : {
+                    "type": "azure-blob",
+                    "_type": "ibm-cos|aws-s3|file|https|azure-blob",
+                    "bucketName": "fhirbulkdata",
+                    "auth" : {
+                        "type": "connection",
+                        "connection": "DefaultEndpointsProtocol=https;AccountName=XYZ;AccountKey=XYZKEY;EndpointSuffix=core.windows.net"
+                    },
+                    "disableOperationOutcomes": true,
+                    "duplicationCheck": false, 
+                    "validateResources": false, 
+                    "create": false
                 }
             }
         },

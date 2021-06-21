@@ -230,11 +230,7 @@ public class RequestIntent extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -289,7 +285,20 @@ public class RequestIntent extends Code {
 
         @Override
         public RequestIntent build() {
-            return new RequestIntent(this);
+            RequestIntent requestIntent = new RequestIntent(this);
+            if (validating) {
+                validate(requestIntent);
+            }
+            return requestIntent;
+        }
+
+        protected void validate(RequestIntent requestIntent) {
+            super.validate(requestIntent);
+        }
+
+        protected Builder from(RequestIntent requestIntent) {
+            super.from(requestIntent);
+            return this;
         }
     }
 

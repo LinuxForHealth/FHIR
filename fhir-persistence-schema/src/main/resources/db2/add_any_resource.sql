@@ -4,6 +4,8 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
+-- LOADED ON: {{DATE}}
+
 -- ----------------------------------------------------------------------------
 -- Procedure to add a resource version and its associated parameters. These
 -- parameters only ever point to the latest version of a resource, never to

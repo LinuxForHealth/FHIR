@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.path.evaluator;
 
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 import static com.ibm.fhir.path.FHIRPathDateTimeValue.dateTimeValue;
 import static com.ibm.fhir.path.FHIRPathDateValue.dateValue;
@@ -60,6 +61,7 @@ import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
@@ -83,9 +85,14 @@ import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.path.function.FHIRPathFunction;
 import com.ibm.fhir.path.util.FHIRPathUtil;
 
+import net.jcip.annotations.NotThreadSafe;
+
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
+ *
+ * The static factory method {@link #evaluator()} is threadsafe, but the created instances are not.
  */
+@NotThreadSafe
 public class FHIRPathEvaluator {
     private static final Logger log = Logger.getLogger(FHIRPathEvaluator.class.getName());
 
@@ -1009,7 +1016,11 @@ public class FHIRPathEvaluator {
                 break;
             case "as":
                 for (FHIRPathNode node : nodes) {
-                    if (type.isAssignableFrom(node.type())) {
+                    FHIRPathType nodeType = node.type();
+                    if (SYSTEM_NAMESPACE.equals(type.namespace()) && node.hasValue()) {
+                        nodeType = node.getValue().type();
+                    }
+                    if (type.isAssignableFrom(nodeType)) {
                         result.add(node);
                     }
                 }
@@ -1139,10 +1150,14 @@ public class FHIRPathEvaluator {
                 }
             }
 
-            Collection<FHIRPathNode> result = currentContext.stream()
-                    .flatMap(node -> node.children().stream())
-                    .filter(node -> identifier.equals(node.name()))
-                    .collect(Collectors.toList());
+            List<FHIRPathNode> result = new ArrayList<>();
+            for (FHIRPathNode node : currentContext) {
+                for (FHIRPathNode child : node.children()) {
+                    if (identifier.equals(child.name())) {
+                        result.add(child);
+                    }
+                }
+            }
 
             indentLevel--;
 
@@ -1336,22 +1351,24 @@ public class FHIRPathEvaluator {
      * A context object used to pass information to/from the FHIRPath evaluation engine
      */
     public static class EvaluationContext {
+        public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = false;
+
         private static final String UCUM_SYSTEM = "http://unitsofmeasure.org";
-        private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
-
         private static final String LOINC_SYSTEM = "http://loinc.org";
-        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
-
         private static final String SCT_SYSTEM = "http://snomed.info/sct";
-        private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
 
+        private static final Collection<FHIRPathNode> UCUM_SYSTEM_SINGLETON = singleton(stringValue(UCUM_SYSTEM));
+        private static final Collection<FHIRPathNode> LOINC_SYSTEM_SINGLETON = singleton(stringValue(LOINC_SYSTEM));
+        private static final Collection<FHIRPathNode> SCT_SYSTEM_SINGLETON = singleton(stringValue(SCT_SYSTEM));
         private static final Collection<FHIRPathNode> TERM_SERVICE_SINGLETON = singleton(FHIRPathTermServiceNode.termServiceNode());
 
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
+        private final List<Issue> issues = new ArrayList<>();
+        private final Map<CacheKey, Collection<FHIRPathNode>> functionResultCache = new HashMap<>();
 
         private Constraint constraint;
-        private final List<Issue> issues = new ArrayList<>();
+        private boolean resolveRelativeReferences = DEFAULT_RESOLVE_RELATIVE_REFERENCES;
 
         /**
          * Create an empty evaluation context, evaluating stand-alone expressions
@@ -1473,6 +1490,35 @@ public class FHIRPathEvaluator {
         }
 
         /**
+         * Get the list of supplemental issues that were generated during evaluation
+         *
+         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
+         *
+         * @return
+         *     the list of supplemental issues that were generated during evaluation
+         */
+        public List<Issue> getIssues() {
+            return issues;
+        }
+
+        /**
+         * Clear the list of supplemental issues that were generated during evaluation
+         */
+        public void clearIssues() {
+            issues.clear();
+        }
+
+        /**
+         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         *
+         * @return
+         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         */
+        public boolean hasIssues() {
+            return !issues.isEmpty();
+        }
+
+        /**
          * Set the constraint currently under evaluation
          *
          * <p>If a {@link Constraint} is the source of the expression under evaluation, then this method allows the
@@ -1514,32 +1560,74 @@ public class FHIRPathEvaluator {
         }
 
         /**
-         * Get the list of supplemental issues that were generated during evaluation
+         * Set the resolve relative references indicator
          *
-         * <p>Supplemental issues are used to convey additional information about the evaluation to the client
-         *
-         * @return
-         *     the list of supplemental issues that were generated during evaluation
+         * @param resolveRelativeReferences
+         *     the resolve relative references indicator
          */
-        public List<Issue> getIssues() {
-            return issues;
+        public void setResolveRelativeReferences(boolean resolveRelativeReferences) {
+            this.resolveRelativeReferences = resolveRelativeReferences;
         }
 
         /**
-         * Clear the list of supplemental issues that were generated during evaluation
+         * Indicates whether the evaluator using this evaluation context should resolve relative references (if possible)
+         *
+         * @return
+         *     true if the evaluator using this evaluation context should resolve relative references (if possible), otherwise false
          */
-        public void clearIssues() {
-            issues.clear();
+        public boolean resolveRelativeReferences() {
+            return resolveRelativeReferences;
         }
 
         /**
-         * Indicates whether this evaluation context has supplemental issues that were generated during evaluation
+         * Get the cached function result for the given function name, context, and arguments.
          *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
          * @return
-         *     true if this evaluation context has supplemental issues that were generated during evaluation, otherwise false
+         *     the cached function result as a collection of FHIRPath nodes or an empty collection
          */
-        public boolean hasIssues() {
-            return !issues.isEmpty();
+        public Collection<FHIRPathNode> getCachedFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+            CacheKey key = key(functionName, context, arguments);
+            return functionResultCache.getOrDefault(key, empty());
+        }
+
+        /**
+         * Cache the function result for the given function name, context, and arguments
+         *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
+         * @param result
+         *     the function result
+         */
+        public void cacheFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments, Collection<FHIRPathNode> result) {
+            CacheKey key = key(functionName, context, arguments);
+            functionResultCache.put(key, result);
+        }
+
+        /**
+         * Indicates whether a function result has been cached for the given function name, context, and arguments.
+         *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
+         * @return
+         *     true if the function result has been cached, otherwise false
+         */
+        public boolean hasCachedFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+            CacheKey key = key(functionName, context, arguments);
+            return functionResultCache.containsKey(key);
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -43,7 +43,6 @@ import com.ibm.fhir.model.type.code.ObservationStatus;
  * interface.
  */
 public class FHIRClientSample {
-
 
     public static void main(String[] args) throws Exception {
         FHIRClientSample sample = new FHIRClientSample();

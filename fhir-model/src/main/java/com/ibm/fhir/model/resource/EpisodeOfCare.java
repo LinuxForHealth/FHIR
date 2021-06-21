@@ -98,24 +98,18 @@ public class EpisodeOfCare extends DomainResource {
 
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.checkList(builder.statusHistory, "statusHistory", StatusHistory.class));
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.checkList(builder.diagnosis, "diagnosis", Diagnosis.class));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        type = Collections.unmodifiableList(builder.type);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        patient = builder.patient;
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(ValidationSupport.checkList(builder.referralRequest, "referralRequest", Reference.class));
+        referralRequest = Collections.unmodifiableList(builder.referralRequest);
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(ValidationSupport.checkList(builder.team, "team", Reference.class));
-        account = Collections.unmodifiableList(ValidationSupport.checkList(builder.account, "account", Reference.class));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
-        ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(team, "team", "CareTeam");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
+        team = Collections.unmodifiableList(builder.team);
+        account = Collections.unmodifiableList(builder.account);
     }
 
     /**
@@ -953,7 +947,30 @@ public class EpisodeOfCare extends DomainResource {
          */
         @Override
         public EpisodeOfCare build() {
-            return new EpisodeOfCare(this);
+            EpisodeOfCare episodeOfCare = new EpisodeOfCare(this);
+            if (validating) {
+                validate(episodeOfCare);
+            }
+            return episodeOfCare;
+        }
+
+        protected void validate(EpisodeOfCare episodeOfCare) {
+            super.validate(episodeOfCare);
+            ValidationSupport.checkList(episodeOfCare.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(episodeOfCare.status, "status");
+            ValidationSupport.checkList(episodeOfCare.statusHistory, "statusHistory", StatusHistory.class);
+            ValidationSupport.checkList(episodeOfCare.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(episodeOfCare.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.requireNonNull(episodeOfCare.patient, "patient");
+            ValidationSupport.checkList(episodeOfCare.referralRequest, "referralRequest", Reference.class);
+            ValidationSupport.checkList(episodeOfCare.team, "team", Reference.class);
+            ValidationSupport.checkList(episodeOfCare.account, "account", Reference.class);
+            ValidationSupport.checkReferenceType(episodeOfCare.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(episodeOfCare.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(episodeOfCare.referralRequest, "referralRequest", "ServiceRequest");
+            ValidationSupport.checkReferenceType(episodeOfCare.careManager, "careManager", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(episodeOfCare.team, "team", "CareTeam");
+            ValidationSupport.checkReferenceType(episodeOfCare.account, "account", "Account");
         }
 
         protected Builder from(EpisodeOfCare episodeOfCare) {
@@ -992,9 +1009,8 @@ public class EpisodeOfCare extends DomainResource {
 
         private StatusHistory(Builder builder) {
             super(builder);
-            status = ValidationSupport.requireNonNull(builder.status, "status");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            status = builder.status;
+            period = builder.period;
         }
 
         /**
@@ -1240,7 +1256,18 @@ public class EpisodeOfCare extends DomainResource {
              */
             @Override
             public StatusHistory build() {
-                return new StatusHistory(this);
+                StatusHistory statusHistory = new StatusHistory(this);
+                if (validating) {
+                    validate(statusHistory);
+                }
+                return statusHistory;
+            }
+
+            protected void validate(StatusHistory statusHistory) {
+                super.validate(statusHistory);
+                ValidationSupport.requireNonNull(statusHistory.status, "status");
+                ValidationSupport.requireNonNull(statusHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(statusHistory);
             }
 
             protected Builder from(StatusHistory statusHistory) {
@@ -1273,11 +1300,9 @@ public class EpisodeOfCare extends DomainResource {
 
         private Diagnosis(Builder builder) {
             super(builder);
-            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            condition = builder.condition;
             role = builder.role;
             rank = builder.rank;
-            ValidationSupport.checkReferenceType(condition, "condition", "Condition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1554,7 +1579,18 @@ public class EpisodeOfCare extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.condition, "condition");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {

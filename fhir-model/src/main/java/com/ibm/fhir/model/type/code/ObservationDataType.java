@@ -246,11 +246,7 @@ public class ObservationDataType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -305,7 +301,20 @@ public class ObservationDataType extends Code {
 
         @Override
         public ObservationDataType build() {
-            return new ObservationDataType(this);
+            ObservationDataType observationDataType = new ObservationDataType(this);
+            if (validating) {
+                validate(observationDataType);
+            }
+            return observationDataType;
+        }
+
+        protected void validate(ObservationDataType observationDataType) {
+            super.validate(observationDataType);
+        }
+
+        protected Builder from(ObservationDataType observationDataType) {
+            super.from(observationDataType);
+            return this;
         }
     }
 

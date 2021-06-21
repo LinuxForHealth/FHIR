@@ -224,11 +224,7 @@ public class GoalLifecycleStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -283,7 +279,20 @@ public class GoalLifecycleStatus extends Code {
 
         @Override
         public GoalLifecycleStatus build() {
-            return new GoalLifecycleStatus(this);
+            GoalLifecycleStatus goalLifecycleStatus = new GoalLifecycleStatus(this);
+            if (validating) {
+                validate(goalLifecycleStatus);
+            }
+            return goalLifecycleStatus;
+        }
+
+        protected void validate(GoalLifecycleStatus goalLifecycleStatus) {
+            super.validate(goalLifecycleStatus);
+        }
+
+        protected Builder from(GoalLifecycleStatus goalLifecycleStatus) {
+            super.from(goalLifecycleStatus);
+            return this;
         }
     }
 

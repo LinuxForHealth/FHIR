@@ -169,11 +169,7 @@ public class DeviceMetricCategory extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class DeviceMetricCategory extends Code {
 
         @Override
         public DeviceMetricCategory build() {
-            return new DeviceMetricCategory(this);
+            DeviceMetricCategory deviceMetricCategory = new DeviceMetricCategory(this);
+            if (validating) {
+                validate(deviceMetricCategory);
+            }
+            return deviceMetricCategory;
+        }
+
+        protected void validate(DeviceMetricCategory deviceMetricCategory) {
+            super.validate(deviceMetricCategory);
+        }
+
+        protected Builder from(DeviceMetricCategory deviceMetricCategory) {
+            super.from(deviceMetricCategory);
+            return this;
         }
     }
 

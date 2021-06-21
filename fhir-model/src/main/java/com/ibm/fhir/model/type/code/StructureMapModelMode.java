@@ -169,11 +169,7 @@ public class StructureMapModelMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class StructureMapModelMode extends Code {
 
         @Override
         public StructureMapModelMode build() {
-            return new StructureMapModelMode(this);
+            StructureMapModelMode structureMapModelMode = new StructureMapModelMode(this);
+            if (validating) {
+                validate(structureMapModelMode);
+            }
+            return structureMapModelMode;
+        }
+
+        protected void validate(StructureMapModelMode structureMapModelMode) {
+            super.validate(structureMapModelMode);
+        }
+
+        protected Builder from(StructureMapModelMode structureMapModelMode) {
+            super.from(structureMapModelMode);
+            return this;
         }
     }
 

@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.search.util;
 
+import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
+
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -43,6 +45,7 @@ import com.ibm.fhir.model.resource.SearchParameter.Component;
 import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -54,12 +57,10 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.path.FHIRPathBooleanValue;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
-import com.ibm.fhir.path.function.ResolveFunction;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
 import com.ibm.fhir.search.SearchConstants.Prefix;
@@ -698,7 +699,6 @@ public class SearchUtil {
         // Create one time.
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(resource);
-        evaluationContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.FALSE);
 
         List<SearchParameter> parameters = getApplicableSearchParameters(resourceType.getSimpleName());
 
@@ -1561,7 +1561,7 @@ public class SearchUtil {
     public static FHIRSearchContext parseCompartmentQueryParameters(String compartmentName, String compartmentLogicalId,
             Class<?> resourceType, Map<String, List<String>> queryParameters, boolean lenient) throws Exception {
 
-        List<String> compartmentLogicalIds = Collections.singletonList(compartmentLogicalId);
+        Set<String> compartmentLogicalIds = Collections.singleton(compartmentLogicalId);
         QueryParameter inclusionCriteria = buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
         FHIRSearchContext context = parseQueryParameters(resourceType, queryParameters, lenient);
 
@@ -1582,7 +1582,7 @@ public class SearchUtil {
      * @return
      * @throws FHIRSearchException
      */
-    public static QueryParameter buildInclusionCriteria(String compartmentName, List<String> compartmentLogicalIds, String resourceType)
+    public static QueryParameter buildInclusionCriteria(String compartmentName, Set<String> compartmentLogicalIds, String resourceType)
             throws FHIRSearchException {
         QueryParameter rootParameter = null;
 
@@ -2564,7 +2564,6 @@ public class SearchUtil {
 
         try {
             EvaluationContext resourceContext = new FHIRPathEvaluator.EvaluationContext(fhirResource);
-            resourceContext.setExternalConstant(ResolveFunction.RESOLVE_RELATIVE_REFERENCES, FHIRPathBooleanValue.FALSE);
 
             // Extract any references we find matching parameters representing compartment membership.
             // For example CareTeam.participant can be used to refer to a Patient or RelatedPerson resource:
@@ -2591,24 +2590,50 @@ public class SearchUtil {
                         }
 
                         for (FHIRPathNode node : nodes) {
-                            Reference reference = node.asElementNode().element().as(Reference.class);
-                            ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
-                            if (rv.getType() != ReferenceType.DISPLAY_ONLY && rv.getType() != ReferenceType.INVALID) {
+                            String compartmentName = null;
+                            String compartmentId = null;
+
+                            Element element = node.asElementNode().element();
+                            if (element.is(Reference.class)) {
+                                Reference reference = element.as(Reference.class);
+                                ReferenceValue rv = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
+                                if (rv.getType() == ReferenceType.DISPLAY_ONLY || rv.getType() == ReferenceType.INVALID) {
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Skipping reference of type " + rv.getType());
+                                    }
+                                    continue;
+                                }
+                                compartmentName = rv.getTargetResourceType();
+                                compartmentId = rv.getValue();
 
                                 // Check that the target resource type of the reference matches one of the
                                 // target resource types in the compartment definition.
-                                final String compartmentName = rv.getTargetResourceType();
-                                if (paramEntry.getValue().contains(compartmentName)) {
-                                    // Add this reference to the set of references we're collecting for each compartment
-                                    CompartmentReference cref = new CompartmentReference(searchParm, compartmentName, rv.getValue());
-                                    Set<CompartmentReference> references = result.computeIfAbsent(compartmentName, k -> new HashSet<>());
-                                    references.add(cref);
+                                if (!paramEntry.getValue().contains(compartmentName)) {
+                                    if (log.isLoggable(Level.FINE)) {
+                                        log.fine("Skipping reference with value " + reference.getReference() + ";"
+                                                + " target resource type does not match any of the allowed compartment types: " + paramEntry);
+                                    }
+                                    continue;
                                 }
+                            } else if (element.is(FHIR_STRING)) {
+                                if (paramEntry.getValue().size() != 1) {
+                                    log.warning("CompartmentDefinition inclusion criteria must be of type Reference unless they have 1 and only 1 resource target");
+                                    continue;
+                                }
+                                compartmentName = paramEntry.getValue().iterator().next();
+                                compartmentId = element.as(FHIR_STRING).getValue();
                             }
+
+                            // Add this reference to the set of references we're collecting for each compartment
+                            CompartmentReference cref = new CompartmentReference(searchParm, compartmentName, compartmentId);
+                            Set<CompartmentReference> references = result.computeIfAbsent(compartmentName, k -> new HashSet<>());
+                            references.add(cref);
                         }
                     } else if (!useStoredCompartmentParam()) {
-                       log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. This will stop compartment searches from working correctly.");
+                       log.warning("Compartment parameter not found: [" + resourceType + "] '" + searchParm + "'. "
+                               + "This will stop compartment searches from working correctly.");
                     }
+
                 }
             }
         } catch (Exception e) {

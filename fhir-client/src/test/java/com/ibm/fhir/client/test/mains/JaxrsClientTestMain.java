@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,30 +38,30 @@ import com.ibm.fhir.model.type.code.ObservationStatus;
 import com.ibm.fhir.provider.FHIRProvider;
 
 public class JaxrsClientTestMain {
-    
+
     public static void main(String[] args) throws Exception {
         Patient patient = buildPatient();
         System.out.println("\nJSON:");
-        
+
         FHIRGenerator.generator( Format.JSON, false).generate(patient, System.out);
         System.out.println("\nXML:");
         FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
-        
+
         Client client = ClientBuilder.newBuilder()
                 .register(new FHIRProvider(RuntimeType.CLIENT))
                 .build();
-        
+
         WebTarget target = client.target("http://localhost:9080/fhir-server/api/v4");
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_XML);
         Response response = target.path("Patient").request().post(entity, Response.class);
-        
+
         if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
             System.out.println("");
             System.out.println(response.getStatus());
             System.out.println(response.getStatusInfo().getReasonPhrase());
             String location = response.getLocation().toString();
             System.out.println("location: " + location);
-            
+
             String id = location.substring(location.lastIndexOf("/") + 1);
             response = target.path("Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
             patient = response.readEntity(Patient.class);
@@ -69,23 +69,23 @@ public class JaxrsClientTestMain {
             FHIRGenerator.generator( Format.JSON, false).generate(patient, System.out);
             System.out.println("\nXML:");
             FHIRGenerator.generator( Format.XML, false).generate(patient, System.out);
-                        
+
             Observation observation = buildObservation(id);
             System.out.println("\nJSON:");
             FHIRGenerator.generator( Format.JSON, false).generate(observation, System.out);
             System.out.println("\nXML:");
             FHIRGenerator.generator( Format.XML, false).generate(observation, System.out);
-            
+
             Entity<Observation> observationEntity = Entity.entity(observation, FHIRMediaType.APPLICATION_FHIR_JSON);
             response = target.path("Observation").request().post(observationEntity, Response.class);
-            
+
             if (Response.Status.CREATED.getStatusCode() == response.getStatus()) {
                 System.out.println("");
                 System.out.println(response.getStatus());
                 System.out.println(response.getStatusInfo().getReasonPhrase());
                 location = response.getLocation().toString();
                 System.out.println("location: " + location);
-                
+
                 response = target.path("Observation").queryParam("subject", "Patient/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
                 Bundle bundle = response.readEntity(Bundle.class);
                 System.out.println("\nJSON:");
@@ -105,7 +105,7 @@ public class JaxrsClientTestMain {
             System.out.println(response.readEntity(String.class));
         }
     }
-    
+
     public static Patient buildPatient() {
         Patient patient = Patient.builder().name(HumanName.builder()
                         .family(string("Doe"))
@@ -114,12 +114,12 @@ public class JaxrsClientTestMain {
                 .telecom(ContactPoint.builder().system(ContactPointSystem.PHONE)
                         .use(ContactPointUse.HOME).value(string("555-1234")).build())
                 .extension(Extension.builder().url("http://ibm.com/fhir/extension/Patient/favorite-color")
-                        .value(string("blue")).build()).build();        
+                        .value(string("blue")).build()).build();
         return patient;
     }
-    
+
     public static Observation buildObservation(String patientId) {
-        Observation observation = Observation.builder().status(ObservationStatus.FINAL).bodySite( 
+        Observation observation = Observation.builder().status(ObservationStatus.FINAL).bodySite(
                 CodeableConcept.builder().coding(Coding.builder().code(Code.of("55284-4"))
                         .system(Uri.of("http://loinc.org")).build())
                         .text(string("Blood pressure systolic & diastolic")).build())
@@ -135,8 +135,8 @@ public class JaxrsClientTestMain {
                         .system(Uri.of("http://loinc.org")).build())
                         .text(string("Diastolic")).build())
                         .value(Quantity.builder().value(Decimal.of(93.7)).unit(string("mmHg")).build()).build())
-             .build();           
+             .build();
 
         return observation;
-    } 
+    }
 }

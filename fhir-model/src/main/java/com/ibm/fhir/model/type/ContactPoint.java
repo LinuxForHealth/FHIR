@@ -63,7 +63,6 @@ public class ContactPoint extends Element {
         use = builder.use;
         rank = builder.rank;
         period = builder.period;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -339,7 +338,16 @@ public class ContactPoint extends Element {
          */
         @Override
         public ContactPoint build() {
-            return new ContactPoint(this);
+            ContactPoint contactPoint = new ContactPoint(this);
+            if (validating) {
+                validate(contactPoint);
+            }
+            return contactPoint;
+        }
+
+        protected void validate(ContactPoint contactPoint) {
+            super.validate(contactPoint);
+            ValidationSupport.requireValueOrChildren(contactPoint);
         }
 
         protected Builder from(ContactPoint contactPoint) {

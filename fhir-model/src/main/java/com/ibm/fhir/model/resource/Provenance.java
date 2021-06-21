@@ -113,17 +113,16 @@ public class Provenance extends DomainResource {
 
     private Provenance(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.target, "target", Reference.class));
-        occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
-        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        policy = Collections.unmodifiableList(ValidationSupport.checkList(builder.policy, "policy", Uri.class));
+        target = Collections.unmodifiableList(builder.target);
+        occurred = builder.occurred;
+        recorded = builder.recorded;
+        policy = Collections.unmodifiableList(builder.policy);
         location = builder.location;
-        reason = Collections.unmodifiableList(ValidationSupport.checkList(builder.reason, "reason", CodeableConcept.class));
+        reason = Collections.unmodifiableList(builder.reason);
         activity = builder.activity;
-        agent = Collections.unmodifiableList(ValidationSupport.checkNonEmptyList(builder.agent, "agent", Agent.class));
-        entity = Collections.unmodifiableList(ValidationSupport.checkList(builder.entity, "entity", Entity.class));
-        signature = Collections.unmodifiableList(ValidationSupport.checkList(builder.signature, "signature", Signature.class));
-        ValidationSupport.checkReferenceType(location, "location", "Location");
+        agent = Collections.unmodifiableList(builder.agent);
+        entity = Collections.unmodifiableList(builder.entity);
+        signature = Collections.unmodifiableList(builder.signature);
     }
 
     /**
@@ -863,7 +862,24 @@ public class Provenance extends DomainResource {
          */
         @Override
         public Provenance build() {
-            return new Provenance(this);
+            Provenance provenance = new Provenance(this);
+            if (validating) {
+                validate(provenance);
+            }
+            return provenance;
+        }
+
+        protected void validate(Provenance provenance) {
+            super.validate(provenance);
+            ValidationSupport.checkNonEmptyList(provenance.target, "target", Reference.class);
+            ValidationSupport.choiceElement(provenance.occurred, "occurred", Period.class, DateTime.class);
+            ValidationSupport.requireNonNull(provenance.recorded, "recorded");
+            ValidationSupport.checkList(provenance.policy, "policy", Uri.class);
+            ValidationSupport.checkList(provenance.reason, "reason", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(provenance.agent, "agent", Agent.class);
+            ValidationSupport.checkList(provenance.entity, "entity", Entity.class);
+            ValidationSupport.checkList(provenance.signature, "signature", Signature.class);
+            ValidationSupport.checkReferenceType(provenance.location, "location", "Location");
         }
 
         protected Builder from(Provenance provenance) {
@@ -912,12 +928,9 @@ public class Provenance extends DomainResource {
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.checkList(builder.role, "role", CodeableConcept.class));
-            who = ValidationSupport.requireNonNull(builder.who, "who");
+            role = Collections.unmodifiableList(builder.role);
+            who = builder.who;
             onBehalfOf = builder.onBehalfOf;
-            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1261,7 +1274,20 @@ public class Provenance extends DomainResource {
              */
             @Override
             public Agent build() {
-                return new Agent(this);
+                Agent agent = new Agent(this);
+                if (validating) {
+                    validate(agent);
+                }
+                return agent;
+            }
+
+            protected void validate(Agent agent) {
+                super.validate(agent);
+                ValidationSupport.checkList(agent.role, "role", CodeableConcept.class);
+                ValidationSupport.requireNonNull(agent.who, "who");
+                ValidationSupport.checkReferenceType(agent.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.checkReferenceType(agent.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.requireValueOrChildren(agent);
             }
 
             protected Builder from(Agent agent) {
@@ -1295,10 +1321,9 @@ public class Provenance extends DomainResource {
 
         private Entity(Builder builder) {
             super(builder);
-            role = ValidationSupport.requireNonNull(builder.role, "role");
-            what = ValidationSupport.requireNonNull(builder.what, "what");
-            agent = Collections.unmodifiableList(ValidationSupport.checkList(builder.agent, "agent", Provenance.Agent.class));
-            ValidationSupport.requireValueOrChildren(this);
+            role = builder.role;
+            what = builder.what;
+            agent = Collections.unmodifiableList(builder.agent);
         }
 
         /**
@@ -1599,7 +1624,19 @@ public class Provenance extends DomainResource {
              */
             @Override
             public Entity build() {
-                return new Entity(this);
+                Entity entity = new Entity(this);
+                if (validating) {
+                    validate(entity);
+                }
+                return entity;
+            }
+
+            protected void validate(Entity entity) {
+                super.validate(entity);
+                ValidationSupport.requireNonNull(entity.role, "role");
+                ValidationSupport.requireNonNull(entity.what, "what");
+                ValidationSupport.checkList(entity.agent, "agent", Provenance.Agent.class);
+                ValidationSupport.requireValueOrChildren(entity);
             }
 
             protected Builder from(Entity entity) {

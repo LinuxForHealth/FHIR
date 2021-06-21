@@ -411,4 +411,63 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
             throw getTranslator().translate(x);
         }
     }
+    @Override
+    protected void insertResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_SECURITY";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    protected void insertSystemResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName =  "LOGICAL_RESOURCE_SECURITY";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "mt_id, logical_resource_id, common_token_value_id) "
+                + "VALUES (" + this.adminSchemaName + ".SV_TENANT_ID, ?, ?)";
+        try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw getTranslator().translate(x);
+        }
+    }
 }

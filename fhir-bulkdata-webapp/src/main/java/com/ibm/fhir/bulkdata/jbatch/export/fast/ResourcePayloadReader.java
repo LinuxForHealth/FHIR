@@ -38,6 +38,8 @@ import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.checkpoint.ResourceExportCheckpointAlgorithm;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.data.CheckpointUserData;
 import com.ibm.fhir.bulkdata.jbatch.export.fast.data.TransientUserData;
+import com.ibm.fhir.bulkdata.provider.Provider;
+import com.ibm.fhir.bulkdata.provider.impl.AzureProvider;
 import com.ibm.fhir.bulkdata.provider.impl.S3Provider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -45,6 +47,7 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 import com.ibm.fhir.operation.bulkdata.model.type.BulkDataContext;
 import com.ibm.fhir.operation.bulkdata.model.type.OperationFields;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageType;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -86,8 +89,8 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
     private BulkAuditLogger auditLogger = new BulkAuditLogger();
 
-    // S3 client API to IBM Cloud Object Storage
-    private S3Provider wrapper = null;
+    // Provider client API to IBM Cloud Object Storage or Azure
+    private Provider provider = null;
     private AmazonS3 cosClient = null;
 
     // The handle to the persistence instance used to fetch the resources we want to export
@@ -99,7 +102,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private BulkDataContext ctx = null;
 
     String fhirResourceType;
-    private boolean isExportPublic = true;
 
     String cosBucketName;
     String cosBucketPathPrefix;
@@ -263,14 +265,15 @@ public class ResourcePayloadReader extends AbstractItemReader {
         fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
         resourceType = ModelSupport.getResourceType(fhirResourceType);
 
-        isExportPublic = adapter.isStorageProviderExportPublic(source);
-
-        wrapper = new S3Provider(source);
-
-        // Make sure we have the bucket and conditionally create it.
-        wrapper.createSource();
-
-        cosClient = wrapper.getClient();
+        if (StorageType.AZURE == adapter.getStorageProviderStorageType(source)) {
+            provider = new AzureProvider(source);
+        } else {
+            // Make sure we have the bucket and conditionally create it.
+            S3Provider s3 = new S3Provider(source);
+            cosClient = s3.getClient();
+            provider = s3;
+        }
+        provider.createSource();
     }
 
     @Override
@@ -322,7 +325,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
                     if (!isTxTimeExpired()) {
                         // The fetchResourcePayloads returned before the tx time expired, so
                         // we really don't have any more data
-                        logger.fine(logPrefix() + " no more data");
+                        logger.fine(() -> logPrefix() + " no more data");
                         moreData = false;
                     }
                 }
@@ -366,7 +369,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
      * @return
      */
     public Boolean processPayload(ResourcePayload t) {
-
         try {
             // Track resources we've seen on the most recent timestamp. Resources will be fed
             // in timestamp order, but not necessarily resource order, so we need to skip resources
@@ -444,16 +446,22 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private void uploadWhenReady() throws Exception {
         // Initiate the upload if we don't have one active
         if (this.uploadId == null) {
-            // Start a new upload
-            if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
-                this.currentObjectName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
-            } else {
-                this.currentObjectName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
-            }
-            uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentObjectName, isExportPublic);
+            if (cosClient != null) {
+                // Start a new upload
+                if (cosBucketPathPrefix != null && cosBucketPathPrefix.trim().length() > 0) {
+                    this.currentObjectName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
+                } else {
+                    this.currentObjectName = "job" + jobContext.getExecutionId() + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
+                }
+                uploadId = BulkDataUtils.startPartUpload(cosClient, cosBucketName, this.currentObjectName);
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.fine(logPrefix() + " Started new multi-part upload: '" + this.uploadId + "'");
+                if (logger.isLoggable(Level.FINE)) {
+                    logger.fine(logPrefix() + " Started new multi-part upload: '" + this.uploadId + "'");
+                }
+            } else if (provider instanceof AzureProvider) {
+                // Must be Azure
+                uploadId = "azure";
+                currentObjectName = cosBucketPathPrefix + "/" + fhirResourceType + "_" + this.currentUploadNumber + ".ndjson";
             }
         }
 
@@ -462,8 +470,28 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // upload would take too long and exceed our transaction
         // timeout.
         if (this.ioBuffer.size() > this.partUploadTriggerSize) {
-            uploadPart();
+            if (cosClient != null) {
+                uploadPart();
+            } else {
+                uploadPartToAzure();
+            }
         }
+    }
+
+    /**
+     * writes to Azure blob
+     * @throws Exception
+     */
+    private void uploadPartToAzure() throws Exception {
+        // Azure API: Part number must be an integer between 1 and 10000
+        int currentObjectPartNumber = uploadedParts.size() + 1;
+        logger.fine(() -> logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");
+
+        // The ioBuffer can provide us with an InputStream without having to copy the byte-buffer
+        InputStream in = ioBuffer.inputStream();
+        AzureProvider pro = (AzureProvider) provider;
+        pro.writeDirectly(currentObjectName, in, ioBuffer.size());
+        ioBuffer.reset();
     }
 
     /**
@@ -473,9 +501,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
     private void uploadPart() throws Exception {
         // S3 API: Part number must be an integer between 1 and 10000
         int currentObjectPartNumber = uploadedParts.size() + 1;
-        if (logger.isLoggable(Level.FINE)) {
-            logger.fine(logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");
-        }
+        logger.fine(() -> logPrefix() + " Uploading part# " + currentObjectPartNumber + " ["+ ioBuffer.size() + " bytes] for uploadId '" + uploadId + "'");
 
         // The ioBuffer can provide us with an InputStream without having to copy the byte-buffer
         InputStream is = ioBuffer.inputStream();
@@ -495,15 +521,20 @@ public class ResourcePayloadReader extends AbstractItemReader {
 
         // upload any final amount of data we have in the buffer
         if (this.ioBuffer.size() > 0) {
-            logger.fine(logPrefix() + " uploading final part for '" + this.uploadId + "'");
-            uploadPart();
+            logger.fine(() -> logPrefix() + " uploading final part for '" + this.uploadId + "'");
+            if (cosClient != null) {
+                uploadPart();
+            } else {
+                uploadPartToAzure();
+            }
         }
 
         // Ask COS to finalize the upload for the current object.
         try  {
-            logger.fine(logPrefix() + " finishing multi-part upload '" + this.uploadId + "'");
-            BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentObjectName, uploadId,
-                    uploadedParts);
+            logger.fine(() -> logPrefix() + " finishing multi-part upload '" + this.uploadId + "'");
+            if (cosClient != null) {
+                BulkDataUtils.finishMultiPartUpload(cosClient, cosBucketName, currentObjectName, uploadId, uploadedParts);
+            }
 
             // record how many resources we've exported for COS object. This is
             // used by the collector/analyzer to generate a list of objects. Inherited from
@@ -522,7 +553,7 @@ public class ResourcePayloadReader extends AbstractItemReader {
         // Note this only resets the state related to upload...it does not and
         // should not affect the state related to reading because we might still
         // have more data to process and upload into a new COS object.
-        logger.fine(logPrefix() + " resetting state so we are ready to upload the next object");
+        logger.fine(() -> logPrefix() + " resetting state so we are ready to upload the next object");
         this.uploadedParts.clear();
         this.uploadId = null;
         this.currentObjectName = null;

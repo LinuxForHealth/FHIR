@@ -207,11 +207,7 @@ public class NameUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -266,7 +262,20 @@ public class NameUse extends Code {
 
         @Override
         public NameUse build() {
-            return new NameUse(this);
+            NameUse nameUse = new NameUse(this);
+            if (validating) {
+                validate(nameUse);
+            }
+            return nameUse;
+        }
+
+        protected void validate(NameUse nameUse) {
+            super.validate(nameUse);
+        }
+
+        protected Builder from(NameUse nameUse) {
+            super.from(nameUse);
+            return this;
         }
     }
 

@@ -103,41 +103,41 @@ public class NewNumberParmBehaviorUtil {
             // EB - Ends Before
             // the range of the search value does not overlap with the range of the target value,
             // and the range above the search value contains the range of the target value
-            buildEbOrSaClause(whereClauseSegment, tableAlias, columnBase, columnBase + _HIGH,
-                    LT, value, value);
+            buildEbOrSaClause(whereClauseSegment, tableAlias, columnBase + _HIGH,
+                    LT, lowerBound);
             break;
         case SA:
             // SA - Starts After
             // the range of the search value does not overlap with the range of the target value,
             // and the range below the search value contains the range of the target value
-            buildEbOrSaClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
-                    GT, value, value);
+            buildEbOrSaClause(whereClauseSegment, tableAlias, columnBase + _LOW,
+                    GT, upperBound);
             break;
         case GE:
             // GE - Greater Than Equal
             // the range above the search value intersects (i.e. overlaps) with the range of the target value,
             // or the range of the search value fully contains the range of the target value
-            buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _HIGH,
-                    GTE, value, value);
+            buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
+                    columnBase + _HIGH, GTE, value, lowerBound);
             break;
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _HIGH,
-                    GT, value, value);
+            buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
+                    columnBase + _HIGH, GT, value, lowerBound);
             break;
         case LE:
             // LE - Less Than Equal
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             // or the range of the search value fully contains the range of the target value
             buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
-                    LTE, value, value);
+                    columnBase + _HIGH, LTE, value, upperBound);
             break;
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
-                    LT, value, value);
+                    columnBase + _HIGH, LT, value, upperBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -169,19 +169,41 @@ public class NewNumberParmBehaviorUtil {
      * @param whereClauseSegment
      * @param tableAlias
      * @param columnName
-     * @param columnNameLowOrHigh
+     * @param columnNameLow
+     * @param columnNameHigh
      * @param operator
      * @param value
      * @param bound
      */
     public static void buildCommonClause(WhereFragment whereClauseSegment, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+            String columnName, String columnNameLow, String columnNameHigh, String operator,
+            BigDecimal value, BigDecimal bound) {
 
-        Operator op = OperatorUtil.convert(operator);
+        Operator op = null;
+        Operator orEqualsOp = null;
+        if (GTE.equals(operator)) {
+            op = OperatorUtil.convert(GT);
+            orEqualsOp = OperatorUtil.convert(GTE);
+        } else if (LTE.equals(operator)) {
+            op = OperatorUtil.convert(LT);
+            orEqualsOp = OperatorUtil.convert(LTE);
+        } else {
+            op = OperatorUtil.convert(operator);
+        }
+        boolean gtOp = Operator.GT.equals(op);
+
         whereClauseSegment.leftParen();
-        whereClauseSegment.col(tableAlias, columnName).operator(op).bind(value);
+        whereClauseSegment.col(tableAlias, gtOp ? columnNameHigh : columnNameLow).operator(op).bind(value);
         whereClauseSegment.or();
-        whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(bound);
+        if (orEqualsOp != null) {
+            whereClauseSegment.col(tableAlias, gtOp ? columnNameLow : columnNameHigh).operator(orEqualsOp).bind(bound);
+        } else {
+            whereClauseSegment.col(tableAlias, gtOp ? columnNameLow : columnNameHigh).operator(op).bind(value);
+        }
+        whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnName).isNotNull();
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, gtOp ? columnNameHigh : columnNameLow).isNull();
         whereClauseSegment.rightParen();
     }
 
@@ -189,17 +211,15 @@ public class NewNumberParmBehaviorUtil {
      * the build eb or sa clause considers only _VALUE_LOW and _VALUE_HIGH
      * @param whereClauseSegment
      * @param tableAlias
-     * @param columnName
      * @param columnNameLowOrHigh
      * @param operator
-     * @param value
      * @param bound
      */
     public static void buildEbOrSaClause(WhereFragment whereClauseSegment, String tableAlias,
-            String columnName, String columnNameLowOrHigh, String operator, BigDecimal value, BigDecimal bound) {
+            String columnNameLowOrHigh, String operator, BigDecimal bound) {
 
         Operator op = OperatorUtil.convert(operator);
-        whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(value);
+        whereClauseSegment.col(tableAlias, columnNameLowOrHigh).operator(op).bind(bound);
     }
 
     /**
@@ -214,10 +234,6 @@ public class NewNumberParmBehaviorUtil {
            String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
         whereClauseSegment.leftParen();
-        whereClauseSegment.col(tableAlias, columnBase).gte().bind(lowerBound);
-        whereClauseSegment.and();
-        whereClauseSegment.col(tableAlias, columnBase).lt().bind(upperBound);
-        whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase + _LOW).gte().bind(lowerBound);
         whereClauseSegment.and();
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).lte().bind(upperBound);
@@ -236,15 +252,61 @@ public class NewNumberParmBehaviorUtil {
     public static void buildApproxRangeClause(WhereFragment whereClauseSegment, String tableAlias,
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound, BigDecimal value) {
         BigDecimal factor = value.multiply(FACTOR);
+        BigDecimal approximateLowerBound = lowerBound.subtract(factor);
+        BigDecimal approximateUpperBound = upperBound.add(factor);
 
         whereClauseSegment.leftParen();
-        whereClauseSegment.col(tableAlias, columnBase).gte().bind(lowerBound.subtract(factor)); // -10% of the Lower Bound
+        
+        // The following clauses test for overlap when both xx_VALUE_HIGH and xx_VALUE_LOW are non-null.
+        // Example:
+        //      P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW <= 11.5
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(approximateLowerBound);
         whereClauseSegment.and();
-        whereClauseSegment.col(tableAlias, columnBase).lt().bind(upperBound.add(factor)); // +10% of the Upper Bound
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
+        
+        // The following clauses test for overlap when the target is a Range data type and either
+        // xx_VALUE_HIGH or xx_VALUE_LOW is NULL (unknown bound).
+        // Example:
+        //   OR P2.QUANTITY_VALUE IS NULL
+        //  AND (P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_HIGH <= 11.5
+        //   OR P2.QUANTITY_VALUE_LOW >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW <= 11.5)
         whereClauseSegment.or();
-        whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(upperBound);
+        whereClauseSegment.col(tableAlias, columnBase).isNull();
         whereClauseSegment.and();
-        whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(lowerBound);
+        whereClauseSegment.leftParen();
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(approximateLowerBound);
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).lte().bind(approximateUpperBound);
+        whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).gte().bind(approximateLowerBound);
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
+        whereClauseSegment.rightParen();
+
+        // The following clauses test for overlap when the target is a Quantity data type and either
+        // xx_VALUE_HIGH or xx_VALUE_LOW is NULL (negative or positive infinity bound).
+        // Example:
+        //   OR P2.QUANTITY_VALUE IS NOT NULL
+        //  AND (P2.QUANTITY_VALUE_HIGH >= 8.5
+        //  AND P2.QUANTITY_VALUE_LOW IS NULL
+        //   OR P2.QUANTITY_VALUE_LOW <= 11.5
+        //  AND P2.QUANTITY_VALUE_HIGH IS NULL)
+        whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnBase).isNotNull();
+        whereClauseSegment.and();
+        whereClauseSegment.leftParen();
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(approximateLowerBound);
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).isNull();
+        whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).isNull();
+        whereClauseSegment.rightParen();
+        
         whereClauseSegment.rightParen();
     }
 
@@ -260,13 +322,13 @@ public class NewNumberParmBehaviorUtil {
             String columnBase, BigDecimal lowerBound, BigDecimal upperBound) {
 
         whereClauseSegment.leftParen();
-        whereClauseSegment.col(tableAlias, columnBase).lt().bind(lowerBound);
-        whereClauseSegment.or();
-        whereClauseSegment.col(tableAlias, columnBase).gte().bind(upperBound);
-        whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase + _LOW).lt().bind(lowerBound);
         whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnBase + _LOW).isNull();
+        whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).gt().bind(upperBound);
+        whereClauseSegment.or();
+        whereClauseSegment.col(tableAlias, columnBase + _HIGH).isNull();
         whereClauseSegment.rightParen();
     }
 

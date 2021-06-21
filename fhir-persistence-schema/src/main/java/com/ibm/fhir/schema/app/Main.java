@@ -42,6 +42,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseAdapter;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.api.ITransaction;
 import com.ibm.fhir.database.utils.api.ITransactionProvider;
+import com.ibm.fhir.database.utils.api.TableSpaceRemovalException;
 import com.ibm.fhir.database.utils.api.TenantStatus;
 import com.ibm.fhir.database.utils.api.UndefinedNameException;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
@@ -61,6 +62,7 @@ import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
+import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.database.utils.transaction.TransactionFactory;
@@ -108,6 +110,7 @@ public class Main {
     private static final int EXIT_RUNTIME_ERROR = 2; // programming error
     private static final int EXIT_VALIDATION_FAILED = 3; // validation test failed
     private static final int EXIT_NOT_READY = 4; // DATABASE NOT READY
+    private static final int EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE = 5; // Tablespace Removal not complete
     private static final double NANOS = 1e9;
 
     // Indicates if the feature is enabled for the DbType
@@ -172,6 +175,8 @@ public class Main {
     private boolean listTenants;
     private boolean dropDetached;
     private boolean deleteTenantMeta;
+    private boolean revokeTenantKey;
+    private boolean revokeAllTenantKeys;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -390,10 +395,6 @@ public class Main {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
 
-        // Let's refresh the procedures and functions.
-        logger.info("Refreshing procedures and functions");
-        updateProcedures();
-
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             logger.info("Refreshing tenant partitions");
             refreshTenants();
@@ -407,6 +408,10 @@ public class Main {
 
         // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
         applyDataMigrationForV0014();
+
+        // Log warning messages that unused tables will be removed in a future release.
+        // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
+        logWarningMessagesForDeprecatedTables();
     }
 
     /**
@@ -1113,7 +1118,6 @@ public class Main {
         // this may not complete successfully because Db2 runs the detach as an async
         // process. Just need to run --drop-detached to clean up.
         dropDetachedPartitionTables(pdm, tenantInfo);
-
     }
 
     /**
@@ -1142,7 +1146,6 @@ public class Main {
         // the partition detach operation.
         Db2Adapter adapter = new Db2Adapter(connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
             try {
                 pdm.dropDetachedPartitions(adapter, tenantInfo.getTenantSchema(), tenantInfo.getTenantId());
             } catch (DataAccessException x) {
@@ -1155,17 +1158,34 @@ public class Main {
         // We can drop the tenant's tablespace only after all the table drops have been committed
         logger.info("Dropping tablespace for tenant " + tenantInfo.getTenantId() + "/" + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
-
-            try {
-                // With all the objects removed, it should be safe to remove the tablespace
-                pdm.dropTenantTablespace(adapter, tenantInfo.getTenantId());
-            } catch (DataAccessException x) {
-                // Something went wrong, so mark the transaction as failed
-                tx.setRollbackOnly();
-                throw x;
+            boolean retry = true;
+            int wait = 0;
+            while (retry) {
+                try {
+                    retry = false;
+                    // With all the objects removed, it should be safe to remove the tablespace
+                    pdm.dropTenantTablespace(adapter, tenantInfo.getTenantId());
+                } catch (DataAccessException x) {
+                    boolean error = x instanceof DataAccessException && x.getCause() instanceof SQLException
+                            && (((SQLException) x.getCause()).getErrorCode() == -282);
+                    if (error && wait++ <= 30){
+                        retry = true;
+                        logger.warning("Waiting on async dettach dependency to finish - count '"+ wait + "'");
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            throw new DataAccessException(e);
+                        }
+                    } else if (error) {
+                        throw new TableSpaceRemovalException(x.getCause());
+                    } else {
+                        // Something went wrong, so mark the transaction as failed
+                        tx.setRollbackOnly();
+                        throw x;
+                    }
+                }
             }
         }
-
 
         // Now all the table partitions have been allocated, we can mark the tenant as dropped
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1242,7 +1262,40 @@ public class Main {
                 throw x;
             }
         }
+    }
 
+    /**
+     * revokes a tenant key or if no tenant key is specified remove all of them for the
+     * given tenant.
+     */
+    protected void revokeTenantKey() {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            return;
+        }
+
+        TenantInfo tenantInfo = getTenantInfo();
+        int tenantId = tenantInfo.getTenantId();
+
+        // Only if the Tenant Key file is provided as a parameter is it not null.
+        // in  this case we want special behavior.
+        if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
+            tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
+        }
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                DeleteTenantKeyDAO dtk = new DeleteTenantKeyDAO(schema.getAdminSchemaName(), tenantId, tenantKey);
+
+                Db2Adapter adapter = new Db2Adapter(connectionPool);
+                adapter.runStatement(dtk);
+                int count = dtk.getCount();
+                logger.info("Tenant Key revoked for '" + tenantInfo.getTenantName() + "' total removed=[" + count + "]");
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
     }
 
     //-----------------------------------------------------------------------------------------------------------------
@@ -1331,6 +1384,20 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
+                break;
+            case "--revoke-tenant-key":
+                if (++i >= args.length) {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                this.tenantName = args[i];
+                this.revokeTenantKey = true;
+                break;
+            case "--revoke-all-tenant-keys":
+                if (++i >= args.length) {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                this.tenantName = args[i];
+                this.revokeAllTenantKeys = true;
                 break;
             case "--update-proc":
                 this.updateProc = true;
@@ -1935,6 +2002,13 @@ public class Main {
             deleteTenantMeta();
         } else if (this.dropTenant) {
             dropTenant();
+        } else if (this.revokeTenantKey) {
+            revokeTenantKey();
+        } else if (this.revokeAllTenantKeys) {
+            if (this.tenantKey != null) {
+                throw new IllegalArgumentException("[ERROR] --tenant-key <key-value> should not be specified together with --drop-all-tenant-keys");
+            }
+            revokeTenantKey();
         }
 
         if (this.grantTo != null) {
@@ -1979,6 +2053,20 @@ public class Main {
     }
 
     /**
+     * Log warning messages for deprecated tables.
+     */
+    private void logWarningMessagesForDeprecatedTables() {
+        List<String> deprecatedTables = Arrays.asList(
+            "DOMAINRESOURCE_DATE_VALUES", "DOMAINRESOURCE_LATLNG_VALUES", "DOMAINRESOURCE_LOGICAL_RESOURCES", "DOMAINRESOURCE_NUMBER_VALUES",
+            "DOMAINRESOURCE_QUANTITY_VALUES", "DOMAINRESOURCE_RESOURCE_TOKEN_REFS", "DOMAINRESOURCE_RESOURCES","DOMAINRESOURCE_STR_VALUES",
+            "RESOURCE_DATE_VALUES", "RESOURCE_LATLNG_VALUES", "RESOURCE_LOGICAL_RESOURCES", "RESOURCE_NUMBER_VALUES",
+            "RESOURCE_QUANTITY_VALUES", "RESOURCE_RESOURCE_TOKEN_REFS", "RESOURCE_RESOURCES", "RESOURCE_STR_VALUES");
+        for (String deprecatedTable : deprecatedTables) {
+            logger.warning("Table '" + deprecatedTable + "' will be dropped in a future release. No data should be written to this table. If any data exists in the table, that data should be deleted.");
+        }
+    }
+
+    /**
      * Main entry point
      *
      * @param args
@@ -1993,7 +2081,10 @@ public class Main {
             m.parseArgs(args);
             m.process();
             exitStatus = m.getExitStatus();
-        } catch(DatabaseNotReadyException x) {
+        } catch (TableSpaceRemovalException x) {
+            logger.warning("Tablespace removal is not complete, as an async dependency has not finished dettaching. Please re-try.");
+            exitStatus = EXIT_TABLESPACE_REMOVAL_NOT_COMPLETE;
+        } catch (DatabaseNotReadyException x) {
             logger.log(Level.SEVERE, "The database is not yet available. Please re-try.", x);
             exitStatus = EXIT_NOT_READY;
         } catch (IllegalArgumentException x) {

@@ -316,11 +316,7 @@ public class StructureMapTransform extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -375,7 +371,20 @@ public class StructureMapTransform extends Code {
 
         @Override
         public StructureMapTransform build() {
-            return new StructureMapTransform(this);
+            StructureMapTransform structureMapTransform = new StructureMapTransform(this);
+            if (validating) {
+                validate(structureMapTransform);
+            }
+            return structureMapTransform;
+        }
+
+        protected void validate(StructureMapTransform structureMapTransform) {
+            super.validate(structureMapTransform);
+        }
+
+        protected Builder from(StructureMapTransform structureMapTransform) {
+            super.from(structureMapTransform);
+            return this;
         }
     }
 

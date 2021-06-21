@@ -3931,11 +3931,7 @@ public class SPDXLicense extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -3990,7 +3986,20 @@ public class SPDXLicense extends Code {
 
         @Override
         public SPDXLicense build() {
-            return new SPDXLicense(this);
+            SPDXLicense sPDXLicense = new SPDXLicense(this);
+            if (validating) {
+                validate(sPDXLicense);
+            }
+            return sPDXLicense;
+        }
+
+        protected void validate(SPDXLicense sPDXLicense) {
+            super.validate(sPDXLicense);
+        }
+
+        protected Builder from(SPDXLicense sPDXLicense) {
+            super.from(sPDXLicense);
+            return this;
         }
     }
 

@@ -1,0 +1,10 @@
+{
+    "__comment": "FHIR Server - Notification - Test Configuration",
+    "fhirServer": {
+        "notifications": {
+            "common": {
+                "maxNotificationSizeBytes": 1
+            }
+        }
+    }
+}

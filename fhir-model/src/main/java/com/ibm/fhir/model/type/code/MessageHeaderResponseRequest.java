@@ -169,11 +169,7 @@ public class MessageHeaderResponseRequest extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class MessageHeaderResponseRequest extends Code {
 
         @Override
         public MessageHeaderResponseRequest build() {
-            return new MessageHeaderResponseRequest(this);
+            MessageHeaderResponseRequest messageHeaderResponseRequest = new MessageHeaderResponseRequest(this);
+            if (validating) {
+                validate(messageHeaderResponseRequest);
+            }
+            return messageHeaderResponseRequest;
+        }
+
+        protected void validate(MessageHeaderResponseRequest messageHeaderResponseRequest) {
+            super.validate(messageHeaderResponseRequest);
+        }
+
+        protected Builder from(MessageHeaderResponseRequest messageHeaderResponseRequest) {
+            super.from(messageHeaderResponseRequest);
+            return this;
         }
     }
 

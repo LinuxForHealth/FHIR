@@ -158,11 +158,7 @@ public class AggregationMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class AggregationMode extends Code {
 
         @Override
         public AggregationMode build() {
-            return new AggregationMode(this);
+            AggregationMode aggregationMode = new AggregationMode(this);
+            if (validating) {
+                validate(aggregationMode);
+            }
+            return aggregationMode;
+        }
+
+        protected void validate(AggregationMode aggregationMode) {
+            super.validate(aggregationMode);
+        }
+
+        protected Builder from(AggregationMode aggregationMode) {
+            super.from(aggregationMode);
+            return this;
         }
     }
 

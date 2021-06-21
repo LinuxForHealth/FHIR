@@ -158,11 +158,7 @@ public class MedicationKnowledgeStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class MedicationKnowledgeStatus extends Code {
 
         @Override
         public MedicationKnowledgeStatus build() {
-            return new MedicationKnowledgeStatus(this);
+            MedicationKnowledgeStatus medicationKnowledgeStatus = new MedicationKnowledgeStatus(this);
+            if (validating) {
+                validate(medicationKnowledgeStatus);
+            }
+            return medicationKnowledgeStatus;
+        }
+
+        protected void validate(MedicationKnowledgeStatus medicationKnowledgeStatus) {
+            super.validate(medicationKnowledgeStatus);
+        }
+
+        protected Builder from(MedicationKnowledgeStatus medicationKnowledgeStatus) {
+            super.from(medicationKnowledgeStatus);
+            return this;
         }
     }
 

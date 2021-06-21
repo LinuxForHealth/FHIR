@@ -134,26 +134,23 @@ public class Location extends DomainResource {
 
     private Location(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         operationalStatus = builder.operationalStatus;
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.checkList(builder.alias, "alias", String.class));
+        alias = Collections.unmodifiableList(builder.alias);
         description = builder.description;
         mode = builder.mode;
-        type = Collections.unmodifiableList(ValidationSupport.checkList(builder.type, "type", CodeableConcept.class));
-        telecom = Collections.unmodifiableList(ValidationSupport.checkList(builder.telecom, "telecom", ContactPoint.class));
+        type = Collections.unmodifiableList(builder.type);
+        telecom = Collections.unmodifiableList(builder.telecom);
         address = builder.address;
         physicalType = builder.physicalType;
         position = builder.position;
         managingOrganization = builder.managingOrganization;
         partOf = builder.partOf;
-        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.checkList(builder.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class));
+        hoursOfOperation = Collections.unmodifiableList(builder.hoursOfOperation);
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.checkList(builder.endpoint, "endpoint", Reference.class));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1088,7 +1085,24 @@ public class Location extends DomainResource {
          */
         @Override
         public Location build() {
-            return new Location(this);
+            Location location = new Location(this);
+            if (validating) {
+                validate(location);
+            }
+            return location;
+        }
+
+        protected void validate(Location location) {
+            super.validate(location);
+            ValidationSupport.checkList(location.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(location.alias, "alias", String.class);
+            ValidationSupport.checkList(location.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(location.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(location.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class);
+            ValidationSupport.checkList(location.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(location.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(location.partOf, "partOf", "Location");
+            ValidationSupport.checkReferenceType(location.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Location location) {
@@ -1127,10 +1141,9 @@ public class Location extends DomainResource {
 
         private Position(Builder builder) {
             super(builder);
-            longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
-            latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
+            longitude = builder.longitude;
+            latitude = builder.latitude;
             altitude = builder.altitude;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1411,7 +1424,18 @@ public class Location extends DomainResource {
              */
             @Override
             public Position build() {
-                return new Position(this);
+                Position position = new Position(this);
+                if (validating) {
+                    validate(position);
+                }
+                return position;
+            }
+
+            protected void validate(Position position) {
+                super.validate(position);
+                ValidationSupport.requireNonNull(position.longitude, "longitude");
+                ValidationSupport.requireNonNull(position.latitude, "latitude");
+                ValidationSupport.requireValueOrChildren(position);
             }
 
             protected Builder from(Position position) {
@@ -1441,11 +1465,10 @@ public class Location extends DomainResource {
 
         private HoursOfOperation(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.checkList(builder.daysOfWeek, "daysOfWeek", DaysOfWeek.class));
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1759,7 +1782,17 @@ public class Location extends DomainResource {
              */
             @Override
             public HoursOfOperation build() {
-                return new HoursOfOperation(this);
+                HoursOfOperation hoursOfOperation = new HoursOfOperation(this);
+                if (validating) {
+                    validate(hoursOfOperation);
+                }
+                return hoursOfOperation;
+            }
+
+            protected void validate(HoursOfOperation hoursOfOperation) {
+                super.validate(hoursOfOperation);
+                ValidationSupport.checkList(hoursOfOperation.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+                ValidationSupport.requireValueOrChildren(hoursOfOperation);
             }
 
             protected Builder from(HoursOfOperation hoursOfOperation) {

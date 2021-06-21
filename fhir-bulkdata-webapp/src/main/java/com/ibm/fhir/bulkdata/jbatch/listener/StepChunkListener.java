@@ -3,6 +3,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.bulkdata.jbatch.listener;
 
 import java.util.logging.Level;
@@ -14,13 +15,12 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
-
 /**
  * Enables Logging for the Given Step
  */
 @Dependent
 public class StepChunkListener implements ChunkListener {
-    private final static Logger logger = Logger.getLogger(StepChunkListener.class.getName());
+    private static final Logger logger = Logger.getLogger(StepChunkListener.class.getName());
 
     @Inject
     StepContext stepCtx;
@@ -38,7 +38,7 @@ public class StepChunkListener implements ChunkListener {
         long stepExecutionId = stepCtx.getStepExecutionId();
         long jobExecutionId = jobCtx.getInstanceId();
         logger.log(Level.SEVERE, "StepChunkListener: job[" + jobCtx.getJobName() + "/" + jobExecutionId + "/" + stepExecutionId + "] --- " + ex.getMessage(), ex);
-        // Enable PrintStackTrace when debugging in dev - ex.printStackTrace();
+        logger.throwing("StepChunkListener", "onError", ex);
     }
 
     @Override

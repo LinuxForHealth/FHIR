@@ -147,11 +147,7 @@ public class AssertionDirectionType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,7 +202,20 @@ public class AssertionDirectionType extends Code {
 
         @Override
         public AssertionDirectionType build() {
-            return new AssertionDirectionType(this);
+            AssertionDirectionType assertionDirectionType = new AssertionDirectionType(this);
+            if (validating) {
+                validate(assertionDirectionType);
+            }
+            return assertionDirectionType;
+        }
+
+        protected void validate(AssertionDirectionType assertionDirectionType) {
+            super.validate(assertionDirectionType);
+        }
+
+        protected Builder from(AssertionDirectionType assertionDirectionType) {
+            super.from(assertionDirectionType);
+            return this;
         }
     }
 

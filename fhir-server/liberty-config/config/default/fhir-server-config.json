@@ -168,9 +168,9 @@
             "storageProviders": {
                 "default" : {
                     "type": "file",
-                    "_type": "ibm-cos|aws-s3|file|https",
+                    "_type": "ibm-cos|aws-s3|file|https|azure-blob",
                     "validBaseUrls": [],
-                    "fileBase": "/fhir-server/output",
+                    "fileBase": "/output/bulkdata",
                     "bucketName": "fhir-performance",
                     "location": "us",
                     "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
@@ -187,7 +187,6 @@
                     },
                     "enableParquet": false,
                     "disableBaseUrlValidation": true,
-                    "exportPublic": true,
                     "disableOperationOutcomes": true,
                     "duplicationCheck": false, 
                     "validateResources": false, 

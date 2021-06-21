@@ -169,11 +169,7 @@ public class DeviceMetricCalibrationState extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -228,7 +224,20 @@ public class DeviceMetricCalibrationState extends Code {
 
         @Override
         public DeviceMetricCalibrationState build() {
-            return new DeviceMetricCalibrationState(this);
+            DeviceMetricCalibrationState deviceMetricCalibrationState = new DeviceMetricCalibrationState(this);
+            if (validating) {
+                validate(deviceMetricCalibrationState);
+            }
+            return deviceMetricCalibrationState;
+        }
+
+        protected void validate(DeviceMetricCalibrationState deviceMetricCalibrationState) {
+            super.validate(deviceMetricCalibrationState);
+        }
+
+        protected Builder from(DeviceMetricCalibrationState deviceMetricCalibrationState) {
+            super.from(deviceMetricCalibrationState);
+            return this;
         }
     }
 

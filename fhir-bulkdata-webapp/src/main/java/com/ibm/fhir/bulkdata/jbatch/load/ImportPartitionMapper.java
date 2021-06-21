@@ -6,7 +6,6 @@
 
 package com.ibm.fhir.bulkdata.jbatch.load;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -22,6 +21,7 @@ import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
+import com.ibm.fhir.bulkdata.jbatch.load.exception.FHIRLoadException;
 import com.ibm.fhir.bulkdata.load.partition.transformer.PartitionSourceTransformerFactory;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
@@ -57,8 +57,7 @@ public class ImportPartitionMapper implements PartitionMapper {
             ConfigurationAdapter adapter = ConfigurationFactory.getInstance();
             adapter.registerRequestContext(ctx.getTenantId(), ctx.getDatastoreId(), ctx.getIncomingUrl());
 
-            List<BulkDataSource> bdSources = new ArrayList<>();
-            bdSources = PartitionSourceTransformerFactory.transformToSources(ctx.getSource(), ctx.getDataSourcesInfo());
+            List<BulkDataSource> bdSources = PartitionSourceTransformerFactory.transformToSources(ctx.getSource(), ctx.getDataSourcesInfo());
 
             PartitionPlanImpl pp = new PartitionPlanImpl();
             pp.setPartitions(bdSources.size());
@@ -68,13 +67,18 @@ public class ImportPartitionMapper implements PartitionMapper {
             int propCount = 0;
             for (BulkDataSource fhirDataSource : bdSources) {
                 Properties p = new Properties();
-                p.setProperty(OperationFields.PARTITTION_WORKITEM, fhirDataSource.getUrl());
+                p.setProperty(OperationFields.PARTITION_WORKITEM, fhirDataSource.getUrl());
                 p.setProperty(OperationFields.PARTITION_RESOURCETYPE, fhirDataSource.getType());
+                p.setProperty(OperationFields.PARTITION_MATRIX, fhirDataSource.getOriginalLocation());
                 partitionProps[propCount++] = p;
             }
             pp.setPartitionProperties(partitionProps);
             return pp;
-        }catch (FHIRException e) {
+        } catch (FHIRLoadException e) {
+            jobCtx.setExitStatus("FAILED_BAD_SOURCE");
+            logger.log(Level.SEVERE, "Import PartitionMapper source[" + executionId + "] - " + e.getMessage(), e);
+            throw e;
+        } catch (FHIRException e) {
             logger.log(Level.SEVERE, "Import PartitionMapper.mapPartitions during job[" + executionId + "] - " + e.getMessage(), e);
             throw e;
         } catch (Exception e) {

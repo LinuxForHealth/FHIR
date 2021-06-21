@@ -8,16 +8,13 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
-import static com.ibm.fhir.path.util.FHIRPathUtil.convertsToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
-import static com.ibm.fhir.path.util.FHIRPathUtil.isTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -29,9 +26,6 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
-    public static final String RESOLVE_RELATIVE_REFERENCES = "resolveRelativeReferences";
-    public static final boolean DEFAULT_RESOLVE_RELATIVE_REFERENCES = false;
-
     private static final int BASE_URL_GROUP = 1;
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int LOGICAL_ID_GROUP = 5;
@@ -87,13 +81,17 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
 
                 String resourceType = null;
                 Resource resource = null;
+                FHIRPathResourceNode resourceNode = null;
 
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resource = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
-                        if (resource != null) {
-                            resourceType = resource.getClass().getSimpleName();
+                        resourceNode = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
+                        if (resourceNode != null) {
+                            resource = resourceNode.resource();
+                            if (resource != null) {
+                                resourceType = resource.getClass().getSimpleName();
+                            }
                         }
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
@@ -103,7 +101,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                                 throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
                             }
                             String baseUrl = matcher.group(BASE_URL_GROUP);
-                            if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && resolveRelativeReferences(evaluationContext)) {
+                            if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && evaluationContext.resolveRelativeReferences()) {
                                 // relative reference
                                 resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
@@ -121,7 +119,11 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
                 }
 
-                result.add((resource != null) ? FHIRPathTree.tree(resource).getRoot() : FHIRPathResourceNode.resourceNode(type));
+                if (resourceNode == null) {
+                    resourceNode = (resource != null) ? FHIRPathTree.tree(resource).getRoot().asResourceNode() : FHIRPathResourceNode.resourceNode(type);
+                }
+
+                result.add(resourceNode);
             }
         }
         return result;
@@ -135,20 +137,21 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return false;
     }
 
-    private Resource resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
+    private FHIRPathResourceNode resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
         if (evaluationContext.getTree() != null) {
             FHIRPathResourceNode rootResource = getRootResourceNode(evaluationContext.getTree(), node);
             if (rootResource != null) {
-                Resource resource = rootResource.resource();
                 if ("#".equals(referenceReference)) {
-                    return resource;
+                    return rootResource;
                 }
                 String id = referenceReference.substring(1);
-                if (resource instanceof DomainResource) {
-                    DomainResource domainResource = (DomainResource) resource;
-                    for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null && contained.getId().equals(id)) {
-                            return contained;
+                if (FHIRPathType.FHIR_DOMAIN_RESOURCE.isAssignableFrom(rootResource.type())) {
+                    for (FHIRPathNode child : rootResource.children()) {
+                        if ("contained".equals(child.name())) {
+                            Resource contained = child.asResourceNode().resource();
+                            if (contained.getId() != null && contained.getId().equals(id)) {
+                                return child.asResourceNode();
+                            }
                         }
                     }
                 }
@@ -169,13 +172,5 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
             return reference.getType().getValue();
         }
         return null;
-    }
-
-    private boolean resolveRelativeReferences(EvaluationContext evaluationContext) {
-        Collection<FHIRPathNode> resolveRelativeReferences = evaluationContext.getExternalConstant(RESOLVE_RELATIVE_REFERENCES);
-        if (convertsToBoolean(resolveRelativeReferences)) {
-            return isTrue(resolveRelativeReferences);
-        }
-        return DEFAULT_RESOLVE_RELATIVE_REFERENCES;
     }
 }

@@ -173,11 +173,7 @@ public class ReferredDocumentStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -232,7 +228,20 @@ public class ReferredDocumentStatus extends Code {
 
         @Override
         public ReferredDocumentStatus build() {
-            return new ReferredDocumentStatus(this);
+            ReferredDocumentStatus referredDocumentStatus = new ReferredDocumentStatus(this);
+            if (validating) {
+                validate(referredDocumentStatus);
+            }
+            return referredDocumentStatus;
+        }
+
+        protected void validate(ReferredDocumentStatus referredDocumentStatus) {
+            super.validate(referredDocumentStatus);
+        }
+
+        protected Builder from(ReferredDocumentStatus referredDocumentStatus) {
+            super.from(referredDocumentStatus);
+            return this;
         }
     }
 

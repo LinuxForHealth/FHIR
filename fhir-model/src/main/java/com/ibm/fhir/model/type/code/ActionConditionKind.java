@@ -158,11 +158,7 @@ public class ActionConditionKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -217,7 +213,20 @@ public class ActionConditionKind extends Code {
 
         @Override
         public ActionConditionKind build() {
-            return new ActionConditionKind(this);
+            ActionConditionKind actionConditionKind = new ActionConditionKind(this);
+            if (validating) {
+                validate(actionConditionKind);
+            }
+            return actionConditionKind;
+        }
+
+        protected void validate(ActionConditionKind actionConditionKind) {
+            super.validate(actionConditionKind);
+        }
+
+        protected Builder from(ActionConditionKind actionConditionKind) {
+            super.from(actionConditionKind);
+            return this;
         }
     }
 

@@ -13,11 +13,12 @@ import java.util.logging.Logger;
 import javax.batch.api.listener.JobListener;
 import javax.batch.operations.JobOperator;
 import javax.batch.runtime.BatchRuntime;
+import javax.batch.runtime.BatchStatus;
 import javax.batch.runtime.JobExecution;
 import javax.batch.runtime.context.JobContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
-import javax.json.JsonArray;
+import jakarta.json.JsonArray;
 
 import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.jbatch.context.BatchContextAdapter;
@@ -48,6 +49,10 @@ public class ImportJobListener implements JobListener {
 
     @Override
     public void afterJob() {
+        if (BatchStatus.FAILED.equals(jobCtx.getBatchStatus())) {
+            return;
+        }
+
         long executionId = -1;
         try {
             executionId = jobCtx.getExecutionId();

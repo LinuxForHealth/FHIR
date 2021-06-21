@@ -1,0 +1,25 @@
+{
+    "resourceType": "Bundle",
+    "type": "collection",
+    "entry": [
+        {
+            "fullUrl": "http://ibm.com/fhir/SearchParameter/Reindex-string",
+            "resource": {
+                "resourceType": "SearchParameter",
+                "url": "test-code1",
+                "name": "test-code1",
+                "status": "draft",
+                "description": "test",
+                "code": "test-code1",
+                "base": [
+                    "Resource"
+                ],
+                "type": "string",
+                "expression": "Patient.extension.extension.where(url ='NAME2').value",
+                "target": [
+                    "Resource"
+                ]
+            }
+        }
+    ]
+}

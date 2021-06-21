@@ -170,11 +170,7 @@ public class PublicationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -229,7 +225,20 @@ public class PublicationStatus extends Code {
 
         @Override
         public PublicationStatus build() {
-            return new PublicationStatus(this);
+            PublicationStatus publicationStatus = new PublicationStatus(this);
+            if (validating) {
+                validate(publicationStatus);
+            }
+            return publicationStatus;
+        }
+
+        protected void validate(PublicationStatus publicationStatus) {
+            super.validate(publicationStatus);
+        }
+
+        protected Builder from(PublicationStatus publicationStatus) {
+            super.from(publicationStatus);
+            return this;
         }
     }
 

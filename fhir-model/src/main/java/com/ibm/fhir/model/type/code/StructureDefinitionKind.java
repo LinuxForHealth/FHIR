@@ -176,11 +176,7 @@ public class StructureDefinitionKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -235,7 +231,20 @@ public class StructureDefinitionKind extends Code {
 
         @Override
         public StructureDefinitionKind build() {
-            return new StructureDefinitionKind(this);
+            StructureDefinitionKind structureDefinitionKind = new StructureDefinitionKind(this);
+            if (validating) {
+                validate(structureDefinitionKind);
+            }
+            return structureDefinitionKind;
+        }
+
+        protected void validate(StructureDefinitionKind structureDefinitionKind) {
+            super.validate(structureDefinitionKind);
+        }
+
+        protected Builder from(StructureDefinitionKind structureDefinitionKind) {
+            super.from(structureDefinitionKind);
+            return this;
         }
     }
 

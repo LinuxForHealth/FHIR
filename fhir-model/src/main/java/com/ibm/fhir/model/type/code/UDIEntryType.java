@@ -191,11 +191,7 @@ public class UDIEntryType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -250,7 +246,20 @@ public class UDIEntryType extends Code {
 
         @Override
         public UDIEntryType build() {
-            return new UDIEntryType(this);
+            UDIEntryType uDIEntryType = new UDIEntryType(this);
+            if (validating) {
+                validate(uDIEntryType);
+            }
+            return uDIEntryType;
+        }
+
+        protected void validate(UDIEntryType uDIEntryType) {
+            super.validate(uDIEntryType);
+        }
+
+        protected Builder from(UDIEntryType uDIEntryType) {
+            super.from(uDIEntryType);
+            return this;
         }
     }
 

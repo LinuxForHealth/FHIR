@@ -228,39 +228,30 @@ public class Observation extends DomainResource {
 
     private Observation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.checkList(builder.identifier, "identifier", Identifier.class));
-        basedOn = Collections.unmodifiableList(ValidationSupport.checkList(builder.basedOn, "basedOn", Reference.class));
-        partOf = Collections.unmodifiableList(ValidationSupport.checkList(builder.partOf, "partOf", Reference.class));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.checkList(builder.category, "category", CodeableConcept.class));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         subject = builder.subject;
-        focus = Collections.unmodifiableList(ValidationSupport.checkList(builder.focus, "focus", Reference.class));
+        focus = Collections.unmodifiableList(builder.focus);
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
+        effective = builder.effective;
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.checkList(builder.performer, "performer", Reference.class));
-        value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+        performer = Collections.unmodifiableList(builder.performer);
+        value = builder.value;
         dataAbsentReason = builder.dataAbsentReason;
-        interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
-        note = Collections.unmodifiableList(ValidationSupport.checkList(builder.note, "note", Annotation.class));
+        interpretation = Collections.unmodifiableList(builder.interpretation);
+        note = Collections.unmodifiableList(builder.note);
         bodySite = builder.bodySite;
         method = builder.method;
         specimen = builder.specimen;
         device = builder.device;
-        referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", ReferenceRange.class));
-        hasMember = Collections.unmodifiableList(ValidationSupport.checkList(builder.hasMember, "hasMember", Reference.class));
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.checkList(builder.derivedFrom, "derivedFrom", Reference.class));
-        component = Collections.unmodifiableList(ValidationSupport.checkList(builder.component, "component", Component.class));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
-        ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
-        ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
+        referenceRange = Collections.unmodifiableList(builder.referenceRange);
+        hasMember = Collections.unmodifiableList(builder.hasMember);
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -1684,7 +1675,40 @@ public class Observation extends DomainResource {
          */
         @Override
         public Observation build() {
-            return new Observation(this);
+            Observation observation = new Observation(this);
+            if (validating) {
+                validate(observation);
+            }
+            return observation;
+        }
+
+        protected void validate(Observation observation) {
+            super.validate(observation);
+            ValidationSupport.checkList(observation.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(observation.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(observation.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(observation.status, "status");
+            ValidationSupport.checkList(observation.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(observation.code, "code");
+            ValidationSupport.checkList(observation.focus, "focus", Reference.class);
+            ValidationSupport.choiceElement(observation.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
+            ValidationSupport.checkList(observation.performer, "performer", Reference.class);
+            ValidationSupport.choiceElement(observation.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+            ValidationSupport.checkList(observation.interpretation, "interpretation", CodeableConcept.class);
+            ValidationSupport.checkList(observation.note, "note", Annotation.class);
+            ValidationSupport.checkList(observation.referenceRange, "referenceRange", ReferenceRange.class);
+            ValidationSupport.checkList(observation.hasMember, "hasMember", Reference.class);
+            ValidationSupport.checkList(observation.derivedFrom, "derivedFrom", Reference.class);
+            ValidationSupport.checkList(observation.component, "component", Component.class);
+            ValidationSupport.checkReferenceType(observation.basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(observation.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
+            ValidationSupport.checkReferenceType(observation.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(observation.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(observation.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(observation.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(observation.device, "device", "Device", "DeviceMetric");
+            ValidationSupport.checkReferenceType(observation.hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
+            ValidationSupport.checkReferenceType(observation.derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
         }
 
         protected Builder from(Observation observation) {
@@ -1747,10 +1771,9 @@ public class Observation extends DomainResource {
             low = builder.low;
             high = builder.high;
             type = builder.type;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.checkList(builder.appliesTo, "appliesTo", CodeableConcept.class));
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
             age = builder.age;
             text = builder.text;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2145,7 +2168,17 @@ public class Observation extends DomainResource {
              */
             @Override
             public ReferenceRange build() {
-                return new ReferenceRange(this);
+                ReferenceRange referenceRange = new ReferenceRange(this);
+                if (validating) {
+                    validate(referenceRange);
+                }
+                return referenceRange;
+            }
+
+            protected void validate(ReferenceRange referenceRange) {
+                super.validate(referenceRange);
+                ValidationSupport.checkList(referenceRange.appliesTo, "appliesTo", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(referenceRange);
             }
 
             protected Builder from(ReferenceRange referenceRange) {
@@ -2197,12 +2230,11 @@ public class Observation extends DomainResource {
 
         private Component(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+            code = builder.code;
+            value = builder.value;
             dataAbsentReason = builder.dataAbsentReason;
-            interpretation = Collections.unmodifiableList(ValidationSupport.checkList(builder.interpretation, "interpretation", CodeableConcept.class));
-            referenceRange = Collections.unmodifiableList(ValidationSupport.checkList(builder.referenceRange, "referenceRange", Observation.ReferenceRange.class));
-            ValidationSupport.requireValueOrChildren(this);
+            interpretation = Collections.unmodifiableList(builder.interpretation);
+            referenceRange = Collections.unmodifiableList(builder.referenceRange);
         }
 
         /**
@@ -2587,7 +2619,20 @@ public class Observation extends DomainResource {
              */
             @Override
             public Component build() {
-                return new Component(this);
+                Component component = new Component(this);
+                if (validating) {
+                    validate(component);
+                }
+                return component;
+            }
+
+            protected void validate(Component component) {
+                super.validate(component);
+                ValidationSupport.requireNonNull(component.code, "code");
+                ValidationSupport.choiceElement(component.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+                ValidationSupport.checkList(component.interpretation, "interpretation", CodeableConcept.class);
+                ValidationSupport.checkList(component.referenceRange, "referenceRange", Observation.ReferenceRange.class);
+                ValidationSupport.requireValueOrChildren(component);
             }
 
             protected Builder from(Component component) {

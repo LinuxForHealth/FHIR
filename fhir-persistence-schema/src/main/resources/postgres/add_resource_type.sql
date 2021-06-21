@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020
+-- (C) Copyright IBM Corp. 2020, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -13,6 +13,7 @@
        AS $$
 
 BEGIN
+    -- LOADED ON: {{DATE}}
     SELECT resource_type_id INTO p_resource_type_id
     FROM {{SCHEMA_NAME}}.resource_types
     WHERE resource_type = p_resource_type;
