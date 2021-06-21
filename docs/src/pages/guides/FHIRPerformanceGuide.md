@@ -535,7 +535,7 @@ Two resources will be considered equivalent based on the following criteria:
 * the server-assigned fields (`Resource.meta.lastUpdated` and `Resource.meta.versionId`) are ignored
 * the value of all other fields in the resource must be equivalent
 
-When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's (return preference)[https://www.hl7.org/fhir/R4/http.html#ops].
+When the update is skipped, the response will contain a Location header that points to the *existing* resource version (e.g. `[base]/Patient/1234/_history/1`) instead of a newly created instance of this resource (`[base]/Patient/1234/_history/2`) and the response body will be sent according to the client's [return preference](https://www.hl7.org/fhir/R4/http.html#ops).
 If the client indicates a return preference of OperationOutcome and the update is skipped on the server, the response will contain an informational issue to indicate this case.
 
 # 6. Client Access Scenarios
