@@ -1762,7 +1762,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     } catch (FHIRPersistenceResourceNotFoundException e) {
                         if (failFast) {
                             String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg).withIssue(e.getIssues());
+                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
                         }
 
                         responseEntries[entryIndex] = Entry.builder()
@@ -1771,11 +1771,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                     .status(SC_NOT_FOUND_STRING)
                                     .build())
                                 .build();
-                        logBundleRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
+                        logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
                     } catch (FHIRPersistenceResourceDeletedException e) {
                         if (failFast) {
                             String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg).withIssue(e.getIssues());
+                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
                         }
 
                         responseEntries[entryIndex] = Entry.builder()
@@ -1784,11 +1784,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                     .status(SC_GONE_STRING)
                                     .build())
                                 .build();
-                        logBundleRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
+                        logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
                     } catch (FHIROperationException e) {
                         if (failFast) {
                             String msg = "Error while processing request bundle.";
-                            throw new FHIRRestBundledRequestException(msg).withIssue(e.getIssues());
+                            throw new FHIRRestBundledRequestException(msg, e).withIssue(e.getIssues());
                         }
 
                         Status status;
@@ -1804,7 +1804,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                                     .status(string(Integer.toString(status.getStatusCode())))
                                     .build())
                                 .build();
-                        logBundleRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
+                        logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
                     }
                 } // end foreach method entry
                 if (log.isLoggable(Level.FINER)) {
@@ -1968,7 +1968,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         // Save the results of the operation in the bundle response field.
-        logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
+        logBundledRequestCompletedMsg(requestDescription, initialTime, SC_OK);
 
         return Entry.builder()
                 .response(Entry.Response.builder()
@@ -2057,7 +2057,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 throw buildRestException(msg, IssueType.NOT_FOUND);
             }
 
-            logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
+            logBundledRequestCompletedMsg(requestDescription, initialTime, SC_OK);
             return Bundle.Entry.builder()
                     .resource(result)
                     .response(Entry.Response.builder()
@@ -2069,7 +2069,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // This is a 'search' request.
             Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, null);
 
-            logBundleRequestCompletedMsg(requestDescription, initialTime, SC_OK);
+            logBundledRequestCompletedMsg(requestDescription, initialTime, SC_OK);
             return Bundle.Entry.builder()
                     .resource(searchResults)
                     .response(Entry.Response.builder()
@@ -2319,7 +2319,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         int httpStatus = ior.getStatus().getStatusCode();
         OperationOutcome oo = ior.getOperationOutcome();
 
-        logBundleRequestCompletedMsg(requestDescription, initialTime, httpStatus);
+        logBundledRequestCompletedMsg(requestDescription, initialTime, httpStatus);
         return Entry.builder()
                 .response(Entry.Response.builder()
                     .status(string(Integer.toString(httpStatus)))
@@ -2579,15 +2579,15 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             bundleEntryBuilder.resource(operationResponse.getOperationOutcome());
         }
 
-        logBundleRequestCompletedMsg(requestDescription, initialTime, httpStatus);
+        logBundledRequestCompletedMsg(requestDescription, initialTime, httpStatus);
         return bundleEntryBuilder.response(entryResponseBuilder.build()).build();
     }
 
-    private void logBundleRequestCompletedMsg(String requestDescription, long initialTime, int httpStatus) {
+    private void logBundledRequestCompletedMsg(String requestDescription, long initialTime, int httpStatus) {
         StringBuffer statusMsg = new StringBuffer();
         statusMsg.append(" status:[" + httpStatus + "]");
         double elapsedSecs = (System.currentTimeMillis() - initialTime) / 1000.0;
-        log.info("Completed bundle request[" + elapsedSecs + " secs]: "
+        log.info("Completed bundled request[" + elapsedSecs + " secs]: "
                 + requestDescription.toString() + statusMsg.toString());
     }
 
