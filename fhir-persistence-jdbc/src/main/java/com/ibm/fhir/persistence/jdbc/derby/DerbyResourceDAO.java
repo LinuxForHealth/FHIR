@@ -414,21 +414,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // an identical hash, in which case we can bypass the delete/insert
             requireParameterUpdate = currentParameterHash == null || currentParameterHash.isEmpty() || !currentParameterHash.equals(p_parameterHashB64);
             if (requireParameterUpdate) {
-                deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
-                deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
-
-                // delete any system level parameters we have for this resource
-                deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
-                deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
-                deleteFromParameterTable(conn, "logical_resource_profiles", v_logical_resource_id);
-                deleteFromParameterTable(conn, "logical_resource_tags", v_logical_resource_id);
+                deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
             }
         }
 

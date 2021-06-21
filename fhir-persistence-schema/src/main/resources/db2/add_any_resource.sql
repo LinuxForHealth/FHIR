@@ -153,6 +153,8 @@ BEGIN
 	    EXECUTE stmt USING v_logical_resource_id;
 	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = ?';
 	    EXECUTE stmt USING v_logical_resource_id;
+        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = ?';
+        EXECUTE stmt USING v_logical_resource_id;
 	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'str_values          WHERE logical_resource_id = ?';
 	    EXECUTE stmt USING v_logical_resource_id;
 	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'date_values         WHERE logical_resource_id = ?';
@@ -161,8 +163,10 @@ BEGIN
 	    EXECUTE stmt USING v_logical_resource_id;
 	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_profiles WHERE logical_resource_id = ?';
 	    EXECUTE stmt USING v_logical_resource_id;
-	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags WHERE logical_resource_id = ?';
+	    PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags     WHERE logical_resource_id = ?';
 	    EXECUTE stmt USING v_logical_resource_id;
+        PREPARE stmt FROM 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security WHERE logical_resource_id = ?';
+        EXECUTE stmt USING v_logical_resource_id;
 	END IF; -- end if parameter hash is different    
   END IF; -- end if existing resource
 

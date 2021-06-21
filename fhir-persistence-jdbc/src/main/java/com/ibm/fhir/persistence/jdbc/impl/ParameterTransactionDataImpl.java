@@ -44,6 +44,9 @@ public class ParameterTransactionDataImpl implements TransactionData {
     // Collect all the tag values so we can submit once per transaction
     private final List<ResourceTokenValueRec> tagRecs = new ArrayList<>();
 
+    // Collect all the security values so we can submit once per transaction
+    private final List<ResourceTokenValueRec> securityRecs = new ArrayList<>();
+
     /**
      * Public constructor
      * @param datasourceId
@@ -59,7 +62,7 @@ public class ParameterTransactionDataImpl implements TransactionData {
     public void persist() {
 
         try {
-            impl.persistResourceTokenValueRecords(tokenValueRecs, profileRecs, tagRecs);
+            impl.persistResourceTokenValueRecords(tokenValueRecs, profileRecs, tagRecs, securityRecs);
         } catch (Throwable t) {
             logger.log(Level.SEVERE, "Failed persisting parameter transaction data. Marking transaction for rollback", t);
             try {
@@ -96,5 +99,15 @@ public class ParameterTransactionDataImpl implements TransactionData {
      */
     public void addTagValue(ResourceTokenValueRec rec) {
         tagRecs.add(rec);
+    }
+
+    /**
+     * Add the given security parameter record to the list of records being accumulated in
+     * the transaction data. The records will be inserted to the database together at the end,
+     * just prior to the commit (see {@link #persist()}
+     * @param rec
+     */
+    public void addSecurityValue(ResourceTokenValueRec rec) {
+        securityRecs.add(rec);
     }
 }

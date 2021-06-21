@@ -176,7 +176,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     }
 
     @Override
-    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs) {
+    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
         // Grab the ids for all the code-systems, and upsert any misses
 //        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
 //        cache.resolveCodeSystems(xrefs, systemMisses);
@@ -192,7 +192,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
         // This method is only called when we're not using transaction data
         logger.fine("Persist parameters for this resource - no transaction data available");
-        persist(xrefs, profileRecs, tagRecs);
+        persist(xrefs, profileRecs, tagRecs, securityRecs);
     }
 
     /**
@@ -486,6 +486,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
     }
 
+    /**
+     * Insert PROFILE parameters
+     * @param resourceType
+     * @param profiles
+     */
     protected void insertSystemResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
         final String tableName = "LOGICAL_RESOURCE_PROFILES";
         DataDefinitionUtil.assertValidName(tableName);
@@ -561,10 +566,83 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         }
     }
 
+    /**
+     * Insert _tag parameters to the whole-system LOGICAL_RESOURCE_TAGS table
+     * @param resourceType
+     * @param xrefs
+     */
     protected void insertSystemResourceTags(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
         // Now all the values should have ids assigned so we can go ahead and insert them
         // as a batch
         final String tableName =  "LOGICAL_RESOURCE_TAGS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert _security parameters to the resource-specific xx_SECURITY table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_SECURITY";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert _security parametes to the whole-system LOGICAL_REOURCE_SECURITY table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertSystemResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName =  "LOGICAL_RESOURCE_SECURITY";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
                 + "logical_resource_id, common_token_value_id) "
@@ -704,11 +782,12 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues);
 
     @Override
-    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs) {
+    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
         cache.resolveCodeSystems(records, systemMisses);
         cache.resolveCodeSystems(tagRecs, systemMisses);
+        cache.resolveCodeSystems(securityRecs, systemMisses);
         upsertCodeSystems(systemMisses);
 
         // Now that all the code-systems ids are known, we can search the cache
@@ -716,6 +795,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
         cache.resolveTokenValues(records, valueMisses);
         cache.resolveTokenValues(tagRecs, valueMisses);
+        cache.resolveTokenValues(securityRecs, valueMisses);
         upsertCommonTokenValues(valueMisses);
 
         // Process all the common canonical values
@@ -757,6 +837,18 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         for (Map.Entry<String, List<ResourceTokenValueRec>> entry: tagMap.entrySet()) {
             insertResourceTags(entry.getKey(), entry.getValue());
             insertSystemResourceTags(entry.getKey(), entry.getValue());
+        }
+
+        // Split security records by resource type
+        Map<String,List<ResourceTokenValueRec>> securityMap = new HashMap<>();
+        for (ResourceTokenValueRec rtv: securityRecs) {
+            List<ResourceTokenValueRec> list = securityMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+
+        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: securityMap.entrySet()) {
+            insertResourceSecurity(entry.getKey(), entry.getValue());
+            insertSystemResourceSecurity(entry.getKey(), entry.getValue());
         }
     }
 

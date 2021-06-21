@@ -100,6 +100,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     // Tags are now stored in their own tables
     private final List<ResourceTokenValueRec> tagTokenRecs = new ArrayList<>();
 
+    // Security params are now stored in their own tables
+    private final List<ResourceTokenValueRec> securityTokenRecs = new ArrayList<>();
+
     // Profiles are now stored in their own tables
     private final List<ResourceProfileRec> profileRecs = new ArrayList<>();
 
@@ -437,6 +440,15 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 } else {
                     this.tagTokenRecs.add(rec);
                 }
+            } else if (JDBCConstants.PARAM_NAME_SECURITY.equals(parameterName)) {
+                // search search params are often low-selectivity (many resources sharing the same value) so
+                // we put them into their own tables to allow better cardinality estimation by the query
+                // optimizer
+                if (this.transactionData != null) {
+                    this.transactionData.addSecurityValue(rec);
+                } else {
+                    this.securityTokenRecs.add(rec);
+                }
             } else {
                 if (this.transactionData != null) {
                     this.transactionData.addValue(rec);
@@ -608,7 +620,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         if (this.transactionData == null) {
             // Not using transaction data, so we need to process collected values right here
-            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs);
+            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
         }
 
         closeStatement(strings);

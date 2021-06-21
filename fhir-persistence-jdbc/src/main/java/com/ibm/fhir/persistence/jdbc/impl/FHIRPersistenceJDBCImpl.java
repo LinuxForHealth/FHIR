@@ -2657,10 +2657,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * contains multiple resource types, which have to be processed separately.
      * @param records
      */
-    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs) throws FHIRPersistenceException {
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records, profileRecs, tagRecs);
+            rrd.persist(records, profileRecs, tagRecs, securityRecs);
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;

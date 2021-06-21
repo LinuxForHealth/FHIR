@@ -136,6 +136,8 @@ BEGIN
 	      USING v_logical_resource_id;
 	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_tags                WHERE logical_resource_id = $1'
 	      USING v_logical_resource_id;
+        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || p_resource_type || '_security            WHERE logical_resource_id = $1'
+          USING v_logical_resource_id;
 	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'str_values                 WHERE logical_resource_id = $1'
 	      USING v_logical_resource_id;
 	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'date_values                WHERE logical_resource_id = $1'
@@ -146,6 +148,8 @@ BEGIN
 	      USING v_logical_resource_id;
 	    EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_tags      WHERE logical_resource_id = $1'
 	      USING v_logical_resource_id;
+        EXECUTE 'DELETE FROM ' || v_schema_name || '.' || 'logical_resource_security  WHERE logical_resource_id = $1'
+          USING v_logical_resource_id;
 	END IF; -- end if check parameter hash
   END IF; -- end if existing resource
 

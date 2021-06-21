@@ -59,6 +59,7 @@ public class FhirSchemaConstants {
     public static final String CANONICAL_ID = "CANONICAL_ID";
     public static final String URL = "URL";
     public static final String PROFILES = "PROFILES";
+    public static final String SECURITY = "SECURITY";
     public static final String TAGS = "TAGS";
     public static final int CANONICAL_URL_BYTES = 1024; // a reasonable value of our choosing
     public static final int VERSION_BYTES = 16;
@@ -163,6 +164,7 @@ public class FhirSchemaConstants {
 
     // Mapping table identifying the profiles associated with a particular resource
     public static final String LOGICAL_RESOURCE_PROFILES = "LOGICAL_RESOURCE_PROFILES";
+    public static final String LOGICAL_RESOURCE_SECURITY = "LOGICAL_RESOURCE_SECURITY";
     public static final String LOGICAL_RESOURCE_TAGS = "LOGICAL_RESOURCE_TAGS";
 
     // For V0006 (issue #1366) token_values become normalized to improve storage efficiency

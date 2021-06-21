@@ -56,6 +56,7 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.SECURITY;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.STR_VALUE_LCASE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TAGS;
@@ -189,6 +190,7 @@ public class FhirResourceTableGroup {
         addTokenValuesView(group, tablePrefix);
         addProfiles(group, tablePrefix);
         addTags(group, tablePrefix);
+        addSecurity(group, tablePrefix);
 
         // group all the tables under one object so that we can perform everything within one
         // transaction. This helps to eliminate deadlocks when adding the FK constraints due to
@@ -589,6 +591,37 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0014.vid())
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
+                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_TV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .build(model);
+
+        group.add(tbl);
+        model.addTable(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * Add the common_token_values mapping table for security search parameters
+     * @param group
+     * @param prefix
+     * @return
+     */
+    public Table addSecurity(List<IDatabaseObject> group, String prefix) {
+
+        final String tableName = prefix + "_" + SECURITY;
+
+        // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0016.vid())
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)

@@ -49,6 +49,7 @@ public class JDBCConstants {
 
     // Special parameter names
     public static final String PARAM_NAME_PROFILE = "_profile";
+    public static final String PARAM_NAME_SECURITY = "_security";
     public static final String PARAM_NAME_TAG = "_tag";
 
     // Generic SQL query string constants
