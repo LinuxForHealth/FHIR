@@ -55,6 +55,8 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 public class AzureProvider implements Provider {
     private static final Logger LOG = Logger.getLogger(AzureProvider.class.getName());
 
+    private static final byte[] NEWLINE = "\r\n".getBytes();
+
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
 
@@ -179,7 +181,11 @@ public class AzureProvider implements Provider {
         if (!client.exists().booleanValue()) {
             aClient.create();
         }
+        // Append a new line.
         aClient.appendBlock(in, size);
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(NEWLINE)) {
+            aClient.appendBlock(bais, NEWLINE.length);
+        }
     }
 
     @Override
