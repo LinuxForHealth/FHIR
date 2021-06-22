@@ -232,8 +232,7 @@ public class FHIRResource {
 
             List<Bundle.Entry> toAdd = new ArrayList<Bundle.Entry>();
             // replace bundle entries that have an empty response
-            for (int i = 0; i < e.getResponseBundle().getEntry().size(); i++) {
-                Bundle.Entry entry = e.getResponseBundle().getEntry().get(i);
+            for (Bundle.Entry entry : e.getResponseBundle().getEntry()) {
                 if (entry.getResponse() != null && entry.getResponse().getStatus() == null) {
                     entry = entry.toBuilder()
                             .response(entry.getResponse().toBuilder()
