@@ -785,8 +785,8 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e2");
         assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e+2");
 
-        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "lt1e2");
-        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "gt1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "lt1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "gt1e2");
         assertSearchReturnsSavedResource(     "Quantity-withExponent", "le1e2");
         assertSearchReturnsSavedResource(     "Quantity-withExponent", "ge1e2");
         assertSearchDoesntReturnSavedResource("Quantity-withExponent", "sa1e2");
