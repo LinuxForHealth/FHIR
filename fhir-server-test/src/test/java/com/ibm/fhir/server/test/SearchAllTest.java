@@ -50,6 +50,7 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.Uri;
 
 public class SearchAllTest extends FHIRServerTestBase {
 
@@ -88,6 +89,7 @@ public class SearchAllTest extends FHIRServerTestBase {
                                 .tag(tag)
                                 .tag(tag2)
                                 .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
+                                .source(Uri.of("http://ibm.com/fhir/source/Source"))
                                 .build())
                         .build();
 
@@ -243,6 +245,40 @@ public class SearchAllTest extends FHIRServerTestBase {
 
         // Original - "http://ibm.com/fhir/security|security"
         parameters.searchParam("_security", "security");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            generateOutput(bundle);
+        }
+
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingSource() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_source", "http://ibm.com/fhir/source/Source");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+
+        assertNotNull(bundle);
+        if (DEBUG_SEARCH) {
+            generateOutput(bundle);
+        }
+
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingProfileAndSecurityAndSource() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_profile", "http://ibm.com/fhir/profile/Profile");
+        parameters.searchParam("_security", "security");
+        parameters.searchParam("_source", "http://ibm.com/fhir/source/Source");
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
@@ -561,6 +597,7 @@ public class SearchAllTest extends FHIRServerTestBase {
                                 .security(security)
                                 .tag(uniqueTag)
                                 .profile(Canonical.of("http://ibm.com/fhir/profile/Profile"))
+                                .source(Uri.of("http://ibm.com/fhir/source/Source"))
                                 .build())
                         .build();
 
@@ -696,6 +733,60 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 2);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_profile() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_profile", "http://ibm.com/fhir/profile/Profile");
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_security() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_security", "security");
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_source() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_source", "http://ibm.com/fhir/source/Source");
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })
+    public void testSearchAll2UsingUniqueTag_TwoTypes_profile_security_source() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", strUniqueTag);
+        parameters.searchParam("_type", "Patient,Observation");
+        parameters.searchParam("_profile", "http://ibm.com/fhir/profile/Profile");
+        parameters.searchParam("_security", "security");
+        parameters.searchParam("_source", "http://ibm.com/fhir/source/Source");
+        FHIRResponse response = client.searchAll(parameters, true, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 1);
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatientAndObservationWithUniqueTag" })

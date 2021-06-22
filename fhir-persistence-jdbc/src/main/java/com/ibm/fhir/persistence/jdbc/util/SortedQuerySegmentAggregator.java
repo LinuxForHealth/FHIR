@@ -211,7 +211,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         StringBuilder expression = new StringBuilder();
         List<String> valueAttributeNames;
 
-        if (SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(sortParm.getCode())) {
+        if (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode())) {
             valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
         } else {
             valueAttributeNames = this.getValueAttributeNames(sortParm);
@@ -316,7 +316,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
             if (!LAST_UPDATED.equals(sortParm.getCode())) {
-                if (SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(sortParm.getCode())) {
+                if (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode())) {
                     // For a sort by _tag or _profile or _security, we need to join the parameter-specific token
                     // table with the common token values table.
                     joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)

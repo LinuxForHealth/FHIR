@@ -130,7 +130,7 @@ public class SelectAdapter {
      * @return
      */
     public void union(Select unionSelect) {
-        select.addUnion(unionSelect);
+        select.setUnion(unionSelect);
     }
 
     /**
@@ -140,7 +140,7 @@ public class SelectAdapter {
      * @return
      */
     public void unionAll(Select unionAllSelect) {
-        select.addUnionAll(unionAllSelect);
+        select.setUnionAll(unionAllSelect);
     }
 
     /**

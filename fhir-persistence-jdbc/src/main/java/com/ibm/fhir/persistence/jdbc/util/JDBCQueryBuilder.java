@@ -1627,7 +1627,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
             String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
             whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
-            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+            if (!PROFILE.equals(queryParm.getCode()) && !SECURITY.equals(queryParm.getCode()) && !TAG.equals(queryParm.getCode())) {
                 this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
                 whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ")
                         .append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery

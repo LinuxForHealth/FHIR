@@ -1618,7 +1618,12 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         // Attach an exists clause to filter the result based on the string query parameter definition
         final int aliasIndex = getNextAliasIndex();
         final String lrAlias = queryData.getLRAlias();
-        final String paramTableName = resourceType + "_STR_VALUES";
+        final String paramTableName;
+        if (isWholeSystemSearch(resourceType)) {
+            paramTableName = "STR_VALUES";
+        } else {
+            paramTableName = resourceType + "_STR_VALUES";
+        }
         final String paramAlias = getParamAlias(aliasIndex);
         final String parameterName = queryParm.getCode();
 
@@ -1711,7 +1716,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         
         // Do not need PARAMETER_NAME_ID clause for _profile, _tag, or _security parameters since they have
         // their own tables.
-        if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(parameterName)) {
+        if (!PROFILE.equals(parameterName) && !SECURITY.equals(parameterName) && !TAG.equals(parameterName)) {
             exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(getParameterNameId(parameterName));
         }
 
@@ -1807,7 +1812,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 SelectAdapter exists = Select.select("1");
                 exists.from(paramTable, alias(paramAlias))
                     .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
-                if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(code)) {
+                if (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code)) {
                     exists.from().where().and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()));
                 }
                 exists.from().where().and(pf.getExpression());
@@ -1816,7 +1821,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 currentSubQuery.from().where().and().notExists(exists.build());
             } else {
                 // Filter the query by adding a join
-                if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(code)) {
+                if (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code)) {
                     currentSubQuery.from()
                         .innerJoin(paramTable, alias(paramAlias),
                             on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")

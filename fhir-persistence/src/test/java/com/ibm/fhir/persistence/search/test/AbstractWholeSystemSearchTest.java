@@ -49,6 +49,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     protected final String TAG4TEXT = "someSearchText";
     protected final String PROFILE = "http://ibm.com/fhir/profile/" + UUID.randomUUID().toString();
     protected final String AUTHOR = "Practitioner/" + UUID.randomUUID().toString();
+    protected final String SOURCE = "http://ibm.com/fhir/source";
 
     @Override
     protected void setTenant() throws Exception {
@@ -87,6 +88,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
                         .tag(tag3)
                         .security(security)
                         .profile(Canonical.of(PROFILE))
+                        .source(Uri.of(SOURCE))
                         .build();
 
         return basic.toBuilder()
@@ -225,6 +227,14 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     }
 
     @Test
+    public void testSearchAllUsingSource() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_source", SOURCE);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
     public void testSearchAllUsingTagModifierText() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, "_tag:text", "someSearch");
         assertNotNull(resources);
@@ -317,6 +327,23 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_profile", Collections.singletonList(PROFILE));
         queryParms.put("_tag", Collections.singletonList(TAG_SYSTEM + "|" + TAG));
+        queryParms.put("_security", Collections.singletonList(SECURITY_SYSTEM + "|" + SECURITY));
+
+        if (DEBUG) {
+            generateOutput(savedResource);
+        }
+
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingProfileAndSecurityAndSource() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_profile", Collections.singletonList(PROFILE));
+        queryParms.put("_source", Collections.singletonList(SOURCE));
         queryParms.put("_security", Collections.singletonList(SECURITY_SYSTEM + "|" + SECURITY));
 
         if (DEBUG) {
@@ -442,10 +469,81 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     }
 
     @Test
+    public void testSearchAllUsingTypeAndSecurity() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
+        queryParms.put("_security", Collections.singletonList(SECURITY_SYSTEM + "|" + SECURITY));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTypeAndSource() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
+        queryParms.put("_source", Collections.singletonList(SOURCE));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTypeAndProfileAndSourceAndTag() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,Patient,Observation"));
+        queryParms.put("_profile", Collections.singletonList(PROFILE));
+        queryParms.put("_source", Collections.singletonList(SOURCE));
+        queryParms.put("_tag", Collections.singletonList(TAG_SYSTEM + "|" + TAG));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
     public void testSearchAllUsingTypeAndNonGlobalSearchParm() throws Exception {
         Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
         queryParms.put("_type", Collections.singletonList("Basic,DetectedIssue,DocumentReference"));
         queryParms.put("author", Collections.singletonList(AUTHOR));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTypeAndNonGlobalSearchParmAndProfile() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,DetectedIssue,DocumentReference"));
+        queryParms.put("author", Collections.singletonList(AUTHOR));
+        queryParms.put("_profile", Collections.singletonList(PROFILE));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTypeAndNonGlobalSearchParmAndSecurity() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,DetectedIssue,DocumentReference"));
+        queryParms.put("author", Collections.singletonList(AUTHOR));
+        queryParms.put("_security", Collections.singletonList(SECURITY_SYSTEM + "|" + SECURITY));
+        List<Resource> resources = runQueryTest(Resource.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTypeAndNonGlobalSearchParmAndSource() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_type", Collections.singletonList("Basic,DetectedIssue,DocumentReference"));
+        queryParms.put("author", Collections.singletonList(AUTHOR));
+        queryParms.put("_source", Collections.singletonList(SOURCE));
         List<Resource> resources = runQueryTest(Resource.class, queryParms);
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");

@@ -335,17 +335,17 @@ public class Select {
     }
 
     /**
-     * Add a select to UNION with this query.
+     * Set a select to UNION with this query.
      */
-    public void addUnion(Select union) {
+    public void setUnion(Select union) {
         this.union = union;
         this.unionAll = false;
     }
 
     /**
-     * Add a select to UNION ALL with this query.
+     * Set a select to UNION ALL with this query.
      */
-    public void addUnionAll(Select unionAll) {
+    public void setUnionAll(Select unionAll) {
         this.union = unionAll;
         this.unionAll = true;
     }

@@ -442,7 +442,7 @@ public class SearchQueryTest {
             
             // Link to previous select via UNION ALL
             if (previous != null) {
-                previous.addUnionAll(select);
+                previous.setUnionAll(select);
             } else {
                 first = select;
             }
