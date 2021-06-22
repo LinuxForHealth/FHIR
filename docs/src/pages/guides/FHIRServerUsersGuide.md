@@ -2569,7 +2569,7 @@ However, SMART defines additional access controls via OAuth 2.0 scopes and conte
 
 To enforce authorization policy on the server, drop the `fhir-smart` module into the server's userlib directory.
 
-This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated but a special `patient_id` claim in the access token).
+This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated by a special `patient_id` claim in the access token).
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 
