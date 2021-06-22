@@ -8,19 +8,31 @@ package com.ibm.fhir.bulkdata.provider.impl;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
+import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -44,20 +56,7 @@ public class AzureProviderMain {
         AzureProviderMain main = new AzureProviderMain();
         AzureProvider provider = new AzureProvider("dummy");
 
-        main.test1(args[0]);
-        //main.test2(args[0], provider);
-    }
-
-    public void test2(String arg0, AzureProvider provider) throws FHIRException {
-        ExportTransientUserData chunkData = ExportTransientUserData.Builder.builder().build();
-        ByteArrayOutputStream os = chunkData.getBufferStream();
-
-        String cosBucketPathPrefix =  "DEMO0.956558326916514";
-        provider.registerOverride(arg0, "test", chunkData, cosBucketPathPrefix, "Patient", 0);
-        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
-        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
-        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
-        System.out.println(provider.getResources().size());
+        main.test5(args[0], provider, args[1]);
     }
 
     public void test1(String arg0) throws Exception {
@@ -107,6 +106,105 @@ public class AzureProviderMain {
         provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
         System.out.println(provider.getResources().size());
 
+    }
+
+    public void test2(String arg0, AzureProvider provider) throws FHIRException {
+        ExportTransientUserData chunkData = ExportTransientUserData.Builder.builder().build();
+
+        String cosBucketPathPrefix =  "DEMO0.956558326916514";
+        provider.registerOverride(arg0, "test", chunkData, cosBucketPathPrefix, "Patient", 0);
+        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
+        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
+        provider.readResources(0, cosBucketPathPrefix + "/Patient_1.ndjson");
+        System.out.println(provider.getResources().size());
+    }
+
+    public void test3(String arg0, AzureProvider provider, String comparePath) throws FHIRException, IOException {
+        ImportTransientUserData chunkData = ImportTransientUserData.Builder.builder().build();
+
+        String path =  "r4_AllergyIntolerance.ndjson";
+        provider.registerOverride(arg0, "fhirtest", null, path, "Patient", 0);
+        provider.registerTransient(chunkData);
+        int total = 0;
+        long current = 0;
+        int iteration = 0;
+        long size = provider.getSize(path);
+        List<String> ids = new ArrayList<>();
+        while (current < size) {
+            System.out.println(iteration++ + " current [" + current + "] target [" + size + "]");
+            provider.readResources(current, path);
+            List<Resource> resources = provider.getResources();
+            System.out.println("total resources on iteration [" + iteration + "] total [" + resources.size() + "]");
+            current = chunkData.getCurrentBytes();
+
+            total += resources.size();
+            ids.addAll(provider.getResources().stream().map(r -> r.getId()).collect(Collectors.toList()));
+            chunkData.getBufferStreamForImport().reset();
+            provider.getResources().clear();
+            System.out.println("--- L >  " + total);
+            System.out.println("--- F >  " + provider.getNumberOfParseFailures());
+        }
+        System.out.println("Final: " + total);
+        System.out.println("RESOURCES: " + provider.getNumberOfLoaded());
+        System.out.println("FAILURES: " + provider.getNumberOfParseFailures());
+
+        int idx = 1;
+        for (String line : Files.readAllLines(Paths.get(comparePath))){
+            Resource r = FHIRParser.parser(Format.JSON).parse(new ByteArrayInputStream(line.getBytes()));
+            if (!ids.contains(r.getId())) {
+                System.out.println(idx + " " + r.getId());
+            }
+            idx++;
+        }
+    }
+
+    /**
+     * drives write to Azure test using an arraystream
+     * @param arg0
+     * @param provider
+     * @param path
+     * @throws Exception
+     */
+    public void test4(String arg0, AzureProvider provider, String path) throws Exception {
+
+        ExportTransientUserData chunkData = ExportTransientUserData.Builder.builder().build();
+
+        String cosBucketPathPrefix =  "DEMO0." + System.currentTimeMillis();
+        provider.registerOverride(arg0, "fhirtest", chunkData, cosBucketPathPrefix, "Patient", 0);
+
+        ReadResultDTO dto = new ReadResultDTO();
+        for (String line : Files.readAllLines(Paths.get(path))){
+            chunkData.getBufferStream().write(line.getBytes());
+            chunkData.getBufferStream().write("\r\n".getBytes());
+            Resource r = FHIRParser.parser(Format.JSON).parse(new ByteArrayInputStream(line.getBytes()));
+            dto.addResource(r);
+        }
+        System.out.println("Started the upload");
+        provider.writeResources("application/ndjson", Arrays.asList(dto));
+    }
+
+    /**
+     * drives write to Azure test using an InputStream
+     * @param arg0
+     * @param provider
+     * @param path
+     * @throws Exception
+     */
+    public void test5(String arg0, AzureProvider provider, String path) throws Exception {
+
+        ExportTransientUserData chunkData = ExportTransientUserData.Builder.builder().build();
+
+        String cosBucketPathPrefix =  "DEMO0." + System.currentTimeMillis();
+        provider.registerOverride(arg0, "fhirtest", chunkData, cosBucketPathPrefix, "Patient", 0);
+
+        StringBuilder builder = new StringBuilder();
+        for (String line : Files.readAllLines(Paths.get(path))){
+            builder.append(line);
+        }
+        System.out.println("Started the upload");
+        provider.writeDirectly(cosBucketPathPrefix,
+            new ByteArrayInputStream(builder.toString().getBytes()),
+            builder.toString().getBytes().length);
     }
 
     private Patient buildTestPatient() {
