@@ -584,7 +584,7 @@ public class ConstraintGenerator {
         String profile = getProfiles(getTypes(elementDefinition).get(0)).get(0);
         sb.append("conformsTo('").append(profile).append("')");
 
-        if (hasChildren(node)) {
+        if (hasChildren(node) && !discriminator) {
             sb.append(" and ").append(generate(node.children));
             if (isSlice(elementDefinition)) {
                 // append slice specific constraints
@@ -594,10 +594,12 @@ public class ConstraintGenerator {
 
         if (isRepeating(elementDefinition)) {
             sb.append(")");
-            if (isSlice(elementDefinition) && !discriminator) {
-                sb.append(cardinality(node, sb.toString()));
-            } else {
-                sb.append(" and ").append(prefix).append(cardinality(node, sb.toString()));
+            if (!discriminator) {
+                if (isSlice(elementDefinition)) {
+                    sb.append(cardinality(node, sb.toString()));
+                } else {
+                    sb.append(" and ").append(prefix).append(cardinality(node, sb.toString()));
+                }
             }
         }
 
