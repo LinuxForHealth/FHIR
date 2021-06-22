@@ -25,8 +25,6 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
-import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -82,10 +80,6 @@ public class RetrieveIndexOperation extends AbstractOperation {
             Long afterIndexId = null;
             Instant notModifiedAfter = Instant.now();
             String resourceTypeName = resourceType != null ? resourceType.getSimpleName() : null;
-
-            if (resourceTypeName != null && !ModelSupport.isConcreteResourceType(resourceTypeName)) {
-                throw FHIROperationUtil.buildExceptionWithIssue("Resource type '"+ resourceTypeName + "' is not valid", IssueType.INVALID);
-            }
 
             if (parameters != null) {
                 for (Parameters.Parameter parameter : parameters.getParameter()) {
