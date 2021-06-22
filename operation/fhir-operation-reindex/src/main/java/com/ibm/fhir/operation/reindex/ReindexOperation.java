@@ -80,13 +80,13 @@ public class ReindexOperation extends AbstractOperation {
             int resourceCount = 10;
             String resourceLogicalId = null;
 
-            boolean hasSpecificResourceType = false;
+            String specificResourceType = null;
             if (resourceType != null) {
-                resourceLogicalId = resourceType.getSimpleName();
+                specificResourceType = resourceType.getSimpleName();
+                resourceLogicalId = specificResourceType;
                 if (logicalId != null) {
                     resourceLogicalId +=  "/" + logicalId;
                 }
-                hasSpecificResourceType = true;
             }
 
             if (parameters != null) {
@@ -116,21 +116,23 @@ public class ReindexOperation extends AbstractOperation {
                             resourceCount = val;
                         }
                     } else if (PARAM_RESOURCE_LOGICAL_ID.equals(parameter.getName().getValue())) {
-                        if (hasSpecificResourceType) {
+                        if (specificResourceType != null) {
                             throw FHIROperationUtil.buildExceptionWithIssue("resourceLogicalId already specified using call to Operation on Type or Instance", IssueType.INVALID);
                         }
                         // reindex a specific resource or resourceType
                         resourceLogicalId = parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
-                        String rt = resourceLogicalId;
+                        specificResourceType = resourceLogicalId;
                         if (resourceLogicalId.contains("/")) {
                             String[] parts = resourceLogicalId.split("/");
-                            rt = parts[0];
-                        }
-                        if (!ModelSupport.isConcreteResourceType(rt)) {
-                            throw FHIROperationUtil.buildExceptionWithIssue("ResourceType is not valid", IssueType.INVALID);
+                            specificResourceType = parts[0];
                         }
                     }
                 }
+            }
+
+            // Check resource type
+            if (specificResourceType != null && !ModelSupport.isConcreteResourceType(specificResourceType)) {
+                throw FHIROperationUtil.buildExceptionWithIssue("Resource type '" + specificResourceType + "' is not valid", IssueType.INVALID);
             }
 
             // Delegate the heavy lifting to the helper
