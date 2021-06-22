@@ -775,6 +775,7 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Range:missing", "false");
     }
 
+    // Target value is 1.2E+2 (115-125)
     @Test
     public void testSearchQuantity_Exponent() throws Exception {
         // Value 1.2E+2 (115-125) should return the value
