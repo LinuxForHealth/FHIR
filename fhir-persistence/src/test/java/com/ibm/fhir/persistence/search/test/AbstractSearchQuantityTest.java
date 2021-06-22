@@ -777,9 +777,22 @@ public abstract class AbstractSearchQuantityTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchQuantity_Exponent() throws Exception {
+        // Target value is 1.2E+2 (115-125)
+
         // Value 1.2E+2 should return the value
-        // The value is extracted, and stored in the values tables.
-        assertSearchReturnsSavedResource("Quantity-withExponent", "1.2E+2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2E2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2E+2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "1.2e+2");
+
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "lt1e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "gt1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "le1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ge1e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "sa1e2");
+        assertSearchDoesntReturnSavedResource("Quantity-withExponent", "eb1e2");
+        assertSearchReturnsSavedResource(     "Quantity-withExponent", "ap1e2");
+
         // Value 120 should not return the value since the range of 120
         // (119.5-120.5) is smaller than the range of the indexed value
         // 1.2E+2 (115-125) due to the difference in scale of those values.
