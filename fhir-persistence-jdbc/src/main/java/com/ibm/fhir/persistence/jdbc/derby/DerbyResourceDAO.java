@@ -40,6 +40,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -414,7 +415,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
             // an identical hash, in which case we can bypass the delete/insert
             requireParameterUpdate = currentParameterHash == null || currentParameterHash.isEmpty() || !currentParameterHash.equals(p_parameterHashB64);
             if (requireParameterUpdate) {
-                deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
+                ParameterTableSupport.deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
             }
         }
 
@@ -506,25 +507,6 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
 
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
-    }
-
-
-    /**
-     * Delete all parameters for the given resourceId from the parameters table
-     *
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
-        }
-
     }
 
     /**

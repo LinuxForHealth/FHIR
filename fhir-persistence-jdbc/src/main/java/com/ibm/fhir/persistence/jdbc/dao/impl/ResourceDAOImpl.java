@@ -821,34 +821,6 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
     }
 
     /**
-     * Delete any current parameters from the whole-system and resource-specific parameter tables
-     * for the given resourcetype and logical_resource_id
-     * @param conn
-     * @param tablePrefix
-     * @param v_logical_resource_id
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTables(Connection conn, String tablePrefix, long v_logical_resource_id) throws SQLException {
-        deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_profiles", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_tags", v_logical_resource_id);
-        deleteFromParameterTable(conn, tablePrefix + "_security", v_logical_resource_id);
-
-        // delete any system level parameters we have for this resource
-        deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
-        deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
-        deleteFromParameterTable(conn, "logical_resource_profiles", v_logical_resource_id);
-        deleteFromParameterTable(conn, "logical_resource_tags", v_logical_resource_id);
-        deleteFromParameterTable(conn, "logical_resource_security", v_logical_resource_id);
-    }
-
-    /**
      * Delete all parameters for the given resourceId from the named parameter value table
      * @param conn
      * @param tableName
@@ -869,7 +841,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             FHIRPersistenceDBConnectException {
         final String METHODNAME = "searchWholeSystem";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         Map<Integer, List<Long>> resultMap = new HashMap<>();
         Connection connection = getConnection(); // do not close
         ResultSet resultSet = null;
@@ -883,7 +855,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Successfully retrieved logical resource Ids [took " + dbCallDuration + " ms]");
             }
-            
+
             // Transform the resultSet into a map of resource type IDs to logical resource IDs
             while (resultSet.next()) {
                 Integer resourceTypeId = resultSet.getInt(1);
@@ -897,7 +869,7 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-        
+
         return resultMap;
     }
 }

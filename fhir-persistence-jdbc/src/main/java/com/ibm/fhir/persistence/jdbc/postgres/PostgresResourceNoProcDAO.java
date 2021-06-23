@@ -41,6 +41,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -338,7 +339,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
 
             // existing resource, so need to delete all its parameters
             if (currentHash == null || currentHash.isEmpty() || !currentHash.equals(parameterHashB64)) {
-                deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
+                ParameterTableSupport.deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
             }
 
             // For schema V0014, now we also need to update the is_deleted and last_updated values
