@@ -305,9 +305,15 @@ public class EraseResourceDAO extends ResourceDAOImpl {
         deleteFromParameterTable(tablePrefix + "_latlng_values", logicalResourceId);
         deleteFromParameterTable(tablePrefix + "_resource_token_refs", logicalResourceId);
         deleteFromParameterTable(tablePrefix + "_quantity_values", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_profiles", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_tags", logicalResourceId);
+        deleteFromParameterTable(tablePrefix + "_security", logicalResourceId);
         deleteFromParameterTable("str_values", logicalResourceId);
         deleteFromParameterTable("date_values", logicalResourceId);
         deleteFromParameterTable("resource_token_refs", logicalResourceId);
+        deleteFromParameterTable("logical_resource_profiles", logicalResourceId);
+        deleteFromParameterTable("logical_resource_tags", logicalResourceId);
+        deleteFromParameterTable("logical_resource_security", logicalResourceId);
         LOG.exiting(CLASSNAME, method);
     }
 

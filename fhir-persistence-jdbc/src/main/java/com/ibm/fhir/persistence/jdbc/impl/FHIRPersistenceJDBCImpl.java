@@ -654,14 +654,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code for whole-system searches which are not yet supported
-        // by the new code.
-        if (isSystemLevelSearch(resourceType) || !this.optQueryBuilderEnabled) {
-            // New query builder doesn't support system-level search at this point, so route
-            // to the old way.
+        // Fall back to the old search code if new query builder has been disabled.
+        if (!this.optQueryBuilderEnabled) {
             return oldSearch(context, resourceType);
         } else {
-            // non-system-level search and the new query builder hasn't been disabled (it is enabled by default)
+            // new query builder hasn't been disabled (it is enabled by default)
             return newSearch(context, resourceType);
         }
     }
@@ -756,7 +753,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // path than other sorted searches. Since _include and _revinclude are not supported
                 // with system-level search, no special logic to handle it differently is needed here.
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
-                if (searchContext.hasSortParameters() && !resourceType.equals(Resource.class)) {
+                if (isSystemLevelSearch(resourceType)) {
+                    // If search parameters were specified other than those whose values get indexed
+                    // in global values tables, then we will execute the old-style UNION'd query that
+                    // was built. Otherwise, we need to execute the new whole-system filter query and
+                    // then build and execute the new whole-system data query.
+                    if (!allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
+                        resourceDTOList = resourceDao.search(query);
+                    } else {
+                        Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
+                        Select wholeSystemDataQuery = queryBuilder.buildWholeSystemDataQuery(searchContext,
+                                resourceTypeIdToLogicalResourceIdMap);
+                        resourceDTOList = resourceDao.search(wholeSystemDataQuery);
+                    }
+                } else if (searchContext.hasSortParameters()) {
                     resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
                 } else {
                     resourceDTOList = resourceDao.search(query);
@@ -1322,7 +1332,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return includeDTOs;
     }
-
+    
     /**
      * @return true if this instance represents a FHIR system level search
      */
@@ -2745,4 +2755,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return eraseRecord;
     }
+
+    private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
+        for (QueryParameter queryParm : queryParms) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

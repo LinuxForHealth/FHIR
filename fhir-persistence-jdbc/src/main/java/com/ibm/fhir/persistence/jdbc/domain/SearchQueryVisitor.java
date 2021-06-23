@@ -77,6 +77,27 @@ public interface SearchQueryVisitor<T> {
     T sortRoot(String rootResourceType);
 
     /**
+     * The root of the FHIR whole-system filter search query
+     * @return
+     */
+    T wholeSystemFilterRoot();
+
+    /**
+     * The root of the FHIR whole-system data search query
+     * @param rootResourceType
+     * @return
+     */
+    T wholeSystemDataRoot(String rootResourceType);
+
+    /**
+     * The wrapper for whole-system search
+     * @param queries
+     * @param isCountQuery
+     * @return
+     */
+    T wrapWholeSystem(List<T> queries, boolean isCountQuery);
+        
+    /**
      * Filter the query using the given parameter id and token value
      * @param query
      * @param resourceType
@@ -95,6 +116,16 @@ public interface SearchQueryVisitor<T> {
      * @throws FHIRPersistenceException
      */
     T addTagParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
+
+    /**
+     * Filter the query using the given security query parameter
+     * @param query
+     * @param resourceType
+     * @param queryParm
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    T addSecurityParam(T query, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException;
 
     /**
      * Filter the query using the given string parameter
@@ -212,6 +243,15 @@ public interface SearchQueryVisitor<T> {
     T addSorting(T query, String lrAlias);
 
     /**
+     * Add sorting (order by) for whole-system search to the query
+     * @param query
+     * @param sortParms
+     * @param lrAlias
+     * @return
+     */
+    T addWholeSystemSorting(T query, List<DomainSortParameter> sortParms, String lrAlias);
+
+    /**
      * Add pagination (LIMIT/OFFSET) to the query
      * @param query
      * @return
@@ -264,6 +304,21 @@ public interface SearchQueryVisitor<T> {
      * @return
      */
     T addRevIncludeFilter(T query, InclusionParameter inclusionParm, List<Long> logicalResourceIds) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param resourceType
+     * @param logicalResourceIds
+     * @return
+     */
+    T addWholeSystemDataFilter(T query, String resourceType, List<Long> logicalResourceIds) throws FHIRPersistenceException;
+
+    /**
+     * @param query
+     * @param resourceTypeIds
+     * @return
+     */
+    T addWholeSystemResourceTypeFilter(T query, List<Integer> resourceTypeIds) throws FHIRPersistenceException;
 
     /**
      * Add the given sort parameter to the sort query

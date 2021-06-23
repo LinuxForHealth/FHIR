@@ -863,4 +863,41 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.executeUpdate();
         }
     }
+
+    @Override
+    public Map<Integer, List<Long>> searchWholeSystem(Select wholeSystemQuery) throws FHIRPersistenceDataAccessException,
+            FHIRPersistenceDBConnectException {
+        final String METHODNAME = "searchWholeSystem";
+        log.entering(CLASSNAME, METHODNAME);
+        
+        Map<Integer, List<Long>> resultMap = new HashMap<>();
+        Connection connection = getConnection(); // do not close
+        ResultSet resultSet = null;
+        long dbCallStartTime;
+        double dbCallDuration;
+
+        try (PreparedStatement stmt = QueryUtil.prepareSelect(connection, wholeSystemQuery, getTranslator())) {
+            dbCallStartTime = System.nanoTime();
+            resultSet = stmt.executeQuery();
+            dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Successfully retrieved logical resource Ids [took " + dbCallDuration + " ms]");
+            }
+            
+            // Transform the resultSet into a map of resource type IDs to logical resource IDs
+            while (resultSet.next()) {
+                Integer resourceTypeId = resultSet.getInt(1);
+                Long logicalResourceId = resultSet.getLong(2);
+                resultMap.computeIfAbsent(resourceTypeId, k -> new ArrayList<>()).add(logicalResourceId);
+            }
+        } catch (Throwable e) {
+            FHIRPersistenceDataAccessException fx = new FHIRPersistenceDataAccessException("Failure retrieving logical resource Ids");
+            final String errMsg = "Failure retrieving logical resource Ids. SqlQueryData=" + wholeSystemQuery.toDebugString();
+            throw severe(log, fx, errMsg, e);
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+        
+        return resultMap;
+    }
 }
