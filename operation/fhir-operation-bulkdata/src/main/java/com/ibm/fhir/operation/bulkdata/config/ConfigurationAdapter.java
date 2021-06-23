@@ -382,14 +382,6 @@ public interface ConfigurationAdapter {
      * @param provider
      * @return
      */
-    @Deprecated
-    boolean isStorageProviderExportPublic(String provider);
-
-    /**
-     *
-     * @param provider
-     * @return
-     */
     boolean shouldStorageProviderCollectOperationOutcomes(String provider);
 
     /**

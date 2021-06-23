@@ -1363,9 +1363,9 @@ For more information about Liberty JavaBatch configuration, please refer to [IBM
 
 For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
 
-With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json. 
+With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json.
 
-There are three critical elements in the configuration to configure path style: 
+There are three critical elements in the configuration to configure path style:
 
 |Configuration|Details|
 |-------------|-------|
@@ -1373,7 +1373,7 @@ There are three critical elements in the configuration to configure path style:
 |`endpointExternal`|the endpoint url used to generate the downloadUrl used in S3 Export|
 |`accessType`|"path", the default access type|
 
-Example of `path` based access: 
+Example of `path` based access:
 
 ``` json
 "bulkdata": {
@@ -1392,7 +1392,6 @@ Example of `path` based access:
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
@@ -1404,9 +1403,9 @@ Example of `path` based access:
 }
 ```
 
-With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API. 
+With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API.
 
-There are three critical elements in the configuration to configure virtual host style: 
+There are three critical elements in the configuration to configure virtual host style:
 
 |Configuration|Details|
 |-------------|-------|
@@ -1416,7 +1415,7 @@ There are three critical elements in the configuration to configure virtual host
 
 Note, while the endpointInternal is specified with the S3 region endpoint, the calls to the API will use the virtual host directly.
 
-Example of `host` based access: 
+Example of `host` based access:
 
 ``` json
 "bulkdata": {
@@ -1435,7 +1434,6 @@ Example of `host` based access:
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
