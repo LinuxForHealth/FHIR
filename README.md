@@ -17,27 +17,27 @@ Each of the IBM FHIR Server modules are published to Maven Central under [com.ib
 
 To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
-    ```
+```
+...
+<dependencies>
+    <dependency>
+      <groupId>com.ibm.fhir</groupId>
+      <artifactId>fhir-model</artifactId>
+      <version>${fhir.version}</version>
+    </dependency>
     ...
-    <dependencies>
-        <dependency>
-          <groupId>com.ibm.fhir</groupId>
-          <artifactId>fhir-model</artifactId>
-          <version>${fhir.version}</version>
-        </dependency>
-        ...
-    ```
+```
 
 Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
 
-    ```
-    <repositories>
-        <repository>
-            <id>ibm-fhir</id>
-            <url>https://myhost.com/ibm-fhir-server-releases</url>
-        </repository>
-        ...
-    ```
+```
+<repositories>
+    <repository>
+        <id>ibm-fhir</id>
+        <url>https://myhost.com/ibm-fhir-server-releases</url>
+    </repository>
+    ...
+```
 
 For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/IBM/FHIR/releases) in an archived Maven repository format.
 
