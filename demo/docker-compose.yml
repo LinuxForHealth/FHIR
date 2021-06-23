@@ -5,15 +5,10 @@ services:
       context: postgres
       dockerfile: Dockerfile
     shm_size: 256MB
-    tty: true
-    stdin_open: true
-    hostname: postgres-db
     volumes:
       - type: bind
         source: ./postgres/db
         target: /db
-    # Stop Grace Period - 30 seconds
-    stop_grace_period: 30s
     sysctls:
       net.core.somaxconn: 256
       net.ipv4.tcp_syncookies: 0
@@ -21,9 +16,9 @@ services:
       kernel.shmmax: 1055092736
       kernel.shmall: 257591
     privileged: true
-    command: tail -f /dev/null
     environment:
       PG_TRUST_LOCALNET: 'true'
+    command: tail -f /dev/null
     healthcheck:
       start_period: 21s
       test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
@@ -57,6 +52,9 @@ services:
       - type: bind
         source: ./bulkdata
         target: /output/bulkdata
+    environment:
+        TRACE_SPEC: "com.ibm.fhir.*=FINE"
+        TRACE_FILE: "stdout"
     command: bash -c "
       java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
         --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
