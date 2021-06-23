@@ -90,11 +90,11 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
                     "LR.LOGICAL_ID = ? AND R.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID AND R.VERSION_ID = ?";
 
     // @formatter:off
-    //                                                                                 0
-    //                                                                                 1 2 3 4 5 6 7 8
+    //                                                                                 0                 1
+    //                                                                                 1 2 3 4 5 6 7 8 9 0
     // @formatter:on
     // Don't forget that we must account for IN and OUT parameters.
-    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?)";
+    private static final String SQL_INSERT_WITH_PARAMETERS = "CALL %s.add_any_resource(?,?,?,?,?,?,?,?,?,?)";
 
     // Read version history of the resource identified by its logical-id
     private static final String SQL_HISTORY =
@@ -585,15 +585,18 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
             stmt.setTimestamp(4, lastUpdated, UTC);
             stmt.setString(5, resource.isDeleted() ? "Y": "N");
             stmt.setInt(6, resource.getVersionId());
-            stmt.registerOutParameter(7, Types.BIGINT);
-            stmt.registerOutParameter(8, Types.BIGINT);
+            stmt.setString(7, parameterHashB64);
+            stmt.registerOutParameter(8, Types.BIGINT);  // logical_resource_id
+            stmt.registerOutParameter(9, Types.BIGINT);  // resource_id
+            stmt.registerOutParameter(10, Types.VARCHAR); // current_hash
 
             stmt.execute();
             long latestTime = System.nanoTime();
             double dbCallDuration = (latestTime-dbCallStartTime)/1e6;
 
-            resource.setId(stmt.getLong(7));
-            long versionedResourceRowId = stmt.getLong(8);
+            resource.setId(stmt.getLong(8));
+            long versionedResourceRowId = stmt.getLong(9);
+            String currentHash = stmt.getString(10);
             if (large) {
                 String largeStmtString = String.format(LARGE_BLOB, resource.getResourceType());
                 try (PreparedStatement ps = connection.prepareStatement(largeStmtString)) {
@@ -613,8 +616,10 @@ public class ResourceDAOImpl extends FHIRDbDAOImpl implements ResourceDAO {
 
             // Parameter time
             // TODO FHIR_ADMIN schema name needs to come from the configuration/context
+            // We can skip the parameter insert if we've been given parameterHashB64 and
+            // it matches the current value just returned by the stored procedure call
             long paramInsertStartTime = latestTime;
-            if (parameters != null) {
+            if (parameters != null && (parameterHashB64 == null || !parameterHashB64.equals(currentHash))) {
                 JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(cache, this, parameterDao, getResourceReferenceDAO());
                 try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", resource.getResourceType(), true,
                     resource.getId(), 100, identityCache, resourceReferenceDAO, this.transactionData)) {
