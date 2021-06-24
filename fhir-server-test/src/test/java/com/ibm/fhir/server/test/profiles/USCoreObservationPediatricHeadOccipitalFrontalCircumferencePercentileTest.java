@@ -30,9 +30,9 @@ import com.ibm.fhir.model.test.TestUtil;
 
 /**
  * Tests the US Core 3.1.1 Profile with Observation on Vital Signs
- * 
+ *
  * https://www.hl7.org/fhir/us/core/StructureDefinition-head-occipital-frontal-circumference-percentile.html
- * 
+ *
  * using https://www.hl7.org/fhir/us/core/vitals-search.html as a guide
  */
 public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercentileTest extends ProfilesTestBase {
@@ -130,7 +130,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCode() throws Exception {
         // SHALL support searching using the combination of the patient and code search parameters:
@@ -140,7 +140,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/infant-example");
-            parameters.searchParam("code", "|8289-1");
+            parameters.searchParam("code", "8289-1");
             FHIRResponse response = client.search(Observation.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -149,7 +149,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCodeAndSystem() throws Exception {
         // SHALL support searching using the combination of the patient and code search parameters:
@@ -168,7 +168,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCategoryAndDate() throws Exception {
         // SHALL support searching using the combination of the patient and category and date search parameters:
@@ -189,7 +189,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCategoryAndStatus() throws Exception {
         // SHOULD support searching using the combination of the patient and category and status search parameters:
@@ -209,7 +209,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCodeAndDate() throws Exception {
         // SHOULD support searching using the combination of the patient and code and date search parameters:
@@ -231,7 +231,7 @@ public class USCoreObservationPediatricHeadOccipitalFrontalCircumferencePercenti
             assertContainsIds(bundle, observationId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCodeAndBadDate() throws Exception {
         // SHOULD support searching using the combination of the patient and code and date search parameters:

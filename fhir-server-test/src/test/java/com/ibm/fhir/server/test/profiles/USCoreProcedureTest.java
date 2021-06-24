@@ -215,7 +215,7 @@ public class USCoreProcedureTest extends ProfilesTestBase {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
             parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "|HZ30ZZZ");
+            parameters.searchParam("code", "HZ30ZZZ");
             FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -238,7 +238,7 @@ public class USCoreProcedureTest extends ProfilesTestBase {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
             parameters.searchParam("date", "2002,2019");
-            parameters.searchParam("code", "|HZ30ZZZ,http://www.ama-assn.org/go/cpt|33249");
+            parameters.searchParam("code", "HZ30ZZZ,http://www.ama-assn.org/go/cpt|33249");
             FHIRResponse response = client.search(Procedure.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
