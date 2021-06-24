@@ -289,7 +289,7 @@ public class ChunkWriter extends AbstractItemWriter {
      */
     public OperationOutcome conditionalFingerprintUpdate(ImportTransientUserData chunkData, boolean skip, Map<String, SaltHash> localCache, FHIRPersistence persistence, FHIRPersistenceContext context, String logicalId, Resource resource) throws FHIRPersistenceException {
         OperationOutcome oo;
-        if (!skip) {
+        if (skip) {
             // Key is scoped to the ResourceType.
             String key = resourceType + "/" + logicalId;
             SaltHash oldBaseLine = localCache.get(key);
