@@ -18,15 +18,7 @@ spec:
         app: {{ template "name" . }}
         release: {{ .Release.Name }}
     spec:
-      imagePullSecrets:
-        - name: {{ .Values.image.pullSecret }}
       volumes:
-        - name: binding
-          secret:
-            secretName: binding-postgres-fhir1
-            items:
-              - key: binding
-                path: postgres-binding.json
         - name: fhir-server-config
           configMap:
             name: fhir-server-config
@@ -40,18 +32,11 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           volumeMounts:
-            - name: binding
-              mountPath: "/iks"
-              readOnly: true
             - name: fhir-server-config
-              mountPath: /opt/ol/wlp/usr/servers/fhir-server/config/default
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - bash
-                  - -c
-                  - "jq -r '.connection.postgres.certificate.certificate_base64' /iks/postgres-binding.json | base64 -d > /opt/ol/wlp/usr/servers/fhir-server/resources/security/postgres.cert"
+              mountPath: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides/datasources.xml
+              subPath: datasources.xml
+            - name: fhir-server-config
+              mountPath: /opt/ol/wlp/usr/servers/defaultServer/config/default
           env:
             - name: MY_POD_NAME
               valueFrom:
@@ -73,66 +58,79 @@ spec:
               value: message,trace,accessLog,ffdc,audit
             - name: WLP_LOGGING_JSON_FIELD_MAPPINGS
               value: loglevel:level
-            - name: BATCH_DB_HOSTNAME
-              valueFrom:
-                secretKeyRef:
-                  key: hostname
-                  name: bulkdata-db
-            - name: BATCH_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  key: port
-                  name: bulkdata-db
-            - name: BATCH_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  key: database
-                  name: bulkdata-db
-            - name: BATCH_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  key: username
-                  name: bulkdata-db
-            - name: BATCH_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  key: password
-                  name: bulkdata-db
             - name: FHIR_DB_HOSTNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.configSecret }}
-                  key: hostname
+              value: "{{ .Values.db.host }}"
             - name: FHIR_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.configSecret }}
-                  key: port
+              value: "{{ .Values.db.port }}"
             - name: FHIR_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.configSecret }}
-                  key: database
+              value: "{{ .Values.db.name }}"
             - name: FHIR_DB_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.db.configSecret }}
-                  key: username
+              value: "{{ .Values.db.username }}"
             - name: FHIR_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.db.configSecret }}
-                  key: password
+                  name: {{ .Values.db.passwordSecret }}
+                  key: postgresql-password
             - name: FHIR_DB_SCHEMA
-              value: fhirdata
+              value: {{ .Values.db.schema }}
+            - name: DS_MIN_POOL_SIZE
+              value: "20"
+            - name: DS_MAX_POOL_SIZE
+              value: "100"
+            - name: DS_AGED_TIMEOUT
+              value: "-1"
+            - name: BATCH_DB_HOSTNAME
+              value: "{{ .Values.db.host }}"
+            - name: BATCH_DB_PORT
+              value: "{{ .Values.db.port }}"
+            - name: BATCH_DB_NAME
+              value: "{{ .Values.db.name }}"
+            - name: BATCH_DB_USER
+              value: "{{ .Values.db.username }}"
+            - name: BATCH_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.passwordSecret }}
+                  key: postgresql-password
+            - name: COS_LOCATION
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.location
+            - name: COS_ENDPOINT_INTERNAL
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.endpoint.url.internal
+            - name: COS_ENDPOINT_EXTERNAL
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.endpoint.url.external
+            - name: COS_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.access.key
+            - name: COS_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: object-storage-secret
+                  key: cos.secret.key
+            - name: COS_BUCKET
+              value: {{ .Values.objectStorage.bulkDataBucketName }}
+            - name: FHIR_USER_PASSWORD
+              value: {{ .Values.fhirUserPassword }}
+            - name: FHIR_ADMIN_PASSWORD
+              value: {{ .Values.fhirAdminPassword }}
           readinessProbe:
             httpGet:
               scheme: HTTPS
-              path: /fhir-server/api/v4/.well-known/smart-configuration
+              path: /fhir-server/api/v4/$healthcheck
               port: {{ .Values.service.internalPort }}
               httpHeaders:
-                - name: Accept
-                  value: application/json
+                - name: Authorization
+                  value: Basic {{ print "fhiruser:" .Values.fhirUserPassword | b64enc }}
             initialDelaySeconds: 36
             periodSeconds: 10
             timeoutSeconds: 4
@@ -141,7 +139,7 @@ spec:
               command:
               - bash
               - -c
-              - "/opt/ol/wlp/bin/server status fhir-server && ls -R /opt/ol/wlp/usr/servers/fhir-server/config/"
+              - "/opt/ol/wlp/bin/server status"
             initialDelaySeconds: 32
             periodSeconds: 10
       dnsPolicy: ClusterFirst

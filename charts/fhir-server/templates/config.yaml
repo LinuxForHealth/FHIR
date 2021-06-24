@@ -1,0 +1,212 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fhir-server-config
+data:
+  datasources.xml: >
+    {{- if eq .Values.db.type "db2" }}
+    TODO
+    {{- else }}
+    <server>
+      <!-- ============================================================== -->
+      <!-- TENANT: default; DSID: default; TYPE: read-write               -->
+      <!-- ============================================================== -->
+      <dataSource id="fhirDefaultDefault" jndiName="jdbc/fhir_default_default" type="javax.sql.XADataSource" statementCacheSize="200" syncQueryTimeoutWithTransactionTimeout="true" validationTimeout="30s">
+        <jdbcDriver javax.sql.XADataSource="org.postgresql.xa.PGXADataSource" libraryRef="sharedLibPostgres"/>
+        <properties.postgresql
+            serverName="${env.FHIR_DB_HOSTNAME}"
+            portNumber="${env.FHIR_DB_PORT}"
+            {{- if .Values.db.enableTls }}
+            ssl="true"
+            sslmode="verify-full"
+            sslrootcert="/opt/ol/wlp/usr/servers/defaultServer/resources/security/postgres.cert"
+            {{- end }}
+            databaseName="${env.FHIR_DB_NAME}"
+            user="${env.FHIR_DB_USERNAME}"
+            password="${env.FHIR_DB_PASSWORD}"
+            currentSchema="${env.FHIR_DB_SCHEMA}"
+        />
+        <connectionManager
+            minPoolSize="${env.DS_MIN_POOL_SIZE}"
+            maxPoolSize="${env.DS_MAX_POOL_SIZE}"
+            agedTimeout="${env.DS_AGED_TIMEOUT}"
+            connectionTimeout="60s"
+            maxIdleTime="2m"
+        />
+      </dataSource>
+    </server>
+    {{- end }}
+  extension-search-parameters.json: >
+    {
+      "resourceType": "Bundle",
+      "id": "searchParams",
+      "meta": {
+        "lastUpdated": "2018-12-27T22:37:54.724+11:00"
+      },
+      "type": "collection",
+      "entry": []
+    }
+  fhir-server-config.json: >
+    {
+      "__comment": "config for the externally-visible fhir deployment",
+      "fhirServer": {
+        "core": {
+          "tenantIdHeaderName": "X-FHIR-TENANT-ID",
+          "datastoreIdHeaderName": "X-FHIR-DSID",
+          "checkReferenceTypes": true,
+          "conditionalDeleteMaxNumber": 1,
+          "defaultPrettyPrint": true,
+          "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
+          "serverRegistryResourceProviderEnabled": false
+        },
+        "resources": {
+          "open": true,
+          "Resource": {
+            "interactions": ["read", "vread", "history", "search"]
+          }
+        },
+        "security": {
+          "cors": true,
+          "basic": {
+            "enabled": true
+          },
+          "certificates": {
+            "enabled": true,
+            "authFilter": {
+              "enabled": false
+            }
+          },
+          "oauth": {
+            "enabled": false,
+            "regUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/registration",
+            "authUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/authorize",
+            "tokenUrl": "https://<host>:9443/oauth2/endpoint/oauth2-provider/token",
+            "smart": {
+              "enabled": false,
+              "scopes": ["openid", "profile", "fhirUser", "launch/patient", "offline_access",
+                "patient/*.read",
+                "patient/AllergyIntolerance.read",
+                "patient/CarePlan.read",
+                "patient/CareTeam.read",
+                "patient/Condition.read",
+                "patient/Device.read",
+                "patient/DiagnosticReport.read",
+                "patient/DocumentReference.read",
+                "patient/Encounter.read",
+                "patient/ExplanationOfBenefit.read",
+                "patient/Goal.read",
+                "patient/Immunization.read",
+                "patient/Location.read",
+                "patient/Medication.read",
+                "patient/MedicationRequest.read",
+                "patient/Observation.read",
+                "patient/Organization.read",
+                "patient/Patient.read",
+                "patient/Practitioner.read",
+                "patient/PractitionerRole.read",
+                "patient/Procedure.read",
+                "patient/Provenance.read",
+                "patient/RelatedPerson.read"
+              ],
+              "capabilities": [
+                "sso-openid-connect",
+                "launch-standalone",
+                "client-public",
+                "client-confidential-symmetric",
+                "permission-offline",
+                "context-standalone-patient",
+                "permission-patient"
+              ]
+            }
+          }
+        },
+        {{- if not .Values.audit.enabled }}
+        "audit": {
+          "serviceClassName": "com.ibm.fhir.audit.logging.impl.DisabledAuditLogService"
+        },
+        {{- else }}
+        "audit": {
+          "serviceClassName" : "com.ibm.fhir.audit.impl.KafkaService",
+          "serviceProperties" : {
+              "load": "config",
+              "mapper": "{{ .Values.audit.type }}",
+              "auditTopic": "{{ .Values.audit.topic }}",
+              "geoCity": "{{ .Values.audit.geoCity }}",
+              "geoState": "{{ .Values.audit.geoState }}",
+              "geoCounty": "{{ .Values.audit.geoCountry }}",
+              "kafka" : {
+                  "bootstrap.servers": "{{ .Values.audit.kafka.bootstrapServers }}",
+                  "sasl.jaas.config": "{{ .Values.audit.kafka.saslJaasConfig }}",
+                  "sasl.mechanism": "{{ .Values.audit.kafka.saslMechanism }}",
+                  "security.protocol": "{{ .Values.audit.kafka.securityProtocol }}",
+                  "ssl.protocol": "{{ .Values.audit.kafka.sslProtocol }}",
+                  "ssl.enabled.protocols": "{{ .Values.audit.kafka.sslEnabledProtocols }}",
+                  "ssl.endpoint.identification.algorithm": "{{ .Values.audit.kafka.sslEndpointIdentificationAlgorithm }}"
+              },
+              "kafkaServers": "{{ .Values.audit.kafkaServers }}",
+              "kafkaApiKey": "{{ .Values.audit.kafkaApiKey }}"
+          }
+        },
+        {{- end }}
+        "persistence": {
+          "factoryClassname": "com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCFactory",
+          "common": {
+            "__comment": "Configuration properties common to all persistence layer implementations",
+            "updateCreateEnabled": true
+          },
+          "datasources": {
+            "default": {
+              "type": "postgresql",
+              "currentSchema": "${FHIR_DB_SCHEMA}"
+            }
+          },
+          "jdbc": {
+            "enableCodeSystemsCache": true,
+            "enableParameterNamesCache": true,
+            "enableResourceTypesCache": true
+          }
+        },
+        "bulkdata": {
+          {{- if not .Values.objectStorage.enabled }}
+          "enabled": false
+          {{- else }}
+          "enabled": true
+          "core": {
+            "api": {
+              "url": "https://localhost:9443/ibm/api/batch",
+              "user": "fhiradmin",
+              "password": "{{ .Values.fhirAdminPassword }}",
+              "truststore": "resources/security/fhirTrustStore.p12",
+              "truststorePassword": "change-password",
+              "trustAll": true
+            },
+            "cos" : {
+              "partUploadTriggerSizeMB": 10,
+              "objectSizeThresholdMB": 200,
+              "objectResourceCountThreshold": 200000,
+              "useServerTruststore": true
+            },
+            "pageSize": 100,
+            "batchIdEncryptionKey": "change-password",
+            "maxPartitions": 3,
+            "maxInputs": 5
+          },
+          "storageProviders": {
+            "default" : {
+              "type": "ibm-cos",
+              "bucketName": "${COS_BUCKET}",
+              "location": "${COS_LOCATION}",
+              "endpointInternal": "${COS_ENDPOINT_INTERNAL}",
+              "endpointExternal": "${COS_ENDPOINT_EXTERNAL}",
+              "auth" : {
+                "type": "hmac",
+                "accessKeyId": "${COS_ACCESS_KEY}",
+                "secretAccessKey": "${COS_SECRET_KEY}"
+              },
+              "presigned": true
+            }
+          }
+          {{- end }}
+        }
+      }
+    }

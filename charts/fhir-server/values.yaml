@@ -1,0 +1,79 @@
+# Default values for chart.
+# Declare variables to be passed into your templates.
+replicaCount: 2
+ingestionReplicas: 3
+image:
+  repository: ibmcom/ibm-fhir-server
+  tag: "4.8.3"
+  pullPolicy: Always
+  # for local development against Minikube registry
+  #pullPolicy: Never
+  pullSecret: all-icr-io
+db:
+  type: postgresql
+  host: postgres-postgresql
+  port: 5432
+  enableTls: false
+  name: postgres
+  username: postgres
+  passwordSecret: postgres-postgresql
+  schema: fhirdata
+schemaMigration:
+  enabled: true
+  image:
+    repository: ibmcom/ibm-fhir-schematool
+    tag: "4.8.3"
+    pullPolicy: Always
+    pullSecret: all-icr-io
+fhirUserPassword: change-password
+fhirAdminPassword: change-password
+audit:
+  enabled: false
+  kafkaServers:
+  kafkaApiKey:
+  # -- Kafka connection properties
+  kafka:
+    bootstrapServers:
+    saslMechanism: PLAIN
+    saslJaasConfig:
+    securityProtocol: SASL_SSL
+    sslEnabledProtocols: TLSv1.2
+    sslProtocol: TLSv1.2
+    sslEndpointIdentificationAlgorithm: HTTPS
+  # -- The target Kafka topic for audit events
+  topic: FHIR_AUDIT_DEV
+  # -- `cadf` or `auditevent`
+  type: auditevent
+  # -- The city where the server is running
+  geoCity:
+  # -- The state where the server is running
+  geoState:
+  # -- The country where the server is running
+  geoCountry:
+objectStorage:
+  enabled: false
+  location:
+  endpointUrl:
+  accessKey:
+  secretKey:
+  # -- Bucket names must be globally unique
+  bulkdataBucketName:
+  batchIdEncryptionKey:
+service:
+  internalPort: 9443
+hostname: &host cluster1-blue-250babbbe4c3000e15508cd07c1d282b-0000.us-east.containers.appdomain.cloud
+ingress:
+  enabled: true
+  hosts:
+    - *host
+  tls:
+    - secretName: cluster1-blue-250babbbe4c3000e15508cd07c1d282b-0000
+      hosts:
+        - *host
+resources:
+  requests:
+    memory: "4Gi"
+    ephemeral-storage: "1Gi"
+  limits:
+    memory: "5Gi"
+    ephemeral-storage: "1Gi"

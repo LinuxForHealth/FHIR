@@ -1,0 +1,70 @@
+{{- if .Values.schemaMigration.enabled -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ .Release.Name }}-create-schemas"
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": pre-install,pre-upgrade
+    # Hook weights can be positive or negative numbers but must be represented as strings.
+    # When Helm starts the execution cycle of hooks of a particular Kind it will sort those hooks in ascending order.
+    # So make sure this number is lower than the update-schemas weight.
+    "helm.sh/hook-weight": "1"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}-schematool"
+    spec:
+      restartPolicy: Never
+      imagePullSecrets:
+        - name: {{ .Values.schemaMigration.image.pullSecret }}
+      containers:
+        - name: fhir-schematool
+          image: {{ .Values.schemaMigration.image.repository }}:{{ .Values.schemaMigration.image.tag }}
+          env:
+            - name: FHIR_DB_HOSTNAME
+              value: "{{ .Values.db.type }}"
+            - name: FHIR_DB_HOSTNAME
+              value: "{{ .Values.db.host }}"
+            - name: FHIR_DB_PORT
+              value: "{{ .Values.db.port }}"
+            - name: FHIR_DB_NAME
+              value: "{{ .Values.db.name }}"
+            - name: FHIR_DB_USERNAME
+              value: "{{ .Values.db.username }}"
+            - name: FHIR_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.passwordSecret }}
+                  key: postgresql-password
+            - name: FHIR_DB_SCHEMA
+              value: {{ .Values.db.schema }}
+          command:
+            - bash
+            - -c
+            - /opt/java/openjdk/bin/java -jar /opt/schematool/fhir-persistence-schema-*-cli.jar
+              --db-type {{ .Values.db.type }}
+              --prop db.host={{ .Values.db.host }}
+              --prop db.port={{ .Values.db.port }}
+              --prop db.database={{ .Values.db.name }}
+              --prop user={{ .Values.db.username }}
+              --prop password=${FHIR_DB_PASSWORD}
+              {{- if .Values.db.enableTls }}
+              {{- if eq .Values.db.type "db2" }}
+              --prop sslConnection=true
+              {{- else }}
+              --prop ssl=true
+              --prop sslmode=verify-full
+              --prop sslrootcert=/opt/schematool/workarea/db.cert
+              {{- end }}
+              {{- end }}
+              --schema-name {{ .Values.db.schema }}
+              --create-schemas
+  backoffLimit: 4
+{{- end }}
