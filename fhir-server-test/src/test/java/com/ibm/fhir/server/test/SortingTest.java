@@ -57,7 +57,7 @@ import com.ibm.fhir.model.util.JsonSupport;
 
 public class SortingTest extends FHIRServerTestBase {
 
-    private static final boolean DEBUG_SEARCH = false;
+    private static final boolean DEBUG_SEARCH = true;
 
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
