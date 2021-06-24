@@ -28,6 +28,7 @@ The JMeter listeners added are standard JMeter listeners.  Feel free to add your
 
 Here is a list of searches that make up the JMeter test plan. All data references are mock data.
 
+```
 [base]/ExplanationOfBenefit?patient=Patient/id-abc-123&created=ge2001&created=lt2023&_sort=-created&_count=10
 [base]/ExplanationOfBenefit?patient=Patient/id-abc-123&created=ge2001&created=lt2021&_include=ExplanationOfBenefit:patient&_include=ExplanationOfBenefit:provider&_include=ExplanationOfBenefit:care-team&_include=ExplanationOfBenefit:coverage
 [base]/ExplanationOfBenefit?patient=Patient/id-abc-123&created=ge2001&created=lt2021&_include=ExplanationOfBenefit:patient&_include=ExplanationOfBenefit:provider&_include=ExplanationOfBenefit:care-team&_include=ExplanationOfBenefit:coverage&_include=ExplanationOfBenefit:facility&_include=ExplanationOfBenefit:claim&_include=ExplanationOfBenefit:payee&_include=ExplanationOfBenefit:enterer&_include=ExplanationOfBenefit:encounter
@@ -182,3 +183,4 @@ Here is a list of searches that make up the JMeter test plan. All data reference
 [base]/Patient/id-abc-123/CareTeam?status=inactive&_include=CareTeam:encounter&_revinclude=CarePlan:care-team&participant:Practitioner.gender=male&_total=none&_include=CareTeam:subject:Patient&_include=CareTeam:participant:Organization&_summary=true
 [base]/ExplanationOfBenefit?patient=Patient/id-abc-123&created=ge2001&created=lt2021&_include=ExplanationOfBenefit:patient&_include=ExplanationOfBenefit:provider&_include=ExplanationOfBenefit:care-team&_include=ExplanationOfBenefit:coverage&_include:iterate=Coverage:*
 [base]/Patient/id-abc-123/ExplanationOfBenefit?created=ge2001&created=lt2021&_include=ExplanationOfBenefit:*&_include:iterate=Organization:*&_include:iterate=Device:*&_include:iterate=Location:*&_include:iterate=Patient:*&_count=1
+```
