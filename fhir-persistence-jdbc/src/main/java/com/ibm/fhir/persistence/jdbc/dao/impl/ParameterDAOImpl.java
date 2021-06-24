@@ -14,8 +14,8 @@ import java.util.logging.Logger;
 
 import javax.transaction.TransactionSynchronizationRegistry;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -318,7 +318,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
         try {
             if (myCodeSystemName == null || myCodeSystemName.isEmpty()) {
-                myCodeSystemName = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
+                myCodeSystemName = FHIRConstants.DEFAULT_TOKEN_SYSTEM;
             }
             codeSystemId = getCodeSystemIdFromCaches(myCodeSystemName);
 

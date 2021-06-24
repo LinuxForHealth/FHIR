@@ -1,13 +1,13 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_TOKEN_VALUES tables.
@@ -32,17 +32,19 @@ public class TokenParmVal implements ExtractedParameterValue {
         return getResourceType() + "[" + getName() + ", " + getValueSystem() + ", " + getValueCode() + "]";
     }
 
+    @Override
     public void setName(String name) {
         this.name = name;
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
     public String getValueSystem() {
         if (valueSystem == null) {
-            return JDBCConstants.DEFAULT_TOKEN_SYSTEM;
+            return FHIRConstants.DEFAULT_TOKEN_SYSTEM;
         }
         return valueSystem;
     }
@@ -59,10 +61,12 @@ public class TokenParmVal implements ExtractedParameterValue {
         this.valueCode = valueCode;
     }
 
+    @Override
     public String getResourceType() {
         return resourceType;
     }
 
+    @Override
     public void setResourceType(String resourceType) {
         this.resourceType = resourceType;
     }
@@ -70,6 +74,7 @@ public class TokenParmVal implements ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
@@ -77,6 +82,7 @@ public class TokenParmVal implements ExtractedParameterValue {
     /**
      * @return the base
      */
+    @Override
     public String getBase() {
         return base;
     }
@@ -84,6 +90,7 @@ public class TokenParmVal implements ExtractedParameterValue {
     /**
      * @param base the base to set
      */
+    @Override
     public void setBase(String base) {
         this.base = base;
     }

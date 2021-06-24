@@ -1389,7 +1389,11 @@ public class SearchUtil {
                 } else if (Modifier.TEXT.equals(modifier)) {
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 } else if (parts.length == 2) {
-                    parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                    if (parts[0].isEmpty()) {
+                        parameterValue.setValueSystem(FHIRConstants.DEFAULT_TOKEN_SYSTEM);
+                    } else {
+                        parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
+                    }
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else if (parts.length == 1 && v.endsWith("|") && v.indexOf("|") == v.length()-1) {
                     // Only a system was specified (uri followed by a single '|')

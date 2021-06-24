@@ -8,8 +8,8 @@ package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.math.BigDecimal;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_QUANTITY_VALUES tables.
@@ -51,7 +51,7 @@ public class QuantityParmVal implements ExtractedParameterValue {
 
     public String getValueSystem() {
         if (valueSystem == null) {
-            return JDBCConstants.DEFAULT_TOKEN_SYSTEM;
+            return FHIRConstants.DEFAULT_TOKEN_SYSTEM;
         }
         return valueSystem;
     }

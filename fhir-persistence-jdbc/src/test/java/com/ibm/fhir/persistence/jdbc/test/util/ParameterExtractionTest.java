@@ -23,6 +23,7 @@ import java.util.TimeZone;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -56,7 +57,6 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
-import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
@@ -385,7 +385,7 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
         assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING + "a");
-        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(((TokenParmVal) params.get(2)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((TokenParmVal) params.get(2)).getValueCode(), "b");
         assertEquals(((TokenParmVal) params.get(2)).getValueSystem(), SAMPLE_URI);
@@ -394,10 +394,10 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(3)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(4)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
         assertEquals(((TokenParmVal) params.get(4)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING + "c");
-        assertEquals(((TokenParmVal) params.get(4)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(4)).getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(((TokenParmVal) params.get(5)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
         assertEquals(((TokenParmVal) params.get(5)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING);
-        assertEquals(((TokenParmVal) params.get(5)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(5)).getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
     }
 
     @Test
@@ -421,7 +421,7 @@ public class ParameterExtractionTest {
         assertEquals(((TokenParmVal) params.get(0)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.TEXT_MODIFIER_SUFFIX);
         assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_NORMALIZED_TEXT_STRING);
-        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
     }
 
     @Test
@@ -522,7 +522,7 @@ public class ParameterExtractionTest {
         assertEquals(tokenParmVal.getValueCode(), "codea");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
-        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
 
         cParmVal = (CompositeParmVal) params.get(2);
@@ -530,11 +530,11 @@ public class ParameterExtractionTest {
         assertEquals(cParmVal.getComponent().size(), 2, "Number of extracted components");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(0);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
-        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "codeb");
         tokenParmVal = (TokenParmVal) cParmVal.getComponent().get(1);
         assertEquals(tokenParmVal.getName(), SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
-        assertEquals(tokenParmVal.getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(tokenParmVal.getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(tokenParmVal.getValueCode(), "abc123");
     }
 
@@ -631,7 +631,7 @@ public class ParameterExtractionTest {
         List<ExtractedParameterValue> params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
         assertEquals(((QuantityParmVal) params.get(0)).getValueNumber().intValue(), 1);
-        assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), JDBCConstants.DEFAULT_TOKEN_SYSTEM);
+        assertEquals(((QuantityParmVal) params.get(0)).getValueSystem(), FHIRConstants.DEFAULT_TOKEN_SYSTEM);
         assertEquals(((QuantityParmVal) params.get(0)).getValueCode(), "");
     }
 

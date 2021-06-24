@@ -115,9 +115,6 @@ public class JDBCConstants {
     // Db2 optimization hints
     public static final String SEARCH_REOPT = "search.reopt";
 
-    // Default code_system_id value
-    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
-
     /**
      * Calendar object to use while inserting Timestamp objects into the database.
      */
