@@ -57,6 +57,8 @@ public class AzureProvider implements Provider {
 
     private static final byte[] NEWLINE = "\r\n".getBytes();
 
+    private static final int MAX_BLOCK_SIZE = 4194303;
+
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
 
@@ -186,20 +188,20 @@ public class AzureProvider implements Provider {
             aClient.create();
         }
 
-        byte[] payload = new byte[4194303];
-        int len = in.read(payload, 0, 4194303);
+        byte[] payload = new byte[MAX_BLOCK_SIZE];
+        int len = in.read(payload, 0, MAX_BLOCK_SIZE);
         while (len != -1) {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Start Loop with '" + len + "'");
             }
             byte[] tmpPayload = payload;
-            if (len < 4194303) {
+            if (len < MAX_BLOCK_SIZE) {
                 tmpPayload = Arrays.copyOfRange(payload, 0, len);
             }
             try (ByteArrayInputStream bais = new ByteArrayInputStream(tmpPayload)) {
                 aClient.appendBlock(bais, len);
             }
-            len = in.read(payload, 0, 4194303);
+            len = in.read(payload, 0, MAX_BLOCK_SIZE);
         }
         LOG.fine(() -> "Finished Loop");
 
@@ -222,8 +224,8 @@ public class AzureProvider implements Provider {
 
         byte[] baos = chunkData.getBufferStream().toByteArray();
         int current = 0;
-        for (int i = 0; i <= (Math.ceil(baos.length/4194303)); i++) {
-            int payloadLength = 4194303;
+        for (int i = 0; i <= (Math.ceil(baos.length/MAX_BLOCK_SIZE)); i++) {
+            int payloadLength = MAX_BLOCK_SIZE;
             if (payloadLength + current > baos.length) {
                 payloadLength = baos.length - current;
             }
