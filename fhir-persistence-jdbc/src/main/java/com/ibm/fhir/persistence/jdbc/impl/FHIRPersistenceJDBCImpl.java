@@ -77,7 +77,6 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.JsonSupport;
@@ -1332,7 +1331,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return includeDTOs;
     }
-    
+
     /**
      * @return true if this instance represents a FHIR system level search
      */
@@ -2117,17 +2116,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     private boolean isWholeSystem(SearchParameter sp) {
         boolean result = false;
 
-        // unfortunately we only get a list which means a linear search. Because we're only searching
-        // this once per parameter there's no point in making a Set first, because that would require
-        // a full pass through the list anyway
-        for (ResourceType rt: sp.getBase()) {
-            if ("Resource".equals(rt.getValue())) {
-                result = true;
-                break;
-            }
+        // Strip off any :text suffix before we check to see if this is in the
+        // whole-system search parameter list
+        String parameterName = sp.getCode().getValue();
+        if (parameterName.endsWith(SearchConstants.TEXT_MODIFIER_SUFFIX)) {
+            parameterName = parameterName.substring(0, parameterName.length() - SearchConstants.TEXT_MODIFIER_SUFFIX.length());
         }
 
-        return result;
+        return SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(parameterName);
     }
 
     /**
