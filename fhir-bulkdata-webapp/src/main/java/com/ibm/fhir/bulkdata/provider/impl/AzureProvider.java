@@ -359,7 +359,7 @@ public class AzureProvider implements Provider {
             line = reader.readLine();
 
             try (ByteArrayInputStream bais = new ByteArrayInputStream(compLine.getBytes())) {
-                LOG.fine(() -> "Azure Resource [R] " + compLine);
+                LOG.finer(() -> "Azure Resource [R] " + compLine);
                 resources.add(FHIRParser.parser(Format.JSON).parse(bais));
             } catch (FHIRParserException fpe) {
                 // We're on the last line, so there might be more
