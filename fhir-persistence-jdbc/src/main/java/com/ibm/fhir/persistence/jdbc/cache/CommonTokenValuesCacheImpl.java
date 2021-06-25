@@ -44,7 +44,9 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
     /**
      * Public constructor
-     * @param sharedExternalSystemNameCacheSize
+     * @param codeSystemCacheSize
+     * @param tokenValueCacheSize
+     * @param canonicalCacheSize
      */
     public CommonTokenValuesCacheImpl(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
 

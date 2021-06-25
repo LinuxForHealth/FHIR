@@ -65,14 +65,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
-    /**
-     * Inserts the passed FHIR Resource and associated search parameters to a postgresql FHIR database.
-     * @param resource The FHIR Resource to be inserted.
-     * @param parameters The Resource's search parameters to be inserted.
-     * @param parameterDao
-     * @return The Resource DTO
-     * @throws FHIRPersistenceException
-     */
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
@@ -186,6 +178,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     /**
      * Read the id for the named type
      * @param resourceTypeName
+     * @param conn
      * @return the database id, or null if the named record is not found
      * @throws SQLException
      */
@@ -208,6 +201,7 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
     /**
      * stored-procedure-less implementation for managing the resource_types table
      * @param resourceTypeName
+     * @param conn
      * @throw SQLException
      */
     public int getOrCreateResourceType(String resourceTypeName, Connection conn) throws SQLException {
@@ -233,7 +227,6 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
 
         return result;
     }
-
 
     @Override
     public Integer readResourceTypeId(String resourceType) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException  {
@@ -269,5 +262,4 @@ public class PostgresResourceDAO extends ResourceDAOImpl {
         }
         return resourceTypeId;
     }
-
 }

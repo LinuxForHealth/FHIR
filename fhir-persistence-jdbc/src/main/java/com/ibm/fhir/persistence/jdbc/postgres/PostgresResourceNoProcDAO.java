@@ -72,18 +72,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
-    /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
-     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
-     * by sql.
-     * @param resource The FHIR Resource to be inserted.
-     * @param parameters The Resource's search parameters to be inserted.
-     * @param parameterDao
-     * @return The Resource DTO
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException
-     */
     @Override
     public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
@@ -183,7 +171,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      *
      * Note the execution flow aligns very closely with the DB2 stored procedure
      * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
-     *
      * @param tablePrefix
      * @param parameters
      * @param p_logical_id
@@ -191,8 +178,10 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @param p_last_updated
      * @param p_is_deleted
      * @param p_source_key
-     * @param p_version the intended version for this resource
-     *
+     * @param p_version
+     * @param parameterHashB64
+     * @param conn
+     * @param parameterDao
      * @return the resource_id for the entry we created
      * @throws Exception
      */

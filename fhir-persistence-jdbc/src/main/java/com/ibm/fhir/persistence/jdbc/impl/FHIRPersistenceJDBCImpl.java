@@ -1996,7 +1996,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
                                     componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                    // componentParam.setBase(p.getBase()); TODO not needed?
                                     p.addComponent(componentParam);
                                 } else if (node.isSystemValue()){
                                     ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
@@ -2114,7 +2113,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * @return
      */
     private boolean isWholeSystem(SearchParameter sp) {
-        boolean result = false;
 
         // Strip off any :text suffix before we check to see if this is in the
         // whole-system search parameter list
@@ -2651,6 +2649,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * that have been accumulated during the transaction. This collection therefore
      * contains multiple resource types, which have to be processed separately.
      * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
+     * @throws FHIRPersistenceException
      */
     public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {

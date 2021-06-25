@@ -34,6 +34,8 @@ public class ResourceProfileRec extends ResourceRefRec {
      * @param resourceTypeId
      * @param logicalResourceId
      * @param canonicalValue
+     * @param version
+     * @param fragment
      * @param systemLevel
      */
     public ResourceProfileRec(int parameterNameId, String resourceType, long resourceTypeId, long logicalResourceId,

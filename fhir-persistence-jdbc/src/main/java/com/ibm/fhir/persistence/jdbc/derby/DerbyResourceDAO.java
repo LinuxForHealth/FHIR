@@ -197,8 +197,10 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
      * @param p_is_deleted
      * @param p_source_key
      * @param p_version
+     * @param p_parameterHashB64
+     * @param conn
+     * @param parameterDao
      * @param p_parameterHashB64 Base64 encoded parameter hash value
-     *
      * @return the resource_id for the entry we created
      * @throws Exception
      */
