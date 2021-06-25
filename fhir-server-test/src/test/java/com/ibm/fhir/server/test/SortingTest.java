@@ -662,7 +662,7 @@ public class SortingTest extends FHIRServerTestBase {
                 BigDecimal current = iter.next();
 
                 if (DEBUG_SEARCH) {
-                    System.out.println(prior + " " + current);
+                    System.out.println(prior + " " + current + " compare=" + (prior.compareTo(current) <= 0));
                 }
 
                 assertTrue(prior.compareTo(current) <= 0);
