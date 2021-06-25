@@ -707,7 +707,7 @@ public class FhirSchemaGenerator {
 
         final String tableName = LOGICAL_RESOURCE_SECURITY;
 
-        // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
+        // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0016.vid()) // table created at version V0016
                 .setTenantColumnName(MT_ID)

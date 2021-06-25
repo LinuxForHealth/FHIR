@@ -22,7 +22,7 @@ public abstract class ExtractedParameterValue {
     // The resource type associated with this parameter
     private String resourceType;
 
-    // The bass resource name
+    // The base resource name
     private String base;
 
     /**

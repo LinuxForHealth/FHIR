@@ -200,6 +200,12 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         return this.identityCache.getCodeSystemId(codeSystemName);
     }
 
+    /**
+     * Get the id for the given canonicalValue (cache lookup).
+     * @param canonicalValue
+     * @return the database id, or -1 if the value does not exist
+     * @throws FHIRPersistenceException
+     */
     protected int getCanonicalId(String canonicalValue) throws FHIRPersistenceException {
         return this.identityCache.getCanonicalId(canonicalValue);
     }
@@ -373,15 +379,15 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 FROM LOGICAL_RESOURCES AS LR0
                WHERE LR0.IS_DELETED = 'N'
                  AND EXISTS (
-              SELECT 1 
-                FROM LOGICAL_RESOURCES AS LR1 
+              SELECT 1
+                FROM LOGICAL_RESOURCES AS LR1
           INNER JOIN RESOURCE_TOKEN_REFS AS P2 ON P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
                  AND P2.PARAMETER_NAME_ID = 1008
                  AND ((P2.COMMON_TOKEN_VALUE_ID = 4))
                WHERE LR1.IS_DELETED = 'N'
                  AND LR1.LOGICAL_RESOURCE_ID = LR0.LOGICAL_RESOURCE_ID)
             ORDER BY LR0.LOGICAL_RESOURCE_ID
-         FETCH FIRST 10 ROWS ONLY 
+         FETCH FIRST 10 ROWS ONLY
          */
 
         final String lrAliasName = "LR0";
@@ -433,7 +439,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
            UNION ALL
                    <count-query-n>
                 ) AS COMBINED RESULTS
-           
+
            Final query should look something like this for a data query:
         SELECT RESOURCE_ID, LOGICAL_RESOURCE_ID, VERSION_ID, LAST_UPDATED, IS_DELETED, DATA, LOGICAL_ID
                 FROM (
@@ -446,7 +452,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                    <data-query-n>
                 ) AS COMBINED RESULTS
             ORDER BY COMBINED RESULTS.LOGICAL_RESOURCE_ID
-         FETCH FIRST 10 ROWS ONLY 
+         FETCH FIRST 10 ROWS ONLY
          */
         SelectAdapter select;
         if (isCountQuery) {
@@ -468,7 +474,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             previous = subSelect;
         }
         select.from(first.getSelect(), alias("COMBINED_RESULTS"));
-        
+
         return new QueryData(select, null, null, Resource.class.getSimpleName(), 0);
     }
 
@@ -871,7 +877,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
      */
     public String paramValuesTableName(String resourceType, QueryParameter queryParm) {
         boolean wholeSystemSearch = isWholeSystemSearch(resourceType);
-        
+
         StringBuilder name = new StringBuilder(wholeSystemSearch ? "" : resourceType + "_");
         switch (queryParm.getType()) {
         case URI:
@@ -1713,7 +1719,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         SelectAdapter exists = Select.select("1");
         exists.from(paramTableName, alias(paramAlias))
                 .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate with the main query
-        
+
         // Do not need PARAMETER_NAME_ID clause for _profile, _tag, or _security parameters since they have
         // their own tables.
         if (!PROFILE.equals(parameterName) && !SECURITY.equals(parameterName) && !TAG.equals(parameterName)) {
@@ -2204,7 +2210,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             query.from()
                 .innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias),
                     on(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(parameterTableAlias, "COMMON_TOKEN_VALUE_ID"));
-        } else {        
+        } else {
             query.from()
                 .leftOuterJoin(paramTable, alias(paramAlias),
                     on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")

@@ -68,7 +68,6 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -122,25 +121,6 @@ public class FhirResourceTableGroup {
     private static final String _RESOURCES = "_RESOURCES";
 
     private static final String ROW_ID = "ROW_ID";
-
-    // A set of resource type names for resources which can be addressed using a
-    // canonical reference (and therefore should have a url attribute and optional version
-    // TODO do we need to do this?
-    private static final Set<String> CANONICAL_RESOURCE_NAMES = new HashSet<>(Arrays.asList(
-        "CapabilityStatement",
-        "CodeSystem",
-        "CompartmentDefinition",
-        "ConceptMap",
-        "GraphDefinition",
-        "ImplementationGuide",
-        "MessageDefinition",
-        "OperationDefinition",
-        "SearchParameter",
-        "StructureDefinition",
-        "StructureMap",
-        "TerminologyCapabilities",
-        "ValueSet"
-     ));
 
     /**
      * Public constructor
@@ -271,8 +251,6 @@ public class FhirResourceTableGroup {
      * V0010: IS_DELETED is added to each xxx_LOGICAL_RESOURCES.
      * V0011: LAST_UPDATED is added to each xxx_LOGICAL_RESOURCES.
      * V0012: VERSION_ID is added to each xxx_LOGICAL_RESOURCES.
-     * V0014: CANONICAL_ID is added to each xxx_LOGICAL_RESOURCES.
-     *        VERSION is added to each xxx_LOGICAL_RESOURCES.
      *
      * Note that we don't attempt to perform the data migration here because
      * migration for Db2 multi-tenant schemas requires iterating over each
@@ -619,7 +597,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         final String tableName = prefix + "_" + SECURITY;
 
-        // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
+        // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
                 .setVersion(FhirSchemaVersion.V0016.vid())
                 .setTenantColumnName(MT_ID)

@@ -10,7 +10,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.parameters.QueryParameter;
 
 /**
- * A string search parameter
+ * A canonical search parameter
  */
 public class CanonicalSearchParam extends SearchParam {
 

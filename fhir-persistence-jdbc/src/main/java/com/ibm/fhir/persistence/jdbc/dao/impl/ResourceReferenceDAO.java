@@ -177,19 +177,6 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     @Override
     public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
-        // Grab the ids for all the code-systems, and upsert any misses
-//        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
-//        cache.resolveCodeSystems(xrefs, systemMisses);
-//        upsertCodeSystems(systemMisses);
-//
-//        // Now that all the code-systems ids are known, we can search the cache
-//        // for all the token values, upserting anything new
-//        List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
-//        cache.resolveTokenValues(xrefs, valueMisses);
-//        upsertCommonTokenValues(valueMisses);
-//
-//        insertResourceTokenRefs(resourceType, xrefs);
-
         // This method is only called when we're not using transaction data
         logger.fine("Persist parameters for this resource - no transaction data available");
         persist(xrefs, profileRecs, tagRecs, securityRecs);
@@ -671,7 +658,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     /**
      * Insert any missing values into the code_systems table
      * @param paramList
-     * @param systems
+     * @param systemNames
      */
     public abstract void doCodeSystemsUpsert(String paramList, Collection<String> systemNames);
 

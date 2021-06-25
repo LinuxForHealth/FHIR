@@ -30,7 +30,7 @@ public enum FhirSchemaVersion {
     ,V0013(13, "Add $erase operation for hard delete scenarios")
     ,V0014(14, "whole-system search and canonical references")
     ,V0015(15, "issue-2155 add parameter hash to bypass update during reindex")
-    ,V0016(16, "issue-1921 add dedicated common_token_values mapping table for security")
+    ,V0016(16, "issue-1921 add dedicated common_token_values mapping table for searching on security labels")
     ;
 
     // The version number recorded in the VERSION_HISTORY

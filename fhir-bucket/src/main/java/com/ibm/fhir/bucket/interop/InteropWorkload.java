@@ -71,8 +71,11 @@ public class InteropWorkload {
 
     /**
      * Public constructor
-     * @param client
+     * @param dataAccess
+     * @param patientScenario
      * @param maxConcurrentRequests
+     * @param patientBufferSize
+     * @param bufferRecycleCount
      */
     public InteropWorkload(DataAccess dataAccess, IPatientScenario patientScenario, int maxConcurrentRequests, int patientBufferSize, int bufferRecycleCount) {
         if (bufferRecycleCount < 1) {

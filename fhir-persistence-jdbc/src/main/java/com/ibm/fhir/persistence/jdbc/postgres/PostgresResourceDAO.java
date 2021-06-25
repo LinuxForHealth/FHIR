@@ -43,10 +43,8 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
- * Data access object for writing FHIR resources to an postgresql database.
- *
- * @implNote This class follows the logic of the DB2 stored procedure, but does so
- * using a series of individual JDBC statements.
+ * Data access object for writing FHIR resources to an postgresql database using
+ * the stored procedure (or function, in this case)
  */
 public class PostgresResourceDAO extends ResourceDAOImpl {
     private static final String CLASSNAME = PostgresResourceDAO.class.getSimpleName();

@@ -35,7 +35,7 @@ public class GetLastProcessedLineNumber implements IDatabaseSupplier<Integer> {
     /**
      * Public constructor
      * @param schemaName
-     * @param loaderInstanceId
+     * @param resourceBundleId
      * @param version
      */
     public GetLastProcessedLineNumber(String schemaName, long resourceBundleId, int version) {

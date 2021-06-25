@@ -62,7 +62,7 @@ public class CreateTempTablesAction extends ChainedAction {
 
     /**
      * Create the declared global temporary table COMMON_TOKEN_VALUES_TMP
-     * @param connection
+     * @param adapter
      * @throws FHIRPersistenceDBConnectException
      */
     public void createCommonTokenValuesTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {
@@ -72,7 +72,7 @@ public class CreateTempTablesAction extends ChainedAction {
 
     /**
      * Create the declared global temporary table CODE_SYSTEMS_TMP
-     * @param connection
+     * @param adapter
      * @throws FHIRPersistenceDBConnectException
      */
     public void createCodeSystemsTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {
@@ -82,7 +82,7 @@ public class CreateTempTablesAction extends ChainedAction {
 
     /**
      * Create the declared global temporary table COMMON_TOKEN_VALUES_TMP
-     * @param connection
+     * @param adapter
      * @throws FHIRPersistenceDBConnectException
      */
     public void createCanonicalValuesTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {

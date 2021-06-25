@@ -18,9 +18,6 @@ public class DateParmVal extends ExtractedParameterValue {
     private Timestamp valueDateStart;
     private Timestamp valueDateEnd;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
     public enum TimeType {
         YEAR,
         YEAR_MONTH,
@@ -60,6 +57,6 @@ public class DateParmVal extends ExtractedParameterValue {
     @Override
     public String toString() {
         return "DateParmVal [resourceType=" + getResourceType() + ", name=" + getName()
-                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + base + "]";
+                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + getBase() + "]";
     }
 }

@@ -16,9 +16,6 @@ public class StringParmVal extends ExtractedParameterValue {
     // The string value of this extracted parameter
     private String valueString;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
     /**
      * Public constructor
      */
@@ -39,19 +36,5 @@ public class StringParmVal extends ExtractedParameterValue {
      */
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
     }
 }

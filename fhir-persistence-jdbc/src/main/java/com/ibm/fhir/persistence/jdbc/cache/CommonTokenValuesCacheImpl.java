@@ -33,13 +33,13 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     // thread-local cache of canonicals
     private final ThreadLocal<LinkedHashMap<String, Integer>> canonicalValues = new ThreadLocal<>();
 
-    // The lru cache shared at the server level
+    // The lru code systems cache shared at the server level
     private final LRUCache<String, Integer> codeSystemsCache;
 
-    // The lru cache shared at the server level
+    // The lru token values cache shared at the server level
     private final LRUCache<CommonTokenValue, Long> tokenValuesCache;
 
-    // The lru cache shared at the server level
+    // The lru canonical values cache shared at the server level
     private final LRUCache<String, Integer> canonicalValuesCache;
 
     /**

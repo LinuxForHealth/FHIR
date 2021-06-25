@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,7 +9,7 @@ package com.ibm.fhir.persistence.jdbc.dto;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * Note used
+ * Not used
  */
 @Deprecated
 public class UriParmVal extends ExtractedParameterValue {

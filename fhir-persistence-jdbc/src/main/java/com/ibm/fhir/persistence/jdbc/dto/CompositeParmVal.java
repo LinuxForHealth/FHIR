@@ -12,7 +12,7 @@ import java.util.List;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
+ * This class defines the Data Transfer Object representing a composite parameter.
  */
 public class CompositeParmVal extends ExtractedParameterValue {
 
@@ -20,8 +20,6 @@ public class CompositeParmVal extends ExtractedParameterValue {
 
     /**
      * Public constructor
-     * @param name
-     * @param wholeSystem
      */
     public CompositeParmVal() {
         component = new ArrayList<>(2);
