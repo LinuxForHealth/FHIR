@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import jakarta.json.JsonObject;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
 import javax.ws.rs.RuntimeType;
@@ -51,6 +50,8 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.provider.FHIRJsonPatchProvider;
 import com.ibm.fhir.provider.FHIRJsonProvider;
 import com.ibm.fhir.provider.FHIRProvider;
+
+import jakarta.json.JsonObject;
 
 /**
  * Provides an implementation of the FHIRClient interface, which can be used as a high-level API for invoking FHIR REST
@@ -528,7 +529,8 @@ public class FHIRClientImpl implements FHIRClient {
         if (resource == null) {
             throw new IllegalArgumentException("The 'resource' argument is required but was null.");
         }
-        return _validate(resource, headers);
+        String resourceType = resource.getClass().getSimpleName();
+        return _validate(resource, resourceType, headers);
     }
 
     @Override
@@ -536,13 +538,14 @@ public class FHIRClientImpl implements FHIRClient {
         if (resource == null) {
             throw new IllegalArgumentException("The 'resource' argument is required but was null.");
         }
-        return _validate(resource, headers);
+        String resourceType = resource.getString("resourceType");
+        return _validate(resource, resourceType, headers);
     }
 
-    private <T> FHIRResponse _validate(T resource, FHIRRequestHeader...headers) throws Exception {
+    private <T> FHIRResponse _validate(T resource, String resourceType, FHIRRequestHeader...headers) throws Exception {
         WebTarget endpoint = getWebTarget();
         Entity<T> entity = Entity.entity(resource, getDefaultMimeType());
-        Invocation.Builder builder = endpoint.path("Resource").path("$validate").request(getDefaultMimeType());
+        Invocation.Builder builder = endpoint.path(resourceType).path("$validate").request(getDefaultMimeType());
         builder = addRequestHeaders(builder, headers);
         Response response = builder.post(entity);
         return new FHIRResponseImpl(response);
