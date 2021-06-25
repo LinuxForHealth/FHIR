@@ -167,6 +167,16 @@ public abstract class AbstractOperation implements FHIROperation {
         }
     }
 
+    /**
+     * Determines if the operation disallows abstract resource types, Resource and DomainResource.
+     * TODO: Remove this method when Issue #2526 is implemented, at which time, abstract resource types
+     * will be disallowed for any operation.
+     * @return true or false
+     */
+    protected boolean isAbstractResourceTypesDisallowed() {
+        return false;
+    }
+
     private void validateResourceType(FHIROperationContext operationContext, Class<? extends Resource> resourceType) throws FHIROperationException {
         if (resourceType == null) {
             String actualPath = "null-path";
@@ -178,7 +188,7 @@ public abstract class AbstractOperation implements FHIROperation {
         }
         String resourceTypeName = resourceType.getSimpleName();
         List<String> resourceTypeNames = getResourceTypeNames();
-        if (!ModelSupport.isConcreteResourceType(resourceTypeName) ||
+        if ((isAbstractResourceTypesDisallowed() && !ModelSupport.isConcreteResourceType(resourceTypeName)) ||
                 (!resourceTypeNames.contains(resourceTypeName) && !resourceTypeNames.contains("Resource"))) {
             String msg = "Resource type: '" + resourceTypeName + "' is not allowed for operation: '" + getName() + "'";
             throw buildExceptionWithIssue(msg, IssueType.INVALID);

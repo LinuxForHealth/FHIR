@@ -64,6 +64,11 @@ public class RetrieveIndexOperation extends AbstractOperation {
     }
 
     @Override
+    protected boolean isAbstractResourceTypesDisallowed() {
+        return true;
+    }
+
+    @Override
     protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType,
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {

@@ -280,7 +280,7 @@ The IBM FHIR Server tracks when a resource was last reindexed and only resources
 ### 2.2 Client-side-driven approach
 Another option is to have the client utilize the `$retrieve-index` and `$reindex` in parallel to drive the processing.
 
-The `$retrieve-index` operation is called to retrieve index IDs of resources available for reindexing. This can be done repeated by using the `_count` and `afterIndexId` parameters for pagination. The operation supports the following parameters to control the behavior:
+The `$retrieve-index` operation is called to retrieve index IDs of resources available for reindexing. This can be done repeatedly by using the `_count` and `afterIndexId` parameters for pagination. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|
