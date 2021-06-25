@@ -35,9 +35,9 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  * These reindex test always run.
  */
 public class ReindexOperationTest extends FHIRServerTestBase {
-    private boolean runIt = false;
+    private boolean runIt = true;
 
-    @BeforeClass
+    @BeforeClass(enabled = false)
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         runIt = Boolean.parseBoolean(testProperties.getProperty("test.reindex.enabled", "false"));

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -66,7 +66,7 @@ public class SortingTest extends FHIRServerTestBase {
             .display(string(TAG_DISPLAY))
             .build();
 
-    private static final boolean DEBUG_SEARCH = true;
+    private static final boolean DEBUG_SEARCH = false;
 
     // used for adjustInto calls to obtain usable Zulu instants from Year, YearMonth, LocalDate
     private static final String REFERENCE_DATE_STRING = "2018-01-01T00:00:00";
