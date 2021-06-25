@@ -578,7 +578,8 @@ public class SortingTest extends FHIRServerTestBase {
         assertTrueNaturalOrderingReverse(list);
     }
 
-    // Observation?status=final&code=http://loinc.org|55284-4&_sort=component-value-quantity
+    // Observation?status=final&code=http://loinc.org|55284-4&_sort=component-value-quantity&subject=Patient/PatientId
+    // Added a filtering condition with subject to ensure exclusivity across tests.
     @Test(groups = { "server-search" }, dependsOnMethods = { "testCreateObservation1",
             "testCreateObservation2", "testCreateObservation3", "testCreateObservation5" })
     public void testSortValueQuantityAscending() {
@@ -586,6 +587,7 @@ public class SortingTest extends FHIRServerTestBase {
         // we do support coding instead of code for the pipe search.
         Response response =
                 target.path("Observation").queryParam("status", "final").queryParam("code", "55284-4")
+                .queryParam("subject", "Patient/" + patientId)
                 .queryParam("_count", "100").queryParam("_sort", "component-value-quantity")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
