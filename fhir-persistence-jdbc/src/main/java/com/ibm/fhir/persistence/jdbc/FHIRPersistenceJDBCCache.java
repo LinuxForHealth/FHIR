@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.jdbc;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 
 /**
@@ -33,6 +34,12 @@ public interface FHIRPersistenceJDBCCache {
      * @return
      */
     INameIdCache<Integer> getResourceTypeCache();
+
+    /**
+     * Getter for the cache of resource type ids used to look up resource type name
+     * @return
+     */
+    IIdNameCache<Integer> getResourceTypeNameCache();
 
     /**
      * Getter for the cache of parameter names

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2021
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,31 +14,19 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 /**
  * This class defines the Data Transfer Object representing a row in the X_QUANTITY_VALUES tables.
  */
-public class QuantityParmVal implements ExtractedParameterValue {
+public class QuantityParmVal extends ExtractedParameterValue {
 
-    private String resourceType;
-    private String name;
     private BigDecimal valueNumber;
     private BigDecimal valueNumberLow;
     private BigDecimal valueNumberHigh;
     private String valueSystem;
     private String valueCode;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
+    /**
+     * Public constructor
+     */
     public QuantityParmVal() {
         super();
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     public BigDecimal getValueNumber() {
@@ -88,37 +76,11 @@ public class QuantityParmVal implements ExtractedParameterValue {
         this.valueNumberHigh = valueNumberHigh;
     }
 
-    @Override
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    @Override
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
     @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    @Override
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    @Override
-    public void setBase(String base) {
-        this.base = base;
     }
 }

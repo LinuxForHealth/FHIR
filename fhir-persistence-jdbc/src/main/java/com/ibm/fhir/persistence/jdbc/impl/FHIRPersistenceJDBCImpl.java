@@ -126,6 +126,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourceChangesDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.FetchResourcePayloadsDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.JDBCIdentityCacheImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
@@ -385,8 +386,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             ParameterDAO parameterDao = makeParameterDAO(connection);
 
             // Persist the Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterHashB64, parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -608,8 +610,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     createResourceDTO(logicalId, newVersionNumber, lastUpdated, updatedResource);
 
             // Persist the Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterDao);
+            resourceDao.insert(resourceDTO, this.extractSearchParameters(updatedResource, resourceDTO), parameterHashB64, parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -650,14 +653,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code for whole-system searches which are not yet supported
-        // by the new code.
-        if (isSystemLevelSearch(resourceType) || !this.optQueryBuilderEnabled) {
-            // New query builder doesn't support system-level search at this point, so route
-            // to the old way.
+        // Fall back to the old search code if new query builder has been disabled.
+        if (!this.optQueryBuilderEnabled) {
             return oldSearch(context, resourceType);
         } else {
-            // non-system-level search and the new query builder hasn't been disabled (it is enabled by default)
+            // new query builder hasn't been disabled (it is enabled by default)
             return newSearch(context, resourceType);
         }
     }
@@ -752,7 +752,20 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // path than other sorted searches. Since _include and _revinclude are not supported
                 // with system-level search, no special logic to handle it differently is needed here.
                 List<com.ibm.fhir.persistence.jdbc.dto.Resource> resourceDTOList;
-                if (searchContext.hasSortParameters() && !resourceType.equals(Resource.class)) {
+                if (isSystemLevelSearch(resourceType)) {
+                    // If search parameters were specified other than those whose values get indexed
+                    // in global values tables, then we will execute the old-style UNION'd query that
+                    // was built. Otherwise, we need to execute the new whole-system filter query and
+                    // then build and execute the new whole-system data query.
+                    if (!allSearchParmsAreGlobal(searchContext.getSearchParameters())) {
+                        resourceDTOList = resourceDao.search(query);
+                    } else {
+                        Map<Integer, List<Long>> resourceTypeIdToLogicalResourceIdMap = resourceDao.searchWholeSystem(query);
+                        Select wholeSystemDataQuery = queryBuilder.buildWholeSystemDataQuery(searchContext,
+                                resourceTypeIdToLogicalResourceIdMap);
+                        resourceDTOList = resourceDao.search(wholeSystemDataQuery);
+                    }
+                } else if (searchContext.hasSortParameters()) {
                     resourceDTOList = this.buildSortedResourceDTOList(resourceDao, resourceType, resourceDao.searchForIds(query));
                 } else {
                     resourceDTOList = resourceDao.search(query);
@@ -1403,8 +1416,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             resourceDTO.setDeleted(true);
 
             // Persist the logically deleted Resource DTO.
+            final String parameterHashB64 = "";
             resourceDao.setPersistenceContext(context);
-            resourceDao.insert(resourceDTO, null, null);
+            resourceDao.insert(resourceDTO, null, parameterHashB64, null);
 
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
@@ -1884,6 +1898,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             for (Entry<SearchParameter, List<FHIRPathNode>> entry : map.entrySet()) {
                 SearchParameter sp = entry.getKey();
                 code = sp.getCode().getValue();
+                final boolean wholeSystemParam = isWholeSystem(sp);
 
                 // As not to inject any other special handling logic, this is a simple inline check to see if
                 // _id or _lastUpdated are used, and ignore those extracted values.
@@ -1981,7 +1996,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     ExtractedParameterValue componentParam = parameters.get(0);
                                     // override the component parameter name with the composite parameter name
                                     componentParam.setName(SearchUtil.makeCompositeSubCode(code, componentParam.getName()));
-                                    componentParam.setBase(p.getBase());
                                     p.addComponent(componentParam);
                                 } else if (node.isSystemValue()){
                                     ExtractedParameterValue primitiveParam = processPrimitiveValue(node.asSystemValue());
@@ -2035,6 +2049,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 ExtractedParameterValue p = processPrimitiveValue(value.asSystemValue());
                                 p.setName(code);
                                 p.setResourceType(fhirResource.getClass().getSimpleName());
+
+                                if (wholeSystemParam) {
+                                    p.setWholeSystem(true);
+                                }
                                 allParameters.add(p);
                                 if (log.isLoggable(Level.FINE)) {
                                     log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -2067,6 +2085,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                     // retrieve the list of parameters built from all the FHIRPathElementNode values
                     List<ExtractedParameterValue> parameters = parameterBuilder.getResult();
                     for (ExtractedParameterValue p : parameters) {
+                        if (wholeSystemParam) {
+                            p.setWholeSystem(true);
+                        }
                         allParameters.add(p);
                         if (log.isLoggable(Level.FINE)) {
                             log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
@@ -2083,6 +2104,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             log.exiting(CLASSNAME, METHODNAME);
         }
         return allParameters;
+    }
+
+    /**
+     * Should we also store values for this {@link SearchParameter} in the special whole-system
+     * param tables (for more efficient whole-system search queries).
+     * @param sp
+     * @return
+     */
+    private boolean isWholeSystem(SearchParameter sp) {
+
+        // Strip off any :text suffix before we check to see if this is in the
+        // whole-system search parameter list
+        String parameterName = sp.getCode().getValue();
+        if (parameterName.endsWith(SearchConstants.TEXT_MODIFIER_SUFFIX)) {
+            parameterName = parameterName.substring(0, parameterName.length() - SearchConstants.TEXT_MODIFIER_SUFFIX.length());
+        }
+
+        return SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(parameterName);
     }
 
     /**
@@ -2610,11 +2649,15 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * that have been accumulated during the transaction. This collection therefore
      * contains multiple resource types, which have to be processed separately.
      * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
+     * @throws FHIRPersistenceException
      */
-    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records) throws FHIRPersistenceException {
+    public void persistResourceTokenValueRecords(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) throws FHIRPersistenceException {
         try (Connection connection = openConnection()) {
             IResourceReferenceDAO rrd = makeResourceReferenceDAO(connection);
-            rrd.persist(records);
+            rrd.persist(records, profileRecs, tagRecs, securityRecs);
         } catch(FHIRPersistenceFKVException e) {
             log.log(Level.SEVERE, "FK violation", e);
             throw e;
@@ -2710,4 +2753,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         return eraseRecord;
     }
+
+    private boolean allSearchParmsAreGlobal(List<QueryParameter> queryParms) {
+        for (QueryParameter queryParm : queryParms) {
+            if (!SearchConstants.SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES.contains(queryParm.getCode())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }

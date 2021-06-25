@@ -404,4 +404,25 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         final String ddl = "DROP VARIABLE " + nm;
         warnOnce(MessageKey.DROP_VARIABLE, "Not supported in PostgreSQL: " + ddl);
     }
+
+    @Override
+    public void createOrReplaceFunction(String schemaName, String functionName, Supplier<String> supplier) {
+        // For PostgreSQL, we need to drop the function first to avoid ending up
+        // with the same function name having different args (non-unique) which
+        // causes problems later on
+        final String objectName = DataDefinitionUtil.getQualifiedName(schemaName, functionName);
+        logger.info("Dropping current function " + objectName);
+
+        final StringBuilder ddl = new StringBuilder()
+                .append("DROP FUNCTION IF EXISTS ")
+                .append(objectName);
+
+        final String ddlString = ddl.toString();
+        if (logger.isLoggable(Level.FINE)) {
+            logger.fine(ddlString);
+        }
+        runStatement(ddlString);
+
+        super.createOrReplaceFunction(schemaName, functionName, supplier);
+    }
 }

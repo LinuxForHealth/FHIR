@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,15 +13,10 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
  */
-public class DateParmVal implements ExtractedParameterValue {
+public class DateParmVal extends ExtractedParameterValue {
 
-    private String resourceType;
-    private String name;
     private Timestamp valueDateStart;
     private Timestamp valueDateEnd;
-
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
 
     public enum TimeType {
         YEAR,
@@ -52,22 +47,6 @@ public class DateParmVal implements ExtractedParameterValue {
         this.valueDateEnd = valueDateEnd;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
@@ -75,23 +54,9 @@ public class DateParmVal implements ExtractedParameterValue {
         visitor.visit(this);
     }
 
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
-    }
-
     @Override
     public String toString() {
-        return "DateParmVal [resourceType=" + resourceType + ", name=" + name
-                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + base + "]";
+        return "DateParmVal [resourceType=" + getResourceType() + ", name=" + getName()
+                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + getBase() + "]";
     }
 }

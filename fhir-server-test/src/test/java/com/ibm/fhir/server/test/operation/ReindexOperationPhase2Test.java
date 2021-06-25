@@ -144,27 +144,31 @@ public class ReindexOperationPhase2Test extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {"testReindex_ChangedExpression_Phase2_Search_Type"})
     public void testReindexWithInstanceExists_Phase2() {
-        List<Parameter> parameters = new ArrayList<>();
-        parameters.add(Parameter.builder()
-            .name(string("resourceCount"))
-            .value(of(5))
-            .build());
+        if (runIt) {
+            List<Parameter> parameters = new ArrayList<>();
+            parameters.add(Parameter.builder()
+                .name(string("resourceCount"))
+                .value(of(5))
+                .build());
 
-        Parameters.Builder builder = Parameters.builder();
-        builder.id(UUID.randomUUID().toString());
-        builder.parameter(parameters);
-        Parameters ps = builder.build();
+            Parameters.Builder builder = Parameters.builder();
+            builder.id(UUID.randomUUID().toString());
+            builder.parameter(parameters);
+            Parameters ps = builder.build();
 
-        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+            Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
 
-        Response r = getWebTarget()
-                .path("/Patient/REIN-DEX-TEST-1/$reindex")
-                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
-                .header("X-FHIR-TENANT-ID", "default")
-                .header("X-FHIR-DSID", "default")
-                .post(entity, Response.class);
+            Response r = getWebTarget()
+                    .path("/Patient/REIN-DEX-TEST-1/$reindex")
+                    .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                    .header("X-FHIR-TENANT-ID", "default")
+                    .header("X-FHIR-DSID", "default")
+                    .post(entity, Response.class);
 
-        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+            assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        } else {
+            System.out.println("Skipping Phase 2 of Reindex Operation Tests");
+        }
     }
 
     /**

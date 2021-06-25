@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -38,7 +38,7 @@ public class GetResourceTypeList implements IDatabaseSupplier<List<ResourceType>
             ResultSet rs = s.executeQuery(SQL);
             while (rs.next()) {
                 ResourceType rt = new ResourceType();
-                rt.setId(rs.getLong(1));
+                rt.setId(rs.getInt(1));
                 rt.setName(rs.getString(2));
                 result.add(rt);
             }
