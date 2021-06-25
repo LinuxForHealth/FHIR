@@ -28,6 +28,7 @@ import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavorImpl;
 import com.ibm.fhir.persistence.jdbc.dao.EraseResourceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.api.IIdNameCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.INameIdCache;
 import com.ibm.fhir.schema.app.util.CommonUtil;
 
@@ -220,6 +221,11 @@ public class EraseTestMain {
                 }
             };
             return cache;
+        }
+
+        @Override
+        public IIdNameCache<Integer> getResourceTypeNameCache() {
+            return null;
         }
 
         @Override

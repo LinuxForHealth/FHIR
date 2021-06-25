@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,27 +11,86 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * A search parameter value extracted from a resource and ready to store / index for search
  */
-public interface ExtractedParameterValue {
+public abstract class ExtractedParameterValue {
 
-    public void setName(String name);
+    // The name (code) of this parameter
+    private String name;
 
-    public String getName();
+    // A subset of search params are also stored at the whole-system level
+    private boolean wholeSystem;
 
-    public String getResourceType();
-    public void setResourceType(String resourceType);
+    // The resource type associated with this parameter
+    private String resourceType;
+
+    // The base resource name
+    private String base;
+
+    /**
+     * Protected constructor
+     */
+    protected ExtractedParameterValue() {
+    }
+
+    /**
+     * Getter for the parameter's resource type
+     * @return
+     */
+    public String getResourceType() {
+        return this.resourceType;
+    }
+
+    /**
+     * Setter for the parameter's resource type
+     * @param resourceType
+     */
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
 
     /**
      * We know our type, so we can call the correct method on the visitor
      */
-    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException;
+    public abstract void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException;
 
     /**
      * @return the base
      */
-    public String getBase();
+    public String getBase() {
+        return this.base;
+    }
 
     /**
      * @param base the base to set
      */
-    public void setBase(String base);
+    public void setBase(String base) {
+        this.base = base;
+    }
+
+    /**
+     * @return the wholeSystem
+     */
+    public boolean isWholeSystem() {
+        return wholeSystem;
+    }
+
+    /**
+     * @param wholeSystem the wholeSystem to set
+     */
+    public void setWholeSystem(boolean wholeSystem) {
+        this.wholeSystem = wholeSystem;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -33,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
  * DAO used to contain the logic required to reindex a given resource
@@ -277,14 +278,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
         // no need to close
         Connection connection = getConnection();
-
-        // existing resource, so need to delete all its parameters
-        deleteFromParameterTable(connection, tablePrefix + "_str_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_number_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_date_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_latlng_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
+        ParameterTableSupport.deleteFromParameterTables(connection, tablePrefix, logicalResourceId);
 
         if (parameters != null && !parameters.isEmpty()) {
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
@@ -301,28 +295,5 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             }
         }
         logger.exiting(CLASSNAME, METHODNAME);
-    }
-
-    /**
-     * Delete all parameters for the given resourceId from the parameters table
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String DML = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(DML)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            int deleted = stmt.executeUpdate();
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Deleted from [" + tableName + "] deleted [" + deleted + "] for logicalResourceId [" + logicalResourceId + "]");
-            }
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
     }
 }

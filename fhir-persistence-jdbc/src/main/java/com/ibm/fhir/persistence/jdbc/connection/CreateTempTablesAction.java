@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,6 +13,7 @@ import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.model.DbType;
+import com.ibm.fhir.persistence.jdbc.derby.CreateCanonicalValuesTmp;
 import com.ibm.fhir.persistence.jdbc.derby.CreateCodeSystemsTmp;
 import com.ibm.fhir.persistence.jdbc.derby.CreateCommonTokenValuesTmp;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
@@ -52,6 +53,7 @@ public class CreateTempTablesAction extends ChainedAction {
 
             createCodeSystemsTmp(adapter);
             createCommonTokenValuesTmp(adapter);
+            createCanonicalValuesTmp(adapter);
         }
 
         // perform next action in the chain
@@ -60,7 +62,7 @@ public class CreateTempTablesAction extends ChainedAction {
 
     /**
      * Create the declared global temporary table COMMON_TOKEN_VALUES_TMP
-     * @param connection
+     * @param adapter
      * @throws FHIRPersistenceDBConnectException
      */
     public void createCommonTokenValuesTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {
@@ -70,11 +72,21 @@ public class CreateTempTablesAction extends ChainedAction {
 
     /**
      * Create the declared global temporary table CODE_SYSTEMS_TMP
-     * @param connection
+     * @param adapter
      * @throws FHIRPersistenceDBConnectException
      */
     public void createCodeSystemsTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {
         IDatabaseStatement cmd = new CreateCodeSystemsTmp();
+        adapter.runStatement(cmd);
+    }
+
+    /**
+     * Create the declared global temporary table COMMON_TOKEN_VALUES_TMP
+     * @param adapter
+     * @throws FHIRPersistenceDBConnectException
+     */
+    public void createCanonicalValuesTmp(DerbyAdapter adapter) throws FHIRPersistenceDBConnectException {
+        IDatabaseStatement cmd = new CreateCanonicalValuesTmp();
         adapter.runStatement(cmd);
     }
 }

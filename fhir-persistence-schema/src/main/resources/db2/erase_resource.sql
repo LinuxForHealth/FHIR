@@ -4,8 +4,6 @@
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
 
--- LOADED ON: {{DATE}}
-
 -- ----------------------------------------------------------------------------
 -- Procedure to remove a resource, history and parameters values
 -- 
@@ -70,7 +68,7 @@ BEGIN
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_number_values       WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_date_values       WHERE logical_resource_id = ?';
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_date_values         WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_latlng_values       WHERE logical_resource_id = ?';
@@ -82,13 +80,31 @@ BEGIN
     PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_quantity_values     WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'str_values          WHERE logical_resource_id = ?';
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_profiles            WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'date_values         WHERE logical_resource_id = ?';
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_tags                WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
-    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'resource_token_refs WHERE logical_resource_id = ?';
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || p_resource_type || '_security            WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'str_values                WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'date_values               WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'resource_token_refs       WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'logical_resource_profiles WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'logical_resource_tags     WHERE logical_resource_id = ?';
+    EXECUTE d_stmt USING v_logical_resource_id;
+
+    PREPARE d_stmt FROM 'DELETE FROM {{SCHEMA_NAME}}.' || 'logical_resource_security WHERE logical_resource_id = ?';
     EXECUTE d_stmt USING v_logical_resource_id;
 
     -- Step 4: Delete from Logical Resources table 

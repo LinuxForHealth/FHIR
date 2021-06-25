@@ -14,6 +14,7 @@ import com.ibm.fhir.database.utils.query.GroupByClause;
 import com.ibm.fhir.database.utils.query.HavingClause;
 import com.ibm.fhir.database.utils.query.OrderByClause;
 import com.ibm.fhir.database.utils.query.PaginationClause;
+import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.database.utils.query.SelectList;
 import com.ibm.fhir.database.utils.query.WhereClause;
 import com.ibm.fhir.database.utils.query.node.ExpNode;
@@ -36,10 +37,12 @@ public interface StatementRenderer<T> {
      * @param havingClause
      * @param orderByClause
      * @param paginationClause
+     * @param unionAll
+     * @param union
      * @return
      */
     T select(boolean distinct, SelectList selectList, FromClause fromClause, WhereClause whereClause, GroupByClause groupByClause, HavingClause havingClause,
-        OrderByClause orderByClause, PaginationClause paginationClause);
+        OrderByClause orderByClause, PaginationClause paginationClause, boolean unionAll, Select union);
 
     /**
      * @param items

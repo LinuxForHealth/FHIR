@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,42 +17,48 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
- * in the schema. 
+ * in the schema.
  * Supports: Db2 and Derby
  * Does not support: PostgreSQL
  */
 public class MergeResourceTypes implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    private final String schemaName;
+
     // The list of resource types we want to add
     private final List<String> resourceTypes;
-    
+
     /**
      * Public constructor
-     * @param resourceType
+     * @param schemaName
+     * @param resourceTypes
      */
-    public MergeResourceTypes(Collection<String> resourceTypes) {
+    public MergeResourceTypes(String schemaName, Collection<String> resourceTypes) {
+        this.schemaName = schemaName;
         // copy the list for safety
         this.resourceTypes = new ArrayList<String>(resourceTypes);
     }
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
+
+        final String tgtName = DataDefinitionUtil.getQualifiedName(schemaName, "resource_types");
         final String dual = translator.dualTableName();
         final String source = dual == null ? "(SELECT 1)" : dual;
 
         // Use a bulk merge approach to insert resource types not previously
         // loaded
-        final String merge = "MERGE INTO resource_types tgt "
+        final String merge = "MERGE INTO " + tgtName + " tgt "
                     + "            USING " + source + " src "
                     + "               ON tgt.resource_type = ? "
                     + " WHEN NOT MATCHED THEN INSERT (resource_type) VALUES (?)";
-        
+
         try (PreparedStatement ps = c.prepareStatement(merge)) {
             // Assume the list is small enough to process in one batch
             for (String resourceType: resourceTypes) {

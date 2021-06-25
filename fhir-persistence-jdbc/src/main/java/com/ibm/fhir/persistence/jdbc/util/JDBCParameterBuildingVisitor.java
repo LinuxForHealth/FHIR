@@ -104,13 +104,17 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
      */
     private List<ExtractedParameterValue> result;
 
+    /**
+     * Public constructor
+     * @param resourceType
+     * @param searchParameter
+     */
     public JDBCParameterBuildingVisitor(String resourceType, SearchParameter searchParameter) {
         super(false);
         this.resourceType = resourceType;
         this.searchParamCode = searchParameter.getCode().getValue();
         this.searchParamType = searchParameter.getType();
-
-        result               = new ArrayList<>();
+        this.result          = new ArrayList<>();
     }
 
     /**

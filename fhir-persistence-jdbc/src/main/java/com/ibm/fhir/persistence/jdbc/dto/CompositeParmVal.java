@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -12,36 +12,17 @@ import java.util.List;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 /**
- * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
+ * This class defines the Data Transfer Object representing a composite parameter.
  */
-public class CompositeParmVal implements ExtractedParameterValue {
-    
-    private String resourceType;
-    private String name;
+public class CompositeParmVal extends ExtractedParameterValue {
+
     private List<ExtractedParameterValue> component;
-    
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
 
+    /**
+     * Public constructor
+     */
     public CompositeParmVal() {
-        super();
         component = new ArrayList<>(2);
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
     }
 
     /**
@@ -49,20 +30,6 @@ public class CompositeParmVal implements ExtractedParameterValue {
      */
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
     }
 
     /**

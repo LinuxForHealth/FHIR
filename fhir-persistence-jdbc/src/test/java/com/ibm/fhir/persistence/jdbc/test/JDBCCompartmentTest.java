@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2019, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -23,13 +24,13 @@ import com.ibm.fhir.persistence.test.common.AbstractCompartmentTest;
 
 
 public class JDBCCompartmentTest extends AbstractCompartmentTest {
-    
+
     private Properties testProps;
-    
+
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
-    
+
     public JDBCCompartmentTest() throws Exception {
         this.testProps = TestUtil.readTestProperties("test.jdbc.properties");
     }
@@ -42,11 +43,11 @@ public class JDBCCompartmentTest extends AbstractCompartmentTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
-    
+
     @Override
     public FHIRPersistence getPersistenceImpl() throws Exception {
         if (this.connectionPool == null) {

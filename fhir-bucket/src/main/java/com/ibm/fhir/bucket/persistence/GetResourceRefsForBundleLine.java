@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import com.ibm.fhir.bucket.api.ResourceRef;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Fetches the list of resources which have been created from processing a given
@@ -26,21 +27,25 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class GetResourceRefsForBundleLine implements IDatabaseSupplier<List<ResourceRef>> {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    private final String schemaName;
+
     // PK of the loader instance to update
     private final long resourceBundleId;
-    
+
     // The version of file which generated the ids
     private final int version;
-    
+
     private final int lineNumber;
-    
+
     /**
      * Public constructor
+     * @param schemaName
      * @param resourceBundleId
      * @param version
      * @param lineNumber
      */
-    public GetResourceRefsForBundleLine(long resourceBundleId, int version, int lineNumber) {
+    public GetResourceRefsForBundleLine(String schemaName, long resourceBundleId, int version, int lineNumber) {
+        this.schemaName = schemaName;
         this.resourceBundleId = resourceBundleId;
         this.version = version;
         this.lineNumber = lineNumber;
@@ -49,11 +54,14 @@ public class GetResourceRefsForBundleLine implements IDatabaseSupplier<List<Reso
     @Override
     public List<ResourceRef> run(IDatabaseTranslator translator, Connection c) {
         List<ResourceRef> result = new ArrayList<>();
+        final String logicalResources = DataDefinitionUtil.getQualifiedName(schemaName, "logical_resources");
+        final String resourceBundleLoads = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundle_loads");
+        final String resourceTypes = DataDefinitionUtil.getQualifiedName(schemaName, "resource_types");
         final String SQL = ""
                 + "SELECT rt.resource_type, lr.logical_id "
-                + "  FROM logical_resources lr, "
-                + "       resource_bundle_loads bl,"
-                + "       resource_types rt "
+                + "  FROM " + logicalResources + " lr, "
+                + "       " + resourceBundleLoads + " bl,"
+                + "       " + resourceTypes + " rt "
                 + " WHERE bl.resource_bundle_id = ? "
                 + "   AND bl.version = ? "
                 + "   AND lr.line_number = ? "
@@ -73,7 +81,7 @@ public class GetResourceRefsForBundleLine implements IDatabaseSupplier<List<Reso
                 + resourceBundleId + ", " + version + ", " + lineNumber);
             throw translator.translate(x);
         }
-        
+
         return result;
     }
 }

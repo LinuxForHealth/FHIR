@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,7 @@ import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
  */
 public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     private static final Logger logger = Logger.getLogger(PostgresResourceReferenceDAO.class.getName());
-    
+
     /**
      * Public constructor
      * @param t
@@ -38,7 +38,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
     public PostgresResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
         super(t, c, schemaName, cache);
     }
-    
+
     @Override
     public void doCodeSystemsUpsert(String paramList, Collection<String> systemNames) {
         // query is a negative outer join so we only pick the rows where
@@ -52,7 +52,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         insert.append("       FROM ");
         insert.append("    (VALUES ").append(paramList).append(" ) AS v(name) ");
         insert.append(" ON CONFLICT DO NOTHING ");
-                
+
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
         // same number of parameters, and hopefully we'll therefore share a small subset
@@ -67,7 +67,42 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
             for (String name: sortedNames) {
                 ps.setString(a++, name);
             }
-            
+
+            ps.executeUpdate();
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    @Override
+    public void doCanonicalValuesUpsert(String paramList, Collection<String> urls) {
+        // Because of how PostgreSQL MVCC implementation, the insert from negative outer
+        // join pattern doesn't work...you still hit conflicts. The PostgreSQL pattern
+        // for upsert is ON CONFLICT DO NOTHING, which is what we use here:
+        final String nextVal = getTranslator().nextValue(getSchemaName(), "fhir_ref_sequence");
+        StringBuilder insert = new StringBuilder();
+        insert.append("INSERT INTO common_canonical_values (canonical_id, url) ");
+        insert.append("     SELECT ").append(nextVal).append(", v.name ");
+        insert.append("       FROM ");
+        insert.append("    (VALUES ").append(paramList).append(" ) AS v(name) ");
+        insert.append(" ON CONFLICT DO NOTHING ");
+
+        // Note, we use PreparedStatement here on purpose. Partly because it's
+        // secure coding best practice, but also because many resources will have the
+        // same number of parameters, and hopefully we'll therefore share a small subset
+        // of statements for better performance. Although once the cache warms up, this
+        // shouldn't be called at all.
+        final List<String> sortedNames = new ArrayList<>(urls);
+        sortedNames.sort((String left, String right) -> left.compareTo(right));
+
+        try (PreparedStatement ps = getConnection().prepareStatement(insert.toString())) {
+            // bind all the code_system_name values as parameters
+            int a = 1;
+            for (String name: sortedNames) {
+                ps.setString(a++, name);
+            }
+
             ps.executeUpdate();
         } catch (SQLException x) {
             logger.log(Level.SEVERE, insert.toString(), x);
@@ -88,7 +123,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
         insert.append("        FROM (VALUES ").append(paramList).append(" ) AS v(token_value, code_system_id) ");
         insert.append("    ORDER BY v.token_value, v.code_system_id "); // minimize probability of deadlock
         insert.append(" ON CONFLICT DO NOTHING ");
-        
+
         // Note, we use PreparedStatement here on purpose. Partly because it's
         // secure coding best practice, but also because many resources will have the
         // same number of parameters, and hopefully we'll therefore share a small subset
@@ -101,7 +136,7 @@ public class PostgresResourceReferenceDAO extends ResourceReferenceDAO {
                 ps.setString(a++, tv.getTokenValue());
                 ps.setInt(a++, tv.getCodeSystemId());
             }
-            
+
             ps.executeUpdate();
         } catch (SQLException x) {
             logger.log(Level.SEVERE, insert.toString(), x);

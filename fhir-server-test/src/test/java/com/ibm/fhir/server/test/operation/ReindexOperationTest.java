@@ -14,17 +14,20 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
+import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 /**
@@ -32,9 +35,20 @@ import com.ibm.fhir.server.test.FHIRServerTestBase;
  * These reindex test always run.
  */
 public class ReindexOperationTest extends FHIRServerTestBase {
+    private boolean runIt = true;
+
+    @BeforeClass(enabled = false)
+    public void setup() throws Exception {
+        Properties testProperties = TestUtil.readTestProperties("test.properties");
+        runIt = Boolean.parseBoolean(testProperties.getProperty("test.reindex.enabled", "false"));
+    }
 
     @Test(groups = { "reindex" })
     public void testReindex() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceCount"))
@@ -60,6 +74,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" })
     public void testReindexWithType() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceCount"))
@@ -163,6 +181,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexFromTimestampInstant() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceCount"))
@@ -192,6 +214,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexFromTimestampDayTimeFormat() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         ZonedDateTime zdt = ZonedDateTime.now();
         String tstamp =
                 zdt.getYear()
@@ -270,6 +296,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexWithLogicalIdDoesntExist() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         /*
          * Note, this still passes, and ends up reindexing the default number of resources.
          */
@@ -298,6 +328,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexWithSpecificTypeLogicalId() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceLogicalId"))
@@ -323,6 +357,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexWithSpecificTypeMissingLogicalId() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceLogicalId"))
@@ -373,6 +411,10 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { "reindex" }, dependsOnMethods = {})
     public void testReindexWithPatientResourceType() {
+        if (!runIt) {
+            System.out.println("Skipping over $reindex IT test");
+            return;
+        }
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
             .name(string("resourceLogicalId"))

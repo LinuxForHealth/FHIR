@@ -10,6 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 
@@ -37,14 +38,20 @@ public interface IResourceReferenceDAO {
      * as necessary
      * @param resourceType
      * @param xrefs
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
      */
-    void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs);
+    void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs);
 
     /**
      * Persist the records, which may span multiple resource types
      * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
      */
-    void persist(Collection<ResourceTokenValueRec> records);
+    void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs);
 
     /**
      * Find the database id for the given token value and system
@@ -60,4 +67,11 @@ public interface IResourceReferenceDAO {
      * @return
      */
     List<Long> readCommonTokenValueIdList(String tokenValue);
+
+    /**
+     * Read the database canonical_id for the given value
+     * @param canonicalValue
+     * @return
+     */
+    Integer readCanonicalId(String canonicalValue);
 }

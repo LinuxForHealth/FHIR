@@ -12,16 +12,14 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 /**
  * This class defines the Data Transfer Object representing a row in the X_TOKEN_VALUES tables.
  */
-public class TokenParmVal implements ExtractedParameterValue {
+public class TokenParmVal extends ExtractedParameterValue {
 
-    private String resourceType;
-    private String name;
     private String valueSystem;
     private String valueCode;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
+    /**
+     * Public constructor
+     */
     public TokenParmVal() {
         super();
     }
@@ -30,16 +28,6 @@ public class TokenParmVal implements ExtractedParameterValue {
     public String toString() {
         // to aid debugging
         return getResourceType() + "[" + getName() + ", " + getValueSystem() + ", " + getValueCode() + "]";
-    }
-
-    @Override
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
     public String getValueSystem() {
@@ -61,37 +49,11 @@ public class TokenParmVal implements ExtractedParameterValue {
         this.valueCode = valueCode;
     }
 
-    @Override
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    @Override
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
     @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    @Override
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    @Override
-    public void setBase(String base) {
-        this.base = base;
     }
 }
