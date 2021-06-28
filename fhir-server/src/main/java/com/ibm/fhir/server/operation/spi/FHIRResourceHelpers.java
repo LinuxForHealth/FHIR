@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.operation.spi;
 
 import java.time.Instant;
+import java.util.List;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -309,16 +310,19 @@ public interface FHIRResourceHelpers {
     FHIRPersistenceTransaction getTransaction() throws Exception;
 
     /**
-     * Invoke the FHIR persistence reindex operation for a randomly chosen resource which was
-     * last reindexed before the given date
-     * @param operationContext
-     * @param operationOutcomeResult
-     * @param tstamp
-     * @param resourceLogicalId a reference to a resource e.g. "Patient/abc123". Can be null
-     * @return number of resources reindexed (0 if no resources were found to reindex)
+     * Invoke the FHIR persistence reindex operation for either a specified list of indexIds,
+     * or a randomly chosen resource, last reindexed before the given timestamp.
+     * @param operationContext the operation context
+     * @param operationOutcomeResult accumulate issues in this {@link OperationOutcome.Builder}
+     * @param tstamp only reindex resources with a reindex_tstamp less than this
+     * @param indexIds list of index IDs of resources to reindex, or null
+     * @param resourceLogicalId resourceType (e.g. "Patient"), or resourceType/logicalId a specific resource (e.g. "Patient/abc123"), to reindex, or null;
+     * this parameter is ignored if the indexIds parameter value is non-null
+     * @return count of the number of resources reindexed by this call
      * @throws Exception
      */
-    int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception;
+    int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws Exception;
 
     /**
      * Invoke the FHIR Persistence erase operation for a specific instance of the erase.
@@ -333,4 +337,17 @@ public interface FHIRResourceHelpers {
          */
         throw new FHIROperationException("Unsupported for the given platform");
     }
+
+    /**
+     * Invoke the FHIR persistence retrieve index operation to retrieve a list of indexIds available for reindexing.
+     * @param operationContext the operation context
+     * @param resourceTypeName the resource type of index IDs to return, or null
+     * @param count the maximum nuber of index IDs to retrieve
+     * @param notModifiedAfter only retrieve index IDs for resources not last updated after the specified timestamp
+     * @param afterIndexId retrieve index IDs starting after this specified ID, or null to start with first ID
+     * @return list of index IDs available for reindexing
+     * @throws Exception
+     */
+    List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
+
 }

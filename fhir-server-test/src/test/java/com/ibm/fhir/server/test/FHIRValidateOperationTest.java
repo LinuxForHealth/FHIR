@@ -13,9 +13,6 @@ import static org.testng.AssertJUnit.assertTrue;
 import java.io.StringWriter;
 import java.util.Collections;
 
-import jakarta.json.Json;
-import jakarta.json.JsonBuilderFactory;
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -32,6 +29,10 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 
+import jakarta.json.Json;
+import jakarta.json.JsonBuilderFactory;
+import jakarta.json.JsonObject;
+
 public class FHIRValidateOperationTest extends FHIRServerTestBase {
     private static final JsonBuilderFactory BUILDER_FACTORY = Json.createBuilderFactory(null);
     @Test(groups = { "validate-operation" })
@@ -40,7 +41,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
 
         WebTarget target = getWebTarget();
-        Response response = target.path("Resource/$validate").request().post(entity, Response.class);
+        Response response = target.path("Patient/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
 
@@ -56,7 +57,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         Entity<JsonObject> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_JSON);
 
         WebTarget target = getWebTarget();
-        Response response = target.path("Resource/$validate").request().post(entity, Response.class);
+        Response response = target.path("Patient/$validate").request().post(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
 
@@ -92,7 +93,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
 
         WebTarget target = getWebTarget();
-        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        Response response = target.path("Observation/$validate").request().post(Entity.json(writer.toString()), Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
 
@@ -122,7 +123,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
 
         WebTarget target = getWebTarget();
-        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        Response response = target.path("Observation/$validate").request().post(Entity.json(writer.toString()), Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
 
@@ -152,7 +153,7 @@ public class FHIRValidateOperationTest extends FHIRServerTestBase {
         FHIRGenerator.generator(Format.JSON).generate(parameters, writer);
 
         WebTarget target = getWebTarget();
-        Response response = target.path("Resource/$validate").request().post(Entity.json(writer.toString()), Response.class);
+        Response response = target.path("Observation/$validate").request().post(Entity.json(writer.toString()), Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
         OperationOutcome operationOutcome = response.readEntity(OperationOutcome.class);
 

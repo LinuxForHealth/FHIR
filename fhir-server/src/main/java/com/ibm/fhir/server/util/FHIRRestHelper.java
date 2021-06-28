@@ -3069,7 +3069,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception {
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
@@ -3079,7 +3080,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, indexIds, resourceLogicalId);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
@@ -3473,5 +3474,23 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         } while (attempt++ < TX_ATTEMPTS);
         return eraseRecord;
+    }
+
+    @Override
+    public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception {
+        List<Long> indexIds = null;
+
+        FHIRTransactionHelper txn = null;
+        try {
+            txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
+            indexIds = persistence.retrieveIndex(count, notModifiedAfter, afterIndexId, resourceTypeName);
+        } finally {
+            if (txn != null) {
+                txn.end();
+            }
+        }
+
+        return indexIds;
     }
 }

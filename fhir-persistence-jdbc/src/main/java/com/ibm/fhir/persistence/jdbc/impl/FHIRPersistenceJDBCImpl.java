@@ -129,6 +129,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dao.impl.RetrieveIndexDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.TransactionDataImpl;
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
@@ -2453,8 +2454,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, String resourceLogicalId)
-        throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         final String METHODNAME = "reindex";
         log.entering(CLASSNAME, METHODNAME);
 
@@ -2494,13 +2495,14 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Look up the optional resourceTypeId for the given resourceType parameter
                 resourceTypeId = cache.getResourceTypeCache().getId(resourceType);
             }
+            int indexIdsProcessed = 0;
 
-            // Need to skip over deleted resources so we have to loop until we find something not
-            // deleted, or reach the end.
+            // If list of indexIds was specified, loop over those. Otherwise, since we skip over
+            // deleted resources we have to loop until we find something not deleted, or reach the end.
             ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
-                rir = reindexDAO.getResourceToReindex(tstamp, resourceTypeId, logicalId);
+                rir = reindexDAO.getResourceToReindex(tstamp, indexIds != null ? indexIds.get(indexIdsProcessed++) : null, resourceTypeId, logicalId);
                 long end = System.nanoTime();
 
                 if (log.isLoggable(Level.FINER)) {
@@ -2523,7 +2525,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                         // result is only 0 if getResourceToReindex doesn't give us anything because this indicates
                         // there's nothing left to do
-                        result = 1;
+                        result++;
                     } else {
                         // Skip this particular resource because it has been deleted
                         if (log.isLoggable(Level.FINE)) {
@@ -2532,7 +2534,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                         rir.setDeleted(true);
                     }
                 }
-            } while (rir != null && rir.isDeleted());
+            } while ((indexIds != null && indexIdsProcessed < indexIds.size()) || (indexIds == null && rir != null && rir.isDeleted()));
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
@@ -2763,4 +2765,24 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return true;
     }
 
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
+        final String METHODNAME = "retrieveIndex";
+        log.entering(CLASSNAME, METHODNAME);
+
+        try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
+            IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceTypeName, count, notModifiedAfter, afterIndexId, this.cache);
+            return dao.run(connection);
+        } catch(FHIRPersistenceException e) {
+            throw e;
+        } catch(Throwable e) {
+            FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while retrieving logical resource IDs.");
+            log.log(Level.SEVERE, fx.getMessage(), e);
+            throw fx;
+        } finally {
+            log.exiting(CLASSNAME, METHODNAME);
+        }
+    }
 }
