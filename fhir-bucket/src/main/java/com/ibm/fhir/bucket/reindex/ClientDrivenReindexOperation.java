@@ -41,7 +41,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final String INDEX_IDS_PARAM = "indexIds";
     private static final int MAX_RETRIEVE_COUNT = 1000;
     private static final int OFFER_TIMEOUT_IN_SEC = 30;
-    private static final int POLL_TIMEOUT_IN_SEC = 30;
+    private static final int POLL_TIMEOUT_IN_SEC = 5;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
     private static final String REINDEX_URL = "$reindex";
 
@@ -180,7 +180,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                                 this.running = false;
                             } else {
                                 // Worker threads are still processing, so sleep for a bit before we check again
-                                safeSleep(5000);
+                                safeSleep(1000);
                             }
                         }
                     }
