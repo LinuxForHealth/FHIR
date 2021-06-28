@@ -184,7 +184,7 @@ public class AzureProvider implements Provider {
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
+        if (!client.exists().booleanValue() && size > 0) {
             aClient.create();
         }
 
@@ -199,7 +199,9 @@ public class AzureProvider implements Provider {
                 tmpPayload = Arrays.copyOfRange(payload, 0, len);
             }
             try (ByteArrayInputStream bais = new ByteArrayInputStream(tmpPayload)) {
-                aClient.appendBlock(bais, len);
+                if (len > 0) {
+                    aClient.appendBlock(bais, len);
+                }
             }
             len = in.read(payload, 0, MAX_BLOCK_SIZE);
         }
@@ -218,11 +220,13 @@ public class AzureProvider implements Provider {
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
-            aClient.create();
-        }
 
         byte[] baos = chunkData.getBufferStream().toByteArray();
+
+        // Only create if it's not empty.
+        if (!client.exists().booleanValue() && baos.length > 0) {
+            aClient.create();
+        }
         int current = 0;
         for (int i = 0; i <= (Math.ceil(baos.length/MAX_BLOCK_SIZE)); i++) {
             int payloadLength = MAX_BLOCK_SIZE;
@@ -237,9 +241,11 @@ public class AzureProvider implements Provider {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Byte Progress: current='" + current + "' total='" + baos.length + "' payload='" + payload.length);
             }
-            aClient.appendBlock(
-                new ByteArrayInputStream(payload),
-                    payload.length);
+            if (payload.length > 0) {
+                aClient.appendBlock(
+                    new ByteArrayInputStream(payload),
+                        payload.length);
+            }
         }
 
         LOG.fine(() -> "Export Write is finished");
