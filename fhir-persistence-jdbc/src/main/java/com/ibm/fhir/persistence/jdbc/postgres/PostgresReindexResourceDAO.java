@@ -33,9 +33,6 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 public class PostgresReindexResourceDAO extends ReindexResourceDAO {
     private static final Logger logger = Logger.getLogger(PostgresReindexResourceDAO.class.getName());
 
-    // Note that currently the global logical_resources table does not carry
-    // the is_deleted flag. Until it does, the queries will return deleted
-    // resources, which can be skipped for reindex. (issue-2055)
     private static final String PICK_SINGLE_RESOURCE = ""
             + "   UPDATE logical_resources "
             + "      SET reindex_tstamp = ?,"
@@ -45,6 +42,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "         FROM logical_resources lr "
             + "        WHERE lr.resource_type_id = ? "
             + "          AND lr.logical_id = ? "
+            + "          AND lr.is_deleted = 'N' "
             + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
@@ -59,6 +57,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "       SELECT lr.logical_resource_id "
             + "         FROM logical_resources lr "
             + "        WHERE lr.resource_type_id = ? "
+            + "          AND lr.is_deleted = 'N' "
             + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
@@ -72,7 +71,8 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "    WHERE logical_resource_id = ( "
             + "       SELECT lr.logical_resource_id "
             + "         FROM logical_resources lr "
-            + "        WHERE lr.reindex_tstamp < ? "
+            + "        WHERE lr.is_deleted = 'N' "
+            + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
             + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "

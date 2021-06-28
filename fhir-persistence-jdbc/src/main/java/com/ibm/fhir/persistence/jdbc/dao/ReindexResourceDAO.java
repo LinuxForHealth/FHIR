@@ -48,13 +48,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
 
     private final ParameterDAO parameterDao;
 
-    // Note that currently the global logical_resources table does not carry
-    // the is_deleted flag. Until it does, the queries will return deleted
-    // resources, which can be skipped for reindex. (issue-2055)
     private static final String PICK_SINGLE_LOGICAL_RESOURCE = ""
             + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
             + "    FROM logical_resources lr "
             + "   WHERE lr.logical_resource_id = ? "
+            + "     AND lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
             ;
 
@@ -63,6 +61,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
             + "     AND lr.logical_id = ? "
+            + "     AND lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
             ;
 
@@ -70,6 +69,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
+            + "     AND lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
             ;
@@ -77,7 +77,8 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     private static final String PICK_ANY_RESOURCE = ""
             + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
             + "    FROM logical_resources lr "
-            + "   WHERE lr.reindex_tstamp < ? "
+            + "   WHERE lr.is_deleted = 'N' "
+            + "     AND lr.reindex_tstamp < ? "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
             ;
 
