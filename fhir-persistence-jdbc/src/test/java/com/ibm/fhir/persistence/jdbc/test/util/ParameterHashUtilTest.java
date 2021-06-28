@@ -186,4 +186,74 @@ public class ParameterHashUtilTest {
         assertNotEquals(hash1, hash4);
         assertNotEquals(hash3, hash4);
     }
+
+    @Test
+    public void testExtractedParametersSwappedValues() throws Exception {
+        ParameterHashUtil util = new ParameterHashUtil();
+
+        // Define some search parameter values
+        StringParmVal p1a = new StringParmVal();
+        p1a.setResourceType("Patient");
+        p1a.setName("code1");
+        p1a.setUrl("url1");
+        p1a.setVersion("version1");
+        p1a.setValueString("valueString1");
+
+        StringParmVal p2a = new StringParmVal();
+        p2a.setResourceType("Patient");
+        p2a.setName("code2");
+        p2a.setUrl("url2");
+        p2a.setVersion("version2");
+        p2a.setValueString("valueString2");
+
+        // Define some search parameter values with the values swapped
+        StringParmVal p1b = new StringParmVal();
+        p1b.setResourceType("Patient");
+        p1b.setName("code1");
+        p1b.setUrl("url1");
+        p1b.setVersion("version1");
+        p1b.setValueString("valueString2");
+
+        StringParmVal p2b = new StringParmVal();
+        p2b.setResourceType("Patient");
+        p2b.setName("code2");
+        p2b.setUrl("url2");
+        p2b.setVersion("version2");
+        p2b.setValueString("valueString1");
+
+        // Add the search parameters in which the values are swapped (espA1<-->espB1, espA2<-->espB2), so they should not match each other,
+        // but if just the order of the parameters is swapped (espA1<-->espA2, espB1<-->espB2), then they do match
+        ExtractedSearchParameters espA1 = new ExtractedSearchParameters();
+        espA1.getParameters().addAll(Arrays.asList(p1a, p2a));
+        ExtractedSearchParameters espA2 = new ExtractedSearchParameters();
+        espA2.getParameters().addAll(Arrays.asList(p2a, p1a));
+        ExtractedSearchParameters espB1 = new ExtractedSearchParameters();
+        espB1.getParameters().addAll(Arrays.asList(p1b, p2b));
+        ExtractedSearchParameters espB2 = new ExtractedSearchParameters();
+        espB2.getParameters().addAll(Arrays.asList(p2b, p1b));
+
+        // Hashes not generated yet
+        assertNull(espA1.getHash());
+        assertNull(espB1.getHash());
+
+        // Generate hashes
+        espA1.generateHash(util);
+        espA2.generateHash(util);
+        espB1.generateHash(util);
+        espB2.generateHash(util);
+
+        // Check hashes
+        String hashA1 = espA1.getHash();
+        String hashA2 = espA2.getHash();
+        String hashB1 = espB1.getHash();
+        String hashB2 = espB2.getHash();
+        assertNotNull(hashA1);
+        assertNotNull(hashA2);
+        assertNotNull(hashB1);
+        assertNotNull(hashB2);
+        assertEquals(hashA1, hashA2);
+        assertNotEquals(hashA1, hashB1);
+        assertEquals(hashB1, hashB2);
+        assertNotEquals(hashA2, hashB2);
+    }
 }

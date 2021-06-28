@@ -376,9 +376,11 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             // bind parameters
             stmt.setString(1, parameterHashB64);
             stmt.setLong(2, logicalResourceId);
+            long dbCallStartTime = System.nanoTime();
             stmt.executeUpdate();
+            double dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
             if (logger.isLoggable(Level.FINEST)) {
-                logger.finest("Update parameter_hash [" + parameterHashB64 + "] for logicalResourceId [" + logicalResourceId + "]");
+                logger.finest("Update parameter_hash '" + parameterHashB64 + "' for logicalResourceId '" + logicalResourceId + "' [took " + dbCallDuration + " ms]");
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, SQL, x);
