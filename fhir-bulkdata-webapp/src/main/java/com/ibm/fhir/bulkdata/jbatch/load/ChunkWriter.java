@@ -57,6 +57,7 @@ import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
@@ -299,7 +300,13 @@ public class ChunkWriter extends AbstractItemWriter {
             if (oldBaseLine == null) {
                 // Go get the latest resource in the database and fingerprint the resource.
                 // If the resource exists, then we need to fingerprint.
-                oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                try {
+                    // This execution is in a try-catch-block since we want to catch
+                    // the resource deleted exception.
+                    oldResource = persistence.read(context, resource.getClass(), logicalId).getResource();
+                } catch (FHIRPersistenceResourceDeletedException fpde) {
+                    logger.throwing("ChunkWriter", "conditionalFingerprintUpdate", fpde);
+                }
                 if (oldResource != null) {
                     ResourceFingerprintVisitor fpOld = new ResourceFingerprintVisitor();
                     oldResource.accept(fpOld);

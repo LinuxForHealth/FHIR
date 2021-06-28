@@ -224,6 +224,12 @@ public class ResourcePayloadReader extends AbstractItemReader {
         cosBucketName = adapter.getStorageProviderBucketName(source);
         cosBucketPathPrefix = ctx.getCosBucketPathPrefix();
 
+        // Azure Provider needs some specific configuration points that are unique.
+        if (StorageType.AZURE.value().equals(adapter.getStorageProviderType(source))) {
+            maxObjectSize = adapter.getCoreAzureObjectSizeThreshold();
+            resourcesPerObject = adapter.getCoreAzureObjectResourceCountThreshold();
+        }
+
         // Initialize the configuration from the injected string values
         String fhirSearchFromDate = ctx.getFhirSearchFromDate();
         if (fhirSearchFromDate != null) {
