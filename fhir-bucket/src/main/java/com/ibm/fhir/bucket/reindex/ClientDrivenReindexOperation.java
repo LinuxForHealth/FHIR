@@ -40,7 +40,8 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final String AFTER_INDEX_ID_PARAM = "afterIndexId";
     private static final String INDEX_IDS_PARAM = "indexIds";
     private static final int MAX_RETRIEVE_COUNT = 1000;
-    private static final int OFFER_TIMEOUT_IN_SEC = 10;
+    private static final int OFFER_TIMEOUT_IN_SEC = 30;
+    private static final int POLL_TIMEOUT_IN_SEC = 30;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
     private static final String REINDEX_URL = "$reindex";
 
@@ -249,7 +250,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     /**
      * Extract the index IDs from the retrieve-index operation output.
      * @param output the retrieve-index operation output
-     * @return true if index IDs were found, otherwise false
+     * @return true if index IDs were found (even if not successfully queued), otherwise if no index IDs found
      */
     private boolean extractIndexIds(Parameters output) {
         for (Parameter parameter : output.getParameter()) {
@@ -308,9 +309,6 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                     // stop everything on the first failure
                     this.active = false;
                 }
-            } else {
-                // queue is empty, wait a partial second and try again
-                safeSleep(100);
             }
         }
 
@@ -353,7 +351,15 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      */
     private String getIndexIdsToReindex() {
         List<String> drainToList = new ArrayList<>(maxResourceCount);
-        blockingQueue.drainTo(drainToList, maxResourceCount);
+        try {
+            String indexId = blockingQueue.poll(POLL_TIMEOUT_IN_SEC, TimeUnit.SECONDS);
+            if (indexId != null) {
+                drainToList.add(indexId);
+                blockingQueue.drainTo(drainToList, maxResourceCount - 1);
+            }
+        } catch (InterruptedException e) {
+            // NOP
+        }
         return drainToList.stream().collect(Collectors.joining(","));
     }
 }
