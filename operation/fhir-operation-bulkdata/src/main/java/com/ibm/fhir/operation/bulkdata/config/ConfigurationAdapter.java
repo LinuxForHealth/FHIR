@@ -135,6 +135,26 @@ public interface ConfigurationAdapter {
     int getCoreCosObjectResourceCountThreshold();
 
     /**
+     * The size (in bytes) at which to finish writing to a given AzureBlob object,
+     * or 0 to indicate that there is no object size threshold.
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    long getCoreAzureObjectSizeThreshold();
+
+    /**
+     * The number of resources at which to finish writing to a given AzureBlob object,
+     * or 0 to indicate that there is no resource count threshold.
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    int getCoreAzureObjectResourceCountThreshold();
+
+    /**
      * @implNote System value.
      * @return the system wide setting for using the server truststore.
      */

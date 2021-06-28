@@ -41,6 +41,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -250,6 +251,10 @@ public class AzureProvider implements Provider {
 
         LOG.fine(() -> "Export Write is finished");
 
+        if (dtos != null) {
+            dtos.clear();
+        }
+        chunkData.setPartNum(chunkData.getPartNum() + 1);
         chunkData.getBufferStream().reset();
 
         if (chunkData.isFinishCurrentUpload()) {
@@ -266,6 +271,9 @@ public class AzureProvider implements Provider {
                 }
             }
 
+            ConfigurationAdapter config = ConfigurationFactory.getInstance();
+            long resourceCountThreshold = config.getCoreAzureObjectResourceCountThreshold();
+            long sizeThreshold = config.getCoreAzureObjectSizeThreshold();
             if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
                 chunkData.setPartNum(1);
                 chunkData.setUploadId(null);
@@ -273,6 +281,8 @@ public class AzureProvider implements Provider {
                 chunkData.setCurrentUploadSize(0);
                 chunkData.setFinishCurrentUpload(false);
                 chunkData.getCosDataPacks().clear();
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            } else if (chunkData.getCurrentUploadSize() >= sizeThreshold || resourceCountThreshold >= chunkData.getCurrentUploadResourceNum()){
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
             }
         }
