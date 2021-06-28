@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 
 /**
  * Simple DAO to retrieve index IDs (i.e. logical resource IDs) from the LOGICAL_RESOURCES table.
@@ -35,23 +36,26 @@ public class RetrieveIndexDAO {
     private final int count;
     private final Long afterLogicalResourceId;
     private final Instant notModifiedAfter;
+    private final FHIRPersistenceJDBCCache cache;
 
     /**
      * Public constructor.
      * @param tx translator
      * @param schemaName schema name
-     * @param resourceTypeName the resource type of index IDs to return, or null
+     * @param resourceTypeName the resource type name of index IDs to return, or null
      * @param count maximum number of index IDs to return
      * @param notModifiedAfter only return resources last updated at or before the specified instant, or null
      * @param afterIndexId only return index IDs after this index ID, or null
+     * @param cache the cache
      */
-    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) {
+    public RetrieveIndexDAO(IDatabaseTranslator tx, String schemaName, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId, FHIRPersistenceJDBCCache cache) {
         this.translator = tx;
         this.schemaName = schemaName;
         this.resourceTypeName = resourceTypeName;
         this.count = count;
         this.afterLogicalResourceId = afterIndexId;
         this.notModifiedAfter = notModifiedAfter;
+        this.cache = cache;
     }
 
     /**
@@ -63,16 +67,21 @@ public class RetrieveIndexDAO {
     public List<Long> run(Connection c) throws FHIRPersistenceException {
         List<Long> logicalResourceIds = new ArrayList<>();
 
+        // Attempt to get resource type ID from cache, but since it is possible it doesn't find it in the cache,
+        // since the cache is not loaded synchonously, fall back to using resource type name, if provided
+        Integer resourceTypeId = resourceTypeName != null ? cache.getResourceTypeCache().getId(resourceTypeName) : null;
+
         StringBuilder query = new StringBuilder();
         query.append(" SELECT lr.logical_resource_id");
         query.append(" FROM ");
-        if (resourceTypeName != null) {
+        if (resourceTypeId == null && resourceTypeName != null) {
             query.append(schemaName).append(".resource_types rt, ");
         }
         query.append(schemaName).append(".logical_resources lr ");
-
         query.append(" WHERE lr.is_deleted = 'N' ");
-        if (resourceTypeName != null) {
+        if (resourceTypeId != null) {
+            query.append(" AND lr.resource_type_id = ? ");
+        } else if (resourceTypeName != null) {
             query.append(" AND rt.resource_type = ? ");
             query.append(" AND rt.resource_type_id = lr.resource_type_id ");
         }
@@ -94,7 +103,9 @@ public class RetrieveIndexDAO {
 
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             int i = 1;
-            if (resourceTypeName != null) {
+            if (resourceTypeId != null) {
+                ps.setInt(i++, resourceTypeId);
+            } else if (resourceTypeName != null) {
                 ps.setString(i++, resourceTypeName);
             }
             if (notModifiedAfter != null) {

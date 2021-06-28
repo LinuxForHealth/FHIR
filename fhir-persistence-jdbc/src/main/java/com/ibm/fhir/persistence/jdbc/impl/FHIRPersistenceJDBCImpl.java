@@ -2771,8 +2771,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
 
         try (Connection connection = openConnection()) {
+            doCachePrefill(connection);
             IDatabaseTranslator translator = FHIRResourceDAOFactory.getTranslatorForFlavor(connectionStrategy.getFlavor());
-            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceTypeName, count, notModifiedAfter, afterIndexId);
+            RetrieveIndexDAO dao = new RetrieveIndexDAO(translator, schemaNameSupplier.getSchemaForRequestContext(connection), resourceTypeName, count, notModifiedAfter, afterIndexId, this.cache);
             return dao.run(connection);
         } catch(FHIRPersistenceException e) {
             throw e;
