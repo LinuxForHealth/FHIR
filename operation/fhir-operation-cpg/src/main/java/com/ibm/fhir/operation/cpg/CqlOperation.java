@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.apache.commons.lang3.tuple.Pair;
 
 import com.ibm.fhir.cql.Constants;
+import com.ibm.fhir.cql.helpers.CqlBuilder;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationException;
@@ -129,9 +130,9 @@ public class CqlOperation extends AbstractCqlOperation {
                 .status(PublicationStatus.ACTIVE)
                 .type(LibraryHelper.getLogicLibraryConcept());
 
-        StringBuilder content = new StringBuilder();
-        content.append(String.format("library \"%s\" version '%s'\n", libraryName, libraryVersion));
-        content.append(String.format("using \"FHIR\" version '%s'\n", fhirVersion));
+        CqlBuilder content = CqlBuilder.builder();
+        content.library(libraryName, libraryVersion);
+        content.using("FHIR", fhirVersion);
 
         boolean userSpecifiedFhirHelpers = false;
         if (includes != null) {
@@ -142,17 +143,7 @@ public class CqlOperation extends AbstractCqlOperation {
                 if ( includeDetail.isValid() ) {
                     builder.relatedArtifact( relatedArtifact( RelatedArtifactType.DEPENDS_ON, includeDetail.url ) );
                     
-                    content.append(String.format("include \"%s\"", includeDetail.name));
-                    if (includeDetail.version != null) {
-                        content.append(" version '");
-                        content.append(includeDetail.version);
-                        content.append("'");
-                    }
-                    if (includeDetail.alias != null) {
-                        content.append(" called ");
-                        content.append(includeDetail.alias);
-                    }
-                    content.append("\n");
+                    content.includes(includeDetail.name, includeDetail.version, includeDetail.alias);
                     
                     if( includeDetail.name.equals("FHIRHelpers") ) {
                         userSpecifiedFhirHelpers = true;
@@ -164,30 +155,25 @@ public class CqlOperation extends AbstractCqlOperation {
         }
         
         if( ! userSpecifiedFhirHelpers ) { 
-            content.append(String.format("include \"FHIRHelpers\" version '%s'\n", fhirVersion));
+            content.include("FHIRHelpers", fhirVersion);
+            //content.append(String.format("include \"FHIRHelpers\" version '%s'\n", fhirVersion));
             // Intentionally no related artifact here. It will get picked up automatically by the FhirLibrarySourceProvider
             // in the translator
         }
 
         if (context != null) {
-            content.append("context ");
-            content.append(context);
-            content.append("\n");
+            content.context(context);
         }
 
-        content.append("define ");
-        content.append(DEFAULT_DEFINE_NAME);
-        content.append(":\n");
-        content.append("\t");
-        content.append(((com.ibm.fhir.model.type.String) expression.getValue()).getValue());
-        content.append("\n");
+        content.expression(DEFAULT_DEFINE_NAME, ((com.ibm.fhir.model.type.String) expression.getValue()).getValue());
         
-        System.out.println(content.toString());
+        String contentCql = content.build();
+        System.out.println(contentCql);
         if( LOG.isLoggable(Level.FINE) ) {
-            LOG.fine("AdHoc CQL = " + content.toString());
+            LOG.fine("AdHoc CQL = " + contentCql);
         }
 
-        builder.content(Attachment.builder().contentType(fhircode(Constants.MIME_TYPE_TEXT_CQL)).data(Base64Binary.of(content.toString().getBytes())).build());
+        builder.content(Attachment.builder().contentType(fhircode(Constants.MIME_TYPE_TEXT_CQL)).data(Base64Binary.of(contentCql.getBytes())).build());
 
         return builder.build();
     }

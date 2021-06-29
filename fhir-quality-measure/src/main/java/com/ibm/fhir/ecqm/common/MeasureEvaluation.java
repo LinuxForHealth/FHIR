@@ -1,20 +1,33 @@
 package com.ibm.fhir.ecqm.common;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.execution.Context;
+import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unchecked")
-public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureGroupComponentT extends BaseT, MeasureGroupPopulationComponentT extends BaseT, MeasureReportT extends BaseT, MeasureReportGroupComponentT extends BaseT, MeasureReportGroupPopulationComponentT extends BaseT, ResourceT, SubjectT extends ResourceT> {
+public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT, MeasureGroupComponentT extends BaseT, MeasureGroupPopulationComponentT extends BaseT,
+    MeasureSupplementalDataComponentT extends BaseT, MeasureReportT extends BaseT, MeasureReportGroupComponentT extends BaseT,
+    MeasureReportGroupPopulationComponentT extends BaseT, CodingT extends BaseT, ExtensionT extends BaseT,
+    ReferenceT extends BaseT, ListResourceT extends ResourceT, ListEntryT extends BaseT, ResourceT, SubjectT extends ResourceT> {
+
+    public static final String URL_CODESYSTEM_MEASURE_POPULATION = "http://teminology.hl7.org/CodeSystem/measure-population";
+
+    public static final String EXT_DAVINCI_POPULATION_REFERENCE = "http://hl7.org/fhir/us/davinci-deqm/StructureDefinition/extension-populationReference";
 
     private static final Logger logger = LoggerFactory.getLogger(MeasureEvaluation.class);
 
@@ -52,6 +65,55 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
     protected abstract String getGroupId(MeasureGroupComponentT group);
 
     protected abstract void addReportGroup(MeasureReportT report, MeasureReportGroupComponentT group);
+    
+    protected abstract List<MeasureSupplementalDataComponentT> getSupplementalData(MeasureT measure);
+    
+    protected abstract String getSDEExpression(MeasureSupplementalDataComponentT sdeItem);
+    
+    protected abstract CodingT getSDECoding(MeasureSupplementalDataComponentT sdeItem);
+        
+    protected abstract boolean isCoding(Object obj);
+    
+    protected abstract CodingT createCoding(String text);
+    
+    protected abstract String getCodingCode(CodingT coding);
+    
+    protected abstract ResourceT createPatientObservation(MeasureT measure, String populationId, CodingT coding);
+    
+    protected abstract ResourceT createPopulationObservation(MeasureT measure, String populationId, CodingT coding, Integer value);
+    
+    protected abstract void addEvaluatedResource(MeasureReportT report, ResourceT resource);
+    
+    protected abstract void addContained(MeasureReportT report, ResourceT resource);
+    
+    /**
+     * Retrieve the coding from an extension that that looks like the following...
+     * 
+     * {
+     *   "url": "http://hl7.org/fhir/us/core/StructureDefinition/us-core-race",
+     *   "extension": [ {
+     *     "url": "ombCategory",
+     *     "valueCoding": {
+     *       "system": "urn:oid:2.16.840.1.113883.6.238",
+     *       "code": "2054-5",
+     *       "display": "Black or African American"
+     *     }
+     *   } ]
+     * }
+     */
+    protected abstract CodingT getExtensionCoding(SubjectT patient, String category, String code);
+    
+    protected abstract ExtensionT createCodingExtension(String url, String codeSystem, String code);
+    
+    protected abstract ReferenceT createReference(String resourceId);
+    
+    protected abstract ListResourceT createListResource(Collection<ListEntryT> entries);
+    
+    protected abstract ListEntryT createListEntry(ReferenceT reference);
+    
+    protected abstract void addExtension(ReferenceT resource, ExtensionT extension);
+    
+    protected abstract void setEvaluatedResources(MeasureReportT report, Collection<ReferenceT> evaluatedResources);
 
     public MeasureEvaluation(Context context, MeasureT measure, Interval measurementPeriod, String packageName,
             Function<ResourceT, String> getId) {
@@ -87,12 +149,12 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
         if (this.subjectOrPractitionerId == null) {
             return evaluatePopulationMeasure();
         }
-        
+
         String id = this.subjectOrPractitionerId;
         if (id.startsWith("Patient/") ) {
             id = id.substring("Patient/".length());
         }
-
+        
         Iterable<Object> subjectRetrieve = this.getDataProvider().retrieve("Patient", "id",
                 id, "Patient", null, null, null, null, null, null, null, null);
         SubjectT patient = null;
@@ -101,21 +163,21 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
         }
 
         return evaluate(patient == null ? Collections.emptyList() : Collections.singletonList(patient),
-                MeasureReportType.INDIVIDUAL);
+                MeasureReportType.INDIVIDUAL, true);
     }
 
     protected MeasureReportT evaluateSubjectListMeasure() {
         logger.info("Generating subject-list report");
         List<SubjectT> subjects = this.subjectOrPractitionerId == null ? getAllSubjects()
                 : getPractitionerSubjects(this.subjectOrPractitionerId);
-        return evaluate(subjects, MeasureReportType.SUBJECTLIST);
+        return evaluate(subjects, MeasureReportType.SUBJECTLIST, false);
     }
 
     protected MeasureReportT evaluatePatientListMeasure() {
         logger.info("Generating patient-list report");
         List<SubjectT> subjects = this.subjectOrPractitionerId == null ? getAllSubjects()
                 : getPractitionerSubjects(this.subjectOrPractitionerId);
-        return evaluate(subjects, MeasureReportType.PATIENTLIST);
+        return evaluate(subjects, MeasureReportType.PATIENTLIST, false);
     }
 
     private List<SubjectT> getPractitionerSubjects(String practitionerRef) {
@@ -141,7 +203,7 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
     public MeasureReportT evaluatePopulationMeasure() {
         logger.info("Generating summary report");
 
-        return evaluate(getAllSubjects(), MeasureReportType.SUMMARY);
+        return evaluate(getAllSubjects(), MeasureReportType.SUMMARY, false);
     }
 
     private Iterable<ResourceT> evaluateCriteria(SubjectT subject, MeasureGroupPopulationComponentT pop) {
@@ -208,15 +270,18 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
         }
     }
 
-    private MeasureReportT evaluate(List<SubjectT> patients, MeasureReportType type) {
+    private MeasureReportT evaluate(List<SubjectT> patients, MeasureReportType type, boolean isSingle) {
         MeasureReportT report = this.createMeasureReport("complete", type, this.measurementPeriod, patients);
         HashMap<String, ResourceT> resources = new HashMap<>();
-        HashMap<String, HashSet<String>> codeToResourceMap = new HashMap<>();
+        HashMap<String, Set<String>> codeToResourceMap = new HashMap<>();
 
         MeasureScoring measureScoring = this.getMeasureScoring();
         if (measureScoring == null) {
             throw new RuntimeException("MeasureType scoring is required in order to calculate.");
         }
+        
+        List<MeasureSupplementalDataComponentT> sde = new ArrayList<>();
+        HashMap<String, HashMap<String, Integer>> sdeAccumulators = null;
 
         for (MeasureGroupComponentT group : this.getGroup()) {
             MeasureReportGroupComponentT reportGroup = this.createReportGroup(this.getGroupId(group));
@@ -255,6 +320,8 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
             HashMap<String, SubjectT> measurePopulationPatients = null;
             HashMap<String, SubjectT> measurePopulationExclusionPatients = null;
 
+            sdeAccumulators = new HashMap<>();
+            sde = getSupplementalData(measure);
             for (MeasureGroupPopulationComponentT pop : this.getPopulation(group)) {
                 MeasurePopulationType populationType = this.getPopulationType(pop);
                 if (populationType != null) {
@@ -369,6 +436,8 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
                                 }
                             }
                         }
+                        
+                        populateSDEAccumulators(measure, context, patient, sdeAccumulators, sde);
                     }
 
                     // Calculate actual MeasureType score, Count(numerator) / Count(denominator)
@@ -401,6 +470,8 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
                                 }
                             }
                         }
+                        
+                        populateSDEAccumulators(measure, context, patient, sdeAccumulators,sde);
                     }
 
                     break;
@@ -447,57 +518,176 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT,  MeasureG
                     measurePopulationExclusionPatients != null ? measurePopulationExclusionPatients.values() : null);
             // TODO: MeasureType Observations...
         }
+        
+        List<ReferenceT> evaluatedResourceIds = new ArrayList<>();
+        Map<String, ReferenceT> referenceMap = new HashMap<String, ReferenceT>();
+        for (String code: codeToResourceMap.keySet()) {
+            Set<String> resourceIds = codeToResourceMap.get(code);
+            if( resourceIds.size() > 0 ) {
+                
+                List<ListEntryT> entries = new ArrayList<>(resourceIds.size());
+                for (String resourceId : codeToResourceMap.get(code)) {
+                    if (referenceMap.containsKey(resourceId)) {
+                        ExtensionT ext = createCodingExtension( EXT_DAVINCI_POPULATION_REFERENCE, URL_CODESYSTEM_MEASURE_POPULATION, code);
+                        
+                        ReferenceT ref = referenceMap.get(resourceId);
+                        addExtension( ref, ext );
+                        evaluatedResourceIds.add(ref);
+                    } else {
+                        ExtensionT ext = createCodingExtension( EXT_DAVINCI_POPULATION_REFERENCE, URL_CODESYSTEM_MEASURE_POPULATION, code);
+                        
+                        ReferenceT reference = createReference(resourceId);
+                        addExtension(reference, ext);
+                        
+                        ListEntryT comp = createListEntry(reference);
+                        entries.add(comp);
+                        // Do not want to add extension to ListEntryReference
+    
+                        evaluatedResourceIds.add(reference);
+                        referenceMap.put(resourceId, reference);
+                    }
+                }
+    
+                ListResourceT list = createListResource(entries);
+                resources.put(this.getId.apply(list), list);
+            }
+        }
+        setEvaluatedResources(report, evaluatedResourceIds);
 
-        // for (String key : codeToResourceMap.keySet()) {
-        // list = new ListResource();
-        // for (String element : codeToResourceMap.get(key)) {
-        // ListResource.ListEntryComponent comp = new ListEntryComponent();
-        // comp.setItem(new Reference('#' + element));
-        // list.addEntry(comp);
-        // }
-
-        // if (!list.isEmpty()) {
-        // list.setId(UUID.randomUUID().toString());
-        // list.setTitle(key);
-        // resources.put(list.getId(), list);
-        // }
-        // }
-
-        // if (!resources.isEmpty()) {
-        // FhirMeasureBundler bundler = new FhirMeasureBundler();
-        // Bundle evaluatedResources = bundler.bundle(resources.values());
-        // evaluatedResources.setId(UUID.randomUUID().toString());
-        // report.setEvaluatedResource(Collections.singletonList(new Reference('#' +
-        // evaluatedResources.getId())));
-        // report.addContained(evaluatedResources);
-        // }
+        if (sdeAccumulators.size() > 0) {
+            report = processAccumulators(measure, report, sdeAccumulators, sde, isSingle, patients);
+        }
 
         return report;
     }
+    
+    private void populateSDEAccumulators(MeasureT measure, Context context, SubjectT patient,
+            HashMap<String, HashMap<String, Integer>> sdeAccumulators,
+            List<MeasureSupplementalDataComponentT> sde) {
+        context.setContextValue("Patient", this.getId.apply(patient));
+        List<Object> sdeList = sde.stream()
+                .map(sdeItem -> context.resolveExpressionRef(getSDEExpression(sdeItem)).evaluate(context))
+                .collect(Collectors.toList());
+        if (!sdeList.isEmpty()) {
+            for (int i = 0; i < sdeList.size(); i++) {
+                Object sdeListItem = sdeList.get(i);
+                if (null != sdeListItem) {
+                    String sdeAccumulatorKey = getCodingCode( getSDECoding(sde.get(i)) );
+                    if (null == sdeAccumulatorKey || sdeAccumulatorKey.length() < 1) {
+                        String expression = getSDEExpression(sde.get(i));
+                        if( expression != null ) {
+                            sdeAccumulatorKey = expression.toLowerCase(Locale.ROOT).replace(" ", "-");
+                        }
+                    }
 
-    private void populateResourceMap(MeasurePopulationType type, HashMap<String, ResourceT> resources,
-            HashMap<String, HashSet<String>> codeToResourceMap) {
+                    HashMap<String, Integer> sdeItemMap = sdeAccumulators.get(sdeAccumulatorKey);
+                    String code = "";
+
+                    if( sdeListItem instanceof Code ) {
+                        code = ((Code) sdeListItem).getCode();
+                    } else if( sdeListItem instanceof List ) {
+                        List<?> list = (List<?>) sdeListItem;
+                        if( ! list.isEmpty() ) {
+                            Object first = list.get(0);
+                            if( first instanceof Code ) {
+                                code = ((Code) first).getCode();
+                            } else if( isCoding(first) ) {
+                                code = getCodingCode( (CodingT) first );
+                            }
+                        } else {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                    
+                    if (null == code) {
+                        continue;
+                    }
+                    if (null != sdeItemMap && null != sdeItemMap.get(code)) {
+                        Integer sdeItemValue = sdeItemMap.get(code);
+                        sdeItemValue++;
+                        sdeItemMap.put(code, sdeItemValue);
+                        sdeAccumulators.get(sdeAccumulatorKey).put(code, sdeItemValue);
+                    } else {
+                        if (null == sdeAccumulators.get(sdeAccumulatorKey)) {
+                            HashMap<String, Integer> newSDEItem = new HashMap<>();
+                            newSDEItem.put(code, 1);
+                            sdeAccumulators.put(sdeAccumulatorKey, newSDEItem);
+                        } else {
+                            sdeAccumulators.get(sdeAccumulatorKey).put(code, 1);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private MeasureReportT processAccumulators(MeasureT measure, MeasureReportT report,
+            HashMap<String, HashMap<String, Integer>> sdeAccumulators,
+            List<MeasureSupplementalDataComponentT> sde, boolean isSingle, List<SubjectT> patients) {
+        sdeAccumulators.forEach((sdeKey, sdeAccumulator) -> {
+            sdeAccumulator.forEach((sdeAccumulatorKey, sdeAccumulatorValue) -> {
+
+                CodingT valueCoding = createCoding(sdeAccumulatorKey);
+                if (! sdeKey.equalsIgnoreCase("sde-sex")) {
+                    
+                    /** 
+                     * Match up the category part of our SDE key (e.g. sde-race has a category of race) with a 
+                     * patient extension of the same category (e.g. http://hl7.org/fhir/us/core/StructureDefinition/us-core-race)
+                     * and the same code as sdeAccumulatorKey (aka the value extracted from the CQL expression
+                     * named in the Measure SDE metadata) and then record the coding details.
+                     * 
+                     * We know that at least one patient matches the sdeAccumulatorKey or else it wouldn't show up
+                     * in the map.
+                     */
+                    
+                    String coreCategory = sdeKey.substring(sdeKey.lastIndexOf('-') >= 0 ? sdeKey.lastIndexOf('-') : 0);
+                    for( SubjectT pt : patients ) {
+                        valueCoding = getExtensionCoding(pt, coreCategory, sdeAccumulatorKey);
+                        
+                        //TODO - Is there any reason to continue looking at additional patients? The original 
+                        // cqf-ruler implementation would use the last matching patient's data vs. the first.
+                        if( valueCoding != null ) {
+                            break;
+                        }
+                    }
+                }
+                
+                ResourceT obs;
+                if (isSingle) {
+                    obs = createPatientObservation(measure, sdeKey, valueCoding);
+                } else {
+                    obs = createPopulationObservation(measure, sdeKey, valueCoding, sdeAccumulatorValue);
+                }
+                
+                addEvaluatedResource( report, obs );
+                addContained(report, obs);
+                //newRefList.add(new Reference("#" + this.getId.apply(obs)));
+                //report.addContained(obs);
+            });
+        });
+        //newRefList.addAll(report.getEvaluatedResource());
+        //report.setEvaluatedResource(newRefList);
+        return report;
+    }
+
+    private void populateResourceMap(MeasurePopulationType type, Map<String, ResourceT> resources,
+            Map<String, Set<String>> codeToResourceMap) {
         if (this.context.getEvaluatedResources().isEmpty()) {
             return;
         }
 
-        if (!codeToResourceMap.containsKey(type.toCode())) {
-            codeToResourceMap.put(type.toCode(), new HashSet<>());
-        }
-
-        HashSet<String> codeHashSet = codeToResourceMap.get((type.toCode()));
+        Set<String> codeSet = codeToResourceMap.computeIfAbsent(type.toCode(), key -> new HashSet<>());
 
         for (Object o : this.context.getEvaluatedResources()) {
             try {
                 ResourceT r = (ResourceT) o;
                 String id = this.getId.apply(r);
-                if (!codeHashSet.contains(id)) {
-                    codeHashSet.add(id);
-                }
+                
+                codeSet.add(id);
+                resources.computeIfAbsent(id, key -> r);
 
-                if (!resources.containsKey(id)) {
-                    resources.put(id, r);
-                }
             } catch (Exception e) {
             }
         }

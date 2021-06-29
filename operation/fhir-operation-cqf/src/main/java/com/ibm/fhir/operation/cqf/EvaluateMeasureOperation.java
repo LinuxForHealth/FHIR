@@ -2,14 +2,14 @@ package com.ibm.fhir.operation.cqf;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
-import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Map;
 
 import org.opencds.cqf.cql.engine.data.DataProvider;
+import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
-import com.ibm.fhir.cql.engine.server.retrieve.ServerFhirRetrieveProvider;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -74,15 +74,16 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         
         MeasureReportType reportType = getReportType(paramMap, subject);
 
-        Interval measurementPeriod = getMeasurementPeriod(paramMap, OffsetDateTime.now().getOffset());
+        ZoneOffset zoneOffset = getZoneOffset(paramMap);
+        Interval measurementPeriod = getMeasurementPeriod(paramMap,zoneOffset);
 
         TerminologyProvider termProvider = getTerminologyProvider();
 
-        ServerFhirRetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
+        RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
 
         Map<String, DataProvider> dataProviders = getDataProviders(retrieveProvider);
 
-        MeasureReport.Builder report = doMeasureEvaluation(measure, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
+        MeasureReport.Builder report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
 
         return Parameters.builder().parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(report.build()).build()).build();
     }

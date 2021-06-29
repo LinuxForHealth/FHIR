@@ -50,7 +50,8 @@ public class CareGapsOperation extends AbstractMeasureOperation {
        
         ParameterMap paramMap = new ParameterMap(parameters);
 
-        Interval measurementPeriod = getMeasurementPeriod(paramMap, ZoneOffset.UTC);
+        ZoneOffset zoneOffset = getZoneOffset(paramMap);
+        Interval measurementPeriod = getMeasurementPeriod(paramMap,zoneOffset);
         
         Parameter pTopic = paramMap.getSingletonParameter(PARAM_IN_TOPIC);
         String topic = ((com.ibm.fhir.model.type.String)pTopic.getValue()).getValue();
@@ -82,7 +83,7 @@ public class CareGapsOperation extends AbstractMeasureOperation {
             RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
             Map<String,DataProvider> dataProviders = getDataProviders(retrieveProvider);
             
-            Bundle result = processAllMeasures( cursor, subject, measurementPeriod, resourceHelper, termProvider, dataProviders );
+            Bundle result = processAllMeasures( cursor, subject, zoneOffset, measurementPeriod, resourceHelper, termProvider, dataProviders );
             return Parameters.builder().parameter( Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(result).build()).build();
             
         } catch( FHIROperationException fex ) {
@@ -92,13 +93,13 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         }
     }
 
-    protected Bundle processAllMeasures(FhirBundleCursor cursor, String subject, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
-        Bundle.Builder reports = Bundle.builder().type(BundleType.DOCUMENT); 
+    protected Bundle processAllMeasures(FhirBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
+        Bundle.Builder reports = Bundle.builder().type(BundleType.COLLECTION); 
         
         AtomicInteger count = new AtomicInteger(0);
         cursor.forEach(resource -> {
             Measure measure = (Measure) resource;
-            MeasureReport report = doMeasureEvaluation(measure, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
+            MeasureReport report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subject, MeasureReportType.INDIVIDUAL, termProvider, dataProviders).build();
             reports.entry( Bundle.Entry.builder().resource(report).build() );
             count.incrementAndGet();
         });

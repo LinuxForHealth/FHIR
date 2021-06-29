@@ -196,8 +196,27 @@ public class LibraryHelper {
      * @return Coding containing the logic-library code 
      */
     public static Coding getLogicLibraryCoding() {
-        Coding needed = Coding.builder().system(Uri.of(Constants.HL7_TERMINOLOGY_LIBRARY_TYPE)).code(fhircode(Constants.LIBRARY_TYPE_LOGIC_LIBRARY)).build();
-        return needed;
+        return getLibraryCoding(Constants.LIBRARY_TYPE_LOGIC_LIBRARY);
+    }
+    
+    /**
+     * Helper method for generating a Coding that contains the model-definition
+     * code.
+     *  
+     * @return Coding containing the logic-library code 
+     */
+    public static Coding getModelDefinitionCoding() {
+        return getLibraryCoding(Constants.LIBRARY_TYPE_MODEL_DEFINITION);
+    }
+    
+    /**
+     * Helper method for generating a Coding that contains the model-definition
+     * code.
+     *  
+     * @return Coding containing the logic-library code 
+     */
+    public static Coding getLibraryCoding(String code) {
+        return Coding.builder().system(Uri.of(Constants.HL7_TERMINOLOGY_LIBRARY_TYPE)).code(fhircode(code)).build();
     }
 
     /**
