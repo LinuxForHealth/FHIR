@@ -213,7 +213,7 @@ To ensure consistency of search results, clients are recommended to include the 
 
 Finally, the server extends the specified capabilities with support for "exact match" semantics on fractional seconds.
 
-Query parameter values without fractional seconds are handled as an implicit range. For example, a search like `Observatoin?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
+Query parameter values without fractional seconds are handled as an implicit range. For example, a search like `Observation?date=2019-01-01T12:00:00Z` would return resources with the following effectiveDateTime values:
 * 2019-01-01T12:00:00Z
 * 2019-01-01T12:00:00.1Z
 * 2019-01-01T12:00:00.999999Z

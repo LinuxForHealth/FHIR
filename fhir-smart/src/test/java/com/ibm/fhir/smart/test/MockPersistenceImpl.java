@@ -152,7 +152,8 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
 
@@ -170,6 +171,11 @@ public class MockPersistenceImpl implements FHIRPersistence {
     @Override
     public List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName)
         throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         return null;
     }
 }

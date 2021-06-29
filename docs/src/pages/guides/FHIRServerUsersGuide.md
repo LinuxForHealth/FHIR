@@ -511,7 +511,7 @@ In addition to the standard REST API (create, update, search, and so forth), the
 ### 4.1.1 Packaged operations
 The FHIR team provides implementations for the standard `$validate`, `$document`, `$everything`, `$expand`, `$lookup`, `$subsumes`, `$closure`, `$export`, `$import`, `$convert`, `$apply` and `$translate` operations, as well as a custom operation named `$healthcheck`, which queries the configured persistence layer to report its health.
 
-The server also bundles `$reindex` to reindex instances of Resources so they are searchable, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
+The server also bundles `$reindex` to reindex instances of Resources so they are searchable, `$retrieve-index` to retrieve lists of resources available to be reindexed, and `$erase` to hard delete instances of Resources. To learn more about the $erase operation, read the [design document](https://github.com/IBM/FHIR/tree/main/operation/fhir-operation-erase/README.md).
 
 To extend the server with additional operations, see [Section 4.1.2 Custom operations](#412-custom-operations)
 
@@ -557,17 +557,24 @@ Field name     | Type   | Description
 `lastUpdated`  | String | The date and time of the last update made to the resource associated with the notification event.
 `resourceId`   | String | The logical id of the resource associated with the notification event.
 `resource`     | String | A stringified JSON object which is the resource associated with the notification event.
+`tenantId`     | String | The tenant that generated this notification
+`datasourceId` | String | The datasource used by the tenant
 
 The following JSON is an example of a serialized notification event:
+
 ```
 {
   "lastUpdated":"2016-06-01T10:36:23.232-05:00",
   "location":"Observation/3859/_history/1",
   "operationType":"create",
   "resourceId":"3859",
+  "tenantId":"default",
+  "datasourceId":"default",
   "resource":{ …<contents of resource>… }
 }
 ```
+
+If the resource is over the limit specified in `fhirServer/notifications/common/maxNotificationSizeBytes`, the default value is to subset `id`, `meta` and `resourceType` and add the subset to the FHIRNotificationEvent. In alternative configurations, user may set `fhirServer/notifications/common/maxNotificationSizeBehavior` to `omit` and subsequently retrieve the resource using the location.
 
 ### 4.2.2 WebSocket
 The WebSocket implementation of the notification service will publish notification event messages to a WebSocket. To enable WebSocket notifications, set the `fhirServer/notifications/websocket/enabled` property to `true`, as in the following example:
@@ -629,6 +636,8 @@ In the `connectionProperties` property group in preceding example, you'll notice
 Before you enable Kafka notifications, it's important to understand the topology of the environment in which the FHIR server instance will be running. Your topic name selection should be done in consideration of the topology. If you have multiple instances of the FHIR server clustered together to form a single logical endpoint, then each of those instances should be configured to use the same Kafka topic for notifications. This is so that notification consumers (subscribers) can subscribe to a single topic and receive all the notifications published by each of the FHIR server instances within the cluster.
 
 On the other hand, if you have two completely independent FHIR server instances, then you should configure each one with its own topic name.
+
+The FHIRNotificationEvent is asynchronous by default. If you want to specify a synchronous request, you can set `fhirServer/notifications/kafka/sync` to true, which ensures no message is lost in publishing, however it does add latency in each request.
 
 ### 4.2.3 NATS
 The [NATS](http://nats.io) implementation of the notification service publishes notification event messages to a NATS streaming cluster. To configure the NATS notification publisher, configure properties in the `fhir-server-config.json` file as shown in the following example:
@@ -1354,9 +1363,9 @@ For more information about Liberty JavaBatch configuration, please refer to [IBM
 
 For BulkData storage types of `ibm-cos` and `aws-s3`, the IBM FHIR Server supports two styles of accessing the `s3` bucket - virtual host and path.  In the IBM FHIR Server, `path` is the default access. [Link](https://docs.aws.amazon.com/AmazonS3/latest/userguide/VirtualHosting.html)
 
-With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json. 
+With path style access, the objects in a bucket are accessed using the pattern - `https://s3.region.host-name.com/bucket-name/object-key`. To configure path style access, one needs to configure the fhir-server-config.json.
 
-There are three critical elements in the configuration to configure path style: 
+There are three critical elements in the configuration to configure path style:
 
 |Configuration|Details|
 |-------------|-------|
@@ -1364,7 +1373,7 @@ There are three critical elements in the configuration to configure path style:
 |`endpointExternal`|the endpoint url used to generate the downloadUrl used in S3 Export|
 |`accessType`|"path", the default access type|
 
-Example of `path` based access: 
+Example of `path` based access:
 
 ``` json
 "bulkdata": {
@@ -1383,7 +1392,6 @@ Example of `path` based access:
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
@@ -1395,9 +1403,9 @@ Example of `path` based access:
 }
 ```
 
-With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API. 
+With virtual host style access, the objects in a bucket are accessed using the pattern - `https://bucket-name.s3.region.host-name.com/object-key`. To configure virtual host style access, one needs to configure the API.
 
-There are three critical elements in the configuration to configure virtual host style: 
+There are three critical elements in the configuration to configure virtual host style:
 
 |Configuration|Details|
 |-------------|-------|
@@ -1407,7 +1415,7 @@ There are three critical elements in the configuration to configure virtual host
 
 Note, while the endpointInternal is specified with the S3 region endpoint, the calls to the API will use the virtual host directly.
 
-Example of `host` based access: 
+Example of `host` based access:
 
 ``` json
 "bulkdata": {
@@ -1426,7 +1434,6 @@ Example of `host` based access:
             },
             "enableParquet": false,
             "disableBaseUrlValidation": true,
-            "exportPublic": true,
             "disableOperationOutcomes": true,
             "duplicationCheck": false,
             "validateResources": false,
@@ -1995,8 +2002,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|string list|A comma-separated list of search parameter combinations supported for this resource type. Each search parameter combination is a string, where a plus sign, `+`, separates the search parameters that can be used in combination. To indicate that searching without any search parameters is allowed, an empty string must be included in the list. Including an asterisk, `*`, in the list indicates support of any search parameter combination. For resources without the property, the value of `fhirServer/resources/Resource/searchParameterCombinations` is used.|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|string list|A comma-separated list of profiles, at least one of which must be specified in a resource's `meta.profile` element and be successfully validated against in order for a resource of this type to be persisted to the FHIR server. If this property is not specified, or if an empty list is specified, the value of `fhirServer/resources/Resource/profiles/atLeastOne` will be used.|
 |`fhirServer/notifications/common/includeResourceTypes`|string list|A comma-separated list of resource types for which notification event messages should be published.|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|The maximum size in byte of the notification that should be sent|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|The behavior of the notification framework when a notification is over the maxNotificationSizeBytes. Valid values are subset and omit|
 |`fhirServer/notifications/websocket/enabled`|boolean|A boolean flag which indicates whether or not websocket notifications are enabled.|
 |`fhirServer/notifications/kafka/enabled`|boolean|A boolean flag which indicates whether or not kafka notifications are enabled.|
+|`fhirServer/notifications/kafka/sync`|boolean|A boolean flag which indicates whether or not the FHIRNotificationEvent is sent in a synchronous mode|
 |`fhirServer/notifications/kafka/topicName`|string|The name of the topic to which kafka notification event messages should be published.|
 |`fhirServer/notifications/kafka/connectionProperties`|property list|A group of connection properties used to configure the KafkaProducer. These properties are used as-is when instantiating the KafkaProducer used by the FHIR server for publishing notification event messages.|
 |`fhirServer/notifications/nats/enabled`|boolean|A boolean flag which indicates whether or not NATS notifications are enabled.|
@@ -2063,6 +2073,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/file/writeTriggerSizeMB`|number|The size, in megabytes, at which to write the buffer to file.|
 |`fhirServer/bulkdata/core/file/sizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given file. Use `0` to indicate that all resources of a given type should be written to a single file.|
 |`fhirServer/bulkdata/core/file/resourceCountThreshold`|number|The number of resources at which to finish writing a given file. The actual number of resources written to a single file may be slightly above this number, dependent on the configured page size. Use `0` to indicate that there is no limit to the number of resources to be written to a single file.|
+|`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|number|The size, in megabytes, at which to finish writing a given object.|
+|`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|number|The number of resources at which to finish writing a given object. The actual number of resources written to a single object may be slightly above this number, dependent on the configured page size.|
 |`fhirServer/bulkdata/core/batchIdEncryptionKey`|string|Encoding key for JavaBatch job id |
 |`fhirServer/bulkdata/core/pageSize`|number|The search page size for patient/group export and the legacy export, the default value is 1000 |
 |`fhirServer/bulkdata/core/maxPartitions`|number| The maximum number of simultaneous partitions that are processed per Export and Import |
@@ -2142,8 +2154,11 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|1000000|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|subset|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
+|`fhirServer/notifications/kafka/sync`|false|
 |`fhirServer/notifications/kafka/topicName`|fhirNotifications|
 |`fhirServer/notifications/kafka/connectionProperties`|`{}`|
 |`fhirServer/notifications/nats/enabled`|false|
@@ -2201,6 +2216,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/bulkdata/core/cos/socketTimeout`|120|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|false|
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|86400|
+|`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|200|
+|`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|200000|
 |`fhirServer/bulkdata/core/pageSize`|1000|
 |`fhirServer/bulkdata/core/maxPartitions`|5|
 |`fhirServer/bulkdata/core/maxInputs`|5|
@@ -2279,8 +2296,11 @@ must restart the server for that change to take effect.
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|Y|Y|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|Y|Y|
 |`fhirServer/notifications/common/includeResourceTypes`|N|N|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|Y|N|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|Y|N|
 |`fhirServer/notifications/websocket/enabled`|N|N|
 |`fhirServer/notifications/kafka/enabled`|N|N|
+|`fhirServer/notifications/kafka/sync`|Y|N|
 |`fhirServer/notifications/kafka/topicName`|N|N|
 |`fhirServer/notifications/kafka/connectionProperties`|N|N|
 |`fhirServer/notifications/nats/enabled`|N|N|
@@ -2338,6 +2358,8 @@ must restart the server for that change to take effect.
 |`fhirServer/bulkdata/core/cos/socketTimeout`|N|N|
 |`fhirServer/bulkdata/core/cos/useServerTruststore`|Y|Y|
 |`fhirServer/bulkdata/core/cos/presignedExpiry`|Y|Y|
+|`fhirServer/bulkdata/core/azure/objectSizeThresholdMB`|N|N|
+|`fhirServer/bulkdata/core/azure/objectResourceCountThreshold`|N|N|
 |`fhirServer/bulkdata/core/batchIdEncryptionKey`|Y|N|
 |`fhirServer/bulkdata/core/pageSize`|Y|Y|
 |`fhirServer/bulkdata/core/maxPartitions`|Y|Y|
@@ -2551,7 +2573,7 @@ However, SMART defines additional access controls via OAuth 2.0 scopes and conte
 
 To enforce authorization policy on the server, drop the `fhir-smart` module into the server's userlib directory.
 
-This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated but a special `patient_id` claim in the access token).
+This component uses the IBM FHIR Server's PersistenceInterceptor feature to automatically scope searches to the compartments for which the user has access (as indicated by a special `patient_id` claim in the access token).
 
 Additionally, before returning resources to the client, the `fhir-smart` component performs authorization policy enforcement based on the list of SMART scopes included in the token's `scope` claim and the list of patient compartments in the `patient_id` claim.
 

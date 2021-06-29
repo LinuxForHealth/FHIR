@@ -35,7 +35,9 @@ import com.ibm.fhir.bucket.interop.InteropWorkload;
 import com.ibm.fhir.bucket.persistence.FhirBucketSchema;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypes;
 import com.ibm.fhir.bucket.persistence.MergeResourceTypesPostgres;
+import com.ibm.fhir.bucket.reindex.ClientDrivenReindexOperation;
 import com.ibm.fhir.bucket.reindex.DriveReindexOperation;
+import com.ibm.fhir.bucket.reindex.ServerDrivenReindexOperation;
 import com.ibm.fhir.bucket.scanner.BundleBreakerResourceProcessor;
 import com.ibm.fhir.bucket.scanner.COSReader;
 import com.ibm.fhir.bucket.scanner.CosScanner;
@@ -68,6 +70,10 @@ import com.ibm.fhir.task.api.ITaskCollector;
 import com.ibm.fhir.task.api.ITaskGroup;
 import com.ibm.fhir.task.core.service.TaskService;
 
+/**
+ * The fhir-bucket application for loading data from COS into a FHIR server
+ * and tracking the returned ids along with response times.
+ */
 public class Main {
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int DEFAULT_CONNECTION_POOL_SIZE = 10;
@@ -191,6 +197,15 @@ public class Main {
     // How many reindex calls should we run in parallel
     private int reindexConcurrentRequests = 1;
 
+    // The number of patients to fetch into the buffer
+    private int patientBufferSize = 500000;
+
+    // How many times should we cycle through the patient buffer before refilling
+    private int bufferRecycleCount = 1;
+
+    // Whether to use client-side-driven reindex, which uses $retrieve-index and $reindex in parallel
+    private boolean clientSideDrivenReindex = false;
+
     /**
      * Parse command line arguments
      * @param args
@@ -208,6 +223,13 @@ public class Main {
                 break;
             case "--create-schema":
                 this.createSchema = true;
+                break;
+            case "--schema-name":
+                if (i < args.length + 1) {
+                    this.schemaName = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --schema-name");
+                }
                 break;
             case "--cos-properties":
                 if (i < args.length + 1) {
@@ -356,6 +378,20 @@ public class Main {
                     throw new IllegalArgumentException("missing value for --max-resources-per-bundle");
                 }
                 break;
+            case "--patient-buffer-size":
+                if (i < args.length + 1) {
+                    this.patientBufferSize = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --patient-buffer-size");
+                }
+                break;
+            case "--buffer-recycle-count":
+                if (i < args.length + 1) {
+                    this.bufferRecycleCount = Integer.parseInt(args[++i]);
+                } else {
+                    throw new IllegalArgumentException("missing value for --buffer-recycle-count");
+                }
+                break;
             case "--incremental":
                 this.incremental = true;
                 break;
@@ -385,6 +421,9 @@ public class Main {
                 } else {
                     throw new IllegalArgumentException("missing value for --reindex-concurrent-requests");
                 }
+                break;
+            case "--reindex-client-side-driven":
+                this.clientSideDrivenReindex = true;
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -653,10 +692,10 @@ public class Main {
 
                 if (adapter.getTranslator().getType() == DbType.POSTGRESQL) {
                     // Postgres doesn't support batched merges, so we go with a simpler UPSERT
-                    MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(resourceTypes);
+                    MergeResourceTypesPostgres mrt = new MergeResourceTypesPostgres(schemaName, resourceTypes);
                     adapter.runStatement(mrt);
                 } else {
-                    MergeResourceTypes mrt = new MergeResourceTypes(resourceTypes);
+                    MergeResourceTypes mrt = new MergeResourceTypes(schemaName, resourceTypes);
                     adapter.runStatement(mrt);
                 }
             } catch (Exception x) {
@@ -825,13 +864,17 @@ public class Main {
         if (this.concurrentPayerRequests > 0 && fhirClient != null) {
             // set up the CMS payer thread to add some read-load to the system
             InteropScenario scenario = new InteropScenario(this.fhirClient);
-            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, 500000);
+            cmsPayerWorkload = new InteropWorkload(dataAccess, scenario, concurrentPayerRequests, this.patientBufferSize, this.bufferRecycleCount);
             cmsPayerWorkload.init();
         }
 
         // Optionally start the $reindex loops
         if (this.reindexTstampParam != null) {
-            this.driveReindexOperation = new DriveReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            if (this.clientSideDrivenReindex) {
+                this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            } else {
+                this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+            }
             this.driveReindexOperation.init();
         }
 

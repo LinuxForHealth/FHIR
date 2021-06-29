@@ -85,10 +85,13 @@ public class FHIRConfiguration {
 
     // Notification config properties
     public static final String PROPERTY_NOTIFICATION_RESOURCE_TYPES = "fhirServer/notifications/common/includeResourceTypes";
+    public static final String PROPERTY_NOTIFICATION_NOTIFICATION_SIZE_BEHAVIOR = "fhirServer/notifications/common/maxNotificationSizeBehavior";
+    public static final String PROPERTY_NOTIFICATION_MAX_SIZE = "fhirServer/notifications/common/maxNotificationSizeBytes";
     public static final String PROPERTY_WEBSOCKET_ENABLED = "fhirServer/notifications/websocket/enabled";
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_KAFKA_SYNC = "fhirServer/notifications/kafka/sync";
     public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
     public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
     public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";

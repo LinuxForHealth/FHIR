@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Finds the greater line number successfully processed for a particular resource bundle
@@ -22,28 +23,36 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class GetLastProcessedLineNumber implements IDatabaseSupplier<Integer> {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    // The schema holding the FHIRBUCKET tables
+    private final String schemaName;
+
     // PK of the loader instance to update
     private final long resourceBundleId;
-    
+
     // The version of file which generated the ids
     private final int version;
-    
+
     /**
      * Public constructor
-     * @param loaderInstanceId
+     * @param schemaName
+     * @param resourceBundleId
+     * @param version
      */
-    public GetLastProcessedLineNumber(long resourceBundleId, int version) {
+    public GetLastProcessedLineNumber(String schemaName, long resourceBundleId, int version) {
+        this.schemaName = schemaName;
         this.resourceBundleId = resourceBundleId;
         this.version = version;
     }
 
     @Override
     public Integer run(IDatabaseTranslator translator, Connection c) {
-        
+
+        final String logicalResources = DataDefinitionUtil.getQualifiedName(schemaName, "logical_resources");
+        final String resourceBundleLoads = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundle_loads");
         final String SQL = ""
                 + "SELECT max(lr.line_number) "
-                + "  FROM logical_resources lr, "
-                + "       resource_bundle_loads bl "
+                + "  FROM " + logicalResources + " lr, "
+                + "       " + resourceBundleLoads + " bl "
                 + " WHERE bl.resource_bundle_id = ? "
                 + "   AND bl.version = ? "
                 + "   AND lr.resource_bundle_load_id = bl.resource_bundle_load_id ";

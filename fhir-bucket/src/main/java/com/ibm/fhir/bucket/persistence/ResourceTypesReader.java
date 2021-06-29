@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * DAO to encapsulate all the SQL/DML used to retrieve and persist data
@@ -25,18 +26,23 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class ResourceTypesReader implements IDatabaseSupplier<List<ResourceTypeRec>> {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
 
+    private final String schemaName;
+
     /**
      * Public constructor
+     * @param schemaName
      */
-    public ResourceTypesReader() {
+    public ResourceTypesReader(String schemaName) {
+        this.schemaName = schemaName;
     }
 
     @Override
     public List<ResourceTypeRec> run(IDatabaseTranslator translator, Connection c) {
         List<ResourceTypeRec> result = new ArrayList<>();
 
-        final String SQL = "SELECT resource_type_id, resource_type FROM resource_types";
-        
+        final String tableName = DataDefinitionUtil.getQualifiedName(schemaName, "resource_types");
+        final String SQL = "SELECT resource_type_id, resource_type FROM " + tableName;
+
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -49,7 +55,7 @@ public class ResourceTypesReader implements IDatabaseSupplier<List<ResourceTypeR
             logger.log(Level.SEVERE, "Error reading resource types");
             throw translator.translate(x);
         }
-        
+
         return result;
     }
 }

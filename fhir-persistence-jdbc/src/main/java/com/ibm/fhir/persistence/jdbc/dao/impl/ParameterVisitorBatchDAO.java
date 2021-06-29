@@ -7,6 +7,9 @@
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -35,6 +38,7 @@ import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.search.util.ReferenceValue;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
@@ -54,6 +58,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // the max number of rows we accumulate for a given statement before we submit the batch
     private final int batchSize;
+
+    // Enable the feature to store whole system parameters
+    private final boolean storeWholeSystemParams = true;
 
     // FK to the logical resource for the parameters being added
     private final long logicalResourceId;
@@ -92,6 +99,15 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
     // Collect a list of token values to process in one go
     private final List<ResourceTokenValueRec> tokenValueRecs = new ArrayList<>();
+
+    // Tags are now stored in their own tables
+    private final List<ResourceTokenValueRec> tagTokenRecs = new ArrayList<>();
+
+    // Security params are now stored in their own tables
+    private final List<ResourceTokenValueRec> securityTokenRecs = new ArrayList<>();
+
+    // Profiles are now stored in their own tables
+    private final List<ResourceProfileRec> profileRecs = new ArrayList<>();
 
     // The table prefix (resourceType)
     private final String tablePrefix;
@@ -157,19 +173,24 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         insertLocation = multitenant ? "INSERT INTO " + tablePrefix + "_latlng_values (mt_id, parameter_name_id, latitude_value, longitude_value, logical_resource_id, composite_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
                 : "INSERT INTO " + tablePrefix + "_latlng_values (parameter_name_id, latitude_value, longitude_value, logical_resource_id, composite_id) VALUES (?,?,?,?,?)";
 
-        // System level string attributes
-        String insertSystemString = multitenant ?
-                "INSERT INTO str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                :
-                "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
-        systemStrings = c.prepareStatement(insertSystemString);
+        if (storeWholeSystemParams) {
+            // System level string attributes
+            String insertSystemString = multitenant ?
+                    "INSERT INTO str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                    :
+                    "INSERT INTO str_values (parameter_name_id, str_value, str_value_lcase, logical_resource_id) VALUES (?,?,?,?)";
+            systemStrings = c.prepareStatement(insertSystemString);
 
-        // System level date attributes
-        String insertSystemDate = multitenant ?
-                "INSERT INTO date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
-                :
-                "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
-        systemDates = c.prepareStatement(insertSystemDate);
+            // System level date attributes
+            String insertSystemDate = multitenant ?
+                    "INSERT INTO date_values (mt_id, parameter_name_id, date_start, date_end, logical_resource_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?)"
+                    :
+                    "INSERT INTO date_values (parameter_name_id, date_start, date_end, logical_resource_id) VALUES (?,?,?,?)";
+            systemDates = c.prepareStatement(insertSystemDate);
+        } else {
+            systemStrings = null;
+            systemDates = null;
+        }
     }
 
     /**
@@ -195,6 +216,12 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         String parameterName = param.getName();
         String value = param.getValueString();
 
+        if (PROFILE.equals(parameterName)) {
+            // profile canonicals are now stored in their own tables.
+            processProfile(param);
+            return;
+        }
+
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
             // keep chopping the string in half until its byte representation fits inside
             // the VARCHAR
@@ -203,7 +230,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
         try {
             int parameterNameId = getParameterNameId(parameterName);
-            if (isBase(param)) {
+            if (storeWholeSystem(param)) {
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("systemStringValue: " + parameterName + "[" + parameterNameId + "], " + value);
                 }
@@ -224,19 +251,19 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemStrings.executeBatch();
                     systemStringCount = 0;
                 }
-            } else {
-                // standard resource property
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
-                }
+            }
 
-                setStringParms(strings, parameterNameId, value);
-                strings.addBatch();
+            // always store at the resource-specific level
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("stringValue: " + parameterName + "[" + parameterNameId + "], " + value);
+            }
 
-                if (++stringCount == this.batchSize) {
-                    strings.executeBatch();
-                    stringCount = 0;
-                }
+            setStringParms(strings, parameterNameId, value);
+            strings.addBatch();
+
+            if (++stringCount == this.batchSize) {
+                strings.executeBatch();
+                stringCount = 0;
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + value, x);
@@ -254,6 +281,25 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
         insert.setLong(4, logicalResourceId);
         setCompositeId(insert, 5);
+    }
+
+    /**
+     * Special case to store profile strings as canonical uri values in their own table
+     * @param param
+     * @throws FHIRPersistenceException
+     */
+    private void processProfile(StringParmVal param) throws FHIRPersistenceException {
+        final String parameterName = param.getName();
+        final int parameterNameId = getParameterNameId(parameterName);
+        final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
+
+        // Parse the parameter value to extract the URI|VERSION#FRAGMENT pieces
+        ResourceProfileRec rec = CanonicalSupport.makeResourceProfileRec(parameterNameId, param.getResourceType(), resourceTypeId, this.logicalResourceId, param.getValueString(), param.isWholeSystem());
+        if (transactionData != null) {
+            transactionData.addValue(rec);
+        } else {
+            profileRecs.add(rec);
+        }
     }
 
     /**
@@ -278,7 +324,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal valueHigh = param.getValueNumberHigh();
 
         // System-level number search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level number search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -322,7 +368,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
-            if (isBase(param)) {
+            if (storeWholeSystem(param)) {
                 // store as a system level search param
                 if (logger.isLoggable(Level.FINE)) {
                     logger.fine("systemDateValue: " + parameterName + "[" + parameterNameId + "], "
@@ -337,19 +383,20 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     systemDates.executeBatch();
                     systemDateCount = 0;
                 }
-            } else {
-                if (logger.isLoggable(Level.FINE)) {
-                    logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
-                            + "period: [" + dateStart + ", " + dateEnd + "]");
-                }
+            }
 
-                setDateParms(dates, parameterNameId, dateStart, dateEnd);
-                dates.addBatch();
+            // always store the param at the resource-specific level
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("dateValue: " + parameterName + "[" + parameterNameId + "], "
+                        + "period: [" + dateStart + ", " + dateEnd + "]");
+            }
 
-                if (++dateCount == this.batchSize) {
-                    dates.executeBatch();
-                    dateCount = 0;
-                }
+            setDateParms(dates, parameterNameId, dateStart, dateEnd);
+            dates.addBatch();
+
+            if (++dateCount == this.batchSize) {
+                dates.executeBatch();
+                dateCount = 0;
             }
         } catch (SQLException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "={" + dateStart + ", " + dateEnd + "}", x);
@@ -373,7 +420,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         try {
             int parameterNameId = getParameterNameId(parameterName);
 
-            boolean isSystemParam = isBase(param);
+            boolean isSystemParam = storeWholeSystem(param);
             if (logger.isLoggable(Level.FINE)) {
                 logger.fine("tokenValue: " + parameterName + "[" + parameterNameId + "], "
                         + codeSystem + ", " + tokenValue);
@@ -387,10 +434,30 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
             ResourceTokenValueRec rec = new ResourceTokenValueRec(parameterNameId, param.getResourceType(), resourceTypeId, logicalResourceId, codeSystem, tokenValue, this.currentCompositeId, isSystemParam);
-            if (this.transactionData != null) {
-                this.transactionData.addValue(rec);
+            if (TAG.equals(parameterName)) {
+                // tag search params are often low-selectivity (many resources sharing the same value) so
+                // we put them into their own tables to allow better cardinality estimation by the query
+                // optimizer
+                if (this.transactionData != null) {
+                    this.transactionData.addTagValue(rec);
+                } else {
+                    this.tagTokenRecs.add(rec);
+                }
+            } else if (SECURITY.equals(parameterName)) {
+                // search search params are often low-selectivity (many resources sharing the same value) so
+                // we put them into their own tables to allow better cardinality estimation by the query
+                // optimizer
+                if (this.transactionData != null) {
+                    this.transactionData.addSecurityValue(rec);
+                } else {
+                    this.securityTokenRecs.add(rec);
+                }
             } else {
-                this.tokenValueRecs.add(rec);
+                if (this.transactionData != null) {
+                    this.transactionData.addValue(rec);
+                } else {
+                    this.tokenValueRecs.add(rec);
+                }
             }
         } catch (FHIRPersistenceDataAccessException x) {
             throw new FHIRPersistenceDataAccessException(parameterName + "=" + codeSystem + ":" + tokenValue, x);
@@ -407,7 +474,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         BigDecimal quantityHigh = param.getValueNumberHigh();
 
         // System-level quantity search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level quantity search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -464,7 +531,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         double lng = param.getValueLongitude();
 
         // System-level location search parameters are not supported
-        if (isBase(param)) {
+        if (storeWholeSystem(param)) {
             String msg = "System-level location search parameters are not supported: " + parameterName;
             logger.warning(msg);
             throw new IllegalArgumentException(msg);
@@ -529,7 +596,6 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 dateCount = 0;
             }
 
-
             if (quantityCount > 0) {
                 quantities.executeBatch();
                 quantityCount = 0;
@@ -555,9 +621,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             }
         }
 
-        // Process any tokens and references we've collected along the way
-        if (!tokenValueRecs.isEmpty()) {
-            this.resourceReferenceDAO.addCommonTokenValues(this.tablePrefix, tokenValueRecs);
+        if (this.transactionData == null) {
+            // Not using transaction data, so we need to process collected values right here
+            this.resourceReferenceDAO.addNormalizedValues(this.tablePrefix, tokenValueRecs, profileRecs, tagTokenRecs, securityTokenRecs);
         }
 
         closeStatement(strings);
@@ -580,8 +646,13 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         }
     }
 
-    private boolean isBase(ExtractedParameterValue param) {
-        return "Resource".equals(param.getBase());
+    /**
+     * Should we store this parameter also at the whole-system search level?
+     * @param param
+     * @return
+     */
+    private boolean storeWholeSystem(ExtractedParameterValue param) {
+        return storeWholeSystemParams && param.isWholeSystem();
     }
 
     @Override

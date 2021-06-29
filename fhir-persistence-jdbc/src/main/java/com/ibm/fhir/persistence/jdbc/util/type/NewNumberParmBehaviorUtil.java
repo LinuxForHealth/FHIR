@@ -124,7 +124,7 @@ public class NewNumberParmBehaviorUtil {
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
-                    columnBase + _HIGH, GT, value, lowerBound);
+                    columnBase + _HIGH, GT, value, upperBound);
             break;
         case LE:
             // LE - Less Than Equal
@@ -137,7 +137,7 @@ public class NewNumberParmBehaviorUtil {
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
             buildCommonClause(whereClauseSegment, tableAlias, columnBase, columnBase + _LOW,
-                    columnBase + _HIGH, LT, value, upperBound);
+                    columnBase + _HIGH, LT, value, lowerBound);
             break;
         case AP:
             // AP - Approximate - Relative
@@ -256,7 +256,7 @@ public class NewNumberParmBehaviorUtil {
         BigDecimal approximateUpperBound = upperBound.add(factor);
 
         whereClauseSegment.leftParen();
-        
+
         // The following clauses test for overlap when both xx_VALUE_HIGH and xx_VALUE_LOW are non-null.
         // Example:
         //      P2.QUANTITY_VALUE_HIGH >= 8.5
@@ -264,7 +264,7 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).gte().bind(approximateLowerBound);
         whereClauseSegment.and();
         whereClauseSegment.col(tableAlias, columnBase + _LOW).lte().bind(approximateUpperBound);
-        
+
         // The following clauses test for overlap when the target is a Range data type and either
         // xx_VALUE_HIGH or xx_VALUE_LOW is NULL (unknown bound).
         // Example:
@@ -306,7 +306,7 @@ public class NewNumberParmBehaviorUtil {
         whereClauseSegment.and();
         whereClauseSegment.col(tableAlias, columnBase + _HIGH).isNull();
         whereClauseSegment.rightParen();
-        
+
         whereClauseSegment.rightParen();
     }
 

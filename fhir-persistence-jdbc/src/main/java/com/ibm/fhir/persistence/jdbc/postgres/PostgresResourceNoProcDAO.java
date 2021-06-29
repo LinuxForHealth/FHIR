@@ -41,6 +41,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
 /**
@@ -71,20 +72,8 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         super(connection, schemaName, flavor, trxSynchRegistry, cache, rrd, ptdi);
     }
 
-    /**
-     * Inserts the passed FHIR Resource and associated search parameters to a Derby or PostgreSql FHIR database.
-     * The search parameters are stored first by calling the passed parameterDao. Then the Resource is stored
-     * by sql.
-     * @param resource The FHIR Resource to be inserted.
-     * @param parameters The Resource's search parameters to be inserted.
-     * @param parameterDao
-     * @return The Resource DTO
-     * @throws FHIRPersistenceDataAccessException
-     * @throws FHIRPersistenceDBConnectException
-     * @throws FHIRPersistenceVersionIdMismatchException
-     */
     @Override
-    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, ParameterDAO parameterDao)
+    public Resource insert(Resource resource, List<ExtractedParameterValue> parameters, String parameterHashB64, ParameterDAO parameterDao)
             throws FHIRPersistenceException {
         final String METHODNAME = "insert";
         logger.entering(CLASSNAME, METHODNAME);
@@ -95,6 +84,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         boolean acquiredFromCache;
         long dbCallStartTime;
         double dbCallDuration;
+        boolean requireParameterUpdate = true;
 
         try {
             resourceTypeId = getResourceTypeIdFromCaches(resource.getResourceType());
@@ -124,6 +114,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 resource.isDeleted(),
                 sourceKey,
                 resource.getVersionId(),
+                parameterHashB64,
                 connection,
                 parameterDao
                 );
@@ -180,7 +171,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      *
      * Note the execution flow aligns very closely with the DB2 stored procedure
      * implementation (fhir-persistence-schema/src/main/resources/add_any_resource.sql)
-     *
      * @param tablePrefix
      * @param parameters
      * @param p_logical_id
@@ -188,13 +178,15 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
      * @param p_last_updated
      * @param p_is_deleted
      * @param p_source_key
-     * @param p_version the intended version for this resource
-     *
+     * @param p_version
+     * @param parameterHashB64
+     * @param conn
+     * @param parameterDao
      * @return the resource_id for the entry we created
      * @throws Exception
      */
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
-        String p_source_key, Integer p_version, Connection conn, ParameterDAO parameterDao) throws Exception {
+        String p_source_key, Integer p_version, String parameterHashB64, Connection conn, ParameterDAO parameterDao) throws Exception {
 
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
@@ -207,6 +199,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         boolean v_not_found = false;
         boolean v_duplicate = false;
         int v_current_version = 0;
+        String currentHash = null;
 
         String v_resource_type = tablePrefix;
 
@@ -218,13 +211,14 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         }
 
         // Get a lock at the system-wide logical resource level. Note the PostgreSQL-specific syntax
-        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR NO KEY UPDATE";
+        final String SELECT_FOR_UPDATE = "SELECT logical_resource_id, parameter_hash FROM logical_resources WHERE resource_type_id = ? AND logical_id = ? FOR NO KEY UPDATE";
         try (PreparedStatement stmt = conn.prepareStatement(SELECT_FOR_UPDATE)) {
             stmt.setInt(1, v_resource_type_id);
             stmt.setString(2, p_logical_id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 v_logical_resource_id = rs.getLong(1);
+                currentHash = rs.getString(2);
             }
             else {
                 v_not_found = true;
@@ -248,7 +242,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             }
 
             // insert the system-wide logical resource record.
-            final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp) VALUES (?, ?, ?, ?) "
+            final String sql3 = "INSERT INTO logical_resources (logical_resource_id, resource_type_id, logical_id, reindex_tstamp, parameter_hash) VALUES (?, ?, ?, ?, ?) "
                     + " ON CONFLICT DO NOTHING"
                     + " RETURNING logical_resource_id";
             try (PreparedStatement stmt = conn.prepareStatement(sql3)) {
@@ -257,6 +251,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                 stmt.setInt(2, v_resource_type_id);
                 stmt.setString(3, p_logical_id);
                 stmt.setTimestamp(4, Timestamp.valueOf(DEFAULT_VALUE_REINDEX_TSTAMP), UTC);
+                stmt.setString(5, parameterHashB64);
                 stmt.execute();
 
                 ResultSet rs = stmt.getResultSet();
@@ -279,6 +274,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
                     ResultSet res = stmt.executeQuery();
                     if (res.next()) {
                         v_logical_resource_id = res.getLong(1);
+                        currentHash = res.getString(2);
                     }
                     else {
                         // Extremely unlikely as we should never delete logical resource records
@@ -331,15 +327,24 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
             }
 
             // existing resource, so need to delete all its parameters
-            deleteFromParameterTable(conn, tablePrefix + "_str_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_number_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_date_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_latlng_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, tablePrefix + "_resource_token_refs", v_logical_resource_id); // replaces _token_values
-            deleteFromParameterTable(conn, tablePrefix + "_quantity_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, "str_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, "date_values", v_logical_resource_id);
-            deleteFromParameterTable(conn, "resource_token_refs", v_logical_resource_id);
+            if (currentHash == null || currentHash.isEmpty() || !currentHash.equals(parameterHashB64)) {
+                ParameterTableSupport.deleteFromParameterTables(conn, tablePrefix, v_logical_resource_id);
+            }
+
+            // For schema V0014, now we also need to update the is_deleted and last_updated values
+            // in LOGICAL_RESOURCES to support whole-system search
+            final String sql4b = "UPDATE logical_resources SET is_deleted = ?, last_updated = ?, parameter_hash = ? WHERE logical_resource_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(sql4b)) {
+                // bind parameters
+                stmt.setString(1, p_is_deleted ? "Y" : "N");
+                stmt.setTimestamp(2, p_last_updated, UTC);
+                stmt.setString(3, parameterHashB64);
+                stmt.setLong(4, v_logical_resource_id);
+                stmt.executeUpdate();
+                if (logger.isLoggable(Level.FINEST)) {
+                    logger.finest("Updated logical_resources: " + v_resource_type + "/" + p_logical_id);
+                }
+            }
         }
 
         /**
@@ -384,7 +389,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         }
 
         // Note we don't get any parameters for the resource soft-delete operation
-        if (parameters != null) {
+        if (parameters != null && (currentHash == null || currentHash.isEmpty() || !currentHash.equals(parameterHashB64))) {
             // PostgreSQL doesn't support partitioned multi-tenancy, so we disable it on the DAO:
             JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
             try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(conn, null, tablePrefix, false, v_logical_resource_id, 100,
@@ -412,23 +417,6 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
 
         logger.exiting(CLASSNAME, METHODNAME);
         return v_resource_id;
-    }
-
-    /**
-     * Delete all parameters for the given resourceId from the parameters table
-     *
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
-     * @throws SQLException
-     */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String delStrValues = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(delStrValues)) {
-            // bind parameters
-            stmt.setLong(1, logicalResourceId);
-            stmt.executeUpdate();
-        }
     }
 
     /**

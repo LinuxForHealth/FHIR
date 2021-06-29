@@ -28,6 +28,7 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.DateTime;
+import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Oid;
@@ -179,6 +180,7 @@ public final class FHIROperationUtil {
         return getOutputParameters("return", resource);
     }
 
+
     /**
      * generates an output parameter with a specific name.
      *
@@ -193,6 +195,23 @@ public final class FHIROperationUtil {
                     .resource(resource)
                     .build())
                 .build();
+    }
+
+    /**
+     * Generates an output parameters, with a parameter for a specified element.
+     * @param name the parameter name
+     * @param element the element, or null
+     * @return output parameters
+     */
+    public static Parameters getOutputParameters(String name, Element element) {
+        Parameters.Builder builder = Parameters.builder();
+        if (element != null) {
+            builder.parameter(Parameter.builder()
+                .name(string(name))
+                .value(element)
+                .build());
+        }
+        return builder.build();
     }
 
     public static boolean hasSingleResourceOutputParameter(Parameters parameters) {

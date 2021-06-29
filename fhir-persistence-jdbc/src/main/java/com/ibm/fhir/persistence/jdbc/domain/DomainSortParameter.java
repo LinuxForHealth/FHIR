@@ -27,6 +27,14 @@ public class DomainSortParameter {
     }
 
     /**
+     * Get the sort parameter.
+     * @return sort parameter
+     */
+    public SortParameter getSortParameter() {
+        return this.sortParameter;
+    }
+
+    /**
      * Visitor to apply the sort parameter to the query builder represented by the visitor
      * @param queryData
      * @param visitor

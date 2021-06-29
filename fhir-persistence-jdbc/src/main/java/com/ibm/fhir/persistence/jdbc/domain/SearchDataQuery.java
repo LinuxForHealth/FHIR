@@ -14,6 +14,12 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
  * this class fetches the data and handles pagination
  */
 public class SearchDataQuery extends SearchQuery {
+    
+    // Is sorting required?
+    boolean addSorting = true;
+    
+    // Is pagination required?
+    boolean addPagination = true;
 
     /**
      * Public constructor
@@ -21,6 +27,18 @@ public class SearchDataQuery extends SearchQuery {
      */
     public SearchDataQuery(String resourceType) {
         super(resourceType);
+    }
+
+    /**
+     * Public constructor
+     * @param resourceType
+     * @param addSorting
+     * @param addPagination
+     */
+    public SearchDataQuery(String resourceType, boolean addSorting, boolean addPagination) {
+        super(resourceType);
+        this.addSorting = addSorting;
+        this.addPagination = addPagination;
     }
 
     @Override
@@ -38,8 +56,12 @@ public class SearchDataQuery extends SearchQuery {
         query = visitor.joinResources(query);
 
         // now attach the requisite ordering and pagination clauses
-        query = visitor.addSorting(query, "LR");
-        query = visitor.addPagination(query);
+        if (addSorting) {
+            query = visitor.addSorting(query, "LR");
+        }
+        if (addPagination) {
+            query = visitor.addPagination(query);
+        }
 
         return query;
     }

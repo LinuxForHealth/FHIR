@@ -9,15 +9,14 @@ package com.ibm.fhir.bulkdata.provider.impl;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.azure.storage.blob.BlobClient;
 import com.azure.storage.blob.BlobClientBuilder;
@@ -35,12 +34,14 @@ import com.ibm.fhir.bulkdata.provider.Provider;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -54,6 +55,10 @@ import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
  */
 public class AzureProvider implements Provider {
     private static final Logger LOG = Logger.getLogger(AzureProvider.class.getName());
+
+    private static final byte[] NEWLINE = "\r\n".getBytes();
+
+    private static final int MAX_BLOCK_SIZE = 4194303;
 
     private ImportTransientUserData transientUserData = null;
     private ExportTransientUserData chunkData = null;
@@ -138,6 +143,10 @@ public class AzureProvider implements Provider {
         try {
             initializeBlobClient(workItem);
             long size = client.getProperties().getBlobSize();
+            // Only null when we are using the AzureTransformer
+            if (transientUserData != null) {
+                transientUserData.setImportFileSize(size);
+            }
             LOG.fine(() -> workItem + " [" + size + "]");
             return size;
         } catch (Exception e) {
@@ -176,26 +185,76 @@ public class AzureProvider implements Provider {
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
+        if (!client.exists().booleanValue() && size > 0) {
             aClient.create();
         }
-        aClient.appendBlock(in, size);
+
+        byte[] payload = new byte[MAX_BLOCK_SIZE];
+        int len = in.read(payload, 0, MAX_BLOCK_SIZE);
+        while (len != -1) {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Start Loop with '" + len + "'");
+            }
+            byte[] tmpPayload = payload;
+            if (len < MAX_BLOCK_SIZE) {
+                tmpPayload = Arrays.copyOfRange(payload, 0, len);
+            }
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(tmpPayload)) {
+                if (len > 0) {
+                    aClient.appendBlock(bais, len);
+                }
+            }
+            len = in.read(payload, 0, MAX_BLOCK_SIZE);
+        }
+        LOG.fine(() -> "Finished Loop");
+
+        // Append a new line.
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(NEWLINE)) {
+            aClient.appendBlock(bais, NEWLINE.length);
+        }
     }
 
     @Override
     public void writeResources(String mediaType, List<ReadResultDTO> dtos) throws Exception {
-        String workItem = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
+        workItem = cosBucketPathPrefix + "/" + fhirResourceType + "_" + chunkData.getUploadCount() + ".ndjson";
 
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
+
+        byte[] baos = chunkData.getBufferStream().toByteArray();
+
+        // Only create if it's not empty.
+        if (!client.exists().booleanValue() && baos.length > 0) {
             aClient.create();
         }
-        aClient.appendBlock(
-            new ByteArrayInputStream(chunkData.getBufferStream().toByteArray()),
-                chunkData.getBufferStream().size());
+        int current = 0;
+        for (int i = 0; i <= (Math.ceil(baos.length/MAX_BLOCK_SIZE)); i++) {
+            int payloadLength = MAX_BLOCK_SIZE;
+            if (payloadLength + current > baos.length) {
+                payloadLength = baos.length - current;
+            }
+            byte[] payload = new byte[payloadLength];
+            for (int j = 0; j < payloadLength; j++) {
+                payload[j] = baos[current];
+                current++;
+            }
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Byte Progress: current='" + current + "' total='" + baos.length + "' payload='" + payload.length);
+            }
+            if (payload.length > 0) {
+                aClient.appendBlock(
+                    new ByteArrayInputStream(payload),
+                        payload.length);
+            }
+        }
 
+        LOG.fine(() -> "Export Write is finished");
+
+        if (dtos != null) {
+            dtos.clear();
+        }
+        chunkData.setPartNum(chunkData.getPartNum() + 1);
         chunkData.getBufferStream().reset();
 
         if (chunkData.isFinishCurrentUpload()) {
@@ -212,6 +271,9 @@ public class AzureProvider implements Provider {
                 }
             }
 
+            ConfigurationAdapter config = ConfigurationFactory.getInstance();
+            long resourceCountThreshold = config.getCoreAzureObjectResourceCountThreshold();
+            long sizeThreshold = config.getCoreAzureObjectSizeThreshold();
             if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
                 chunkData.setPartNum(1);
                 chunkData.setUploadId(null);
@@ -220,79 +282,143 @@ public class AzureProvider implements Provider {
                 chunkData.setFinishCurrentUpload(false);
                 chunkData.getCosDataPacks().clear();
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            } else if (chunkData.getCurrentUploadSize() >= sizeThreshold || resourceCountThreshold >= chunkData.getCurrentUploadResourceNum()){
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
             }
         }
     }
 
-    /*
-     * We process the BlobRange as a window
-     */
     @Override
     public void readResources(long numOfLinesToSkip, String workItem) throws FHIRException {
+        resources = new ArrayList<>();
         initializeBlobClient(workItem);
         this.workItem = workItem;
 
         boolean complete = false;
         int window = 0;
 
-        // 200 means 2000M! has been retrieved, our maximum single resource size.
+        // We process the BlobRange as a window of 100K up to 20000 windows.
+        // 20000 windows X 100K means 2000M! has been retrieved, our maximum single resource size.
+        // We increment the window after the processing of the current BlobRange.
         StringBuilder previous = new StringBuilder();
-        while (!complete && window < 200) {
+        while (!complete && window < 20000) {
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("Window [" + window + "]");
+            }
+            // Figure out the range that is needed
+            long actualRange = 100000L;
+            boolean endOfFile = (currentBytes + actualRange) > this.transientUserData.getImportFileSize();
+            if (endOfFile) {
+                actualRange = this.transientUserData.getImportFileSize() - currentBytes;
+                LOG.fine(() -> "Hit the end of the file size='" + this.transientUserData.getImportFileSize() + "' rest='" + (this.transientUserData.getImportFileSize() - currentBytes) + "' currentBytes='" + currentBytes + "'");
+                if (actualRange == 0) {
+                    break;
+                }
+            }
+
+            // Assemble the BlobRequestConditions and BlobRange
             BlobRequestConditions options = new BlobRequestConditions();
-            BlobRange range = new BlobRange(currentBytes, 10000L);
+            BlobRange range = new BlobRange(currentBytes, actualRange);
+
             // Now we need to calculate where we left off in the download, and adjust the resume point.
             try (InputStream in = client.openInputStream(range, options);
                     CountInputStreamReader counter = new CountInputStreamReader(in);
                     BufferedReader reader = new BufferedReader(counter)) {
-
-                List<String> lines = reader.lines().collect(Collectors.toList());
-                int idx = 1;
-                for (String line : lines) {
-                    idx++;
-                    String compLine = previous + line;
-
-                    try (ByteArrayInputStream bais = new ByteArrayInputStream(compLine.getBytes())) {
-                        resources.add(FHIRParser.parser(Format.JSON).parse(bais));
-                        if (LOG.isLoggable(Level.FINE)) {
-                            LOG.fine("Azure Resource [R] " + compLine);
-                        }
-                        // There is no reason to reset compLine as we're now stopping this proccessing block.
-                        // previous, baos are all going to go out of scope.
-                        if (window > 0) {
-                            // Doesn't need to be closed per JavaDocs
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            baos.write(line.getBytes());
-                            currentBytes += baos.size();
-                            complete = true;
-                            break;
-                        }
-                    } catch(FHIRParserException fpe) {
-                        // We're on the last line, so there might be more
-                        if (idx -1 == lines.size()) {
-                            previous.append(line);
-                        } else {
-                            parseFailures++;
-                            OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue("Failed to Process " + this.transientUserData.getNumOfProcessedResources() + idx, IssueType.EXCEPTION);
-                            OperationOutcome oo = OperationOutcome.builder().issue(ooi).build();
-                            FHIRGenerator.generator(Format.JSON).generate(oo, this.transientUserData.getBufferStreamForImportError());
-                            this.transientUserData.getBufferStreamForImportError().write("\r\n".getBytes());
-                        }
-                    }
-                }
-                if (!complete) {
-                    currentBytes += counter.getLength();
-                    window++;
-                }
-
-                // Set so we can move the window forward.
-                this.transientUserData.setCurrentBytes(currentBytes);
+                complete = processLines(counter, reader, window, endOfFile, previous);
                 LOG.fine(() -> "Number of bytes read are: '" + currentBytes + "'");
             } catch (IOException e) {
                 LOG.throwing("AzureProvider", "readResources", e);
                 LOG.severe("Problem accessing backend on Azure" + e.getMessage());
                 throw new FHIRException("Problem accessing backend Container or Blob on Azure", e);
             }
+
+            // No more processing when we are at the end of the file
+            if (endOfFile) {
+                transientUserData.setCurrentBytes(this.transientUserData.getImportFileSize());
+                break;
+            }
+
+            window++;
         }
+    }
+
+    /**
+     * processes the lines in the ndjson file.
+     * @param counter
+     * @param reader
+     * @param window
+     * @param endOfFile
+     * @param previous
+     * @return
+     * @throws FHIRGeneratorException
+     * @throws IOException
+     */
+    public boolean processLines(CountInputStreamReader counter, BufferedReader reader, int window, boolean endOfFile, StringBuilder previous) throws FHIRGeneratorException, IOException {
+        boolean complete = false;
+        int idx = 0;
+
+        String tmpLine = "";
+
+        String line = reader.readLine();
+        while (line != null) {
+            idx++;
+            // Only when we're on the first line do we want to prefix it
+            String compLine;
+
+            if (idx == 1) {
+                compLine = previous + line;
+            } else {
+                compLine = line;
+            }
+
+            tmpLine = line;
+            line = reader.readLine();
+
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(compLine.getBytes())) {
+                LOG.finer(() -> "Azure Resource [R] " + compLine);
+                resources.add(FHIRParser.parser(Format.JSON).parse(bais));
+            } catch (FHIRParserException fpe) {
+                // We're on the last line, so there might be more
+                // We may need to combine multiple windows retrieved from the source (up to 2GB)
+                if (line == null) {
+                    if (LOG.isLoggable(Level.FINE)) {
+                        LOG.fine("Azure Resource [PARTIAL] '" + tmpLine + "' Previous: '" + previous + "'");
+                    }
+                    previous.append(tmpLine);
+                } else {
+                    addParseFailure(idx);
+                }
+            }
+        }
+
+        if (window > 0 && idx != 1 && currentBytes < transientUserData.getImportFileSize()) {
+            // Important here, we're on the Nth window, and need to look back to find the last unparsed
+            // and subtract it
+            complete = true;
+            currentBytes += counter.getLength() - tmpLine.getBytes().length;
+        } else {
+            currentBytes += counter.getLength();
+        }
+
+        // Set so we can move the window forward.
+        transientUserData.setCurrentBytes(currentBytes);
+        return complete || endOfFile;
+    }
+
+    /**
+     * logs the parse failures.
+     *
+     * @param idx
+     * @throws FHIRGeneratorException
+     * @throws IOException
+     */
+    public void addParseFailure(int idx) throws FHIRGeneratorException, IOException {
+        parseFailures++;
+        OperationOutcome.Issue ooi = FHIRUtil.buildOperationOutcomeIssue("Failed to Process "
+                + this.transientUserData.getNumOfProcessedResources() + idx, IssueType.EXCEPTION);
+        OperationOutcome oo = OperationOutcome.builder().issue(ooi).build();
+        FHIRGenerator.generator(Format.JSON).generate(oo, this.transientUserData.getBufferStreamForImportError());
+        this.transientUserData.getBufferStreamForImportError().write("\r\n".getBytes());
     }
 
     /**
@@ -380,7 +506,6 @@ public class AzureProvider implements Provider {
 
         this.cosBucketPathPrefix = cosBucketPathPrefix;
         this.fhirResourceType = fhirResourceType;
-
         this.chunkData = transientUserData;
     }
 }

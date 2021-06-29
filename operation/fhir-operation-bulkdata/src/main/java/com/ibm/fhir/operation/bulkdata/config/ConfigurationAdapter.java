@@ -135,6 +135,24 @@ public interface ConfigurationAdapter {
     int getCoreCosObjectResourceCountThreshold();
 
     /**
+     * The size (in bytes) at which to finish writing to a given AzureBlob object,
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    long getCoreAzureObjectSizeThreshold();
+
+    /**
+     * The number of resources at which to finish writing to a given AzureBlob object,
+     *
+     * @implNote System value.
+     *
+     * @return
+     */
+    int getCoreAzureObjectResourceCountThreshold();
+
+    /**
      * @implNote System value.
      * @return the system wide setting for using the server truststore.
      */
@@ -376,14 +394,6 @@ public interface ConfigurationAdapter {
      * @return
      */
     boolean shouldStorageProviderValidateBaseUrl(String provider);
-
-    /**
-     *
-     * @param provider
-     * @return
-     */
-    @Deprecated
-    boolean isStorageProviderExportPublic(String provider);
 
     /**
      *

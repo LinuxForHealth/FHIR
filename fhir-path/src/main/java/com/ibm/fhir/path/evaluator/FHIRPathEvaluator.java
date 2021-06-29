@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.path.evaluator;
 
+import static com.ibm.fhir.cache.CacheKey.key;
 import static com.ibm.fhir.cache.util.CacheSupport.createCacheAsMap;
 import static com.ibm.fhir.path.FHIRPathDateTimeValue.dateTimeValue;
 import static com.ibm.fhir.path.FHIRPathDateValue.dateValue;
@@ -60,6 +61,7 @@ import java.util.stream.Collectors;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 
+import com.ibm.fhir.cache.CacheKey;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
@@ -1363,6 +1365,7 @@ public class FHIRPathEvaluator {
         private final FHIRPathTree tree;
         private final Map<String, Collection<FHIRPathNode>> externalConstantMap = new HashMap<>();
         private final List<Issue> issues = new ArrayList<>();
+        private final Map<CacheKey, Collection<FHIRPathNode>> functionResultCache = new HashMap<>();
 
         private Constraint constraint;
         private boolean resolveRelativeReferences = DEFAULT_RESOLVE_RELATIVE_REFERENCES;
@@ -1574,6 +1577,57 @@ public class FHIRPathEvaluator {
          */
         public boolean resolveRelativeReferences() {
             return resolveRelativeReferences;
+        }
+
+        /**
+         * Get the cached function result for the given function name, context, and arguments.
+         *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
+         * @return
+         *     the cached function result as a collection of FHIRPath nodes or an empty collection
+         */
+        public Collection<FHIRPathNode> getCachedFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+            CacheKey key = key(functionName, context, arguments);
+            return functionResultCache.getOrDefault(key, empty());
+        }
+
+        /**
+         * Cache the function result for the given function name, context, and arguments
+         *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
+         * @param result
+         *     the function result
+         */
+        public void cacheFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments, Collection<FHIRPathNode> result) {
+            CacheKey key = key(functionName, context, arguments);
+            functionResultCache.put(key, result);
+        }
+
+        /**
+         * Indicates whether a function result has been cached for the given function name, context, and arguments.
+         *
+         * @param functionName
+         *     the function name
+         * @param context
+         *     the context
+         * @param arguments
+         *     the arguments
+         * @return
+         *     true if the function result has been cached, otherwise false
+         */
+        public boolean hasCachedFunctionResult(String functionName, Collection<FHIRPathNode> context, List<Collection<FHIRPathNode>> arguments) {
+            CacheKey key = key(functionName, context, arguments);
+            return functionResultCache.containsKey(key);
         }
     }
 }

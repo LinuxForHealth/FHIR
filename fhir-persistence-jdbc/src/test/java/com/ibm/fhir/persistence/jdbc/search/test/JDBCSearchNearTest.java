@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -95,8 +96,8 @@ public class JDBCSearchNearTest {
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
 
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 
         SingleResourceResult<Location> result =

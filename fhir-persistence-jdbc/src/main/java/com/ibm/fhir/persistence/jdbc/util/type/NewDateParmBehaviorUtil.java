@@ -102,7 +102,7 @@ public class NewDateParmBehaviorUtil {
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, tableAlias, DATE_END, GT, lowerBound);
+            buildCommonClause(whereClauseSegment, tableAlias, DATE_END, GT, upperBound);
             break;
         case LE:
             // LE - Less Than Equal
@@ -113,7 +113,7 @@ public class NewDateParmBehaviorUtil {
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, tableAlias, DATE_START, LT, upperBound);
+            buildCommonClause(whereClauseSegment, tableAlias, DATE_START, LT, lowerBound);
             break;
         case AP:
             // AP - Approximate - Relative

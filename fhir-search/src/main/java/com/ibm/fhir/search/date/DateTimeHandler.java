@@ -136,7 +136,8 @@ public class DateTimeHandler {
     }
 
     /**
-     * common code to generate instant value.
+     * Common code to generate an instant value. If needed, this method will pad the TemporalAccessor and
+     * then interpret this value according to the default timezone of the system.
      *
      * @param value
      * @return
@@ -215,18 +216,17 @@ public class DateTimeHandler {
             Year year = (Year) value;
             year = year.plus(1, ChronoUnit.YEARS);
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, year.getValue());
-            response =
-                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
-                            ChronoUnit.NANOS);
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now()))
+                    .toInstant().minus(TICK, ChronoUnit.NANOS);
+
         } else if (value instanceof YearMonth) {
             // Grab the values for Year/Month Value
             YearMonth ym = (YearMonth) value;
             ym = ym.plusMonths(1);
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ym.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ym.getMonthValue());
-            response =
-                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
-                            ChronoUnit.NANOS);
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now()))
+                    .toInstant().minus(TICK, ChronoUnit.NANOS);
         } else if (value instanceof LocalDate) {
             // LocalDate - YYYY-MM-DD
             LocalDate ld = (LocalDate) value;
@@ -234,9 +234,8 @@ public class DateTimeHandler {
             LocalDateTime local = REFERENCE_DATE.with(ChronoField.YEAR, ld.getYear());
             local    = local.with(ChronoField.MONTH_OF_YEAR, ld.getMonthValue());
             local    = local.with(ChronoField.DAY_OF_MONTH, ld.getDayOfMonth());
-            response =
-                    ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now())).toInstant().minus(TICK,
-                            ChronoUnit.NANOS);
+            response = ZonedDateTime.of(local, defaultOffsetRules.getOffset(Instant.now()))
+                    .toInstant().minus(TICK, ChronoUnit.NANOS);
         } else if (value instanceof LocalDateTime) {
             // LocalDate - YYYY-MM-DD
             LocalDateTime local = (LocalDateTime) value;

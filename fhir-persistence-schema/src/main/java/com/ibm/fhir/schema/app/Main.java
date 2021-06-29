@@ -77,6 +77,7 @@ import com.ibm.fhir.schema.control.DropForeignKey;
 import com.ibm.fhir.schema.control.EnableForeignKey;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 import com.ibm.fhir.schema.control.FhirSchemaGenerator;
+import com.ibm.fhir.schema.control.GetLogicalResourceNeedsV0014Migration;
 import com.ibm.fhir.schema.control.GetResourceChangeLogEmpty;
 import com.ibm.fhir.schema.control.GetResourceTypeList;
 import com.ibm.fhir.schema.control.GetTenantInfo;
@@ -84,6 +85,7 @@ import com.ibm.fhir.schema.control.GetTenantList;
 import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 import com.ibm.fhir.schema.control.InitializeLogicalResourceDenorms;
 import com.ibm.fhir.schema.control.JavaBatchSchemaGenerator;
+import com.ibm.fhir.schema.control.MigrateV0014LogicalResourceIsDeletedLastUpdated;
 import com.ibm.fhir.schema.control.OAuthSchemaGenerator;
 import com.ibm.fhir.schema.control.PopulateParameterNames;
 import com.ibm.fhir.schema.control.PopulateResourceTypes;
@@ -174,6 +176,7 @@ public class Main {
     private boolean dropDetached;
     private boolean deleteTenantMeta;
     private boolean revokeTenantKey;
+    private boolean revokeAllTenantKeys;
 
     // Tenant Key Output or Input File
     private String tenantKeyFileName;
@@ -402,6 +405,9 @@ public class Main {
 
         // perform any updates we need related to the V0010 schema change (IS_DELETED flag)
         applyDataMigrationForV0010();
+
+        // V0014 IS_DELETED and LAST_UPDATED added to whole-system LOGICAL_RESOURCES
+        applyDataMigrationForV0014();
 
         // Log warning messages that unused tables will be removed in a future release.
         // TODO: This will no longer be needed after the tables are removed (https://github.com/IBM/FHIR/issues/713).
@@ -1391,7 +1397,7 @@ public class Main {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
                 this.tenantName = args[i];
-                this.revokeTenantKey = true;
+                this.revokeAllTenantKeys = true;
                 break;
             case "--update-proc":
                 this.updateProc = true;
@@ -1659,7 +1665,23 @@ public class Main {
         } else {
             doMigrationForV0010();
         }
+    }
 
+    protected void applyDataMigrationForV0014() {
+        if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
+            // Process each tenant one-by-one
+            List<TenantInfo> tenants = getTenantList();
+            for (TenantInfo ti: tenants) {
+
+                // If no --schema-name override was specified, we process all tenants, otherwise we
+                // process only tenants which belong to the override schema name
+                if (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema())) {
+                    dataMigrationForV0014(ti);
+                }
+            }
+        } else {
+            dataMigrationForV0014();
+        }
     }
 
     /**
@@ -1681,6 +1703,26 @@ public class Main {
         }
 
         return result;
+    }
+
+    /**
+     * Get the list of resource types from the database.
+     * @param adapter
+     * @param schemaName
+     * @return
+     */
+    private List<ResourceType> getResourceTypesList(IDatabaseAdapter adapter, String schemaName) {
+
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                GetResourceTypeList cmd = new GetResourceTypeList(schemaName);
+                return adapter.runStatement(cmd);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
+        }
     }
 
     /**
@@ -1743,6 +1785,76 @@ public class Main {
                     throw x;
                 }
             }
+        }
+    }
+
+    /**
+     * Migrate the LOGICAL_RESOURCE IS_DELETED and LAST_UPDATED data for the given tenant
+     * @param ti
+     */
+    private void dataMigrationForV0014(TenantInfo ti) {
+        // Multi-tenant schema so we know this is Db2:
+        Db2Adapter adapter = new Db2Adapter(connectionPool);
+
+        List<ResourceType> resourceTypes = getResourceTypesList(adapter, schema.getSchemaName());
+
+        // Process each update in its own transaction so we don't over-stress the tx log space
+        for (ResourceType resourceType: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
+                    adapter.runStatement(setTenantId);
+
+                    logger.info("V0014 Migration: Updating " + "LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for " + resourceType.toString()
+                        + " for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+
+                    dataMigrationForV0014(adapter, ti.getTenantSchema(), resourceType);
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * Migrate the LOGICAL_RESOURCE IS_DELETED and LAST_UPDATED data
+     */
+    private void dataMigrationForV0014() {
+        IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
+        List<ResourceType> resourceTypes = getResourceTypesList(adapter, schema.getSchemaName());
+
+        // Process each resource type in its own transaction to avoid pressure on the tx log
+        for (ResourceType resourceType: resourceTypes) {
+            try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+                try {
+                    dataMigrationForV0014(adapter, schema.getSchemaName(), resourceType);
+                } catch (DataAccessException x) {
+                    // Something went wrong, so mark the transaction as failed
+                    tx.setRollbackOnly();
+                    throw x;
+                }
+            }
+        }
+    }
+
+    /**
+     * only process tables which have not yet had their data migrated. The migration can't be
+     * done as part of the schema change because some tables need a REORG which
+     * has to be done after the transaction in which the alter table was performed.
+     *
+     * @param adapter
+     * @param schemaName
+     * @param resourceType
+     */
+    private void dataMigrationForV0014(IDatabaseAdapter adapter, String schemaName, ResourceType resourceType) {
+        GetLogicalResourceNeedsV0014Migration needsMigrating = new GetLogicalResourceNeedsV0014Migration(schemaName, resourceType.getId());
+        if (adapter.runStatement(needsMigrating)) {
+            logger.info("V0014 Migration: Updating LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for schema '"
+                    + schemaName + "' and resource type '" + resourceType.toString() + "'");
+            MigrateV0014LogicalResourceIsDeletedLastUpdated cmd = new MigrateV0014LogicalResourceIsDeletedLastUpdated(schemaName, resourceType.getName(), resourceType.getId());
+            adapter.runStatement(cmd);
         }
     }
 
@@ -1891,6 +2003,11 @@ public class Main {
         } else if (this.dropTenant) {
             dropTenant();
         } else if (this.revokeTenantKey) {
+            revokeTenantKey();
+        } else if (this.revokeAllTenantKeys) {
+            if (this.tenantKey != null) {
+                throw new IllegalArgumentException("[ERROR] --tenant-key <key-value> should not be specified together with --drop-all-tenant-keys");
+            }
             revokeTenantKey();
         }
 

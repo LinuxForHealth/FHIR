@@ -11,10 +11,12 @@ import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
+import static org.testng.AssertJUnit.assertFalse;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,10 +24,6 @@ import java.util.Properties;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -46,6 +44,11 @@ import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * These tests exercise the $import operation a bulkdata proposal
@@ -222,7 +225,45 @@ public class ImportOperationTest extends FHIRServerTestBase {
         return response;
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test
+    public void testCreateDeletedPatient() throws Exception {
+        WebTarget target = getWebTarget();
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
+        patient = patient.toBuilder().id("12345-DELETED-12345").build();
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        //@formatter:off
+        Response response =
+                target.path("Patient/12345-DELETED-12345")
+                    .request()
+                    .header("X-FHIR-TENANT-ID", tenantName)
+                    .header("X-FHIR-DSID", dataStoreId)
+                    .put(entity, Response.class);
+        //@formatter:on
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        URI location = response.getLocation();
+        assertNotNull(location);
+        assertNotNull(location.toString());
+        assertFalse(location.toString().isEmpty());
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        //@formatter:off
+        response = target.path("Patient/12345-DELETED-12345")
+                            .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                            .header("X-FHIR-TENANT-ID", tenantName)
+                            .header("X-FHIR-DSID", dataStoreId)
+                            .get();
+        //@formatter:on
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        response = target.path("Patient/12345-DELETED-12345")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", tenantName)
+                .header("X-FHIR-DSID", dataStoreId)
+                .delete();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})
     public void testImportFromFileDefault() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;
@@ -251,7 +292,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         }
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})
     public void testImportFromFileDefaultEmpty() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;
@@ -336,7 +377,7 @@ public class ImportOperationTest extends FHIRServerTestBase {
         assertTrue(bundle.getEntry().size() >= 1);
     }
 
-    @Test(groups = { TEST_GROUP_NAME })
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testCreateDeletedPatient"})
     public void testImportFromS3() throws Exception {
         if (ON) {
             String path = BASE_VALID_URL;

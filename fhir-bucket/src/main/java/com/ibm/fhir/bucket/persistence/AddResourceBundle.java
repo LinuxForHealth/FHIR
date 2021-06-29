@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,6 +19,7 @@ import com.ibm.fhir.bucket.api.FileType;
 import com.ibm.fhir.bucket.api.ResourceBundleData;
 import com.ibm.fhir.database.utils.api.IDatabaseSupplier;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -27,15 +28,18 @@ import com.ibm.fhir.database.utils.model.DbType;
  */
 public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
-    
+
+    // The schema holding the tables
+    private final String schemaName;
+
     // The database id of the bucket_path
     private final long bucketPathId;
 
     // The name of the object (e.g. bundle file) within the bucket
     private final String objectName;
-    
+
     private final long objectSize;
-    
+
     // The type of file represented by this object
     private final FileType fileType;
 
@@ -47,10 +51,12 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
 
     /**
      * Public constructor
+     * @param schemaName
      * @param bucketId
      * @param objectName
      */
-    public AddResourceBundle(long bucketPathId, String objectName, long objectSize, FileType fileType, String eTag, Date lastModified) {
+    public AddResourceBundle(String schemaName, long bucketPathId, String objectName, long objectSize, FileType fileType, String eTag, Date lastModified) {
+        this.schemaName = schemaName;
         this.bucketPathId = bucketPathId;
         this.objectName = objectName;
         this.objectSize = objectSize;
@@ -68,19 +74,20 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
         // try the old-fashioned way and handle duplicate key
         final String currentTimestamp = translator.currentTimestampString();
         int version = 1;
-        String dml;
+        final String resourceBundles = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundles");
+        final String dml;
         if (translator.getType() == DbType.POSTGRESQL) {
             // For PostgresSQL, make sure we don't break the current transaction
             // if the statement fails...annoying
-            dml = "INSERT INTO resource_bundles ("
+            dml = "INSERT INTO " + resourceBundles + "("
                 + "bucket_path_id, object_name, object_size, file_type, etag, last_modified, scan_tstamp, version) "
                 + " VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ", ?) ON CONFLICT (bucket_path_id, object_name) DO NOTHING";
         } else {
-            dml = "INSERT INTO resource_bundles ("
+            dml = "INSERT INTO " + resourceBundles + "("
                     + "bucket_path_id, object_name, object_size, file_type, etag, last_modified, scan_tstamp, version) "
                     + " VALUES (?, ?, ?, ?, ?, ?, " + currentTimestamp + ", ?)";
         }
-        
+
         try (PreparedStatement ps = c.prepareStatement(dml, Statement.RETURN_GENERATED_KEYS)) {
             ps.setLong(1, bucketPathId);
             ps.setString(2, objectName);
@@ -114,13 +121,13 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
                 throw translator.translate(x);
             }
         }
-        
+
         // If we didn't create a new record, fetch the old record before we update. It's important
         // to make this a select-for-update to avoid a possible race-condition
         if (result == null) {
             final String SQL = translator.addForUpdate(""
                     + "SELECT resource_bundle_id, object_size, file_type, etag, last_modified, scan_tstamp, version "
-                    + "  FROM resource_bundles "
+                    + "  FROM " + resourceBundles
                     + " WHERE bucket_path_id = ? "
                     + "   AND object_name = ?");
             try (PreparedStatement ps = c.prepareStatement(SQL)) {
@@ -144,14 +151,14 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
                     + bucketPathId + ", " + objectName);
                 throw translator.translate(x);
             }
-            
+
             // If the current database record doesn't match what we've been passed
             // then we want to update it with the latest and bump the version number
             // so that we can see it has changed.
             if (!result.matches(this.objectSize, this.eTag, this.lastModified)) {
-                
+
                 final String UPD = ""
-                        + "UPDATE resource_bundles "
+                        + "UPDATE " + resourceBundles
                         + "   SET object_size = ?, "
                         + "       etag = ?, "
                         + "       last_modified = ?, "
@@ -160,7 +167,7 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
                         + "       allocation_id      = NULL, " // reset state so that this
                         + "       loader_instance_id = NULL "  // file will be picked up
                         + " WHERE resource_bundle_id = ?";
-                
+
                 try (PreparedStatement ps = c.prepareStatement(UPD)) {
                     ps.setLong(1, objectSize);
                     ps.setString(2, eTag);
@@ -175,7 +182,7 @@ public class AddResourceBundle implements IDatabaseSupplier<ResourceBundleData> 
                 }
             }
         }
-        
+
         return result;
     }
 }

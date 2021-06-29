@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,25 +8,19 @@ package com.ibm.fhir.persistence.jdbc.dto;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
-public class UriParmVal implements ExtractedParameterValue {
-    
-    private String resourceType;
-    private String name;
-    private String valueString;
-    
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
+/**
+ * Not used
+ */
+@Deprecated
+public class UriParmVal extends ExtractedParameterValue {
 
+    private String valueString;
+
+    /**
+     * Public constructor
+     */
     public UriParmVal() {
         super();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public String getValueString() {
@@ -37,32 +31,10 @@ public class UriParmVal implements ExtractedParameterValue {
         this.valueString = valueString;
     }
 
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
-    }
-
     /**
      * We know our type, so we can call the correct method on the visitor
      */
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
 //        visitor.visit(this);
-    }
-
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
     }
 }
