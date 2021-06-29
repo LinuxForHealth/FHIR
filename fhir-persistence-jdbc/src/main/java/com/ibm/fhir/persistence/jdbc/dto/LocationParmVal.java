@@ -6,18 +6,15 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.util.Objects;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_LATLNG_VALUES tables.
  */
 public class LocationParmVal extends ExtractedParameterValue {
 
-    private Double valueLongitude;
     private Double valueLatitude;
+    private Double valueLongitude;
 
     /**
      * Public constructor
@@ -26,20 +23,20 @@ public class LocationParmVal extends ExtractedParameterValue {
         super();
     }
 
-    public Double getValueLongitude() {
-        return valueLongitude;
-    }
-
-    public void setValueLongitude(Double valueLongitude) {
-        this.valueLongitude = valueLongitude;
-    }
-
     public Double getValueLatitude() {
         return valueLatitude;
     }
 
     public void setValueLatitude(Double valueLatitude) {
         this.valueLatitude = valueLatitude;
+    }
+
+    public Double getValueLongitude() {
+        return valueLongitude;
+    }
+
+    public void setValueLongitude(Double valueLongitude) {
+        this.valueLongitude = valueLongitude;
     }
 
     /**
@@ -51,10 +48,38 @@ public class LocationParmVal extends ExtractedParameterValue {
     }
 
     @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Objects.toString(valueLongitude, ""));
-        sb.append("|").append(Objects.toString(valueLatitude, ""));
-        return parameterHashUtil.getNameValueHash(getHashHeader(), sb.toString());
+    protected int compareToInner(ExtractedParameterValue o) {
+        LocationParmVal other = (LocationParmVal) o;
+        int retVal;
+
+        Double thisValueLatitude = this.getValueLatitude();
+        Double otherValueLatitude = other.getValueLatitude();
+        if (thisValueLatitude != null || otherValueLatitude != null) {
+            if (thisValueLatitude == null) {
+                return -1;
+            } else if (otherValueLatitude == null) {
+                return 1;
+            }
+            retVal = thisValueLatitude.compareTo(otherValueLatitude);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        Double thisValueLongitude = this.getValueLongitude();
+        Double otherValueLongitude = other.getValueLongitude();
+        if (thisValueLongitude != null || otherValueLongitude != null) {
+            if (thisValueLongitude == null) {
+                return -1;
+            } else if (otherValueLongitude == null) {
+                return 1;
+            }
+            retVal = thisValueLongitude.compareTo(otherValueLongitude);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

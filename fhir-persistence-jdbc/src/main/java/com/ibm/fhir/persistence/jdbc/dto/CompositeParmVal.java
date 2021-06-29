@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a composite parameter.
@@ -24,19 +23,6 @@ public class CompositeParmVal extends ExtractedParameterValue {
      */
     public CompositeParmVal() {
         component = new ArrayList<>(2);
-    }
-
-    /**
-     * We know our type, so we can call the correct method on the visitor
-     */
-    @Override
-    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
-        visitor.visit(this);
-    }
-
-    @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        return parameterHashUtil.getNameValueHash(getHashHeader(), parameterHashUtil.getParametersHash(component));
     }
 
     /**
@@ -60,5 +46,43 @@ public class CompositeParmVal extends ExtractedParameterValue {
         for (ExtractedParameterValue value : component) {
             this.component.add(value);
         }
+    }
+
+    /**
+     * We know our type, so we can call the correct method on the visitor
+     */
+    @Override
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
+        visitor.visit(this);
+    }
+
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        CompositeParmVal other = (CompositeParmVal) o;
+        int retVal;
+
+        List<ExtractedParameterValue> thisComponent = this.getComponent();
+        List<ExtractedParameterValue> otherComponent = other.getComponent();
+        if (thisComponent != null || otherComponent != null) {
+            if (thisComponent == null) {
+                return -1;
+            } else if (otherComponent == null) {
+                return 1;
+            }
+            Integer thisSize = thisComponent.size();
+            Integer otherSize = otherComponent.size();
+            for (int i=0; i<thisSize && i<otherSize; i++) {
+                retVal = thisComponent.get(i).compareTo(otherComponent.get(i));
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+            retVal = thisSize.compareTo(otherSize);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

@@ -6,16 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.util.Objects;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
-import com.ibm.fhir.schema.control.FhirSchemaVersion;
 
 /**
  * A search parameter value extracted from a resource and ready to store / index for search
  */
-public abstract class ExtractedParameterValue {
+public abstract class ExtractedParameterValue implements Comparable<ExtractedParameterValue> {
 
     // The name (code) of this parameter
     private String name;
@@ -25,9 +21,6 @@ public abstract class ExtractedParameterValue {
 
     // The resource type associated with this parameter
     private String resourceType;
-
-    // The base resource name
-    private String base;
 
     // URL and version of search parameter
     private String url;
@@ -59,20 +52,6 @@ public abstract class ExtractedParameterValue {
      * We know our type, so we can call the correct method on the visitor
      */
     public abstract void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException;
-
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return this.base;
-    }
-
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
-    }
 
     /**
      * @return the wholeSystem
@@ -130,24 +109,70 @@ public abstract class ExtractedParameterValue {
         this.version = version;
     }
 
-    /**
-     * Gets the hash header.
-     * @return the hash header
-     */
-    protected String getHashHeader() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Objects.toString(FhirSchemaVersion.getLatestParameterStorageUpdate(), ""));
-        sb.append("|").append(Objects.toString(name, ""));
-        sb.append("|").append(Objects.toString(url, ""));
-        sb.append("|").append(Objects.toString(version, ""));
-        return sb.toString();
+    @Override
+    public int compareTo(ExtractedParameterValue o) {
+        int retVal;
+        String thisClass = this.getClass().getName();
+        String otherClass = o.getClass().getName();
+        if (thisClass != null || otherClass != null) {
+            if (thisClass == null) {
+                return -1;
+            } else if (otherClass == null) {
+                return 1;
+            }
+            retVal = thisClass.compareTo(otherClass);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisName = this.getName();
+        String otherName = o.getName();
+        if (thisName != null || otherName != null) {
+            if (thisName == null) {
+                return -1;
+            } else if (otherName == null) {
+                return 1;
+            }
+            retVal = thisName.compareTo(otherName);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisUrl = this.getUrl();
+        String otherUrl = o.getUrl();
+        if (thisUrl != null || otherUrl != null) {
+            if (thisUrl == null) {
+                return -1;
+            } else if (otherUrl == null) {
+                return 1;
+            }
+            retVal = thisUrl.compareTo(otherUrl);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisVersion = this.getVersion();
+        String otherVersion = o.getVersion();
+        if (thisVersion != null || otherVersion != null) {
+            if (thisVersion == null) {
+                return -1;
+            } else if (otherVersion == null) {
+                return 1;
+            }
+            retVal = thisVersion.compareTo(otherVersion);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        return compareToInner(o);
     }
 
     /**
-     * Gets the hash representation of the parameter.
-     * This should be generated from the search parameter (schemaVersion, code, url, version) and the extracted value.
-     * @param the parameter hash utility to use for generating hashes
-     * @return the hash
+     * Additional extracted parameter value comparisions when the same class.
+     * @param o an extracted parameter value to compare to
+     * @return a negative integer, zero, or a positive integer as this extracted parameter value
+     * is less than, equal to, or greater than the specified extracted parameter value.
      */
-    public abstract String getHash(ParameterHashUtil parameterHashUtil);
+    protected abstract int compareToInner(ExtractedParameterValue o);
+
 }

@@ -6,12 +6,10 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.util.Objects;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.util.ReferenceValue;
+import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
 /**
  * DTO representing external and local reference parameters
@@ -57,12 +55,76 @@ public class ReferenceParmVal extends ExtractedParameterValue {
     }
 
     @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Objects.toString(refValue.getTargetResourceType(), ""));
-        sb.append("|").append(Objects.toString(refValue.getValue(), ""));
-        sb.append("|").append(Objects.toString(refValue.getType(), ""));
-        sb.append("|").append(Objects.toString(refValue.getVersion(), ""));
-        return parameterHashUtil.getNameValueHash(getHashHeader(), sb.toString());
+    protected int compareToInner(ExtractedParameterValue o) {
+        ReferenceParmVal other = (ReferenceParmVal) o;
+        int retVal;
+
+        ReferenceValue thisRefValue = this.getRefValue();
+        ReferenceValue otherRefValue = other.getRefValue();
+        if (thisRefValue != null || otherRefValue != null) {
+            if (thisRefValue == null) {
+                return -1;
+            } else if (otherRefValue == null) {
+                return 1;
+            }
+
+            String thisTargetResourceType = thisRefValue.getTargetResourceType();
+            String otherTargetResourceType = otherRefValue.getTargetResourceType();
+            if (thisTargetResourceType != null || otherTargetResourceType != null) {
+                if (thisTargetResourceType == null) {
+                    return -1;
+                } else if (otherTargetResourceType == null) {
+                    return 1;
+                }
+                retVal = thisTargetResourceType.compareTo(otherTargetResourceType);
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+
+            String thisValue = thisRefValue.getValue();
+            String otherValue = otherRefValue.getValue();
+            if (thisValue != null || otherValue != null) {
+                if (thisValue == null) {
+                    return -1;
+                } else if (otherValue == null) {
+                    return 1;
+                }
+                retVal = thisValue.compareTo(otherValue);
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+
+            ReferenceType thisType = thisRefValue.getType();
+            ReferenceType otherType = otherRefValue.getType();
+            if (thisType != null || otherType != null) {
+                if (thisType == null) {
+                    return -1;
+                } else if (otherType == null) {
+                    return 1;
+                }
+                retVal = thisType.compareTo(otherType);
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+
+            Integer thisVersion = thisRefValue.getVersion();
+            Integer otherVersion = otherRefValue.getVersion();
+            if (thisVersion != null || otherVersion != null) {
+                if (thisVersion == null) {
+                    return -1;
+                } else if (otherVersion == null) {
+                    return 1;
+                }
+                retVal = thisVersion.compareTo(otherVersion);
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+        }
+
+        return 0;
     }
 }

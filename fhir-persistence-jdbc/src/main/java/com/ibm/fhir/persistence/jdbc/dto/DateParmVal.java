@@ -7,10 +7,8 @@
 package com.ibm.fhir.persistence.jdbc.dto;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_DATE_VALUES tables.
@@ -58,11 +56,39 @@ public class DateParmVal extends ExtractedParameterValue {
     }
 
     @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(Objects.toString(valueDateStart, ""));
-        sb.append("|").append(Objects.toString(valueDateEnd, ""));
-        return parameterHashUtil.getNameValueHash(getHashHeader(), sb.toString());
+    protected int compareToInner(ExtractedParameterValue o) {
+        DateParmVal other = (DateParmVal) o;
+        int retVal;
+
+        Timestamp thisValueDateStart = this.getValueDateStart();
+        Timestamp otherValueDateStart = other.getValueDateStart();
+        if (thisValueDateStart != null || otherValueDateStart != null) {
+            if (thisValueDateStart == null) {
+                return -1;
+            } else if (otherValueDateStart == null) {
+                return 1;
+            }
+            retVal = thisValueDateStart.compareTo(otherValueDateStart);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        Timestamp thisValueDateEnd = this.getValueDateEnd();
+        Timestamp otherValueDateEnd = other.getValueDateEnd();
+        if (thisValueDateEnd != null || otherValueDateEnd != null) {
+            if (thisValueDateEnd == null) {
+                return -1;
+            } else if (otherValueDateEnd == null) {
+                return 1;
+            }
+            retVal = thisValueDateEnd.compareTo(otherValueDateEnd);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 
     @Override

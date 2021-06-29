@@ -6,10 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.util.Objects;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * Not used
@@ -43,7 +40,8 @@ public class UriParmVal extends ExtractedParameterValue {
     }
 
     @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        return parameterHashUtil.getNameValueHash(getHashHeader(), Objects.toString(valueString, ""));
+    protected int compareToInner(ExtractedParameterValue o) {
+        // Not used, so don't implement any real logic
+        return 0;
     }
 }

@@ -10,24 +10,26 @@ package com.ibm.fhir.persistence.jdbc.test.util;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertNull;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.persistence.jdbc.dto.CompositeParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.DateParmVal;
+import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.dto.LocationParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.NumberParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.QuantityParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.ReferenceParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.StringParmVal;
 import com.ibm.fhir.persistence.jdbc.dto.TokenParmVal;
-import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.type.NumberParmBehaviorUtil;
 import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.util.ReferenceValue;
@@ -36,34 +38,38 @@ import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 /**
  * Utility to do testing of the parameter hash utility.
  */
-public class ParameterHashUtilTest {
+public class ParameterHashTest {
 
     @Test
-    public void testEmptyExtractedParameters() throws Exception {
-        ParameterHashUtil util = new ParameterHashUtil();
+    public void testNoExtractedParameters() throws Exception {
+        List<ExtractedParameterValue> parameters1 = new ArrayList<>();
+        List<ExtractedParameterValue> parameters2 = new ArrayList<>();
 
-        ExtractedSearchParameters esp1 = new ExtractedSearchParameters();
-        ExtractedSearchParameters esp2 = new ExtractedSearchParameters();
+        // Sort parameters to ensure hash is deterministic
+        sortExtractedParameterValues(parameters1);
+        sortExtractedParameterValues(parameters2);
 
-        // Hashes not generated yet
-        assertNull(esp1.getHash());
-        assertNull(esp2.getHash());
+        // Visit parameters
+        ParameterHashVisitor phv1 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters1) {
+            p.accept(phv1);
+        }
+        String hash1 = phv1.getBase64Hash();
+        assertNotNull(hash1);
 
-        // Generate hashes
-        esp1.generateHash(util);
-        esp2.generateHash(util);
+        ParameterHashVisitor phv2 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters2) {
+            p.accept(phv2);
+        }
+        String hash2 = phv2.getBase64Hash();
+        assertNotNull(hash2);
 
         // Check hashes
-        String hash1 = esp1.getHash();
-        String hash2 = esp2.getHash();
-        assertNotNull(hash1);
-        assertNotNull(hash2);
         assertEquals(hash1, hash2);
     }
 
     @Test
     public void testExtractedParametersDifferentOrders() throws Exception {
-        ParameterHashUtil util = new ParameterHashUtil();
         Instant instant = Instant.now();
 
         // Define some search parameter values
@@ -152,35 +158,66 @@ public class ParameterHashUtilTest {
 
         // Add the search parameters in different orders for esp1 and esp2, which still results in same hash,
         // but for esp3 and esp4, the search parameters are different, so they should not match the others
-        ExtractedSearchParameters esp1 = new ExtractedSearchParameters();
-        esp1.getParameters().addAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8a));
-        ExtractedSearchParameters esp2 = new ExtractedSearchParameters();
-        esp2.getParameters().addAll(Arrays.asList(p8b, p6, p4, p2, p1, p3, p5, p7));
-        ExtractedSearchParameters esp3 = new ExtractedSearchParameters();
-        esp3.getParameters().addAll(Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8diff));
-        ExtractedSearchParameters esp4 = new ExtractedSearchParameters();
+        List<ExtractedParameterValue> parameters1 = Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8a);
+        List<ExtractedParameterValue> parameters2 = Arrays.asList(p8b, p6, p4, p2, p1, p3, p5, p7);
+        List<ExtractedParameterValue> parameters3 = Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8diff);
+        List<ExtractedParameterValue> parameters4 = Collections.emptyList();
 
-        // Hashes not generated yet
-        assertNull(esp1.getHash());
-        assertNull(esp2.getHash());
-        assertNull(esp3.getHash());
-        assertNull(esp4.getHash());
+        // Visit parameters
+        ParameterHashVisitor phv1PreSort = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters1) {
+            p.accept(phv1PreSort);
+        }
+        String hash1PreSort = phv1PreSort.getBase64Hash();
+        assertNotNull(hash1PreSort);
 
-        // Generate hashes
-        esp1.generateHash(util);
-        esp2.generateHash(util);
-        esp3.generateHash(util);
-        esp4.generateHash(util);
+        ParameterHashVisitor phv2PreSort = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters2) {
+            p.accept(phv2PreSort);
+        }
+        String hash2PreSort = phv2PreSort.getBase64Hash();
+        assertNotNull(hash2PreSort);
+
+        // Check hashes (without sorting first)
+        // They should not match, which shows that the sorting is needed to generate deterministic hashes
+        assertNotEquals(hash1PreSort, hash2PreSort);
+
+        // Sort parameters to ensure hash is deterministic
+        sortExtractedParameterValues(parameters1);
+        sortExtractedParameterValues(parameters2);
+        sortExtractedParameterValues(parameters3);
+        sortExtractedParameterValues(parameters4);
+
+        // Visit parameters
+        ParameterHashVisitor phv1 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters1) {
+            p.accept(phv1);
+        }
+        String hash1 = phv1.getBase64Hash();
+        assertNotNull(hash1);
+
+        ParameterHashVisitor phv2 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters2) {
+            p.accept(phv2);
+        }
+        String hash2 = phv2.getBase64Hash();
+        assertNotNull(hash2);
+
+        ParameterHashVisitor phv3 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters3) {
+            p.accept(phv3);
+        }
+        String hash3 = phv3.getBase64Hash();
+        assertNotNull(hash3);
+
+        ParameterHashVisitor phv4 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters4) {
+            p.accept(phv4);
+        }
+        String hash4 = phv4.getBase64Hash();
+        assertNotNull(hash4);
 
         // Check hashes
-        String hash1 = esp1.getHash();
-        String hash2 = esp2.getHash();
-        String hash3 = esp3.getHash();
-        String hash4 = esp4.getHash();
-        assertNotNull(hash1);
-        assertNotNull(hash2);
-        assertNotNull(hash3);
-        assertNotNull(hash4);
         assertEquals(hash1, hash2);
         assertNotEquals(hash1, hash3);
         assertNotEquals(hash1, hash4);
@@ -189,7 +226,6 @@ public class ParameterHashUtilTest {
 
     @Test
     public void testExtractedParametersSwappedValues() throws Exception {
-        ParameterHashUtil util = new ParameterHashUtil();
 
         // Define some search parameter values
         StringParmVal p1a = new StringParmVal();
@@ -223,37 +259,66 @@ public class ParameterHashUtilTest {
 
         // Add the search parameters in which the values are swapped (espA1<-->espB1, espA2<-->espB2), so they should not match each other,
         // but if just the order of the parameters is swapped (espA1<-->espA2, espB1<-->espB2), then they do match
-        ExtractedSearchParameters espA1 = new ExtractedSearchParameters();
-        espA1.getParameters().addAll(Arrays.asList(p1a, p2a));
-        ExtractedSearchParameters espA2 = new ExtractedSearchParameters();
-        espA2.getParameters().addAll(Arrays.asList(p2a, p1a));
-        ExtractedSearchParameters espB1 = new ExtractedSearchParameters();
-        espB1.getParameters().addAll(Arrays.asList(p1b, p2b));
-        ExtractedSearchParameters espB2 = new ExtractedSearchParameters();
-        espB2.getParameters().addAll(Arrays.asList(p2b, p1b));
+        List<ExtractedParameterValue> parametersA1 = Arrays.asList(p1a, p2a);
+        List<ExtractedParameterValue> parametersA2 = Arrays.asList(p2a, p1a);
+        List<ExtractedParameterValue> parametersB1 = Arrays.asList(p1b, p2b);
+        List<ExtractedParameterValue> parametersB2 = Arrays.asList(p2b, p1b);
 
-        // Hashes not generated yet
-        assertNull(espA1.getHash());
-        assertNull(espB1.getHash());
+        // Sort parameters to ensure hash is deterministic
+        sortExtractedParameterValues(parametersA1);
+        sortExtractedParameterValues(parametersA2);
+        sortExtractedParameterValues(parametersB1);
+        sortExtractedParameterValues(parametersB2);
 
-        // Generate hashes
-        espA1.generateHash(util);
-        espA2.generateHash(util);
-        espB1.generateHash(util);
-        espB2.generateHash(util);
+        // Visit parameters
+        ParameterHashVisitor phvA1 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parametersA1) {
+            p.accept(phvA1);
+        }
+        String hashA1 = phvA1.getBase64Hash();
+        assertNotNull(hashA1);
+
+        ParameterHashVisitor phvA2 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parametersA2) {
+            p.accept(phvA2);
+        }
+        String hashA2 = phvA2.getBase64Hash();
+        assertNotNull(hashA2);
+
+        ParameterHashVisitor phvB1 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parametersB1) {
+            p.accept(phvB1);
+        }
+        String hashB1 = phvB1.getBase64Hash();
+        assertNotNull(hashB1);
+
+        ParameterHashVisitor phvB2 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parametersB2) {
+            p.accept(phvB2);
+        }
+        String hashB2 = phvB2.getBase64Hash();
+        assertNotNull(hashB2);
 
         // Check hashes
-        String hashA1 = espA1.getHash();
-        String hashA2 = espA2.getHash();
-        String hashB1 = espB1.getHash();
-        String hashB2 = espB2.getHash();
-        assertNotNull(hashA1);
-        assertNotNull(hashA2);
-        assertNotNull(hashB1);
-        assertNotNull(hashB2);
         assertEquals(hashA1, hashA2);
         assertNotEquals(hashA1, hashB1);
         assertEquals(hashB1, hashB2);
         assertNotEquals(hashA2, hashB2);
+    }
+
+    /**
+     * Sorts the extracted parameter values in natural order. If the list contains any composite parameter values,
+     * those are sorted before the list itself is sorted. Since composite parameters cannot themselves contain composites,
+     * doing this with a recursive call is ok.
+     * @param extractedParameterValues the extracted parameter values
+     */
+    private void sortExtractedParameterValues(List<ExtractedParameterValue> extractedParameterValues) {
+        for (ExtractedParameterValue extractedParameterValue : extractedParameterValues) {
+            if (extractedParameterValue instanceof CompositeParmVal) {
+                CompositeParmVal compositeParmVal = (CompositeParmVal) extractedParameterValue;
+                sortExtractedParameterValues(compositeParmVal.getComponent());
+            }
+        }
+        Collections.sort(extractedParameterValues);
     }
 }

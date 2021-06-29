@@ -6,10 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dto;
 
-import java.util.Objects;
-
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
 
 /**
  * This class defines the Data Transfer Object representing a row in the X_STR_VALUES tables.
@@ -43,7 +40,24 @@ public class StringParmVal extends ExtractedParameterValue {
     }
 
     @Override
-    public String getHash(ParameterHashUtil parameterHashUtil) {
-        return parameterHashUtil.getNameValueHash(getHashHeader(), Objects.toString(valueString, ""));
+    protected int compareToInner(ExtractedParameterValue o) {
+        StringParmVal other = (StringParmVal) o;
+        int retVal;
+
+        String thisValueString = this.getValueString();
+        String otherValueString = other.getValueString();
+        if (thisValueString != null || otherValueString != null) {
+            if (thisValueString == null) {
+                return -1;
+            } else if (otherValueString == null) {
+                return 1;
+            }
+            retVal = thisValueString.compareTo(otherValueString);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

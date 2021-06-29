@@ -8,17 +8,23 @@ package com.ibm.fhir.persistence.jdbc.util;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 
 /**
- * Contains a list of extracted search parameters and a Base64-encoded SHA-256 hash.
+ * Contains a list of extracted search parameters and a Base64-encoded hash.
  */
 public class ExtractedSearchParameters {
 
     private List<ExtractedParameterValue> parameters = new ArrayList<>();
-    private String hashB64 = null;
+    private String parameterHashB64 = null;
+
+    public ExtractedSearchParameters(List<ExtractedParameterValue> parameters, String parameterHashB64) {
+        this.parameters = Collections.unmodifiableList(parameters);
+        this.parameterHashB64 = parameterHashB64;
+    }
 
     /**
      * Gets the parameters.
@@ -29,18 +35,10 @@ public class ExtractedSearchParameters {
     }
 
     /**
-     * Generates the Base64-encoded SHA-256 hash of the parameters.
-     * @param the parameter hash utility to use for generating the hash
+     * Gets the Base64-encoded hash of the parameters.
+     * @return the Base64-encoded hash
      */
-    public void generateHash(ParameterHashUtil parameterHashUtil) {
-        hashB64 = parameterHashUtil.getParametersHash(parameters);
-    }
-
-    /**
-     * Gets the already-generated Base64-encoded SHA-256 hash of the parameters.
-     * @return the Base64 encoded SHA-256 hash
-     */
-    public String getHash() {
-        return hashB64;
+    public String getParameterHashB64() {
+        return parameterHashB64;
     }
 }

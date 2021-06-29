@@ -147,7 +147,7 @@ import com.ibm.fhir.persistence.jdbc.util.ExtractedSearchParameters;
 import com.ibm.fhir.persistence.jdbc.util.JDBCParameterBuildingVisitor;
 import com.ibm.fhir.persistence.jdbc.util.JDBCQueryBuilder;
 import com.ibm.fhir.persistence.jdbc.util.NewQueryBuilder;
-import com.ibm.fhir.persistence.jdbc.util.ParameterHashUtil;
+import com.ibm.fhir.persistence.jdbc.util.ParameterHashVisitor;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 import com.ibm.fhir.persistence.jdbc.util.SqlQueryData;
@@ -219,8 +219,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Use the optimized query builder when supported for the search request
     private final boolean optQueryBuilderEnabled;
 
-    private final ParameterHashUtil parameterHashUtil;
-
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -270,8 +268,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         }
 
         this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
-
-        this.parameterHashUtil = new ParameterHashUtil();
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -334,9 +330,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // Always want to be testing with the new query builder
         this.optQueryBuilderEnabled = true;
 
-        // Utility for generating hash of search parameters
-        this.parameterHashUtil = new ParameterHashUtil();
-
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -398,7 +391,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
-            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getHash(), parameterDao);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -622,7 +615,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Persist the Resource DTO.
             resourceDao.setPersistenceContext(context);
             ExtractedSearchParameters searchParameters = this.extractSearchParameters(updatedResource, resourceDTO);
-            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getHash(), parameterDao);
+            resourceDao.insert(resourceDTO, searchParameters.getParameters(), searchParameters.getParameterHashB64(), parameterDao);
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Persisted FHIR Resource '" + resourceDTO.getResourceType() + "/" + resourceDTO.getLogicalId() + "' id=" + resourceDTO.getId()
                             + ", version=" + resourceDTO.getVersionId());
@@ -1898,7 +1891,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         String type;
         String expression;
 
-        ExtractedSearchParameters extractedParameters = new ExtractedSearchParameters();
+        List<ExtractedParameterValue> allParameters = new ArrayList<>();
+        String parameterHashB64 = null;
 
         try {
             if (fhirResource != null) {
@@ -2050,8 +2044,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                 }
                             }
                             if (components.size() == p.getComponent().size()) {
+
                                 // only add the parameter if all of the components are present and accounted for
-                                extractedParameters.getParameters().add(p);
+                                allParameters.add(p);
                             }
                         }
                     } else { // ! SearchParamType.COMPOSITE.equals(sp.getType())
@@ -2073,7 +2068,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                                     if (wholeSystemParam) {
                                         p.setWholeSystem(true);
                                     }
-                                    extractedParameters.getParameters().add(p);
+                                    allParameters.add(p);
                                     if (log.isLoggable(Level.FINE)) {
                                         log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                                     }
@@ -2108,7 +2103,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                             if (wholeSystemParam) {
                                 p.setWholeSystem(true);
                             }
-                            extractedParameters.getParameters().add(p);
+                            allParameters.add(p);
                             if (log.isLoggable(Level.FINE)) {
                                 log.fine("Extracted Parameter '" + p.getName() + "' from Resource.");
                             }
@@ -2119,17 +2114,41 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // Augment the extracted parameter list with special values we use to represent compartment relationships.
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
-                addCompartmentParams(extractedParameters.getParameters(), fhirResource);
+                addCompartmentParams(allParameters, fhirResource);
             }
+
+            // Sort extracted parameter values in natural order to ensure the hash generated by this visitor is deterministic
+            sortExtractedParameterValues(allParameters);
 
             // Generate the hash which is used to quickly determine whether the extracted parameters
             // are different than the extracted parameters that currently exist in the database
-            extractedParameters.generateHash(parameterHashUtil);
+            ParameterHashVisitor phv = new ParameterHashVisitor();
+            Collections.sort(allParameters);
+            for (ExtractedParameterValue p: allParameters) {
+                p.accept(phv);
+            }
+            parameterHashB64 = phv.getBase64Hash();
 
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
         }
-        return extractedParameters;
+        return new ExtractedSearchParameters(allParameters, parameterHashB64);
+    }
+
+    /**
+     * Sorts the extracted parameter values in natural order. If the list contains any composite parameter values,
+     * those are sorted before the list itself is sorted. Since composite parameters cannot themselves contain composites,
+     * doing this with a recursive call is ok.
+     * @param extractedParameterValues the extracted parameter values
+     */
+    private void sortExtractedParameterValues(List<ExtractedParameterValue> extractedParameterValues) {
+        for (ExtractedParameterValue extractedParameterValue : extractedParameterValues) {
+            if (extractedParameterValue instanceof CompositeParmVal) {
+                CompositeParmVal compositeParmVal = (CompositeParmVal) extractedParameterValue;
+                sortExtractedParameterValues(compositeParmVal.getComponent());
+            }
+        }
+        Collections.sort(extractedParameterValues);
     }
 
     /**
@@ -2614,8 +2633,8 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Compare the hash of the extracted parameters with the hash in the index record.
             // If hash in the index record is not null and it matches the hash of the extracted parameters, then no need to replace the
             // extracted search parameters in the database tables for this resource, which helps with performance during reindex.
-            if (rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getHash())) {
-                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getHash(), rir.getLogicalId(), rir.getLogicalResourceId());
+            if (rir.getParameterHash() == null || !rir.getParameterHash().equals(searchParameters.getParameterHashB64())) {
+                reindexDAO.updateParameters(rir.getResourceType(), searchParameters.getParameters(), searchParameters.getParameterHashB64(), rir.getLogicalId(), rir.getLogicalResourceId());
             } else {
                 log.fine(() -> "Skipping update of unchanged parameters for FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
             }
