@@ -35,7 +35,7 @@ jobs:
         bash build/security/setup.sh
     - name: Security
       env:
-        SCANNERS: 'asoc trivy dockle'
+        SCANNERS: 'asoc'
         APPSCAN_SECRET: ${{ secrets.APPSCAN_SECRET }}
         APPSCAN_KEY: ${{ secrets.APPSCAN_KEY }}
         APPSCAN_APPID: ${{ secrets.APPSCAN_APPID }}
