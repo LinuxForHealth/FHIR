@@ -99,6 +99,10 @@ BEGIN
        WHERE resource_type_id = v_resource_type_id AND logical_id = p_logical_id
          FOR UPDATE WITH RS
        ;
+       
+      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
+      SET o_current_parameter_hash = NULL;
+
     ELSE
       -- we created the logical resource and therefore we already own the lock. So now we can
       -- safely create the corresponding record in the resource-type-specific logical_resources table

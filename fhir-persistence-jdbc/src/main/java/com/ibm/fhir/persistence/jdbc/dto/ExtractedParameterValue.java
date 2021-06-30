@@ -112,19 +112,6 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
     @Override
     public int compareTo(ExtractedParameterValue o) {
         int retVal;
-        String thisClass = this.getClass().getName();
-        String otherClass = o.getClass().getName();
-        if (thisClass != null || otherClass != null) {
-            if (thisClass == null) {
-                return -1;
-            } else if (otherClass == null) {
-                return 1;
-            }
-            retVal = thisClass.compareTo(otherClass);
-            if (retVal != 0) {
-                return retVal;
-            }
-        }
         String thisName = this.getName();
         String otherName = o.getName();
         if (thisName != null || otherName != null) {
@@ -160,6 +147,19 @@ public abstract class ExtractedParameterValue implements Comparable<ExtractedPar
                 return 1;
             }
             retVal = thisVersion.compareTo(otherVersion);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisClass = this.getClass().getName();
+        String otherClass = o.getClass().getName();
+        if (thisClass != null || otherClass != null) {
+            if (thisClass == null) {
+                return -1;
+            } else if (otherClass == null) {
+                return 1;
+            }
+            retVal = thisClass.compareTo(otherClass);
             if (retVal != 0) {
                 return retVal;
             }

@@ -82,6 +82,9 @@ BEGIN
       FETCH lock_cur INTO t_logical_resource_id, o_current_parameter_hash;
       CLOSE lock_cur;
 
+      -- Since the resource did not previously exist, set o_current_parameter_hash back to NULL
+      o_current_parameter_hash := NULL;
+      
     IF v_logical_resource_id = t_logical_resource_id
     THEN
       -- we created the logical resource and therefore we already own the lock. So now we can
