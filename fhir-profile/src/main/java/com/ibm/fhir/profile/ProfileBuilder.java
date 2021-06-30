@@ -59,6 +59,16 @@ public class ProfileBuilder {
         elementDefinitionMap = buildElementDefinitionMap(structureDefinition);
     }
 
+    /**
+     * Add value set binding to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param binding
+     *     the value set binding
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder binding(String id, Binding binding) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .binding(binding)
@@ -67,6 +77,12 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Create a {@link StructureDefinition} instance from this profile builder.
+     *
+     * @return
+     *     a {@link StructureDefinition} instance
+     */
     public StructureDefinition build() {
         return StructureDefinition.builder()
             .url(Uri.of(url))
@@ -85,6 +101,18 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Add a cardinality constraint to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param min
+     *     the minimum cardinality
+     * @param max
+     *     the maximum cardinality
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder cardinality(String id, int min, String max) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .min(UnsignedInt.of(min))
@@ -94,6 +122,16 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Add constraint objects to the element definition with the given id,
+     *
+     * @param id
+     *     the id
+     * @param constraint
+     *     the constraint object
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder constraint(String id, Constraint... constraint) {
         ElementDefinition elementDefinition = getElementDefinition(id);
         elementDefinition = elementDefinition.toBuilder()
@@ -104,6 +142,16 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Add a fixed value constraint to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param fixed
+     *     the fixed value
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder fixed(String id, Element fixed) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .fixed(fixed)
@@ -112,6 +160,16 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Add a pattern value constraint to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param pattern
+     *     the pattern value
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder pattern(String id, Element pattern) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .pattern(pattern)
@@ -120,11 +178,37 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Add a slice to the element definition the given id.
+     *
+     * @param id
+     *     the id
+     * @param sliceName
+     *     the slice name
+     * @param type
+     *     the type
+     * @param min
+     *     the minimum cardinality
+     * @param max
+     *     the maximum cardinality
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder slice(String id, String sliceName, Class<?> type, int min, String max) {
         element.addAll(findIndex(id), createSliceElementDefinitions(id, sliceName, type, min, max));
         return this;
     }
 
+    /**
+     * Add a slice definition to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param slicing
+     *     the slicing
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder slicing(String id, Slicing slicing) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .slicing(slicing)
@@ -133,6 +217,16 @@ public class ProfileBuilder {
         return this;
     }
 
+    /**
+     * Add a type constraint to the element definition with the given id.
+     *
+     * @param id
+     *     the id
+     * @param type
+     *     the type
+     * @return
+     *     this profile builder
+     */
     public ProfileBuilder type(String id, Type... type) {
         ElementDefinition elementDefinition = getElementDefinition(id).toBuilder()
             .type(Arrays.asList(type))
@@ -214,6 +308,16 @@ public class ProfileBuilder {
         return -1;
     }
 
+    /**
+     * Create a value set binding from the given strength and valueSet.
+     *
+     * @param strength
+     *     the strength
+     * @param valueSet
+     *     the value set
+     * @return
+     *     a value set binding
+     */
     public static Binding binding(BindingStrength strength, String valueSet) {
         return Binding.builder()
             .strength(strength)
@@ -221,6 +325,18 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Create a value set binding from the given strength, value set, and max value set.
+     *
+     * @param strength
+     *     the strength
+     * @param valueSet
+     *     the value set
+     * @param maxValueSet
+     *     the max value set
+     * @return
+     *     a value set binding
+     */
     public static Binding binding(BindingStrength strength, String valueSet, String maxValueSet) {
         return Binding.builder()
             .strength(strength)
@@ -232,6 +348,20 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Create a constraint from the given key, severity, human-readable description, and FHIRPath expression.
+     *
+     * @param key
+     *     the key
+     * @param severity
+     *     the severity
+     * @param human
+     *     the human-readable description
+     * @param expression
+     *     the FHIRPath expression
+     * @return
+     *     a constraint
+     */
     public static Constraint constraint(String key, ConstraintSeverity severity, String human, String expression) {
         return Constraint.builder()
                 .key(Id.of(key))
@@ -241,6 +371,16 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Create a discriminator from the given discriminator type and path.
+     *
+     * @param type
+     *     the discriminator type
+     * @param path
+     *     the path
+     * @return
+     *     a discriminator
+     */
     public static Discriminator discriminator(DiscriminatorType type, String path) {
         return Discriminator.builder()
             .type(type)
@@ -248,6 +388,16 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Create a slicing from the given discriminator and slicing rules.
+     *
+     * @param discriminator
+     *     the discriminator
+     * @param rules
+     *     the slicing rules
+     * @return
+     *     a slicing
+     */
     public static Slicing slicing(Discriminator discriminator, SlicingRules rules) {
         return Slicing.builder()
             .discriminator(discriminator)
@@ -255,22 +405,68 @@ public class ProfileBuilder {
             .build();
     }
 
+    /**
+     * Create a list of profiles (FHIR string) from the provided Java strings.
+     *
+     * @param profile
+     *     the profile
+     * @return
+     *     a list of profiles (FHIR string)
+     */
     public static List<String> profile(String... profile) {
         return Arrays.asList(profile);
     }
 
+    /**
+     * Create a list of target profiles (FHIR string) from the provided Java strings.
+     *
+     * @param targetProfile
+     *     the target profile
+     * @return
+     *     a list of target profiles (FHIR string)
+     */
     public static List<String> targetProfile(String...targetProfile) {
         return Arrays.asList(targetProfile);
     }
 
+    /**
+     * Create a type from the given code.
+     *
+     * @param code
+     *     the code
+     * @return
+     *     a type
+     */
     public static Type type(String code) {
         return type(code, Collections.emptyList(), Collections.emptyList());
     }
 
+    /**
+     * Create a type from the given code and profile.
+     *
+     * @param code
+     *     the code
+     * @param profile
+     *     the profile
+     * @return
+     *     a type
+     */
     public static Type type(String code, List<String> profile) {
         return type(code, profile, Collections.emptyList());
     }
 
+    /**
+     * Create a type from the given code, profile, and target profile.
+     *
+     * @param code
+     *     the code
+     * @param profile
+     *     the profile
+     * @param targetProfile
+     *     the target profile
+     * @return
+     *     a type
+     */
     public static Type type(String code, List<String> profile, List<String> targetProfile) {
         return Type.builder()
             .code(Uri.of(code))

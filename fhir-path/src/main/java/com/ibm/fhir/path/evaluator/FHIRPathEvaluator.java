@@ -333,12 +333,12 @@ public class FHIRPathEvaluator {
             return SINGLETON_TRUE;
         }
 
-        private Collection<FHIRPathNode> as(Collection<ExpressionContext> arguments) {
+        private Collection<FHIRPathNode> as(List<ExpressionContext> arguments) {
             if (arguments.size() != 1) {
                 throw unexpectedNumberOfArguments(arguments.size(), "as");
             }
             Collection<FHIRPathNode> result = new ArrayList<>();
-            ExpressionContext typeName = arguments.iterator().next();
+            ExpressionContext typeName = arguments.get(0);
             String identifier = typeName.getText().replace("`", "");
             FHIRPathType type = FHIRPathType.from(identifier);
             if (type == null) {

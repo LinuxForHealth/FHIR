@@ -248,15 +248,6 @@ public class ConstraintGenerator {
         StringBuilder sb = new StringBuilder();
 
         String prefix = isSlice(elementDefinition) ? discriminator(node) : prefix(node);
-        /*
-        if (isSlice(elementDefinition) ||
-                isRepeating(elementDefinition) ||
-                !isOptional(elementDefinition) ||
-                "extension".equals(getIdentifier(elementDefinition)) ||
-                hasChoiceTypeConstraint(elementDefinition)) {
-            sb.append(prefix).append(cardinality(node, prefix));
-        }
-        */
         sb.append(prefix).append(cardinality(node, prefix));
 
         if (hasChildren(node) ||
@@ -289,12 +280,6 @@ public class ConstraintGenerator {
             }
 
             if (!isSlice(elementDefinition) || !criteriaMatches(prefix, joiner.toString())) {
-                /*
-                if (sb.length() > 0) {
-                    sb.append(" and ");
-                }
-                sb.append(prefix).append(".all(").append(joiner.toString()).append(")");
-                */
                 sb.append(" and ").append(prefix).append(".all(").append(joiner.toString()).append(")");
             }
         }

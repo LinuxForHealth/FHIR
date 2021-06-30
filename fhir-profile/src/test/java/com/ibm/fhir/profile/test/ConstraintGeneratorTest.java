@@ -116,7 +116,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://ibm.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://ibm.com/fhir/system/system-1' and (value.length() > 9)).count() = 1)");
         assertEquals(constraints.get(0).expression(), "identifier.where(system = 'http://ibm.com/fhir/system/system-1').exists() implies (identifier.where(system = 'http://ibm.com/fhir/system/system-1').count() = 1 and identifier.where(system = 'http://ibm.com/fhir/system/system-1').all(system = 'http://ibm.com/fhir/system/system-1' and (value.length() > 9)))");
     }
 
@@ -130,7 +129,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "value.as(Quantity).count() = 1");
         assertEquals(constraints.get(0).expression(), "value.where(is(Quantity)).count() = 1 and value.where(is(Quantity)).all((code.empty() or system.exists()))");
     }
 
@@ -154,7 +152,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "generalPractitioner.exists() implies (generalPractitioner.all(resolve().is(Organization)))");
         assertEquals(constraints.get(0).expression(), "generalPractitioner.exists() implies (generalPractitioner.count() >= 1 and generalPractitioner.all(resolve().is(Organization)))");
     }
 
@@ -167,7 +164,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "generalPractitioner.exists() and generalPractitioner.all(resolve().is(Organization))");
         assertEquals(constraints.get(0).expression(), "generalPractitioner.count() = 1 and generalPractitioner.all(resolve().is(Organization))");
     }
 
@@ -190,7 +186,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "code.exists() and code.memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required')");
         assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required'))");
     }
 
@@ -202,7 +197,6 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-//      assertEquals(constraints.get(0).expression(), "code.exists() and code.memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required') and code.memberOf('http://ibm.com/fhir/ValueSet/max-vs-1', 'required')");
         assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required') and memberOf('http://ibm.com/fhir/ValueSet/max-vs-1', 'required'))");
     }
 
