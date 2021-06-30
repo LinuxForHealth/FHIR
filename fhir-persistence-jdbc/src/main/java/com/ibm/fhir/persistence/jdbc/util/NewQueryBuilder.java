@@ -683,7 +683,7 @@ public class NewQueryBuilder {
                     QueryParameterValue queryParmValue = queryParm.getValues().get(0);
                     Prefix prefix = queryParmValue.getPrefix();
                     Instant valueLowerBound = queryParmValue.getValueDateLowerBound();
-                    Instant valueUpperBound = queryParmValue.getValueDateLowerBound();
+                    Instant valueUpperBound = queryParmValue.getValueDateUpperBound();
                     switch(prefix) {
                     case GT:
                         if (gteBound == null || valueUpperBound.isAfter(gteBound) || valueUpperBound.equals(gteBound)) {

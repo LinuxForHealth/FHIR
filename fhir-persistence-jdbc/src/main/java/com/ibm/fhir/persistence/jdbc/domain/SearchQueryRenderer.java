@@ -1062,12 +1062,17 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // able to consolidate them. Check specifically if we have a consolidated parameter which
         // specifies a range, and if so, build a range filter.
         if (queryParm.isChained() && queryParm.getChain().size() == 1) {
+            List<Prefix> lowerBoundPrefixes = Arrays.asList(Prefix.GT, Prefix.GE, Prefix.SA);
+            List<Prefix> upperBoundPrefixes = Arrays.asList(Prefix.LT, Prefix.LE, Prefix.EB);
             Prefix prefix1 = queryParm.getValues().get(0).getPrefix();
             Prefix prefix2 = queryParm.getNextParameter().getValues().get(0).getPrefix();
-            if ((Prefix.GT.equals(prefix1) || Prefix.GE.equals(prefix1) || Prefix.SA.equals(prefix1)) &&
-                (Prefix.LT.equals(prefix2) || Prefix.LE.equals(prefix2) || Prefix.EB.equals(prefix2))) {
+            if (lowerBoundPrefixes.contains(prefix1) && upperBoundPrefixes.contains(prefix2)) {
                 // The consolidated parameter specifies a range, so build a date range filter
                 util.buildCustomRangeClause(where, paramAlias, queryParm, queryParm.getNextParameter());
+                return where;
+            } else if (lowerBoundPrefixes.contains(prefix2) && upperBoundPrefixes.contains(prefix1)) {
+                // The consolidated parameter specifies a range, so build a date range filter
+                util.buildCustomRangeClause(where, paramAlias, queryParm.getNextParameter(), queryParm);
                 return where;
             }
         }
