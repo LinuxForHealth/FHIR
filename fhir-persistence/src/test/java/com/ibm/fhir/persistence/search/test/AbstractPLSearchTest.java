@@ -127,12 +127,30 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     }
 
     /**
+     * Asserts that the savedResource is in the search result set
+     * @throws Exception
+     */
+    protected void assertSearchReturnsSavedResource(Map<String, List<String>> queryParms) throws Exception {
+        assertTrue("Expected resource was not returned from the search",
+                searchReturnsResource(savedResource.getClass(), queryParms, savedResource));
+    }
+
+    /**
      * Asserts that the savedResource is *not* in the search result set
      * @throws Exception
      */
     protected void assertSearchDoesntReturnSavedResource(String searchParamName, String queryValue) throws Exception {
         assertFalse("Unexpected resource was returned from the search",
                 searchReturnsResource(searchParamName, queryValue, savedResource));
+    }
+
+    /**
+     * Asserts that the savedResource is *not* in the search result set
+     * @throws Exception
+     */
+    protected void assertSearchDoesntReturnSavedResource(Map<String, List<String>> queryParms) throws Exception {
+        assertFalse("Unexpected resource was returned from the search",
+                searchReturnsResource(savedResource.getClass(), queryParms, savedResource));
     }
 
     /**

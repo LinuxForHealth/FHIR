@@ -30,7 +30,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * - Date</a>
  * <br>
  * This utility encapsulates the logic specific to fhir-search related to
- * quantity.
+ * date.
  */
 public class NewDateParmBehaviorUtil {
 
@@ -38,6 +38,13 @@ public class NewDateParmBehaviorUtil {
         // No Operation
     }
 
+    /**
+     * Generate WHERE clause predicates based on the query parameter data
+     * 
+     * @param whereClauseSegment
+     * @param queryParm
+     * @param tableAlias
+     */
     public void executeBehavior(WhereFragment whereClauseSegment, QueryParameter queryParm, String tableAlias) {
         whereClauseSegment.leftParen();
 
@@ -72,7 +79,6 @@ public class NewDateParmBehaviorUtil {
      * builds query elements based on prefix type.
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param prefix
      * @param lowerBound
@@ -140,7 +146,6 @@ public class NewDateParmBehaviorUtil {
      * builds the common clause
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param columnNameLowOrHigh
      * @param operator
@@ -157,7 +162,6 @@ public class NewDateParmBehaviorUtil {
      * builds equals range
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
@@ -167,14 +171,17 @@ public class NewDateParmBehaviorUtil {
 
         whereClauseSegment.col(tableAlias, DATE_START).gte(bind(lowerBound));
         whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, DATE_START).lte(bind(upperBound));
+        whereClauseSegment.and();
         whereClauseSegment.col(tableAlias, DATE_END).lte(bind(upperBound));
+        whereClauseSegment.and();
+        whereClauseSegment.col(tableAlias, DATE_END).gte(bind(lowerBound));
     }
 
     /**
      * builds approximate range clause
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
@@ -191,7 +198,6 @@ public class NewDateParmBehaviorUtil {
      * build not equals range clause
      *
      * @param whereClauseSegment
-     * @param bindVariables
      * @param tableAlias
      * @param lowerBound
      * @param upperBound
@@ -204,5 +210,38 @@ public class NewDateParmBehaviorUtil {
         whereClauseSegment.or();
         whereClauseSegment.col(tableAlias, DATE_END).gt(bind(upperBound));
         whereClauseSegment.rightParen();
+    }
+
+    /**
+     * build a custom range clause
+     *
+     * @param whereClauseSegment
+     * @param tableAlias
+     * @param lowerBoundQueryParm
+     * @param upperBoundQueryParm
+     */
+    public void buildCustomRangeClause(WhereFragment whereClauseSegment, String tableAlias,
+            QueryParameter lowerBoundQueryParm, QueryParameter upperBoundQueryParm) {
+
+        // We expect the query parameters to have a single value
+        QueryParameterValue lowerBoundQueryParmValue = lowerBoundQueryParm.getValues().get(0);
+        QueryParameterValue upperBoundQueryParmValue = upperBoundQueryParm.getValues().get(0);
+        Prefix lowerBoundPrefix = lowerBoundQueryParmValue.getPrefix();
+        Prefix upperBoundPrefix = upperBoundQueryParmValue.getPrefix();
+        boolean expandColumnCheck = Prefix.SA.equals(lowerBoundPrefix) && Prefix.EB.equals(upperBoundPrefix);
+        
+        buildPredicates(whereClauseSegment, tableAlias, lowerBoundPrefix,
+            lowerBoundQueryParmValue.getValueDateLowerBound(), lowerBoundQueryParmValue.getValueDateUpperBound());
+        if (expandColumnCheck) {
+            whereClauseSegment.and();
+            buildCommonClause(whereClauseSegment, tableAlias, DATE_START, LT, upperBoundQueryParmValue.getValueDateLowerBound());
+        }
+        whereClauseSegment.and();
+        buildPredicates(whereClauseSegment, tableAlias, upperBoundPrefix,
+            upperBoundQueryParmValue.getValueDateLowerBound(), upperBoundQueryParmValue.getValueDateUpperBound());
+        if (expandColumnCheck) {
+            whereClauseSegment.and();
+            buildCommonClause(whereClauseSegment, tableAlias, DATE_END, GT, lowerBoundQueryParmValue.getValueDateUpperBound());
+        }
     }
 }
