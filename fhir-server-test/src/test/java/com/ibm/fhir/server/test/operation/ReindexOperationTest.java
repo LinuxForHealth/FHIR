@@ -437,4 +437,30 @@ public class ReindexOperationTest extends FHIRServerTestBase {
 
         assertEquals(r.getStatus(), Status.OK.getStatusCode());
     }
+
+    @Test
+    public void testReindex_indexIds() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(
+            Parameter.builder()
+                .name(string("indexIds"))
+                .value(string("2,4,6,8,10"))
+                .build());
+
+        Parameters.Builder builder = Parameters.builder();
+        builder.id(UUID.randomUUID().toString());
+        builder.parameter(parameters);
+        Parameters ps = builder.build();
+
+        Entity<Parameters> entity = Entity.entity(ps, FHIRMediaType.APPLICATION_FHIR_JSON);
+
+        Response r = getWebTarget()
+                .path("/$reindex")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .post(entity, Response.class);
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
 }

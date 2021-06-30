@@ -22,27 +22,35 @@
     "affectsState": true,
     "parameter": [
         {
-            "name": "resourceCount",
-            "use": "in",
-            "min": 0,
-            "max": "1",
-            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.",
-            "type": "integer"
-        },
-        {
             "name": "tstamp",
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.",
+            "documentation": "Reindex only resources not previously reindexed since this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
             "type": "string"
+        },
+        {
+            "name": "indexIds",
+           "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.",
+            "type": "string"
+        },
+        {
+            "name": "resourceCount",
+            "use": "in",
+            "min": 0,
+            "max": "1",
+            "documentation": "The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail. If indexIds is specified, this parameter is not used.",
+            "type": "integer"
         },
         {
             "name": "resourceLogicalId",
             "use": "in",
             "min": 0,
             "max": "1",
-            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient",
+            "documentation": "Reindex only the specified resource or resources of the given resource type when no id is provided. Format as Patient/abc123 or Patient. If indexIds is specified, this parameter is not used.",
             "type": "string"
         }
     ]

@@ -1,0 +1,56 @@
+{
+	"resourceType": "OperationDefinition",
+	"id": "retrieve-index",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns='http://www.w3.org/1999/xhtml'><h2>retrieve-index</h2><p>OPERATION: Retrieve index IDs of resources available to reindex</p><p>The retrieve-index operation retrieves the index IDs from the database. These index IDs can then be passed into the reindex operation to indicate the specific resources to reindex.</p><p>URL: [base]/$retrieve-index</p></div>"
+	  },
+	"url": "http://ibm.com/fhir/OperationDefinition/retrieve-index",
+	"name": "retrieve-index",
+	"status": "draft",
+	"kind": "operation",
+	"publisher": "IBM FHIR Server",
+	"date": "2021-06-11",
+	"description": "The retrieve-index operation retrieves the index IDs from the database.",
+	"code": "retrieve-index",
+	"system": true,
+    "type": true,
+    "instance": false,
+    "resource": [
+        "Resource"
+    ],
+    "parameter": [
+      {
+        "name": "_count",
+        "use": "in",
+        "min": 0,
+        "max": "1",
+        "documentation": "The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maxinum number retrieved is 1000.",
+        "type": "integer"
+      },
+      {
+        "name": "notModifiedAfter",
+        "use": "in",
+        "min": 0,
+        "max": "1",
+        "documentation": "Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.",
+        "type": "string"
+      },
+      {
+        "name": "afterIndexId",
+        "use": "in",
+        "min": 0,
+        "max": "1",
+        "documentation": "Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.",
+        "type": "string"
+      },
+      {
+        "name": "indexIds",
+        "use": "out",
+        "min": 0,
+        "max": "1",
+        "documentation": "The index IDs, formatted as a comma-delimited list of strings. This parameter is not returned if there are no index IDs retrieved.",
+        "type": "string"
+      }
+    ]
+}

@@ -41,6 +41,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
 
 /**
@@ -184,7 +185,7 @@ public class AzureProvider implements Provider {
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
+        if (!client.exists().booleanValue() && size > 0) {
             aClient.create();
         }
 
@@ -199,7 +200,9 @@ public class AzureProvider implements Provider {
                 tmpPayload = Arrays.copyOfRange(payload, 0, len);
             }
             try (ByteArrayInputStream bais = new ByteArrayInputStream(tmpPayload)) {
-                aClient.appendBlock(bais, len);
+                if (len > 0) {
+                    aClient.appendBlock(bais, len);
+                }
             }
             len = in.read(payload, 0, MAX_BLOCK_SIZE);
         }
@@ -218,11 +221,13 @@ public class AzureProvider implements Provider {
         initializeBlobClient(workItem);
 
         AppendBlobClient aClient = client.getAppendBlobClient();
-        if (!client.exists().booleanValue()) {
-            aClient.create();
-        }
 
         byte[] baos = chunkData.getBufferStream().toByteArray();
+
+        // Only create if it's not empty.
+        if (!client.exists().booleanValue() && baos.length > 0) {
+            aClient.create();
+        }
         int current = 0;
         for (int i = 0; i <= (Math.ceil(baos.length/MAX_BLOCK_SIZE)); i++) {
             int payloadLength = MAX_BLOCK_SIZE;
@@ -237,13 +242,19 @@ public class AzureProvider implements Provider {
             if (LOG.isLoggable(Level.FINE)) {
                 LOG.fine("Byte Progress: current='" + current + "' total='" + baos.length + "' payload='" + payload.length);
             }
-            aClient.appendBlock(
-                new ByteArrayInputStream(payload),
-                    payload.length);
+            if (payload.length > 0) {
+                aClient.appendBlock(
+                    new ByteArrayInputStream(payload),
+                        payload.length);
+            }
         }
 
         LOG.fine(() -> "Export Write is finished");
 
+        if (dtos != null) {
+            dtos.clear();
+        }
+        chunkData.setPartNum(chunkData.getPartNum() + 1);
         chunkData.getBufferStream().reset();
 
         if (chunkData.isFinishCurrentUpload()) {
@@ -260,6 +271,9 @@ public class AzureProvider implements Provider {
                 }
             }
 
+            ConfigurationAdapter config = ConfigurationFactory.getInstance();
+            long resourceCountThreshold = config.getCoreAzureObjectResourceCountThreshold();
+            long sizeThreshold = config.getCoreAzureObjectSizeThreshold();
             if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
                 chunkData.setPartNum(1);
                 chunkData.setUploadId(null);
@@ -267,6 +281,8 @@ public class AzureProvider implements Provider {
                 chunkData.setCurrentUploadSize(0);
                 chunkData.setFinishCurrentUpload(false);
                 chunkData.getCosDataPacks().clear();
+                chunkData.setUploadCount(chunkData.getUploadCount() + 1);
+            } else if (chunkData.getCurrentUploadSize() >= sizeThreshold || resourceCountThreshold >= chunkData.getCurrentUploadResourceNum()){
                 chunkData.setUploadCount(chunkData.getUploadCount() + 1);
             }
         }

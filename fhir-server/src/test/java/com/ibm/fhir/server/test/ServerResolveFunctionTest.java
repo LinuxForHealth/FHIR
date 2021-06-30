@@ -369,6 +369,7 @@ public class ServerResolveFunctionTest {
                 FHIRPersistenceContext context,
                 Builder operationOutcomeResult,
                 java.time.Instant tstamp,
+                List<Long> indexIds,
                 String resourceLogicalId) throws FHIRPersistenceException {
             throw new UnsupportedOperationException();
         }
@@ -418,6 +419,11 @@ public class ServerResolveFunctionTest {
                     .resource(resource);
 
             return resultBuilder.build();
+        }
+
+        @Override
+        public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
+            throw new UnsupportedOperationException();
         }
     }
 
