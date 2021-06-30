@@ -69,6 +69,54 @@ public class ParameterHashTest {
     }
 
     @Test
+    public void testNullValues() throws Exception {
+
+        // Create two number param values, one with null low, and one with null high
+        BigDecimal value = new BigDecimal(5);
+
+        NumberParmVal num1 = new NumberParmVal();
+        num1.setResourceType("Patient");
+        num1.setName("code5");
+        num1.setUrl("url5");
+        num1.setVersion("version5");
+        num1.setValueNumber(value);
+        num1.setValueNumberLow(NumberParmBehaviorUtil.generateLowerBound(value));
+
+        NumberParmVal num2 = new NumberParmVal();
+        num2.setResourceType("Patient");
+        num2.setName("code5");
+        num2.setUrl("url5");
+        num2.setVersion("version5");
+        num2.setValueNumber(value);
+        num2.setValueNumberHigh(NumberParmBehaviorUtil.generateUpperBound(value));
+
+        List<ExtractedParameterValue> parameters1 = Arrays.asList(num1);
+        List<ExtractedParameterValue> parameters2 = Arrays.asList(num2);
+
+        // Sort parameters to ensure hash is deterministic
+        sortExtractedParameterValues(parameters1);
+        sortExtractedParameterValues(parameters2);
+
+        // Visit parameters
+        ParameterHashVisitor phv1 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters1) {
+            p.accept(phv1);
+        }
+        String hash1 = phv1.getBase64Hash();
+        assertNotNull(hash1);
+
+        ParameterHashVisitor phv2 = new ParameterHashVisitor();
+        for (ExtractedParameterValue p: parameters2) {
+            p.accept(phv2);
+        }
+        String hash2 = phv2.getBase64Hash();
+        assertNotNull(hash2);
+
+        // Check hashes
+        assertNotEquals(hash1, hash2);
+    }
+
+    @Test
     public void testExtractedParametersDifferentOrders() throws Exception {
         Instant instant = Instant.now();
 

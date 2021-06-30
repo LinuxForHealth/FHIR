@@ -35,6 +35,8 @@ import com.ibm.fhir.search.util.ReferenceValue;
  */
 public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
     private static final String SHA_256 = "SHA-256";
+    // Since the digest is not updated when values are null, use a delimiter to ensure that
+    // different combinations subfields being null do not end up generating the same hash
     private static final byte[] DELIMITER = "|".getBytes(StandardCharsets.UTF_8);
 
     // The digest being accumulated as the parameters are visited

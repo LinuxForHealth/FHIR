@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.jdbc.util;
 
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,8 +17,8 @@ import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
  */
 public class ExtractedSearchParameters {
 
-    private List<ExtractedParameterValue> parameters = new ArrayList<>();
-    private String parameterHashB64 = null;
+    private final List<ExtractedParameterValue> parameters;
+    private final String parameterHashB64;
 
     public ExtractedSearchParameters(List<ExtractedParameterValue> parameters, String parameterHashB64) {
         this.parameters = Collections.unmodifiableList(parameters);
