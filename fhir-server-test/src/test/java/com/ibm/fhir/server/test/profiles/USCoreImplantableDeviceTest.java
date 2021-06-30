@@ -182,7 +182,7 @@ public class USCoreImplantableDeviceTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("type", "|19257004");
+            parameters.searchParam("type", "19257004");
             FHIRResponse response = client.search(Device.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);

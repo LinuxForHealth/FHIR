@@ -547,7 +547,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testExplanationOfBenefitIdentifierNoSystem() throws Exception {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "|AW123412341234123412341234123412");
+            parameters.searchParam("identifier", "AW123412341234123412341234123412");
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);

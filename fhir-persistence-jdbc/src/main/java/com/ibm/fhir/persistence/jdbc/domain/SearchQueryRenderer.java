@@ -63,6 +63,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
@@ -517,8 +518,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
                 populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
             } else {
-                final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
-                final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
+                String system = value.getValueSystem();
+                final String code = value.getValueCode();
 
                 // Determine code normalization based on code system case-sensitivity
                 String normalizedCode = null;
@@ -530,6 +531,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     } else {
                         normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
                     }
+                }
+
+                // Replace an empty system with our default-token-system
+                if (system != null && system.isEmpty()) {
+                    system = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
                 }
 
                 // Include code

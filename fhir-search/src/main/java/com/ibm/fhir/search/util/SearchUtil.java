@@ -1389,6 +1389,7 @@ public class SearchUtil {
                 } else if (Modifier.TEXT.equals(modifier)) {
                     parameterValue.setValueCode(unescapeSearchParm(v));
                 } else if (parts.length == 2) {
+                    // This will be the empty string if the search is like `param=|code`
                     parameterValue.setValueSystem(unescapeSearchParm(parts[0]));
                     parameterValue.setValueCode(unescapeSearchParm(parts[1]));
                 } else if (parts.length == 1 && v.endsWith("|") && v.indexOf("|") == v.length()-1) {
