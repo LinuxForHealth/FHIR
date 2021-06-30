@@ -26,13 +26,6 @@ public class CompositeParmVal extends ExtractedParameterValue {
     }
 
     /**
-     * We know our type, so we can call the correct method on the visitor
-     */
-    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
-        visitor.visit(this);
-    }
-
-    /**
      * @return get the list of components in this composite parameter
      */
     public List<ExtractedParameterValue> getComponent() {
@@ -53,5 +46,43 @@ public class CompositeParmVal extends ExtractedParameterValue {
         for (ExtractedParameterValue value : component) {
             this.component.add(value);
         }
+    }
+
+    /**
+     * We know our type, so we can call the correct method on the visitor
+     */
+    @Override
+    public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
+        visitor.visit(this);
+    }
+
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        CompositeParmVal other = (CompositeParmVal) o;
+        int retVal;
+
+        List<ExtractedParameterValue> thisComponent = this.getComponent();
+        List<ExtractedParameterValue> otherComponent = other.getComponent();
+        if (thisComponent != null || otherComponent != null) {
+            if (thisComponent == null) {
+                return -1;
+            } else if (otherComponent == null) {
+                return 1;
+            }
+            Integer thisSize = thisComponent.size();
+            Integer otherSize = otherComponent.size();
+            for (int i=0; i<thisSize && i<otherSize; i++) {
+                retVal = thisComponent.get(i).compareTo(otherComponent.get(i));
+                if (retVal != 0) {
+                    return retVal;
+                }
+            }
+            retVal = thisSize.compareTo(otherSize);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

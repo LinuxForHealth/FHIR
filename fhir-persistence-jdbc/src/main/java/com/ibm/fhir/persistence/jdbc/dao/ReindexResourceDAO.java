@@ -49,7 +49,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     private final ParameterDAO parameterDao;
 
     private static final String PICK_SINGLE_LOGICAL_RESOURCE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.logical_resource_id = ? "
             + "     AND lr.is_deleted = 'N' "
@@ -57,7 +57,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             ;
 
     private static final String PICK_SINGLE_RESOURCE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
             + "     AND lr.logical_id = ? "
@@ -66,7 +66,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             ;
 
     private static final String PICK_SINGLE_RESOURCE_TYPE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
             + "     AND lr.is_deleted = 'N' "
@@ -75,7 +75,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             ;
 
     private static final String PICK_ANY_RESOURCE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
@@ -152,7 +152,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
             }
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
+                result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, select, x);
@@ -219,7 +219,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 }
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
+                    result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
                 }
             } catch (SQLException x) {
                 logger.log(Level.SEVERE, select, x);
@@ -327,12 +327,13 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     /**
      * Reindex the resource by deleting existing parameters and replacing them with those passed in.
      * @param tablePrefix the table prefix
-     * @param parameters the extracted parameters
+     * @param parameters A collection of search parameters to be persisted along with the passed Resource
+     * @param parameterHashB64 the Base64 encoded SHA-256 hash of parameters
      * @param logicalId the logical id
      * @param logicalResourceId the logical resource id
      * @throws Exception
      */
-    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String logicalId, long logicalResourceId) throws Exception {
+    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId) throws Exception {
 
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
@@ -355,6 +356,35 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 throw translator.translate(x);
             }
         }
+
+        // Update the parameter hash in the LOGICAL_RESOURCES table
+        updateParameterHash(connection, logicalResourceId, parameterHashB64);
+
         logger.exiting(CLASSNAME, METHODNAME);
+    }
+
+    /**
+     * Updates the parameter hash in the LOGICAL_RESOURCES table.
+     * @param conn the connection
+     * @param logicalResourceId the logical resource ID
+     * @param parameterHashB64 the Base64 encoded SHA-256 hash of parameters
+     * @throws SQLException
+     */
+    protected void updateParameterHash(Connection conn, long logicalResourceId, String parameterHashB64) throws SQLException {
+        final String SQL = "UPDATE logical_resources SET parameter_hash = ? WHERE logical_resource_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(SQL)) {
+            // bind parameters
+            stmt.setString(1, parameterHashB64);
+            stmt.setLong(2, logicalResourceId);
+            long dbCallStartTime = System.nanoTime();
+            stmt.executeUpdate();
+            double dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Update parameter_hash '" + parameterHashB64 + "' for logicalResourceId '" + logicalResourceId + "' [took " + dbCallDuration + " ms]");
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
     }
 }
