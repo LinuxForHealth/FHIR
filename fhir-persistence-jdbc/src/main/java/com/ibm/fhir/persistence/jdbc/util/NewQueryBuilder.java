@@ -440,7 +440,7 @@ public class NewQueryBuilder {
         // Add each query parameter to our domain model
         for (QueryParameter queryParameter : searchParameters) {
             // DATE parameters will be processed separately after other parameters
-            if (!Type.DATE.equals(queryParameter.getType()) || LAST_UPDATED.equals(queryParameter.getCode())) {
+            if (!Type.DATE.equals(queryParameter.getType())) {
                 processQueryParameter(domainModel, resourceType, queryParameter);
             }
         }
@@ -653,7 +653,7 @@ public class NewQueryBuilder {
         for (Map.Entry<String,List<QueryParameter>> entry : consolidationMap.entrySet()) {
             List<QueryParameter> queryParameters = entry.getValue();
             boolean eligibleToConsolidate = true;
-            if (queryParameters.size() == 1) {
+            if (queryParameters.size() == 1 || LAST_UPDATED.equals(entry.getKey())) {
                 eligibleToConsolidate = false;
             } else {
                 // We have multiple parameters. If any of the parameters have a modifier specified, or
