@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,7 +33,7 @@ public class ReferenceExtensionTest {
         ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
-        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile')");
+        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).all(resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile'))");
     }
 
     @Test
@@ -42,6 +42,6 @@ public class ReferenceExtensionTest {
         ConstraintGenerator generator = new ConstraintGenerator(extensionDefinition);
         List<Constraint> constraints = generator.generate();
         constraints.forEach(System.out::println);
-        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile') or value.as(Reference).resolve().is(Patient)");
+        assertEquals(constraints.get(1).expression(), "value.as(Reference).exists() and value.as(Reference).all((resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/test-profile') or resolve().is(Patient)))");
     }
 }

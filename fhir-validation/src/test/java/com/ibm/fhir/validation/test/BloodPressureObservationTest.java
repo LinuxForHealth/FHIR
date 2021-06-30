@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -113,7 +113,7 @@ public class BloodPressureObservationTest {
         // validate the blood pressure observation in debug mode and print issues to console
         List<Issue> issues = FHIRValidator.validator().validate(bloodPressureObservation);
         issues.forEach(System.out::println);
-        Assert.assertEquals(issues.size(), 4);
+        Assert.assertEquals(issues.size(), 2);
         Assert.assertTrue(issues.get(0).getDetails().getText().getValue().startsWith("generated-bp-8"));
         Assert.assertTrue(issues.get(1).getDetails().getText().getValue().startsWith("dom-6"));
 

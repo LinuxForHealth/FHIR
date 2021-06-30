@@ -61,8 +61,11 @@ public class ExamplesValidationTest {
             List<Issue> validate = FHIRValidator.validator().validate(r);
             for (Issue issue : validate) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
-                    System.out.println(issue);
+//                  System.out.println(issue);
                     invalid = true;
+                }
+                if (invalid) {
+                    System.out.println(issue);
                 }
             }
             System.out.println("--------------------------------");
