@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
@@ -81,6 +82,11 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
             protected Parameters doInvoke(FHIROperationContext operationContext, Class<? extends Resource> resourceType, String logicalId, String versionId,
                 Parameters parameters, FHIRResourceHelpers resourceHelper) throws FHIROperationException {
                 throw new FHIROperationException("You should not have reached this point");
+            }
+
+            @Override
+            protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
+                return null;
             }
         };
     }

@@ -2,6 +2,7 @@ package com.ibm.fhir.cql.helpers;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -31,23 +32,33 @@ public class FhirBundleCursor implements Iterable<Object> {
 
         private PageLoader pageLoader;
         private Bundle results;
-        private int current;
         private List<? extends Resource> currentEntry;
 
         public FhirBundleIterator(PageLoader pageLoader, Bundle results) {
             this.pageLoader = pageLoader;
             this.results = results;
-            this.current = -1;
             this.currentEntry = getEntry();
         }
 
         public boolean hasNext() {
-            return (current < this.currentEntry.size() - 1 || this.getLink().isPresent());
+            boolean hasNext = this.currentEntry.size() > 0;
+            if( ! hasNext && this.getLink().isPresent() ) {
+                try {
+                    String url = getLink().get();
+                    this.results = pageLoader.apply(url);
+                    this.currentEntry = getEntry();
+                    
+                    hasNext = this.currentEntry.size() > 0;
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+            return hasNext;
         }
 
         private List<? extends Resource> getEntry() {
             if (this.results.getEntry() != null) {
-                return this.results.getEntry().stream().map(e -> e.getResource()).collect(Collectors.toList());
+                return this.results.getEntry().stream().map(e -> e.getResource()).collect(Collectors.toCollection(LinkedList::new));
             } else {
                 return Collections.emptyList();
             }
@@ -58,24 +69,7 @@ public class FhirBundleCursor implements Iterable<Object> {
         }
 
         public Object next() {
-            current++;
-            if (current < this.currentEntry.size()) {
-                return this.currentEntry.get(current);
-            } else {
-                try {
-                    String url = getLink().get();
-                    this.results = pageLoader.apply(url);
-                    this.currentEntry = getEntry();
-                    this.current = 0;
-                    if (current < this.currentEntry.size()) {
-                        return this.currentEntry.get(this.current);
-                    }
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
-            }
-
-            throw new RuntimeException("The iteration has no more elements.");
+            return this.currentEntry.remove(0);
         }
     }
 }

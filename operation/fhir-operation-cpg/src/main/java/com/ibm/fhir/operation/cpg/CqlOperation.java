@@ -42,7 +42,6 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public class CqlOperation extends AbstractCqlOperation {
 
-    public static final String PARAM_IN_EXPRESSION = "expression";
     public static final String PARAM_IN_LIBRARY = "library";
     public static final String PARAM_IN_LIBRARY_URL = "url";
     public static final String PARAM_IN_LIBRARY_NAME = "name";

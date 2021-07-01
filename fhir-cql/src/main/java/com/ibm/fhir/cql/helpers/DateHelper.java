@@ -3,11 +3,17 @@ package com.ibm.fhir.cql.helpers;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.YearMonth;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalQueries;
+import java.time.temporal.TemporalUnit;
+
+import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
+import org.opencds.cqf.cql.engine.runtime.BaseTemporal;
 
 public class DateHelper {
 
@@ -54,8 +60,36 @@ public class DateHelper {
         return LocalDate.of(year, month, day);
     }
     
-    private static int lastDayOfMonth(int year, int month) {
+    public static int lastDayOfMonth(int year, int month) {
         YearMonth ym = YearMonth.of(year, month);
         return ym.lengthOfMonth();
+    }
+    
+    public static BaseTemporal toCqlTemporal(TemporalAccessor ta) {
+        BaseTemporal result = null;
+        
+        if( ta instanceof ZonedDateTime ) {
+            ZonedDateTime zdt = (ZonedDateTime) ta;
+            OffsetDateTime odt = OffsetDateTime.from(zdt);
+            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
+        } else if( ta instanceof OffsetDateTime ) {
+            OffsetDateTime odt = (OffsetDateTime) ta;
+            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
+        } else if( ta instanceof LocalTime ) {
+            LocalTime lt = (LocalTime) ta;
+            result = new org.opencds.cqf.cql.engine.runtime.Time(lt.getHour(), lt.getMinute(), lt.getSecond(), lt.getNano());
+        } else {
+            TemporalUnit precision = ta.query(TemporalQueries.precision());
+            if (precision.equals(ChronoUnit.YEARS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR));
+            } else if (precision.equals(ChronoUnit.MONTHS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR));
+            } else if (precision.equals(ChronoUnit.DAYS)) {
+                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR), ta.get(ChronoField.DAY_OF_MONTH));
+            } else {
+                throw new InvalidPrecision(String.format("Invalid temporal precision %s", precision.toString()));
+            }
+        }
+        return result;
     }
 }

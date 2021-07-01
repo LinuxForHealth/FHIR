@@ -63,4 +63,8 @@ public class SearchParameterMap implements Serializable {
     public List<List<? extends IQueryParameter>> remove(String theName) {
         return this.parameters.remove(theName);
     }
+    
+    public String toString() {
+        return parameters.toString();
+    }
 }

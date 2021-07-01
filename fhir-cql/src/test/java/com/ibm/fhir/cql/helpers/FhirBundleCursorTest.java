@@ -1,0 +1,92 @@
+package com.ibm.fhir.cql.helpers;
+
+import static com.ibm.fhir.cql.helpers.ModelHelper.bundle;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.Test;
+
+import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.type.HumanName;
+
+public class FhirBundleCursorTest {
+    @Test
+   public void testSinglePage() {
+        
+        Patient patient = john_doe();
+        
+        Bundle b1 = bundle(patient, patient);
+        
+        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+            throw new IllegalStateException("Should not reach this point");
+        }, b1 );
+        
+        final AtomicInteger count = new AtomicInteger(0);
+        cursor.forEach( x -> count.incrementAndGet() );
+        assertEquals( 2, count.get() );
+    }
+    
+    @Test
+    public void testMultiplePages() {
+        
+        Patient patient = john_doe();
+        
+        Bundle.Link link = Bundle.Link.builder()
+                .relation(fhirstring("next"))
+                .url(fhiruri("http://dummy.com/fhir/Something?_page=X"))
+                .build();
+        
+        Bundle b1 = bundle(patient, patient).toBuilder().link(link).build();
+        Bundle b2 = bundle(patient, patient).toBuilder().link(link).build();;
+        Bundle b3 = bundle(patient);
+        
+        ArrayList<Bundle> bundles = new ArrayList<>();
+        bundles.addAll(Arrays.asList(b2,b3));
+        
+        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+            return bundles.remove(0);
+        }, b1 );
+        
+        final AtomicInteger count = new AtomicInteger(0);
+        cursor.forEach( x -> count.incrementAndGet() );
+        assertEquals( 5, count.get() );
+    }
+    
+    @Test
+    public void testMultiplePagesLastPageHasZero() {
+        
+        Patient patient = john_doe();
+        
+        Bundle.Link link = Bundle.Link.builder()
+                .relation(fhirstring("next"))
+                .url(fhiruri("http://dummy.com/fhir/Something?_page=X"))
+                .build();
+        
+        Bundle b1 = bundle(patient, patient).toBuilder().link(link).build();
+        Bundle b2 = bundle(patient, patient).toBuilder().link(link).build();;
+        Bundle b3 = bundle();
+        
+        ArrayList<Bundle> bundles = new ArrayList<>();
+        bundles.addAll(Arrays.asList(b2,b3));
+        
+        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+            return bundles.remove(0);
+        }, b1 );
+        
+        final AtomicInteger count = new AtomicInteger(0);
+        cursor.forEach( x -> count.incrementAndGet() );
+        assertEquals( 4, count.get() );
+    }
+
+    private Patient john_doe() {
+        return Patient.builder().id("123")
+                .name(HumanName.builder().family(fhirstring("Doe")).given(fhirstring("John")).build())
+                .build();
+    }
+}

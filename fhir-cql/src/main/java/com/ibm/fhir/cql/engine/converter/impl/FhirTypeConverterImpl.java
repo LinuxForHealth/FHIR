@@ -27,6 +27,7 @@ import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.runtime.Tuple;
 
 import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
+import com.ibm.fhir.cql.helpers.DateHelper;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
@@ -448,8 +449,15 @@ public class FhirTypeConverterImpl implements FhirTypeConverter {
         org.opencds.cqf.cql.engine.runtime.DateTime result = null;
         if (value != null) {
             TemporalAccessor ta = value.getValue();
-            OffsetDateTime odt = OffsetDateTime.from(ta);
-            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
+            org.opencds.cqf.cql.engine.runtime.BaseTemporal temporal = DateHelper.toCqlTemporal(ta);
+            if( temporal instanceof org.opencds.cqf.cql.engine.runtime.Date ) {
+                org.opencds.cqf.cql.engine.runtime.Date cqlDate = (org.opencds.cqf.cql.engine.runtime.Date) temporal;                
+                result = org.opencds.cqf.cql.engine.runtime.DateTime.fromJavaDate(cqlDate.toJavaDate());
+            } else if( temporal instanceof org.opencds.cqf.cql.engine.runtime.DateTime ) {
+                result = (org.opencds.cqf.cql.engine.runtime.DateTime) temporal;
+            } else { 
+                assert false;
+            }
         }
         return result;
     }

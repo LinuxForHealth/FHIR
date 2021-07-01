@@ -3,8 +3,11 @@ package com.ibm.fhir.operation.cpg;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationException;
@@ -63,7 +66,7 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
             if (primaryLibrary == null) {
                 throw new IllegalArgumentException("failed to resolve library");
-            } else {
+            } else {          
                 result = doEvaluation(resourceHelper, paramMap, primaryLibrary);
             }
 
@@ -79,4 +82,17 @@ public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
         return result;
     }
+    
+    @Override
+    protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
+        Set<String> expressions = null;
+        if( paramMap.containsKey(PARAM_IN_EXPRESSION) ) {
+            List<Parameter> expressionsParams = paramMap.getParameter(PARAM_IN_EXPRESSION);
+            if (expressionsParams != null) {
+                expressions = expressionsParams.stream().map(p -> ((com.ibm.fhir.model.type.String) p.getValue()).getValue()).collect(Collectors.toSet());
+            }
+        }
+        return expressions;
+    }
+    
 }

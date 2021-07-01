@@ -70,7 +70,8 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
         
         Parameters.Parameter pSubject = Parameters.Parameter.builder().name(fhirstring("subject")).value(fhirstring("Patient/" + patient.getId())).build();
         Parameters.Parameter pLibrary = Parameters.Parameter.builder().name(fhirstring("library")).value(primaryLibrary.getUrl()).build();
-        Parameters parameters = Parameters.builder().parameter(pSubject, pLibrary).build();
+        Parameters.Parameter pExpression = Parameters.Parameter.builder().name(fhirstring("expression")).value(fhirstring("Initial Population")).build();
+        Parameters parameters = Parameters.builder().parameter(pSubject, pExpression, pLibrary).build();
         ParameterMap paramMap = new ParameterMap(parameters);
 
         FHIRResourceHelpers resourceHelper = mock(FHIRResourceHelpers.class);
@@ -92,6 +93,9 @@ public class LibraryEvaluateOperationTest extends BaseCqlOperationTest<LibraryEv
             
             ParameterMap resultMap = new ParameterMap(result);
             assertTrue( resultMap.containsKey("return") );
+            
+            Parameter returnParam = resultMap.getSingletonParameter("return");
+            assertEquals( 1, returnParam.getPart().size() );
         }
     }
     

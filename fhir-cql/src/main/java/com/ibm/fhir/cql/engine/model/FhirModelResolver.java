@@ -1,14 +1,7 @@
 package com.ibm.fhir.cql.engine.model;
 
 import java.lang.reflect.Field;
-import java.time.LocalTime;
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -24,9 +17,9 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.opencds.cqf.cql.engine.exception.InvalidCast;
-import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
+import com.ibm.fhir.cql.helpers.DateHelper;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.type.Age;
 import com.ibm.fhir.model.type.Canonical;
@@ -206,7 +199,7 @@ public class FhirModelResolver implements ModelResolver {
         return value;
     }
     
-    private Object unpack(FHIRPathNode node, String path) {
+    protected Object unpack(FHIRPathNode node, String path) {
         Object result = null;
         
         if( node.isResourceNode() ) {
@@ -241,47 +234,17 @@ public class FhirModelResolver implements ModelResolver {
 
 
 
-    private Object patchResult(String path, Object result) {
+    protected Object patchResult(String path, Object result) {
         if( result instanceof java.lang.String && urlPattern.matcher(path).matches() ) {
             // Patch the model to match the CQL translator modelinfo expectations
             result = Uri.of((String) result);
         } else if( result instanceof TemporalAccessor ) {
             TemporalAccessor ta = (TemporalAccessor) result;
-            result = toCqlTemporal(ta);
+            result = DateHelper.toCqlTemporal(ta);
         } else if ( result instanceof byte[] ) {
             result = Base64.getEncoder().encode((byte[])result);
         } else if ( result instanceof Id ) {
             result = ((Id)result).getValue();
-        }
-        return result;
-    }
-
-    // TODO - resolve this with the logic in FhirTypeConverter
-    private Object toCqlTemporal(TemporalAccessor ta) {
-        Object result = null;
-        
-        if( ta instanceof ZonedDateTime ) {
-            ZonedDateTime zdt = (ZonedDateTime) ta;
-            OffsetDateTime odt = OffsetDateTime.from(zdt);
-            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
-        } else if( ta instanceof OffsetDateTime ) {
-            OffsetDateTime odt = (OffsetDateTime) ta;
-            result = new org.opencds.cqf.cql.engine.runtime.DateTime(odt);
-        } else if( ta instanceof LocalTime ) {
-            LocalTime lt = (LocalTime) ta;
-            result = new org.opencds.cqf.cql.engine.runtime.Time(lt.getHour(), lt.getMinute(), lt.getSecond(), lt.getNano());
-        } else {
-            TemporalUnit precision = ta.query(TemporalQueries.precision());
-            if (precision.equals(ChronoUnit.YEARS)) {
-                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR));
-            } else if (precision.equals(ChronoUnit.MONTHS)) {
-                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR) + 1);
-            } else if (precision.equals(ChronoUnit.DAYS)) {
-                result = new org.opencds.cqf.cql.engine.runtime.Date(ta.get(ChronoField.YEAR), ta.get(ChronoField.MONTH_OF_YEAR)
-                        + 1, ta.get(ChronoField.DAY_OF_MONTH));
-            } else {
-                throw new InvalidPrecision(String.format("Invalid temporal precision %s", precision.toString()));
-            }
         }
         return result;
     }

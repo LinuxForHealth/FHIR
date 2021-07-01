@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -397,7 +398,21 @@ public class FhirModelResolverTest {
         for( String path : Arrays.asList("setup", "setup.action", "setup.action[0].assert" ) ) {
             assertNotNull(path, resolver.resolvePath(report, path));            
         }
-    }    
+    }
+    
+    @Test
+    public void testToCqlTemporalLocalDate() {
+        LocalDate expected = LocalDate.of(2013, 12, 6);
+        Date date = Date.of(expected);
+        
+        Patient pat = john_doe().birthDate(date).build();
+        Object resolved = resolver.resolvePath(pat, "birthDate.value");
+        assertNotNull(resolved);
+        
+        assertTrue( resolved instanceof org.opencds.cqf.cql.engine.runtime.Date );
+        org.opencds.cqf.cql.engine.runtime.Date actual = (org.opencds.cqf.cql.engine.runtime.Date) resolved;
+        assertEquals( expected, actual.getDate() );
+    }
 
     
     protected Patient.Builder john_doe() {

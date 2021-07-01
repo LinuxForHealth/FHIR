@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
@@ -22,6 +25,10 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvider {
 
+    private static final String DUMMY_REQUEST_URI = "https://localhost/fhir-server/api/v4";
+
+    private static Logger logger = Logger.getLogger(ServerFhirRetrieveProvider.class.getName());
+    
     private FHIRResourceHelpers resourceHelpers;
 
     public ServerFhirRetrieveProvider(FHIRResourceHelpers resourceHelpers, SearchParameterResolver searchParameterResolver) {
@@ -34,6 +41,10 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
         List<Object> results = new ArrayList<>();
 
         for (SearchParameterMap map : queries) {
+            if( logger.isLoggable(Level.FINE) ) {
+                logger.fine(String.format("Executing query %s", map.toString()));
+            }
+            
             MultivaluedMap<String, String> queryParameters = getQueryParameters(map);
 
             // _total=none instructs the server to skip the count(*) query which improves performance
@@ -44,8 +55,12 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
                 AtomicInteger pageNumber = new AtomicInteger(1);
                 FhirBundleCursor cursor = new FhirBundleCursor(url -> {
                     try {
-                        queryParameters.putSingle(SearchConstants.PAGE, String.valueOf(pageNumber.incrementAndGet()));
-                        return resourceHelpers.doSearch(dataType, null, null, queryParameters, null, null);
+                        int nextPage = pageNumber.incrementAndGet();
+                        if( logger.isLoggable(Level.FINE) ) {
+                            logger.fine(String.format("Retrieving page %d / %s", nextPage, url));
+                        }
+                        queryParameters.putSingle(SearchConstants.PAGE, String.valueOf(nextPage));
+                        return resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI, /*contextResource=*/null);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
@@ -70,7 +85,7 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
                     resource = result.getResource();
                 }
             } else {
-                resource = resourceHelpers.doSearch(dataType, null, null, queryParameters, null, null);
+                resource = resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI, /*contextResource=*/null);
             }
         } catch (RuntimeException rex) {
             throw rex;
@@ -93,6 +108,9 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
                     values.add(p.getParameterValue());
                 }
             }
+        }
+        if( map.count() != null ) {
+            parameters.putSingle(SearchConstants.COUNT, String.valueOf(map.count()));
         }
         return parameters;
     }

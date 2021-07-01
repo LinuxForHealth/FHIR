@@ -50,7 +50,7 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public abstract class AbstractCqlOperation extends AbstractOperation {
     
-    public static final String PARAM_IN_EXPRESSIONS = "expressions";
+    public static final String PARAM_IN_EXPRESSION = "expression";
     public static final String PARAM_IN_PARAMETERS = "parameters";
     public static final String PARAM_IN_SUBJECT = "subject";
     public static final String PARAM_IN_DEBUG= "debug";
@@ -88,7 +88,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         Map<String, Object> engineParameters = getCqlParameters(parameterConverter, paramMap);
 
         Set<String> expressions = getCqlExpressionsToEvaluate(paramMap);
-
+        
         DebugMap debugMap = getDebugMap(paramMap);
 
         // TODO - add configuration support for the CQL engine's local time zone
@@ -101,7 +101,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         if( debugMap != null) {
             // Need to experiment with how valuable this is right now. There are a couple of issues 
             // that I noted. Most importantly, I don't think this information will be available when
-            // the engine throws an exception (e.g. NPE). After that, the information that is available
+            // the engine throws an exception (e.g. NPE). Beyond that, the information that is available
             // is not ordered, so it can't be used to track the actual path through the engine. Lastly,
             // the data captured is incomplete. The best path currently is to use the logging produced 
             // in System.out
@@ -112,6 +112,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return output.build();
     }
 
+    @SuppressWarnings("unused")
     private Parameter convertDebugResultToParameter(EvaluationResult evaluationResult) {
         Parameter.Builder debugResultBuilder = Parameter.builder().name(fhirstring(PARAM_OUT_DEBUG_RESULT));
         
@@ -193,15 +194,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return engineParameters;
     }
 
-    @SuppressWarnings("unchecked")
-    protected Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap) {
-        Set<String> expressions = null;
-        Parameter expressionsParam = paramMap.getOptionalSingletonParameter(PARAM_IN_EXPRESSIONS);
-        if (expressionsParam != null) {
-            ((List<com.ibm.fhir.model.type.String>) expressionsParam).stream().map(p -> p.getValue()).collect(Collectors.toSet());
-        }
-        return expressions;
-    }
+    protected abstract Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap);
 
     protected LibraryLoader createLibraryLoader(List<Library> libraries) {  
         FhirLibraryLibrarySourceProvider sourceProvider = new FhirLibraryLibrarySourceProvider(libraries);

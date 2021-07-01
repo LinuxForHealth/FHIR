@@ -3,6 +3,7 @@ package com.ibm.fhir.cql.engine.server.retrieve;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.ArgumentMatchers.isNull;
@@ -89,8 +90,8 @@ public class ServerFhirRetrieveProviderTest {
 
         Bundle page2 = Bundle.builder().type(BundleType.SEARCHSET).total(UnsignedInt.of(1)).entry(Bundle.Entry.builder().resource(c2).build()).build();
 
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), isNull(), isNull())).thenReturn(page1);
-        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), isNull(), isNull())).thenReturn(page2);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), not(hasEntry("_page")), anyString(), isNull())).thenReturn(page1);
+        when(helpers.doSearch(eq("Condition"), isNull(), isNull(), hasEntry("_page"), anyString(), isNull())).thenReturn(page2);
 
         Iterable<Object> resources = provider.retrieve("Patient", "subject", "123", "Condition", null, null, null, null, null, null, null, null);
         assertNotNull(resources);
@@ -104,7 +105,7 @@ public class ServerFhirRetrieveProviderTest {
         expected.add(c2.getId());
         assertEquals(expected, results.keySet());
 
-        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), isNull(), isNull());
+        verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString(), isNull());
     }
 
     private String getBaseUrl() {
