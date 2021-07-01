@@ -30,6 +30,8 @@ import com.ibm.fhir.database.utils.version.SchemaConstants;
 public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(MigrateV0014LogicalResourceIsDeletedLastUpdated.class.getName());
 
+    private final int MAX_CORRELATED_UPDATE_ROWS = 5000;
+
     // The FHIR data schema
     private final String schemaName;
 
@@ -73,11 +75,16 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
 
         final String DML = "UPDATE " + tgtTable + " tgt "
                 + " SET (is_deleted, last_updated) = (SELECT src.is_deleted, src.last_updated FROM " + srcTable + " src WHERE tgt.logical_resource_id = src.logical_resource_id)"
-                        + " WHERE tgt.resource_type_id = " + this.resourceTypeId;
+                        + " WHERE tgt.logical_resource_id IN "
+                        + "(SELECT tgt2.logical_resource_id FROM " + tgtTable + " tgt2"
+                        + "  WHERE tgt2.resource_type_id = " + this.resourceTypeId + " AND tgt2.is_deleted = 'X' " + translator.limit(MAX_CORRELATED_UPDATE_ROWS + "") + ")";
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {
-            ps.executeUpdate();
+            boolean runStatement = true;
+            while (runStatement) {
+                runStatement = ps.executeUpdate() > 0;
+            }
         } catch (SQLException x) {
             throw translator.translate(x);
         }
