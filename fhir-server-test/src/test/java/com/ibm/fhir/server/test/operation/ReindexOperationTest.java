@@ -224,7 +224,7 @@ public class ReindexOperationTest extends FHIRServerTestBase {
                 + "-"
                 + String.format("%02d", zdt.getMonthValue())
                 + "-"
-                + zdt.getDayOfMonth();
+                + String.format("%02d", zdt.getDayOfMonth());
 
         List<Parameter> parameters = new ArrayList<>();
         parameters.add(Parameter.builder()
