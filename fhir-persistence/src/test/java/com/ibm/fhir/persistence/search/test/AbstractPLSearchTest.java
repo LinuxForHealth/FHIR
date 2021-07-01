@@ -127,7 +127,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Asserts that the savedResource is in the search result set
+     * Asserts that the savedResource is in the search result set.
      * @throws Exception
      */
     protected void assertSearchReturnsSavedResource(Map<String, List<String>> queryParms) throws Exception {
@@ -145,7 +145,7 @@ public abstract class AbstractPLSearchTest extends AbstractPersistenceTest {
     }
 
     /**
-     * Asserts that the savedResource is *not* in the search result set
+     * Asserts that the savedResource is *not* in the search result set.
      * @throws Exception
      */
     protected void assertSearchDoesntReturnSavedResource(Map<String, List<String>> queryParms) throws Exception {
