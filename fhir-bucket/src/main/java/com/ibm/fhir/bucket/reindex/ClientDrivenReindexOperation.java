@@ -155,7 +155,11 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 if (currentThreadCount == 0) {
                     // Nothing currently running, so make one test call to verify things are working
                     doneRetrieving = doneRetrieving || !callRetrieveIndex();
-                    if (!blockingQueue.isEmpty()) {
+                    if (blockingQueue.isEmpty()) {
+                        // Do not even start the worker threads if nothing to do
+                        logger.info("Nothing to do, so do not even start the worker threads");
+                        this.running = false;
+                    } else {
                         // Should be OK now to fill the pool with workers
                         logger.info("Index IDs available for processing - filling worker pool");
                         this.active = true;
@@ -176,7 +180,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                         if (doneRetrieving) {
                             if (blockingQueue.isEmpty()) {
                                 // Tell all the running threads they can stop now
-                                logger.info("Nothing left to do, tell all the worker threads to exit");
+                                logger.info("Nothing left to do, so tell all the worker threads to exit");
                                 this.running = false;
                             } else {
                                 // Worker threads are still processing, so sleep for a bit before we check again
