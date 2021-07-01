@@ -15,8 +15,10 @@ import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
 import static com.ibm.fhir.search.SearchConstants.TAG;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -59,11 +61,13 @@ import com.ibm.fhir.persistence.jdbc.domain.TagSearchParam;
 import com.ibm.fhir.persistence.jdbc.domain.TokenSearchParam;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.location.util.LocationUtil;
 import com.ibm.fhir.search.parameters.InclusionParameter;
 import com.ibm.fhir.search.parameters.QueryParameter;
+import com.ibm.fhir.search.parameters.QueryParameterValue;
 import com.ibm.fhir.search.parameters.SortParameter;
 
 /**
@@ -435,8 +439,16 @@ public class NewQueryBuilder {
 
         // Add each query parameter to our domain model
         for (QueryParameter queryParameter : searchParameters) {
-            processQueryParameter(domainModel, resourceType, queryParameter);
+            // DATE parameters will be processed separately after other parameters
+            if (!Type.DATE.equals(queryParameter.getType())) {
+                processQueryParameter(domainModel, resourceType, queryParameter);
+            }
         }
+
+        // Special logic for search parameters of type DATE. We may be able to
+        // consolidate multiple parameters into a single parameter.
+        consolidateDateParms(domainModel, resourceType, searchParameters);
+
         log.exiting(CLASSNAME, METHODNAME);
     }
 
@@ -597,5 +609,178 @@ public class NewQueryBuilder {
             resourceTypeIds.add(this.identityCache.getResourceTypeId(resourceType));
         }
         domainModel.add(new WholeSystemResourceTypeExtension(resourceTypeIds));
+    }
+    
+    /**
+     * Process DATE parameters. If there are multiple query parameters specified for a
+     * single DATE search parameter, we will attempt to consolidate in two ways:
+     * 1. We will try to consolidate all query parameters which constrain a lower or upper
+     *    bound of the search into a single query parameter (i.e. if there are query
+     *    parameters with 'le', 'lt', and 'eb' prefixes, we will try to consolidate them
+     *    into a single query parameter.
+     * 2. We will chain together all consolidated query parameters so that the query
+     *    builder can do a single JOIN against the xx_date_values table rather than one
+     *    JOIN per query parameter. For example, a search of:
+     *       'Patient?birthdate=gt1980-01-01&birthdate=lt2020-01-01'
+     *    will generate two JOINS to the Patient_DATE_VALUES table if the query parameters
+     *    are not consolidated. However, when consolidated into a chained DATE query parameter,
+     *    the query builder will generate a single JOIN.
+     * We will not attempt to consolidate query parameters that have a modifier specified,
+     * or that are chain or inclusion parameters, or that have multiple parameter values.
+     * Those will be processed as normal DATE query parameters.
+     * 
+     * @param domainModel
+     * @param resourceType
+     * @param searchParameters
+     * @throws Exception 
+     */
+    private void consolidateDateParms(SearchQuery domainModel, Class<?> resourceType, List<QueryParameter> searchParameters)
+            throws Exception {
+        
+        // We only need to attempt to consolidate if we have multiple query parameters for the
+        // same search parameter name. Loop through the search parameters, mapping parameter name
+        // to parameter(s) to determine if this is the case.
+        Map<String,List<QueryParameter>> consolidationMap = new HashMap<>();
+        for (QueryParameter searchParameter : searchParameters) {
+            if (Type.DATE.equals(searchParameter.getType())) {
+                consolidationMap.computeIfAbsent(searchParameter.getCode(), k -> new ArrayList<>()).add(searchParameter);
+            }
+        }
+        
+        // Now loop through the map to find any cases of same parameter specified multiple times.
+        // If found, we will attempt to consolidate. If not, we will simply process as a normal
+        // date parameter.
+        for (Map.Entry<String,List<QueryParameter>> entry : consolidationMap.entrySet()) {
+            List<QueryParameter> queryParameters = entry.getValue();
+            boolean eligibleToConsolidate = true;
+            if (queryParameters.size() == 1 || LAST_UPDATED.equals(entry.getKey())) {
+                eligibleToConsolidate = false;
+            } else {
+                // We have multiple parameters. If any of the parameters have a modifier specified, or
+                // if chain or inclusion parameter, or if multiple values, don't attempt to consolidate.
+                for (QueryParameter queryParm : queryParameters) {
+                    List<QueryParameterValue> queryParmValues = queryParm.getValues();
+                    if (queryParm.getModifier() != null || queryParm.isChained() ||
+                            queryParm.isInclusionCriteria() || queryParmValues.size() > 1) {
+                        eligibleToConsolidate = false;
+                        break;
+                    }
+                }
+            }
+            
+            if (eligibleToConsolidate) {
+                // Attempt to consolidate the upper and lower bound constraints
+                List<QueryParameter> consolidatedParms = new ArrayList<>();
+                Instant gteBound = null;
+                Instant lteBound = null;
+                Instant saBound = null;
+                Instant ebBound = null;
+                QueryParameter gteBoundParm = null;
+                QueryParameter lteBoundParm = null;
+                QueryParameter saBoundParm = null;
+                QueryParameter ebBoundParm = null;
+                for (QueryParameter queryParm : queryParameters) {
+                    QueryParameterValue queryParmValue = queryParm.getValues().get(0);
+                    Prefix prefix = queryParmValue.getPrefix();
+                    Instant valueLowerBound = queryParmValue.getValueDateLowerBound();
+                    Instant valueUpperBound = queryParmValue.getValueDateUpperBound();
+                    switch(prefix) {
+                    case GT:
+                        if (gteBound == null || valueUpperBound.isAfter(gteBound) || valueUpperBound.equals(gteBound)) {
+                            gteBound = valueUpperBound;
+                            gteBoundParm = queryParm;
+                        }
+                        break;
+                    case GE: 
+                        if (gteBound == null || valueLowerBound.isAfter(gteBound)) {
+                            gteBound = valueLowerBound;
+                            gteBoundParm = queryParm;
+                        }
+                        break;
+                    case SA: 
+                        if (saBound == null || valueUpperBound.isAfter(saBound)) {
+                            saBound = valueUpperBound;
+                            saBoundParm = queryParm;
+                        }
+                        break;
+                    case LT: 
+                        if (lteBound == null || valueLowerBound.isBefore(lteBound) || valueLowerBound.equals(lteBound)) {
+                            lteBound = valueLowerBound;
+                            lteBoundParm = queryParm;
+                        }
+                        break;
+                    case LE: 
+                        if (lteBound == null || valueUpperBound.isBefore(lteBound)) {
+                            lteBound = valueUpperBound;
+                            lteBoundParm = queryParm;
+                        }
+                        break;
+                    case EB: 
+                        if (ebBound == null || valueLowerBound.isBefore(ebBound)) {
+                            ebBound = valueLowerBound;
+                            ebBoundParm = queryParm;
+                        }
+                        break;
+                    default:
+                        // If not a simple bound constraint, add to list to be processed as is
+                        consolidatedParms.add(queryParm);
+                    }
+                }
+                
+                // Add the consolidated parms
+                if (saBound != null) {
+                    // Add the SA queryParm with the most restrictive bound
+                    consolidatedParms.add(saBoundParm);
+                    if (gteBound != null &&
+                            (saBound.isAfter(gteBound) || saBound.equals(gteBound))) {
+                        // ignore the GT/GE queryParm since SA queryParm is more restrictive
+                        gteBound = null;
+                    }
+                }
+                if (gteBound != null) {
+                    // Add the GT/GE queryParm with the most restrictive bound
+                    consolidatedParms.add(gteBoundParm);
+                }
+                if (ebBound != null) {
+                    // Add the EB queryParm with the most restrictive bound
+                    consolidatedParms.add(ebBoundParm);
+                    if (lteBound != null &&
+                            (ebBound.isBefore(lteBound) || ebBound.equals(lteBound))) {
+                        // ignore the LT/LE queryParm since EB queryParm is more restrictive
+                        lteBound = null;
+                    }
+                }
+                if (lteBound != null) {
+                    // Add the LT/LE queryParm with the most restrictive bound
+                    consolidatedParms.add(lteBoundParm);
+                }
+                
+                // Chain all the consolidated parms together - need to make copies since we're
+                // modifying by chaining.
+                QueryParameter consolidatedDateParm = null;
+                for (QueryParameter consolidatedParm : consolidatedParms) {
+                    QueryParameter cp = new QueryParameter(consolidatedParm.getType(), consolidatedParm.getCode(),
+                        null, null, consolidatedParm.getValues());
+                    if (consolidatedDateParm == null) {
+                        consolidatedDateParm = cp;
+                    } else {
+                        if (consolidatedDateParm.getChain().isEmpty()) {
+                            consolidatedDateParm.setNextParameter(cp);
+                        } else {
+                            consolidatedDateParm.getChain().getLast().setNextParameter(cp);
+                        }
+                    }
+                }
+                
+                // Process new consolidated DATE parameter
+                domainModel.add(new DateSearchParam(
+                    resourceType.getSimpleName(), consolidatedDateParm.getCode(), consolidatedDateParm));
+            } else {
+                // Process as normal date parameters
+                for (QueryParameter queryParm : queryParameters) {
+                    processQueryParameter(domainModel, resourceType, queryParm);
+                }
+            }
+        }
     }
 }

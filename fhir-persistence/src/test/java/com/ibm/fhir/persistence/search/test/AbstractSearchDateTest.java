@@ -10,6 +10,7 @@ import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertTrue;
 
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -1980,5 +1981,95 @@ public abstract class AbstractSearchDateTest extends AbstractPLSearchTest {
 
         assertSearchReturnsComposition("subject:Basic.missing-dateTime:missing", "true");
         assertSearchDoesntReturnComposition("subject:Basic.missing-dateTime:missing", "false");
+    }
+    @Test
+    public void testSearchDate_consolidated() throws Exception {
+        // "date" is 2018-10-29
+        Map<String,List<String>> queryParms = new HashMap<>();
+        queryParms.put("date", Arrays.asList("ge2018-10-29","le2018-10-29"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","le2018-10-29","eb2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","le2018-10-29","eb2018-10-30"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","lt2018-10-29","le2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","lt2018-10-30","le2018-10-29"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","gt2018-10-29","le2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","gt2018-10-28","le2018-10-29"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","sa2018-10-29","le2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("ge2018-10-29","sa2018-10-28","le2018-10-29"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("gt2018-10-29","ge2018-10-29","le2018-10-29","lt2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("sa2018-10-29","ge2018-10-29","le2018-10-29","eb2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("gt2018-10-29","sa2018-10-29","lt2018-10-29","eb2018-10-29"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("date", Arrays.asList("gt2018-10-28","sa2018-10-28","ge2018-10-29","le2018-10-29","lt2018-10-30","eb2018-10-30"));
+        assertSearchReturnsSavedResource(queryParms);
+
+        // "dateTime" is 2019-12-31T20:00:00-04:00 (2020-01-01T00:00:00Z)
+        queryParms.clear();
+        queryParms.put("dateTime", Arrays.asList("ge2019-12-31T20:00:00","le2019-12-31T20:00:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("ge2019-12-31T20:00:00","le2019-12-31T20:00:00","eb2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("ge2019-12-31T20:00:00","le2019-12-31T20:00:00","eb2019-12-31T20:00:01"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("ge2019-12-31T20:00:00","le2019-12-31T20:00:00","lt2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("ge2019-12-31T20:00:00","le2019-12-31T20:00:00","lt2019-12-31T20:00:01"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("gt2019-12-31T20:00:00","ge2019-12-31T20:00:00","le2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("gt2019-12-31T19:59:59","ge2019-12-31T20:00:00","le2019-12-31T20:00:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("sa2019-12-31T20:00:00","ge2019-12-31T20:00:00","le2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("sa2019-12-31T19:59:59","ge2019-12-31T20:00:00","le2019-12-31T20:00:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("gt2019-12-31T20:00:00","ge2019-12-31T20:00:00","le2019-12-31T20:00:00","lt2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("sa2019-12-31T20:00:00","ge2019-12-31T20:00:00","le2019-12-31T20:00:00","eb2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("sa2019-12-31T20:00:00","gt2019-12-31T20:00:00","lt2019-12-31T20:00:00","eb2019-12-31T20:00:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("dateTime", Arrays.asList("sa2019-12-31T19:59:59","gt2019-12-31T19:59:59","ge2019-12-31T20:00:00","le2019-12-31T20:00:00","lt2019-12-31T20:00:01","eb2019-12-31T20:00:01"));
+        assertSearchReturnsSavedResource(queryParms);
+
+        // "Period.start": "2018-10-29T17:12:00-04:00",
+        // "Period.end":   "2018-10-29T17:18:00-04:00"
+        queryParms.clear();
+        queryParms.put("Period", Arrays.asList("ge2018-10-29T17:18:00","le2018-10-29T17:12:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("ge2018-10-29T17:18:00","le2018-10-29T17:12:00","eb2018-10-29T17:18:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("ge2018-10-29T17:18:00","le2018-10-29T17:12:00","eb2018-10-29T17:18:01"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("ge2018-10-29T17:18:00","le2018-10-29T17:12:00","lt2018-10-29T17:12:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("ge2018-10-29T17:18:00","le2018-10-29T17:12:00","lt2018-10-29T17:12:01"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("gt2018-10-29T17:18:00","ge2018-10-29T17:18:00","le2018-10-29T17:12:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("gt2018-10-29T17:17:59","ge2018-10-29T17:18:00","le2018-10-29T17:12:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("sa2018-10-29T17:12:00","ge2018-10-29T17:18:00","le2018-10-29T17:12:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("sa2018-10-29T17:11:59","ge2018-10-29T17:18:00","le2018-10-29T17:12:00"));
+        assertSearchReturnsSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("gt2018-10-29T17:18:00","ge2018-10-29T17:18:00","le2018-10-29T17:12:00","lt2018-10-29T17:12:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("sa2018-10-29T17:12:00","ge2018-10-29T17:18:00","le2018-10-29T17:12:00","eb2018-10-29T17:18:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("sa2018-10-29T17:12:00","gt2018-10-29T17:18:00","lt2018-10-29T17:12:00","eb2018-10-29T17:18:00"));
+        assertSearchDoesntReturnSavedResource(queryParms);
+        queryParms.put("Period", Arrays.asList("sa2018-10-29T17:11:59","gt2018-10-29T17:17:59","ge2018-10-29T17:18:00","le2018-10-29T17:12:00","lt2018-10-29T17:12:01","eb2018-10-29T17:18:01"));
+        assertSearchReturnsSavedResource(queryParms);
     }
 }

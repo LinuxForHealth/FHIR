@@ -78,6 +78,7 @@ import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.OperatorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
@@ -1061,7 +1062,37 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected WhereFragment getDateFilter(QueryParameter queryParm, String paramAlias) {
         WhereFragment where = new WhereFragment();
         NewDateParmBehaviorUtil util = new NewDateParmBehaviorUtil();
-        util.executeBehavior(where, queryParm, paramAlias);
+        
+        // It is possible that multiple date parameters could be chained together if there were
+        // multiple query parameters specified for the same date search parameter and we were
+        // able to consolidate them. Check specifically if we have a consolidated parameter which
+        // specifies a range, and if so, build a range filter.
+        if (queryParm.isChained() && queryParm.getChain().size() == 1) {
+            List<Prefix> lowerBoundPrefixes = Arrays.asList(Prefix.GT, Prefix.GE, Prefix.SA);
+            List<Prefix> upperBoundPrefixes = Arrays.asList(Prefix.LT, Prefix.LE, Prefix.EB);
+            Prefix prefix1 = queryParm.getValues().get(0).getPrefix();
+            Prefix prefix2 = queryParm.getNextParameter().getValues().get(0).getPrefix();
+            if (lowerBoundPrefixes.contains(prefix1) && upperBoundPrefixes.contains(prefix2)) {
+                // The consolidated parameter specifies a range, so build a date range filter
+                util.buildCustomRangeClause(where, paramAlias, queryParm, queryParm.getNextParameter());
+                return where;
+            } else if (lowerBoundPrefixes.contains(prefix2) && upperBoundPrefixes.contains(prefix1)) {
+                // The consolidated parameter specifies a range, so build a date range filter
+                util.buildCustomRangeClause(where, paramAlias, queryParm.getNextParameter(), queryParm);
+                return where;
+            }
+        }
+        
+        boolean first = true;
+        while (queryParm != null) {
+            if (first) {
+                first = false;
+            } else {
+                where.and();
+            }
+            util.executeBehavior(where, queryParm, paramAlias);
+            queryParm = queryParm.getNextParameter();
+        }
         return where;
     }
 
