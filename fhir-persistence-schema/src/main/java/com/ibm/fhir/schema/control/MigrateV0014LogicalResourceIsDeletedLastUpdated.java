@@ -28,7 +28,7 @@ import com.ibm.fhir.database.utils.version.SchemaConstants;
  * the SV_TENANT_ID needs to be set first.
  */
 public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabaseStatement {
-    private static final Logger logger = Logger.getLogger(MigrateV0014LogicalResourceIsDeletedLastUpdated.class.getName());
+    private static final Logger LOG = Logger.getLogger(MigrateV0014LogicalResourceIsDeletedLastUpdated.class.getName());
 
     private final int MAX_CORRELATED_UPDATE_ROWS = 5000;
 
@@ -81,9 +81,10 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
                 ;
 
         try (PreparedStatement ps = c.prepareStatement(DML)) {
-            boolean runStatement = true;
-            while (runStatement) {
-                runStatement = ps.executeUpdate() > 0;
+            int count = 1;
+            while (count > 0) {
+                count = ps.executeUpdate();
+                LOG.info("MigrateV0014 from '" + srcTable + "' blockSize = '" + count + "'  at  '" + java.time.Instant.now() + "'");
             }
         } catch (SQLException x) {
             throw translator.translate(x);
@@ -117,9 +118,9 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
                 String isDeleted = rs.getString(2);
                 Timestamp lastUpdated = rs.getTimestamp(3, SchemaConstants.UTC);
 
-                if (logger.isLoggable(Level.FINEST)) {
+                if (LOG.isLoggable(Level.FINEST)) {
                     // log the update in a form which is useful for debugging
-                    logger.finest("UPDATE logical_resources "
+                    LOG.finest("UPDATE logical_resources "
                         + "   SET          is_deleted = '" + isDeleted + "'"
                         + ",             last_updated = '" + lastUpdated.toString() + "'"
                         + " WHERE logical_resource_id = " + logicalResourceId);
