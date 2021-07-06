@@ -11,11 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import org.junit.Before;
-import org.junit.Rule;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 
+import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
+
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.model.format.Format;
@@ -40,11 +44,46 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 
 public abstract class R4RestFhirTest {
+    
+    public static final String HOSTNAME = "localhost";
+    public static final int PORT = 7070;
 
-    @Rule
-    public WireMockRule wireMockRule = new WireMockRule(7070);
+    protected static WireMockServer wireMockServer;
+    protected static WireMock wireMock;
+    
+    @BeforeClass
+    public static void setupServer() {
+        
+        WireMockConfiguration wireMockConfig = WireMockConfiguration.wireMockConfig();
+        wireMockConfig.port(PORT);
+        
+        wireMockServer = new WireMockServer(wireMockConfig);
+        wireMockServer.start();
+        
+        WireMock.configureFor(HOSTNAME, PORT);
+        wireMock = new WireMock(HOSTNAME, PORT);
+    }
+    
+    @AfterClass
+    public static void serverShutdown() {
+        wireMockServer.stop();
+    }
+    
+    public static String getHttpHost() {
+        return wireMockServer.baseUrl();
+    }
 
-    @Before
+    public static String getBaseUrl() {
+        return wireMockServer.baseUrl();
+//        return String.format("http://%s:%d/", HOSTNAME, getHttpPort());
+    }
+    
+    @BeforeMethod
+    public void init() throws InterruptedException {
+        WireMock.resetToDefault();
+    }
+
+    @BeforeMethod
     public void mockMetadata() throws Exception {
         mockFhirRead("/metadata", getCapabilityStatement());
     }
@@ -57,12 +96,8 @@ public abstract class R4RestFhirTest {
         return FHIRGenerator.generator(Format.JSON, /* prettyPrint= */true);
     }
 
-    public int getHttpPort() {
-        return wireMockRule.port();
-    }
-
-    public String getBaseUrl() {
-        return String.format("http://localhost:%d/", getHttpPort());
+    public static int getHttpPort() {
+        return wireMockServer.port();
     }
 
     public FHIRClient newClient() throws Exception {

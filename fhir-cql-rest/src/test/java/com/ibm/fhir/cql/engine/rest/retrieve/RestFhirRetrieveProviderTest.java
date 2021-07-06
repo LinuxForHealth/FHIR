@@ -6,7 +6,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.verify;
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
@@ -14,8 +14,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.runtime.DateTime;
 import org.opencds.cqf.cql.engine.runtime.Interval;
@@ -40,7 +40,7 @@ public class RestFhirRetrieveProviderTest extends R4RestFhirTest {
 
     RestFhirRetrieveProvider provider;
 
-    @Before
+    @BeforeMethod
     public void setUp() throws Exception {
         CLIENT = newClient();
         RESOLVER = new SearchParameterResolver();
@@ -135,7 +135,7 @@ public class RestFhirRetrieveProviderTest extends R4RestFhirTest {
         results.forEach(o -> {
             count.incrementAndGet();
         });
-        assertEquals(2, count.get());
+        assertEquals(count.get(), 2);
 
         verify(2, getRequestedFor(urlPathEqualTo("/Condition")));
     }

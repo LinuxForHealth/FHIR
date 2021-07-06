@@ -5,14 +5,14 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
@@ -33,7 +33,7 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
         return new MeasureDataRequirementsOperation();
     }
     
-    @Before
+    @BeforeMethod
     public void setup() {
         
         measure = Measure.builder()

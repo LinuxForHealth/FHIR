@@ -1,9 +1,9 @@
 package com.ibm.fhir.cql.engine.rest.terminology;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.terminology.CodeSystemInfo;
 import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
@@ -36,7 +36,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
     private static final String TEST_SYSTEM_VERSION = "2013-09";
     RestFhirTerminologyProvider provider;
 
-    @Before
+    @BeforeMethod
     public void initializeProvider() throws Exception {
         provider = new RestFhirTerminologyProvider(newClient());
     }
@@ -49,7 +49,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(Boolean.TRUE, provider.resolveByUrl(info));
+        assertEquals(provider.resolveByUrl(info), Boolean.TRUE);
     }
 
     @Test
@@ -61,7 +61,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(provider.resolveByUrl(info), Boolean.TRUE);
+        assertEquals(Boolean.TRUE, provider.resolveByUrl(info));
     }
 
     @Test
@@ -72,10 +72,10 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(provider.resolveByUrl(info), Boolean.TRUE);
+        assertEquals(Boolean.TRUE,provider.resolveByUrl(info));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void resolveByUrlNoMatchesThrowsException() throws Exception {
         ValueSetInfo info = new ValueSetInfo().withId("urn:oid:1.2.3.4");
 
@@ -84,7 +84,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
         provider.resolveByUrl(info);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expectedExceptions = UnsupportedOperationException.class)
     public void nonNullVersionUnsupported() {
         ValueSetInfo info = new ValueSetInfo();
         info.setId("urn:oid:Test");
@@ -93,7 +93,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
         provider.resolveByUrl(info);
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test(expectedExceptions = UnsupportedOperationException.class)
     public void nonNullCodesystemsUnsupported() {
         CodeSystemInfo codeSystem = new CodeSystemInfo();
         codeSystem.setId("SNOMED-CT");
@@ -119,7 +119,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
         assertEquals(info.getId(), "Test");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void moreThanOneURLSearchResultIsError() throws Exception {
         ValueSetInfo info = new ValueSetInfo();
         info.setId("http://localhost/fhir/ValueSet/1.2.3.4");
@@ -133,7 +133,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
         provider.resolveByUrl(info);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void zeroURLSearchResultIsError() throws Exception {
         ValueSetInfo info = new ValueSetInfo();
         info.setId("http://localhost/fhir/ValueSet/1.2.3.4");

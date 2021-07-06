@@ -2,7 +2,7 @@ package com.ibm.fhir.operation.cqf;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Parameters;

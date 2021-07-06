@@ -1,9 +1,9 @@
 package com.ibm.fhir.cql.engine.model;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -21,8 +21,8 @@ import org.cqframework.cql.cql2elm.model.Model;
 import org.hl7.elm.r1.VersionedIdentifier;
 import org.hl7.elm_modelinfo.r1.ClassInfo;
 import org.hl7.elm_modelinfo.r1.TypeInfo;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.model.ModelResolver;
 
 import com.ibm.fhir.model.resource.Bundle;
@@ -52,7 +52,7 @@ public class FhirModelResolverTest {
   
     ModelResolver resolver = null;
     
-    @Before
+    @BeforeMethod
     public void setup() {
         this.resolver = new FhirModelResolver();
         resolver.setPackageName("com.ibm.fhir.model");
@@ -77,7 +77,7 @@ public class FhirModelResolverTest {
             }
         });
        
-        assertEquals( StringUtils.join("\n", nullResults), 0, nullResults.size() );
+        assertEquals( nullResults.size(), 0, StringUtils.join("\n", nullResults) );
     }
     
     private void visitModelInfoTypes(String id, String version, Consumer<ClassInfo> visitor) {
@@ -273,21 +273,21 @@ public class FhirModelResolverTest {
     @Test
     public void testResolveTypeUri() throws Exception {
         Class<?> clazz = resolver.resolveType("Uri");
-        assertNotNull( "Failed to resolve type", clazz );
+        assertNotNull( clazz, "Failed to resolve type" );
     }
 
     @Test
     public void testResolveTypeString() throws Exception {
         Class<?> clazz = resolver.resolveType("string");
-        assertNotNull( "Failed to resolve type", clazz );
+        assertNotNull( clazz, "Failed to resolve type" );
     }    
     
     @Test
     public void testResolvePathExtensionUrlSimple() throws Exception {
         Extension extension = Extension.builder().url("http://somewhere.com/profile/Something").build();
         Object result = resolver.resolvePath(extension, "url");
-        assertNotNull( "Null result", result );
-        assertEquals( com.ibm.fhir.model.type.Uri.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.Uri.class );
     }
     
     @Test
@@ -296,16 +296,16 @@ public class FhirModelResolverTest {
         Patient patient = john_doe().extension(extension).build();
 
         Object result = resolver.resolvePath(patient, "extension[0].url");
-        assertNotNull( "Null result", result );
-        assertEquals( com.ibm.fhir.model.type.Uri.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), com.ibm.fhir.model.type.Uri.class );
     }
 
     @Test
     public void testResolveResourceIdSimple() throws Exception {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath(patient, "id");
-        assertNotNull( "Null result", result );
-        assertEquals( java.lang.String.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
     }
     
     @Test
@@ -313,31 +313,31 @@ public class FhirModelResolverTest {
         Patient patient = john_doe().build();
         Bundle bundle = Bundle.builder().type(BundleType.SEARCHSET).entry(Bundle.Entry.builder().resource(patient).build()).build();
         Object result = resolver.resolvePath(bundle, "entry[0].resource.id");
-        assertNotNull( "Null result", result );
-        assertEquals( java.lang.String.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
     }
 
     @Test
     public void testResolveElementIdSimple() throws Exception {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath(patient, "name[0].id");
-        assertNotNull( "Null result", result );
-        assertEquals( java.lang.String.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
     }
     
     @Test
     public void testResolveElementIdCompound() throws Exception {
         Patient patient = john_doe().build();
         Object result = resolver.resolvePath( patient.getName().get(0), "id");
-        assertNotNull( "Null result", result );
-        assertEquals( java.lang.String.class, result.getClass() );
+        assertNotNull( result, "Null result" );
+        assertEquals( result.getClass(), java.lang.String.class );
     }
     
     @Test
     public void resolveContextPathPatientAppointment() {
         String result = (String) resolver.getContextPath("Patient", "Appointment");
         assertNotNull(result);
-        assertEquals(result, "participant.actor");
+        assertEquals("participant.actor", result);
     }
 
     @Test
@@ -346,7 +346,7 @@ public class FhirModelResolverTest {
 
         String result = (String) resolver.resolvePath(p, "gender.value");
         assertNotNull(result);
-        assertEquals(result, "male");
+        assertEquals("male", result);
     }
     
     @Test
@@ -355,7 +355,7 @@ public class FhirModelResolverTest {
 
         Object result = resolver.resolvePath(p, "birthDate.value");
         assertNotNull(result);
-        assertTrue("Unexpected class " + result.getClass().getName(), result instanceof org.opencds.cqf.cql.engine.runtime.Date);
+        assertTrue(result instanceof org.opencds.cqf.cql.engine.runtime.Date, "Unexpected class " + result.getClass().getName());
     }
     
     @Test
@@ -363,7 +363,7 @@ public class FhirModelResolverTest {
         Patient p = john_doe().deceased(DateTime.now()).build();
         
         Object result = resolver.resolvePath(p, "deceased");
-        assertNotNull("Null result", result);
+        assertNotNull( result, "Null result" );
     }
     
     @Test
@@ -375,7 +375,7 @@ public class FhirModelResolverTest {
                 .build();
                 
         Object result = resolver.resolvePath(enc, "class");
-        assertNotNull("Null result", result);
+        assertNotNull( result, "Null result" );
     }
     
     @Test
@@ -396,7 +396,7 @@ public class FhirModelResolverTest {
                 .build();
 
         for( String path : Arrays.asList("setup", "setup.action", "setup.action[0].assert" ) ) {
-            assertNotNull(path, resolver.resolvePath(report, path));            
+            assertNotNull(resolver.resolvePath(report, path), path);
         }
     }
     
@@ -411,7 +411,7 @@ public class FhirModelResolverTest {
         
         assertTrue( resolved instanceof org.opencds.cqf.cql.engine.runtime.Date );
         org.opencds.cqf.cql.engine.runtime.Date actual = (org.opencds.cqf.cql.engine.runtime.Date) resolved;
-        assertEquals( expected, actual.getDate() );
+        assertEquals( actual.getDate(), expected );
     }
 
     

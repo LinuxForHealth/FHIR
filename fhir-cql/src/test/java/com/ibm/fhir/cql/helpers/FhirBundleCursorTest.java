@@ -3,13 +3,13 @@ package com.ibm.fhir.cql.helpers;
 import static com.ibm.fhir.cql.helpers.ModelHelper.bundle;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
-import static org.junit.Assert.assertEquals;
+import static org.testng.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
@@ -29,7 +29,7 @@ public class FhirBundleCursorTest {
         
         final AtomicInteger count = new AtomicInteger(0);
         cursor.forEach( x -> count.incrementAndGet() );
-        assertEquals( 2, count.get() );
+        assertEquals( count.get(), 2 );
     }
     
     @Test
@@ -55,7 +55,7 @@ public class FhirBundleCursorTest {
         
         final AtomicInteger count = new AtomicInteger(0);
         cursor.forEach( x -> count.incrementAndGet() );
-        assertEquals( 5, count.get() );
+        assertEquals( count.get(), 5 );
     }
     
     @Test
@@ -81,7 +81,7 @@ public class FhirBundleCursorTest {
         
         final AtomicInteger count = new AtomicInteger(0);
         cursor.forEach( x -> count.incrementAndGet() );
-        assertEquals( 4, count.get() );
+        assertEquals( count.get(), 4 );
     }
 
     private Patient john_doe() {

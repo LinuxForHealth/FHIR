@@ -1,12 +1,13 @@
 package com.ibm.fhir.operation.cqf;
+
 import static com.ibm.fhir.cql.helpers.ModelHelper.bundle;
 import static com.ibm.fhir.cql.helpers.ModelHelper.canonical;
 import static com.ibm.fhir.cql.helpers.ModelHelper.coding;
 import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.valueset;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -25,8 +26,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
 
 import com.ibm.fhir.cql.helpers.ParameterMap;
@@ -54,7 +55,7 @@ public class EvaluateMeasureOperationTest {
     
     private EvaluateMeasureOperation operation;
     
-    @Before
+    @BeforeMethod
     public void setup() {
         operation = new EvaluateMeasureOperation();
     }
@@ -79,7 +80,7 @@ public class EvaluateMeasureOperationTest {
                 + patient.getId())).build()).code(concept(type)).status(ProcedureStatus.COMPLETED).performed(DateTime.of("2019-03-14")).build();
         
         List<Measure> measures = TestHelper.getBundleResources("EXM74-10.2.000-request.json", Measure.class);
-        assertEquals( 1, measures.size() );
+        assertEquals( measures.size(), 1 );
         Measure measure = measures.get(0);
         String measureURL = canonical(measure.getUrl(), measure.getVersion()).getValue();
         
@@ -122,14 +123,14 @@ public class EvaluateMeasureOperationTest {
             
             ParameterMap resultMap = new ParameterMap(result);
             MeasureReport report = (MeasureReport) resultMap.getSingletonParameter(EvaluateMeasureOperation.PARAM_OUT_RETURN).getResource();
-            assertEquals( measureURL, report.getMeasure().getValue() );
+            assertEquals( report.getMeasure().getValue(), measureURL );
             
             ZoneOffset zoneOffset = OffsetDateTime.now().getOffset();
             ZonedDateTime expectedStart = OffsetDateTime.of(periodStart, LocalTime.MIN, zoneOffset).toZonedDateTime();
             ZonedDateTime expectedEnd= OffsetDateTime.of(periodEnd, LocalTime.MAX, zoneOffset).toZonedDateTime();
 
             Period expectedPeriod = Period.builder().start(DateTime.of(expectedStart)).end(DateTime.of(expectedEnd)).build();
-            assertEquals( expectedPeriod, report.getPeriod() );
+            assertEquals( report.getPeriod(), expectedPeriod );
             
             assertEquals( report.getGroup().size(), 1 );
             MeasureReport.Group group = report.getGroup().get(0);

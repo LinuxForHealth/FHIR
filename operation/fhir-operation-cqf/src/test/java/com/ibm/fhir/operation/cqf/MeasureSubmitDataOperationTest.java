@@ -3,7 +3,7 @@ package com.ibm.fhir.operation.cqf;
 import static com.ibm.fhir.cql.helpers.ModelHelper.*;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.reference;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.spy;
@@ -13,8 +13,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
 
 import com.ibm.fhir.exception.FHIROperationException;
@@ -36,7 +36,7 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 public class MeasureSubmitDataOperationTest {
     MeasureSubmitDataOperation op;
     
-    @Before
+    @BeforeMethod
     public void setup() {
         op = new MeasureSubmitDataOperation();
     }

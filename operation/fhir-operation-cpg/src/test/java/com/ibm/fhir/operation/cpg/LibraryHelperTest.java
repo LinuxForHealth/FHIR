@@ -1,8 +1,8 @@
 package com.ibm.fhir.operation.cpg;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.Mockito.*;
 
 import java.util.Arrays;
@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
 
 import com.ibm.fhir.cql.helpers.LibraryHelper;
@@ -68,11 +68,11 @@ public class LibraryHelperTest {
                     TestHelper.buildBasicLibrary("parent", "http://localhost/fhir/Library/parent", "parent", "1.0.1").type(valid).relatedArtifact(related).content(template.getContent()).build();
 
             List<Library> actual = LibraryHelper.loadLibraries(parent);
-            assertEquals(2, actual.size());
+            assertEquals(actual.size(), 2);
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testUnsupportedContent() {
         Library library =
                 TestHelper.buildBasicLibrary("3", "http://localhost/fhir/Library/FHIR-Model", "FHIR-Model", "4.0.1").type(LibraryHelper.getLogicLibraryConcept()).content(Attachment.builder().contentType(fhircode("text/xml")).build()).build();

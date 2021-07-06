@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
+import org.testng.annotations.BeforeMethod;
 import org.opencds.cqf.cql.engine.runtime.Date;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 
@@ -22,8 +22,8 @@ public abstract class BaseCqlOperationTest<OT extends AbstractCqlOperation> {
     protected java.util.Date end;
 
     protected abstract OT getOperation();
-    
-    @Before
+
+    @BeforeMethod
     public void setup() {
         op = getOperation();
 

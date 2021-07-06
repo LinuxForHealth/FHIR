@@ -6,8 +6,8 @@ import static org.testng.Assert.assertEquals;
 
 import java.time.LocalDate;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
 import com.ibm.fhir.model.type.DateTime;
@@ -16,7 +16,7 @@ public class FhirTypeConverterImplTest {
     
     FhirTypeConverter typeConverter;
     
-    @Before
+    @BeforeMethod
     public void setup() {
         typeConverter = new FhirTypeConverterImpl();
     }
@@ -37,6 +37,6 @@ public class FhirTypeConverterImplTest {
         DateTime fhirDateTime = DateTime.of( expected );
         org.opencds.cqf.cql.engine.runtime.DateTime cqlDateTime = typeConverter.toCqlDateTime(fhirDateTime);
         assertNotNull(cqlDateTime);
-        assertEquals( expected, cqlDateTime.getDateTime().toLocalDate() );
+        assertEquals( cqlDateTime.getDateTime().toLocalDate(), expected );
     }
 }

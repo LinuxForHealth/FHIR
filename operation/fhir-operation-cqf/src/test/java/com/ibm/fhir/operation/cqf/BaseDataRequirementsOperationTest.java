@@ -7,8 +7,8 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhirinteger;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
 import static com.ibm.fhir.cql.helpers.ModelHelper.relatedArtifact;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
@@ -65,10 +65,10 @@ public abstract class BaseDataRequirementsOperationTest {
             Library module = (Library) outMap.getSingletonParameter(LibraryDataRequirementsOperation.PARAM_OUT_RETURN).getResource();
             assertNotNull(module);
             
-            assertEquals( "type", Constants.LIBRARY_TYPE_MODEL_DEFINITION, module.getType().getCoding().get(0).getCode().getValue() );
-            assertEquals( "relatedArtifacts", 4, module.getRelatedArtifact().size() );
-            assertEquals( "parameters", 4, module.getParameter().size() );
-            assertEquals( "dataRequirements", 2, module.getDataRequirement().size());
+            assertEquals( module.getType().getCoding().get(0).getCode().getValue(), Constants.LIBRARY_TYPE_MODEL_DEFINITION, "type" );
+            assertEquals( module.getRelatedArtifact().size(), 4, "relatedArtifacts" );
+            assertEquals( module.getParameter().size(), 4, "parameters");
+            assertEquals( module.getDataRequirement().size(), 2, "dataRequirements");
             
             return outParameters;
         }

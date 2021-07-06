@@ -3,9 +3,9 @@ package com.ibm.fhir.operation.cpg;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -14,7 +14,7 @@ import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
-import org.junit.Test;
+import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.execution.Context;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
@@ -40,8 +40,8 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
         ParameterMap paramMap = new ParameterMap(parameters);
         
         Pair<String, Object> context = op.getCqlContext(paramMap);
-        assertEquals("Patient", context.getKey());
-        assertEquals("123", context.getValue());
+        assertEquals(context.getKey(), "Patient");
+        assertEquals(context.getValue(), "123");
     }
 
     @Test

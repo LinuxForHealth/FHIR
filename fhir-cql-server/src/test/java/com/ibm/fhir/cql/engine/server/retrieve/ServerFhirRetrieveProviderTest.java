@@ -1,7 +1,7 @@
 package com.ibm.fhir.cql.engine.server.retrieve;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -19,8 +19,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.MultivaluedMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 
@@ -44,7 +44,7 @@ public class ServerFhirRetrieveProviderTest {
     private ServerFhirRetrieveProvider provider;
     private FHIRResourceHelpers helpers;
 
-    @Before
+    @BeforeMethod
     public void setup() {
         helpers = mock(FHIRResourceHelpers.class);
         termProvider = mock(ServerFhirTerminologyProvider.class);
@@ -71,11 +71,11 @@ public class ServerFhirRetrieveProviderTest {
 
         Map<String, Resource> results = new HashMap<>();
         resources.forEach(o -> results.put(((Resource) o).getId(), (Resource) o));
-        assertEquals(1, results.size());
+        assertEquals(results.size(),1);
 
         Set<String> expected = new HashSet<>();
         expected.add(p1.getId());
-        assertEquals(expected, results.keySet());
+        assertEquals(results.keySet(), expected);
     }
 
     @Test
@@ -98,12 +98,12 @@ public class ServerFhirRetrieveProviderTest {
 
         Map<String, Resource> results = new HashMap<>();
         resources.forEach(o -> results.put(((Resource) o).getId(), (Resource) o));
-        assertEquals(2, results.size());
+        assertEquals(results.size(),2);
 
         Set<String> expected = new HashSet<>();
         expected.add(c1.getId());
         expected.add(c2.getId());
-        assertEquals(expected, results.keySet());
+        assertEquals(results.keySet(), expected);
 
         verify(helpers, times(2)).doSearch(eq("Condition"), isNull(), isNull(), ArgumentMatchers.<MultivaluedMap<String, String>> any(), anyString(), isNull());
     }

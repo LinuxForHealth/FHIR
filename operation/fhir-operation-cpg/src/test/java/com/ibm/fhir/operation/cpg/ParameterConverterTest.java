@@ -2,9 +2,9 @@ package com.ibm.fhir.operation.cpg;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -13,8 +13,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.runtime.Tuple;
 
 import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
@@ -27,7 +27,7 @@ public class ParameterConverterTest {
 
     ParameterConverter converter;
 
-    @Before
+    @BeforeMethod
     public void setup() {
         FhirTypeConverter typeConverter = new FhirTypeConverterImpl();
         converter = new ParameterConverter(typeConverter);
@@ -53,7 +53,7 @@ public class ParameterConverterTest {
         input.put("NullValue", null);
 
         Parameter result = converter.toParameter("return", input);
-        assertNotNull("Null result", result);
+        assertNotNull(result, "Null result");
         System.out.println(result.toString());
 
         ParameterMap indexByName = new ParameterMap(result.getPart());
@@ -64,7 +64,7 @@ public class ParameterConverterTest {
         params.forEach(part -> assertNotNull(part.getResource()));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalArgumentException.class)
     public void testParameterConversionBackboneElement() throws Exception {
         Patient.Communication c = Patient.Communication.builder().language(concept("urn:ietf:bcp:47", "en")).build();
 

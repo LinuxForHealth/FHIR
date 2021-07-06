@@ -3,9 +3,9 @@ package com.ibm.fhir.cql.engine.server.terminology;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -15,9 +15,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.opencds.cqf.cql.engine.runtime.Code;
@@ -48,7 +48,7 @@ public class ServerFhirTerminologyProviderTest {
 
     private ServerFhirTerminologyProvider termProvider;
 
-    @Before
+    @BeforeMethod
     public void setup() {
         termService = Mockito.mock(FHIRTermService.class);
 
@@ -60,7 +60,7 @@ public class ServerFhirTerminologyProviderTest {
         termProvider = new ServerFhirTerminologyProvider();
     }
 
-    @After
+    @AfterMethod
     public void cleanup() {
         staticTermService.close();
         staticValueSetSupport.close();
@@ -102,7 +102,7 @@ public class ServerFhirTerminologyProviderTest {
 
         Set<String> actual = new HashSet<String>();
         codes.forEach(code -> actual.add(code.getCode()));
-        assertEquals(expected, actual);
+        assertEquals(actual, expected);
     }
 
     @Test
@@ -118,7 +118,7 @@ public class ServerFhirTerminologyProviderTest {
 
         Code actual = termProvider.lookup(code, info);
         assertNotNull(actual);
-        assertEquals("test", actual.getDisplay());
+        assertEquals(actual.getDisplay(), "test");
     }
 
     private Builder getBaseValueSet(ValueSetInfo info) {
