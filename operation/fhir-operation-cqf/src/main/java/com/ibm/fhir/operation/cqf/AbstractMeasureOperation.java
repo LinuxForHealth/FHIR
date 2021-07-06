@@ -10,25 +10,21 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAccessor;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import org.opencds.cqf.cql.engine.data.CompositeDataProvider;
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.execution.Context;
 import org.opencds.cqf.cql.engine.execution.InMemoryLibraryLoader;
 import org.opencds.cqf.cql.engine.execution.LibraryLoader;
-import org.opencds.cqf.cql.engine.model.ModelResolver;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.DateTime;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.engine.model.FhirModelResolver;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.server.retrieve.ServerFhirRetrieveProvider;
@@ -182,32 +178,6 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         DateTime dtEnd = new DateTime(odtEnd);
 
         return new Interval(dtStart, true, dtEnd, true);
-    }
-
-    /**
-     * Construct a data provider map that maps the supported model URLs to the
-     * given retrieveProvider. By default this covers the FHIR model URI and
-     * all Java package names needed by the ModelResolver.
-     * 
-     * @param retrieveProvider
-     *            RetrieveProvider
-     * @return Map of URI to data providers.
-     */
-    protected Map<String, DataProvider> getDataProviders(RetrieveProvider retrieveProvider) {
-        String suffix = "";
-
-        // This is a hack to get around the fact that IBM FHIR types are in multiple packages
-        // and the CQL engine expects there to be only a single package name
-        Map<String, DataProvider> dataProviders = new HashMap<>();
-        for (String packageName : FhirModelResolver.ALL_PACKAGES) {
-            ModelResolver modelResolver = new FhirModelResolver();
-            modelResolver.setPackageName(packageName);
-
-            DataProvider provider = new CompositeDataProvider(modelResolver, retrieveProvider);
-            dataProviders.put(Constants.FHIR_NS_URI + suffix, provider);
-            suffix += "-";
-        }
-        return dataProviders;
     }
 
     /**

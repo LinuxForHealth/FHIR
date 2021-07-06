@@ -15,6 +15,7 @@ import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
+import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -86,7 +87,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
 
-        Map<String, DataProvider> dataProviders = getDataProviders(retrieveProvider);
+        Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
 
         MeasureReport.Builder report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
 

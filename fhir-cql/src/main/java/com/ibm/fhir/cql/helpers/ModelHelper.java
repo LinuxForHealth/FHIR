@@ -166,6 +166,21 @@ public class ModelHelper {
             return null;
         }
     }
+    
+    /**
+     * Factory method for creating a simple Coding object
+     * 
+     * @param codesystem
+     *            CodeSystem URI
+     * @param code
+     *            Code
+     * @param display
+     *            Display
+     * @return FHIR Coding
+     */
+    public static Coding coding(String codesystem, String code, String display) {
+        return Coding.builder().system(fhiruri(codesystem)).code(fhircode(code)).display(fhirstring(display)).build();
+    }    
 
     /**
      * Factory method for creating a simple Coding object

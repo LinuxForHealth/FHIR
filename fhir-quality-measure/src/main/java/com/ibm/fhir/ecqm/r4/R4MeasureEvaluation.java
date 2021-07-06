@@ -193,7 +193,11 @@ public class R4MeasureEvaluation<ST extends DomainResource> extends
 
     @Override
     protected String getCodingCode(Coding coding) {
-        return javastring( coding.getCode() );
+        String result = null;
+        if( coding != null ) {
+            result = javastring( coding.getCode() );
+        }
+        return result;
     }
 
     @Override

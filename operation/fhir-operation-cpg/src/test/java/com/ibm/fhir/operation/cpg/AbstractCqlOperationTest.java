@@ -8,23 +8,24 @@ package com.ibm.fhir.operation.cpg;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirboolean;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
-import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.execution.Context;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
+import org.testng.annotations.Test;
 
 import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -52,7 +53,7 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
     @Test
     public void testDataProviderResolveResourcePackage() {
         RetrieveProvider retrieveProvider = mock(RetrieveProvider.class);
-        Map<String, DataProvider> dataProviders = op.createDataProviders(retrieveProvider);
+        Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
         assertTrue(dataProviders.size() > 0);
 
         org.cqframework.cql.elm.execution.Library library = mock(org.cqframework.cql.elm.execution.Library.class);

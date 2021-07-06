@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 package com.ibm.fhir.ecqm.common;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -490,6 +489,7 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT, MeasureGr
                         evaluatePopulationCriteria(patient, initialPopulationCriteria,
                                 initialPopulation, initialPopulationPatients, null, null, null);
                         populateResourceMap(MeasurePopulationType.INITIALPOPULATION, resources, codeToResourceMap);
+                        populateSDEAccumulators(measure, context, patient, sdeAccumulators,sde);
                     }
 
                     break;

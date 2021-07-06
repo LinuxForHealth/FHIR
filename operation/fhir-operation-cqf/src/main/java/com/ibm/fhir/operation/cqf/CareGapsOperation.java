@@ -19,6 +19,7 @@ import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
+import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.FhirBundleCursor;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
@@ -86,7 +87,7 @@ public class CareGapsOperation extends AbstractMeasureOperation {
             
             TerminologyProvider termProvider = getTerminologyProvider();
             RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
-            Map<String,DataProvider> dataProviders = getDataProviders(retrieveProvider);
+            Map<String,DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
             
             Bundle result = processAllMeasures( cursor, subject, zoneOffset, measurementPeriod, resourceHelper, termProvider, dataProviders );
             return Parameters.builder().parameter( Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(result).build()).build();

@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.cqframework.cql.elm.execution.VersionedIdentifier;
-import org.opencds.cqf.cql.engine.data.CompositeDataProvider;
 import org.opencds.cqf.cql.engine.data.DataProvider;
 import org.opencds.cqf.cql.engine.debug.DebugLibraryResultEntry;
 import org.opencds.cqf.cql.engine.debug.DebugLocator;
@@ -30,18 +29,15 @@ import org.opencds.cqf.cql.engine.execution.CqlEngine;
 import org.opencds.cqf.cql.engine.execution.EvaluationResult;
 import org.opencds.cqf.cql.engine.execution.InMemoryLibraryLoader;
 import org.opencds.cqf.cql.engine.execution.LibraryLoader;
-import org.opencds.cqf.cql.engine.model.ModelResolver;
-import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
 import com.ibm.fhir.cql.engine.converter.impl.FhirTypeConverterImpl;
-import com.ibm.fhir.cql.engine.model.FhirModelResolver;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.server.retrieve.ServerFhirRetrieveProvider;
 import com.ibm.fhir.cql.engine.server.terminology.ServerFhirTerminologyProvider;
+import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
@@ -82,7 +78,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         retrieveProvider.setTerminologyProvider(termProvider);
         retrieveProvider.setPageSize(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX); // TODO - use server config settings?
 
-        Map<String, DataProvider> dataProviders = createDataProviders(retrieveProvider);
+        Map<String, DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
 
         VersionedIdentifier vid = new VersionedIdentifier();
         vid.withId(javastring(primaryLibrary.getName()));
@@ -141,22 +137,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         return debugResultParameter;
     }
 
-    protected Map<String, DataProvider> createDataProviders(RetrieveProvider retrieveProvider) {
-        String suffix = "";
 
-        // This is a hack to get around the fact that IBM FHIR types are in multiple packages
-        // and the CQL engine expects there to be only a single package name
-        Map<String, DataProvider> dataProviders = new HashMap<>();
-        for (String packageName : FhirModelResolver.ALL_PACKAGES) {
-            ModelResolver modelResolver = new FhirModelResolver();
-            modelResolver.setPackageName(packageName);
-
-            DataProvider provider = new CompositeDataProvider(modelResolver, retrieveProvider);
-            dataProviders.put(Constants.FHIR_NS_URI + suffix, provider);
-            suffix += "-";
-        }
-        return dataProviders;
-    }
 
     protected Pair<String, Object> getCqlContext(ParameterMap paramMap) {
         Pair<String, Object> context = null;
