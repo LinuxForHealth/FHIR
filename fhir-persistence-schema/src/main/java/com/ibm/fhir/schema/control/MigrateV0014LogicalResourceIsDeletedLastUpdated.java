@@ -30,7 +30,7 @@ import com.ibm.fhir.database.utils.version.SchemaConstants;
 public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabaseStatement {
     private static final Logger LOG = Logger.getLogger(MigrateV0014LogicalResourceIsDeletedLastUpdated.class.getName());
 
-    private final int MAX_CORRELATED_UPDATE_ROWS = 5000;
+    private final int MAX_CORRELATED_UPDATE_ROWS = 25000;
 
     // The FHIR data schema
     private final String schemaName;
