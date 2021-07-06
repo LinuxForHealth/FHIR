@@ -16,9 +16,9 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
- * Checks the value of IS_DELETED from the first row found in LOGICAL_RESOURCES for
- * the given resource type. If this value is "X", it means that the table needs to be
- * migrated. If the table is empty, then obviously there's no need for migration.
+ * Checks the value of IS_DELETED is "X" for any row found in LOGICAL_RESOURCES
+ * the given resource type. If found, it means that the table needs to be
+ * migrated. If not found, then obviously there's no need for migration.
  */
 public class GetLogicalResourceNeedsV0014Migration implements IDatabaseSupplier<Boolean> {
 
@@ -43,11 +43,11 @@ public class GetLogicalResourceNeedsV0014Migration implements IDatabaseSupplier<
         final String SQL = "SELECT is_deleted "
                 + "  FROM " + tableName
                 + " WHERE resource_type_id = " + this.resourceTypeId
-                + " " + translator.limit("1");
+                + "  AND is_deleted = 'X' " + translator.limit("1");
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
-            if (rs.next() && "X".equals(rs.getString(1))) {
+            if (rs.next()) {
                 result = true;
             }
         } catch (SQLException x) {

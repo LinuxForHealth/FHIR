@@ -2053,7 +2053,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
-|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches.|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches, else use the legacy query builder. Note: As of IBM FHIR Server version 4.9.0, the legacy query builder will no longer maintain function equivalence with the optimized query builder.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
@@ -2131,8 +2131,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/defaultPageSize`|10|
 |`fhirServer/core/maxPageSize`|1000|
 |`fhirServer/core/maxPageIncludeCount`|1000|
-|`fhirServer/core/capabilitiesUrl`|string|null|
-|`fhirServer/term/capabilitiesUrl`|string|null|
+|`fhirServer/core/capabilitiesUrl`|null|
+|`fhirServer/term/capabilitiesUrl`|null|
 |`fhirServer/term/cachingDisabled`|false|
 |`fhirServer/term/graphTermServiceProviders/enabled`|false|
 |`fhirServer/term/graphTermServiceProviders/timeLimit`|90000|
@@ -2154,8 +2154,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/resources/<resourceType>/searchParameterCombinations`|null (inherits from `fhirServer/resources/Resource/searchParameterCombinations`)|
 |`fhirServer/resources/<resourceType>/profiles/atLeastOne`|null (inherits from `fhirServer/resources/Resource/profiles/atLeastOne`)|
 |`fhirServer/notifications/common/includeResourceTypes`|`["*"]`|
-|`fhirServer/notifications/common/maxNotificationSizeBytes`|integer|1000000|
-|`fhirServer/notifications/common/maxNotificationSizeBehavior`|string|subset|
+|`fhirServer/notifications/common/maxNotificationSizeBytes`|1000000|
+|`fhirServer/notifications/common/maxNotificationSizeBehavior`|subset|
 |`fhirServer/notifications/websocket/enabled`|false|
 |`fhirServer/notifications/kafka/enabled`|false|
 |`fhirServer/notifications/kafka/sync`|false|
@@ -2179,20 +2179,20 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/currentSchema`|null|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
-|`fhirServer/search/enableOptQueryBuilder`|boolean|true|
-|`fhirServer/security/cors`|boolean|true|
-|`fhirServer/security/basic/enabled`|boolean|false|
-|`fhirServer/security/certificates/enabled`|boolean|false|
-|`fhirServer/security/oauth/enabled`|boolean|false|
+|`fhirServer/search/enableOptQueryBuilder`|true|
+|`fhirServer/security/cors`|true|
+|`fhirServer/security/basic/enabled`|false|
+|`fhirServer/security/certificates/enabled`|false|
+|`fhirServer/security/oauth/enabled`|false|
 |`fhirServer/security/oauth/regUrl`|""|
 |`fhirServer/security/oauth/authUrl`|""|
 |`fhirServer/security/oauth/tokenUrl`|""|
 |`fhirServer/security/oauth/manageUrl`|""|
 |`fhirServer/security/oauth/introspectUrl`|""|
 |`fhirServer/security/oauth/revokeUrl`|""|
-|`fhirServer/security/oauth/smart/enabled`|boolean|false|
-|`fhirServer/security/oauth/smart/scopes`|array|null|
-|`fhirServer/security/oauth/smart/capabilities`|array|null|
+|`fhirServer/security/oauth/smart/enabled`|false|
+|`fhirServer/security/oauth/smart/scopes`|null|
+|`fhirServer/security/oauth/smart/capabilities`|null|
 |`fhirServer/audit/serviceClassName`|""|
 |`fhirServer/audit/serviceProperties/auditTopic`|FHIR_AUDIT|
 |`fhirServer/audit/serviceProperties/geoCity`|UnknownCity|

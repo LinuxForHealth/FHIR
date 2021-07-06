@@ -46,7 +46,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid, parameter_hash "
             ;
 
     private static final String PICK_SINGLE_RESOURCE_TYPE = ""
@@ -61,7 +61,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid, parameter_hash "
             ;
 
     private static final String PICK_ANY_RESOURCE = ""
@@ -75,7 +75,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             + "          AND lr.reindex_tstamp < ? "
             + "     ORDER BY lr.reindex_tstamp  "
             + "   FOR UPDATE SKIP LOCKED LIMIT 1) "
-            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid "
+            + "RETURNING logical_resource_id, resource_type_id, logical_id, reindex_txid, parameter_hash "
             ;
 
     /**
@@ -157,7 +157,7 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             stmt.execute();
             ResultSet rs = stmt.getResultSet();
             if (rs.next()) {
-                result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
+                result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, update, x);

@@ -95,9 +95,11 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             ZonedDateTime.parse("9999-12-31T23:59:59.999999Z").toInstant());
 
     private final String resourceType;
-    // We only need the SearchParameter type and code, so just store those directly as members
+    // We only need the SearchParameter code, type, url, and version, so just store those directly as members
     private final String searchParamCode;
     private final SearchParamType searchParamType;
+    private final String searchParamUrl;
+    private final String searchParamVersion;
 
     /**
      * The result of the visit(s)
@@ -106,15 +108,17 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
 
     /**
      * Public constructor
-     * @param resourceType
-     * @param searchParameter
+     * @param resourceType the resource type
+     * @param searchParameter the search parameter
      */
     public JDBCParameterBuildingVisitor(String resourceType, SearchParameter searchParameter) {
         super(false);
         this.resourceType = resourceType;
         this.searchParamCode = searchParameter.getCode().getValue();
         this.searchParamType = searchParameter.getType();
-        this.result          = new ArrayList<>();
+        this.searchParamUrl = searchParameter.getUrl().getValue();
+        this.searchParamVersion = searchParameter.getVersion() != null ? searchParameter.getVersion().getValue(): null;
+        this.result = new ArrayList<>();
     }
 
     /**
@@ -147,6 +151,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueSystem("http://terminology.hl7.org/CodeSystem/special-values");
             if (_boolean.getValue()) {
                 p.setValueCode("true");
@@ -167,6 +173,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             StringParmVal p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(canonical.getValue());
             result.add(p);
         }
@@ -182,6 +190,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             String system = ModelSupport.getSystem(code);
             setTokenValues(p, system != null ? Uri.of(system) : null, code.getValue());
             result.add(p);
@@ -198,6 +208,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             DateParmVal p = new DateParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             setDateValues(p, date);
             result.add(p);
         }
@@ -213,6 +225,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             DateParmVal p = new DateParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             setDateValues(p, dateTime);
             result.add(p);
         }
@@ -228,6 +242,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             NumberParmVal p = new NumberParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             BigDecimal value = decimal.getValue();
             p.setValueNumber(value);
             p.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(value));
@@ -246,6 +262,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueCode(id.getValue());
             result.add(p);
         }
@@ -261,6 +279,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             DateParmVal p = new DateParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             Timestamp t = generateTimestamp(instant.getValue().toInstant());
             p.setValueDateStart(t);
             p.setValueDateEnd(t);
@@ -278,6 +298,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             NumberParmVal p = new NumberParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             BigDecimal value = new BigDecimal(integer.getValue());
             p.setValueNumber(value);
             p.setValueNumberLow(value);
@@ -295,12 +317,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p.setResourceType(resourceType);
                 p.setValueString(value.getValue());
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 result.add(p);
             } else if (TOKEN.equals(searchParamType)) {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setValueCode(SearchUtil.normalizeForSearch(value.getValue()));
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 result.add(p);
             } else {
                 throw invalidComboException(searchParamType, value);
@@ -322,12 +348,16 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 p.setValueCode(uri.getValue());
                 result.add(p);
             } else {
                 StringParmVal p = new StringParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 p.setValueString(uri.getValue());
                 result.add(p);
             }
@@ -351,6 +381,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(aLine.getValue());
             result.add(p);
         }
@@ -358,6 +390,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getCity().getValue());
             result.add(p);
         }
@@ -365,6 +399,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getDistrict().getValue());
             result.add(p);
         }
@@ -372,6 +408,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getState().getValue());
             result.add(p);
         }
@@ -379,6 +417,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getCountry().getValue());
             result.add(p);
         }
@@ -386,6 +426,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getPostalCode().getValue());
             result.add(p);
         }
@@ -393,6 +435,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(address.getText().getValue());
             result.add(p);
         }
@@ -412,6 +456,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueCode(SearchUtil.normalizeForSearch(codeableConcept.getText().getValue()));
             result.add(p);
         }
@@ -427,6 +473,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             setTokenValues(p, coding.getSystem(), coding.getCode().getValue());
             result.add(p);
             if (coding.getDisplay() != null && coding.getDisplay().hasValue()) {
@@ -434,6 +482,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode + SearchConstants.TEXT_MODIFIER_SUFFIX);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 p.setValueCode(SearchUtil.normalizeForSearch(coding.getDisplay().getValue()));
                 result.add(p);
             }
@@ -450,6 +500,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal telecom = new TokenParmVal();
             telecom.setResourceType(resourceType);
             telecom.setName(searchParamCode);
+            telecom.setUrl(searchParamUrl);
+            telecom.setVersion(searchParamVersion);
             telecom.setValueCode(contactPoint.getValue().getValue());
             result.add(telecom);
         }
@@ -467,6 +519,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(humanName.getFamily().getValue());
             result.add(p);
         }
@@ -474,6 +528,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(given.getValue());
             result.add(p);
         }
@@ -481,6 +537,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(prefix.getValue());
             result.add(p);
         }
@@ -488,6 +546,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(suffix.getValue());
             result.add(p);
         }
@@ -495,6 +555,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueString(humanName.getText().getValue());
             result.add(p);
         }
@@ -510,6 +572,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             QuantityParmVal p = new QuantityParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             p.setValueNumber(money.getValue().getValue());
             p.setValueNumberLow(NewNumberParmBehaviorUtil.generateLowerBound(money.getValue().getValue()));
             p.setValueNumberHigh(NewNumberParmBehaviorUtil.generateUpperBound(money.getValue().getValue()));
@@ -533,6 +597,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         DateParmVal p = new DateParmVal();
         p.setResourceType(resourceType);
         p.setName(searchParamCode);
+        p.setUrl(searchParamUrl);
+        p.setVersion(searchParamVersion);
         if (period.getStart() == null || period.getStart().getValue() == null) {
             p.setValueDateStart(SMALLEST_TIMESTAMP);
         } else {
@@ -588,6 +654,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 QuantityParmVal p = new QuantityParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 p.setValueNumber(value);
                 p.setValueNumberLow(valueLow);
                 p.setValueNumberHigh(valueHigh);
@@ -605,6 +673,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                     QuantityParmVal p = new QuantityParmVal();
                     p.setResourceType(resourceType);
                     p.setName(searchParamCode);
+                    p.setUrl(searchParamUrl);
+                    p.setVersion(searchParamVersion);
                     p.setValueNumber(value);
                     p.setValueNumberLow(valueLow);
                     p.setValueNumberHigh(valueHigh);
@@ -618,6 +688,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 QuantityParmVal p = new QuantityParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 p.setValueNumber(value);
                 p.setValueNumberLow(valueLow);
                 p.setValueNumberHigh(valueHigh);
@@ -636,6 +708,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         QuantityParmVal p = new QuantityParmVal();
         p.setResourceType(resourceType);
         p.setName(searchParamCode);
+        p.setUrl(searchParamUrl);
+        p.setVersion(searchParamVersion);
         if (range.getLow() != null && range.getLow().getValue() != null
                 && range.getLow().getValue().getValue() != null) {
             if (range.getLow().getSystem() != null) {
@@ -680,6 +754,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             TokenParmVal p = new TokenParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
             setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
             result.add(p);
             if (identifier.getType() != null) {
@@ -689,11 +765,15 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         CompositeParmVal cp = new CompositeParmVal();
                         cp.setResourceType(resourceType);
                         cp.setName(searchParamCode + SearchConstants.OF_TYPE_MODIFIER_SUFFIX);
+                        cp.setUrl(searchParamUrl);
+                        cp.setVersion(searchParamVersion);
 
                         // type
                         p = new TokenParmVal();
                         p.setResourceType(cp.getResourceType());
                         p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_TYPE));
+                        p.setUrl(cp.getUrl());
+                        p.setVersion(cp.getVersion());
                         setTokenValues(p, typeCoding.getSystem(), typeCoding.getCode().getValue());
                         cp.addComponent(p);
 
@@ -701,6 +781,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                         p = new TokenParmVal();
                         p.setResourceType(cp.getResourceType());
                         p.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.OF_TYPE_MODIFIER_COMPONENT_VALUE));
+                        p.setUrl(cp.getUrl());
+                        p.setVersion(cp.getVersion());
                         p.setValueCode(identifier.getValue().getValue());
                         cp.addComponent(p);
 
@@ -729,6 +811,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 p.setResourceType(resourceType);
                 p.setRefValue(refValue);
                 p.setName(searchParamCode);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 result.add(p);
             }
             Identifier identifier = reference.getIdentifier();
@@ -736,6 +820,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 TokenParmVal p = new TokenParmVal();
                 p.setResourceType(resourceType);
                 p.setName(searchParamCode + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
+                p.setUrl(searchParamUrl);
+                p.setVersion(searchParamVersion);
                 setTokenValues(p, identifier.getSystem(), identifier.getValue().getValue());
                 result.add(p);
             }
@@ -776,6 +862,8 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         LocationParmVal p = new LocationParmVal();
         p.setResourceType(resourceType);
         p.setName(searchParamCode);
+        p.setUrl(searchParamUrl);
+        p.setVersion(searchParamVersion);
 
         // The following code ensures that the lat/lon is only added when there is a pair.
         boolean add = false;

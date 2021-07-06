@@ -63,6 +63,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
@@ -77,6 +78,7 @@ import com.ibm.fhir.persistence.jdbc.util.type.NewQuantityParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.OperatorUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Modifier;
+import com.ibm.fhir.search.SearchConstants.Prefix;
 import com.ibm.fhir.search.SearchConstants.Type;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.location.NearLocationHandler;
@@ -517,8 +519,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
                 populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
             } else {
-                final String system = value.getValueSystem() != null && !value.getValueSystem().isEmpty() ? value.getValueSystem() : null;
-                final String code = value.getValueCode() != null ? value.getValueCode() : null; // empty code is a valid value
+                String system = value.getValueSystem();
+                final String code = value.getValueCode();
 
                 // Determine code normalization based on code system case-sensitivity
                 String normalizedCode = null;
@@ -530,6 +532,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                     } else {
                         normalizedCode = SqlParameterEncoder.encode(SearchUtil.normalizeForSearch(code));
                     }
+                }
+
+                // Replace an empty system with our default-token-system
+                if (system != null && system.isEmpty()) {
+                    system = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
                 }
 
                 // Include code
@@ -1055,7 +1062,37 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected WhereFragment getDateFilter(QueryParameter queryParm, String paramAlias) {
         WhereFragment where = new WhereFragment();
         NewDateParmBehaviorUtil util = new NewDateParmBehaviorUtil();
-        util.executeBehavior(where, queryParm, paramAlias);
+        
+        // It is possible that multiple date parameters could be chained together if there were
+        // multiple query parameters specified for the same date search parameter and we were
+        // able to consolidate them. Check specifically if we have a consolidated parameter which
+        // specifies a range, and if so, build a range filter.
+        if (queryParm.isChained() && queryParm.getChain().size() == 1) {
+            List<Prefix> lowerBoundPrefixes = Arrays.asList(Prefix.GT, Prefix.GE, Prefix.SA);
+            List<Prefix> upperBoundPrefixes = Arrays.asList(Prefix.LT, Prefix.LE, Prefix.EB);
+            Prefix prefix1 = queryParm.getValues().get(0).getPrefix();
+            Prefix prefix2 = queryParm.getNextParameter().getValues().get(0).getPrefix();
+            if (lowerBoundPrefixes.contains(prefix1) && upperBoundPrefixes.contains(prefix2)) {
+                // The consolidated parameter specifies a range, so build a date range filter
+                util.buildCustomRangeClause(where, paramAlias, queryParm, queryParm.getNextParameter());
+                return where;
+            } else if (lowerBoundPrefixes.contains(prefix2) && upperBoundPrefixes.contains(prefix1)) {
+                // The consolidated parameter specifies a range, so build a date range filter
+                util.buildCustomRangeClause(where, paramAlias, queryParm.getNextParameter(), queryParm);
+                return where;
+            }
+        }
+        
+        boolean first = true;
+        while (queryParm != null) {
+            if (first) {
+                first = false;
+            } else {
+                where.and();
+            }
+            util.executeBehavior(where, queryParm, paramAlias);
+            queryParm = queryParm.getNextParameter();
+        }
         return where;
     }
 
@@ -2200,7 +2237,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String paramTable = getSortParameterTableName(queryData.getResourceType(), code, type);
         final String lrAlias = queryData.getLRAlias();
 
-        if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
+        if (ID.equals(code) || LAST_UPDATED.equals(code)) {
+            // No need to join parameter table - sort column is in LOGICAL_RESOURCES table
+            return;
+        } else if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
             // For a sort by _tag, _profile, or _security we need to join the parameter-specific token
             // table with the common token values table.
             String parameterTableAlias = getParamAlias(getNextAliasIndex());
@@ -2304,8 +2344,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
             expression.append(LEFT_PAREN);
 
-            if (SearchConstants.LAST_UPDATED.equals(code)) {
+            if (LAST_UPDATED.equals(code)) {
                 expression.append(queryData.getLRAlias() + ".LAST_UPDATED");
+            } else if (ID.equals(code)) {
+                expression.append(queryData.getLRAlias() + ".LOGICAL_ID");
             } else {
                 expression.append(parmAlias).append(".").append(attributeName);
             }

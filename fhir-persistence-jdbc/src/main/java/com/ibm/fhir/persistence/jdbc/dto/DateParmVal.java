@@ -50,13 +50,50 @@ public class DateParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 
     @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        DateParmVal other = (DateParmVal) o;
+        int retVal;
+
+        Timestamp thisValueDateStart = this.getValueDateStart();
+        Timestamp otherValueDateStart = other.getValueDateStart();
+        if (thisValueDateStart != null || otherValueDateStart != null) {
+            if (thisValueDateStart == null) {
+                return -1;
+            } else if (otherValueDateStart == null) {
+                return 1;
+            }
+            retVal = thisValueDateStart.compareTo(otherValueDateStart);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        Timestamp thisValueDateEnd = this.getValueDateEnd();
+        Timestamp otherValueDateEnd = other.getValueDateEnd();
+        if (thisValueDateEnd != null || otherValueDateEnd != null) {
+            if (thisValueDateEnd == null) {
+                return -1;
+            } else if (otherValueDateEnd == null) {
+                return 1;
+            }
+            retVal = thisValueDateEnd.compareTo(otherValueDateEnd);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "DateParmVal [resourceType=" + getResourceType() + ", name=" + getName()
-                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + ", base=" + getBase() + "]";
+                + ", valueDateStart=" + valueDateStart + ", valueDateEnd=" + valueDateEnd + "]";
     }
 }

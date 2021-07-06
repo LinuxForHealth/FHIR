@@ -263,9 +263,15 @@ public abstract class BaseObject implements IDatabaseObject {
             // Apply this change to the target database
             apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target);
 
-            // call back to the version history service to add the new version to the table
-            // being used to track the change history
-            vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
+            // Check if the PROCEDURE is this exact version (Applies to FunctionDef and ProcedureDef)
+            if (DatabaseObjectType.PROCEDURE.equals(getObjectType())
+                    && !vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
+                logger.info("Version History is already current, refreshing the definition " + getVersion() + " " + vhs.getVersion(schemaName, objectName, objectName));
+            } else {
+                // call back to the version history service to add the new version to the table
+                // being used to track the change history
+                vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
+            }
         }
     }
 

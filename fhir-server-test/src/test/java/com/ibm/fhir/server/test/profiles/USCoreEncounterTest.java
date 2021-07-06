@@ -91,14 +91,14 @@ public class USCoreEncounterTest extends ProfilesTestBase {
                 .build();
         // @formatter:on
 
-        Identifier identifier = 
+        Identifier identifier =
                 Identifier.builder()
                     .system(Uri.of("urn:oid:0.1.2.3.4.5.6.7"))
                     .use(IdentifierUse.OFFICIAL)
                     .value(com.ibm.fhir.model.type.String.of("654321"))
                     .type(type)
                     .build();
-        
+
         Encounter encounter = TestUtil.readExampleResource(resource);
         encounter = encounter.toBuilder().identifier(identifier).build();
 
@@ -170,7 +170,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForIdentifierAndDate() throws Exception {
         // SHOULD support searching using the identifier search parameter:
@@ -188,7 +188,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForClassAndPatient() throws Exception {
         // SHOULD support searching using the combination of the class and patient search parameters:
@@ -197,7 +197,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("class", "|AMB");
+            parameters.searchParam("class", "AMB");
             FHIRResponse response = client.search(Encounter.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -206,7 +206,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForClassAndPatientWithSystem() throws Exception {
         // SHOULD support searching using the combination of the class and patient search parameters:
@@ -224,7 +224,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForTypeAndPatientWithSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and type search parameters:
@@ -242,7 +242,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForTypeAndPatient() throws Exception {
         // SHOULD support searching using the combination of the patient and type search parameters:
@@ -251,7 +251,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("type", "|99201");
+            parameters.searchParam("type", "99201");
             FHIRResponse response = client.search(Encounter.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -260,7 +260,7 @@ public class USCoreEncounterTest extends ProfilesTestBase {
             assertContainsIds(bundle, encounterId1);
         }
     }
-    
+
     @Test
     public void testSearchForStatusAndPatient() throws Exception {
         // SHOULD support searching using the combination of the patient and status search parameters:

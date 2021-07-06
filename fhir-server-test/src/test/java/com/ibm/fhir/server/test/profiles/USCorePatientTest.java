@@ -131,7 +131,7 @@ public class USCorePatientTest extends ProfilesTestBase {
         // GET [base]/Patient?identifier={system|}[code]
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "|1032702");
+            parameters.searchParam("identifier", "1032702");
             FHIRResponse response = client.search(Patient.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);

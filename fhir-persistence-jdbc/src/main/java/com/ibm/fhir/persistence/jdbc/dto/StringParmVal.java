@@ -34,7 +34,30 @@ public class StringParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
+    }
+
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        StringParmVal other = (StringParmVal) o;
+        int retVal;
+
+        String thisValueString = this.getValueString();
+        String otherValueString = other.getValueString();
+        if (thisValueString != null || otherValueString != null) {
+            if (thisValueString == null) {
+                return -1;
+            } else if (otherValueString == null) {
+                return 1;
+            }
+            retVal = thisValueString.compareTo(otherValueString);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

@@ -74,10 +74,18 @@ public class QueryParameterValue {
         this.valueNumber = valueNumber;
     }
 
+    /**
+     * @implSpec if null, it means that no system was specified for this query parameter.
+     *      if empty, it means that the query should look for tokens with no system.
+     */
     public String getValueSystem() {
         return valueSystem;
     }
 
+    /**
+     * @implSpec if null, it means that no system was specified for this query parameter.
+     *      if empty, it means that the query should look for tokens with no system.
+     */
     public void setValueSystem(String valueSystem) {
         this.valueSystem = valueSystem;
     }
@@ -194,14 +202,14 @@ public class QueryParameterValue {
         delim = outputBuilder(returnString, delim, valueCode);
         delim = outputBuilder(returnString, delim, valueString);
         delim = outputBuilder(returnString, delim, valueDate);
-        
+
         // Special handling required for token search of form "system|". In that case, valueSystem
         // will not be null, but all other values will be null, so the above processing will
         // not append the delimiter. Check if we have that case, and if so, append the delimiter.
         if (valueSystem != null && valueNumber == null && valueCode == null && valueString == null && valueDate == null) {
             returnString.append(SearchConstants.PARAMETER_DELIMITER);
         }
-        
+
         // token search with :of-type modifier is handled internally as a composite search
         if (component != null && !component.isEmpty()) {
             String componentDelim = "";

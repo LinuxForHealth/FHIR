@@ -52,7 +52,43 @@ public class TokenParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
+    }
+
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        TokenParmVal other = (TokenParmVal) o;
+        int retVal;
+
+        String thisValueSystem = this.getValueSystem();
+        String otherValueSystem = other.getValueSystem();
+        if (thisValueSystem != null || otherValueSystem != null) {
+            if (thisValueSystem == null) {
+                return -1;
+            } else if (otherValueSystem == null) {
+                return 1;
+            }
+            retVal = thisValueSystem.compareTo(otherValueSystem);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+        String thisValueCode = this.getValueCode();
+        String otherValueCode = other.getValueCode();
+        if (thisValueCode != null || otherValueCode != null) {
+            if (thisValueCode == null) {
+                return -1;
+            } else if (otherValueCode == null) {
+                return 1;
+            }
+            retVal = thisValueCode.compareTo(otherValueCode);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

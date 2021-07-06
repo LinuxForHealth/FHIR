@@ -19,15 +19,13 @@ public class NumberParmVal extends ExtractedParameterValue {
     private BigDecimal valueNumberLow;
     private BigDecimal valueNumberHigh;
 
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-
     /**
      * Public constructor
      */
     public NumberParmVal() {
         super();
     }
+
     public BigDecimal getValueNumber() {
         return valueNumber;
     }
@@ -55,7 +53,58 @@ public class NumberParmVal extends ExtractedParameterValue {
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
+    }
+
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        NumberParmVal other = (NumberParmVal) o;
+        int retVal;
+
+        BigDecimal thisValueNumber = this.getValueNumber();
+        BigDecimal otherValueNumber = other.getValueNumber();
+        if (thisValueNumber != null || otherValueNumber != null) {
+            if (thisValueNumber == null) {
+                return -1;
+            } else if (otherValueNumber == null) {
+                return 1;
+            }
+            retVal = thisValueNumber.compareTo(otherValueNumber);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        BigDecimal thisValueNumberLow = this.getValueNumberLow();
+        BigDecimal otherValueNumberLow = other.getValueNumberLow();
+        if (thisValueNumberLow != null || otherValueNumberLow != null) {
+            if (thisValueNumberLow == null) {
+                return -1;
+            } else if (otherValueNumberLow == null) {
+                return 1;
+            }
+            retVal = thisValueNumberLow.compareTo(otherValueNumberLow);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        BigDecimal thisValueNumberHigh = this.getValueNumberHigh();
+        BigDecimal otherValueNumberHigh = other.getValueNumberHigh();
+        if (thisValueNumberHigh != null || otherValueNumberHigh != null) {
+            if (thisValueNumberHigh == null) {
+                return -1;
+            } else if (otherValueNumberHigh == null) {
+                return 1;
+            }
+            retVal = thisValueNumberHigh.compareTo(otherValueNumberHigh);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

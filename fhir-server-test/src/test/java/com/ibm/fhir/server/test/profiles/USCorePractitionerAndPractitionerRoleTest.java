@@ -39,7 +39,7 @@ import com.ibm.fhir.server.test.SearchAllTest;
 
 /**
  * Tests the US Core 3.1.1 Profile with Practitioner and PractitionerRole
- * 
+ *
  * https://www.hl7.org/fhir/us/core/StructureDefinition-us-core-practitionerrole.html
  */
 public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBase {
@@ -98,12 +98,12 @@ public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBase 
                     .method(HTTPVerb.PUT)
                     .url(Uri.of(entry.getResource().getClass().getSimpleName() + "/" + entry.getResource().getId()))
                     .build();
-            
+
             Meta meta = Meta.builder()
                     .versionId(Id.of("" + System.currentTimeMillis()))
                     .build();
             entry.getResource().toBuilder().meta(meta).build();
-            
+
             Bundle.Entry tmpEntry = entry.toBuilder().request(request).build();
             output.add(tmpEntry);
         }
@@ -189,7 +189,7 @@ public class USCorePractitionerAndPractitionerRoleTest extends ProfilesTestBase 
         // GET [base]/Practitioner?identifier={system|}[code]
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "|000001011");
+            parameters.searchParam("identifier", "000001011");
             FHIRResponse response = client.search(Practitioner.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
