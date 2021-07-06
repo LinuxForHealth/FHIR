@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.ibm.fhir.cql.translator;
 
 import java.io.InputStream;
