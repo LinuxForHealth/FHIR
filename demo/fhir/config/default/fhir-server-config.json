@@ -25,7 +25,7 @@
         "searchParameters": {
           "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
           "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
-          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
+          "status": "http://hl7.org/fhir/SearchParameter/CarePlan-status",
           "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
           "*": "*"
         }
@@ -96,9 +96,6 @@
       },
       "Goal": {
         "searchParameters": {
-          "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
-          "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
-          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
           "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
           "*": "*"
         }
@@ -108,7 +105,7 @@
       "Immunization": {
         "searchParameters": {
           "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
-          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
+          "status": "http://hl7.org/fhir/SearchParameter/Immunization-status",
           "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
           "*": "*"
         }
@@ -134,7 +131,7 @@
         "searchParameters": {
           "date": "http://hl7.org/fhir/SearchParameter/clinical-date",
           "code": "http://hl7.org/fhir/SearchParameter/clinical-code",
-          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
+          "status": "http://hl7.org/fhir/SearchParameter/medications-status",
           "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
           "*": "*"
         }
@@ -173,7 +170,6 @@
       },
       "PractitionerRole": {
         "searchParameters": {
-          "status": "http://hl7.org/fhir/SearchParameter/CareTeam-status",
           "patient": "http://hl7.org/fhir/SearchParameter/clinical-patient",
           "*": "*"
         }
