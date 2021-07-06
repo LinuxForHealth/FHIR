@@ -2237,7 +2237,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String paramTable = getSortParameterTableName(queryData.getResourceType(), code, type);
         final String lrAlias = queryData.getLRAlias();
 
-        if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
+        if (ID.equals(code) || LAST_UPDATED.equals(code)) {
+            // No need to join parameter table - sort column is in LOGICAL_RESOURCES table
+            return;
+        } else if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
             // For a sort by _tag, _profile, or _security we need to join the parameter-specific token
             // table with the common token values table.
             String parameterTableAlias = getParamAlias(getNextAliasIndex());
@@ -2341,8 +2344,10 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             }
             expression.append(LEFT_PAREN);
 
-            if (SearchConstants.LAST_UPDATED.equals(code)) {
+            if (LAST_UPDATED.equals(code)) {
                 expression.append(queryData.getLRAlias() + ".LAST_UPDATED");
+            } else if (ID.equals(code)) {
+                expression.append(queryData.getLRAlias() + ".LOGICAL_ID");
             } else {
                 expression.append(parmAlias).append(".").append(attributeName);
             }
