@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2019, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import com.ibm.fhir.model.type.Date;
 import com.ibm.fhir.model.type.Decimal;
 import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.Extension;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Integer;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Quantity;
@@ -198,6 +199,62 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
         results = runQueryTest(Basic.class, "_sort", "code,_tag", 100);
         assertAscendingOrder(results);
         assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "integer,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "date,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "Reference,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "Quantity,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "uri,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "string,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "code,_id", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "integer,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "date,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "Reference,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "Quantity,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "uri,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "string,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
+        
+        results = runQueryTest(Basic.class, "_sort", "code,_lastUpdated", 100);
+        assertAscendingOrder(results);
+        assertSecondarySort(results);
     }
     
     private void assertAscendingOrder(List<Resource> results) {
@@ -281,7 +338,8 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
     }
     
     /**
-     * Tests a system-level search with a valid search parameter and a valid sort parameter.  
+     * Tests a system-level search with a valid search parameter and a valid sort parameter
+     * of _id.  
      * @throws Exception
      */
     @Test
@@ -315,7 +373,258 @@ public abstract class AbstractSortTest extends AbstractPersistenceTest {
             }
         }
     }
-    
+
+    /**
+     * Tests a system-level search with a valid search parameter and a valid sort parameter
+     * of _lastUpdated.  
+     * @throws Exception
+     */
+    @Test
+    public void testResourceValidSortParm2() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+                    
+        queryParameters.put("_tag:missing", Collections.singletonList("false"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"_lastUpdated"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext.setPageSize(1000);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        Instant previousLastUpdated = null;
+        Instant currentLastUpdated = null;
+        // Verify that resources are sorted in ascending order of last updated.
+        for (Resource resource : resources) {
+            if (previousLastUpdated == null) {
+                previousLastUpdated = resource.getMeta().getLastUpdated();
+            }
+            else {
+                currentLastUpdated = resource.getMeta().getLastUpdated();
+                assertTrue(previousLastUpdated.getValue().compareTo(currentLastUpdated.getValue()) <=0);
+                previousLastUpdated = currentLastUpdated;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level search with a valid search parameter and a valid sort parameter
+     * of _id descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testResourceValidSortParm3() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+                    
+        queryParameters.put("_tag:missing", Collections.singletonList("false"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"-_id"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext.setPageSize(1000);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        String previousId = null;
+        String currentId = null;
+        // Verify that resources are sorted in descending order of logical id.
+        for (Resource resource : resources) {
+            if (previousId == null) {
+                previousId = resource.getId();
+            }
+            else {
+                currentId = resource.getId();
+                assertTrue(previousId.compareTo(resource.getId()) >=0);
+                previousId = currentId;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level search with a valid search parameter and a valid sort parameter
+     * of _lastUpdated descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testResourceValidSortParm4() throws Exception {
+        Class<Resource> resourceType = Resource.class;
+        FHIRSearchContext searchContext;
+        FHIRPersistenceContext persistenceContext;
+        Map<String, List<String>> queryParameters = new HashMap<>();
+                    
+        queryParameters.put("_tag:missing", Collections.singletonList("false"));
+        queryParameters.put("_sort", Arrays.asList(new String[] {"-_lastUpdated"}));
+                
+        searchContext = SearchUtil.parseQueryParameters(resourceType, queryParameters);
+        searchContext.setPageSize(1000);
+        persistenceContext = getPersistenceContextForSearch(searchContext);
+        List<Resource> resources = persistence.search(persistenceContext, resourceType).getResource();
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        Instant previousLastUpdated = null;
+        Instant currentLastUpdated = null;
+        // Verify that resources are sorted in descending order of last updated.
+        for (Resource resource : resources) {
+            if (previousLastUpdated == null) {
+                previousLastUpdated = resource.getMeta().getLastUpdated();
+            }
+            else {
+                currentLastUpdated = resource.getMeta().getLastUpdated();
+                assertTrue(previousLastUpdated.getValue().compareTo(currentLastUpdated.getValue()) >=0);
+                previousLastUpdated = currentLastUpdated;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level _id search.  
+     * @throws Exception
+     */
+    @Test
+    public void testIdSortSystemLevel() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_sort", "_id", 1000);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        String previousId = null;
+        String currentId = null;
+        // Verify that resources are sorted in ascending order of logical id.
+        for (Resource resource : resources) {
+            if (previousId == null) {
+                previousId = resource.getId();
+            }
+            else {
+                currentId = resource.getId();
+                assertTrue(previousId.compareTo(resource.getId()) <=0);
+                previousId = currentId;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level _id search descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testIdSortSystemLevelDescending() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_sort", "-_id", 1000);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        String previousId = null;
+        String currentId = null;
+        // Verify that resources are sorted in descending order of logical id.
+        for (Resource resource : resources) {
+            if (previousId == null) {
+                previousId = resource.getId();
+            }
+            else {
+                currentId = resource.getId();
+                assertTrue(previousId.compareTo(resource.getId()) >=0);
+                previousId = currentId;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level _lastUpdated search.  
+     * @throws Exception
+     */
+    @Test
+    public void testLastUpdatedSortSystemLevel() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_sort", "_lastUpdated", 1000);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        Instant previousLastUpdated = null;
+        Instant currentLastUpdated = null;
+        // Verify that resources are sorted in ascending order of last updated.
+        for (Resource resource : resources) {
+            if (previousLastUpdated == null) {
+                previousLastUpdated = resource.getMeta().getLastUpdated();
+            }
+            else {
+                currentLastUpdated = resource.getMeta().getLastUpdated();
+                assertTrue(previousLastUpdated.getValue().compareTo(currentLastUpdated.getValue()) <=0);
+                previousLastUpdated = currentLastUpdated;
+            }
+        }
+    }
+
+    /**
+     * Tests a system-level _lastUpdated search descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testLastUpdatedSortSystemLevelDescending() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_sort", "-_lastUpdated", 1000);
+        assertNotNull(resources);
+        assertFalse(resources.isEmpty());
+        
+        Instant previousLastUpdated = null;
+        Instant currentLastUpdated = null;
+        // Verify that resources are sorted in descending order of last updated.
+        for (Resource resource : resources) {
+            if (previousLastUpdated == null) {
+                previousLastUpdated = resource.getMeta().getLastUpdated();
+            }
+            else {
+                currentLastUpdated = resource.getMeta().getLastUpdated();
+                assertTrue(previousLastUpdated.getValue().compareTo(currentLastUpdated.getValue()) >=0);
+                previousLastUpdated = currentLastUpdated;
+            }
+        }
+    }
+
+    /**
+     * Tests a resource-level _id search.  
+     * @throws Exception
+     */
+    @Test
+    public void testIdSortResourceLevel() throws Exception {
+        List<Resource> resources = runQueryTest(Basic.class, "_sort", "_id", 100);
+        assertAscendingOrder(resources);
+    }
+
+    /**
+     * Tests a system-level _id search descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testIdSortResourceLevelDescending() throws Exception {
+        List<Resource> resources = runQueryTest(Basic.class, "_sort", "-_id", 1000);
+        assertDescendingOrder(resources);
+    }
+
+    /**
+     * Tests a system-level _lastUpdated search.  
+     * @throws Exception
+     */
+    @Test
+    public void testLastUpdatedSortResourceLevel() throws Exception {
+        List<Resource> resources = runQueryTest(Basic.class, "_sort", "_lastUpdated", 1000);
+        assertAscendingOrder(resources);
+    }
+
+    /**
+     * Tests a system-level _lastUpdated search descending.  
+     * @throws Exception
+     */
+    @Test
+    public void testLastUpdatedSortResourceLevelDescending() throws Exception {
+        List<Resource> resources = runQueryTest(Basic.class, "_sort", "-_lastUpdated", 1000);
+        assertDescendingOrder(resources);
+    }
+
     private Meta tag(String tag) {
         return Meta.builder()
                    .tag(Coding.builder()
