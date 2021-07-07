@@ -41,6 +41,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.persistence.SingleResourceResult;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public class ServerFhirRetrieveProviderTest {
@@ -83,6 +84,13 @@ public class ServerFhirRetrieveProviderTest {
         assertEquals(results.keySet(), expected);
     }
 
+    @Test(expectedExceptions = RuntimeException.class)
+    public void testQueryByIdNotFound() throws Exception {
+        when(helpers.doRead(eq("Patient"), eq("123"), eq(true), eq(false), isNull())).thenThrow(FHIRPersistenceResourceNotFoundException.class);
+
+        provider.retrieve("Patient", "id", "123", "Patient", null, null, null, null, null, null, null, null);
+    }    
+    
     @Test
     public void testMultiplePagesAllReadSuccessfully() throws Exception {
         Condition c1 = Condition.builder().id("c1").subject(Reference.builder().reference(com.ibm.fhir.model.type.String.of("Patient/123")).build()).build();
