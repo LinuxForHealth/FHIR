@@ -85,6 +85,10 @@ public class InJVMCqlTranslationProvider extends BaseCqlTranslationProvider {
             if (!badStuff.isEmpty()) {                
                 throw new CqlTranslationException(formatMsg(badStuff));
             }
+            
+            if( translator.getWarnings().size() > 0 ) {
+                LOG.warning(String.format("Translated CQL contains warnings: %s", formatMsg(translator.getWarnings())));
+            }
     
             switch (targetFormat) {
             case XML:
@@ -121,11 +125,12 @@ public class InJVMCqlTranslationProvider extends BaseCqlTranslationProvider {
         msg.append("Translation failed due to errors:");
         for (CqlTranslatorException error : translationErrs) {
           TrackBack tb = error.getLocator();
-          String lines = tb == null ? "[n/a]" : String.format("[%d:%d, %d:%d]",
+          String lines = tb == null ? "[n/a]" : String.format("[%s:%s %d:%d-%d:%d]",
+                  tb.getLibrary().getId(), tb.getLibrary().getVersion(),
                   tb.getStartLine(), tb.getStartChar(), tb.getEndLine(),
                   tb.getEndChar());
           msg.append(String.format("%s %s%n", lines, error.getMessage()));
         }
         return msg.toString();
-      }
+    }
 }
