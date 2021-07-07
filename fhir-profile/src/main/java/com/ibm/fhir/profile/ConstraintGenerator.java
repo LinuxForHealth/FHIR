@@ -396,6 +396,10 @@ public class ConstraintGenerator {
     }
 
     private String expression(Node node) {
+        return expression(node, false);
+    }
+
+    private String expression(Node node, boolean nested) {
         ElementDefinition elementDefinition = node.elementDefinition;
 
         if (hasValueConstraint(elementDefinition)) {
@@ -416,7 +420,7 @@ public class ConstraintGenerator {
             StringJoiner joiner = new StringJoiner(" and ");
             if (hasChildren(node)) {
                 for (Node child : node.children) {
-                    joiner.add(expression(child));
+                    joiner.add(expression(child, true));
                 }
             }
             if (hasVocabularyConstraint(elementDefinition) &&
@@ -428,6 +432,10 @@ public class ConstraintGenerator {
                 joiner.add(generateProfileConstraint(node));
             }
             sb.append(joiner.toString()).append(")");
+            if (nested) {
+//              sb.append(cardinality(node, sb.toString()));
+                sb.append(".exists()");
+            }
         }
 
         return sb.toString();
