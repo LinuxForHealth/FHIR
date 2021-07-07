@@ -384,3 +384,5 @@ The format of the reindex timestamp can be a date `YYYY-MM-DD` representing `00:
 Values for `--reindex-resource-count` larger than 1000 will be clamped to 1000 to ensure that the `$reindex` server calls return within a reasonable time.
 
 The value for `--reindex-concurrent-requests` can be increased/decreased to maximize throughput or avoid overloading a system. The number represents the total number of client threads used to invoke the $reindex operation. Each thread uses its own connection to the IBM FHIR Server so you must also set `--max-concurrent-fhir-requests` to be at least equal to `--reindex-concurrent-requests`.
+
+If the client-side-driven reindex is unable to be completed due to an error or timeout, the reindex can be resumed by using the `--reindex-start-with-index-id` parameter. If this needs to be done, first check the fhir-bucket log and find the first index ID that was not successful. Then, by specifying that index ID for the value of `--reindex-start-with-index-id` when starting the client-side-driven reindex, the reindex is resumed from that point, instead of starting completely over.
