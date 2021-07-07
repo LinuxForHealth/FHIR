@@ -83,12 +83,17 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      * @param maxConcurrentRequests the number of threads to spin up
      * @param reindexTimestamp timestamp the reindex began
      * @param maxResourceCount resources processed per request per thread
+     * @param startWithIndexId index ID from which to start, or null
      */
-    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount) {
+    public ClientDrivenReindexOperation(FHIRBucketClient fhirClient, int maxConcurrentRequests, String reindexTimestamp, int maxResourceCount, String startWithIndexId) {
         this.fhirClient = fhirClient;
         this.maxConcurrentRequests = maxConcurrentRequests;
         this.reindexTimestamp = reindexTimestamp;
         this.maxResourceCount = maxResourceCount;
+        if (startWithIndexId != null) {
+            // Subtract 1 since the $retrieve-index operation retrieves index IDs after a specified index ID
+            this.lastIndexId = String.valueOf(Long.parseLong(startWithIndexId) - 1);
+        }
         this.blockingQueue = new LinkedBlockingDeque<>(MAX_RETRIEVE_COUNT + (maxResourceCount * maxConcurrentRequests));
     }
 

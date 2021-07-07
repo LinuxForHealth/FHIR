@@ -206,6 +206,9 @@ public class Main {
     // Whether to use client-side-driven reindex, which uses $retrieve-index and $reindex in parallel
     private boolean clientSideDrivenReindex = false;
 
+    // The index ID to start with for client-side-driven reindex. If not specified, it starts from the first index ID that exists
+    private String reindexStartWithIndexId;
+
     /**
      * Parse command line arguments
      * @param args
@@ -424,6 +427,13 @@ public class Main {
                 break;
             case "--reindex-client-side-driven":
                 this.clientSideDrivenReindex = true;
+                break;
+            case "--reindex-start-with-index-id":
+                if (i < args.length + 1) {
+                    this.reindexStartWithIndexId = args[++i];
+                } else {
+                    throw new IllegalArgumentException("missing value for --reindex-start-with-index-id");
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Bad arg: " + arg);
@@ -871,7 +881,7 @@ public class Main {
         // Optionally start the $reindex loops
         if (this.reindexTstampParam != null) {
             if (this.clientSideDrivenReindex) {
-                this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
+                this.driveReindexOperation = new ClientDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount, reindexStartWithIndexId);
             } else {
                 this.driveReindexOperation = new ServerDrivenReindexOperation(fhirClient, reindexConcurrentRequests, reindexTstampParam, reindexResourceCount);
             }
