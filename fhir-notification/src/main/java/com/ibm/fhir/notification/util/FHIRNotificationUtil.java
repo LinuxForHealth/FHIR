@@ -97,6 +97,14 @@ public class FHIRNotificationUtil {
             if (length > maxSize) {
                 LOG.fine(() -> event.getResource().getClass().getSimpleName() + "/" + event.getResourceId() + " is over the size limit - '" + length + "' > '" + maxSize + "'");
 
+                // the build method wipes out any preexisting values, we have to add them back.
+                builder.add("lastUpdated", event.getLastUpdated());
+                builder.add("location", event.getLocation());
+                builder.add("operationType", event.getOperationType());
+                builder.add("resourceId", event.getResourceId());
+                builder.add("datasourceId", event.getDatasourceId());
+                builder.add("tenantId", event.getTenantId());
+
                 // If we are including a subset, we'll add here.
                 String subset = FHIRConfigHelper.getStringProperty(FHIRConfiguration.PROPERTY_NOTIFICATION_NOTIFICATION_SIZE_BEHAVIOR, "subset");
                 if ("subset".equals(subset)) {
@@ -112,13 +120,7 @@ public class FHIRNotificationUtil {
                 } else {
                     LOG.fine(() -> "Omitting the resource in FHIRNotificationEvent");
                 }
-                // the build method wipes out any preexisting values, we have to add them back.
-                builder.add("lastUpdated", event.getLastUpdated());
-                builder.add("location", event.getLocation());
-                builder.add("operationType", event.getOperationType());
-                builder.add("resourceId", event.getResourceId());
-                builder.add("datasourceId", event.getDatasourceId());
-                builder.add("tenantId", event.getTenantId());
+
                 jsonObject = builder.build();
                 jsonString = jsonObject.toString();
             }

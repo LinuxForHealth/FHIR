@@ -132,7 +132,7 @@ public class FHIRNotificationUtilTest {
         evt.setResource(parms);
 
         assertEquals(FHIRNotificationUtil.toJsonString(evt, true),
-            "{\"resource\":{\"resourceType\":\"Parameters\",\"id\":\"144f2a21-856d-40d8-8411-2cb482ba0c6f\",\"meta\":{\"tag\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v3-ObservationValue\",\"code\":\"SUBSETTED\",\"display\":\"subsetted\"}]}},\"lastUpdated\":\"2021-10-10\",\"location\":\"Patient/1-2-3-4\",\"operationType\":\"$operation\",\"resourceId\":\"1-2-3-4\",\"datasourceId\":\"default\",\"tenantId\":\"default\"}");
+            "{\"lastUpdated\":\"2021-10-10\",\"location\":\"Patient/1-2-3-4\",\"operationType\":\"$operation\",\"resourceId\":\"1-2-3-4\",\"datasourceId\":\"default\",\"tenantId\":\"default\",\"resource\":{\"resourceType\":\"Parameters\",\"id\":\"144f2a21-856d-40d8-8411-2cb482ba0c6f\",\"meta\":{\"tag\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v3-ObservationValue\",\"code\":\"SUBSETTED\",\"display\":\"subsetted\"}]}}}");
     }
 
     @Test
@@ -151,7 +151,7 @@ public class FHIRNotificationUtilTest {
         evt.setResource(parms);
 
         assertEquals(FHIRNotificationUtil.toJsonString(evt, true),
-            "{\"resource\":{\"resourceType\":\"Parameters\",\"id\":\"144f2a21-856d-40d8-8411-2cb482ba0c6f\",\"meta\":{\"tag\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v3-ObservationValue\",\"code\":\"SUBSETTED\",\"display\":\"subsetted\"}]}},\"lastUpdated\":\"2021-10-10\",\"location\":\"Patient/1-2-3-4\",\"operationType\":\"$operation\",\"resourceId\":\"1-2-3-4\",\"datasourceId\":\"default\",\"tenantId\":\"default\"}");
+            "{\"lastUpdated\":\"2021-10-10\",\"location\":\"Patient/1-2-3-4\",\"operationType\":\"$operation\",\"resourceId\":\"1-2-3-4\",\"datasourceId\":\"default\",\"tenantId\":\"default\",\"resource\":{\"resourceType\":\"Parameters\",\"id\":\"144f2a21-856d-40d8-8411-2cb482ba0c6f\",\"meta\":{\"tag\":[{\"system\":\"http://terminology.hl7.org/CodeSystem/v3-ObservationValue\",\"code\":\"SUBSETTED\",\"display\":\"subsetted\"}]}}}");
     }
 
     @Test
