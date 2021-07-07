@@ -56,6 +56,7 @@ public class Delete extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doDelete(type, id, null);
@@ -93,6 +94,7 @@ public class Delete extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {

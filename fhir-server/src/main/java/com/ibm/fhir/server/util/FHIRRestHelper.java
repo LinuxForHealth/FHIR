@@ -174,7 +174,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doCreate");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.CREATE.value(), type);
+        validateInteraction(Interaction.CREATE, type);
 
         FHIRRestOperationResponse ior = new FHIRRestOperationResponse();
 
@@ -311,7 +311,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String searchQueryString, boolean skippableUpdate) throws Exception {
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.PATCH.value(), type);
+        validateInteraction(Interaction.PATCH, type);
 
         return doPatchOrUpdate(type, id, patch, null, ifMatchValue, searchQueryString, skippableUpdate, DO_VALIDATION);
     }
@@ -321,7 +321,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String searchQueryString, boolean skippableUpdate, boolean doValidation) throws Exception {
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.UPDATE.value(), type);
+        validateInteraction(Interaction.UPDATE, type);
 
         return doPatchOrUpdate(type, id, null, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation);
     }
@@ -593,7 +593,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doDelete");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.DELETE.value(), type);
+        validateInteraction(Interaction.DELETE, type);
 
         // Save the current request context.
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -799,7 +799,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Validate that interaction is allowed for given resource type
         if (checkInteractionAllowed) {
-            validateInteraction(Interaction.READ.value(), type);
+            validateInteraction(Interaction.READ, type);
         }
 
         // Start a new txn in the persistence layer if one is not already active.
@@ -865,7 +865,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doVRead");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.VREAD.value(), type);
+        validateInteraction(Interaction.VREAD, type);
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
         // Start a new txn in the persistence layer if one is not already active.
@@ -947,7 +947,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doHistory");
 
         // Validate that interaction is allowed for given resource type
-        validateInteraction(Interaction.HISTORY.value(), type);
+        validateInteraction(Interaction.HISTORY, type);
 
         // Start a new txn in the persistence layer if one is not already active.
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1036,7 +1036,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         // Validate that interaction is allowed for given resource type
         if (checkInteractionAllowed) {
-            validateInteraction(Interaction.SEARCH.value(), type);
+            validateInteraction(Interaction.SEARCH, type);
         }
 
         FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
@@ -1751,7 +1751,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                             responseEntries[entryIndex] = processEntryForPut(requestEntry, validationResponseEntry, responseIndexAndEntries,
                                     entryIndex, localRefMap, requestURL, absoluteUri, requestDescription.toString(), initialTime, skippableUpdates, (bundleType == BundleType.Value.TRANSACTION));
                         } else if (request.getMethod().equals(HTTPVerb.PATCH)) {
-                            responseEntries[entryIndex] = processEntryforPatch(requestEntry, requestURL,entryIndex,
+                            responseEntries[entryIndex] = processEntryForPatch(requestEntry, requestURL,entryIndex,
                                     requestDescription.toString(), initialTime, skippableUpdates);
                         } else if (request.getMethod().equals(HTTPVerb.DELETE)) {
                             responseEntries[entryIndex] = processEntryForDelete(requestURL, requestDescription.toString(), initialTime);
@@ -1852,7 +1852,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @return the bundle entry response
      * @throws Exception
      */
-    private Entry processEntryforPatch(Entry requestEntry, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription,
+    private Entry processEntryForPatch(Entry requestEntry, FHIRUrlParser requestURL, Integer entryIndex, String requestDescription,
             long initialTime, boolean skippableUpdate) throws Exception {
         FHIRRestOperationResponse ior = null;
         String[] pathTokens = requestURL.getPathTokens();
@@ -1874,6 +1874,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String msg = "Request URL for bundled PATCH request should have path part with two tokens (<resourceType>/<id>).";
             throw buildRestException(msg, IssueType.INVALID);
         }
+
+        checkResourceType(resourceType);
 
         if (!requestEntry.getResource().is(Parameters.class)) {
             String msg="Request resource type for PATCH request must be type 'Parameters'";
@@ -1910,8 +1912,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         MultivaluedMap<String, String> queryParams = requestURL.getQueryParameters();
         Resource resource = null;
 
-
-
         // Process a GET (read, vread, history, search, etc.).
         // Determine the type of request from the path tokens.
         if (pathTokens.length > 0 && pathTokens[pathTokens.length - 1].startsWith("$")) {
@@ -1928,11 +1928,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 resource = doInvoke(operationContext, null, null, null, operationName, null, queryParams);
                 break;
             case 2:
+                checkResourceType(pathTokens[0]);
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
                 updateOperationContext(operationContext, "GET");
                 resource = doInvoke(operationContext, pathTokens[0], null, null, operationName, null, queryParams);
                 break;
             case 3:
+                checkResourceType(pathTokens[0]);
                 operationContext = FHIROperationContext.createInstanceOperationContext();
                 updateOperationContext(operationContext, "GET");
                 resource = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, null, queryParams);
@@ -1946,10 +1948,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if ("_search".equals(pathTokens[0])) {
                 resource = doSearch("Resource", null, null, queryParams, absoluteUri, null);
             } else {
+                checkResourceType(pathTokens[0]);
                 resource = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, null);
             }
         } else if (pathTokens.length == 2) {
             // This is a 'read' request.
+            checkResourceType(pathTokens[0]);
             resource = doRead(pathTokens[0], pathTokens[1], true, false, null).getResource();
         } else if (pathTokens.length == 3) {
             if ("_history".equals(pathTokens[2])) {
@@ -1957,10 +1961,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
             } else {
                 // This is a compartment based search
+                checkResourceType(pathTokens[2]);
                 resource = doSearch(pathTokens[2], pathTokens[0], pathTokens[1], queryParams, absoluteUri, null);
             }
         } else if (pathTokens.length == 4 && pathTokens[2].equals("_history")) {
             // This is a 'vread' request.
+            checkResourceType(pathTokens[0]);
             resource = doVRead(pathTokens[0], pathTokens[1], pathTokens[3], null);
         } else {
             String msg = "Unrecognized path in request URL: " + requestURL.getPath();
@@ -1979,7 +1985,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     /**
-     * commond update to the operationContext
+     * common update to the operationContext
      * @param operationContext
      * @param method
      */
@@ -2043,11 +2049,13 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 result = doInvoke(operationContext, null, null, null, operationName, resource, queryParams);
                 break;
             case 2:
+                checkResourceType(pathTokens[0]);
                 operationContext = FHIROperationContext.createResourceTypeOperationContext();
                 updateOperationContext(operationContext, "POST");
                 result = doInvoke(operationContext, pathTokens[0], null, null, operationName, resource, queryParams);
                 break;
             case 3:
+                checkResourceType(pathTokens[0]);
                 operationContext = FHIROperationContext.createInstanceOperationContext();
                 updateOperationContext(operationContext, "POST");
                 result = doInvoke(operationContext, pathTokens[0], pathTokens[1], null, operationName, resource, queryParams);
@@ -2067,6 +2075,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         } else if (pathTokens.length == 2 && "_search".equals(pathTokens[1])) {
             // This is a 'search' request.
+            checkResourceType(pathTokens[0]);
             Bundle searchResults = doSearch(pathTokens[0], null, null, queryParams, absoluteUri, null);
 
             logBundledRequestCompletedMsg(requestDescription, initialTime, SC_OK);
@@ -2079,6 +2088,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         } else if (pathTokens.length == 1) {
             // This is a 'create' request.
+
+            checkResourceType(pathTokens[0]);
 
             // Retrieve the local identifier from the request entry (if present).
             String localIdentifier = retrieveLocalIdentifier(requestEntry);
@@ -2243,6 +2254,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             throw buildRestException(msg, IssueType.INVALID);
         }
 
+        checkResourceType(type);
+
         // Retrieve the resource from the request entry.
         Resource resource = requestEntry.getResource();
 
@@ -2312,6 +2325,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             String msg = "Request URL for bundled DELETE request should have path part with one or two tokens (<resourceType> or <resourceType>/<id>).";
             throw buildRestException(msg, IssueType.INVALID);
         }
+
+        checkResourceType(type);
 
         // Perform the 'delete' operation.
         FHIRRestOperationResponse ior = doDelete(type, id, requestURL.getQuery());
@@ -3221,7 +3236,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      *            the resource type against which the interaction is to be performed
      * @throws FHIROperationException
      */
-    private void validateInteraction(String interaction, String resourceType) throws FHIROperationException {
+    private void validateInteraction(Interaction interaction, String resourceType) throws FHIROperationException {
         List<String> interactions = null;
         boolean resourceValid = true;
 
@@ -3261,8 +3276,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
 
         // Perform validation of specified interaction against specified resourceType
-        if (interactions != null && !interactions.contains(interaction)) {
-            throw buildRestException("The requested interaction of type '" + interaction + "' is not allowed for resource type '" + resourceType + "'",
+        if (interactions != null && !interactions.contains(interaction.value())) {
+            throw buildRestException("The requested interaction of type '" + interaction.value() + "' is not allowed for resource type '" + resourceType + "'",
                 IssueType.BUSINESS_RULE, IssueSeverity.ERROR);
         } else if (!resourceValid) {
             throw buildRestException("The requested resource type '" + resourceType + "' is not found",
@@ -3305,7 +3320,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         log.entering(this.getClass().getName(), "doHistory");
 
         // Validate that the interaction is allowed
-        validateInteraction(Interaction.HISTORY.value(), "Resource");
+        validateInteraction(Interaction.HISTORY, "Resource");
 
         // extract the query parameters
         FHIRRequestContext requestContext = FHIRRequestContext.get();
@@ -3493,4 +3508,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
         return indexIds;
     }
+
+    /**
+     * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
+     * we'll throw an error to short-circuit the current in-progress REST API invocation.
+     */
+    private void checkResourceType(String type) throws FHIROperationException {
+        if (!ModelSupport.isResourceType(type)) {
+            throw buildUnsupportedResourceTypeException(type);
+        }
+        if (!ModelSupport.isConcreteResourceType(type)) {
+            log.warning("Use of abstract resource types like '" + type + "' in FHIR URLs is deprecated and will be removed in a future release");
+        }
+    }
+
 }

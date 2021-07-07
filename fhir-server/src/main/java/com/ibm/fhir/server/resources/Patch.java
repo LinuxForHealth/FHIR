@@ -14,9 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonPatch;
-import jakarta.json.JsonValue;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.Path;
@@ -46,6 +43,10 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 import com.ibm.fhir.server.util.FHIRRestHelper;
 import com.ibm.fhir.server.util.RestAuditLogger;
 
+import jakarta.json.JsonArray;
+import jakarta.json.JsonPatch;
+import jakarta.json.JsonValue;
+
 @Path("/")
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON,
         FHIRMediaType.APPLICATION_FHIR_XML, MediaType.APPLICATION_XML })
@@ -73,6 +74,7 @@ public class Patch extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRPatch patch = createPatch(array);
 
@@ -125,6 +127,7 @@ public class Patch extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRPatch patch;
             try {

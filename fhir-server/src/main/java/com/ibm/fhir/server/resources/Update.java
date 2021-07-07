@@ -63,6 +63,7 @@ public class Update extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             ior = helper.doUpdate(type, id, resource, ifMatch, null, onlyIfModified);
@@ -116,6 +117,7 @@ public class Update extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             String searchQueryString = httpServletRequest.getQueryString();
             if (searchQueryString == null || searchQueryString.isEmpty()) {

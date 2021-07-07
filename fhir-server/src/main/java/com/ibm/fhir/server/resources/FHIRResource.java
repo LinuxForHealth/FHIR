@@ -41,6 +41,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.generator.FHIRGenerator;
@@ -48,10 +49,13 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
@@ -115,6 +119,19 @@ public class FHIRResource {
             String msg =
                     "The FHIR Server web application cannot process requests because it did not initialize correctly";
             throw buildRestException(msg, IssueType.EXCEPTION);
+        }
+    }
+
+    /**
+     * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
+     * we'll throw an error to short-circuit the current in-progress REST API invocation.
+     */
+    protected void checkType(String type) throws FHIROperationException {
+        if (!ModelSupport.isResourceType(type)) {
+            throw buildUnsupportedResourceTypeException(type);
+        }
+        if (!ModelSupport.isConcreteResourceType(type)) {
+            log.warning("Use of abstract resource types like '" + type + "' in FHIR URLs is deprecated and will be removed in a future release");
         }
     }
 
@@ -428,5 +445,20 @@ public class FHIRResource {
      */
     protected URI toUri(String uriString) throws URISyntaxException {
         return new URI(uriString);
+    }
+
+    protected FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
+        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        Issue issue = OperationOutcome.Issue.builder()
+                .severity(IssueSeverity.FATAL)
+                .code(IssueType.NOT_SUPPORTED.toBuilder()
+                        .extension(Extension.builder()
+                            .url(FHIRConstants.EXT_BASE + "not-supported-detail")
+                            .value(Code.of("resource"))
+                            .build())
+                        .build())
+                .details(CodeableConcept.builder().text(string(Encode.forHtml(msg))).build())
+                .build();
+        return new FHIROperationException(msg).withIssue(issue);
     }
 }

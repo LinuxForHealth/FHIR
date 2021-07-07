@@ -67,6 +67,7 @@ public class Search extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
@@ -115,6 +116,7 @@ public class Search extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             queryParameters = uriInfo.getQueryParameters();
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
