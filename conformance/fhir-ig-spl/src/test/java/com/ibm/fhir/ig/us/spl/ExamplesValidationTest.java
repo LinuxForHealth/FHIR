@@ -60,9 +60,11 @@ public class ExamplesValidationTest {
             Resource r = FHIRParser.parser(Format.JSON).parse(in);
             List<Issue> validate = FHIRValidator.validator().validate(r);
             for (Issue issue : validate) {
-                if (IssueSeverity.ERROR.equals(issue.getSeverity()) || IssueSeverity.ERROR.equals(issue.getSeverity())) {
-                    System.out.println(issue);
+                if (IssueSeverity.ERROR.equals(issue.getSeverity())) {
                     invalid = true;
+                }
+                if (invalid) {
+                    System.out.println(issue);
                 }
             }
             System.out.println("--------------------------------");

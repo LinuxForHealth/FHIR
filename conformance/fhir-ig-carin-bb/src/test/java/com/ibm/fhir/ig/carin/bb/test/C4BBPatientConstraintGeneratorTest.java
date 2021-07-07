@@ -27,7 +27,7 @@ public class C4BBPatientConstraintGeneratorTest {
         StructureDefinition profile = parser.parse(in);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
-        assertTrue(hasConstraint(constraints, "meta.where(lastUpdated.exists() and profile.where($this = 'http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|1.0.0').count() = 1).exists()"));
+        assertTrue(hasConstraint(constraints, "meta.exists() and meta.all(lastUpdated.exists() and profile.where($this = 'http://hl7.org/fhir/us/carin-bb/StructureDefinition/C4BB-Patient|1.0.0').count() = 1)"));
     }
 
     public boolean hasConstraint(List<Constraint> constraints, String expr) {

@@ -41,6 +41,7 @@ import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.util.DiagnosticsEvaluationListener;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -228,13 +229,18 @@ public class FHIRValidator {
     }
 
     private static Issue issue(IssueSeverity severity, IssueType code, String description, FHIRPathNode node) {
+        return issue(severity, code, description, null, node.path());
+    }
+
+    private static Issue issue(IssueSeverity severity, IssueType code, String details, String diagnostics, String expression) {
         return Issue.builder()
             .severity(severity)
             .code(code)
             .details(CodeableConcept.builder()
-                .text(string(description))
+                .text(string(details))
                 .build())
-            .expression(string(node.path()))
+            .diagnostics((diagnostics != null) ? string(diagnostics) : null)
+            .expression(string(expression))
             .build();
     }
 
@@ -244,6 +250,7 @@ public class FHIRValidator {
         private boolean includeResourceAssertedProfiles;
         private List<String> profiles;
         private List<Issue> issues = new ArrayList<>();
+        private DiagnosticsEvaluationListener diagnosticsEvaluationListener = new DiagnosticsEvaluationListener();
 
         private ValidatingNodeVisitor() { }
 
@@ -258,6 +265,7 @@ public class FHIRValidator {
 
         private void reset() {
             issues.clear();
+            diagnosticsEvaluationListener.reset();
         }
 
         @Override
@@ -351,7 +359,12 @@ public class FHIRValidator {
 
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
 
+                if (constraint.generated()) {
+                    evaluationContext.addEvaluationListener(diagnosticsEvaluationListener);
+                }
+
                 for (FHIRPathNode contextNode : initialContext) {
+                    diagnosticsEvaluationListener.reset();
                     evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
                     evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
@@ -359,12 +372,16 @@ public class FHIRValidator {
                     evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
-                        issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
+                        issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), diagnosticsEvaluationListener.getDiagnostics(), contextNode.path()));
                     }
 
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Evaluation result: " + result + ", Path: " + contextNode.path());
                     }
+                }
+
+                if (constraint.generated()) {
+                    evaluationContext.removeEvaluationListener(diagnosticsEvaluationListener);
                 }
             } catch (Exception e) {
                 throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() +
