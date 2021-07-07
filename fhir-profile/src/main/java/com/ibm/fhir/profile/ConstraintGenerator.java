@@ -433,7 +433,6 @@ public class ConstraintGenerator {
             }
             sb.append(joiner.toString()).append(")");
             if (nested) {
-//              sb.append(cardinality(node, sb.toString()));
                 sb.append(".exists()");
             }
         }

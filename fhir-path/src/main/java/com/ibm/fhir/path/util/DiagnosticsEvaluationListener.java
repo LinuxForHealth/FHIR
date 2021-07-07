@@ -53,7 +53,7 @@ public class DiagnosticsEvaluationListener extends BuildingListener {
         EqualityExpressionContext.class,
         ImpliesExpressionContext.class
     ));
-    private static final Predicate<ParserRuleContext> DIAGNOSTICS_PARSER_RULE_CONTEXT_PREDICATE = new Predicate<ParserRuleContext>() {
+    private static final Predicate<ParserRuleContext> PARSER_RULE_CONTEXT_PREDICATE = new Predicate<ParserRuleContext>() {
         @Override
         public boolean test(ParserRuleContext parserRuleContext) {
             if (parserRuleContext instanceof InvocationExpressionContext) {
@@ -75,7 +75,7 @@ public class DiagnosticsEvaluationListener extends BuildingListener {
     };
 
     public DiagnosticsEvaluationListener() {
-       super(DIAGNOSTICS_PARSER_RULE_CONTEXT_PREDICATE);
+       super(PARSER_RULE_CONTEXT_PREDICATE);
     }
 
     public String getDiagnostics() {
