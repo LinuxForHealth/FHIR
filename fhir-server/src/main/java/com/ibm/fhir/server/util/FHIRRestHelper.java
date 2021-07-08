@@ -164,6 +164,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     // Used for correlating requests within a bundle.
     private String bundleRequestCorrelationId = null;
 
+    private final FHIRValidator validator = FHIRValidator.validator(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_VALIDATION_FAIL_FAST, Boolean.FALSE));
+
     public FHIRRestHelper(FHIRPersistence persistence) {
         this.persistence = persistence;
     }
@@ -3209,7 +3211,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
 
-        return FHIRValidator.validator(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_VALIDATION_FAIL_FAST, Boolean.FALSE)).validate(resource);
+        return validator.validate(resource);
     }
 
     /**

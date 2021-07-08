@@ -202,7 +202,7 @@ public class FHIRValidator {
             evaluationContext.setResolveRelativeReferences(true);
             List<Issue> issues = new ArrayList<>();
             validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues, failFast);
-            if (!failFast || !hasErrors(issues)) {
+            if (!(failFast && hasErrors(issues))) {
                 issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
             }
             Collections.sort(issues, ISSUE_COMPARATOR);

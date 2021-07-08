@@ -8,7 +8,6 @@ package com.ibm.fhir.validation.test;
 
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.countErrors;
-import static com.ibm.fhir.validation.util.FHIRValidationUtil.getErrors;
 import static org.testng.Assert.assertEquals;
 
 import java.io.Reader;
@@ -46,7 +45,6 @@ public class FailFastValidationTest {
             .build();
 
         List<Issue> issues = FHIRValidator.validator().validate(observation);
-        getErrors(issues).forEach(System.out::println);
 
         assertEquals(countErrors(issues), 2);
     }
@@ -82,7 +80,6 @@ public class FailFastValidationTest {
                 .text(string("unknown"))
                 .build())
             .build();
-        System.out.println(observation);
 
         List<Issue> issues = FHIRValidator.validator().validate(observation, "http://hl7.org/fhir/StructureDefinition/invalid");
 
@@ -99,7 +96,6 @@ public class FailFastValidationTest {
                 .text(string("unknown"))
                 .build())
             .build();
-        System.out.println(observation);
 
         List<Issue> issues = FHIRValidator.validator(true).validate(observation, "http://hl7.org/fhir/StructureDefinition/invalid");
 
