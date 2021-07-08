@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -240,7 +241,8 @@ public class ImportOperationTest extends FHIRServerTestBase {
                     .header("X-FHIR-DSID", dataStoreId)
                     .put(entity, Response.class);
         //@formatter:on
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
         URI location = response.getLocation();
         assertNotNull(location);
         assertNotNull(location.toString());
@@ -271,6 +273,35 @@ public class ImportOperationTest extends FHIRServerTestBase {
             String inputSource = "https://localhost:9443/source-fhir-server";
             String resourceType = "Patient";
             String url = "test-import.ndjson";
+
+            Response response = doPost(path, inputFormat, inputSource, resourceType, url);
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+
+            // Check eventual value
+            response = polling(contentLocation);
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            checkValidResponse(response);
+            checkOnFourResources();
+        } else {
+            System.out.println("Import Test Disabled, Skipping");
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = {"testImportFromFileDefault"})
+    public void testImportFromFileDefaultSkippable() throws Exception {
+        if (ON) {
+            String path = BASE_VALID_URL;
+            String inputFormat = FORMAT;
+            String inputSource = "https://localhost:9443/source-fhir-server";
+            String resourceType = "Patient";
+            String url = "test-import-skip.ndjson";
 
             Response response = doPost(path, inputFormat, inputSource, resourceType, url);
             assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
