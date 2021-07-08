@@ -102,14 +102,13 @@ public class MigrateV0014LogicalResourceIsDeletedLastUpdated implements IDatabas
         // Fetch the is_deleted and last_updated statement from the current version of each resource...
         final String select = ""
                 + "SELECT lr.logical_resource_id, lr.is_deleted, lr.last_updated "
-                + "  FROM " + lrTable + " lr  "
-                + " WHERE lr.resource_type_id = " + this.resourceTypeId;
+                + "  FROM " + lrTable + " lr  ";
 
         // ...and use it to set the new column values in the corresponding XXX_LOGICAL_RESOURCES table
         final String update = "UPDATE logical_resources SET is_deleted = ?, last_updated = ? WHERE logical_resource_id = ?";
 
         try (Statement selectStatement = c.createStatement();
-             PreparedStatement updateStatement = c.prepareStatement(update)) {
+            PreparedStatement updateStatement = c.prepareStatement(update)) {
             ResultSet rs = selectStatement.executeQuery(select);
 
             int batchCount = 0;
