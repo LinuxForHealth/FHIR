@@ -88,13 +88,16 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 ```
 
 9.  After you start the server, you can verify that it's running properly by invoking the `$healthcheck` endpoint like this:
+
 ```
     curl -k -u '<username>:<password>' 'https://<host>:<port>/fhir-server/api/v4/$healthcheck'
 ```
-    where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
-    Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
 
-    One should see `All OK` in the response.  The preceding command should produce output similar to the following:
+where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
+Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
+
+One should see `All OK` in the response.  The preceding command should produce output similar to the following:
+    
 ```
     {
     "resourceType": "OperationOutcome",
