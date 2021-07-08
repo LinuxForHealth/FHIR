@@ -20,7 +20,6 @@ import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathParser.ExpressionContext;
 import com.ibm.fhir.path.FHIRPathParser.FunctionContext;
 import com.ibm.fhir.path.FHIRPathParser.FunctionInvocationContext;
-import com.ibm.fhir.path.FHIRPathParser.IdentifierContext;
 import com.ibm.fhir.path.FHIRPathParser.InvocationExpressionContext;
 import com.ibm.fhir.path.FHIRPathParser.TermExpressionContext;
 import com.ibm.fhir.path.util.EvaluationResultTree.BuildingListener;
@@ -75,7 +74,10 @@ public class DiagnosticsEvaluationListener extends BuildingListener {
             if (invocationExpressionContext.invocation() instanceof FunctionInvocationContext) {
                 FunctionInvocationContext functionInvocationContext = (FunctionInvocationContext) invocationExpressionContext.invocation();
                 FunctionContext functionContext = functionInvocationContext.function();
-                String identifier = getIdentifier(functionContext.identifier());
+                String identifier = functionContext.identifier().getText();
+                if (identifier.startsWith("`")) {
+                    identifier = identifier.substring(1, identifier.length() - 1);
+                }
                 return identifier.equals(functionName);
             }
         }
@@ -95,13 +97,5 @@ public class DiagnosticsEvaluationListener extends BuildingListener {
             }
         }
         return result;
-    }
-
-    private static String getIdentifier(IdentifierContext identifierContext) {
-        String identifier = identifierContext.getText();
-        if (identifier.startsWith("`")) {
-            identifier = identifier.substring(1, identifier.length() - 1);
-        }
-        return identifier;
     }
 }
