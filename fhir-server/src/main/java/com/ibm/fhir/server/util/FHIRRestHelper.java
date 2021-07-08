@@ -1958,6 +1958,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         } else if (pathTokens.length == 3) {
             if ("_history".equals(pathTokens[2])) {
                 // This is a 'history' request.
+                checkResourceType(pathTokens[0]);
                 resource = doHistory(pathTokens[0], pathTokens[1], queryParams, absoluteUri);
             } else {
                 // This is a compartment based search
