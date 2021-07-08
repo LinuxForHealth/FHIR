@@ -42,6 +42,9 @@ public class FHIRConfiguration {
     public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
     public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
 
+    // Validation properties
+    public static final String PROPERTY_VALIDATION_FAIL_FAST = "fhirServer/validation/failFast";
+
     // Terminology service properties
     public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
     public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
