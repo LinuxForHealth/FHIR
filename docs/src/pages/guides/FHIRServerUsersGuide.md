@@ -96,22 +96,7 @@ The Maven build creates the zip package under `fhir-install/target`. Alternative
 where `<username>` is one of the users configured in `server.xml` (default is `fhiruser`).  
 Use single quotes around the URL to prevent $healthcheck from being evaluated as an environment variable on unix-based operating systems.  
 
-One should see an empty body in the response with a HTTP Response Code 200. 
-    
-```
-    {
-    "resourceType": "OperationOutcome",
-    "issue": [
-        {
-            "severity": "information",
-            "code": "informational",
-            "details": {
-                "text": "All OK"
-            }
-        }
-    ]
-    }
-```
+One should see an empty body in the response with a HTTP Response Code 200.
 
 For more information about the capabilities of the implementation, see [Conformance](https://ibm.github.io/FHIR/Conformance).
 
