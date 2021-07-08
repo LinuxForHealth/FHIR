@@ -200,6 +200,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
@@ -245,6 +246,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
@@ -304,6 +306,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
@@ -350,6 +353,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
@@ -397,6 +401,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =
@@ -444,6 +449,7 @@ public class Operation extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(resourceTypeName);
             checkAndVerifyOperationAllowed(operationName);
 
             FHIROperationContext operationContext =

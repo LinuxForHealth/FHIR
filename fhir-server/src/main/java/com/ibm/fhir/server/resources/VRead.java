@@ -56,6 +56,8 @@ public class VRead extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
+
             MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());

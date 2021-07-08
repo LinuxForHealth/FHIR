@@ -53,6 +53,7 @@ public class History extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
             bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
