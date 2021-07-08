@@ -84,6 +84,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
+    @Deprecated
     List<Resource> search(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**

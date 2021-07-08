@@ -36,6 +36,7 @@ import com.ibm.fhir.search.parameters.InclusionParameter;
  * other resources as determined by
  * InclusionParameter objects.
  */
+@Deprecated
 public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = InclusionQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
@@ -55,13 +56,13 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
         final String METHODNAME = "buildIncludeQuery";
         log.entering(CLASSNAME, METHODNAME);
 
-        SqlQueryData queryData;        
-        
+        SqlQueryData queryData;
+
         // @formatter:off
         //
         // SELECT
         //   R.RESOURCE_ID, R.LOGICAL_RESOURCE_ID, R.VERSION_ID, R.LAST_UPDATED, R.IS_DELETED, R.DATA, R1.LOGICAL_ID
-        // FROM 
+        // FROM
         //   <resourceType>_RESOURCES R
         //
         // @formatter:on
@@ -71,23 +72,23 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
                         inclusionParm.getSearchParameterTargetType() :
                         inclusionParm.getJoinResourceType())
                 .append("_RESOURCES R");
-        
+
         if (SearchConstants.INCLUDE.equals(inclusionType)) {
             processIncludeJoins(queryString, inclusionParm, ids);
         } else {
             processRevIncludeJoins(queryString, inclusionParm, ids);
         }
-        
+
         // @formatter:off
         //
-        // ORDER BY 
+        // ORDER BY
         //   LOGICAL_RESOURCE_ID ASC OFFSET 0 ROWS FETCH NEXT 1001 ROWS ONLY
         //
         // @formatter:on
         queryString.append(DEFAULT_ORDERING);
         addPaginationClauses(queryString);
         addOptimizerHint(queryString);
-        
+
         queryData = new SqlQueryData(queryString.toString(), new ArrayList<>());
 
         log.exiting(CLASSNAME, METHODNAME, queryData);
@@ -99,30 +100,30 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
      *
      * <pre>
      * JOIN (
-     *   SELECT 
-     *     DISTINCT R.RESOURCE_ID, LR.LOGICAL_ID 
-     *   FROM 
-     *     <joinResourceType>_TOKEN_VALUES_V P1 
+     *   SELECT
+     *     DISTINCT R.RESOURCE_ID, LR.LOGICAL_ID
+     *   FROM
+     *     <joinResourceType>_TOKEN_VALUES_V P1
      *     JOIN <targetResourceType>_LOGICAL_RESOURCES LR
-     *       ON P1.TOKEN_VALUE = LR.LOGICAL_ID 
+     *       ON P1.TOKEN_VALUE = LR.LOGICAL_ID
      *     JOIN <targetResourceType>_RESOURCES R
-     *       ON LR.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID 
-     *      AND COALESCE(P1.REF_VERSION_ID, LR.VERSION_ID) = R.VERSION_ID 
-     *      AND R.IS_DELETED = 'N' 
-     *   WHERE 
-     *     P1.PARAMETER_NAME_ID = {n} 
-     *     AND P1.CODE_SYSTEM_ID = {n} 
+     *       ON LR.LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID
+     *      AND COALESCE(P1.REF_VERSION_ID, LR.VERSION_ID) = R.VERSION_ID
+     *      AND R.IS_DELETED = 'N'
+     *   WHERE
+     *     P1.PARAMETER_NAME_ID = {n}
+     *     AND P1.CODE_SYSTEM_ID = {n}
      *     AND P1.LOGICAL_RESOURCE_ID IN (<list-of-logical-resource_ids>)
-     * ) AS R1 ON R.RESOURCE_ID = R1.RESOURCE_ID AND R.IS_DELETED = 'N' 
+     * ) AS R1 ON R.RESOURCE_ID = R1.RESOURCE_ID AND R.IS_DELETED = 'N'
      * </pre>
-     * 
+     *
      * @param queryString
      *              The non-null StringBuilder
      * @param inclusionParm
      *              The inclusion parameter being processed
      * @param ids
      *              The list of logical resource IDs
-     * @throws FHIRPersistenceException 
+     * @throws FHIRPersistenceException
      */
     protected void processIncludeJoins(StringBuilder queryString, InclusionParameter inclusionParm, Set<String> ids)
             throws FHIRPersistenceException {
@@ -156,9 +157,9 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
      *
      * <pre>
      * JOIN (
-     *   SELECT 
-     *     DISTINCT LR.CURRENT_RESOURCE_ID, LR.LOGICAL_ID 
-     *   FROM 
+     *   SELECT
+     *     DISTINCT LR.CURRENT_RESOURCE_ID, LR.LOGICAL_ID
+     *   FROM
      *     (
      *       SELECT
      *         LOGICAL_ID, VERSION_ID
@@ -167,24 +168,24 @@ public class InclusionQuerySegmentAggregator extends QuerySegmentAggregator {
      *       WHERE
      *         LR.LOGICAL_RESOURCE_ID IN (<list-of-logical-resource_ids>)
      *     ) REFS
-     *     JOIN <joinResourceType>_TOKEN_VALUES_V P1 
+     *     JOIN <joinResourceType>_TOKEN_VALUES_V P1
      *       ON REFS.LOGICAL_ID = P1.TOKEN_VALUE
-     *      AND COALESCE(P1.REF_VERSION_ID, REFS.VERSION_ID) = REFS.VERSION_ID 
-     *      AND P1.PARAMETER_NAME_ID = {n} 
-     *      AND P1.CODE_SYSTEM_ID = {n} 
+     *      AND COALESCE(P1.REF_VERSION_ID, REFS.VERSION_ID) = REFS.VERSION_ID
+     *      AND P1.PARAMETER_NAME_ID = {n}
+     *      AND P1.CODE_SYSTEM_ID = {n}
      *     JOIN <targetResourceType>_LOGICAL_RESOURCES LR
-     *       ON P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID 
-     *      AND LR.IS_DELETED = 'N' 
-     * ) AS R1 ON R.RESOURCE_ID = R1.CURRENT_RESOURCE_ID 
+     *       ON P1.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+     *      AND LR.IS_DELETED = 'N'
+     * ) AS R1 ON R.RESOURCE_ID = R1.CURRENT_RESOURCE_ID
      * </pre>
-     * 
+     *
      * @param queryString
      *              The non-null StringBuilder
      * @param inclusionParm
      *              The inclusion parameter being processed
      * @param ids
      *              The list of logical resource IDs
-     * @throws FHIRPersistenceException 
+     * @throws FHIRPersistenceException
      */
     protected void processRevIncludeJoins(StringBuilder queryString, InclusionParameter inclusionParm, Set<String> ids)
             throws FHIRPersistenceException {

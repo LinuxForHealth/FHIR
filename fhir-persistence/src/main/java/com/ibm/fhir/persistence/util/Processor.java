@@ -70,6 +70,7 @@ import com.ibm.fhir.path.FHIRPathStringValue;
 import com.ibm.fhir.path.FHIRPathTimeValue;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceProcessorException;
 
+@Deprecated
 public interface Processor<T> {
     T process(SearchParameter parameter, Object value) throws FHIRPersistenceProcessorException;
 

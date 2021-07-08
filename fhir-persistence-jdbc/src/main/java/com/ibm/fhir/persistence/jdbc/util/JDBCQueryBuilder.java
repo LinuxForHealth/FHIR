@@ -129,6 +129,7 @@ import com.ibm.fhir.term.util.ValueSetSupport;
  * RESOURCE_ID           the PK of the version-specific resource. Now only used as the target for CURRENT_RESOURCE_ID
  * </pre>
  */
+@Deprecated
 public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
     private static final String CLASSNAME = JDBCQueryBuilder.class.getName();
@@ -176,6 +177,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * @return String - A count query SQL string
      * @throws Exception
      */
+    @Deprecated
     public SqlQueryData buildCountQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildCountQuery";
         log.entering(CLASSNAME, METHODNAME,
@@ -194,6 +196,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     }
 
     @Override
+    @Deprecated
     public SqlQueryData buildQuery(Class<?> resourceType, FHIRSearchContext searchContext) throws Exception {
         final String METHODNAME = "buildQuery";
         log.entering(CLASSNAME, METHODNAME,
@@ -223,6 +226,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      *         query segments.
      * @throws Exception
      */
+    @Deprecated
     private QuerySegmentAggregator buildQueryCommon(Class<?> resourceType, FHIRSearchContext searchContext)
             throws Exception {
         final String METHODNAME = "buildQueryCommon";
@@ -2013,6 +2017,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
      * @return SqlQueryData the populated inclusion query
      * @throws Exception
      */
+    @Deprecated
     public SqlQueryData buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
             InclusionParameter inclusionParm, Set<String> ids, String inclusionType) throws Exception {
         final String METHODNAME = "buildIncludeQuery";
@@ -2126,7 +2131,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     value.getValueString(), false);
             int canonicalId = identityCache.getCanonicalId(rpc.getCanonicalValue());
             whereClauseSegment.append(tableAlias).append(DOT).append("CANONICAL_ID").append(EQ).append(canonicalId);
-            
+
             // TODO double-check semantics of ABOVE and BELOW in this context
             if (rpc.getVersion() != null && !rpc.getVersion().isEmpty()) {
                 whereClauseSegment.append(AND).append(tableAlias).append(DOT).append("VERSION");
@@ -2145,7 +2150,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                 whereClauseSegment.append(AND).append(tableAlias).append(DOT).append("FRAGMENT").append(EQ).append(BIND_VAR);
                 bindVariables.add(rpc.getFragment());
             }
-            
+
             parmValueProcessed = true;
         }
         whereClauseSegment.append(RIGHT_PAREN);

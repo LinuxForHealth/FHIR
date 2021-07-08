@@ -41,7 +41,6 @@ import com.ibm.fhir.persistence.jdbc.connection.QueryHints;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceDAO;
 import com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil;
-import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.parameters.SortParameter;
 import com.ibm.fhir.search.sort.Sort;
 
@@ -50,6 +49,7 @@ import com.ibm.fhir.search.sort.Sort;
  * QuerySegmentAggregator to build a FHIR Resource query
  * that produces sorted search results.
  */
+@Deprecated
 public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);

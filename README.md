@@ -79,7 +79,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
-|fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends **No longer included in build**|false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|
@@ -136,4 +135,4 @@ The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text 
 available at [LICENSE](LICENSE).
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
-IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark). 
+IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark).

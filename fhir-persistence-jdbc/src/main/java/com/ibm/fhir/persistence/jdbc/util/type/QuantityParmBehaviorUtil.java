@@ -34,6 +34,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.
  */
+@Deprecated
 public class QuantityParmBehaviorUtil {
 
     public QuantityParmBehaviorUtil() {
@@ -43,7 +44,7 @@ public class QuantityParmBehaviorUtil {
     public void executeBehavior(StringBuilder whereClauseSegment, QueryParameter queryParm, List<Object> bindVariables,
             String tableAlias, ParameterDAO parameterDao)
             throws Exception {
-        // Start the Clause 
+        // Start the Clause
         // Query: AND ((
         whereClauseSegment.append(AND).append(LEFT_PAREN).append(LEFT_PAREN);
 
@@ -52,15 +53,15 @@ public class QuantityParmBehaviorUtil {
         Set<String> seen = new HashSet<>();
         for (QueryParameterValue value : queryParm.getValues()) {
 
-            // Let's get the prefix. 
+            // Let's get the prefix.
             Prefix prefix = value.getPrefix();
             if (prefix == null) {
                 // Default to EQ
                 prefix = Prefix.EQ;
             }
 
-            // seen is used to optimize against a repeated value passed in. 
-            // the hash must use the prefix and original values (reassembled). 
+            // seen is used to optimize against a repeated value passed in.
+            // the hash must use the prefix and original values (reassembled).
             String hash =
                     prefix.value() + value.getValueNumber() + '|' + value.getValueSystem() + '|' + value.getValueCode();
             if (!seen.contains(hash)) {
@@ -71,7 +72,7 @@ public class QuantityParmBehaviorUtil {
                     // ) OR (
                     whereClauseSegment.append(RIGHT_PAREN).append(OR).append(LEFT_PAREN);
                 } else {
-                    // Signal to the downstream to treat any subsequent value as an OR condition 
+                    // Signal to the downstream to treat any subsequent value as an OR condition
                     parmValueProcessed = true;
                 }
 
@@ -83,14 +84,14 @@ public class QuantityParmBehaviorUtil {
             }
         }
 
-        // End the Clause started above, and closes the parameter expression. 
+        // End the Clause started above, and closes the parameter expression.
         // Query: ))
         whereClauseSegment.append(RIGHT_PAREN).append(RIGHT_PAREN).append(RIGHT_PAREN);
     }
 
     /**
      * adds the system if present.
-     * 
+     *
      * @param parameterDao
      * @param whereClauseSegment
      * @param tableAlias
@@ -124,17 +125,17 @@ public class QuantityParmBehaviorUtil {
             if (systemId == null) {
                 systemId = parameterDao.readCodeSystemId(system);
                 if (systemId != null) {
-                    // If found, we want to cache it. 
+                    // If found, we want to cache it.
                     parameterDao.addCodeSystemsCacheCandidate(system, systemId);
                 } else {
-                    // This is an invalid number in the sequence. 
-                    // All of our sequences start with 1 and NO CYCLE. 
+                    // This is an invalid number in the sequence.
+                    // All of our sequences start with 1 and NO CYCLE.
                     systemId = -1;
                 }
             }
 
-            // We shouldn't be adding to the query if it's NULL at this point. 
-            // What should we do? 
+            // We shouldn't be adding to the query if it's NULL at this point.
+            // What should we do?
             whereClauseSegment.append(AND).append(tableAlias).append(DOT)
                     .append(CODE_SYSTEM_ID)
                     .append(EQ).append(BIND_VAR);
@@ -144,7 +145,7 @@ public class QuantityParmBehaviorUtil {
 
     /**
      * add code if present.
-     * 
+     *
      * @param whereClauseSegment
      * @param tableAlias
      * @param bindVariables
