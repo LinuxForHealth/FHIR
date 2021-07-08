@@ -73,7 +73,7 @@ public class FHIRValidator {
     }
 
     /**
-     * Indicates whether this is validator is fail-fast
+     * Indicates whether this validator is fail-fast
      *
      * <p>A fail-fast validator is one that terminates on the first issue it finds with a severity of ERROR.
      *
