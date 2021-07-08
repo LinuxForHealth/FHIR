@@ -60,6 +60,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceDeletedException;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
+import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 /**
@@ -121,7 +122,6 @@ public class ChunkWriter extends AbstractItemWriter {
 
             FHIRPersistenceHelper fhirPersistenceHelper = new FHIRPersistenceHelper();
             FHIRPersistence fhirPersistence = fhirPersistenceHelper.getFHIRPersistenceImplementation();
-            FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
 
             FHIRTransactionHelper txn = new FHIRTransactionHelper(fhirPersistence.getTransaction());
 
@@ -201,6 +201,7 @@ public class ChunkWriter extends AbstractItemWriter {
                             OperationOutcome operationOutcome;
                             if (id == null) {
                                 long startTime = System.currentTimeMillis();
+                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(null);
                                 operationOutcome =
                                         fhirPersistence.create(persistenceContext, fhirResource).getOutcome();
                                 if (auditLogger.shouldLog()) {
@@ -209,6 +210,14 @@ public class ChunkWriter extends AbstractItemWriter {
                                     auditLogger.logCreateOnImport(fhirResource, new Date(startTime), new Date(endTime), Response.Status.CREATED, location, "BulkDataOperator");
                                 }
                             } else {
+                                Map<String, Object> props = new HashMap<>();
+                                props.put(FHIRPersistenceEvent.PROPNAME_PERSISTENCE_IMPL, fhirPersistence);
+                                props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, fhirResource.getClass().getSimpleName());
+                                props.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_ID, fhirResource.getId());
+
+                                FHIRPersistenceEvent event = new FHIRPersistenceEvent(fhirResource, props);
+
+                                FHIRPersistenceContext persistenceContext = FHIRPersistenceContextFactory.createPersistenceContext(event);
                                 long startTime = System.currentTimeMillis();
                                 operationOutcome = conditionalFingerprintUpdate(chunkData, skip, localCache, fhirPersistence, persistenceContext, id, fhirResource);
                                 if (auditLogger.shouldLog()) {
