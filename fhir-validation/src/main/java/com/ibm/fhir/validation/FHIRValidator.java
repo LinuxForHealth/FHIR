@@ -14,6 +14,7 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
 import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.ISSUE_COMPARATOR;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.hasErrors;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -59,9 +60,29 @@ import net.jcip.annotations.NotThreadSafe;
 public class FHIRValidator {
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
-    private final ValidatingNodeVisitor visitor = new ValidatingNodeVisitor();
+    private final ValidatingNodeVisitor visitor;
+    private final boolean failFast;
 
-    private FHIRValidator() { }
+    private FHIRValidator() {
+        this(false);
+    }
+
+    private FHIRValidator(boolean failFast) {
+        visitor = new ValidatingNodeVisitor(failFast);
+        this.failFast = failFast;
+    }
+
+    /**
+     * Indicates whether this is validator is fail-fast
+     *
+     * <p>A fail-fast validator is one that terminates on the first issue it finds with a severity of ERROR.
+     *
+     * @return
+     *     true if this validator is fail-fast, false otherwise
+     */
+    public boolean isFailFast() {
+        return failFast;
+    }
 
     /**
      * Validate a {@link Resource} against constraints in the base specification and
@@ -180,8 +201,10 @@ public class FHIRValidator {
         try {
             evaluationContext.setResolveRelativeReferences(true);
             List<Issue> issues = new ArrayList<>();
-            validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
-            issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
+            validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues, failFast);
+            if (!failFast || !hasErrors(issues)) {
+                issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
+            }
             Collections.sort(issues, ISSUE_COMPARATOR);
             return Collections.unmodifiableList(issues);
         } catch (Exception e) {
@@ -191,6 +214,10 @@ public class FHIRValidator {
 
     public static FHIRValidator validator() {
         return new FHIRValidator();
+    }
+
+    public static FHIRValidator validator(boolean failFast) {
+        return new FHIRValidator(failFast);
     }
 
     /**
@@ -216,9 +243,13 @@ public class FHIRValidator {
             FHIRPathResourceNode resourceNode,
             List<String> profiles,
             boolean resourceAsserted,
-            List<Issue> issues) {
+            List<Issue> issues,
+            boolean failFast) {
         Class<?> resourceType = resourceNode.resource().getClass();
         for (String url : profiles) {
+            if (failFast && hasErrors(issues)) {
+                break;
+            }
             StructureDefinition profile = ProfileSupport.getProfile(url);
             if (profile == null) {
                 issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
@@ -245,14 +276,19 @@ public class FHIRValidator {
     }
 
     private static class ValidatingNodeVisitor extends FHIRPathDefaultNodeVisitor {
+        private final boolean failFast;
+
         private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         private EvaluationContext evaluationContext;
         private boolean includeResourceAssertedProfiles;
         private List<String> profiles;
         private List<Issue> issues = new ArrayList<>();
         private DiagnosticsEvaluationListener diagnosticsEvaluationListener = new DiagnosticsEvaluationListener();
+        private boolean aborted = false;
 
-        private ValidatingNodeVisitor() { }
+        private ValidatingNodeVisitor(boolean failFast) {
+            this.failFast = failFast;
+        }
 
         private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) {
             reset();
@@ -266,6 +302,17 @@ public class FHIRValidator {
         private void reset() {
             issues.clear();
             diagnosticsEvaluationListener.reset();
+            aborted = false;
+        }
+
+        @Override
+        protected void visitChildren(FHIRPathNode node) {
+            for (FHIRPathNode child : node.children()) {
+                if (aborted) {
+                    break;
+                }
+                child.accept(this);
+            }
         }
 
         @Override
@@ -315,7 +362,8 @@ public class FHIRValidator {
             validate(resourceType, resourceNode, ModelSupport.getConstraints(resourceType));
             if (includeResourceAssertedProfiles) {
                 List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resourceNode.resource());
-                validateProfileReferences(resourceNode, resourceAssertedProfiles, true, issues);
+                validateProfileReferences(resourceNode, resourceAssertedProfiles, true, issues, failFast);
+                aborted = failFast && hasErrors(issues);
                 validate(resourceType, resourceNode, ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
             }
             if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
@@ -328,6 +376,9 @@ public class FHIRValidator {
          */
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
+                if (aborted) {
+                    break;
+                }
                 if (constraint.modelChecked()) {
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Constraint: " + constraint.id() + " is model-checked");
@@ -364,15 +415,24 @@ public class FHIRValidator {
                 }
 
                 for (FHIRPathNode contextNode : initialContext) {
+                    if (aborted) {
+                        break;
+                    }
+
                     diagnosticsEvaluationListener.reset();
                     evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
                     evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
+
                     Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
+
                     issues.addAll(evaluationContext.getIssues());
                     evaluationContext.clearIssues();
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), diagnosticsEvaluationListener.getDiagnostics(), contextNode.path()));
+                        if (failFast && IssueSeverity.ERROR.equals(severity)) {
+                            aborted = true;
+                        }
                     }
 
                     if (log.isLoggable(Level.FINER)) {

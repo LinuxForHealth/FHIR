@@ -3209,7 +3209,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
         }
 
-        return FHIRValidator.validator().validate(resource);
+        return FHIRValidator.validator(FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_VALIDATION_FAIL_FAST, Boolean.FALSE)).validate(resource);
     }
 
     /**
