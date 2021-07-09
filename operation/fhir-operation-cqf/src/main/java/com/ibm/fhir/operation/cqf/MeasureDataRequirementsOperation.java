@@ -5,6 +5,7 @@
  */
 package com.ibm.fhir.operation.cqf;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.ibm.fhir.cql.helpers.LibraryHelper;
@@ -14,6 +15,8 @@ import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.RelatedArtifact;
+import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
@@ -47,7 +50,7 @@ public class MeasureDataRequirementsOperation extends AbstractDataRequirementsOp
         Library primaryLibrary = FHIRRegistry.getInstance().getResource(measure.getLibrary().get(0).getValue(), Library.class);
         List<Library> fhirLibraries = LibraryHelper.loadLibraries(primaryLibrary);
 
-        return doDataRequirements(fhirLibraries);
+        RelatedArtifact related = RelatedArtifact.builder().type(RelatedArtifactType.DEPENDS_ON).resource(measure.getLibrary().get(0)).build();
+        return doDataRequirements(fhirLibraries, () -> Arrays.asList(related) );
     }
-
 }

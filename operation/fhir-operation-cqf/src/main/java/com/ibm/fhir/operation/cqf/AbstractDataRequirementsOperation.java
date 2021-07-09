@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.cql.Constants;
@@ -32,6 +33,10 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
     public static final String PARAM_OUT_RETURN = "return";
 
     protected Parameters doDataRequirements(List<Library> fhirLibraries) {
+        return doDataRequirements(fhirLibraries, null);
+    }
+    
+    protected Parameters doDataRequirements(List<Library> fhirLibraries, Supplier<List<RelatedArtifact>> additionalRelated) {
         Library.Builder result = Library.builder()
                 .status(PublicationStatus.UNKNOWN)
                 .type( concept(Constants.LIBRARY_TYPE_MODEL_DEFINITION) );
@@ -39,6 +44,11 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
         Collection<RelatedArtifact> related = new ArrayList<>();
         Collection<ParameterDefinition> libParams = new ArrayList<>();
         Collection<DataRequirement> dataReqs = new ArrayList<>();
+        
+        if( additionalRelated != null ) {
+            related.addAll( additionalRelated.get() );
+        }
+        
         for( Library l : fhirLibraries ) { 
             related.addAll( l.getRelatedArtifact().stream().filter( r -> r.getType().equals(RelatedArtifactType.DEPENDS_ON) ).collect(Collectors.toList()) );
             libParams.addAll( l.getParameter() );

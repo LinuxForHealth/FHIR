@@ -10,6 +10,7 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhircode;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
@@ -71,6 +72,9 @@ public class MeasureDataRequirementsOperationTest extends BaseDataRequirementsOp
         
         Parameters outParams = runTest(FHIROperationContext.createInstanceOperationContext(), Measure.class, primaryLibrary -> measureId, primaryLibrary -> inParams);
         assertNotNull(outParams);
+        
+        Library moduleDefinition = (Library) outParams.getParameter().get(0).getResource();
+        assertEquals(moduleDefinition.getRelatedArtifact().stream().filter( ra -> ra.getResource().getValue().equals(measure.getLibrary().get(0).getValue()) ).count(), 1);
     }
     
     @Override

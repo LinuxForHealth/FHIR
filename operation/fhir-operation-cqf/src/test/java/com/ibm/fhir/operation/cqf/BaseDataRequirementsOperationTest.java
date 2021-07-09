@@ -14,6 +14,7 @@ import static com.ibm.fhir.cql.helpers.ModelHelper.fhiruri;
 import static com.ibm.fhir.cql.helpers.ModelHelper.relatedArtifact;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.eq;
@@ -71,7 +72,7 @@ public abstract class BaseDataRequirementsOperationTest {
             assertNotNull(module);
             
             assertEquals( module.getType().getCoding().get(0).getCode().getValue(), Constants.LIBRARY_TYPE_MODEL_DEFINITION, "type" );
-            assertEquals( module.getRelatedArtifact().size(), 4, "relatedArtifacts" );
+            assertTrue( module.getRelatedArtifact().size() >= 4, "relatedArtifacts" );
             assertEquals( module.getParameter().size(), 4, "parameters");
             assertEquals( module.getDataRequirement().size(), 2, "dataRequirements");
             
