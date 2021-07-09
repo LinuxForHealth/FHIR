@@ -55,6 +55,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * query segments together to produce a well-formed FHIR Resource query or
  * FHIR Resource count query.
  */
+@Deprecated
 public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
@@ -633,7 +634,7 @@ public class QuerySegmentAggregator {
                                             .append(valuesTableAlias)
                                             .append(".LOGICAL_RESOURCE_ID")
                                             .append(RIGHT_PAREN);
-                                } else {                                         
+                                } else {
                                     missingOrNotModifierWhereClause.append(paramTableAlias)
                                             .append(WHERE)
                                             .append(paramTableFilter)

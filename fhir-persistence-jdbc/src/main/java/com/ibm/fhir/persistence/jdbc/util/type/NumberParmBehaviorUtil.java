@@ -36,6 +36,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * treatment of the Search queries related to numbers, and the implied ranges
  * therein.
  */
+@Deprecated
 public class NumberParmBehaviorUtil {
     protected static final BigDecimal FACTOR = new BigDecimal(".1");
 

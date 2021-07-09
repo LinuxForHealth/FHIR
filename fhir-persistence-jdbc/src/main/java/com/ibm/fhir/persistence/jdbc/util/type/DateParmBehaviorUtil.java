@@ -35,6 +35,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.
  */
+@Deprecated
 public class DateParmBehaviorUtil {
 
     public DateParmBehaviorUtil() {

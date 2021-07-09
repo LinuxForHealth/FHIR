@@ -24,6 +24,7 @@ import com.ibm.fhir.search.parameters.QueryParameter;
  * This class defines a reusable method structure and common functionality for a
  * FHIR persistence query builder.
  */
+@Deprecated
 public abstract class AbstractQueryBuilder<T1> implements QueryBuilder<T1> {
 
     private static final Logger log = java.util.logging.Logger.getLogger(AbstractQueryBuilder.class.getName());

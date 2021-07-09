@@ -9,11 +9,12 @@ package com.ibm.fhir.persistence.jdbc.util;
 import java.util.List;
 
 /**
- * This class assists the JDBCQueryBuilder by encapsulating either a where clause segment or a complete SQL query along 
+ * This class assists the JDBCQueryBuilder by encapsulating either a where clause segment or a complete SQL query along
  * with any associated bind variables.
  */
+@Deprecated
 public class SqlQueryData {
-    
+
     private String queryString;
     private List<? extends Object> bindVariables;
 
@@ -21,7 +22,7 @@ public class SqlQueryData {
         super();
         this.queryString = query;
         this.bindVariables = vars;
-         
+
     }
 
     public String getQueryString() {

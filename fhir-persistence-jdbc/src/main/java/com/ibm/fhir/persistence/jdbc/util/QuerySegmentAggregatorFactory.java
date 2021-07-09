@@ -18,6 +18,7 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
 /**
  * Encapsulates the logic for creating QuerySegmentAggegator and subclass instances.
  */
+@Deprecated
 public class QuerySegmentAggregatorFactory {
     private static final String CLASSNAME = QuerySegmentAggregatorFactory.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
