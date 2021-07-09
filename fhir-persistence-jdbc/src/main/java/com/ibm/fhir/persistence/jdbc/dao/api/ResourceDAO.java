@@ -106,6 +106,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      *           in order to return a list of Reference values (e.g. {@code "Patient/<UUID>"})
      *           to use for filtering the list of resources to be included with the response.
      */
+    @Deprecated
     List<String> searchStringValues(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
 
@@ -129,6 +130,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
+    @Deprecated
     List<Long> searchForIds(SqlQueryData  queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**
@@ -159,6 +161,7 @@ public interface ResourceDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      * @throws FHIRPersistenceDBConnectException
      */
+    @Deprecated
     int searchCount(SqlQueryData queryData) throws FHIRPersistenceDataAccessException, FHIRPersistenceDBConnectException;
 
     /**

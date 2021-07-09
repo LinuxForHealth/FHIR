@@ -2054,7 +2054,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/serviceProperties/kafka`|object|A set of name value pairs used as part of the 'config' for publishing to the kafka service. These should only be Kafka properties.|
 |`fhirServer/audit/hostname`|string|A string used to identify the Hostname, useful in containerized environments|
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
-|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches, else use the legacy query builder. Note: As of IBM FHIR Server version 4.9.0, the legacy query builder will no longer maintain function equivalence with the optimized query builder and so this property is *deprecated*.|
+|`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches, else use the legacy query builder. Note: As of IBM FHIR Server version 4.9.0, the legacy query builder will no longer maintain functional equivalence with the optimized query builder and will be *deprecated*. As such, this property is also *deprecated*.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
 |`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
