@@ -18,6 +18,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final int MAX_RETRIEVE_COUNT = 1000;
     private static final int OFFER_TIMEOUT_IN_SEC = 30;
     private static final int POLL_TIMEOUT_IN_SEC = 5;
+    private static final int MAX_RESTARTS = 10;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
     private static final String REINDEX_URL = "$reindex";
 
@@ -162,14 +164,18 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
      */
     public void monitorLoop() {
         try {
-            while (this.running) {
+            int numRestarts = 0;
+            while (this.running && numRestarts < MAX_RESTARTS) {
                 if (!this.active) {
+
                     // See if we can make one successful request before filling the pool
                     // with hundreds of parallel requests
                     int currentThreadCount = this.currentlyRunning.get();
                     if (currentThreadCount == 0) {
                         // Before starting, ensure the last index IDs is reset so index IDs that were in progress are not skipped
                         resetProgress();
+                        // Add limit to number of times this will attempt to restart due to errors
+                        numRestarts++;
 
                         // Nothing currently running, so make one test call to verify things are working
                         doneRetrieving = doneRetrieving || (!callRetrieveIndex() && successRetrieving);
@@ -225,9 +231,9 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
             if (!doneRetrieving || !inProgressIndexIds.isEmpty()) {
                 String lastIndexIdProcessed = getLastIndexIdProcessed();
                 if (lastIndexIdProcessed != null) {
-                    logger.info("Reindexing was not fully completed, restart reindex from index ID '" + lastIndexIdProcessed + "' to resume");
+                    logger.severe("Reindexing was not fully completed, restart reindex from index ID '" + lastIndexIdProcessed + "' to resume");
                 } else {
-                    logger.info("No reindexing was completed");
+                    logger.severe("No reindexing was completed");
                 }
             } else {
                 logger.info("Reindexing was completed");
@@ -394,7 +400,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 }
             }
         } catch (Throwable t) {
-            logger.severe("Throwable caught. FHIR client thread will exit." + t.toString() );
+            logger.log(Level.SEVERE, "Throwable caught. FHIR client thread will exit.", t);
         } finally {
             this.active = false;
             int threadCount = currentlyRunning.decrementAndGet();

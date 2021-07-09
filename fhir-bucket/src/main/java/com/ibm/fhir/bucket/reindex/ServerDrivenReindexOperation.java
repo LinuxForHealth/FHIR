@@ -211,7 +211,7 @@ public class ServerDrivenReindexOperation extends DriveReindexOperation {
                 }
             }
         } catch (Throwable t) {
-            logger.severe("Throwable caught. FHIR client thread will exit." + t.toString() );
+            logger.log(Level.SEVERE, "Throwable caught. FHIR client thread will exit.", t);
         } finally {
             this.active = false;
             this.currentlyRunning.decrementAndGet();
