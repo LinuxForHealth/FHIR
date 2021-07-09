@@ -12,8 +12,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.owasp.encoder.Encode;
-
 import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.OperationDefinition;
@@ -205,7 +203,7 @@ public abstract class AbstractOperation implements FHIROperation {
                             .value(Code.of("resource"))
                             .build())
                         .build())
-                .details(CodeableConcept.builder().text(string(Encode.forHtml(msg))).build())
+                .details(CodeableConcept.builder().text(string(msg)).build())
                 .build();
         return new FHIROperationException(msg).withIssue(issue);
     }
