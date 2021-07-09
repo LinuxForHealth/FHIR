@@ -60,28 +60,32 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-1",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "Either a type must be provided, or parts",
-    expression = "type.exists() or part.exists()"
+    expression = "type.exists() or part.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-2",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "A search type can only be specified for parameters of type string",
-    expression = "searchType.exists() implies type = 'string'"
+    expression = "searchType.exists() implies type = 'string'",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-3",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "A targetProfile can only be specified for parameters of type Reference or Canonical",
-    expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')"
+    expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "operationDefinition-4",
@@ -89,6 +93,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -55,14 +55,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "TestReport.setup.action",
     description = "Setup action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestReport"
 )
 @Constraint(
     id = "inv-2",
     level = "Rule",
     location = "TestReport.test.action",
     description = "Test action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestReport"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestReport extends DomainResource {

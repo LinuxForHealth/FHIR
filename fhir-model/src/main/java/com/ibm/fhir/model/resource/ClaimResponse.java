@@ -66,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClaimResponse",
     generated = true
 )
 @Constraint(
@@ -74,6 +75,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "processNote.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClaimResponse",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

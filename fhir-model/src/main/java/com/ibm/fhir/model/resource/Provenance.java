@@ -61,6 +61,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "reason.exists() implies (reason.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Constraint(
@@ -69,6 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-activity-type",
     expression = "activity.exists() implies (activity.memberOf('http://hl7.org/fhir/ValueSet/provenance-activity-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Constraint(
@@ -77,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-agent-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/provenance-agent-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

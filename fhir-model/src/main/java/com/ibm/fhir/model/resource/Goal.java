@@ -61,7 +61,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Goal.target",
     description = "Goal.target.measure is required if Goal.target.detail is populated",
-    expression = "(detail.exists() and measure.exists()) or detail.exists().not()"
+    expression = "(detail.exists() and measure.exists()) or detail.exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal"
 )
 @Constraint(
     id = "goal-2",
@@ -69,6 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-achievement",
     expression = "achievementStatus.exists() implies (achievementStatus.memberOf('http://hl7.org/fhir/ValueSet/goal-achievement', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal",
     generated = true
 )
 @Constraint(
@@ -77,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
     expression = "priority.exists() implies (priority.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

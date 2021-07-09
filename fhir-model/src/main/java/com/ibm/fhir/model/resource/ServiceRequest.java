@@ -62,7 +62,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "orderDetail SHALL only be present if code is present",
-    expression = "orderDetail.empty() or code.exists()"
+    expression = "orderDetail.empty() or code.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ServiceRequest"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ServiceRequest extends DomainResource {

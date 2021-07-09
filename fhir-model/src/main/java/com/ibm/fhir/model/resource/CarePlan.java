@@ -63,7 +63,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "CarePlan.activity",
     description = "Provide a reference or detail, not both",
-    expression = "detail.empty() or reference.empty()"
+    expression = "detail.empty() or reference.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/CarePlan"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlan extends DomainResource {

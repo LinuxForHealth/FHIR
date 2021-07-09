@@ -65,21 +65,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Observation.referenceRange",
     description = "Must have at least a low or a high or text",
-    expression = "low.exists() or high.exists() or text.exists()"
+    expression = "low.exists() or high.exists() or text.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "obs-6",
     level = "Rule",
     location = "(base)",
     description = "dataAbsentReason SHALL only be present if Observation.value[x] is not present",
-    expression = "dataAbsentReason.empty() or value.empty()"
+    expression = "dataAbsentReason.empty() or value.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "obs-7",
     level = "Rule",
     location = "(base)",
     description = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
-    expression = "value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()"
+    expression = "value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "observation-8",
@@ -87,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/observation-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/observation-category', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -95,6 +99,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
     expression = "dataAbsentReason.exists() implies (dataAbsentReason.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -103,6 +108,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
     expression = "interpretation.exists() implies (interpretation.all(memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -111,6 +117,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "referenceRange.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -119,6 +126,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "component.dataAbsentReason",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -127,6 +135,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "component.interpretation",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

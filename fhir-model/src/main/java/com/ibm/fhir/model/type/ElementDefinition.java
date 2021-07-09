@@ -36,140 +36,160 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ElementDefinition.slicing",
     description = "If there are no discriminators, there must be a definition",
-    expression = "discriminator.exists() or description.exists()"
+    expression = "discriminator.exists() or description.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-2",
     level = "Rule",
     location = "(base)",
     description = "Min <= Max",
-    expression = "min.empty() or max.empty() or (max = '*') or iif(max != '*', min <= max.toInteger())"
+    expression = "min.empty() or max.empty() or (max = '*') or iif(max != '*', min <= max.toInteger())",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-3",
     level = "Rule",
     location = "ElementDefinition.max",
     description = "Max SHALL be a number or \"*\"",
-    expression = "empty() or ($this = '*') or (toInteger() >= 0)"
+    expression = "empty() or ($this = '*') or (toInteger() >= 0)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-4",
     level = "Rule",
     location = "ElementDefinition.type",
     description = "Aggregation may only be specified if one of the allowed types for the element is a reference",
-    expression = "aggregation.empty() or (code = 'Reference') or (code = 'canonical')"
+    expression = "aggregation.empty() or (code = 'Reference') or (code = 'canonical')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-5",
     level = "Rule",
     location = "(base)",
     description = "if the element definition has a contentReference, it cannot have type, defaultValue, fixed, pattern, example, minValue, maxValue, maxLength, or binding",
-    expression = "contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())"
+    expression = "contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-6",
     level = "Rule",
     location = "(base)",
     description = "Fixed value may only be specified if there is one type",
-    expression = "fixed.empty() or (type.count()  <= 1)"
+    expression = "fixed.empty() or (type.count()  <= 1)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-7",
     level = "Rule",
     location = "(base)",
     description = "Pattern may only be specified if there is one type",
-    expression = "pattern.empty() or (type.count() <= 1)"
+    expression = "pattern.empty() or (type.count() <= 1)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-8",
     level = "Rule",
     location = "(base)",
     description = "Pattern and fixed are mutually exclusive",
-    expression = "pattern.empty() or fixed.empty()"
+    expression = "pattern.empty() or fixed.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-11",
     level = "Rule",
     location = "(base)",
     description = "Binding can only be present for coded elements, string, and uri",
-    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()"
+    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-12",
     level = "Rule",
     location = "ElementDefinition.binding",
     description = "ValueSet SHALL start with http:// or https:// or urn:",
-    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))"
+    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-13",
     level = "Rule",
     location = "(base)",
     description = "Types must be unique by code",
-    expression = "type.select(code).isDistinct()"
+    expression = "type.select(code).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-14",
     level = "Rule",
     location = "(base)",
     description = "Constraints must be unique by key",
-    expression = "constraint.select(key).isDistinct()"
+    expression = "constraint.select(key).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-15",
     level = "Rule",
     location = "(base)",
     description = "default value and meaningWhenMissing are mutually exclusive",
-    expression = "defaultValue.empty() or meaningWhenMissing.empty()"
+    expression = "defaultValue.empty() or meaningWhenMissing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-16",
     level = "Rule",
     location = "(base)",
     description = "sliceName must be composed of proper tokens separated by \"/\"",
-    expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')"
+    expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-17",
     level = "Rule",
     location = "ElementDefinition.type",
     description = "targetProfile is only allowed if the type is Reference or canonical",
-    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()"
+    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-18",
     level = "Rule",
     location = "(base)",
     description = "Must have a modifier reason if isModifier = true",
-    expression = "(isModifier.exists() and isModifier) implies isModifierReason.exists()"
+    expression = "(isModifier.exists() and isModifier) implies isModifierReason.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-19",
     level = "Rule",
     location = "(base)",
     description = "Element names cannot include some special characters",
-    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')"
+    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-20",
     level = "Warning",
     location = "(base)",
     description = "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
-    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')"
+    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-21",
     level = "Warning",
     location = "ElementDefinition.constraint",
     description = "Constraints should have an expression or else validators will not be able to enforce them",
-    expression = "expression.exists()"
+    expression = "expression.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-22",
     level = "Rule",
     location = "(base)",
     description = "sliceIsConstraining can only appear if slicename is present",
-    expression = "sliceIsConstraining.exists() implies sliceName.exists()"
+    expression = "sliceIsConstraining.exists() implies sliceName.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "elementDefinition-23",
@@ -177,6 +197,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "type.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

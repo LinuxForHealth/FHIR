@@ -59,7 +59,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Can only have members if group is \"actual\"",
-    expression = "member.empty() or (actual = true)"
+    expression = "member.empty() or (actual = true)",
+    source = "http://hl7.org/fhir/StructureDefinition/Group"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Group extends DomainResource {

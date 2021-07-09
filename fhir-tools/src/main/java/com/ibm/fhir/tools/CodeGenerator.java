@@ -1610,6 +1610,7 @@ public class CodeGenerator {
             String severity = constraint.getString("severity");
             String human = constraint.getString("human");
             String expression = constraint.getString("expression");
+            String source = structureDefinition.getString("url");
 
             Map<String, String> valueMap = new LinkedHashMap<>();
             valueMap.put("id", quote(key));
@@ -1617,6 +1618,7 @@ public class CodeGenerator {
             valueMap.put("location", path.equals(name) ? quote("(base)") : quote(path.replace(".div", ".`div`").replace("[x]", "")));
             valueMap.put("description", quote(human.replace("\"", "\\\"")));
             valueMap.put("expression", quote(expression.replace("\"", "\\\"")));
+            valueMap.put("source", quote(source));
             if (MODEL_CHECKED_CONSTRAINTS.contains(key)) {
                 valueMap.put("modelChecked", "true");
             }
@@ -1661,6 +1663,7 @@ public class CodeGenerator {
                         : "SHOULD contain a code from value set ") + valueSet;
                 String strength = binding.getString("strength");
                 String expression = generateVocabularyConstraintExpression(elementDefinition, expressionElementName, valueSet, strength);
+                String source = structureDefinition.getString("url");
 
                 Map<String, String> valueMap = new LinkedHashMap<>();
                 valueMap.put("id", quote(lastId));
@@ -1668,6 +1671,7 @@ public class CodeGenerator {
                 valueMap.put("location", quote(location));
                 valueMap.put("description", quote(description));
                 valueMap.put("expression", quote(expression));
+                valueMap.put("source", quote(source));
                 valueMap.put("generated", "true");
                 cb.annotation("Constraint", valueMap);
             }

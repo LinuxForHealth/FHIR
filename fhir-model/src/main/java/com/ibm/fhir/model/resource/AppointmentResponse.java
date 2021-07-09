@@ -50,7 +50,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Either the participantType or actor must be specified",
-    expression = "participantType.exists() or actor.exists()"
+    expression = "participantType.exists() or actor.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/AppointmentResponse"
 )
 @Constraint(
     id = "appointmentResponse-2",
@@ -58,6 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "participantType.exists() implies (participantType.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AppointmentResponse",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

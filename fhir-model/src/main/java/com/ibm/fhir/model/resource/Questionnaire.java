@@ -70,98 +70,112 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-1",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Group items must have nested items, display items cannot have nested items",
-    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())"
+    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-2",
     level = "Rule",
     location = "(base)",
     description = "The link ids for groups and questions must be unique within the questionnaire",
-    expression = "descendants().linkId.isDistinct()"
+    expression = "descendants().linkId.isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-3",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Display items cannot have a \"code\" asserted",
-    expression = "type!='display' or code.empty()"
+    expression = "type!='display' or code.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-4",
     level = "Rule",
     location = "Questionnaire.item",
     description = "A question cannot have both answerOption and answerValueSet",
-    expression = "answerOption.empty() or answerValueSet.empty()"
+    expression = "answerOption.empty() or answerValueSet.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-5",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Only 'choice' and 'open-choice' items can have answerValueSet",
-    expression = "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())"
+    expression = "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-6",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Required and repeat aren't permitted for display items",
-    expression = "type!='display' or (required.empty() and repeats.empty())"
+    expression = "type!='display' or (required.empty() and repeats.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-7",
     level = "Rule",
     location = "Questionnaire.item.enableWhen",
     description = "If the operator is 'exists', the value must be a boolean",
-    expression = "operator = 'exists' implies (answer is Boolean)"
+    expression = "operator = 'exists' implies (answer is Boolean)",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-8",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Initial values can't be specified for groups or display items",
-    expression = "(type!='group' and type!='display') or initial.empty()"
+    expression = "(type!='group' and type!='display') or initial.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-9",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Read-only can't be specified for \"display\" items",
-    expression = "type!='display' or readOnly.empty()"
+    expression = "type!='display' or readOnly.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-10",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Maximum length can only be declared for simple question types",
-    expression = "(type in ('boolean' | 'decimal' | 'integer' | 'string' | 'text' | 'url' | 'open-choice')) or maxLength.empty()"
+    expression = "(type in ('boolean' | 'decimal' | 'integer' | 'string' | 'text' | 'url' | 'open-choice')) or maxLength.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-11",
     level = "Rule",
     location = "Questionnaire.item",
     description = "If one or more answerOption is present, initial[x] must be missing",
-    expression = "answerOption.empty() or initial.empty()"
+    expression = "answerOption.empty() or initial.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-12",
     level = "Rule",
     location = "Questionnaire.item",
     description = "If there are more than one enableWhen, enableBehavior must be specified",
-    expression = "enableWhen.count() > 2 implies enableBehavior.exists()"
+    expression = "enableWhen.count() > 2 implies enableBehavior.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-13",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Can only have multiple initial values for repeating items",
-    expression = "repeats=true or initial.count() <= 1"
+    expression = "repeats=true or initial.count() <= 1",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "questionnaire-14",
@@ -169,6 +183,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

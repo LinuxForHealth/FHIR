@@ -28,7 +28,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If a code for the unit is present, the system SHALL also be present",
-    expression = "code.empty() or system.exists()"
+    expression = "code.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Quantity"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Quantity extends Element {

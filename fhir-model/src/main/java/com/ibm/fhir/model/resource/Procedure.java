@@ -60,6 +60,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "focalDevice.action",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/device-action",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/device-action', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Procedure",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

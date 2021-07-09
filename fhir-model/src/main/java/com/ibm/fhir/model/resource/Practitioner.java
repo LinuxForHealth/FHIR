@@ -57,6 +57,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "communication.exists() implies (communication.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Practitioner",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

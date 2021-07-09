@@ -53,21 +53,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "A list can only have an emptyReason if it is empty",
-    expression = "emptyReason.empty() or entry.empty()"
+    expression = "emptyReason.empty() or entry.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "lst-2",
     level = "Rule",
     location = "(base)",
     description = "The deleted flag can only be used if the mode of the list is \"changes\"",
-    expression = "mode = 'changes' or entry.deleted.empty()"
+    expression = "mode = 'changes' or entry.deleted.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "lst-3",
     level = "Rule",
     location = "(base)",
     description = "An entry date can only be used if the mode of the list is \"working\"",
-    expression = "mode = 'working' or entry.date.empty()"
+    expression = "mode = 'working' or entry.date.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "list-4",
@@ -75,6 +78,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
     expression = "orderedBy.exists() implies (orderedBy.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/List",
     generated = true
 )
 @Constraint(
@@ -83,6 +87,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
     expression = "emptyReason.exists() implies (emptyReason.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/List",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -34,21 +34,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Either timing, or a data requirement, but not both",
-    expression = "data.empty() or timing.empty()"
+    expression = "data.empty() or timing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Constraint(
     id = "trd-2",
     level = "Rule",
     location = "(base)",
     description = "A condition only if there is a data requirement",
-    expression = "condition.exists() implies data.exists()"
+    expression = "condition.exists() implies data.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Constraint(
     id = "trd-3",
     level = "Rule",
     location = "(base)",
     description = "A named event requires a name, a periodic event requires timing, and a data event requires data",
-    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())"
+    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {

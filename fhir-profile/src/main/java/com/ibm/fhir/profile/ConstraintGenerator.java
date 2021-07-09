@@ -288,7 +288,7 @@ public class ConstraintGenerator {
     }
 
     private Constraint constraint(String id, String expr, String description) {
-        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, false, true);
+        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, profile.getUrl().getValue(), false, true);
     }
 
     private String constraints(ElementDefinition elementDefinition) {

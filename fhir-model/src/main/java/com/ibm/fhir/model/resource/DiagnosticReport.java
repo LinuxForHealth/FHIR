@@ -60,6 +60,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/report-codes",
     expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/report-codes', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

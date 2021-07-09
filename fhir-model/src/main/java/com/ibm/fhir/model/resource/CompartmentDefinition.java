@@ -53,7 +53,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CompartmentDefinition extends DomainResource {

@@ -54,7 +54,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ImmunizationRecommendation.recommendation",
     description = "One of vaccineCode or targetDisease SHALL be present",
-    expression = "vaccineCode.exists() or targetDisease.exists()"
+    expression = "vaccineCode.exists() or targetDisease.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationRecommendation extends DomainResource {

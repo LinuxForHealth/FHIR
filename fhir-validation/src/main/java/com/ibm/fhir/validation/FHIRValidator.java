@@ -58,6 +58,8 @@ import net.jcip.annotations.NotThreadSafe;
  */
 @NotThreadSafe
 public class FHIRValidator {
+    public static final String SOURCE_VALIDATOR = "http://ibm.com/fhir/validation/FHIRValidator";
+
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
     private final ValidatingNodeVisitor visitor;
@@ -336,7 +338,7 @@ public class FHIRValidator {
                 if (isAbsolute(url)) {
                     if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
                         constraints = new ArrayList<>(constraints);
-                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", false, true));
+                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
                     }

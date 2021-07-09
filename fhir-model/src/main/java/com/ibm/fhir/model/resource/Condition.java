@@ -57,35 +57,40 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Condition.stage",
     description = "Stage SHALL have summary or assessment",
-    expression = "summary.exists() or assessment.exists()"
+    expression = "summary.exists() or assessment.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-2",
     level = "Rule",
     location = "Condition.evidence",
     description = "evidence SHALL have code or details",
-    expression = "code.exists() or detail.exists()"
+    expression = "code.exists() or detail.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-3",
     level = "Warning",
     location = "(base)",
     description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()"
+    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-4",
     level = "Rule",
     location = "(base)",
     description = "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
-    expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()"
+    expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-5",
     level = "Rule",
     location = "(base)",
     description = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
-    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
+    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "condition-6",
@@ -93,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/condition-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/condition-category', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition",
     generated = true
 )
 @Constraint(
@@ -101,6 +107,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/condition-severity",
     expression = "severity.exists() implies (severity.memberOf('http://hl7.org/fhir/ValueSet/condition-severity', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

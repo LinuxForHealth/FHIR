@@ -27,6 +27,7 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
     location = "(base)",
     description = "All FHIR elements must have a @value or children",
     expression = "hasValue() or (children().count() > id.count())",
+    source = "http://hl7.org/fhir/StructureDefinition/Element",
     modelChecked = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

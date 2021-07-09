@@ -65,14 +65,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem"
 )
 @Constraint(
     id = "csd-1",
     level = "Rule",
     location = "(base)",
     description = "Within a code system definition, all the codes SHALL be unique",
-    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()"
+    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem"
 )
 @Constraint(
     id = "codeSystem-2",
@@ -80,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Constraint(
@@ -88,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "concept.designation.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Constraint(
@@ -96,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "concept.designation.use",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

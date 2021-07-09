@@ -59,6 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/coverage-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/coverage-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -67,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subscriber-relationship",
     expression = "relationship.exists() implies (relationship.memberOf('http://hl7.org/fhir/ValueSet/subscriber-relationship', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -75,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "class.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-class",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-class', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -83,6 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "costToBeneficiary.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-copay-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-copay-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

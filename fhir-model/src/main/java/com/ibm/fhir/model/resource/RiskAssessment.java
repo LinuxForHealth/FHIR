@@ -57,14 +57,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "RiskAssessment.prediction.probability",
     description = "low and high must be percentages, if present",
-    expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))"
+    expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))",
+    source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Constraint(
     id = "ras-2",
     level = "Rule",
     location = "RiskAssessment.prediction",
     description = "Must be <= 100",
-    expression = "probability is decimal implies (probability as decimal) <= 100"
+    expression = "probability is decimal implies (probability as decimal) <= 100",
+    source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RiskAssessment extends DomainResource {

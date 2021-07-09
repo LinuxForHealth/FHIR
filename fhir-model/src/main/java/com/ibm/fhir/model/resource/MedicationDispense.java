@@ -58,7 +58,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "whenHandedOver cannot be before whenPrepared",
-    expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared"
+    expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationDispense"
 )
 @Constraint(
     id = "medicationDispense-2",
@@ -66,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medicationdispense-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medicationdispense-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

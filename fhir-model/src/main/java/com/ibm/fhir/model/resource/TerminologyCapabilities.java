@@ -57,42 +57,48 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-1",
     level = "Rule",
     location = "TerminologyCapabilities.codeSystem",
     description = "If there is more than one version, a version code must be defined",
-    expression = "version.count() > 1 implies version.all(code.exists())"
+    expression = "version.count() > 1 implies version.all(code.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-2",
     level = "Rule",
     location = "(base)",
     description = "A Capability Statement SHALL have at least one of description, software, or implementation element.",
-    expression = "(description.count() + software.count() + implementation.count()) > 0"
+    expression = "(description.count() + software.count() + implementation.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-3",
     level = "Rule",
     location = "(base)",
     description = "If kind = instance, implementation must be present and software may be present",
-    expression = "(kind != 'instance') or implementation.exists()"
+    expression = "(kind != 'instance') or implementation.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-4",
     level = "Rule",
     location = "(base)",
     description = "If kind = capability, implementation must be absent, software must be present",
-    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())"
+    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-5",
     level = "Rule",
     location = "(base)",
     description = "If kind = requirements, implementation and software must be absent",
-    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
+    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "terminologyCapabilities-6",
@@ -100,6 +106,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
