@@ -62,7 +62,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis"
 )
 @Constraint(
     id = "effectEvidenceSynthesis-1",
@@ -70,6 +71,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -78,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/synthesis-type",
     expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -86,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/study-type",
     expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -94,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "resultsByExposure.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -102,6 +107,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/effect-estimate-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/effect-estimate-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -110,6 +116,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -118,6 +125,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.precisionEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/precision-estimate-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -126,6 +134,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-quality",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -134,6 +143,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.certaintySubcomponent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -142,6 +152,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.certaintySubcomponent.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

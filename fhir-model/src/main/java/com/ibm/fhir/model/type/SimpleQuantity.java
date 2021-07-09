@@ -25,6 +25,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "Quantity",
     description = "The comparator is not used on a SimpleQuantity",
     expression = "comparator.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/SimpleQuantity",
     modelChecked = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -62,7 +62,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "QuestionnaireResponse.item",
     description = "Nested item can't be beneath both item and answer",
-    expression = "(answer.exists() and item.exists()).not()"
+    expression = "(answer.exists() and item.exists()).not()",
+    source = "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class QuestionnaireResponse extends DomainResource {

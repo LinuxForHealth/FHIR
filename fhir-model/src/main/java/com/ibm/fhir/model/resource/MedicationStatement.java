@@ -69,6 +69,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medication-statement-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medication-statement-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

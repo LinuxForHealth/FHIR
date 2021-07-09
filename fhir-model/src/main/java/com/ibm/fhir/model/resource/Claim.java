@@ -66,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Claim",
     generated = true
 )
 @Constraint(
@@ -74,6 +75,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "accident.type",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActIncidentCode",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActIncidentCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Claim",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

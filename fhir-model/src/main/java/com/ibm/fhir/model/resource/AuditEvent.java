@@ -59,7 +59,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "AuditEvent.entity",
     description = "Either a name or a query (NOT both)",
-    expression = "name.empty() or query.empty()"
+    expression = "name.empty() or query.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent"
 )
 @Constraint(
     id = "auditEvent-2",
@@ -67,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/audit-event-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -75,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-sub-type",
     expression = "subtype.exists() implies (subtype.all(memberOf('http://hl7.org/fhir/ValueSet/audit-event-sub-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -83,6 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "purposeOfEvent.exists() implies (purposeOfEvent.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -91,6 +95,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/participation-role-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/participation-role-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -99,6 +104,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.media",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/dicm-405-mediatype",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/dicm-405-mediatype', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -107,6 +113,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.purposeOfUse",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -115,6 +122,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "source.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-source-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-source-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -123,6 +131,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-entity-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-entity-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -131,6 +140,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.role",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-role', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -139,6 +149,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.lifecycle",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-lifecycle-events",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-lifecycle-events', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -147,6 +158,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.securityLabel",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

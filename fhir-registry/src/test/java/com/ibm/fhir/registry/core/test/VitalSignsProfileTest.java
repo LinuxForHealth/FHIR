@@ -251,10 +251,11 @@ public class VitalSignsProfileTest {
         String location = path.contains(".") ? path.replace("[x]", "") : "(base)";
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
-        return createConstraint(id, level, location, description, expression, false, false);
+        String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : "";
+        return createConstraint(id, level, location, description, expression, source, false, false);
     }
 
-    private static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked, boolean generated) {
+    private static Constraint createConstraint(String id, String level, String location, String description, String expression, String source, boolean modelChecked, boolean generated) {
         return new Constraint() {
             @Override
             public Class<? extends Annotation> annotationType() {
@@ -284,6 +285,11 @@ public class VitalSignsProfileTest {
             @Override
             public String expression() {
                 return expression;
+            }
+
+            @Override
+            public String source() {
+                return source;
             }
 
             @Override

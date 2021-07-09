@@ -34,6 +34,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/signature-type",
     expression = "type.exists() and type.all(memberOf('http://hl7.org/fhir/ValueSet/signature-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Signature",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

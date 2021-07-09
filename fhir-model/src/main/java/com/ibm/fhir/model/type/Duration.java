@@ -25,7 +25,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.",
-    expression = "code.exists() implies ((system = %ucum) and value.exists())"
+    expression = "code.exists() implies ((system = %ucum) and value.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Duration"
 )
 @Constraint(
     id = "duration-2",
@@ -33,6 +34,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/duration-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/duration-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Duration",
     generated = true
 )
 @Binding(

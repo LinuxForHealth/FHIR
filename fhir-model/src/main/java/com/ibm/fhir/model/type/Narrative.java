@@ -27,14 +27,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Narrative.`div`",
     description = "The narrative SHALL contain only the basic html formatting elements and attributes described in chapters 7-11 (except section 4 of chapter 9) and 15 of the HTML 4.0 standard, <a> elements (either name or href), images and internally contained style attributes",
-    expression = "htmlChecks()"
+    expression = "htmlChecks()",
+    source = "http://hl7.org/fhir/StructureDefinition/Narrative"
 )
 @Constraint(
     id = "txt-2",
     level = "Rule",
     location = "Narrative.`div`",
     description = "The narrative SHALL have some non-whitespace content",
-    expression = "htmlChecks()"
+    expression = "htmlChecks()",
+    source = "http://hl7.org/fhir/StructureDefinition/Narrative"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Narrative extends Element {

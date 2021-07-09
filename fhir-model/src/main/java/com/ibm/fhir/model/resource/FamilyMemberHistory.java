@@ -60,14 +60,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Can have age[x] or born[x], but not both",
-    expression = "age.empty() or born.empty()"
+    expression = "age.empty() or born.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory"
 )
 @Constraint(
     id = "fhs-2",
     level = "Rule",
     location = "(base)",
     description = "Can only have estimatedAge if age[x] is present",
-    expression = "age.exists() or estimatedAge.empty()"
+    expression = "age.exists() or estimatedAge.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory"
 )
 @Constraint(
     id = "familyMemberHistory-3",
@@ -75,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/administrative-gender",
     expression = "sex.exists() implies (sex.memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

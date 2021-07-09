@@ -66,21 +66,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "ig-1",
     level = "Rule",
     location = "ImplementationGuide.definition",
     description = "If a resource has a groupingId, it must refer to a grouping defined in the Implementation Guide",
-    expression = "resource.groupingId.all(%context.grouping.id contains $this)"
+    expression = "resource.groupingId.all(%context.grouping.id contains $this)",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "ig-2",
     level = "Rule",
     location = "(base)",
     description = "If a resource has a fhirVersion, it must be oe of the versions defined for the Implementation Guide",
-    expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)"
+    expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "implementationGuide-3",
@@ -88,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

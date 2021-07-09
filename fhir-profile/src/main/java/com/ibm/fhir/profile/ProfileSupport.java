@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.resource.StructureDefinition.Differential;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
@@ -70,6 +71,7 @@ public final class ProfileSupport {
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         Objects.requireNonNull(profile.getSnapshot(), "StructureDefinition.snapshot element is required");
         List<Constraint> constraints = new ArrayList<>();
+        Set<String> diffKeys = getConstraintKeys(profile.getDifferential());
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
             if (elementDefinition.getConstraint().isEmpty() || isSlice(elementDefinition)) {
                 continue;
@@ -80,7 +82,7 @@ public final class ProfileSupport {
             }
             String path = elementDefinition.getPath().getValue();
             for (ElementDefinition.Constraint constraint : getConstraintDifferential(elementDefinition)) {
-                constraints.add(createConstraint(path, constraint));
+                constraints.add(createConstraint(path, constraint, diffKeys, profile.getUrl().getValue()));
             }
         }
         Collections.sort(constraints, CONSTRAINT_COMPARATOR);
@@ -165,30 +167,21 @@ public final class ProfileSupport {
         return Collections.emptyMap();
     }
 
-    private static Constraint createConstraint(String path, ElementDefinition.Constraint constraint) {
+    private static Constraint createConstraint(String path, ElementDefinition.Constraint constraint, Set<String> diffKeys, String url) {
         String id = constraint.getKey().getValue();
         String level = "error".equals(constraint.getSeverity().getValue()) ? Constraint.LEVEL_RULE : Constraint.LEVEL_WARNING;
         String location = path.contains(".") ? path.replace(".div", ".`div`").replace("[x]", "") : Constraint.LOCATION_BASE;
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
-        return createConstraint(id, level, location, description, expression, false, false);
+        String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : (diffKeys.contains(constraint.getKey().getValue()) ? url : Constraint.SOURCE_UNKNOWN);
+        return createConstraint(id, level, location, description, expression, source, false, false);
     }
 
-    public static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked, boolean generated) {
+    public static Constraint createConstraint(String id, String level, String location, String description, String expression, String source, boolean modelChecked, boolean generated) {
         return new Constraint() {
             @Override
             public Class<? extends Annotation> annotationType() {
                 return Constraint.class;
-            }
-
-            @Override
-            public String description() {
-                return description;
-            }
-
-            @Override
-            public String expression() {
-                return expression;
             }
 
             @Override
@@ -204,6 +197,21 @@ public final class ProfileSupport {
             @Override
             public String location() {
                 return location;
+            }
+
+            @Override
+            public String description() {
+                return description;
+            }
+
+            @Override
+            public String expression() {
+                return expression;
+            }
+
+            @Override
+            public String source() {
+                return source;
             }
 
             @Override
@@ -225,6 +233,7 @@ public final class ProfileSupport {
                     .append("location=").append(location).append(", ")
                     .append("description=").append(description).append(", ")
                     .append("expression=").append(expression).append(", ")
+                    .append("source=").append(source).append(", ")
                     .append("modelChecked=").append(modelChecked).append(", ")
                     .append("generated=").append(generated)
                     .append("]")
@@ -341,6 +350,19 @@ public final class ProfileSupport {
             keys.addAll(getConstraintKeys(elementDefinition));
         }
         return keys;
+    }
+
+    public static Set<String> getConstraintKeys(Differential differential) {
+        if (differential == null) {
+            return Collections.emptySet();
+        }
+        Set<String> constraintKeys = new HashSet<>();
+        for (ElementDefinition elementDefinition : differential.getElement()) {
+            for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+                constraintKeys.add(constraint.getKey().getValue());
+            }
+        }
+        return constraintKeys;
     }
 
     public static Set<String> getConstraintKeys(ElementDefinition elementDefinition) {

@@ -53,6 +53,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "diagnosis.role",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/EpisodeOfCare",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -56,14 +56,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Measure Reports used for data collection SHALL NOT communicate group and score information",
-    expression = "(type != 'data-collection') or group.exists().not()"
+    expression = "(type != 'data-collection') or group.exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/MeasureReport"
 )
 @Constraint(
     id = "mrp-2",
     level = "Rule",
     location = "(base)",
     description = "Stratifiers SHALL be either a single criteria or a set of criteria components",
-    expression = "group.stratifier.stratum.all(value.exists() xor component.exists())"
+    expression = "group.stratifier.stratum.all(value.exists() xor component.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/MeasureReport"
 )
 @Constraint(
     id = "measureReport-3",
@@ -71,6 +73,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "group.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/MeasureReport",
     generated = true
 )
 @Constraint(
@@ -79,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "group.stratifier.stratum.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/MeasureReport",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

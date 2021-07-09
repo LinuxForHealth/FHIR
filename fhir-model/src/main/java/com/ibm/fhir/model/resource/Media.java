@@ -60,6 +60,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/media-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/media-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Media",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

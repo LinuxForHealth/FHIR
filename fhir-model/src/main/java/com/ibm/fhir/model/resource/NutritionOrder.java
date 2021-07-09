@@ -59,7 +59,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
-    expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()"
+    expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/NutritionOrder"
 )
 @Constraint(
     id = "nutritionOrder-2",
@@ -67,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "enteralFormula.routeofAdministration",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/enteral-route",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/enteral-route', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/NutritionOrder",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

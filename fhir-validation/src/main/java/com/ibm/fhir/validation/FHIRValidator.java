@@ -336,7 +336,7 @@ public class FHIRValidator {
                 if (isAbsolute(url)) {
                     if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
                         constraints = new ArrayList<>(constraints);
-                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", false, true));
+                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", "", false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
                     }

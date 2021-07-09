@@ -56,6 +56,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
     expression = "class.exists() and class.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -64,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "classHistory.class",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -72,6 +74,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "participant.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -80,6 +83,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-reason",
     expression = "reasonCode.exists() implies (reasonCode.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-reason', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -88,6 +92,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "diagnosis.use",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -96,6 +101,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.admitSource",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-admit-source",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-admit-source', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -104,6 +110,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.specialCourtesy",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-courtesy",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-courtesy', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -112,6 +119,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.specialArrangement",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-arrangements",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-arrangements', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

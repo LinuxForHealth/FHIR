@@ -60,7 +60,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "CoverageEligibilityResponse.insurance.item",
     description = "SHALL contain a category or a billcode but not both.",
-    expression = "category.exists() xor productOrService.exists()"
+    expression = "category.exists() xor productOrService.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/CoverageEligibilityResponse"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityResponse extends DomainResource {

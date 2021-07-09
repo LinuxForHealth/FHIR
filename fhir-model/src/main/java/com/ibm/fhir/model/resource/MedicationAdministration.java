@@ -59,7 +59,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "MedicationAdministration.dosage",
     description = "SHALL have at least one of dosage.dose or dosage.rate[x]",
-    expression = "dose.exists() or rate.exists()"
+    expression = "dose.exists() or rate.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationAdministration"
 )
 @Constraint(
     id = "medicationAdministration-2",
@@ -67,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medication-admin-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medication-admin-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationAdministration",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

@@ -35,14 +35,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "DataRequirement.codeFilter",
     description = "Either a path or a searchParam must be provided, but not both",
-    expression = "path.exists() xor searchParam.exists()"
+    expression = "path.exists() xor searchParam.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement"
 )
 @Constraint(
     id = "drq-2",
     level = "Rule",
     location = "DataRequirement.dateFilter",
     description = "Either a path or a searchParam must be provided, but not both",
-    expression = "path.exists() xor searchParam.exists()"
+    expression = "path.exists() xor searchParam.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement"
 )
 @Constraint(
     id = "dataRequirement-3",
@@ -50,6 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

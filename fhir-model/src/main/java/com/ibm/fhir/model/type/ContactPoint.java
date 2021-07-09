@@ -29,7 +29,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "A system is required if a value is provided.",
-    expression = "value.empty() or system.exists()"
+    expression = "value.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ContactPoint"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ContactPoint extends Element {

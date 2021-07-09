@@ -56,21 +56,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "nsd-1",
     level = "Rule",
     location = "(base)",
     description = "Root systems cannot have uuid identifiers",
-    expression = "kind != 'root' or uniqueId.all(type != 'uuid')"
+    expression = "kind != 'root' or uniqueId.all(type != 'uuid')",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "nsd-2",
     level = "Rule",
     location = "(base)",
     description = "Can't have more than one preferred identifier for a type",
-    expression = "uniqueId.where(preferred = true).select(type).isDistinct()"
+    expression = "uniqueId.where(preferred = true).select(type).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "namingSystem-3",
@@ -78,6 +81,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/identifier-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/identifier-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem",
     generated = true
 )
 @Constraint(
@@ -86,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

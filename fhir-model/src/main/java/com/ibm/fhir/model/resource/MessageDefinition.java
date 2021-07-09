@@ -62,14 +62,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition"
 )
 @Constraint(
     id = "md-1",
     level = "Rule",
     location = "MessageDefinition.focus",
     description = "Max must be postive int or *",
-    expression = "max='*' or (max.toInteger() > 0)"
+    expression = "max='*' or (max.toInteger() > 0)",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition"
 )
 @Constraint(
     id = "messageDefinition-2",
@@ -77,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

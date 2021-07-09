@@ -64,98 +64,112 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-1",
     level = "Rule",
     location = "TestScript.setup.action",
     description = "Setup action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-2",
     level = "Rule",
     location = "TestScript.test.action",
     description = "Test action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-3",
     level = "Rule",
     location = "TestScript.variable",
     description = "Variable can only contain one of expression, headerField or path.",
-    expression = "expression.empty() or headerField.empty() or path.empty()"
+    expression = "expression.empty() or headerField.empty() or path.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-4",
     level = "Rule",
     location = "TestScript.metadata",
     description = "TestScript metadata capability SHALL contain required or validated or both.",
-    expression = "capability.required.exists() or capability.validated.exists()"
+    expression = "capability.required.exists() or capability.validated.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-5",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Only a single assertion SHALL be present within setup action assert element.",
-    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count()  + validateProfileId.count() <=1)"
+    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count()  + validateProfileId.count() <=1)",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-6",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Only a single assertion SHALL be present within test action assert element.",
-    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count() + validateProfileId.count() <=1)"
+    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count() + validateProfileId.count() <=1)",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-7",
     level = "Rule",
     location = "TestScript.setup.action.operation",
     description = "Setup operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' |'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' |'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-8",
     level = "Rule",
     location = "TestScript.test.action.operation",
     description = "Test operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-9",
     level = "Rule",
     location = "TestScript.teardown.action.operation",
     description = "Teardown operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-10",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Setup action assert SHALL contain either compareToSourceId and compareToSourceExpression, compareToSourceId and compareToSourcePath or neither.",
-    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())"
+    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-11",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Test action assert SHALL contain either compareToSourceId and compareToSourceExpression, compareToSourceId and compareToSourcePath or neither.",
-    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())"
+    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-12",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Setup action assert response and responseCode SHALL be empty when direction equals request",
-    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'"
+    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-13",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Test action assert response and response and responseCode SHALL be empty when direction equals request",
-    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'"
+    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "testScript-14",
@@ -163,6 +177,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -171,6 +186,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "origin.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-origin-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-origin-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -179,6 +195,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "destination.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-destination-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-destination-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -187,6 +204,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "setup.action.operation.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-operation-codes",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-operation-codes', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

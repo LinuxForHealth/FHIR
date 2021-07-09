@@ -61,14 +61,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error.",
-    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').exists() or clinicalStatus.exists()"
+    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').exists() or clinicalStatus.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
 )
 @Constraint(
     id = "ait-2",
     level = "Rule",
     location = "(base)",
     description = "AllergyIntolerance.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
-    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').empty() or clinicalStatus.empty()"
+    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').empty() or clinicalStatus.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AllergyIntolerance extends DomainResource {

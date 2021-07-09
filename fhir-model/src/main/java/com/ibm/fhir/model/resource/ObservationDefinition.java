@@ -58,6 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "quantitativeDetails.customaryUnit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Constraint(
@@ -66,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "quantitativeDetails.unit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Constraint(
@@ -74,6 +76,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "qualifiedInterval.context",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

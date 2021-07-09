@@ -54,6 +54,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-need",
     expression = "need.exists() implies (need.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-need', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -62,6 +63,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-type",
     expression = "validationType.exists() implies (validationType.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -70,6 +72,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-failure-action",
     expression = "failureAction.exists() implies (failureAction.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-failure-action', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -78,6 +81,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.validationStatus",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-status",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -86,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.canPushUpdates",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -94,6 +99,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.pushTypeAvailable",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-push-type-available",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-push-type-available', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

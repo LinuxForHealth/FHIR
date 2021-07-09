@@ -55,6 +55,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/endpoint-connection-type",
     expression = "connectionType.exists() and connectionType.memberOf('http://hl7.org/fhir/ValueSet/endpoint-connection-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Endpoint",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

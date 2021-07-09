@@ -36,63 +36,72 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Timing.repeat",
     description = "if there's a duration, there needs to be duration units",
-    expression = "duration.empty() or durationUnit.exists()"
+    expression = "duration.empty() or durationUnit.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-2",
     level = "Rule",
     location = "Timing.repeat",
     description = "if there's a period, there needs to be period units",
-    expression = "period.empty() or periodUnit.exists()"
+    expression = "period.empty() or periodUnit.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-4",
     level = "Rule",
     location = "Timing.repeat",
     description = "duration SHALL be a non-negative value",
-    expression = "duration.exists() implies duration >= 0"
+    expression = "duration.exists() implies duration >= 0",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-5",
     level = "Rule",
     location = "Timing.repeat",
     description = "period SHALL be a non-negative value",
-    expression = "period.exists() implies period >= 0"
+    expression = "period.exists() implies period >= 0",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-6",
     level = "Rule",
     location = "Timing.repeat",
     description = "If there's a periodMax, there must be a period",
-    expression = "periodMax.empty() or period.exists()"
+    expression = "periodMax.empty() or period.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-7",
     level = "Rule",
     location = "Timing.repeat",
     description = "If there's a durationMax, there must be a duration",
-    expression = "durationMax.empty() or duration.exists()"
+    expression = "durationMax.empty() or duration.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-8",
     level = "Rule",
     location = "Timing.repeat",
     description = "If there's a countMax, there must be a count",
-    expression = "countMax.empty() or count.exists()"
+    expression = "countMax.empty() or count.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-9",
     level = "Rule",
     location = "Timing.repeat",
     description = "If there's an offset, there must be a when (and not C, CM, CD, CV)",
-    expression = "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))"
+    expression = "offset.empty() or (when.exists() and ((when in ('C' | 'CM' | 'CD' | 'CV')).not()))",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "tim-10",
     level = "Rule",
     location = "Timing.repeat",
     description = "If there's a timeOfDay, there cannot be a when, or vice versa",
-    expression = "timeOfDay.empty() or when.empty()"
+    expression = "timeOfDay.empty() or when.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing"
 )
 @Constraint(
     id = "timing-11",
@@ -100,6 +109,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/timing-abbreviation",
     expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/timing-abbreviation', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Timing",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

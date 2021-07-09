@@ -58,6 +58,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype",
     expression = "relationship.exists() implies (relationship.all(memberOf('http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
     generated = true
 )
 @Constraint(
@@ -66,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "communication.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")

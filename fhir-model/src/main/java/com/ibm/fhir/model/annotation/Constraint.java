@@ -19,11 +19,13 @@ public @interface Constraint {
     static final String LEVEL_RULE = "Rule";
     static final String LEVEL_WARNING = "Warning";
     static final String LOCATION_BASE = "(base)";
+    static final String SOURCE_UNKNOWN = "(unknown)";
     String id();
     String level();
     String location();
     String description();
     String expression();
+    String source();
     boolean modelChecked() default false;
     boolean generated() default false;
 }

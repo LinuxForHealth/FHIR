@@ -73,7 +73,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "RequestGroup.action",
     description = "Must have resource or action but not both",
-    expression = "resource.exists() != action.exists()"
+    expression = "resource.exists() != action.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/RequestGroup"
 )
 @Constraint(
     id = "requestGroup-2",
@@ -81,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "action.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/action-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/RequestGroup",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
