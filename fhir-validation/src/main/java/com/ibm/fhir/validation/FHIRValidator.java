@@ -296,7 +296,7 @@ public class FHIRValidator {
                     }
                 }
             }
-            validate(elementType, elementNode, constraints);
+            validate(elementNode, constraints);
         }
 
         private void validate(FHIRPathResourceNode resourceNode) {
@@ -311,7 +311,7 @@ public class FHIRValidator {
                 validateProfileReferences(resourceNode, profiles, false);
                 constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
             }
-            validate(resourceType, resourceNode, constraints);
+            validate(resourceNode, constraints);
         }
 
         private void validateProfileReferences(FHIRPathResourceNode resourceNode, List<String> profiles, boolean resourceAsserted) {
@@ -330,7 +330,7 @@ public class FHIRValidator {
             }
         }
 
-        private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
+        private void validate(FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
                 if (aborted) {
                     break;
@@ -342,12 +342,12 @@ public class FHIRValidator {
                     continue;
                 }
                 evaluationContext.setConstraint(constraint);
-                validate(type, node, constraint);
+                validate(node, constraint);
                 evaluationContext.unsetConstraint();
             }
         }
 
-        private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
+        private void validate(FHIRPathNode node, Constraint constraint) {
             String path = node.path();
             try {
                 if (log.isLoggable(Level.FINER)) {
