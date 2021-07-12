@@ -70,6 +70,22 @@ public class RetrieveIndexOperationTest extends FHIRServerTestBase {
     }
 
     @Test
+    public void testRetrieveIndex_GET() {
+        WebTarget target = getWebTarget();
+        target = target.path("/$retrieve-index")
+                .queryParam("_count", "5")
+                .queryParam("notModifiedAfter", Instant.now().toString())
+                .queryParam("afterIndexId", "8");
+
+        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "default")
+                .header("X-FHIR-DSID", "default")
+                .get();
+
+        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+    }
+
+    @Test
     public void testRetrieveIndex_type() {
         WebTarget target = getWebTarget();
         target = target.path("/Patient/$retrieve-index");
