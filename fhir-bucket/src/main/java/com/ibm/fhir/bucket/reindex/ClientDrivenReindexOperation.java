@@ -47,6 +47,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
     private static final int OFFER_TIMEOUT_IN_SEC = 30;
     private static final int POLL_TIMEOUT_IN_SEC = 5;
     private static final int MAX_RESTARTS = 10;
+    private static final int MAX_WAIT_TO_FINISH = 60;
     private static final String RETRIEVE_INDEX_URL = "$retrieve-index";
     private static final String REINDEX_URL = "$reindex";
 
@@ -170,7 +171,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                     // See if we can make one successful request before filling the pool
                     // with hundreds of parallel requests
                     int currentThreadCount = this.currentlyRunning.get();
-                    if (currentThreadCount == 0) {
+                    if (currentThreadCount < 1) {
                         // Before starting, ensure the last index IDs is reset so index IDs that were in progress are not skipped
                         resetProgress();
                         // Add limit to number of times this will attempt to restart due to errors
@@ -208,7 +209,7 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                                     this.running = false;
                                 } else {
                                     // Worker threads are still processing, so sleep for a bit before we check again
-                                    safeSleep(1000);
+                                    safeSleep(5000);
                                 }
                             }
                         }
@@ -226,6 +227,18 @@ public class ClientDrivenReindexOperation extends DriveReindexOperation {
                 }
             }
         } finally {
+            // Wait for worker threads to end
+            int waitCount = 0;
+            while (waitCount++ < MAX_WAIT_TO_FINISH) {
+                int currentThreadCount = this.currentlyRunning.get();
+                if (currentThreadCount < 1) {
+                    break;
+                }
+                // Worker threads are still running, so sleep for a bit before we check again
+                logger.info("Waiting for " + currentThreadCount + " threads to complete before exiting");
+                safeSleep(5000);
+            }
+
             // Check if there is any reindexing work left to do, and log an appropriate message based on the situation
             if (!doneRetrieving || !inProgressIndexIds.isEmpty()) {
                 String lastIndexIdProcessed = getLastIndexIdProcessed();
