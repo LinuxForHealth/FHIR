@@ -326,9 +326,7 @@ public class FHIRValidator {
                 } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
                     issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
                 }
-                if (failFast && hasErrors(issues)) {
-                    aborted = true;
-                }
+                aborted = failFast && hasErrors(issues);
             }
         }
 
