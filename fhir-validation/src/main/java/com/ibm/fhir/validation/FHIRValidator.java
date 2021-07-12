@@ -202,13 +202,7 @@ public class FHIRValidator {
         }
         try {
             evaluationContext.setResolveRelativeReferences(true);
-            List<Issue> issues = new ArrayList<>();
-            validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues, failFast);
-            if (!(failFast && hasErrors(issues))) {
-                issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
-            }
-            Collections.sort(issues, ISSUE_COMPARATOR);
-            return Collections.unmodifiableList(issues);
+            return visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles);
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -220,45 +214,6 @@ public class FHIRValidator {
 
     public static FHIRValidator validator(boolean failFast) {
         return new FHIRValidator(failFast);
-    }
-
-    /**
-     * Validate a list of profile references to ensure they are supported (known by the FHIR registry) and applicable
-     * (the type constrained by the profile is compatible with the resource being validated).
-     *
-     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
-     *
-     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
-     *
-     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
-     *
-     * @param resourceNode
-     *     the resource node being validated by a FHIRValidator instance
-     * @param profiles
-     *     the list of profile references to validate
-     * @param resourceAsserted
-     *     indicates whether the profile references came from the resource or were explicitly passed in as arguments
-     * @param issues
-     *     the list of issues to add to
-     */
-    private static void validateProfileReferences(
-            FHIRPathResourceNode resourceNode,
-            List<String> profiles,
-            boolean resourceAsserted,
-            List<Issue> issues,
-            boolean failFast) {
-        Class<?> resourceType = resourceNode.resource().getClass();
-        for (String url : profiles) {
-            if (failFast && hasErrors(issues)) {
-                break;
-            }
-            StructureDefinition profile = ProfileSupport.getProfile(url);
-            if (profile == null) {
-                issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
-            } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
-                issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
-            }
-        }
     }
 
     private static Issue issue(IssueSeverity severity, IssueType code, String description, FHIRPathNode node) {
@@ -298,7 +253,8 @@ public class FHIRValidator {
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
             this.profiles = Arrays.asList(profiles);
             this.evaluationContext.getTree().getRoot().accept(this);
-            return issues;
+            Collections.sort(issues, ISSUE_COMPARATOR);
+            return Collections.unmodifiableList(issues);
         }
 
         private void reset() {
@@ -327,17 +283,13 @@ public class FHIRValidator {
             validate(node);
         }
 
-        /**
-         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed element node
-         */
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
-            Collection<Constraint> constraints = ModelSupport.getConstraints(elementType);
+            List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(elementType));
             if (Extension.class.equals(elementType)) {
                 String url = elementNode.element().as(Extension.class).getUrl();
                 if (isAbsolute(url)) {
                     if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-                        constraints = new ArrayList<>(constraints);
                         constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
@@ -347,35 +299,39 @@ public class FHIRValidator {
             validate(elementType, elementNode, constraints);
         }
 
-        private boolean isAbsolute(String url) {
-            try {
-                return new URI(url).isAbsolute();
-            } catch (URISyntaxException e) {
-                log.warning("Invalid URI: " + url);
-            }
-            return false;
-        }
-
-        /**
-         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed resource node
-         */
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
-            validate(resourceType, resourceNode, ModelSupport.getConstraints(resourceType));
+            List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(resourceType));
+            if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
+                validateProfileReferences(resourceNode, profiles, false);
+                constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
+            }
             if (includeResourceAssertedProfiles) {
                 List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resourceNode.resource());
-                validateProfileReferences(resourceNode, resourceAssertedProfiles, true, issues, failFast);
-                aborted = failFast && hasErrors(issues);
-                validate(resourceType, resourceNode, ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
+                validateProfileReferences(resourceNode, resourceAssertedProfiles, true);
+                constraints.addAll(ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
             }
-            if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
-                validate(resourceType, resourceNode, ProfileSupport.getConstraints(profiles, resourceType));
+            validate(resourceType, resourceNode, constraints);
+        }
+
+        private void validateProfileReferences(FHIRPathResourceNode resourceNode, List<String> profiles, boolean resourceAsserted) {
+            Class<?> resourceType = resourceNode.resource().getClass();
+            for (String url : profiles) {
+                if (aborted) {
+                    break;
+                }
+                StructureDefinition profile = ProfileSupport.getProfile(url);
+                if (profile == null) {
+                    issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
+                } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
+                    issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
+                }
+                if (failFast && hasErrors(issues)) {
+                    aborted = true;
+                }
             }
         }
 
-        /**
-         * @throws RuntimeException if one of the passed constraints cannot be evaluated for the passed node
-         */
         private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
                 if (aborted) {
@@ -393,9 +349,6 @@ public class FHIRValidator {
             }
         }
 
-        /**
-         * @throws RuntimeException if the passed constraint cannot be evaluated for the passed node
-         */
         private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
             String path = node.path();
             try {
@@ -446,10 +399,17 @@ public class FHIRValidator {
                     evaluationContext.removeEvaluationListener(diagnosticsEvaluationListener);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() +
-                    " with location: " + constraint.location() + " and expression: " + constraint.expression() +
-                    " at path: " + path, e);
+                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() + " with location: " + constraint.location() + " and expression: " + constraint.expression() + " at path: " + path, e);
             }
+        }
+
+        private boolean isAbsolute(String url) {
+            try {
+                return new URI(url).isAbsolute();
+            } catch (URISyntaxException e) {
+                log.warning("Invalid URI: " + url);
+            }
+            return false;
         }
     }
 }

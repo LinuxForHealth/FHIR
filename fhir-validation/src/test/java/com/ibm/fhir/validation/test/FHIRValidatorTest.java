@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -124,8 +124,8 @@ public class FHIRValidatorTest {
                 .build();
         List<Issue> issues = FHIRValidator.validator().validate(patient);
         assertEquals(issues.size(), 2);
-        assertEquals(issues.get(1).getSeverity(), IssueSeverity.WARNING);
-        assertEquals(issues.get(1).getCode(), IssueType.NOT_SUPPORTED);
+        assertEquals(issues.get(0).getSeverity(), IssueSeverity.WARNING);
+        assertEquals(issues.get(0).getCode(), IssueType.NOT_SUPPORTED);
     }
 
     @Test
