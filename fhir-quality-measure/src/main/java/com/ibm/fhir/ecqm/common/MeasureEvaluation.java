@@ -578,7 +578,7 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT, MeasureGr
                 Object sdeListItem = sdeList.get(i);
                 if (null != sdeListItem) {
                     String sdeAccumulatorKey = getCodingCode( getSDECoding(sde.get(i)) );
-                    if (null == sdeAccumulatorKey || sdeAccumulatorKey.length() < 1) {
+                    if (null == sdeAccumulatorKey || sdeAccumulatorKey.isEmpty() ) {
                         String expression = getSDEExpression(sde.get(i));
                         if( expression != null ) {
                             sdeAccumulatorKey = expression.toLowerCase(Locale.ROOT).replace(" ", "-");
@@ -606,7 +606,7 @@ public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT, MeasureGr
                         continue;
                     }
                     
-                    if (null == code) {
+                    if (null == code || code.isEmpty()) {
                         continue;
                     }
                     if (null != sdeItemMap && null != sdeItemMap.get(code)) {
