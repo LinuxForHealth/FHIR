@@ -2503,6 +2503,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         log.entering(CLASSNAME, METHODNAME);
 
         int result = 0;
+        ResourceIndexRecord rir = null;
 
         if (log.isLoggable(Level.FINE)) {
             log.fine("reindex tstamp=" + tstamp.toString());
@@ -2512,6 +2513,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // protect against setting a future timestamp, which could otherwise
             // disable the ability to reindex anything
             throw new FHIRPersistenceException("Reindex tstamp cannot be in the future");
+        }
+
+        if (indexIds != null) {
+            log.info("Reindex requested for index IDs " + indexIds);
         }
 
         try (Connection connection = openConnection()) {
@@ -2542,7 +2547,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
             // If list of indexIds was specified, loop over those. Otherwise, since we skip over
             // deleted resources we have to loop until we find something not deleted, or reach the end.
-            ResourceIndexRecord rir;
             do {
                 long start = System.nanoTime();
                 rir = reindexDAO.getResourceToReindex(tstamp, indexIds != null ? indexIds.get(indexIdsProcessed++) : null, resourceTypeId, logicalId);
@@ -2556,7 +2560,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 if (rir != null) {
 
                     // This is important so we log it as info
-                    log.info("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    if (log.isLoggable(Level.FINE)) {
+                        log.fine("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
+                    }
 
                     // Read the current resource
                     com.ibm.fhir.persistence.jdbc.dto.Resource existingResourceDTO = resourceDao.read(rir.getLogicalId(), rir.getResourceType());
@@ -2581,28 +2587,30 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         } catch(FHIRPersistenceFKVException e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             throw e;
         } catch(FHIRPersistenceException e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             throw e;
         } catch (DataAccessException dax) {
             getTransaction().setRollbackOnly();
 
             // It's possible this is a deadlock exception, in which case it could be considered retryable
             if (dax.isTransactionRetryable()) {
-                log.log(Level.WARNING, "retryable error", dax);
+                log.log(Level.WARNING, "Retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
                 FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
                 fpx.setTransactionRetryable(true);
                 throw fpx;
             } else {
-                log.log(Level.SEVERE, "non-retryable error", dax);
+                log.log(Level.SEVERE, "Non-retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
                 throw new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
             }
         } catch(Throwable e) {
             getTransaction().setRollbackOnly();
+            log.log(Level.SEVERE, "Unexpected error while performing a reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), e);
             // don't chain the exception to avoid leaking secrets
             FHIRPersistenceException fx = new FHIRPersistenceException("Unexpected error while performing a reindex operation.");
-            log.log(Level.SEVERE, fx.getMessage(), e);
             throw fx;
         } finally {
             log.exiting(CLASSNAME, METHODNAME);
