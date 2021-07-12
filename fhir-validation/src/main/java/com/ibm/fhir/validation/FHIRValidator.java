@@ -202,7 +202,7 @@ public class FHIRValidator {
         }
         try {
             evaluationContext.setResolveRelativeReferences(true);
-            return visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles);
+            return visitor.validate(evaluationContext, includeResourceAssertedProfiles, Arrays.asList(profiles));
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -247,11 +247,11 @@ public class FHIRValidator {
             this.failFast = failFast;
         }
 
-        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) {
+        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, List<String> profiles) {
             reset();
             this.evaluationContext = evaluationContext;
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
-            this.profiles = Arrays.asList(profiles);
+            this.profiles = profiles;
             this.evaluationContext.getTree().getRoot().accept(this);
             Collections.sort(issues, ISSUE_COMPARATOR);
             return Collections.unmodifiableList(issues);
@@ -302,14 +302,14 @@ public class FHIRValidator {
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
             List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(resourceType));
-            if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
-                validateProfileReferences(resourceNode, profiles, false);
-                constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
-            }
             if (includeResourceAssertedProfiles) {
                 List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resourceNode.resource());
                 validateProfileReferences(resourceNode, resourceAssertedProfiles, true);
                 constraints.addAll(ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
+            }
+            if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
+                validateProfileReferences(resourceNode, profiles, false);
+                constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
             }
             validate(resourceType, resourceNode, constraints);
         }
