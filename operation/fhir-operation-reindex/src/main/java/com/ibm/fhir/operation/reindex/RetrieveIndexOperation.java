@@ -25,6 +25,7 @@ import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
@@ -73,10 +74,10 @@ public class RetrieveIndexOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
 
-        // Only POST is allowed
+        // Only GET or POST is allowed
         String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
-        if (!"POST".equalsIgnoreCase(method)) {
-            throw new FHIROperationException("HTTP method not supported: " + method);
+        if (!"GET".equalsIgnoreCase(method) && !"POST".equalsIgnoreCase(method)) {
+            throw FHIROperationUtil.buildExceptionWithIssue("HTTP method not supported: " + method, IssueType.NOT_SUPPORTED);
         }
 
         try {
