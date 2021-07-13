@@ -191,6 +191,8 @@ public class ProfileBuilder {
      *     the minimum cardinality
      * @param max
      *     the maximum cardinality
+     * @param removeConstraints
+     *     the remove constraints indicator
      * @return
      *     this profile builder
      */
@@ -269,6 +271,7 @@ public class ProfileBuilder {
                     .build());
                 builder.min(UnsignedInt.of(min));
                 builder.max(string(max));
+                builder.constraint(elementDefinitionMap.get(id).getConstraint());
             }
             sliceElementDefinitions.add(builder.build());
         }

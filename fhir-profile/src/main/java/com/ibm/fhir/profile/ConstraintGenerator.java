@@ -82,14 +82,18 @@ public class ConstraintGenerator {
 
         log.finest("Element definition -> constraint expression:");
         for (Node child : tree.root.children) {
-            String expr = generate(child);
-            if (generated.contains(expr)) {
-                continue;
+            try {
+                String expr = generate(child);
+                if (generated.contains(expr)) {
+                    continue;
+                }
+                String description = "Constraint violation: " + expr;
+                constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
+                index++;
+                generated.add(expr);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, "An exception occurred while generating constraint for element definition: " + child.elementDefinition.getId() + " from profile: " + url, e);
             }
-            String description = "Constraint violation: " + expr;
-            constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
-            index++;
-            generated.add(expr);
         }
         log.finest("");
 
@@ -372,7 +376,7 @@ public class ConstraintGenerator {
                             }
                         }
                     } else {
-                        sb.append(expression((paths.size() == 1 && "$this".equals(paths.get(0))) ?
+                        sb.append(expression((paths.size() == 1 && paths.get(0).startsWith("$this")) ?
                             node :
                             copy(node, paths, prefix)));
                     }
@@ -380,13 +384,16 @@ public class ConstraintGenerator {
                     String path = paths.get(0);
                     String id = "$this".equals(path) ?
                         elementDefinition.getId() :
-                        elementDefinition.getId() + "." + paths.get(0);
+                        elementDefinition.getId() + "." + path;
                     Type type = getTypes(elementDefinitionMap.get(id)).get(0);
                     if (type.getCode() != null) {
                         String code = type.getCode().getValue();
                         sb.append(identifier).append(".where(").append("$this".equals(path) ? "" : path + ".").append("is(").append(code).append("))");
                     }
                 }
+            }
+            if (identifier.equals(sb.toString())) {
+                throw new IllegalArgumentException("Discriminator not generated for slice: " + elementDefinition.getId());
             }
         } else {
             throw new IllegalArgumentException("Slice definition not found for slice: " + elementDefinition.getId());
@@ -415,7 +422,10 @@ public class ConstraintGenerator {
                 (hasVocabularyConstraint(elementDefinition) &&
                         hasDiscriminatorType(elementDefinition, DiscriminatorType.PATTERN)) ||
                 (hasProfileConstraint(elementDefinition) &&
-                        hasDiscriminatorType(elementDefinition, DiscriminatorType.PROFILE))) {
+                        hasDiscriminatorType(elementDefinition, DiscriminatorType.PROFILE)) ||
+                (hasReferenceTypeConstraint(elementDefinition) &&
+                        (hasDiscriminatorType(elementDefinition, DiscriminatorType.PATTERN) ||
+                                hasDiscriminatorType(elementDefinition, DiscriminatorType.PROFILE)))) {
             sb.append(".where(");
             StringJoiner joiner = new StringJoiner(" and ");
             if (hasChildren(node)) {
@@ -430,6 +440,11 @@ public class ConstraintGenerator {
             if (hasProfileConstraint(elementDefinition) &&
                     hasDiscriminatorType(elementDefinition, DiscriminatorType.PROFILE)) {
                 joiner.add(generateProfileConstraint(node));
+            }
+            if (hasReferenceTypeConstraint(elementDefinition) &&
+                    (hasDiscriminatorType(elementDefinition, DiscriminatorType.PATTERN) ||
+                            hasDiscriminatorType(elementDefinition, DiscriminatorType.PROFILE))) {
+                joiner.add(generateReferenceTypeConstraint(node));
             }
             sb.append(joiner.toString()).append(")");
             if (nested) {

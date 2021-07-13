@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -77,7 +77,7 @@ public class FHIRPathQuantityNode extends FHIRPathElementNode {
      * The {@link BigDecimal} value of the quantity wrapped by this FHIRPathQuantityNode
      *
      * @return
-     *     the system of the quantity wrapped by this FHIRPathQuantityNode
+     *     the {@link BigDecimal} value of the quantity wrapped by this FHIRPathQuantityNode
      */
     public BigDecimal getQuantityValue() {
         return quantityValue;

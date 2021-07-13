@@ -155,7 +155,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                         return cacheFunctionResult(evaluationContext, context, arguments, SINGLETON_FALSE);
                     }
                 } catch (FHIRPathException e) {
-                    log.log(Level.WARNING, "An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
+                    throw new RuntimeException("An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
                 }
                 evaluationContext.unsetConstraint();
             }

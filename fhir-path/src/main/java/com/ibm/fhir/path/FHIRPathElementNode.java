@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,20 +17,32 @@ import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
  */
 public class FHIRPathElementNode extends FHIRPathAbstractNode {
     protected final Element element;
+    protected final FHIRPathTree tree;
 
     protected FHIRPathElementNode(Builder builder) {
         super(builder);
         this.element = builder.element;
+        this.tree = builder.tree;
     }
 
     /**
-     * The element wrapped by this FHIRPathElementNode
+     * The {@link Element} wrapped by this FHIRPathElementNode
      *
      * @return
-     *     the element wrapped by this FHIRPathElementNode
+     *     the {@link Element} wrapped by this FHIRPathElementNode
      */
     public Element element() {
         return element;
+    }
+
+    /**
+     * The {@link FHIRPathTree} that contains this FHIRPathElementNode
+     *
+     * @return
+     *     the {@link FHIRPathTree} that contains this FHIRPathElementNode, otherwise null
+     */
+    public FHIRPathTree getTree() {
+        return tree;
     }
 
     @Override
@@ -109,10 +121,16 @@ public class FHIRPathElementNode extends FHIRPathAbstractNode {
 
     public static class Builder extends FHIRPathAbstractNode.Builder {
         protected final Element element;
+        protected FHIRPathTree tree;
 
         protected Builder(FHIRPathType type, Element element) {
             super(type);
             this.element = element;
+        }
+
+        public Builder tree(FHIRPathTree tree) {
+            this.tree = tree;
+            return this;
         }
 
         @Override
