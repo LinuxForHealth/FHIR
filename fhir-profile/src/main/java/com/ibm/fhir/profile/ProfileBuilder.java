@@ -191,8 +191,6 @@ public class ProfileBuilder {
      *     the minimum cardinality
      * @param max
      *     the maximum cardinality
-     * @param removeConstraints
-     *     the remove constraints indicator
      * @return
      *     this profile builder
      */
