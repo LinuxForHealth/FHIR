@@ -2559,7 +2559,6 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
                 if (rir != null) {
 
-                    // This is important so we log it as info
                     if (log.isLoggable(Level.FINE)) {
                         log.fine("Reindexing FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'");
                     }
