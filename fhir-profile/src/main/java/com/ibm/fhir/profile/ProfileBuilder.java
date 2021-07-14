@@ -269,6 +269,7 @@ public class ProfileBuilder {
                     .build());
                 builder.min(UnsignedInt.of(min));
                 builder.max(string(max));
+                builder.constraint(elementDefinitionMap.get(id).getConstraint());
             }
             sliceElementDefinitions.add(builder.build());
         }

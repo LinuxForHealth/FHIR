@@ -1,0 +1,29 @@
+{
+    "resourceType": "MessageHeader",
+    "id": "SampleEstablishmentInactivationMessage",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentInactivationMessage"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>event</b>: <span title=\"{http://hl7.org/fhir/us/spl/CodeSystem/codesystem-fhirMessageTypes 01}\">Establishment inactivation</span></p><h3>Sources</h3><table class=\"grid\"><tr><td>-</td><td><b>Endpoint</b></td></tr><tr><td>*</td><td><a href=\"http://example.org/\">http://example.org/</a></td></tr></table><p><b>focus</b>: </p><ul><li><a href=\"Organization-SampleIdentifiedEstablishmentRegistrant.html\">Generated Summary: id: 111111111; <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes EstablishmentRegistrant}\">An organization that registers establishment organizations.</span>; name: REGISTRANT SERVICES INC</a></li><li><a href=\"Organization-SampleIdentifiedEstablishment.html\">Generated Summary: id: 222222222; <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes Establishment}\">An organization that provides operations in the manufacturing of a product.</span>; name: EXAMPLE ESTABLISHMENT INC.</a></li></ul></div>"
+    },
+    "eventCoding": {
+        "system": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-fhirMessageTypes",
+        "code": "01",
+        "display": "Establishment inactivation"
+    },
+    "source": {
+        "endpoint": "http://example.org/"
+    },
+    "focus": [
+        {
+            "reference": "Organization/SampleIdentifiedEstablishmentRegistrant"
+        },
+        {
+            "reference": "Organization/SampleIdentifiedEstablishment"
+        }
+    ]
+}

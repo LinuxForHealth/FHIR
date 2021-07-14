@@ -6,75 +6,93 @@
 
 package com.ibm.fhir.ig.us.spl;
 
+import static org.testng.Assert.assertTrue;
+
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
-import com.ibm.fhir.model.parser.exception.FHIRParserException;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.function.ResolveFunction;
+import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.validation.FHIRValidator;
-import com.ibm.fhir.validation.exception.FHIRValidationException;
 
 public class ExamplesValidationTest {
+    @BeforeClass
+    public void beforeClass() throws Exception {
+        FHIRPathFunctionRegistry.getInstance().register(new FileResolveFunction());
+    }
+
     @Test
     public void testValidationJson() throws Exception {
-        try (Stream<Path> paths1 = Files.list(Paths.get("src/test/resources/json"));
-                Stream<Path> paths2 = Files.list(Paths.get("src/test/resources/json"))) {
-            List<Path> badPaths = paths1.filter(p -> verify(p)).collect(Collectors.toList());
-            List<Path> goodPaths = paths2.filter(p -> !verify(p)).collect(Collectors.toList());
+        List<Path> goodPaths = new ArrayList<>();
+        List<Path> badPaths = new ArrayList<>();
 
-            System.out.println("Bad Paths");
-            badPaths.forEach(px -> System.out.println(px));
-            System.out.println();
-            System.out.println("Good Paths");
-            goodPaths.forEach(px -> System.out.println(px));
+        for (Path path : Files.list(Paths.get("src/test/resources/json")).collect(Collectors.toList())) {
+            if (isValid(path)) {
+                goodPaths.add(path);
+            } else {
+                badPaths.add(path);
+            }
         }
+
+        System.out.println("Good Paths");
+        goodPaths.forEach(path -> System.out.println(path));
+        System.out.println();
+
+        System.out.println("Bad Paths");
+        badPaths.forEach(path -> System.out.println(path));
+
+        assertTrue(badPaths.isEmpty());
     }
 
     @Test
-    public void testValidationWithOrganization() throws Exception {
-        verify(Paths.get("src/test/resources/json/Organization-NationalPharmaIndia.json"));
+    public void testValidationSingle() throws Exception {
+        isValid(Paths.get("src/test/resources/json/MessageHeader-SampleEstablishmentInactivationMessage.json"));
     }
 
-    @Test
-    public void testValidationWithBundle() throws Exception {
-        verify(Paths.get("src/test/resources/json/Bundle-NationalPharmaIndiaRequest.json"));
-    }
-
-    public static boolean verify(Path p) {
-        boolean invalid = false;
-        try (InputStream in = new FileInputStream(p.toFile())) {
-            System.out.println("Path: " + p);
-            Resource r = FHIRParser.parser(Format.JSON).parse(in);
-            List<Issue> validate = FHIRValidator.validator().validate(r);
-            for (Issue issue : validate) {
+    public boolean isValid(Path path) {
+        boolean result = true;
+        try (InputStream in = new FileInputStream(path.toFile())) {
+            System.out.println("Path: " + path);
+            Resource resource = FHIRParser.parser(Format.JSON).parse(in);
+            List<Issue> issues = FHIRValidator.validator().validate(resource);
+            for (Issue issue : issues) {
                 if (IssueSeverity.ERROR.equals(issue.getSeverity())) {
-                    invalid = true;
-                }
-                if (invalid) {
+                    result = false;
                     System.out.println(issue);
                 }
             }
             System.out.println("--------------------------------");
-        } catch (IOException | FHIRParserException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            invalid = true;
-        } catch (FHIRValidationException e) {
-            e.printStackTrace();
-            invalid = true;
+            result = false;
         }
-        return invalid;
+        return result;
+    }
+
+    public static class FileResolveFunction extends ResolveFunction {
+        @Override
+        protected Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {
+            try (InputStream in = ExamplesValidationTest.class.getClassLoader().getResourceAsStream("json/" + type + "-" + logicalId + ".json")) {
+                return FHIRParser.parser(Format.JSON).parse(in);
+            } catch (Exception e) {
+                throw new Error(e);
+            }
+        }
     }
 }

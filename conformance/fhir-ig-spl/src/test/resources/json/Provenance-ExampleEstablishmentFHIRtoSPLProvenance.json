@@ -1,0 +1,61 @@
+{
+    "resourceType": "Provenance",
+    "id": "ExampleEstablishmentFHIRtoSPLProvenance",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/spl/StructureDefinition/DualSubmissionProvenance"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>target</b>: <a href=\"DocumentReference-ExampleSPLDocumentReference.html\">Generated Summary: id: urn:uuid:af87107d-11d1-46ae-9ffb-f2ba572d7ff9; id: urn:uuid:7ad19579-7b2f-4c0a-931c-4ba25f73b296; status: current; <span title=\"Codes: {http://loinc.org 51725-0}\">FDA product label Establishment registration</span>; date: Apr. 21, 2021, 2:28:00 a.m.</a></p><p><b>occurred</b>: 2021-04-21</p><p><b>recorded</b>: Apr. 21, 2021, 2:28:00 a.m.</p><p><b>activity</b>: <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v3-DataOperation CREATE}, {http://loinc.org 51725-0}\">create</span></p><h3>Agents</h3><table class=\"grid\"><tr><td>-</td><td><b>Type</b></td><td><b>Who</b></td></tr><tr><td>*</td><td><span title=\"Codes: {http://terminology.hl7.org/CodeSystem/provenance-participant-type assembler}\">Assembler</span></td><td><span>SPL To FHIR Converter Program</span></td></tr></table><blockquote><p><b>entity</b></p><p><b>role</b>: source</p><p><b>what</b>: <a href=\"Organization-ExampleEstablishmentRegistrant.html\">Generated Summary: id: 111111111; <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes EstablishmentRegistrant}\">An organization that registers establishment organizations.</span>; name: REGISTRANT SERVICES INC</a></p></blockquote><blockquote><p><b>entity</b></p><p><b>role</b>: source</p><p><b>what</b>: <a href=\"Organization-ExampleEstablishment.html\">Generated Summary: id: 222222222; <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes Establishment}\">An organization that provides operations in the manufacturing of a product.</span>; name: EXAMPLE ESTABLISHMENT INC.</a></p></blockquote></div>"
+    },
+    "target": [
+        {
+            "reference": "DocumentReference/ExampleSPLDocumentReference"
+        }
+    ],
+    "occurredDateTime": "2021-04-21",
+    "recorded": "2021-04-21T14:28:00.00+06:00",
+    "activity": {
+        "coding": [
+            {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-DataOperation",
+                "code": "CREATE"
+            },
+            {
+                "system": "http://loinc.org",
+                "code": "51725-0"
+            }
+        ]
+    },
+    "agent": [
+        {
+            "type": {
+                "coding": [
+                    {
+                        "system": "http://terminology.hl7.org/CodeSystem/provenance-participant-type",
+                        "code": "assembler"
+                    }
+                ]
+            },
+            "who": {
+                "display": "SPL To FHIR Converter Program"
+            }
+        }
+    ],
+    "entity": [
+        {
+            "role": "source",
+            "what": {
+                "reference": "Organization/ExampleEstablishmentRegistrant"
+            }
+        },
+        {
+            "role": "source",
+            "what": {
+                "reference": "Organization/ExampleEstablishment"
+            }
+        }
+    ]
+}

@@ -25,6 +25,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.resource.MessageHeader;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Quantity;
+import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConstraintSeverity;
@@ -129,7 +131,7 @@ public class ConstraintGeneratorTest {
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
-        assertEquals(constraints.get(0).expression(), "value.where(is(Quantity)).count() = 1 and value.where(is(Quantity)).all((code.empty() or system.exists()))");
+        assertEquals(constraints.get(0).expression(), "value.where(is(Quantity)).count() = 1");
     }
 
     @Test
@@ -198,6 +200,20 @@ public class ConstraintGeneratorTest {
         List<Constraint> constraints = generator.generate();
         assertEquals(constraints.size(), 1);
         assertEquals(constraints.get(0).expression(), "code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/vs-1', 'required') and memberOf('http://ibm.com/fhir/ValueSet/max-vs-1', 'required'))");
+    }
+
+    @Test
+    public static void testConstraintGenerator13() throws Exception {
+        StructureDefinition profile = new ProfileBuilder(MessageHeader.class, "http://ibm.com/fhir/StructureDefinition/TestMessageHeader", "1.0.0")
+            .slicing("MessageHeader.focus", slicing(discriminator(DiscriminatorType.PROFILE, "$this.resolve()"), SlicingRules.OPEN))
+            .slice("MessageHeader.focus", "SliceA", Reference.class, 0, "1")
+            .type("MessageHeader.focus:SliceA", type("Reference", profile(), targetProfile("http://ibm.com/fhir/StructureDefinition/ProfileA")))
+            .build();
+        System.out.println(profile);
+        ConstraintGenerator generator = new ConstraintGenerator(profile);
+        List<Constraint> constraints = generator.generate();
+        assertEquals(constraints.size(), 1);
+        assertEquals(constraints.get(0).expression(), "focus.where(resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).exists() implies (focus.where(resolve().conformsTo('http://ibm.com/fhir/StructureDefinition/ProfileA')).count() = 1)");
     }
 
     private void configureLogging() {

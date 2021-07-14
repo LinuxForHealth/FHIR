@@ -12,7 +12,6 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.StructureDefinition;
-import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
@@ -26,13 +25,16 @@ public class ConstraintGeneratorTest {
             if (StructureDefinition.class.equals(registryResource.getResourceType())) {
                 String url = registryResource.getUrl();
                 System.out.println(url);
-                Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Extension.class;
-                for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
-                    System.out.println("    " + constraint);
-                    if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
-                        compile(constraint.location());
+                String kind = registryResource.getKind();
+                if ("resource".equals(kind) || "complex-type".equals(kind)) {
+                    Class<?> type = ModelSupport.isResourceType(registryResource.getType()) ? ModelSupport.getResourceType(registryResource.getType()) : Class.forName("com.ibm.fhir.model.type." + registryResource.getType());
+                    for (Constraint constraint : ProfileSupport.getConstraints(url, type)) {
+                        System.out.println("    " + constraint);
+                        if (!Constraint.LOCATION_BASE.equals(constraint.location())) {
+                            compile(constraint.location());
+                        }
+                        compile(constraint.expression());
                     }
-                    compile(constraint.expression());
                 }
             }
         }

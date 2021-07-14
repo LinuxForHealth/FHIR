@@ -86,7 +86,7 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resourceNode = resolveInternalFragmentReference(evaluationContext, node, referenceReference);
+                        resourceNode = resolveInternalFragmentReference(node.asElementNode().getTree(), node, referenceReference);
                         if (resourceNode != null) {
                             resource = resourceNode.resource();
                             if (resource != null) {
@@ -137,9 +137,9 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
         return false;
     }
 
-    private FHIRPathResourceNode resolveInternalFragmentReference(EvaluationContext evaluationContext, FHIRPathNode node, String referenceReference) {
-        if (evaluationContext.getTree() != null) {
-            FHIRPathResourceNode rootResource = getRootResourceNode(evaluationContext.getTree(), node);
+    private FHIRPathResourceNode resolveInternalFragmentReference(FHIRPathTree tree, FHIRPathNode node, String referenceReference) {
+        if (tree != null) {
+            FHIRPathResourceNode rootResource = getRootResourceNode(tree, node);
             if (rootResource != null) {
                 if ("#".equals(referenceReference)) {
                     return rootResource;
