@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.registry.core.test;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -252,70 +251,6 @@ public class VitalSignsProfileTest {
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
         String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : "";
-        return createConstraint(id, level, location, description, expression, source, false, false);
-    }
-
-    private static Constraint createConstraint(String id, String level, String location, String description, String expression, String source, boolean modelChecked, boolean generated) {
-        return new Constraint() {
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return Constraint.class;
-            }
-
-            @Override
-            public String id() {
-                return id;
-            }
-
-            @Override
-            public String level() {
-                return level;
-            }
-
-            @Override
-            public String location() {
-                return location;
-            }
-
-            @Override
-            public String description() {
-                return description;
-            }
-
-            @Override
-            public String expression() {
-                return expression;
-            }
-
-            @Override
-            public String source() {
-                return source;
-            }
-
-            @Override
-            public boolean modelChecked() {
-                return modelChecked;
-            }
-
-            @Override
-            public boolean generated() {
-                return generated;
-            }
-
-            @Override
-            public String toString() {
-                return new StringBuilder()
-                    .append("Constraint [")
-                    .append("id=").append(id).append(", ")
-                    .append("level=").append(level).append(", ")
-                    .append("location=").append(location).append(", ")
-                    .append("description=").append(description).append(", ")
-                    .append("expression=").append(expression).append(", ")
-                    .append("modelChecked=").append(modelChecked).append(", ")
-                    .append("generated=").append(generated)
-                    .append("]")
-                    .toString();
-            }
-        };
+        return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false);
     }
 }
