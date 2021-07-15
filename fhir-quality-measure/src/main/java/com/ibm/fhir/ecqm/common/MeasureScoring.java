@@ -8,6 +8,9 @@ package com.ibm.fhir.ecqm.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enumeration of the standard FHIR Measure.scoring codes.
+ */
 public enum MeasureScoring {
     PROPORTION("proportion", "Proportion", "The measure score is defined using a proportion"),
     RATIO("ratio", "Ratio", "The measure score is defined using a ratio"),

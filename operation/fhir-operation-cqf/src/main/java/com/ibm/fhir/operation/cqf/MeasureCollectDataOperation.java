@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.engine.model.FHIRModelResolver;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.MeasureReport;
@@ -33,7 +33,7 @@ public class MeasureCollectDataOperation extends EvaluateMeasureOperation {
     public static final String PARAM_OUT_MEASURE_REPORT = "measureReport";
     public static final String PARAM_OUT_RESOURCE = "resource";
 
-    private FhirModelResolver resolver = new FhirModelResolver();
+    private FHIRModelResolver resolver = new FHIRModelResolver();
     
     @Override
     protected OperationDefinition buildOperationDefinition() {

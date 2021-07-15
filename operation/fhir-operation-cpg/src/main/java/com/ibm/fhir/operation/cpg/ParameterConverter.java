@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.NotImplementedException;
 
-import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
+import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
@@ -21,9 +21,9 @@ import com.ibm.fhir.model.type.Element;
 import com.ibm.fhir.model.type.code.BundleType;
 
 public class ParameterConverter {
-    private FhirTypeConverter typeConverter;
+    private FHIRTypeConverter typeConverter;
 
-    public ParameterConverter(FhirTypeConverter typeConverter) {
+    public ParameterConverter(FHIRTypeConverter typeConverter) {
         this.typeConverter = typeConverter;
     }
     
@@ -37,7 +37,7 @@ public class ParameterConverter {
                 Iterable<?> iterable = (Iterable<?>) value;
                 if( iterable.iterator().hasNext() ) {
                     // TODO - this is non-atomic in that a nested Tuple would cause an incomplete return value
-                    iterable.forEach( v -> returnParameter.part( toParameter(v).name(fhirstring(name)).build() ) );
+                    iterable.forEach(v -> returnParameter.part(toParameter(v).name(fhirstring(name)).build()));
                 } else { 
                     // this is what the cqf-ruler implementation does, though it is kind of funky
                     returnParameter.part(toParameter(fhirstring(iterable.toString())).name(fhirstring(name)).build());
@@ -66,7 +66,7 @@ public class ParameterConverter {
                 } else { 
                     obj = typeConverter.toFhirType(value);
                 }
-            } catch( NotImplementedException nex ) { 
+            } catch(NotImplementedException nex) { 
                 obj = fhirstring( nex.getMessage() );
             }
 

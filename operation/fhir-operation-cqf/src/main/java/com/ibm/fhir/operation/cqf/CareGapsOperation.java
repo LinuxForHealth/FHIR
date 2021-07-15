@@ -5,8 +5,6 @@
  */
 package com.ibm.fhir.operation.cqf;
 
-import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-
 import java.time.ZoneOffset;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -20,7 +18,7 @@ import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
 import com.ibm.fhir.cql.helpers.DataProviderFactory;
-import com.ibm.fhir.cql.helpers.FhirBundleCursor;
+import com.ibm.fhir.cql.helpers.FHIRBundleCursor;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -38,6 +36,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class CareGapsOperation extends AbstractMeasureOperation {
 
@@ -76,7 +75,7 @@ public class CareGapsOperation extends AbstractMeasureOperation {
             Bundle bundle = resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
 
             AtomicInteger pageNumber = new AtomicInteger(1);
-            FhirBundleCursor cursor = new FhirBundleCursor(url -> {
+            FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                 try {
                     searchParameters.putSingle(SearchConstants.PAGE, String.valueOf(pageNumber.incrementAndGet()));
                     return resourceHelper.doSearch(ResourceType.MEASURE.getValue(), null, null, searchParameters, null, null);
@@ -85,12 +84,12 @@ public class CareGapsOperation extends AbstractMeasureOperation {
                 }
             }, bundle);
             
-            TerminologyProvider termProvider = getTerminologyProvider();
+            TerminologyProvider termProvider = getTerminologyProvider(resourceHelper);
             RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
             Map<String,DataProvider> dataProviders = DataProviderFactory.createDataProviders(retrieveProvider);
             
             Bundle result = processAllMeasures( cursor, subject, zoneOffset, measurementPeriod, resourceHelper, termProvider, dataProviders );
-            return Parameters.builder().parameter( Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(result).build()).build();
+            return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, result);
             
         } catch( FHIROperationException fex ) {
             throw fex;
@@ -99,7 +98,7 @@ public class CareGapsOperation extends AbstractMeasureOperation {
         }
     }
 
-    protected Bundle processAllMeasures(FhirBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
+    protected Bundle processAllMeasures(FHIRBundleCursor cursor, String subject, ZoneOffset zoneOffset, Interval measurementPeriod, FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider, Map<String,DataProvider> dataProviders) {
         Bundle.Builder reports = Bundle.builder().type(BundleType.COLLECTION); 
         
         AtomicInteger count = new AtomicInteger(0);

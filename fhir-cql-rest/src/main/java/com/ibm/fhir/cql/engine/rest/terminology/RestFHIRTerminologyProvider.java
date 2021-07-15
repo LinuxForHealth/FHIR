@@ -5,10 +5,7 @@
  */
 package com.ibm.fhir.cql.engine.rest.terminology;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.client.WebTarget;
@@ -23,6 +20,7 @@ import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
+import com.ibm.fhir.cql.Constants;
 import com.ibm.fhir.cql.engine.util.FHIRClientUtil;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Parameters;
@@ -31,31 +29,28 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ResourceType;
 
-public class RestFhirTerminologyProvider implements TerminologyProvider {
-
-    private static final String URN_UUID = "urn:uuid:";
-    private static final String URN_OID = "urn:oid:";
+/**
+ * This is an implementation of a terminology provider for the CQL Engine that uses
+ * the IBM FHIR Server REST Client to access the terminology system.
+ */
+public class RestFHIRTerminologyProvider implements TerminologyProvider {
 
     private FHIRClient fhirClient;
 
-    public RestFhirTerminologyProvider(FHIRClient fhirClient) {
+    public RestFHIRTerminologyProvider(FHIRClient fhirClient) {
         this.fhirClient = fhirClient;
     }
 
     @Override
     public boolean in(Code code, ValueSetInfo valueSet) {
-        // Potential problems:
-        // ValueSetInfo void of id --> want .ontype() instead
-        if (resolveByUrl(valueSet) == null) {
-            return false;
-        }
+        resolveByUrl(valueSet);
 
         try {
             WebTarget target =
-                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.getValue()).path(valueSet.getId()).path("$validate-code").queryParam("code", urlencode(code.getCode()));
+                    fhirClient.getWebTarget().path(ResourceType.VALUE_SET.getValue()).path(valueSet.getId()).path("$validate-code").queryParam("code", FHIRClientUtil.urlencode(code.getCode()));
 
             if (code.getSystem() != null) {
-                target = target.queryParam("system", urlencode(code.getSystem()));
+                target = target.queryParam("system", FHIRClientUtil.urlencode(code.getSystem()));
             }
 
             Response response = target.request(MediaType.APPLICATION_JSON_TYPE).get();
@@ -74,9 +69,7 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
 
     @Override
     public Iterable<Code> expand(ValueSetInfo valueSet) {
-        if (resolveByUrl(valueSet) == null) {
-            return Collections.emptyList();
-        }
+        resolveByUrl(valueSet);
 
         try {
             Response response =
@@ -104,7 +97,7 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
     public Code lookup(Code code, CodeSystemInfo codeSystem) {
         try {
             Response response =
-                    fhirClient.getWebTarget().path(ResourceType.CODE_SYSTEM.getValue()).path("$lookup").queryParam("code", urlencode(code.getCode())).queryParam("system", urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
+                    fhirClient.getWebTarget().path(ResourceType.CODE_SYSTEM.getValue()).path("$lookup").queryParam("code", FHIRClientUtil.urlencode(code.getCode())).queryParam("system", FHIRClientUtil.urlencode(code.getSystem())).request(MediaType.APPLICATION_JSON_TYPE).get();
             FHIRClientUtil.handleErrorResponse(response);
 
             Parameters respParam = response.readEntity(Parameters.class);
@@ -122,7 +115,21 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
         return code.withSystem(codeSystem.getId());
     }
 
-    public Boolean resolveByUrl(ValueSetInfo valueSet) {
+    /**
+     * Lookup a ValueSet that corresponds to the provided CQL ValueSetInfo. Only the 
+     * ValueSetInfo.id property is supported at this time. Use of the ValueSetInfo.version
+     * or ValueSetInfo.codesystems properties will cause an UnsupportedOperationException.
+     * This method uses a search strategy that first treats the ValueSetInfo.id as a URL,
+     * then attempts urn:oid or urn:uuid resolution, then finally attempts plain ID-based
+     * resolution if nothing has been found and the value appears to be a FHIR ID.
+     *  
+     * @param valueSet CQL ValueSetInfo with ID property populated
+     * @throws UnsupportedOperationException if the ValueSetInfo.codesystem property 
+     * is specified.
+     * @throws IllegalArgumentException if zero or more than one ValueSet were resolved
+     * for the specified ValueSetInfo.id property.
+     */
+    public void resolveByUrl(ValueSetInfo valueSet) {
         if (valueSet.getVersion() != null
                 || (valueSet.getCodeSystems() != null && valueSet.getCodeSystems().size() > 0)) {
             throw new UnsupportedOperationException(String.format("Could not expand value set %s; version and code system bindings are not supported at this time.", valueSet.getId()));
@@ -132,7 +139,7 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
         try {
             FHIRResponse response;
 
-            String encodedId = urlencode(valueSet.getId());
+            String encodedId = FHIRClientUtil.urlencode(valueSet.getId());
 
             // https://github.com/DBCG/cql_engine/pull/462 - Use a search path of URL, identifier, and then resource id
             FHIRParameters parameters = new FHIRParameters();
@@ -146,10 +153,10 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
                 searchResults = fhirClient.search(ResourceType.VALUE_SET.getValue(), parameters).getResource(Bundle.class);
                 if (!searchResults.hasChildren() || searchResults.getEntry().isEmpty()) {
                     String id = valueSet.getId();
-                    if (id.startsWith(URN_OID)) {
-                        id = id.replace(URN_OID, "");
-                    } else if (id.startsWith(URN_UUID)) {
-                        id = id.replace(URN_UUID, "");
+                    if (id.startsWith(Constants.URN_OID)) {
+                        id = id.replace(Constants.URN_OID, "");
+                    } else if (id.startsWith(Constants.URN_UUID)) {
+                        id = id.replace(Constants.URN_UUID, "");
                     }
 
                     searchResults = Bundle.builder().type(BundleType.SEARCHSET).build();
@@ -179,12 +186,6 @@ public class RestFhirTerminologyProvider implements TerminologyProvider {
         } else {
             throw new IllegalArgumentException("Found more than 1 ValueSet with url: " + valueSet.getId());
         }
-
-        return true;
-    }
-
-    private String urlencode(String value) throws UnsupportedEncodingException {
-        return URLEncoder.encode(value, "UTF-8");
     }
 
     private Parameter getRequiredParameterByName(Parameters parameters, String name) {

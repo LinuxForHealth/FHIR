@@ -21,11 +21,16 @@ import com.ibm.fhir.cql.helpers.ModelHelper;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.type.Attachment;
 
-public class FhirLibraryLibrarySourceProvider implements LibrarySourceProvider {
+/**
+ * Implement a LibrarySourceProvider for the CQL to ELM translator that
+ * can extract the CQL sources from a collection of preloaded FHIR Library
+ * resources.
+ */
+public class FHIRLibraryLibrarySourceProvider implements LibrarySourceProvider {
 
     Map<String, Map<String, Library>> indexByName;
 
-    public FhirLibraryLibrarySourceProvider(List<Library> fhirLibraries) {
+    public FHIRLibraryLibrarySourceProvider(List<Library> fhirLibraries) {
         indexByName = new HashMap<>();
         for (Library library : fhirLibraries) {
             if (library.getName() == null) {

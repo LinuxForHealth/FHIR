@@ -47,6 +47,12 @@ import com.ibm.fhir.model.type.code.ListStatus;
 import com.ibm.fhir.model.type.code.MeasureReportStatus;
 import com.ibm.fhir.model.type.code.ObservationStatus;
 
+/**
+ * Implementation of FHIR Quality Measure Evaluation logic on top of the IBM FHIR Server
+ * model.
+ * 
+ * @param <ST> Model class for the subject type that will be evaluated (e.g. Patient)
+ */
 public class R4MeasureEvaluation<ST extends DomainResource> extends
         MeasureEvaluation<Object, Measure, Measure.Group, Measure.Group.Population, Measure.SupplementalData, 
             MeasureReport.Builder, MeasureReport.Group.Builder, MeasureReport.Group.Population.Builder, 

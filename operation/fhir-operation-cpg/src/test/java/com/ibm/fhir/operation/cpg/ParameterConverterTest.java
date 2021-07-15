@@ -22,8 +22,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.opencds.cqf.cql.engine.runtime.Tuple;
 
-import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
-import com.ibm.fhir.cql.engine.converter.impl.FhirTypeConverterImpl;
+import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
+import com.ibm.fhir.cql.engine.converter.impl.FHIRTypeConverterImpl;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Patient;
@@ -34,7 +34,7 @@ public class ParameterConverterTest {
 
     @BeforeMethod
     public void setup() {
-        FhirTypeConverter typeConverter = new FhirTypeConverterImpl();
+        FHIRTypeConverter typeConverter = new FHIRTypeConverterImpl();
         converter = new ParameterConverter(typeConverter);
     }
 

@@ -36,7 +36,7 @@ import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 public class LibraryEvaluateOperation extends AbstractCqlOperation {
 
-    private static Logger logger = Logger.getLogger(LibraryEvaluateOperation.class.getName());
+    private static final Logger logger = Logger.getLogger(LibraryEvaluateOperation.class.getName());
 
     @Override
     protected OperationDefinition buildOperationDefinition() {

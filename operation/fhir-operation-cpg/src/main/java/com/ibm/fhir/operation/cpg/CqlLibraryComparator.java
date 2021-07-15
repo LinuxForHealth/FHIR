@@ -13,7 +13,7 @@ public class CqlLibraryComparator implements Comparator<Library> {
     public static CqlLibraryComparator INSTANCE = new CqlLibraryComparator();
     
     private CqlLibraryComparator() {
-        
+        //No Operation
     }
     
     @Override

@@ -5,11 +5,13 @@
  */
 package com.ibm.fhir.ecqm.common;
 
+/**
+ * Encapsulates the data of the http://hl7.org/fhir/StructureDefinition/cqf-measureInfo
+ * structure definition.
+ */
 public class MeasureInfo {
     public static final String EXT_URL = "http://hl7.org/fhir/StructureDefinition/cqf-measureInfo";
     public static final String MEASURE_PREFIX = "http://hl7.org/fhir/us/cqfmeasures/";
-    
-    
     public static final String MEASURE = "measure";
     public static final String GROUP_ID = "groupId";
     public static final String POPULATION_ID = "populationId";
@@ -19,7 +21,7 @@ public class MeasureInfo {
     private String populationId;
     
     public MeasureInfo() {
-        
+        // No Operation
     }
 
     public String getMeasure() {

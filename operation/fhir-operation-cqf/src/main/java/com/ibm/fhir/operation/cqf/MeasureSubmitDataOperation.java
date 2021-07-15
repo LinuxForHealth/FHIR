@@ -24,6 +24,7 @@ import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class MeasureSubmitDataOperation extends AbstractOperation {
 
@@ -53,16 +54,14 @@ public class MeasureSubmitDataOperation extends AbstractOperation {
         
         if( resources != null ) {
             resources.stream()
-                .map( p -> p.getResource() )
-                .forEach( r -> builder.entry( createEntry(r) ) );
+                .map(p -> p.getResource())
+                .forEach(r -> builder.entry(createEntry(r)));
         }
         
         try {
             Bundle response = resourceHelper.doBundle(builder.build(), false);
             
-            return  Parameters.builder()
-                    .parameter( Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(response).build())
-                    .build();
+            return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, response);
 
         } catch( Exception ex ) {
             throw new FHIROperationException("Operation failed", ex);
@@ -93,6 +92,4 @@ public class MeasureSubmitDataOperation extends AbstractOperation {
             .request(request)
             .build();
     }
-
-    
 }

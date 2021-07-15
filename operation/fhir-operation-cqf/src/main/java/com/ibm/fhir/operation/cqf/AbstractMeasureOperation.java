@@ -25,16 +25,16 @@ import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.engine.model.FHIRModelResolver;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
-import com.ibm.fhir.cql.engine.server.retrieve.ServerFhirRetrieveProvider;
-import com.ibm.fhir.cql.engine.server.terminology.ServerFhirTerminologyProvider;
+import com.ibm.fhir.cql.engine.server.retrieve.ServerFHIRRetrieveProvider;
+import com.ibm.fhir.cql.engine.server.terminology.ServerFHIRTerminologyProvider;
 import com.ibm.fhir.cql.helpers.DateHelper;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ModelHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
-import com.ibm.fhir.cql.translator.FhirLibraryLibrarySourceProvider;
+import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
 import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
 import com.ibm.fhir.ecqm.common.MeasureReportType;
 import com.ibm.fhir.ecqm.r4.R4MeasureEvaluation;
@@ -61,8 +61,8 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      * 
      * @return Terminology Provider
      */
-    public TerminologyProvider getTerminologyProvider() {
-        TerminologyProvider termProvider = new ServerFhirTerminologyProvider();
+    public TerminologyProvider getTerminologyProvider(FHIRResourceHelpers resourceHelpers) {
+        TerminologyProvider termProvider = new ServerFHIRTerminologyProvider(resourceHelpers);
         return termProvider;
     }
 
@@ -76,7 +76,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      */
     public RetrieveProvider getRetrieveProvider(FHIRResourceHelpers resourceHelper, TerminologyProvider termProvider) {
         SearchParameterResolver resolver = new SearchParameterResolver();
-        ServerFhirRetrieveProvider retrieveProvider = new ServerFhirRetrieveProvider(resourceHelper, resolver);
+        ServerFHIRRetrieveProvider retrieveProvider = new ServerFHIRRetrieveProvider(resourceHelper, resolver);
         retrieveProvider.setExpandValueSets(false); // TODO - use server config settings
         retrieveProvider.setTerminologyProvider(termProvider);
         retrieveProvider.setPageSize(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX); // TODO - use server config settings?
@@ -110,7 +110,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
         context.setParameter(null, CQL_PARAM_MEASUREMENT_PERIOD, measurementPeriod);
 
         R4MeasureEvaluation<Patient> evaluation =
-                new R4MeasureEvaluation<>(context, measure, measurementPeriod, FhirModelResolver.RESOURCE_PACKAGE_NAME, r -> r.getId(), subjectOrPractitionerId);
+                new R4MeasureEvaluation<>(context, measure, measurementPeriod, FHIRModelResolver.RESOURCE_PACKAGE_NAME, r -> r.getId(), subjectOrPractitionerId);
 
         MeasureReport.Builder report = null;
         if (reportType != null) {
@@ -203,7 +203,7 @@ public abstract class AbstractMeasureOperation extends AbstractOperation {
      * @return CQL Libraries
      */
     protected List<org.cqframework.cql.elm.execution.Library> loadCqlLibraries(List<Library> libraries) {
-        FhirLibraryLibrarySourceProvider sourceProvider = new FhirLibraryLibrarySourceProvider(libraries);
+        FHIRLibraryLibrarySourceProvider sourceProvider = new FHIRLibraryLibrarySourceProvider(libraries);
         CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
 
         List<org.cqframework.cql.elm.execution.Library> result =

@@ -6,9 +6,9 @@
 package com.ibm.fhir.cql.helpers;
 
 /**
- * This is a very rudimentary attempt at providing an interface for code, mainly tests, to 
- * build CQL on the fly. There is a lot more to the CQL grammar than what is supported here,
- * but this hits the high points.
+ * This is a very rudimentary attempt at providing an interface for code to 
+ * build CQL on the fly. There is a lot more to the CQL grammar than what is
+ * supported here, but this hits the high points.
  */
 public class CqlBuilder {
     private static final String LINE_SEP = System.getProperty("line.separator");

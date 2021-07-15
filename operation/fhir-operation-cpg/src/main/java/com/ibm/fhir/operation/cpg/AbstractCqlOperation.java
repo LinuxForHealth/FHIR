@@ -32,16 +32,16 @@ import org.opencds.cqf.cql.engine.execution.LibraryLoader;
 import org.opencds.cqf.cql.engine.terminology.TerminologyProvider;
 
 import com.ibm.fhir.core.FHIRConstants;
-import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
-import com.ibm.fhir.cql.engine.converter.impl.FhirTypeConverterImpl;
+import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
+import com.ibm.fhir.cql.engine.converter.impl.FHIRTypeConverterImpl;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
-import com.ibm.fhir.cql.engine.server.retrieve.ServerFhirRetrieveProvider;
-import com.ibm.fhir.cql.engine.server.terminology.ServerFhirTerminologyProvider;
+import com.ibm.fhir.cql.engine.server.retrieve.ServerFHIRRetrieveProvider;
+import com.ibm.fhir.cql.engine.server.terminology.ServerFHIRTerminologyProvider;
 import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.LibraryHelper;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
-import com.ibm.fhir.cql.translator.FhirLibraryLibrarySourceProvider;
+import com.ibm.fhir.cql.translator.FHIRLibraryLibrarySourceProvider;
 import com.ibm.fhir.cql.translator.impl.InJVMCqlTranslationProvider;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Parameters;
@@ -67,13 +67,13 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
         Library primaryLibrary = libraries.get(0);
         LibraryLoader ll = createLibraryLoader(libraries);
         
-        FhirTypeConverter typeConverter = new FhirTypeConverterImpl();
+        FHIRTypeConverter typeConverter = new FHIRTypeConverterImpl();
         ParameterConverter parameterConverter = new ParameterConverter(typeConverter);
 
-        TerminologyProvider termProvider = new ServerFhirTerminologyProvider();
+        TerminologyProvider termProvider = new ServerFHIRTerminologyProvider(resourceHelper);
 
         SearchParameterResolver resolver = new SearchParameterResolver();
-        ServerFhirRetrieveProvider retrieveProvider = new ServerFhirRetrieveProvider(resourceHelper, resolver);
+        ServerFHIRRetrieveProvider retrieveProvider = new ServerFHIRRetrieveProvider(resourceHelper, resolver);
         retrieveProvider.setExpandValueSets(false); // TODO - use server config settings
         retrieveProvider.setTerminologyProvider(termProvider);
         retrieveProvider.setPageSize(FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX); // TODO - use server config settings?
@@ -183,7 +183,7 @@ public abstract class AbstractCqlOperation extends AbstractOperation {
     protected abstract Set<String> getCqlExpressionsToEvaluate(ParameterMap paramMap);
 
     protected LibraryLoader createLibraryLoader(List<Library> libraries) {  
-        FhirLibraryLibrarySourceProvider sourceProvider = new FhirLibraryLibrarySourceProvider(libraries);
+        FHIRLibraryLibrarySourceProvider sourceProvider = new FHIRLibraryLibrarySourceProvider(libraries);
         CqlTranslationProvider translator = new InJVMCqlTranslationProvider(sourceProvider);
         
         Collection<org.cqframework.cql.elm.execution.Library> result = libraries.stream()

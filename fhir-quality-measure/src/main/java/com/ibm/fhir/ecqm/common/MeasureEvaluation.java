@@ -24,6 +24,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @SuppressWarnings("unchecked")
+/**
+ * Implement the logic necessary to evaluate a FHIR Clinical Quality Measure
+ * in a model-agnostic fashion.
+ * 
+ * @param <BaseT> Model's base class
+ * @param <MeasureT> Model's Measure resource type class
+ * @param <MeasureGroupComponentT> Model's Measure.Group class
+ * @param <MeasureGroupPopulationComponentT> Model's Measure.Group.Population class
+ * @param <MeasureSupplementalDataComponentT> Model's Measure.SupplementalData class
+ * @param <MeasureReportT> Model's mutable MeasureReport class
+ * @param <MeasureReportGroupComponentT> Model's MeasureReport.Group class
+ * @param <MeasureReportGroupPopulationComponentT> Model's MeasureReport.Group.Population class
+ * @param <CodingT> Model's Coding class
+ * @param <ExtensionT> Model's Extension class
+ * @param <ReferenceT> Model's Reference class
+ * @param <ListResourceT> Model's List resource class
+ * @param <ListEntryT> Model's List.Entry class
+ * @param <ResourceT> Model's Resource class
+ * @param <SubjectT> Model class for the subject type being evaluated (e.g. Patient)
+ */
 public abstract class MeasureEvaluation<BaseT, MeasureT extends BaseT, MeasureGroupComponentT extends BaseT, MeasureGroupPopulationComponentT extends BaseT,
     MeasureSupplementalDataComponentT extends BaseT, MeasureReportT extends BaseT, MeasureReportGroupComponentT extends BaseT,
     MeasureReportGroupPopulationComponentT extends BaseT, CodingT extends BaseT, ExtensionT extends BaseT,

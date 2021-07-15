@@ -52,8 +52,12 @@ import com.ibm.fhir.path.FHIRPathSystemValue;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.exception.FHIRPathException;
 
-public class FhirModelResolver implements ModelResolver {
-    private static final Logger log = Logger.getLogger(FhirModelResolver.class.getName());
+/**
+ * This is an implementation of the CQL Engine Model Resolver that supports
+ * model resolution for IBM FHIR Server model objects.
+ */
+public class FHIRModelResolver implements ModelResolver {
+    private static final Logger log = Logger.getLogger(FHIRModelResolver.class.getName());
 
     public static final String BASE_PACKAGE_NAME = "com.ibm.fhir.model";
     public static final String RESOURCE_PACKAGE_NAME = BASE_PACKAGE_NAME + ".resource";

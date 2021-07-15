@@ -20,6 +20,10 @@ import java.time.temporal.TemporalUnit;
 import org.opencds.cqf.cql.engine.exception.InvalidPrecision;
 import org.opencds.cqf.cql.engine.runtime.BaseTemporal;
 
+/**
+ * Helper logic for working with java.util.time objects and the CQL
+ * internal date and time types.
+ */
 public class DateHelper {
 
     private static int MIN_DAY = 1;

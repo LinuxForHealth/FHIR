@@ -7,6 +7,10 @@ package com.ibm.fhir.cql.translator;
 
 import java.util.List;
 
+/**
+ * Encapsulates a CQL Translator Exception as produced by the CQL
+ * to ELM translator.
+ */
 public class CqlTranslationException extends RuntimeException {
 
     private static final long serialVersionUID = 16518219151102500L;

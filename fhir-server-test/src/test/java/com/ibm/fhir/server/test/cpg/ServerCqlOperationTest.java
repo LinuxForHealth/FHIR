@@ -22,11 +22,10 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 import jakarta.json.JsonObject;
 
-public class ServerCqlOperationTest extends FHIRServerTestBase {
+public class ServerCqlOperationTest extends BaseCPGOperationTest {
 
     private static final String TEST_PATIENT_ID = "Patient/sally-fields";
 

@@ -6,7 +6,6 @@
 package com.ibm.fhir.operation.cqf;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.concept;
-import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +27,7 @@ import com.ibm.fhir.model.type.code.RelatedArtifactType;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public abstract class AbstractDataRequirementsOperation extends AbstractOperation {
     public static final String PARAM_OUT_RETURN = "return";
@@ -73,15 +73,11 @@ public abstract class AbstractDataRequirementsOperation extends AbstractOperatio
                 .collect( Collectors.toSet() ) );
         }
                 
-        return Parameters.builder().parameter(
-            Parameters.Parameter.builder()
-                .name(fhirstring(PARAM_OUT_RETURN))
-                .resource(result.build()).build()).build();
+        return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, result.build());
     }
     
     @Override
-    public
-    abstract Parameters doInvoke(
+    public abstract Parameters doInvoke(
         FHIROperationContext operationContext,
         Class<? extends Resource> resourceType,
         String logicalId, String versionId,

@@ -20,15 +20,15 @@ import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.type.HumanName;
 
-public class FhirBundleCursorTest {
-    @Test
+public class FHIRBundleCursorTest {
+   @Test
    public void testSinglePage() {
         
         Patient patient = john_doe();
         
         Bundle b1 = bundle(patient, patient);
         
-        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+        FHIRBundleCursor cursor = new FHIRBundleCursor( (url) -> {
             throw new IllegalStateException("Should not reach this point");
         }, b1 );
         
@@ -54,7 +54,7 @@ public class FhirBundleCursorTest {
         ArrayList<Bundle> bundles = new ArrayList<>();
         bundles.addAll(Arrays.asList(b2,b3));
         
-        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+        FHIRBundleCursor cursor = new FHIRBundleCursor( (url) -> {
             return bundles.remove(0);
         }, b1 );
         
@@ -80,7 +80,7 @@ public class FhirBundleCursorTest {
         ArrayList<Bundle> bundles = new ArrayList<>();
         bundles.addAll(Arrays.asList(b2,b3));
         
-        FhirBundleCursor cursor = new FhirBundleCursor( (url) -> {
+        FHIRBundleCursor cursor = new FHIRBundleCursor( (url) -> {
             return bundles.remove(0);
         }, b1 );
         

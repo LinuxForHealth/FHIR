@@ -10,6 +10,10 @@ import java.util.List;
 
 import org.cqframework.cql.elm.execution.Library;
 
+/**
+ * Define an interface that applications can use for CQL to ELM 
+ * translation.
+ */
 public interface CqlTranslationProvider {
     public enum Option {
         EnableDateRangeOptimization,

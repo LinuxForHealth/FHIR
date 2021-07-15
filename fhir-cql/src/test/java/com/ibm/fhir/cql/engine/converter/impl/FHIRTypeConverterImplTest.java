@@ -14,16 +14,16 @@ import java.time.LocalDate;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
+import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
 import com.ibm.fhir.model.type.DateTime;
 
-public class FhirTypeConverterImplTest {
+public class FHIRTypeConverterImplTest {
     
-    FhirTypeConverter typeConverter;
+    FHIRTypeConverter typeConverter;
     
     @BeforeMethod
     public void setup() {
-        typeConverter = new FhirTypeConverterImpl();
+        typeConverter = new FHIRTypeConverterImpl();
     }
     
     @Test

@@ -26,8 +26,9 @@ import org.opencds.cqf.cql.engine.runtime.DateTime;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 
 import com.ibm.fhir.client.FHIRClient;
-import com.ibm.fhir.cql.engine.rest.R4RestFhirTest;
+import com.ibm.fhir.cql.engine.rest.R4RestFHIRTest;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
+import com.ibm.fhir.cql.engine.util.FHIRClientUtil;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Link;
 import com.ibm.fhir.model.resource.Condition;
@@ -38,19 +39,19 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 
-public class RestFhirRetrieveProviderTest extends R4RestFhirTest {
+public class RestFHIRRetrieveProviderTest extends R4RestFHIRTest {
 
     SearchParameterResolver RESOLVER;
     FHIRClient CLIENT;
 
-    RestFhirRetrieveProvider provider;
+    RestFHIRRetrieveProvider provider;
 
     @BeforeMethod
     public void setUp() throws Exception {
         CLIENT = newClient();
         RESOLVER = new SearchParameterResolver();
 
-        this.provider = new RestFhirRetrieveProvider(RESOLVER, CLIENT);
+        this.provider = new RestFHIRRetrieveProvider(RESOLVER, CLIENT);
     }
 
     @Test
@@ -116,7 +117,7 @@ public class RestFhirRetrieveProviderTest extends R4RestFhirTest {
         Code code = new Code().withSystem("http://mysystem.com").withCode("mycode");
         List<Code> codes = Arrays.asList(code);
 
-        mockFhirSearch("/Condition?code=" + escapeUrlParam(code.getSystem() + "|" + code.getCode()) + "&subject:Patient=123");
+        mockFhirSearch("/Condition?code=" + FHIRClientUtil.urlencode(code.getSystem() + "|" + code.getCode()) + "&subject:Patient=123");
 
         provider.retrieve("Patient", "subject", "123", "Condition", null, "code", codes, null, null, null, null, null);
     }
@@ -143,9 +144,5 @@ public class RestFhirRetrieveProviderTest extends R4RestFhirTest {
         assertEquals(count.get(), 2);
 
         verify(2, getRequestedFor(urlPathEqualTo("/Condition")));
-    }
-
-    protected String escapeUrlParam(String value) throws Exception {
-        return java.net.URLEncoder.encode(value, "utf-8");
     }
 }

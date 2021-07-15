@@ -16,6 +16,10 @@ import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameterAnd;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameterOr;
 
+/**
+ * This is a helper class that encapsulates a set of query parameters for a FHIR
+ * REST API call including common parameters such as _count.
+ */
 public class SearchParameterMap implements Serializable {
 
     private static final long serialVersionUID = 2302049000744568377L;

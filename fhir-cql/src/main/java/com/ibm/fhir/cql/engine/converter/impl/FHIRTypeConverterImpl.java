@@ -31,7 +31,7 @@ import org.opencds.cqf.cql.engine.runtime.CqlType;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.opencds.cqf.cql.engine.runtime.Tuple;
 
-import com.ibm.fhir.cql.engine.converter.FhirTypeConverter;
+import com.ibm.fhir.cql.engine.converter.FHIRTypeConverter;
 import com.ibm.fhir.cql.helpers.DateHelper;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Code;
@@ -52,7 +52,11 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 
-public class FhirTypeConverterImpl implements FhirTypeConverter {
+/**
+ * This is a default implementation of the FHIRTypeConverter interface that
+ * converts IBM FHIR Server model objects to and from CQL types.
+ */
+public class FHIRTypeConverterImpl implements FHIRTypeConverter {
 
     @Override
     public Boolean isFhirType(Object value) {

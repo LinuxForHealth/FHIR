@@ -8,6 +8,9 @@ package com.ibm.fhir.ecqm.common;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Enumeration of the standard FHIR MeasureReport types.
+ */
 public enum MeasureReportType {
     INDIVIDUAL("individual", "Individual","An individual report that provides information on the performance for a given measure with respect to a single patient"), 
     PATIENTLIST("patient-list", "Patient List","A patient list report that includes a listing of patients that satisfied each population criteria in the measure"), 

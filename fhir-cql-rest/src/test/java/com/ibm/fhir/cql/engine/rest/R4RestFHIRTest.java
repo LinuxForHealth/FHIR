@@ -48,7 +48,19 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 
-public abstract class R4RestFhirTest {
+/**
+ * This class provides a simple framework for building test cases
+ * for code that expects to interact with a live FHIR server through
+ * REST API calls. Wiremock uses Jetty under the containers as a web
+ * container and then the methods on this class provide the ability
+ * to configure that web container to respond to specific URL patterns
+ * with specific responses. The simplest request mapping is for a client
+ * to provide a URL and a resource and the container will return that
+ * resource in response to a request for that URL. More complex 
+ * URL-building is possible using the Wiremock MappingBuilder class.
+ * See Wiremocks documentation for full details. 
+ */
+public abstract class R4RestFHIRTest {
     
     public static final String HOSTNAME = "localhost";
     public static final int PORT = 7070;
@@ -80,7 +92,6 @@ public abstract class R4RestFhirTest {
 
     public static String getBaseUrl() {
         return wireMockServer.baseUrl();
-//        return String.format("http://%s:%d/", HOSTNAME, getHttpPort());
     }
     
     @BeforeMethod

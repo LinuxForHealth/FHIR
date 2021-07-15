@@ -1,3 +1,8 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
 package com.ibm.fhir.ecqm.r4;
 
 import static com.ibm.fhir.cql.helpers.ModelHelper.canonical;
@@ -29,7 +34,7 @@ import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.opencds.cqf.cql.engine.runtime.Interval;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.engine.model.FHIRModelResolver;
 import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.ecqm.BaseMeasureEvaluationTest;
 import com.ibm.fhir.ecqm.common.MeasurePopulationType;
@@ -121,7 +126,7 @@ public class R4MeasureEvaluationTest extends BaseMeasureEvaluationTest {
         });
         context.registerLibraryLoader(ll);
         
-        R4MeasureEvaluation<Patient> evaluation = new R4MeasureEvaluation<>(context, measure.build(), measurementPeriod, FhirModelResolver.RESOURCE_PACKAGE_NAME, r -> r.getId() , patient.getId());
+        R4MeasureEvaluation<Patient> evaluation = new R4MeasureEvaluation<>(context, measure.build(), measurementPeriod, FHIRModelResolver.RESOURCE_PACKAGE_NAME, r -> r.getId() , patient.getId());
         MeasureReport.Builder report = evaluation.evaluate(MeasureReportType.INDIVIDUAL);
         assertNotNull(report);
         

@@ -14,6 +14,10 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.cql.engine.exception.BaseServerResponseException;
 
+/**
+ * Helper methods for working with the IBM FHIR Server Client and 
+ * produced FHIRResponse objects.
+ */
 public class FHIRClientUtil {
 
     public static void handleErrorResponse(FHIRResponse response) {

@@ -10,5 +10,5 @@ These operations are assumed to interact with the local FHIR server for data, co
 
 ## TODO
 
-* [ ] Implement prefetchData
-* [ ] Implement remote endpoints for data, content, and terminology
+* [ ] Implement prefetchData (see #2618)
+* [ ] Implement remote endpoints for data, content, and terminology (see #2618)

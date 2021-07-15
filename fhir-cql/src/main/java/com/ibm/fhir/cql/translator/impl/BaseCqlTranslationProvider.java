@@ -15,13 +15,16 @@ import org.cqframework.cql.elm.execution.Library;
 import com.ibm.fhir.cql.translator.CqlTranslationException;
 import com.ibm.fhir.cql.translator.CqlTranslationProvider;
 
+/**
+ * Provide basic support for implementations of the CqlTranslationProvider 
+ * interface.
+ */
 public abstract class BaseCqlTranslationProvider implements CqlTranslationProvider {
 
     public static final Format DEFAULT_TARGET_FORMAT = Format.XML;
 
     public List<Option> getDefaultOptions() {
         List<Option> defaults = CqlTranslatorOptions.defaultOptions().getOptions().stream().map( o -> Option.valueOf( o.name() ) ).collect(Collectors.toList());
-        // defaults.add( CqlTranslator.Options.EnableDateRangeOptimization );
         return defaults;
     }
 

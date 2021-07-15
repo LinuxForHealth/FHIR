@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>fhir-operation-cpg</artifactId>
-    <name>Operations for Clinical Practice Guidelines IG</name>
 
     <dependencies>
         <dependency>
@@ -124,7 +123,6 @@
                                     <include>com.fasterxml.jackson.module:jackson-module-jaxb-annotations</include>
                                     <include>org.jvnet.jaxb2_commons</include>
                                     <include>org.eclipse.persistence</include>
-                                    <include>com.google.code.findbugs</include>
                                     <include>org.apache.commons:commons-collections4</include>
                                     <include>net.sf.jopt-simple:jopt-simple</include>
                                 </includes>

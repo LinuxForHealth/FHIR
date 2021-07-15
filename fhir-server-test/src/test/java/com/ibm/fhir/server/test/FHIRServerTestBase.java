@@ -484,9 +484,9 @@ public abstract class FHIRServerTestBase {
         assertNotNull(response);
         assertEquals(expectedStatusCode, response.getStatus());
     }
-
+    
     /**
-     * Verify that the status code in the Response is of theexpected status
+     * Verify that the status code in the Response is of the expected status
      * family.
      *
      * @param response           the Response to verify
@@ -500,7 +500,7 @@ public abstract class FHIRServerTestBase {
         }
         assertEquals(message, response.getStatusInfo().getFamily(), family);
     }
-    
+
     /**
      * Verify that a FHIRClient response has the expected status code.
      *

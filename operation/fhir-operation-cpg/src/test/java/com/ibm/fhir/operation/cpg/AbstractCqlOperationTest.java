@@ -24,7 +24,7 @@ import org.opencds.cqf.cql.engine.execution.Context;
 import org.opencds.cqf.cql.engine.retrieve.RetrieveProvider;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.cql.engine.model.FhirModelResolver;
+import com.ibm.fhir.cql.engine.model.FHIRModelResolver;
 import com.ibm.fhir.cql.helpers.DataProviderFactory;
 import com.ibm.fhir.cql.helpers.ParameterMap;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -64,7 +64,7 @@ public class AbstractCqlOperationTest extends BaseCqlOperationTest<AbstractCqlOp
             context.registerDataProvider(entry.getKey(), entry.getValue());
         }
 
-        DataProvider resolved = context.resolveDataProvider(FhirModelResolver.BASE_PACKAGE_NAME + ".resource");
+        DataProvider resolved = context.resolveDataProvider(FHIRModelResolver.BASE_PACKAGE_NAME + ".resource");
         assertNotNull(resolved);
     }
 

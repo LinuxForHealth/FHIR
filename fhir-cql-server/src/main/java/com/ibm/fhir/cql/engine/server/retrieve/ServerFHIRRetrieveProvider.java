@@ -6,6 +6,7 @@
 package com.ibm.fhir.cql.engine.server.retrieve;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -16,27 +17,31 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.cql.engine.retrieve.SearchParameterFhirRetrieveProvider;
+import com.ibm.fhir.cql.engine.retrieve.SearchParameterFHIRRetrieveProvider;
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterMap;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
-import com.ibm.fhir.cql.engine.searchparam.ReferenceParameter;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
-import com.ibm.fhir.cql.helpers.FhirBundleCursor;
+import com.ibm.fhir.cql.helpers.FHIRBundleCursor;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
-public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvider {
+/**
+ * This is an implementation of a retrieve provider for the CQL Engine that uses
+ * the IBM FHIR Server FHIRResourceHelpers API to access the data. This passes
+ * through directly to the persistence APIs.
+ */
+public class ServerFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvider {
 
-    private static final String DUMMY_REQUEST_URI = "https://localhost/fhir-server/api/v4";
+    private static final String DUMMY_REQUEST_URI = "https://localhost:9443/fhir-server/api/v4";
 
-    private static Logger logger = Logger.getLogger(ServerFhirRetrieveProvider.class.getName());
+    private static Logger logger = Logger.getLogger(ServerFHIRRetrieveProvider.class.getName());
     
     private FHIRResourceHelpers resourceHelpers;
 
-    public ServerFhirRetrieveProvider(FHIRResourceHelpers resourceHelpers, SearchParameterResolver searchParameterResolver) {
+    public ServerFHIRRetrieveProvider(FHIRResourceHelpers resourceHelpers, SearchParameterResolver searchParameterResolver) {
         super(searchParameterResolver);
         this.resourceHelpers = resourceHelpers;
     }
@@ -47,7 +52,7 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
 
         for (SearchParameterMap map : queries) {
             if( logger.isLoggable(Level.FINE) ) {
-                logger.fine(String.format("Executing query %s", map.toString()));
+                logger.fine(String.format("Executing query %s?%s", dataType, map.toString()));
             }
             
             MultivaluedMap<String, String> queryParameters = getQueryParameters(map);
@@ -57,20 +62,25 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
 
             Resource resource = executeQuery(dataType, queryParameters);
             if (resource instanceof Bundle) {
-                AtomicInteger pageNumber = new AtomicInteger(1);
-                FhirBundleCursor cursor = new FhirBundleCursor(url -> {
+                final String requestUri = DUMMY_REQUEST_URI + "/" + dataType;
+                final AtomicInteger pageNumber = new AtomicInteger(1);
+                FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                     try {
                         int nextPage = pageNumber.incrementAndGet();
                         if( logger.isLoggable(Level.FINE) ) {
                             logger.fine(String.format("Retrieving page %d / %s", nextPage, url));
                         }
                         queryParameters.putSingle(SearchConstants.PAGE, String.valueOf(nextPage));
-                        return resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, DUMMY_REQUEST_URI, /*contextResource=*/null);
+                        return resourceHelpers.doSearch(dataType, /*compartment=*/null, /*compartmentId=*/null, queryParameters, requestUri, /*contextResource=*/null);
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
                 }, (Bundle) resource);
-                cursor.forEach(results::add);
+                
+                Iterator<?> it = cursor.iterator();
+                while(it.hasNext()) {
+                    results.add(it.next());
+                }
             } else {
                 results.add(resource);
             }
@@ -120,29 +130,4 @@ public class ServerFhirRetrieveProvider extends SearchParameterFhirRetrieveProvi
         return parameters;
     }
 
-    protected String getModifiedName(String name, IQueryParameter param) {
-        StringBuilder paramName = new StringBuilder(name);
-        if (param instanceof ReferenceParameter) {
-            ReferenceParameter rp = (ReferenceParameter) param;
-            if (rp.getResourceTypeModifier() != null) {
-                paramName.append(":");
-                paramName.append(rp.getResourceTypeModifier().getValue());
-            }
-
-            if (rp.getChainedProperty() != null) {
-                paramName.append(".");
-                paramName.append(rp.getChainedProperty());
-            }
-
-        } else {
-            if (param.getMissing() != null) {
-                paramName.append(":missing");
-            } else if (param.getModifier() != null) {
-                paramName.append(":");
-                paramName.append(param.getModifier().value());
-            }
-        }
-
-        return paramName.toString();
-    }
 }

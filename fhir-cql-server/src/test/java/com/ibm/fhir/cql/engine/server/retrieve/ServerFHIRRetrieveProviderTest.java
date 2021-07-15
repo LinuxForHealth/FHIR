@@ -30,7 +30,7 @@ import org.mockito.ArgumentMatcher;
 import org.mockito.ArgumentMatchers;
 
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
-import com.ibm.fhir.cql.engine.server.terminology.ServerFhirTerminologyProvider;
+import com.ibm.fhir.cql.engine.server.terminology.ServerFHIRTerminologyProvider;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.resource.Patient;
@@ -44,20 +44,20 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceResourceNotFoundException;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
-public class ServerFhirRetrieveProviderTest {
+public class ServerFHIRRetrieveProviderTest {
 
-    private ServerFhirTerminologyProvider termProvider;
-    private ServerFhirRetrieveProvider provider;
+    private ServerFHIRTerminologyProvider termProvider;
+    private ServerFHIRRetrieveProvider provider;
     private FHIRResourceHelpers helpers;
 
     @BeforeMethod
     public void setup() {
         helpers = mock(FHIRResourceHelpers.class);
-        termProvider = mock(ServerFhirTerminologyProvider.class);
+        termProvider = mock(ServerFHIRTerminologyProvider.class);
 
         SearchParameterResolver resolver = new SearchParameterResolver();
 
-        provider = new ServerFhirRetrieveProvider(helpers, resolver);
+        provider = new ServerFHIRRetrieveProvider(helpers, resolver);
         provider.setTerminologyProvider(termProvider);
     }
 

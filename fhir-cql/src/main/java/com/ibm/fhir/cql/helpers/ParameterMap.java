@@ -13,6 +13,10 @@ import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 
+/**
+ * This is a helper class for indexing the contents of a FHIR Parameters
+ * resource by name and accessing the contents of that index.
+ */
 public class ParameterMap extends ArrayListValuedHashMap<String, Parameter> {
 
     private static final long serialVersionUID = -6143143827215676862L;

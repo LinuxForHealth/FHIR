@@ -9,17 +9,24 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.Properties;
+import java.util.stream.Collectors;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Period;
+import com.ibm.fhir.path.FHIRPathNode;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 import jakarta.json.JsonObject;
@@ -33,6 +40,16 @@ public class BaseMeasureOperationTest extends FHIRServerTestBase {
 
     @BeforeClass
     public void setup() throws Exception {
+        CapabilityStatement conf = retrieveConformanceStatement();
+        
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        EvaluationContext evaluationContext = new EvaluationContext(conf);
+        Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, "rest.resource.where(type = 'Measure').operation.name");
+        Collection<String> listOfOperations = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
+        if( ! listOfOperations.contains("evaluate-measure") ) {
+            throw new SkipException("CQF Measure Operations are not enabled");
+        }
+        
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         setUp(testProperties);
 

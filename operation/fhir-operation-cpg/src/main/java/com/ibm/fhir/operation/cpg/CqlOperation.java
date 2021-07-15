@@ -60,6 +60,7 @@ public class CqlOperation extends AbstractCqlOperation {
 
     public static class IncludeLibraryDetail {
         public IncludeLibraryDetail() {
+            // No Operation
         }
         
         public IncludeLibraryDetail(String url, String name, String version, String alias) {
@@ -158,7 +159,7 @@ public class CqlOperation extends AbstractCqlOperation {
             }
         }
         
-        if( ! userSpecifiedFhirHelpers ) { 
+        if( !userSpecifiedFhirHelpers ) { 
             content.include("FHIRHelpers", fhirVersion);
             //content.append(String.format("include \"FHIRHelpers\" version '%s'\n", fhirVersion));
             // Intentionally no related artifact here. It will get picked up automatically by the FhirLibrarySourceProvider

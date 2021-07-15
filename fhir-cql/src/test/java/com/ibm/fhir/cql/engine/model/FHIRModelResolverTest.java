@@ -53,13 +53,13 @@ import com.ibm.fhir.model.type.code.TestReportResult;
 import com.ibm.fhir.model.type.code.TestReportStatus;
 import com.ibm.fhir.search.compartment.CompartmentUtil;
 
-public class FhirModelResolverTest {
+public class FHIRModelResolverTest {
   
     ModelResolver resolver = null;
     
     @BeforeMethod
     public void setup() {
-        this.resolver = new FhirModelResolver();
+        this.resolver = new FHIRModelResolver();
         resolver.setPackageName("com.ibm.fhir.model");
     }
     

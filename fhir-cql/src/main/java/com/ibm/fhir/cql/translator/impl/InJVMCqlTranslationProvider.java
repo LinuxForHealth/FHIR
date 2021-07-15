@@ -29,10 +29,13 @@ import org.opencds.cqf.cql.engine.execution.CqlLibraryReader;
 
 import com.ibm.fhir.cql.translator.CqlTranslationException;
 
-
+/**
+ * Provide an implementation of the CqlTranslationProvider interface that uses
+ * the CQL translator directly inside the JVM. 
+ */
 public class InJVMCqlTranslationProvider extends BaseCqlTranslationProvider {
 
-    private static Logger LOG = Logger.getLogger(InJVMCqlTranslationProvider.class.getName());
+    private static final Logger LOG = Logger.getLogger(InJVMCqlTranslationProvider.class.getName());
     
     private ModelManager modelManager;
     private LibraryManager libraryManager;

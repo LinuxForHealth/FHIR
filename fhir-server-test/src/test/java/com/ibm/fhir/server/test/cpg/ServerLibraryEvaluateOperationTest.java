@@ -26,11 +26,10 @@ import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.server.test.FHIRServerTestBase;
 
 import jakarta.json.JsonObject;
 
-public class ServerLibraryEvaluateOperationTest extends FHIRServerTestBase {
+public class ServerLibraryEvaluateOperationTest extends BaseCPGOperationTest {
     private static final String TEST_PATIENT_ID = "Patient/sally-fields";
 
     @BeforeClass

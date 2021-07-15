@@ -8,6 +8,7 @@ package com.ibm.fhir.cql.engine.rest.retrieve;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,22 +17,25 @@ import javax.ws.rs.core.Response;
 import com.ibm.fhir.client.FHIRClient;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.cql.engine.retrieve.SearchParameterFhirRetrieveProvider;
+import com.ibm.fhir.cql.engine.retrieve.SearchParameterFHIRRetrieveProvider;
 import com.ibm.fhir.cql.engine.retrieve.SearchParameterMap;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
-import com.ibm.fhir.cql.engine.searchparam.ReferenceParameter;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.util.FHIRClientUtil;
-import com.ibm.fhir.cql.helpers.FhirBundleCursor;
+import com.ibm.fhir.cql.helpers.FHIRBundleCursor;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.util.ModelSupport;
 
-public class RestFhirRetrieveProvider extends SearchParameterFhirRetrieveProvider {
+/**
+ * This is an implementation of a retrieve provider for the CQL Engine that uses
+ * the IBM FHIR Server REST Client to access data.
+ */
+public class RestFHIRRetrieveProvider extends SearchParameterFHIRRetrieveProvider {
 
     private FHIRClient fhirClient;
 
-    public RestFhirRetrieveProvider(SearchParameterResolver searchParameterResolver, FHIRClient fhirClient) {
+    public RestFHIRRetrieveProvider(SearchParameterResolver searchParameterResolver, FHIRClient fhirClient) {
         super(searchParameterResolver);
         this.fhirClient = fhirClient;
     }
@@ -51,7 +55,7 @@ public class RestFhirRetrieveProvider extends SearchParameterFhirRetrieveProvide
         List<Object> results = new ArrayList<>();
         resources.stream().forEach(resource -> {
             if (resource instanceof Bundle) {
-                FhirBundleCursor cursor = new FhirBundleCursor(url -> {
+                FHIRBundleCursor cursor = new FHIRBundleCursor(url -> {
                     try {
                         Response response = fhirClient.getWebTarget().path(url).request().get();
                         FHIRClientUtil.handleErrorResponse(response);
@@ -60,7 +64,11 @@ public class RestFhirRetrieveProvider extends SearchParameterFhirRetrieveProvide
                         throw new RuntimeException(ex);
                     }
                 }, (Bundle) resource);
-                cursor.forEach(results::add);
+                
+                Iterator<?> it = cursor.iterator();
+                while(it.hasNext()) {
+                    results.add(it.next());
+                }
             } else {
                 results.add(resource);
             }
@@ -118,31 +126,5 @@ public class RestFhirRetrieveProvider extends SearchParameterFhirRetrieveProvide
             }
         }
         return parameters;
-    }
-
-    protected String getModifiedName(String name, IQueryParameter param) {
-        StringBuilder paramName = new StringBuilder(name);
-        if (param instanceof ReferenceParameter) {
-            ReferenceParameter rp = (ReferenceParameter) param;
-            if (rp.getResourceTypeModifier() != null) {
-                paramName.append(":");
-                paramName.append(rp.getResourceTypeModifier().getValue());
-            }
-
-            if (rp.getChainedProperty() != null) {
-                paramName.append(".");
-                paramName.append(rp.getChainedProperty());
-            }
-
-        } else {
-            if (param.getMissing() != null) {
-                paramName.append(":missing");
-            } else if (param.getModifier() != null) {
-                paramName.append(":");
-                paramName.append(param.getModifier().value());
-            }
-        }
-
-        return paramName.toString();
     }
 }

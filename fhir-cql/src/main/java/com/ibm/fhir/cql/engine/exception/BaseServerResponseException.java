@@ -7,6 +7,10 @@ package com.ibm.fhir.cql.engine.exception;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 
+/**
+ * Provides an extension point for server exceptions based on HTTP
+ * interactions.
+ */
 public class BaseServerResponseException extends RuntimeException {
 
     private static final long serialVersionUID = -8334964870841899079L;

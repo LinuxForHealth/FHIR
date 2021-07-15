@@ -5,13 +5,13 @@
  */
 package com.ibm.fhir.cql.engine.rest.terminology;
 
+import static com.ibm.fhir.cql.engine.util.FHIRClientUtil.urlencode;
+
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -22,7 +22,7 @@ import org.opencds.cqf.cql.engine.runtime.Code;
 import org.opencds.cqf.cql.engine.terminology.CodeSystemInfo;
 import org.opencds.cqf.cql.engine.terminology.ValueSetInfo;
 
-import com.ibm.fhir.cql.engine.rest.R4RestFhirTest;
+import com.ibm.fhir.cql.engine.rest.R4RestFHIRTest;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.ValueSet;
@@ -33,17 +33,17 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 
-public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
+public class RestFHIRTerminologyProviderTest extends R4RestFHIRTest {
 
     private static final String TEST_DISPLAY = "Display";
     private static final String TEST_CODE = "425178004";
     private static final String TEST_SYSTEM = "http://snomed.info/sct";
     private static final String TEST_SYSTEM_VERSION = "2013-09";
-    RestFhirTerminologyProvider provider;
+    RestFHIRTerminologyProvider provider;
 
     @BeforeMethod
     public void initializeProvider() throws Exception {
-        provider = new RestFhirTerminologyProvider(newClient());
+        provider = new RestFHIRTerminologyProvider(newClient());
     }
 
     @Test
@@ -54,7 +54,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(provider.resolveByUrl(info), Boolean.TRUE);
+        provider.resolveByUrl(info);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(Boolean.TRUE, provider.resolveByUrl(info));
+        provider.resolveByUrl(info);
     }
 
     @Test
@@ -77,7 +77,7 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
 
         mockResolveSearchPath(info, response);
 
-        assertEquals(Boolean.TRUE,provider.resolveByUrl(info));
+        provider.resolveByUrl(info);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -259,10 +259,6 @@ public class RestFhirTerminologyProviderTest extends R4RestFhirTest {
         assertEquals(result.getSystem(), code.getSystem());
         assertEquals(result.getCode(), code.getCode());
         assertEquals(result.getDisplay(), code.getDisplay());
-    }
-
-    protected String urlencode(String value) throws UnsupportedEncodingException {
-        return URLEncoder.encode(value, "utf-8");
     }
 
     protected void mockResolveSearchPath(ValueSetInfo info, ValueSet valueSet) throws Exception {

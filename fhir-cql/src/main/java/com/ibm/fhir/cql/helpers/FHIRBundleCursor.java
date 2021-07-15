@@ -16,7 +16,16 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Resource;
 
-public class FhirBundleCursor implements Iterable<Object> {
+/**
+ * Helper class for iterating through the resources contained in a Bundle
+ * resource and all subsequent Bundle resources as indicated by the "next"
+ * links. This supports a pluggable data retriever mechanism so that 
+ * consumers are free to resolve the next page links in whatever way 
+ * is suitable for their execution environment. The FHIRBundleCursor
+ * is initialized from a default Bundle (aka page1) and continues
+ * from that point forward.
+ */
+public class FHIRBundleCursor implements Iterable<Object> {
 
     public static interface PageLoader extends Function<String, Bundle> {
     };
@@ -24,7 +33,7 @@ public class FhirBundleCursor implements Iterable<Object> {
     private PageLoader pageLoader;
     private Bundle results;
 
-    public FhirBundleCursor(PageLoader pageLoader, Bundle results) {
+    public FHIRBundleCursor(PageLoader pageLoader, Bundle results) {
         this.pageLoader = pageLoader;
         this.results = results;
     }

@@ -7,6 +7,9 @@ package com.ibm.fhir.cql;
 
 public class Constants {
 
+    public static final String URN_UUID = "urn:uuid:";
+    public static final String URN_OID = "urn:oid:";
+    
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String FHIR_VERSION = "4.0.1";
     

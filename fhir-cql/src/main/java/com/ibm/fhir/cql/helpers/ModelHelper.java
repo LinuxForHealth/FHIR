@@ -35,7 +35,12 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RelatedArtifactType;
 
 /**
- * Utilities for working with FHIR model objects.
+ * Utilities for working with FHIR model objects. This consists
+ * mainly of null-safe factory objects for creating FHIR types
+ * from Java types, but also some null-safe helpers for going the
+ * opposite direction (FHIR to Java), and some factory methods
+ * for creating resources that are commonly used in the execution
+ * of CQL and FHIR Quality Measure operations.
  */
 public class ModelHelper {
 

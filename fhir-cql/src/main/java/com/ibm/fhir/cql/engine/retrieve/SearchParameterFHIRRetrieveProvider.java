@@ -22,6 +22,7 @@ import com.ibm.fhir.cql.engine.searchparam.DateRangeParameter;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameter;
 import com.ibm.fhir.cql.engine.searchparam.IQueryParameterOr;
 import com.ibm.fhir.cql.engine.searchparam.OrParameter;
+import com.ibm.fhir.cql.engine.searchparam.ReferenceParameter;
 import com.ibm.fhir.cql.engine.searchparam.SearchParameterResolver;
 import com.ibm.fhir.cql.engine.searchparam.TokenParameter;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -29,7 +30,11 @@ import com.ibm.fhir.model.type.code.SearchParamType;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.SearchConstants.Prefix;
 
-public abstract class SearchParameterFhirRetrieveProvider extends TerminologyAwareRetrieveProvider {
+/**
+ * Provide support for CQL Engine RetrieveProvider implementations that wish to build
+ * retrieve support on top of query parameters defined in the FHIR REST API specification.
+ */
+public abstract class SearchParameterFHIRRetrieveProvider extends TerminologyAwareRetrieveProvider {
 
     private static final int DEFAULT_MAX_CODES_PER_QUERY = 64;
 
@@ -37,7 +42,7 @@ public abstract class SearchParameterFhirRetrieveProvider extends TerminologyAwa
     private Integer pageSize;
     private int maxCodesPerQuery;
 
-    public SearchParameterFhirRetrieveProvider(SearchParameterResolver searchParameterResolver) {
+    public SearchParameterFHIRRetrieveProvider(SearchParameterResolver searchParameterResolver) {
         this.searchParameterResolver = searchParameterResolver;
         this.maxCodesPerQuery = DEFAULT_MAX_CODES_PER_QUERY;
     }
@@ -277,5 +282,39 @@ public abstract class SearchParameterFhirRetrieveProvider extends TerminologyAwa
         }
 
         return searchParameters;
+    }
+    
+    /**
+     * Given a query parameter name and contents, transmute the name
+     * into something that includes all the appropriate modifiers.
+     * 
+     * @param name query parameter name
+     * @param param query parameter contents
+     * @return query parameter name with appropriate modifiers appended
+     */
+    protected String getModifiedName(String name, IQueryParameter param) {
+        StringBuilder paramName = new StringBuilder(name);
+        if (param instanceof ReferenceParameter) {
+            ReferenceParameter rp = (ReferenceParameter) param;
+            if (rp.getResourceTypeModifier() != null) {
+                paramName.append(":");
+                paramName.append(rp.getResourceTypeModifier().getValue());
+            }
+
+            if (rp.getChainedProperty() != null) {
+                paramName.append(".");
+                paramName.append(rp.getChainedProperty());
+            }
+
+        } else {
+            if (param.getMissing() != null) {
+                paramName.append(":missing");
+            } else if (param.getModifier() != null) {
+                paramName.append(":");
+                paramName.append(param.getModifier().value());
+            }
+        }
+
+        return paramName.toString();
     }
 }

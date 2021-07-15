@@ -10,10 +10,8 @@
     </parent>
 
     <artifactId>fhir-operation-cqf</artifactId>
-    <name>Operations for Clinical Quality Framework IG</name>
 
     <dependencies>
-
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-cql</artifactId>
@@ -137,7 +135,6 @@
                                     <include>com.fasterxml.jackson.module:jackson-module-jaxb-annotations</include>
                                     <include>org.jvnet.jaxb2_commons</include>
                                     <include>org.eclipse.persistence</include>
-                                    <include>com.google.code.findbugs</include>
                                     <include>commons-beanutils:commons-beanutils</include>
                                 </includes>
                             </artifactSet>

@@ -22,7 +22,10 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Instant;
 
-public interface FhirTypeConverter {
+/**
+ * Define an interface for converting IBM FHIR Server types to CQL types and vice versa.
+ */
+public interface FHIRTypeConverter {
 
     // CQL-to-FHIR conversions
 

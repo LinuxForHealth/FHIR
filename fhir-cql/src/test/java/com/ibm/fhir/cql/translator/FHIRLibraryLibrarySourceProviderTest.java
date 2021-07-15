@@ -18,13 +18,13 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Library;
 
-public class FhirLibraryLibrarySourceProviderTest {
+public class FHIRLibraryLibrarySourceProviderTest {
     
     @Test
     public void testLibraryResolution() throws Exception {
         Bundle bundle = (Bundle) TestHelper.getTestResource("EXM74-10.2.000-request.json");
         List<Library> libraries = TestHelper.getBundleResources(bundle, Library.class);
-        LibrarySourceProvider provider = new FhirLibraryLibrarySourceProvider(libraries);
+        LibrarySourceProvider provider = new FHIRLibraryLibrarySourceProvider(libraries);
         InputStream is = provider.getLibrarySource(new VersionedIdentifier().withId("EXM74").withSystem("10.2.000"));
         assertNotNull(is, "Missing source for id with version");
         

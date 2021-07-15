@@ -8,6 +8,7 @@ package com.ibm.fhir.cql.engine.searchparam;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.search.SearchConstants.Modifier;
@@ -54,7 +55,7 @@ public abstract class BaseQueryParameter<T extends BaseQueryParameter<T>> implem
     }
     
     public String toString() {
-        return ToStringBuilder.reflectionToString(this);
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
     public int hashCode() {

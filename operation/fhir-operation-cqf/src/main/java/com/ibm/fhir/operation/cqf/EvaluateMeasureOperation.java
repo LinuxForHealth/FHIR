@@ -5,8 +5,6 @@
  */
 package com.ibm.fhir.operation.cqf;
 
-import static com.ibm.fhir.cql.helpers.ModelHelper.fhirstring;
-
 import java.time.ZoneOffset;
 import java.util.Map;
 
@@ -31,6 +29,7 @@ import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.server.util.FHIROperationUtil;
 
 public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
@@ -83,7 +82,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
         ZoneOffset zoneOffset = getZoneOffset(paramMap);
         Interval measurementPeriod = getMeasurementPeriod(paramMap,zoneOffset);
 
-        TerminologyProvider termProvider = getTerminologyProvider();
+        TerminologyProvider termProvider = getTerminologyProvider(resourceHelper);
 
         RetrieveProvider retrieveProvider = getRetrieveProvider(resourceHelper, termProvider);
 
@@ -91,7 +90,7 @@ public class EvaluateMeasureOperation extends AbstractMeasureOperation {
 
         MeasureReport.Builder report = doMeasureEvaluation(measure, zoneOffset, measurementPeriod, subjectOrPractitionerId, reportType, termProvider, dataProviders);
 
-        return Parameters.builder().parameter(Parameter.builder().name(fhirstring(PARAM_OUT_RETURN)).resource(report.build()).build()).build();
+        return FHIROperationUtil.getOutputParameters(PARAM_OUT_RETURN, report.build());
     }
 
     public MeasureReportType getReportType(ParameterMap paramMap, String subject) {
