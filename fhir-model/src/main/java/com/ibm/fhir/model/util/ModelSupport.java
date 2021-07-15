@@ -40,6 +40,7 @@ import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
+import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -117,7 +118,7 @@ public final class ModelSupport {
     private static final Set<Class<? extends Resource>> CONCRETE_RESOURCE_TYPES = getResourceTypes().stream()
             .filter(rt -> !isAbstract(rt))
             .collect(Collectors.toSet());
-    private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
+    private static final Map<Class<?>, List<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     // LinkedHashSet is used just to preserve the order, for convenience only
     private static final Set<Class<? extends Element>> CHOICE_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
             Base64Binary.class,
@@ -347,13 +348,13 @@ public final class ModelSupport {
         return Collections.unmodifiableMap(concreteTypeMap);
     }
 
-    private static Map<Class<?>, Set<Constraint>> buildModelClassConstraintMap() {
-        Map<Class<?>, Set<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
+    private static Map<Class<?>, List<Constraint>> buildModelClassConstraintMap() {
+        Map<Class<?>, List<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
         for (Class<?> modelClass : getModelClasses()) {
-            Set<Constraint> constraints = new LinkedHashSet<>();
+            List<Constraint> constraints = new ArrayList<>();
             for (Class<?> clazz : getClosure(modelClass)) {
                 for (Constraint constraint : clazz.getDeclaredAnnotationsByType(Constraint.class)) {
-                    constraints.add(Constraint.Factory.createConstraint(
+                    constraints.add(ConstraintFactory.createConstraint(
                         constraint.id(),
                         constraint.level(),
                         constraint.location(),
@@ -364,7 +365,7 @@ public final class ModelSupport {
                         constraint.generated()));
                 }
             }
-            modelClassConstraintMap.put(modelClass, Collections.unmodifiableSet(constraints));
+            modelClassConstraintMap.put(modelClass, Collections.unmodifiableList(constraints));
         }
         return Collections.unmodifiableMap(modelClassConstraintMap);
     }
@@ -515,8 +516,8 @@ public final class ModelSupport {
     /**
      * @return the list of constraints for the modelClass or empty if there are none
      */
-    public static Set<Constraint> getConstraints(Class<?> modelClass) {
-        return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptySet());
+    public static List<Constraint> getConstraints(Class<?> modelClass) {
+        return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptyList());
     }
 
     /**
