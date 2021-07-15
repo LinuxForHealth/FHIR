@@ -110,8 +110,7 @@ public @interface Constraint {
                         Objects.equals(expression(), other.expression()) &&
                         Objects.equals(source(), other.source()) &&
                         Objects.equals(modelChecked(), other.modelChecked()) &&
-                        Objects.equals(generated(), other.generated()) &&
-                        Objects.equals(annotationType(), other.annotationType());
+                        Objects.equals(generated(), other.generated());
                 }
 
                 @Override
@@ -124,8 +123,7 @@ public @interface Constraint {
                         expression(),
                         source(),
                         modelChecked(),
-                        generated(),
-                        annotationType());
+                        generated());
                 }
 
                 @Override
