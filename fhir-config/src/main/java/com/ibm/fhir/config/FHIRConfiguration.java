@@ -123,6 +123,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
     @Deprecated
     public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
+    
     public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
     // bulkdata

@@ -665,8 +665,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         // or if whole-system search and legacy whole-system search params enabled.
         if (!this.optQueryBuilderEnabled ||
                 (this.legacyWholeSystemSearchParamsEnabled && isSystemLevelSearch(resourceType))) {
-            log.warning("The server is configured to use the legacy query builder via fhirServer/search/enableOptQueryBuilder."
-                    + " This option will be removed in a future release.");
+            log.warning("The server is configured to use the legacy query builder."
+                    + " This is via fhirServer/search/enableOptQueryBuilder, which will be removed in a future release,"
+                    + " or via fhirServer/search/enableLegacyWholeSystemSearchParams.");
             return oldSearch(context, resourceType);
         } else {
             // new query builder hasn't been disabled (it is enabled by default)
