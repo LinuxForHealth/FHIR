@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.BIND_VAR;
@@ -68,6 +69,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.type.Code;
@@ -151,6 +153,9 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
     private static final String CLR = "CLR";
     private static final String CP = "CP";
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Public constructor
      * @param parameterDao
@@ -163,6 +168,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
         this.resourceDao  = resourceDao;
         this.queryHints = queryHints;
         this.identityCache = identityCache;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     /**
@@ -411,7 +418,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processDateParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case TOKEN:
-                    if (TAG.equals(queryParm.getCode()) || SECURITY.equals(queryParm.getCode())) {
+                    if (!this.legacyWholeSystemSearchParamsEnabled && (TAG.equals(queryParm.getCode()) || SECURITY.equals(queryParm.getCode()))) {
                         databaseQueryParm = this.processGlobalTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
                     } else {
                         databaseQueryParm = this.processTokenParm(resourceType, queryParm, paramTableAlias, logicalRsrcTableAlias, endOfChain);
@@ -424,7 +431,7 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
                     databaseQueryParm = this.processQuantityParm(resourceType, queryParm, paramTableAlias);
                     break;
                 case URI:
-                    if (PROFILE.equals(queryParm.getCode())) {
+                    if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode())) {
                         databaseQueryParm = this.processProfileParm(resourceType, queryParm, paramTableAlias);
                     } else {
                         databaseQueryParm = this.processUriParm(queryParm, paramTableAlias);
@@ -1631,7 +1638,8 @@ public class JDBCQueryBuilder extends AbstractQueryBuilder<SqlQueryData> {
             String valuesTable = !ModelSupport.isAbstract(resourceType) ? QuerySegmentAggregator.tableName(resourceType.getSimpleName(), queryParm) : PARAMETER_TABLE_NAME_PLACEHOLDER;
             String subqueryTableAlias =  endOfChain ? (paramTableAlias + "_param0") : paramTableAlias;
             whereClauseSegment.append("(SELECT 1 FROM " + valuesTable + AS + subqueryTableAlias + WHERE);
-            if (!PROFILE.equals(queryParm.getCode()) && !SECURITY.equals(queryParm.getCode()) && !TAG.equals(queryParm.getCode())) {
+            if (this.legacyWholeSystemSearchParamsEnabled ||
+                    (!PROFILE.equals(queryParm.getCode()) && !SECURITY.equals(queryParm.getCode()) && !TAG.equals(queryParm.getCode()))) {
                 this.populateNameIdSubSegment(whereClauseSegment, queryParm.getCode(), subqueryTableAlias);
                 whereClauseSegment.append(AND).append(subqueryTableAlias).append(".LOGICAL_RESOURCE_ID = ")
                         .append(logicalRsrcTableAlias).append(".LOGICAL_RESOURCE_ID"); // correlate the [NOT] EXISTS subquery

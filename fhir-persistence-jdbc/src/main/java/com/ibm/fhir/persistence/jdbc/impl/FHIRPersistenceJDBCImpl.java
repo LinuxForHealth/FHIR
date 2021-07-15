@@ -10,6 +10,7 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_CODE_SY
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_UPDATE_CREATE_ENABLED;
 import static com.ibm.fhir.model.type.String.string;
 import static com.ibm.fhir.model.util.ModelSupport.getResourceType;
@@ -218,6 +219,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     // Use the optimized query builder when supported for the search request
     private final boolean optQueryBuilderEnabled;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Constructor for use when running as web application in WLP.
      * @throws Exception
@@ -262,6 +266,10 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         this.connectionStrategy = new FHIRDbTenantDatasourceConnectionStrategy(trxSynchRegistry, buildActionChain(), enableReadOnlyReplicas);
 
         this.transactionAdapter = new FHIRUserTransactionAdapter(userTransaction, trxSynchRegistry, cache, TXN_DATA_KEY);
+        
+        // Use of legacy whole-system search parameters disabled by default
+        this.legacyWholeSystemSearchParamsEnabled =
+                fhirConfig.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -323,6 +331,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
 
         // Always want to be testing with the new query builder
         this.optQueryBuilderEnabled = true;
+
+        // Always want to be testing with legacy whole-system search parameters disabled
+        this.legacyWholeSystemSearchParamsEnabled = false;
 
         log.exiting(CLASSNAME, METHODNAME);
     }
@@ -650,10 +661,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     public MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType)
             throws FHIRPersistenceException {
 
-        // Fall back to the old search code if new query builder has been disabled.
-        if (!this.optQueryBuilderEnabled) {
-            log.warning("The server is configured to use the legacy query builder via fhirServer/search/enableOptQueryBuilder."
-                    + " This option will be removed in a future release.");
+        // Fall back to the old search code if new query builder has been disabled
+        // or if whole-system search and legacy whole-system search params enabled.
+        if (!this.optQueryBuilderEnabled ||
+                (this.legacyWholeSystemSearchParamsEnabled && isSystemLevelSearch(resourceType))) {
+            log.warning("The server is configured to use the legacy query builder."
+                    + " This is via fhirServer/search/enableOptQueryBuilder, which will be removed in a future release,"
+                    + " or via fhirServer/search/enableLegacyWholeSystemSearchParams.");
             return oldSearch(context, resourceType);
         } else {
             // new query builder hasn't been disabled (it is enabled by default)

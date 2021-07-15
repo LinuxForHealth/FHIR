@@ -2065,7 +2065,8 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/audit/ip`|string|A string used to identify the IP address, useful to identify only one IP|
 |`fhirServer/search/enableOptQueryBuilder`|boolean|True, enable the optimized query builder for supported searches, else use the legacy query builder. Note: As of IBM FHIR Server version 4.9.0, the legacy query builder will no longer maintain functional equivalence with the optimized query builder and will be *deprecated*. As such, this property is also *deprecated*.|
 |`fhirServer/search/useBoundingRadius`|boolean|True, the bounding area is a Radius, else the bounding area is a box.|
-|`fhirServer/search/useStoredCompartmentParam`|boolean|False, Compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
+|`fhirServer/search/useStoredCompartmentParam`|boolean|True, compute and store parameter to accelerate compartment searches. Requires reindex using at least IBM FHIR Server version 4.5.1 before this feature is enabled |
+|`fhirServer/search/enableLegacyWholeSystemSearchParams`|boolean|True, searches specifying whole-system search parameters `_profile`, `_tag`, and `_security` run against legacy search index data, else those searches run against new search index data. This property can be set to `true` before a reindex operation is run, and after migrating to IBM FHIR Server version 4.9.0, to allow searches to work while the reindex operation is in progress. After the reindex has completed successfully, the property should be set to `false` or removed from the configuration. |
 |`fhirServer/bulkdata/enabled`| string|Enabling the BulkData operations |
 |`fhirServer/bulkdata/core/api/url`|string|The URL to access the FHIR server hosting the batch web application |
 |`fhirServer/bulkdata/core/api/user`|string|User for submitting JavaBatch job |
@@ -2191,6 +2192,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|16|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|16|
 |`fhirServer/search/enableOptQueryBuilder`|true|
+|`fhirServer/search/enableLegacyWholeSystemSearchParams`|false|
 |`fhirServer/security/cors`|true|
 |`fhirServer/security/basic/enabled`|false|
 |`fhirServer/security/certificates/enabled`|false|
@@ -2334,6 +2336,7 @@ must restart the server for that change to take effect.
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/from_collapse_limit`|Y|Y|
 |`fhirServer/persistence/datasources/<datasourceId>/searchOptimizerOptions/join_collapse_limit`|Y|Y|
 |`fhirServer/search/enableOptQueryBuilder`|Y|Y|
+|`fhirServer/search/enableLegacyWholeSystemSearchParams`|Y|Y|
 |`fhirServer/security/cors`|Y|Y|
 |`fhirServer/security/basic/enabled`|Y|Y|
 |`fhirServer/security/certificates/enabled`|Y|Y|

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
@@ -127,6 +129,9 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
     // Supports slightly more useful error messages if we hit a nested composite
     String currentCompositeParameterName = null;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Public constructor
      * @param c
@@ -145,6 +150,8 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         this.resourceReferenceDAO = resourceReferenceDAO;
         this.tablePrefix = tablePrefix;
         this.transactionData = ptdi;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
 
         insertString = multitenant ?
                 "INSERT INTO " + tablePrefix + "_str_values (mt_id, parameter_name_id, str_value, str_value_lcase, logical_resource_id, composite_id) VALUES (" + adminSchemaName + ".sv_tenant_id,?,?,?,?,?)"
@@ -219,7 +226,10 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
         if (PROFILE.equals(parameterName)) {
             // profile canonicals are now stored in their own tables.
             processProfile(param);
-            return;
+            if (!legacyWholeSystemSearchParamsEnabled) {
+                // Don't store in legacy search param tables
+                return;
+            }
         }
 
         while (value != null && value.getBytes().length > FhirSchemaConstants.MAX_SEARCH_STRING_BYTES) {
@@ -443,6 +453,14 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                 } else {
                     this.tagTokenRecs.add(rec);
                 }
+                if (legacyWholeSystemSearchParamsEnabled) {
+                    // Store as legacy search params as well
+                    if (this.transactionData != null) {
+                        this.transactionData.addValue(rec);
+                    } else {
+                        this.tokenValueRecs.add(rec);
+                    }
+                }
             } else if (SECURITY.equals(parameterName)) {
                 // search search params are often low-selectivity (many resources sharing the same value) so
                 // we put them into their own tables to allow better cardinality estimation by the query
@@ -451,6 +469,14 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
                     this.transactionData.addSecurityValue(rec);
                 } else {
                     this.securityTokenRecs.add(rec);
+                }
+                if (legacyWholeSystemSearchParamsEnabled) {
+                    // Store as legacy search params as well
+                    if (this.transactionData != null) {
+                        this.transactionData.addValue(rec);
+                    } else {
+                        this.tokenValueRecs.add(rec);
+                    }
                 }
             } else {
                 if (this.transactionData != null) {

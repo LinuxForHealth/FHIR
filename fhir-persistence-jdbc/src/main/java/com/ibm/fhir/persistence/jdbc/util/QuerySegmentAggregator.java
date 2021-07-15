@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
@@ -38,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -110,6 +112,9 @@ public class QuerySegmentAggregator {
     protected ParameterDAO parameterDao;
     protected ResourceDAO resourceDao;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    protected final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Constructs a new QueryBuilderHelper
      *
@@ -128,6 +133,8 @@ public class QuerySegmentAggregator {
         this.queryHints            = queryHints;
         this.querySegments         = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     public void setResourceTypes(List<String> resourceTypes) {
@@ -615,7 +622,8 @@ public class QuerySegmentAggregator {
                                             .append(" NOT EXISTS (SELECT 1 FROM ")
                                             .append(valuesTable)
                                             .append(AS);
-                                if (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode())) {
+                                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                                        (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode()))) {
                                     String valuesTableAlias = paramTableAlias + "_P";
                                     missingOrNotModifierWhereClause.append(valuesTableAlias)
                                             .append(JOIN)
@@ -652,7 +660,8 @@ public class QuerySegmentAggregator {
                                 whereClause.append(JOIN)
                                             .append(valuesTable)
                                             .append(AS);
-                                if (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode())) {
+                                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                                        (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode()))) {
                                     String valuesTableAlias = paramTableAlias + "_P";
                                     whereClause.append(valuesTableAlias)
                                                 .append(ON)
@@ -697,10 +706,12 @@ public class QuerySegmentAggregator {
     }
 
     public static String tableName(String resourceType, QueryParameter param) {
+        boolean legacyWholeSystemSearchParamsEnabled = 
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
-            if (PROFILE.equals(param.getCode())) {
+            if (!legacyWholeSystemSearchParamsEnabled && PROFILE.equals(param.getCode())) {
                 name.append("_PROFILES ");
             } else {
                 name.append("_STR_VALUES ");
@@ -717,11 +728,11 @@ public class QuerySegmentAggregator {
         case TOKEN:
             if (param.isReverseChained()) {
                 name.append("_LOGICAL_RESOURCES");
-            } else if (TAG.equals(param.getCode()) &&
+            } else if (!legacyWholeSystemSearchParamsEnabled && TAG.equals(param.getCode()) &&
                     (param.getModifier() == null ||
                     !Modifier.TEXT.equals(param.getModifier()))) {
                 name.append("_TAGS ");
-            } else if (SECURITY.equals(param.getCode()) &&
+            } else if (!legacyWholeSystemSearchParamsEnabled && SECURITY.equals(param.getCode()) &&
                     (param.getModifier() == null ||
                     !Modifier.TEXT.equals(param.getModifier()))) {
                 name.append("_SECURITY ");
