@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIKE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.modifierOperatorMap;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.model.resource.Location;
 import com.ibm.fhir.model.resource.Resource;
@@ -117,7 +119,7 @@ import com.ibm.fhir.search.parameters.SortParameter;
  * </pre>
  */
 public class NewQueryBuilder {
-    private static final Logger log = java.util.logging.Logger.getLogger(JDBCQueryBuilder.class.getName());
+    private static final Logger log = java.util.logging.Logger.getLogger(NewQueryBuilder.class.getName());
     private static final String CLASSNAME = NewQueryBuilder.class.getName();
 
     // For id lookups
@@ -125,6 +127,9 @@ public class NewQueryBuilder {
 
     // Hints to use for certain queries
     private final QueryHints queryHints;
+
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
 
     /**
      * Public constructor
@@ -134,6 +139,8 @@ public class NewQueryBuilder {
     public NewQueryBuilder(QueryHints queryHints, JDBCIdentityCache identityCache) {
         this.queryHints = queryHints;
         this.identityCache = identityCache;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     /**
@@ -498,9 +505,9 @@ public class NewQueryBuilder {
                     domainModel.add(new DateSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case TOKEN:
-                    if (TAG.equals(queryParm.getCode())) {
+                    if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(queryParm.getCode())) {
                         domainModel.add(new TagSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
-                    } else if (SECURITY.equals(queryParm.getCode())) {
+                    } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(queryParm.getCode())) {
                         domainModel.add(new SecuritySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new TokenSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
@@ -513,7 +520,7 @@ public class NewQueryBuilder {
                     domainModel.add(new QuantitySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case URI:
-                    if (PROFILE.equals(queryParm.getCode())) {
+                    if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode())) {
                         domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));

@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.alias;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.bind;
 import static com.ibm.fhir.database.utils.query.expression.ExpressionSupport.col;
@@ -49,6 +50,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.query.Operator;
 import com.ibm.fhir.database.utils.query.Select;
@@ -118,6 +120,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     // Counter so we can allocate unique alias names
     private int paramCounter = 0;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    private final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Public constructor
      * @param identityCache
@@ -129,6 +134,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         this.identityCache = identityCache;
         this.rowOffset = rowOffset;
         this.rowsPerPage = rowsPerPage;
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     /**
@@ -889,7 +896,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         switch (queryParm.getType()) {
         case URI:
         case STRING:
-            if (PROFILE.equals(queryParm.getCode())) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode())) {
                 name.append(wholeSystemSearch ? "LOGICAL_RESOURCE_PROFILES" : "PROFILES");
             } else {
                 name.append("STR_VALUES");
@@ -909,9 +916,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             break;
         case REFERENCE:
         case TOKEN:
-            if (TAG.equals(queryParm.getCode())) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(queryParm.getCode())) {
                 name.append(wholeSystemSearch ? "LOGICAL_RESOURCE_TAGS" : "TAGS");
-            } else if (SECURITY.equals(queryParm.getCode())) {
+            } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(queryParm.getCode())) {
                 name.append(wholeSystemSearch ? "LOGICAL_RESOURCE_SECURITY" : "SECURITY");
             } else {
                 name.append("RESOURCE_TOKEN_REFS"); // bypass the xx_TOKEN_VALUES_V for performance reasons
@@ -1759,7 +1766,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
         // Do not need PARAMETER_NAME_ID clause for _profile, _tag, or _security parameters since they have
         // their own tables.
-        if (!PROFILE.equals(parameterName) && !SECURITY.equals(parameterName) && !TAG.equals(parameterName)) {
+        if (this.legacyWholeSystemSearchParamsEnabled ||
+                (!PROFILE.equals(parameterName) && !SECURITY.equals(parameterName) && !TAG.equals(parameterName))) {
             exists.from().where().and(paramAlias, PARAMETER_NAME_ID).eq(getParameterNameId(parameterName));
         }
 
@@ -1855,7 +1863,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 SelectAdapter exists = Select.select("1");
                 exists.from(paramTable, alias(paramAlias))
                     .where(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate to parent query
-                if (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code)) {
+                if (this.legacyWholeSystemSearchParamsEnabled ||
+                        (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code))) {
                     exists.from().where().and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()));
                 }
                 exists.from().where().and(pf.getExpression());
@@ -1864,7 +1873,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 currentSubQuery.from().where().and().notExists(exists.build());
             } else {
                 // Filter the query by adding a join
-                if (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code)) {
+                if (this.legacyWholeSystemSearchParamsEnabled ||
+                        (!PROFILE.equals(code) && !SECURITY.equals(code) && !TAG.equals(code))) {
                     currentSubQuery.from()
                         .innerJoin(paramTable, alias(paramAlias),
                             on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID")
@@ -2240,7 +2250,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         if (ID.equals(code) || LAST_UPDATED.equals(code)) {
             // No need to join parameter table - sort column is in LOGICAL_RESOURCES table
             return;
-        } else if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
+        } else if (!this.legacyWholeSystemSearchParamsEnabled &&
+                (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code))) {
             // For a sort by _tag, _profile, or _security we need to join the parameter-specific token
             // table with the common token values table.
             String parameterTableAlias = getParamAlias(getNextAliasIndex());
@@ -2277,7 +2288,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         switch (type) {
         case URI:
         case STRING:
-            if (PROFILE.equals(code)) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(code)) {
                 sortParameterTableName.append("PROFILES");
             } else {
                 sortParameterTableName.append("STR_VALUES");
@@ -2288,9 +2299,9 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             break;
         case REFERENCE:
         case TOKEN:
-            if (TAG.equals(code)) {
+            if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(code)) {
                 sortParameterTableName.append("TAGS");
-            } else if (SECURITY.equals(code)) {
+            } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(code)) {
                 sortParameterTableName.append("SECURITY");
             } else {
                 sortParameterTableName.append("TOKEN_VALUES_V");
@@ -2327,7 +2338,8 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         SelectAdapter query = queryData.getQuery();
         List<String> valueAttributeNames;
 
-        if (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code)) {
+        if (!this.legacyWholeSystemSearchParamsEnabled &&
+                (PROFILE.equals(code) || SECURITY.equals(code) || TAG.equals(code))) {
             valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
         } else {
             valueAttributeNames = this.getValueAttributeNames(type);

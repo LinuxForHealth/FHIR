@@ -61,9 +61,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
-    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
-    @Deprecated
-    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
@@ -121,8 +118,12 @@ public class FHIRConfiguration {
     // Optimizer options within a datasource definition
     public static final String PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS = "searchOptimizerOptions";
 
-    // fhir-search - Bounding area
+    // Search config properties
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
+    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
+    @Deprecated
+    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
+    public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
     // bulkdata
     // JavaBatch Job id encryption key
