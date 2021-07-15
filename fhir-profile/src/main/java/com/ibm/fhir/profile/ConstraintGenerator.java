@@ -91,6 +91,8 @@ public class ConstraintGenerator {
                 constraints.add(constraint("generated-" + prefix + "-" + index, expr, description));
                 index++;
                 generated.add(expr);
+            } catch (ConstraintGenerationException e) {
+                log.warning("Constraint was not generated due to the following error: " + e.getMessage() + " (elementDefinition: " + child.elementDefinition.getId() + ", profile: " + url + ")");
             } catch (Exception e) {
                 log.log(Level.SEVERE, "An exception occurred while generating constraint for element definition: " + child.elementDefinition.getId() + " from profile: " + url, e);
             }
@@ -348,7 +350,7 @@ public class ConstraintGenerator {
             }
 
             if (discriminatorMap.size() > 1) {
-                throw new IllegalArgumentException("Multiple discriminator types are not supported");
+                throw new ConstraintGenerationException("Multiple discriminator types are not supported");
             }
 
             for (DiscriminatorType.Value key : discriminatorMap.keySet()) {
@@ -393,10 +395,10 @@ public class ConstraintGenerator {
                 }
             }
             if (identifier.equals(sb.toString())) {
-                throw new IllegalArgumentException("Discriminator not generated for slice: " + elementDefinition.getId());
+                throw new ConstraintGenerationException("Discriminator not generated");
             }
         } else {
-            throw new IllegalArgumentException("Slice definition not found for slice: " + elementDefinition.getId());
+            throw new ConstraintGenerationException("Slice definition not found");
         }
 
         return sb.toString();
@@ -734,11 +736,11 @@ public class ConstraintGenerator {
             String contentReference = elementDefinition.getContentReference().getValue();
             int index = contentReference.indexOf("#");
             if (index == -1 || index >= contentReference.length() - 1) {
-                throw new IllegalArgumentException("Invalid content reference: " + contentReference);
+                throw new ConstraintGenerationException("Invalid content reference: " + contentReference);
             }
             contentReference = contentReference.substring(index + 1);
             if (!elementDefinitionMap.containsKey(contentReference)) {
-                throw new IllegalArgumentException("Element definition not found for content reference: " + contentReference);
+                throw new ConstraintGenerationException("Element definition not found for content reference: " + contentReference);
             }
             elementDefinition = elementDefinitionMap.get(contentReference);
         }
@@ -1066,5 +1068,13 @@ public class ConstraintGenerator {
         Node root;
         Map<String, Node> nodeMap;
         Map<String, ElementDefinition> sliceDefinitionMap;
+    }
+
+    static class ConstraintGenerationException extends RuntimeException {
+        private static final long serialVersionUID = 1L;
+
+        public ConstraintGenerationException(String message) {
+            super(message);
+        }
     }
 }
