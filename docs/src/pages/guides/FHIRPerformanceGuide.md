@@ -386,7 +386,7 @@ alter table fhirdata.logical_resources SET (autovacuum_vacuum_cost_limit=2000);
 
 The default value for autovacuum_vacuum_cost_limit is likely too restrictive for a system with good IO performance. Increasing the value to 2000 increases the throttling threshold 10x, significantly improving throughput and helping the `logical_resources` vacuuming to be completed before it negatively impacts performance of the reindex operation (when index IDs are not specified on the reindex operation).
 
-See the [PostSQL VACUUM documentation](https://www.postgresql.org/docs/12/sql-vacuum.html) for more details.
+See the [PostgreSQL VACUUM documentation](https://www.postgresql.org/docs/12/sql-vacuum.html) for more details.
 
 In addition, administrators may also choose to run a manual vacuum as shown in the following example:
 
