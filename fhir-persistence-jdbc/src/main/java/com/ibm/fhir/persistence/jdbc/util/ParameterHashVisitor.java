@@ -57,6 +57,18 @@ public class ParameterHashVisitor implements ExtractedParameterValueVisitor {
         encoder = Base64.getEncoder();
     }
 
+    /**
+     * If legacyWholeSystemSearchParamsEnabled is true, then update digest to ensure hash changes
+     * from when legacyWholeSystemSearchParamsEnabled is false; this can be removed when the
+     * legacyWholeSystemSearchParamsEnabled config setting is removed.
+     * @param enabled true or false
+     */
+    public void setLegacyWholeSystemSearchParamsEnabled(boolean enabled) {
+        if (enabled) {
+            updateDigestWithString("legacyWholeSystemSearchParamsEnabled");
+        }
+    }
+
     @Override
     public void visit(StringParmVal param) throws FHIRPersistenceException {
         updateDigestWithParmValKey(param);
