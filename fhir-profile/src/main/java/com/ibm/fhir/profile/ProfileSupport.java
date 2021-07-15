@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition.Differential;
@@ -173,7 +174,7 @@ public final class ProfileSupport {
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
         String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : (diffKeys.contains(constraint.getKey().getValue()) ? url : Constraint.SOURCE_UNKNOWN);
-        return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false);
+        return ConstraintFactory.createConstraint(id, level, location, description, expression, source, false, false);
     }
 
     public static Binding getBinding(String path) {
@@ -193,10 +194,7 @@ public final class ProfileSupport {
     public static List<Constraint> getConstraints(List<String> urls, Class<?> type) {
         List<Constraint> constraints = new ArrayList<>();
         for (String url : urls) {
-            StructureDefinition profile = getProfile(url, type);
-            if (profile != null) {
-                constraints.addAll(getConstraints(profile, type));
-            }
+            constraints.addAll(getConstraints(url, type));
         }
         return constraints;
     }
@@ -245,7 +243,11 @@ public final class ProfileSupport {
     }
 
     public static List<Constraint> getConstraints(String url, Class<?> type) {
-        return getConstraints(Collections.singletonList(url), type);
+        StructureDefinition profile = getProfile(url, type);
+        if (profile != null) {
+            return getConstraints(profile, type);
+        }
+        return Collections.emptyList();
     }
 
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
