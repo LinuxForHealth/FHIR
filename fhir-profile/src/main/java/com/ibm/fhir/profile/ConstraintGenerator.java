@@ -9,7 +9,6 @@ package com.ibm.fhir.profile;
 import static com.ibm.fhir.model.util.ModelSupport.delimit;
 import static com.ibm.fhir.model.util.ModelSupport.isKeyword;
 import static com.ibm.fhir.profile.ProfileSupport.HL7_STRUCTURE_DEFINITION_URL_PREFIX;
-import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.profile.ProfileSupport.getBinding;
 import static com.ibm.fhir.profile.ProfileSupport.getElementDefinition;
 import static com.ibm.fhir.profile.ProfileSupport.isSlice;
@@ -292,7 +291,7 @@ public class ConstraintGenerator {
     }
 
     private Constraint constraint(String id, String expr, String description) {
-        return createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, profile.getUrl().getValue(), false, true);
+        return Constraint.Factory.createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, profile.getUrl().getValue(), false, true);
     }
 
     private String constraints(ElementDefinition elementDefinition) {

@@ -12,7 +12,6 @@ import static com.ibm.fhir.path.util.FHIRPathUtil.getResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
-import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.ISSUE_COMPARATOR;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.hasErrors;
 
@@ -290,7 +289,7 @@ public class FHIRValidator {
                 String url = elementNode.element().as(Extension.class).getUrl();
                 if (isAbsolute(url)) {
                     if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
+                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
                     }
