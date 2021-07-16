@@ -8,39 +8,16 @@ package com.ibm.fhir.server.test.cqf;
 import static org.junit.Assert.assertNotNull;
 
 import java.io.StringReader;
-import java.util.Properties;
 
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Library;
-import com.ibm.fhir.model.test.TestUtil;
-
-import jakarta.json.JsonObject;
 
 public class ServerMeasureDataRequirementsOperationTest extends BaseMeasureOperationTest {
-    @BeforeClass
-    public void setup() throws Exception {
-        Properties testProperties = TestUtil.readTestProperties("test.properties");
-        setUp(testProperties);
-
-        JsonObject jsonObject = TestUtil.readJsonObject("testdata/Patient_SallyFields.json");
-        Entity<JsonObject> entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = getWebTarget().path("/" + TEST_PATIENT_ID).request().put(entity);
-        assertResponse(response, Response.Status.Family.SUCCESSFUL);
-        
-        jsonObject = TestUtil.readJsonObject("testdata/Bundle-EXM74-10.2.000.json");
-        entity = Entity.entity(jsonObject, FHIRMediaType.APPLICATION_FHIR_JSON);
-        response = getWebTarget().request().post( entity );
-        assertResponse( response, Response.Status.Family.SUCCESSFUL );
-    }
-    
     @Test
     public void testMeasureDataRequirementsInstance() throws Exception {
         Response response =
