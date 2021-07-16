@@ -116,7 +116,7 @@ public final class ConstraintFactory {
                     .append("location=\"").append(location).append("\", ")
                     .append("description=\"").append(description).append("\", ")
                     .append("expression=\"").append(expression).append("\", ")
-                    .append("source=\"").append(source).append("\"")
+                    .append("source=\"").append(source).append("\", ")
                     .append("modelChecked=").append(modelChecked).append(", ")
                     .append("generated=").append(generated)
                     .append(")")
