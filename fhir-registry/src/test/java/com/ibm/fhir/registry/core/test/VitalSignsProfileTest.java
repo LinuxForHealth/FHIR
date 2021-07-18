@@ -16,7 +16,6 @@ import java.util.StringJoiner;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.config.FHIRModelConfig;
-import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Element;
@@ -252,6 +251,6 @@ public class VitalSignsProfileTest {
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
         String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : "";
-        return ConstraintFactory.createConstraint(id, level, location, description, expression, source, false, false);
+        return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false);
     }
 }

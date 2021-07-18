@@ -40,7 +40,6 @@ import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
-import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -354,7 +353,7 @@ public final class ModelSupport {
             List<Constraint> constraints = new ArrayList<>();
             for (Class<?> clazz : getClosure(modelClass)) {
                 for (Constraint constraint : clazz.getDeclaredAnnotationsByType(Constraint.class)) {
-                    constraints.add(ConstraintFactory.createConstraint(
+                    constraints.add(Constraint.Factory.createConstraint(
                         constraint.id(),
                         constraint.level(),
                         constraint.location(),
