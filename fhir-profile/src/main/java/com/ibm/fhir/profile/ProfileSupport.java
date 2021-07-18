@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition.Differential;
@@ -174,7 +173,7 @@ public final class ProfileSupport {
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
         String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : (diffKeys.contains(constraint.getKey().getValue()) ? url : Constraint.SOURCE_UNKNOWN);
-        return ConstraintFactory.createConstraint(id, level, location, description, expression, source, false, false);
+        return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false);
     }
 
     public static Binding getBinding(String path) {

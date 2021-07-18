@@ -27,7 +27,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.constraint.factory.ConstraintFactory;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
@@ -294,7 +293,7 @@ public class ConstraintGenerator {
     }
 
     private Constraint constraint(String id, String expr, String description) {
-        return ConstraintFactory.createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, profile.getUrl().getValue(), false, true);
+        return Constraint.Factory.createConstraint(id, Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, description, expr, profile.getUrl().getValue(), false, true);
     }
 
     private String constraints(ElementDefinition elementDefinition) {
