@@ -25,10 +25,11 @@ run_tests(){
         echo "fhir container are:"
         docker container inspect $(docker container ls | grep fhir_1 | awk '{print $NF}' ) | jq -r '.[]'
         echo ""
-
+    
+        mkdir -p ${WORKSPACE}/fhir/build/migration/integration-test-results
         echo "Running Integration tests: "
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false | tee fhir/build/migration/integration-test-results/prev-integration-tests.log
+            -DskipTests=false | tee ${WORKSPACE}/fhir/build/migration/integration-test-results/prev-integration-tests.log
         # Add || docker container logs "$(docker container ls | grep fhir_1 | awk '{print $NF}' )"
         echo "Done Running Tests"
         echo ""

@@ -20,9 +20,10 @@ run_tests(){
     else
         # Runs the migration tests
         cd ${WORKSPACE}/fhir
+        mkdir -p ${WORKSPACE}/fhir/build/migration/integration-test-results
         echo "Running Integration tests: "
         mvn -B test -f fhir-server-test -DskipWebSocketTest=true --no-transfer-progress \
-            -DskipTests=false | tee fhir/build/migration/integration-test-results/current-integration-tests.log
+            -DskipTests=false | tee ${WORKSPACE}/fhir/build/migration/integration-test-results/current-integration-tests.log
 
         # Add || docker container logs "$(docker container ls --format {{.Names}} | grep -i ${migration} | grep -i fhir)"
         echo "Done Running Tests"
