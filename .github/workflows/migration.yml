@@ -54,7 +54,7 @@ jobs:
         env:
           cache-name: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
         with:
-            path: ~/fhir/build/migration/.cache
+            path: fhir/build/migration/.cache
             key: ${{ env.cache-name }}-${{ hashFiles('db.tgz') }}
             restore-keys: |
               ${{ env.cache-name }}-${{ hashFiles('db.tgz') }}
@@ -133,7 +133,7 @@ jobs:
         with:
           key: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
           path: | 
-            ~/fhir/build/migration/.cache/db.tgz
+            fhir/build/migration/.cache/db.tgz
 
       - name: Gather error logs
         if: failure()
