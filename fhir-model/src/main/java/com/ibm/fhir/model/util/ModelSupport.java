@@ -31,6 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Binding;
@@ -40,6 +41,9 @@ import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement;
+import com.ibm.fhir.model.constraint.spi.ModelConstraintProvider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -349,6 +353,7 @@ public final class ModelSupport {
 
     private static Map<Class<?>, List<Constraint>> buildModelClassConstraintMap() {
         Map<Class<?>, List<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
+        List<ModelConstraintProvider> providers = ConstraintProvider.providers(ModelConstraintProvider.class);
         for (Class<?> modelClass : getModelClasses()) {
             List<Constraint> constraints = new ArrayList<>();
             for (Class<?> clazz : getClosure(modelClass)) {
@@ -362,6 +367,17 @@ public final class ModelSupport {
                         constraint.source(),
                         constraint.modelChecked(),
                         constraint.generated()));
+                }
+            }
+            for (ModelConstraintProvider provider : providers) {
+                if (provider.appliesTo(modelClass)) {
+                    constraints.addAll(provider.getConstraints());
+                    for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
+                        constraints.removeIf(removalPredicate);
+                    }
+                    for (Replacement replacement : provider.getReplacements()) {
+                        constraints.replaceAll(constraint -> replacement.getPredicate().test(constraint) ? replacement.getConstraint() : constraint);
+                    }
                 }
             }
             modelClassConstraintMap.put(modelClass, Collections.unmodifiableList(constraints));

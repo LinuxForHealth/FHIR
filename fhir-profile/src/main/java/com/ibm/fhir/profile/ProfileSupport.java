@@ -16,10 +16,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition.Differential;
@@ -30,6 +33,7 @@ import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.profile.constraint.spi.ProfileConstraintProvider;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public final class ProfileSupport {
@@ -47,6 +51,7 @@ public final class ProfileSupport {
             return first.id().compareTo(second.id());
         }
     };
+    private static final List<ProfileConstraintProvider> PROFILE_CONSTRAINT_PROVIDERS = ConstraintProvider.providers(ProfileConstraintProvider.class);
 
     private ProfileSupport() { }
 
@@ -87,7 +92,26 @@ public final class ProfileSupport {
         Collections.sort(constraints, CONSTRAINT_COMPARATOR);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         constraints.addAll(generator.generate());
+        for (ProfileConstraintProvider provider : PROFILE_CONSTRAINT_PROVIDERS) {
+            if (provider.appliesTo(getUrl(profile), getVersion(profile))) {
+                constraints.addAll(provider.getConstraints());
+                for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
+                    constraints.removeIf(removalPredicate);
+                }
+                for (Replacement replacement : provider.getReplacements()) {
+                    constraints.replaceAll(constraint -> replacement.getPredicate().test(constraint) ? replacement.getConstraint() : constraint);
+                }
+            }
+        }
         return constraints;
+    }
+
+    public static String getUrl(StructureDefinition profile) {
+        return (profile.getUrl() != null) ? profile.getUrl().getValue() : null;
+    }
+
+    public static String getVersion(StructureDefinition profile) {
+        return (profile.getVersion() != null) ? profile.getVersion().getValue() : null;
     }
 
     public static boolean isSlice(ElementDefinition elementDefinition) {
