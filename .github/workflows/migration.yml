@@ -131,7 +131,7 @@ jobs:
         if: "contains(env.migration_cache, 'false') && contains(env.migration_skip, 'false')"
         uses: actions/cache@v2
         with:
-          key: migration-db-${{ matrix.datastore }}-${{ migration_branch }}
+          key: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
           path: | 
             ~/fhir/build/migration/.cache/db.tgz
 
