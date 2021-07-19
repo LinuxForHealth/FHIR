@@ -12,7 +12,7 @@ on:
 jobs:
   migration:
     runs-on: ubuntu-latest
-    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skipx')"
+    if: "!contains(github.event.pull_request.labels.*.name, 'ci-skip')"
     strategy:
       matrix:
         datastore: [ 'db2', 'postgres' ]
@@ -52,7 +52,7 @@ jobs:
         if: "!contains(env.migration_skip, 'true')"
         uses: actions/cache@v2
         env:
-          cache-name: migration-db-${{ matrix.datastore }}-${{ env.migration_branch }}
+          cache-name: migration-db-${{ matrix.datastore }}-${{ migration_branch }}
         with:
             path: ~/fhir/build/migration/.cache
             key: ${{ env.cache-name }}-${{ hashFiles('db.tgz') }}
@@ -128,10 +128,10 @@ jobs:
           bash fhir/build/migration/bin/8_teardown.sh ${{matrix.datastore}}
 
       - name: Cache the Database
-        if: "contains(env.migration_cache, 'false') && !contains(env.migration_skip, 'true')"
+        if: "contains(env.migration_cache, 'false') && contains(env.migration_skip, 'false')"
         uses: actions/cache@v2
         with:
-          key: migration-db-${{ matrix.datastore }}-${{ env.previous_release }}
+          key: migration-db-${{ matrix.datastore }}-${{ migration_branch }}
           path: | 
             ~/fhir/build/migration/.cache/db.tgz
 

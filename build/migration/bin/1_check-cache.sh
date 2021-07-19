@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
 
+set -x
+
 if [ -d ~/fhir/build/migration/.cache ]
 then
     echo "Listing the files in the cache: "
