@@ -48,7 +48,7 @@ import com.ibm.fhir.model.type.Coding;
  */
 public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
-    public static Boolean DEBUG_APPLY = Boolean.TRUE;
+    public static Boolean DEBUG_APPLY = Boolean.FALSE;
     public static final String TEST_GROUP_NAME = "plan-defintion-apply-operation";
 
     // URL Pattern:
