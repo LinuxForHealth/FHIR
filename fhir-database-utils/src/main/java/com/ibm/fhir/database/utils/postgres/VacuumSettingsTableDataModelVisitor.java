@@ -28,6 +28,7 @@ import com.ibm.fhir.database.utils.model.Tablespace;
  * Manages setting the Vacuum Settings on the Physical Data Model
  */
 public class VacuumSettingsTableDataModelVisitor implements DataModelVisitor {
+    // These tables are skipped as they are not often UPDATED.
     private static final Set<String> SKIP = new HashSet<>(Arrays.asList(
         "COMMON_TOKEN_VALUES", "COMMON_CANONICAL_VALUES",
         "TENANTS", "TENANT_KEYS", "PARAMETER_NAMES", "CODE_SYSTEMS"));
@@ -49,6 +50,7 @@ public class VacuumSettingsTableDataModelVisitor implements DataModelVisitor {
     @Override
     public void visited(Table tbl) {
         String tableName = tbl.getObjectName().toUpperCase();
+        // The Table pattern is to skip <RESOURCETYPE>_RESOURCES and not LOGICAL_RESOURCES
         if (!(tableName.endsWith("_RESOURCES") && !tableName.contains("LOGICAL_RESOURCES"))
                 && !SKIP.contains(tableName)) {
             PostgresVacuumSettingDAO alterVacuumSettings =

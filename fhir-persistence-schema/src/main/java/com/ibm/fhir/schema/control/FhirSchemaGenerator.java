@@ -516,7 +516,7 @@ public class FhirSchemaGenerator {
         final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
@@ -651,7 +651,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid()) // table created at version V0014
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes (Original Table at V0014)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
@@ -696,7 +696,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid()) // table created at version V0014
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes, original table created at version V0014
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -733,7 +733,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid()) // table created at version V0016
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes, original table created at version V0016
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -771,7 +771,7 @@ public class FhirSchemaGenerator {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0017.vid()) // Make sure this matches any migration
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .addBigIntColumn(RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
@@ -817,7 +817,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -860,7 +860,7 @@ public class FhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -903,7 +903,7 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -1069,7 +1069,7 @@ public class FhirSchemaGenerator {
      */
     protected void addCodeSystems(PhysicalDataModel model) {
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
@@ -1163,7 +1163,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0017.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries

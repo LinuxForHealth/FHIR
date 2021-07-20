@@ -2005,6 +2005,7 @@ public class Main {
     public void updateVacuumSettings() {
         if (dbType != DbType.POSTGRESQL) {
             logger.severe("Updating the vacuum settings is only supported on postgres and the setting is for '" + dbType + "'");
+            return;
         }
 
         // Create the Physical Data Model

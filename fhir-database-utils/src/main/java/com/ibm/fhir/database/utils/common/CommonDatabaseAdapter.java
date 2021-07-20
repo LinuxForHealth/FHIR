@@ -135,6 +135,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param columns
      * @param pkDef
      * @param tablespaceName
+     * @param withs the list of table metadata parameters
      * @return
      */
     protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName, List<With> withs) {

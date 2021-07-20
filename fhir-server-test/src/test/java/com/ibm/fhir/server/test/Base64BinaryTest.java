@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,8 +23,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.resource.AuditEvent;
 import com.ibm.fhir.model.resource.Binary;
 import com.ibm.fhir.model.resource.DocumentReference;
@@ -55,25 +53,26 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         byte[] value = "Hello, World!".getBytes();
         Binary binary = Binary.builder()
-                .contentType(Code.of("text/plain")).data(Base64Binary.builder().value(value).build()).build();
+                .contentType(Code.of("text/plain"))
+                .data(Base64Binary.builder()
+                        .value(value)
+                        .build())
+                .build();
 
         Entity<Binary> entity = Entity.entity(binary, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Binary").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(binary, System.out);
-        }
+        printOutResource(DEBUG, binary);
 
         String binaryId = getLocationLogicalId(response);
+        addToResourceRegistry("Binary", binaryId);
 
         response = target.path("Binary/" + binaryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Binary responseBinary = response.readEntity(Binary.class);
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(responseBinary, System.out);
-        }
+        printOutResource(DEBUG, responseBinary);
 
         String valueString = new String(responseBinary.getData().getValue());
 
@@ -109,19 +108,16 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Response response = target.path("DocumentReference").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON).generate(docRef, System.out);
-        }
+        printOutResource(DEBUG, docRef);
 
         // Retrieve the DocumentReference
         String docRefId = getLocationLogicalId(response);
+        addToResourceRegistry("DocumentReference", docRefId);
         response = target.path("DocumentReference/" + docRefId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         DocumentReference responseDocRef = response.readEntity(DocumentReference.class);
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON).generate(responseDocRef, System.out);
-        }
+        printOutResource(DEBUG, responseDocRef);
 
         // Compare original and retrieved values.
         assertEquals(new String(responseDocRef.getContent().get(0).getAttachment().getData().getValue()), valueString);
@@ -160,19 +156,16 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Response response = target.path("AuditEvent").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(auditEvent, System.out);
-        }
+        printOutResource(DEBUG, auditEvent);
 
         // Retrieve the AuditEvent
         String auditEventId = getLocationLogicalId(response);
+        addToResourceRegistry("AuditEvent", auditEventId);
         response = target.path("AuditEvent/" + auditEventId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(responseAuditEvent, System.out);
-        }
+        printOutResource(DEBUG, responseAuditEvent);
 
         Base64Binary base64Binary = (Base64Binary) responseAuditEvent.getEntity().get(0).getDetail().get(0).getValue();
 
@@ -213,9 +206,7 @@ public class Base64BinaryTest extends FHIRServerTestBase {
                         .build())
                 .build();
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(parameters, System.out);
-        }
+        printOutResource(DEBUG, parameters);
 
         // Persist the Parameters resource
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -224,13 +215,12 @@ public class Base64BinaryTest extends FHIRServerTestBase {
 
         // Retrieve the Parameters
         String parametersId = getLocationLogicalId(response);
+        addToResourceRegistry("Parameters", parametersId);
         response = target.path("Parameters/" + parametersId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Parameters responseParameters = response.readEntity(Parameters.class);
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(responseParameters, System.out);
-        }
+        printOutResource(DEBUG, responseParameters);
 
         Base64Binary base64Binary = (Base64Binary) responseParameters.getParameter().get(0).getValue();
         Signature signature = (Signature) responseParameters.getParameter().get(2).getValue();
@@ -239,7 +229,6 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         assertEquals(new String(base64Binary.getValue()), valueParameterString);
         assertEquals(new String(signature.getData().getValue()), valueSignatureString);
     }
-
 
     @Test(enabled = true, groups = { "server-binary" })
     public void testCreateAuditEventWithExtension() throws Exception {
@@ -273,19 +262,16 @@ public class Base64BinaryTest extends FHIRServerTestBase {
         Response response = target.path("AuditEvent").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(auditEvent, System.out);
-        }
+        printOutResource(DEBUG, auditEvent);
 
         // Retrieve the AuditEvent
         String auditEventId = getLocationLogicalId(response);
+        addToResourceRegistry("AuditEvent", auditEventId);
         response = target.path("AuditEvent/" + auditEventId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         AuditEvent responseAuditEvent = response.readEntity(AuditEvent.class);
 
-        if (DEBUG) {
-            FHIRGenerator.generator(Format.JSON, false).generate(responseAuditEvent, System.out);
-        }
+        printOutResource(DEBUG, responseAuditEvent);
 
         // Compare original and retrieved values.
         assertEquals(new String(((Base64Binary) responseAuditEvent.getExtension().get(0).getValue()).getValue()),

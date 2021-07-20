@@ -21,6 +21,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -35,6 +37,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -42,6 +45,9 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
@@ -115,6 +121,64 @@ public abstract class FHIRServerTestBase {
     protected static final String MEDIATYPE_XML_FHIR = FHIRMediaType.APPLICATION_FHIR_XML;
 
     private CapabilityStatement conformanceStmt = null;
+
+    private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+
+    /**
+     * add to resource registry, which is used to cleanup at the end of a run.
+     * @param resourceType
+     * @param logicalId
+     */
+    public void addToResourceRegistry(String resourceType, String logicalId) {
+        HashSet<String> ids = resourceRegistry.getOrDefault(resourceType, new HashSet<>());
+        ids.add(logicalId);
+        resourceRegistry.put(resourceType, ids);
+    }
+
+    /**
+     * should skip the cleanup
+     * @return
+     */
+    public boolean shouldSkipCleanup() {
+        return Boolean.FALSE;
+    }
+
+    @AfterClass
+    public void cleanup() {
+        cleanupResourcesUsingResourceRegistry(shouldSkipCleanup());
+    }
+
+    /**
+     * run at the end of the integration tests so we reset to the original state.
+     * @param skip
+     */
+    public void cleanupResourcesUsingResourceRegistry(boolean skip) {
+        if (!skip) {
+            for (Map.Entry<String, HashSet<String>> entry : resourceRegistry.entrySet()) {
+                String resourceType = entry.getKey();
+                HashSet<String> resourceIds = entry.getValue();
+                for (String resourceId : resourceIds) {
+                    Response response = getWebTarget().path(resourceType + "/" + resourceId).request().delete();
+                    if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.NOT_FOUND.getStatusCode()) {
+                        System.out.println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * prints out the resources
+     * @param debug
+     * @param res
+     * @throws FHIRGeneratorException
+     */
+    public void printOutResource(boolean debug, Resource res) throws FHIRGeneratorException {
+        if (debug) {
+            FHIRGenerator.generator(Format.JSON, false).generate(res, System.out);
+        }
+    }
 
     protected String getRestBaseURL() {
         return restBaseUrl;
