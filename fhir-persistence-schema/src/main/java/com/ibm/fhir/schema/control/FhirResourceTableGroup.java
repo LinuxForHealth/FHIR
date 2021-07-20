@@ -8,6 +8,7 @@ package com.ibm.fhir.schema.control;
 
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_CANONICAL_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
@@ -91,6 +92,8 @@ import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
 import com.ibm.fhir.database.utils.model.View;
+import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 
 /**
  * Utility to create all the tables associated with a particular resource type
@@ -117,6 +120,8 @@ public class FhirResourceTableGroup {
     // Privileges to be granted to each of the resource tables created by this class
     private final Collection<GroupPrivilege> resourceTablePrivileges;
 
+    private final List<With> withs;
+
     private static final String _LOGICAL_RESOURCES = "_LOGICAL_RESOURCES";
     private static final String _RESOURCES = "_RESOURCES";
 
@@ -126,7 +131,8 @@ public class FhirResourceTableGroup {
      * Public constructor
      */
     public FhirResourceTableGroup(PhysicalDataModel model, String schemaName, boolean multitenant, SessionVariableDef sessionVariable,
-            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges) {
+            Set<IDatabaseObject> procedureDependencies, Tablespace fhirTablespace, Collection<GroupPrivilege> privileges,
+            List<With> withs) {
         this.model = model;
         this.schemaName = schemaName;
         this.multitenant = multitenant;
@@ -134,6 +140,7 @@ public class FhirResourceTableGroup {
         this.procedureDependencies = procedureDependencies;
         this.fhirTablespace = fhirTablespace;
         this.resourceTablePrivileges = privileges;
+        this.withs = withs;
     }
 
     /**
@@ -192,7 +199,7 @@ public class FhirResourceTableGroup {
         // things sensible.
         Table.Builder builder = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0012.vid()) // V0011: is_deleted and last_updated, V0012: version_id
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0011: is_deleted and last_updated, V0012: version_id
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
@@ -210,6 +217,7 @@ public class FhirResourceTableGroup {
                 // used instead of row lock, which can cause dead lock issue frequently during concurrent accesses.
                 .addIndex(IDX + tableName + CURRENT_RESOURCE_ID, CURRENT_RESOURCE_ID)
                 .addIndex(IDX + tableName + LOGICAL_ID, LOGICAL_ID)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
@@ -227,6 +235,9 @@ public class FhirResourceTableGroup {
                         addLogicalResourcesMigration(statements, tableName, priorVersion);
                     }
 
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, CODE_SYSTEMS, 2000, 0.01, 1000));
+                    }
                     return statements;
                 });
 
@@ -333,6 +344,11 @@ public class FhirResourceTableGroup {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(model);
 
         group.add(tbl);
@@ -384,7 +400,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
         // Parameters are tied to the logical resource
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 // .addBigIntColumn(             ROW_ID,      false) // Removed by issue-1683 - composites refactor
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -401,10 +417,15 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
                         addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -464,7 +485,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true)
@@ -479,6 +500,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0006.vid()) {
@@ -509,9 +531,12 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
                     }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
                     return statements;
                 })
-
                 .build(model);
 
         group.add(tbl);
@@ -533,7 +558,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_resource_token_refs (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(          CANONICAL_ID,    false)
                 .addBigIntColumn(   LOGICAL_RESOURCE_ID,    false)
@@ -546,6 +571,14 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         group.add(tbl);
@@ -568,7 +601,7 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
 
         // logical_resources (1) ---- (*) patient_tags (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0014.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -579,6 +612,14 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         group.add(tbl);
@@ -594,12 +635,11 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
      * @return
      */
     public Table addSecurity(List<IDatabaseObject> group, String prefix) {
-
         final String tableName = prefix + "_" + SECURITY;
 
         // logical_resources (1) ---- (*) patient_security (*) ---- (0|1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0016.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,   false)
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,   false)
@@ -610,6 +650,14 @@ ALTER TABLE device_str_values ADD CONSTRAINT fk_device_str_values_rid  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         group.add(tbl);
@@ -691,7 +739,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -707,6 +755,7 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -717,6 +766,10 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -729,9 +782,6 @@ ALTER TABLE device_date_values ADD CONSTRAINT fk_device_date_values_r  FOREIGN K
 
     /**
      * <pre>
--- ----------------------------------------------------------------------------
---
--- ----------------------------------------------------------------------------
 CREATE TABLE device_number_values  (
   row_id               BIGINT NOT NULL,
   parameter_name_id       INT NOT NULL,
@@ -752,7 +802,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
         final String logicalResourcesTable = prefix + _LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
@@ -768,6 +818,7 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
@@ -782,6 +833,10 @@ ALTER TABLE device_number_values ADD CONSTRAINT fk_device_number_values_r  FOREI
 
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -817,7 +872,7 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addDoubleColumn(     LATITUDE_VALUE,       true)
@@ -833,10 +888,15 @@ ALTER TABLE device_latlng_values ADD CONSTRAINT fk_device_latlng_values_r  FOREI
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -881,7 +941,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
 
         Table tbl = Table.builder(schemaName, tableName)
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(              CODE, 255, false)
@@ -902,10 +962,15 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion < FhirSchemaVersion.V0009.vid()) {
                         addCompositeMigrationStepsV0009(statements, tableName);
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -929,6 +994,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         final int lib = LOGICAL_ID_BYTES;
 
         Table tbl = Table.builder(schemaName, LIST_LOGICAL_RESOURCE_ITEMS)
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn( LOGICAL_RESOURCE_ID,      false)
@@ -939,6 +1005,14 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, LIST_LOGICAL_RESOURCE_ITEMS, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
@@ -960,6 +1034,7 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
         // model with a foreign key to avoid order of insertion issues
 
         Table tbl = Table.builder(schemaName, PATIENT_CURRENT_REFS)
+                .setVersion(FhirSchemaVersion.V0017.vid())
                 .addTag(FhirSchemaTags.RESOURCE_TYPE, prefix)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         LOGICAL_RESOURCE_ID,      false)
@@ -972,11 +1047,18 @@ ALTER TABLE device_quantity_values ADD CONSTRAINT fk_device_quantity_values_r  F
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(withs)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, PATIENT_CURRENT_REFS, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model)
                 ;
 
         group.add(tbl);
         model.addTable(tbl);
     }
-
 }

@@ -30,6 +30,7 @@ import com.ibm.fhir.database.utils.model.IdentityDef;
 import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.model.With;
 
 /**
  * A Derby database target
@@ -75,14 +76,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName) {
+            IdentityDef identity, String tablespaceName, List<With> withs) {
         // Derby doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
             warnOnce(MessageKey.MULTITENANCY, "Derby does not support multi-tenancy on: [" + name + "]");
         }
 
         // We also ignore tablespace for Derby
-        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
+        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, With.EMPTY);
         runStatement(ddl);
     }
 
@@ -194,12 +195,12 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // Derby doesn't support CACHE
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
         final String ddl = "CREATE SEQUENCE " + sname + " AS BIGINT "
-                + " START WITH " + startWith 
+                + " START WITH " + startWith
                 + " INCREMENT BY " + incrementBy
                 + " NO CYCLE";
         runStatement(ddl);
     }
-    
+
     @Override
     public void dropSequence(String schemaName, String sequenceName) {
         // the "RESTRICT" keyword is mandatory in Derby
@@ -213,7 +214,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         }
     }
 
-    
+
     @Override
     public void alterSequenceRestartWith(String schemaName, String sequenceName, long restartWith, int cache, int incrementBy) {
         // Derby doesn't support ALTER SEQUENCE, so we have to drop and create again with the start value.
@@ -224,7 +225,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         if (maxValue != null && maxValue > restartWith) {
             restartWith = maxValue;
         }
-        
+
         // Derby doesn't use the CACHE attribute, so cache will be ignored. This change is important,
         // so we log it as info.
         final String sname = DataDefinitionUtil.getQualifiedName(schemaName, sequenceName);
@@ -232,14 +233,14 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         dropSequence(schemaName, sequenceName);
         createSequence(schemaName, sequenceName, restartWith, cache, incrementBy);
     }
-    
+
     @Override
     public void alterTableColumnIdentityCache(String schemaName, String tableName, String columnName, int cache) {
         // Not supported by Derby
-        
+
         final String qname = DataDefinitionUtil.getQualifiedName(schemaName, tableName);
         DataDefinitionUtil.assertValidName(columnName);
-        
+
         // modify the CACHE property of the identity column
         final String ddl = "ALTER TABLE " + qname + " ALTER COLUMN " + columnName + " SET CACHE " + cache;
 
@@ -354,7 +355,7 @@ public class DerbyAdapter extends CommonDatabaseAdapter {
         // not expecting this to be called for this adapter
         throw new UnsupportedOperationException("Set integrity unchecked not supported for this adapter.");
     }
-    
+
     @Override
     public void createOrReplaceView(String schemaName, String viewName, String selectClause) {
         // Derby doesn't support CREATE OR REPLACE VIEW, so we have to try and drop the view first
