@@ -470,12 +470,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 stmt.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             this.target.runStatement(getTranslator(), stmt);
         }
     }
