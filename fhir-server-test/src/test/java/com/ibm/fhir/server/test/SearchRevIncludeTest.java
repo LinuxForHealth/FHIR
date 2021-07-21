@@ -425,7 +425,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                         .request(request)
                         .resource(nutritionOrder)
                         .build();
-                if (count <= 1000) {
+                if (count <= 1001) {
                     entries.add(entry);
                     count++;
                 }
