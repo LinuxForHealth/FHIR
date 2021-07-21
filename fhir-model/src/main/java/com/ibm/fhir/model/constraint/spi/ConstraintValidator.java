@@ -36,7 +36,7 @@ public interface ConstraintValidator {
      * @param constraint
      *     the constraint
      * @return
-     *     true if the resource is valid with respect to the given constraint
+     *     true if the resource is valid with respect to the given constraint, false otherwise
      */
     default boolean isValid(Resource resource, Constraint constraint) {
         return true;
