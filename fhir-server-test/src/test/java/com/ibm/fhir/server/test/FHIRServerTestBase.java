@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -32,6 +33,7 @@ import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.ContainerProvider;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
@@ -58,6 +60,8 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
@@ -101,6 +105,12 @@ public abstract class FHIRServerTestBase {
     // for secure WebSocket Client
     private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR = "org.glassfish.tyrus.client.sslEngineConfigurator";
 
+    public static final Coding SUBSETTED_TAG =
+            Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+            .code(Code.of("SUBSETTED"))
+            .display(string("subsetted"))
+            .build();
+
     // These are values of test-specific properties.
     private String restBaseUrl = null;
     private String websocketUrl = null;
@@ -123,6 +133,25 @@ public abstract class FHIRServerTestBase {
     private CapabilityStatement conformanceStmt = null;
 
     private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+
+    /**
+     * creates the resource and returns the logical id
+     * it also registers the newly created resource in a registry, such that it is deleted at the end of the run.
+     * @param resourceType
+     * @param r
+     * @return
+     */
+    public String createResourceAndReturnTheLogicalId(String resourceType, Resource r) {
+        WebTarget target = getWebTarget();
+        Entity<? extends Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path(resourceType).request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        String id = getLocationLogicalId(response);
+        response = target.path(resourceType).path(id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry(resourceType, id);
+        return id;
+    }
 
     /**
      * add to resource registry, which is used to cleanup at the end of a run.
