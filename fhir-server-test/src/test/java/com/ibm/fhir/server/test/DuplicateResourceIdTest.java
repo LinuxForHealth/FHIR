@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,9 +31,6 @@ import com.ibm.fhir.model.type.Reference;
  * more than one FHIR Resource can have the same logical id. This can happen
  * when the updateCreateEnabled option is set to true. A FHIR Client can create
  * different resources (via the update API) with the same logical id.
- * 
- * @author markd
- *
  */
 public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
@@ -44,12 +41,11 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
     /**
      * Creates a Device and a Contract resource, each with the same logical id.
-     * 
+     *
      * @throws Exception
      */
     @Test(groups = { "server-basic" })
     public void testCreateDupIdResources() throws Exception {
-
         String dupId = UUID.randomUUID().toString();
 
         FHIRResponse response;
@@ -89,7 +85,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
     /**
      * Tests the read API for resources with the same logical id.
-     * 
+     *
      * @throws Exception
      */
     @Test(enabled = true, groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
@@ -113,7 +109,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
     /**
      * Tests the version read API for resources with the same logical id.
-     * 
+     *
      * @throws Exception
      */
     @Test(enabled = true, groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
@@ -137,7 +133,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
     /**
      * Tests the search API for resources with the same logical id.
-     * 
+     *
      * @throws Exception
      */
     @Test(enabled = true, groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })
@@ -172,7 +168,7 @@ public class DuplicateResourceIdTest extends FHIRServerTestBase {
 
     /**
      * Tests the history API for resources with the same logical id.
-     * 
+     *
      * @throws Exception
      */
     @Test(enabled = true, groups = { "server-basic" }, dependsOnMethods = { "testCreateDupIdResources" })

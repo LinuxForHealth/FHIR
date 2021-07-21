@@ -13,10 +13,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Properties;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -28,6 +24,11 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.test.FHIRClientTestBase;
 import com.ibm.fhir.model.test.TestUtil;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * OAuth 2.0 tests used to register a client and generate an access token
@@ -44,6 +45,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     private final String tokenURL = "https://localhost:9443/oauth2/endpoint/oauth2-provider/token";
 
 
+    @Override
     @BeforeClass
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
@@ -98,7 +100,9 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
         if (ON) {
             WebTarget endpoint = clientOAuth2.getWebTarget(tokenURL);
             Form form = new Form();
-            form.param("grant_type", "client_credentials").param("client_id", clientID.replaceAll("\"", "")).param("client_secret", clientSecret.replaceAll("\"", ""));
+            form.param("grant_type", "client_credentials")
+                .param("client_id", clientID.replaceAll("\"", ""))
+                .param("client_secret", clientSecret.replaceAll("\"", ""));
 
             Entity<Form> entity = Entity.form(form);
             Invocation.Builder builder = endpoint.request("application/json");

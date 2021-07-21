@@ -96,17 +96,17 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                 throw translator.translate(x);
             }
 
-            // Build the SQL
-            StringBuilder builder = new StringBuilder();
-            builder.append("alter table ")
-                .append(schema).append(".").append(tableName)
-                .append(" SET ( ")
-                .append(
-                    generateWiths(processSettings1, processSettings2, processSettings3).stream()
-                        .map(with -> with.buildWithComponent())
-                        .collect(Collectors.joining(",")))
-                .append(" )");
             if (processSettings1 || processSettings2 || processSettings3) {
+                // Build the SQL
+                StringBuilder builder = new StringBuilder();
+                builder.append("alter table ")
+                    .append(schema).append(".").append(tableName)
+                    .append(" SET ( ")
+                    .append(
+                        generateWiths(processSettings1, processSettings2, processSettings3).stream()
+                            .map(with -> with.buildWithComponent())
+                            .collect(Collectors.joining(",")))
+                    .append(" )");
                 final String statement1 = builder.toString();
 
                 LOG.fine(() -> "Updating the table vacuum settings " + statement1);

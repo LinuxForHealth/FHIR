@@ -31,7 +31,6 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
-import com.ibm.fhir.server.test.SearchAllTest;
 
 /*
  * This class is not designed to run its own.  The class does the basic lift to check:
@@ -74,7 +73,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             assertTrue(listOfIds.contains(id));
         }
     }
-    
+
     public static void assertDoesNotContainsIds(Bundle bundle, String... ids) throws FHIRPathException {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(bundle);
@@ -91,17 +90,17 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         assertNotNull(response);
         if (expectedStatusCode != response.getStatus()) {
             OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-            SearchAllTest.generateOutput(operationOutcome);
+            printOutResource(true, operationOutcome);
         }
         assertEquals(expectedStatusCode, response.getStatus());
     }
-    
+
     public Bundle getEntityWithExtraWork(Response response, String method) throws Exception {
         Bundle responseBundle = response.readEntity(Bundle.class);
         commonWork(responseBundle,method);
         return responseBundle;
     }
-    
+
     public void commonWork(Bundle responseBundle, String method) throws Exception{
         assertNotNull(responseBundle);
         checkForIssuesWithValidation(responseBundle, true, false, false);

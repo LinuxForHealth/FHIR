@@ -45,7 +45,6 @@ import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * This class tests delete interactions.
- *
  */
 public class DeleteTest extends FHIRServerTestBase {
 

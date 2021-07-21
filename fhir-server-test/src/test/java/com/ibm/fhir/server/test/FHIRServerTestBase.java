@@ -165,18 +165,21 @@ public abstract class FHIRServerTestBase {
                 }
             }
         }
-
     }
 
     /**
      * prints out the resources
      * @param debug
      * @param res
-     * @throws FHIRGeneratorException
      */
-    public void printOutResource(boolean debug, Resource res) throws FHIRGeneratorException {
+    public void printOutResource(boolean debug, Resource res) {
         if (debug) {
-            FHIRGenerator.generator(Format.JSON, false).generate(res, System.out);
+            try {
+                FHIRGenerator.generator(Format.JSON, false).generate(res, System.out);
+            } catch (FHIRGeneratorException e) {
+                e.printStackTrace();
+                fail("unable to generate the fhir resource to JSON");
+            }
         }
     }
 

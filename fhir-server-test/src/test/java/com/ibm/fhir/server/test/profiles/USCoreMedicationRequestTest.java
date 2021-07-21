@@ -26,15 +26,14 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
-import com.ibm.fhir.model.resource.MedicationRequest;
 import com.ibm.fhir.model.resource.Bundle.Entry.Request;
+import com.ibm.fhir.model.resource.MedicationRequest;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
-import com.ibm.fhir.server.test.SearchAllTest;
 
 /**
  * Tests the US Core 3.1.1 Profile with MedicationRequest.
@@ -91,7 +90,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             deleteMedicationRequest4();
         }
     }
-    
+
     public void loadBundle1() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/Bundle-uscore-mo3.json";
         WebTarget target = getWebTarget();
@@ -104,12 +103,12 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
                     .method(HTTPVerb.PUT)
                     .url(Uri.of(entry.getResource().getClass().getSimpleName() + "/" + entry.getResource().getId()))
                     .build();
-            
+
             Meta meta = Meta.builder()
                     .versionId(Id.of("" + System.currentTimeMillis()))
                     .build();
             entry.getResource().toBuilder().meta(meta).build();
-            
+
             Bundle.Entry tmpEntry = entry.toBuilder().request(request).build();
             output.add(tmpEntry);
         }
@@ -122,7 +121,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         String method = "loadBundle1";
         if (DEBUG) {
             Bundle responseBundle = getEntityWithExtraWork(response, method);
-            SearchAllTest.generateOutput(responseBundle);
+            printOutResource(DEBUG, responseBundle);
         }
 
         response = target.path("MedicationRequest/" + medicationRequestId3).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
@@ -153,7 +152,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         Response response = target.path("MedicationRequest/" + medicationRequestId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
-    
+
     public void loadMedicationRequest2() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/MedicationRequest-uscore-mo2.json";
         WebTarget target = getWebTarget();
@@ -175,7 +174,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         Response response = target.path("MedicationRequest/" + medicationRequestId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
-    
+
     public void loadMedicationRequest4() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/MedicationRequest-self-tylenol.json";
         WebTarget target = getWebTarget();
@@ -191,13 +190,13 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         response = target.path("MedicationRequest/" + medicationRequestId4).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
-    
+
     public void deleteMedicationRequest4() throws Exception {
         WebTarget target = getWebTarget();
         Response response = target.path("MedicationRequest/" + medicationRequestId4).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
         assertResponse(response, Response.Status.OK.getStatusCode());
     }
-    
+
     public void deleteBundleEntry1() throws Exception {
         WebTarget target = getWebTarget();
         Response response = target.path("MedicationRequest/" + medicationRequestId3).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
@@ -215,7 +214,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         // SHALL support searching using the combination of the patient and intent search parameters:
         // including support for composite OR search on intent (e.g.intent={system|}[code],{system|}[code],...)
         // GET [base]/MedicationRequest?patient=[reference]&intent=order,plan
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -231,13 +230,13 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             assertDoesNotContainsIds(bundle, medicationRequestId4);
         }
     }
-    
+
     @Test
     public void testSearchByPatientWithMultipleIntents() throws Exception {
         // SHALL support searching using the combination of the patient and intent search parameters:
         // including support for composite OR search on intent (e.g.intent={system|}[code],{system|}[code],...)
         // GET [base]/MedicationRequest?patient=[reference]&intent=order,plan
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -253,14 +252,14 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             assertContainsIds(bundle, medicationRequestId4);
         }
     }
-    
+
     @Test
     public void testSearchByPatientWithSingleIntentAndStatus() throws Exception {
         // SHALL support searching using the combination of the patient and intent and status search parameters:
         // including support for composite OR search on intent (e.g.intent={system|}[code],{system|}[code],...)
         // including support for composite OR search on status (e.g.status={system|}[code],{system|}[code],...)
         // GET [base]/MedicationRequest?patient=[reference]&intent=order,plan&status={system|}[code]{,{system|}[code],...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -277,13 +276,13 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             assertDoesNotContainsIds(bundle, medicationRequestId4);
         }
     }
-    
+
     @Test
     public void testSearchByPatientWithSingleIntentAndEncounter() throws Exception {
         // SHOULD support searching using the combination of the patient and intent and encounter search parameters:
         // including support for composite OR search on intent (e.g.intent={system|}[code],{system|}[code],...)
         // GET [base]/MedicationRequest?patient=[reference]&intent=order,plan&encounter=[reference]
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -300,11 +299,11 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             assertContainsIds(bundle, medicationRequestId4);
         }
     }
-    
+
     @Test
     public void testSearchByPatientWithSingleIntentWithInclude() throws Exception {
         // Tests the include
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -322,7 +321,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
             assertContainsIds(bundle, medicationId3);
         }
     }
-    
+
     @Test
     public void testSearchByPatientWithSingleIntentWithIncludeAndAuthoredOn() throws Exception {
         // SHOULD support searching using the combination of the patient and intent and authoredon search parameters:
@@ -330,7 +329,7 @@ public class USCoreMedicationRequestTest extends ProfilesTestBase {
         // including support for these authoredon comparators: gt,lt,ge,le
         // including optional support for composite AND search on authoredon (e.g.authoredon=[date]&authoredon=[date]]&...)
         // GET [base]/MedicationRequest?patient=[reference]&intent=order,plan&authoredon={gt|lt|ge|le}[date]{&authoredon={gt|lt|ge|le}[date]&...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");

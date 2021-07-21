@@ -38,11 +38,14 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
 
-        Response response = target.path("Patient").path("12345")
-                .request()
-                .put(Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON));
+        Response response = target
+                            .path("Patient")
+                            .path("12345")
+                            .request()
+                            .put(Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON));
         int status = response.getStatus();
         assertTrue(status == Response.Status.CREATED.getStatusCode() || status == Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Patient", "12345");
 
         patient = patient.toBuilder()
                 .id("54321")
@@ -57,6 +60,7 @@ public class ConditionalReferenceTest extends FHIRServerTestBase {
                 .put(Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON));
         status = response.getStatus();
         assertTrue(status == Response.Status.CREATED.getStatusCode() || status == Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Patient", "54321");
     }
 
     @Test(dependsOnMethods = { "testCreatePatients" })
