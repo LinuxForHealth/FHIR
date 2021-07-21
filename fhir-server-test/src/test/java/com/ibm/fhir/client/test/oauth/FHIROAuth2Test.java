@@ -13,10 +13,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Properties;
 
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -28,6 +24,11 @@ import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.test.FHIRClientTestBase;
 import com.ibm.fhir.model.test.TestUtil;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 /**
  * OAuth 2.0 tests used to register a client and generate an access token
@@ -43,9 +44,8 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     private final String oidcRegURL = "https://localhost:9443/oidc/endpoint/oidc-provider/registration";
     private final String tokenURL = "https://localhost:9443/oauth2/endpoint/oauth2-provider/token";
 
-
     @BeforeClass
-    public void setup() throws Exception {
+    public void checkIfOn() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.client.oauth.enabled", "false"));
     }

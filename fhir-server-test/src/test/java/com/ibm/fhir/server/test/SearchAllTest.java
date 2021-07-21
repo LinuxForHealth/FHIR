@@ -12,10 +12,7 @@ import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
@@ -34,9 +31,6 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Bundle.Link;
@@ -92,10 +86,7 @@ public class SearchAllTest extends FHIRServerTestBase {
                                 .source(Uri.of("http://ibm.com/fhir/source/Source"))
                                 .build())
                         .build();
-
-        if (DEBUG_SEARCH) {
-            generateOutput(patient);
-        }
+        printOutResource(DEBUG_SEARCH, patient);
 
         Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
         Response response = target.path("Patient").request()
@@ -250,9 +241,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
 
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -266,9 +255,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
 
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -284,9 +271,7 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
 
         assertNotNull(bundle);
-        if (DEBUG_SEARCH) {
-            generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
 
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -396,26 +381,6 @@ public class SearchAllTest extends FHIRServerTestBase {
         Bundle bundle = response.getResource(Bundle.class);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().isEmpty());
-    }
-
-    /*
-     * generates the output into a resource.
-     */
-    public static void generateOutput(Resource resource) {
-
-        try (StringWriter writer = new StringWriter();) {
-            FHIRGenerator.generator(Format.JSON, true).generate(resource, System.out);
-            System.out.println(writer.toString());
-        } catch (FHIRGeneratorException e) {
-
-            e.printStackTrace();
-            fail("unable to generate the fhir resource to JSON");
-
-        } catch (IOException e1) {
-            e1.printStackTrace();
-            fail("unable to generate the fhir resource to JSON (io problem) ");
-        }
-
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })

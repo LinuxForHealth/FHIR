@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -47,7 +46,7 @@ import com.ibm.fhir.model.type.code.NarrativeStatus;
  */
 public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     private static final String CLASSNAME = USCoreAllergyIntoleranceTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     public Boolean skip = Boolean.TRUE;
 
@@ -69,7 +68,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     public void setCheck(Boolean check) {
         this.skip = check;
         if (skip) {
-            logger.info("Skipping Tests for 'fhir-ig-us-core - AllergyIntolerance', the profiles don't exist");
+            LOG.info("Skipping Tests for 'fhir-ig-us-core - AllergyIntolerance', the profiles don't exist");
         }
     }
 
@@ -187,43 +186,16 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     public void loadResources() throws Exception {
         if (!skip) {
             loadAllergyIntoleranceActive();
+            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdActive);
+
             loadAllergyIntoleranceInactive();
+            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdInactive);
+
             loadAllergyIntoleranceResolved();
+            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdResolved);
+
             loadProvenanceForAllergyIntoleranceIdActive();
-        }
-    }
-
-    public void deleteAllergyIntoleranceActive() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("AllergyIntolerance/" + allergyIntoleranceIdActive).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteAllergyIntoleranceInactive() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("AllergyIntolerance/" + allergyIntoleranceIdInactive).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteAllergyIntoleranceResolved() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("AllergyIntolerance/" + allergyIntoleranceIdResolved).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteProvenanceForAllergyIntoleranceIdActive() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Provenance/" + provenanceId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteAllergyIntoleranceActive();
-            deleteAllergyIntoleranceInactive();
-            deleteAllergyIntoleranceResolved();
-            deleteProvenanceForAllergyIntoleranceIdActive();
+            addToResourceRegistry("Provenance", provenanceId);
         }
     }
 

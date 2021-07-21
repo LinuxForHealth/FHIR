@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,10 +8,7 @@ package com.ibm.fhir.server.test.profiles;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,9 +24,6 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.test.TestUtil;
@@ -205,22 +199,7 @@ public class USCoreConditionTest extends ProfilesTestBase {
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
-
-            try (StringWriter writer = new StringWriter();) {
-                FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
-                if (DEBUG) {
-                    System.out.println(writer.toString());
-                }
-                assertTrue(bundle.getEntry().size() == 0);
-            } catch (FHIRGeneratorException e) {
-
-                e.printStackTrace();
-                fail("unable to generate the fhir resource to JSON");
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                fail("unable to generate the fhir resource to JSON (io problem) ");
-            }
+            assertTrue(bundle.getEntry().isEmpty());
         }
     }
 

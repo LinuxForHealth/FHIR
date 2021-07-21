@@ -35,6 +35,7 @@ import com.ibm.fhir.database.utils.model.OrderedColumnDef;
 import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
+import com.ibm.fhir.database.utils.model.With;
 
 /**
  * A PostgreSql database target
@@ -93,7 +94,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
 
     @Override
     public void createTable(String schemaName, String name, String tenantColumnName, List<ColumnBase> columns, PrimaryKeyDef primaryKey,
-            IdentityDef identity, String tablespaceName) {
+            IdentityDef identity, String tablespaceName, List<With> withs) {
 
         // PostgreSql doesn't support partitioning, so we ignore tenantColumnName
         if (tenantColumnName != null) {
@@ -101,7 +102,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         }
 
         // We also ignore tablespace for PostgreSql
-        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null);
+        String ddl = buildCreateTableStatement(schemaName, name, columns, primaryKey, identity, null, withs);
         runStatement(ddl);
     }
 

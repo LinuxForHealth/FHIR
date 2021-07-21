@@ -36,6 +36,7 @@ import com.ibm.fhir.database.utils.model.PrimaryKeyDef;
 import com.ibm.fhir.database.utils.model.Privilege;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
+import com.ibm.fhir.database.utils.model.With;
 import com.ibm.fhir.database.utils.tenant.AddTenantDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.CreateOrReplaceViewDAO;
@@ -134,9 +135,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
      * @param columns
      * @param pkDef
      * @param tablespaceName
+     * @param withs the list of table metadata parameters
      * @return
      */
-    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName) {
+    protected String buildCreateTableStatement(String schema, String name, List<ColumnBase> columns, PrimaryKeyDef pkDef, IdentityDef identity, String tablespaceName, List<With> withs) {
         StringBuilder result = new StringBuilder();
         result.append("CREATE TABLE ");
         result.append(getQualifiedName(schema, name));
@@ -161,6 +163,17 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
             result.append(')');
         }
         result.append(')');
+
+        // Creates WITH (fillfactor=70, key2=val2);
+        if (withs != null && !withs.isEmpty()) {
+            StringBuilder builder = new StringBuilder(" WITH (");
+            builder.append(
+                withs.stream()
+                    .map(with -> with.buildWithComponent())
+                    .collect(Collectors.joining(",")));
+            builder.append(")");
+            result.append(builder.toString());
+        }
 
         if (tablespaceName != null) {
             DataDefinitionUtil.assertValidName(tablespaceName);
@@ -458,12 +471,10 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
         if (this.connectionProvider != null) {
             try (Connection c = connectionProvider.getConnection()) {
                 stmt.run(getTranslator(), c);
-            }
-            catch (SQLException x) {
+            } catch (SQLException x) {
                 throw translator.translate(x);
             }
-        }
-        else {
+        } else {
             this.target.runStatement(getTranslator(), stmt);
         }
     }

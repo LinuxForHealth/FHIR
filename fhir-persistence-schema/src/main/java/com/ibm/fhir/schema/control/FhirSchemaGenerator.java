@@ -104,6 +104,8 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
+import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 import com.ibm.fhir.model.util.ModelSupport;
 
 /**
@@ -514,6 +516,7 @@ public class FhirSchemaGenerator {
         final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
@@ -531,7 +534,7 @@ public class FhirSchemaGenerator {
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0015.vid())
+                .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -573,7 +576,6 @@ public class FhirSchemaGenerator {
                         statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_LUPD, tableName, mtId, indexCols));
                     }
 
-
                     if (priorVersion < FhirSchemaVersion.V0015.vid()) {
                         // Add PARAM_HASH logical_resources
                         List<ColumnBase> cols = ColumnDefBuilder.builder()
@@ -582,7 +584,9 @@ public class FhirSchemaGenerator {
                         statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
                     }
 
-
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
                     return statements;
                 })
                 .build(pdm);
@@ -618,6 +622,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally NOP
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -642,7 +651,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0014.vid()) // table created at version V0014
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes (Original Table at V0014)
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
@@ -655,6 +664,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -679,7 +696,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0014.vid()) // table created at version V0014
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes, original table created at version V0014
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -690,6 +707,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         pdm.addTable(tbl);
@@ -704,12 +729,11 @@ public class FhirSchemaGenerator {
      * @return
      */
     public Table addLogicalResourceSecurity(PhysicalDataModel pdm) {
-
         final String tableName = LOGICAL_RESOURCE_SECURITY;
 
         // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0016.vid()) // table created at version V0016
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes, original table created at version V0016
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
@@ -720,6 +744,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         pdm.addTable(tbl);
@@ -739,7 +771,7 @@ public class FhirSchemaGenerator {
 
         Table tbl = Table.builder(schemaName, tableName)
                 .setTenantColumnName(MT_ID)
-                .setVersion(FhirSchemaVersion.V0009.vid()) // Make sure this matches any migration
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .addBigIntColumn(RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
@@ -751,6 +783,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -768,7 +808,6 @@ public class FhirSchemaGenerator {
      * @return Table the table that was added to the PhysicalDataModel
      */
     public Table addLogicalResourceCompartments(PhysicalDataModel pdm) {
-
         final String tableName = LOGICAL_RESOURCE_COMPARTMENTS;
 
         // note COMPARTMENT_LOGICAL_RESOURCE_ID represents the compartment (e.g. the Patient)
@@ -778,7 +817,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -791,6 +830,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -813,6 +860,7 @@ public class FhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -827,6 +875,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, STR_VALUES, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -847,7 +903,7 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(2)
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -861,12 +917,16 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
                         statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -879,7 +939,6 @@ public class FhirSchemaGenerator {
 
         return tbl;
     }
-
 
     /**
      * <pre>
@@ -896,7 +955,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addResourceTypes(PhysicalDataModel model) {
-
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
@@ -906,6 +964,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(model);
 
         // TODO Table should be immutable, so add support to the Builder for this
@@ -928,7 +991,7 @@ public class FhirSchemaGenerator {
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
         FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable,
-                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges, addWiths());
         for (String resourceType: this.resourceTypes) {
 
             resourceType = resourceType.toUpperCase().trim();
@@ -965,7 +1028,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addParameterNames(PhysicalDataModel model) {
-
         // The index which also used by the database to support the primary key constraint
         String[] prfIndexCols = {PARAMETER_NAME};
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
@@ -979,6 +1041,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(model);
 
         this.parameterNamesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -1001,8 +1068,8 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addCodeSystems(PhysicalDataModel model) {
-
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
@@ -1011,13 +1078,19 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, CODE_SYSTEMS, 2000, 0.01, 1000));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         this.codeSystemsTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(codeSystemsTable);
         model.addTable(codeSystemsTable);
         model.addObject(codeSystemsTable);
-
     }
 
     /**
@@ -1060,6 +1133,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -1085,7 +1163,7 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0009.vid())
+                .setVersion(FhirSchemaVersion.V0017.vid()) // V0017: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
@@ -1099,6 +1177,7 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     // Replace the indexes initially defined in the V0006 version with better ones
                     List<IDatabaseStatement> statements = new ArrayList<>();
@@ -1125,6 +1204,9 @@ public class FhirSchemaGenerator {
                             new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null)
                             );
                         statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0017.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, 0.01, 1000));
                     }
                     return statements;
                 })
@@ -1182,7 +1264,6 @@ public class FhirSchemaGenerator {
         pdm.addObject(alter);
     }
 
-
     /**
      * Add the sequence used by the new local/external references data model
      * @param pdm
@@ -1193,5 +1274,16 @@ public class FhirSchemaGenerator {
         procedureDependencies.add(seq);
         sequencePrivileges.forEach(p -> p.addToObject(seq));
         pdm.addObject(seq);
+    }
+
+    /**
+     * The defaults with addWiths
+     * @return
+     */
+    protected List<With> addWiths() {
+        return Arrays.asList(
+                With.with("autovacuum_vacuum_scale_factor", "0.01"),
+                With.with("autovacuum_vacuum_threshold", "1000"),
+                With.with("autovacuum_vacuum_cost_limit", "2000"));
     }
 }

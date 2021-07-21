@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -32,7 +31,7 @@ import com.ibm.fhir.model.test.TestUtil;
  */
 public class DavinciHealthRecordExchangeTest extends ProfilesTestBase {
     private static final String CLASSNAME = DavinciHealthRecordExchangeTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     String coverageId = null;
 
@@ -58,7 +57,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBase {
         this.skip = check;
 
         if (skip) {
-            logger.info("Skipping Tests for HREX");
+            LOG.info("Skipping Tests for HREX");
         }
     }
 
@@ -72,6 +71,7 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBase {
         coverageId = getLocationLogicalId(response);
         response = target.path("Coverage/" + coverageId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Coverage", coverageId);
     }
 
     // Load Resources
@@ -79,20 +79,6 @@ public class DavinciHealthRecordExchangeTest extends ProfilesTestBase {
     public void loadResources() throws Exception {
         if (!skip) {
             loadCoverage();
-        }
-    }
-
-    // Delete Resources
-    public void deleteCoverage() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Coverage/" + coverageId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteCoverage();
         }
     }
 

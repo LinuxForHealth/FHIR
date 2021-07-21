@@ -47,6 +47,9 @@ public class Table extends BaseObject {
     // The column to use when making this table multi-tenant (if supported by the the target)
     private final String tenantColumnName;
 
+    // The With parameters on the table
+    private final List<With> withs;
+
     /**
      * Public constructor
      *
@@ -68,7 +71,7 @@ public class Table extends BaseObject {
     public Table(String schemaName, String name, int version, String tenantColumnName, Collection<ColumnBase> columns, PrimaryKeyDef pk,
             IdentityDef identity, Collection<IndexDef> indexes, Collection<ForeignKeyConstraint> fkConstraints,
             SessionVariableDef accessControlVar, Tablespace tablespace, List<IDatabaseObject> dependencies, Map<String,String> tags,
-            Collection<GroupPrivilege> privileges, List<Migration> migrations) {
+            Collection<GroupPrivilege> privileges, List<Migration> migrations, List<With> withs) {
         super(schemaName, name, DatabaseObjectType.TABLE, version, migrations);
         this.tenantColumnName = tenantColumnName;
         this.columns.addAll(columns);
@@ -78,6 +81,7 @@ public class Table extends BaseObject {
         this.fkConstraints.addAll(fkConstraints);
         this.accessControlVar = accessControlVar;
         this.tablespace = tablespace;
+        this.withs = withs;
 
         // Adds all dependencies which aren't null.
         // The only circumstances where it is null is when it is self referencial (an FK on itself).
@@ -114,7 +118,7 @@ public class Table extends BaseObject {
     @Override
     public void apply(IDatabaseAdapter target) {
         final String tsName = this.tablespace == null ? null : this.tablespace.getName();
-        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, this.identity, tsName);
+        target.createTable(getSchemaName(), getObjectName(), this.tenantColumnName, this.columns, this.primaryKey, this.identity, tsName, this.withs);
 
         // Now add any indexes associated with this table
         for (IndexDef idx: this.indexes) {
@@ -223,6 +227,9 @@ public class Table extends BaseObject {
 
         // Privileges to be granted on this table
         private List<GroupPrivilege> privileges = new ArrayList<>();
+
+        // With metadata on the Table
+        private List<With> withs = new ArrayList<>();
 
         /**
          * Private constructor to force creation through factory method
@@ -685,7 +692,7 @@ public class Table extends BaseObject {
             // Our schema objects are immutable by design, so all initialization takes place
             // through the constructor
             return new Table(getSchemaName(), getObjectName(), this.version, this.tenantColumnName, buildColumns(), this.primaryKey, this.identity, this.indexes.values(),
-                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations);
+                    this.fkConstraints.values(), this.accessControlVar, this.tablespace, allDependencies, tags, privileges, migrations, withs);
 
         }
 
@@ -803,6 +810,15 @@ public class Table extends BaseObject {
             super.addMigration(migration);
             return this;
         }
+
+        /**
+         * adds with parameters (key-values) to the table definition.
+         * @param withs
+         */
+        public Builder addWiths(List<With> withs) {
+            this.withs.addAll(withs);
+            return this;
+        }
     }
 
     /**
@@ -814,24 +830,16 @@ public class Table extends BaseObject {
         return target.doesTableExist(getSchemaName(), getObjectName());
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visit(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visit(DataModelVisitor v) {
         v.visited(this);
-
         this.fkConstraints.forEach(fk -> v.visited(this, fk));
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.database.utils.model.IDatabaseObject#visitReverse(com.ibm.fhir.database.utils.model.DataModelVisitor)
-     */
     @Override
     public void visitReverse(DataModelVisitor v) {
         // visit the child objects first when going in reverse
         this.fkConstraints.forEach(fk -> v.visited(this, fk));
-
         v.visited(this);
     }
 }
