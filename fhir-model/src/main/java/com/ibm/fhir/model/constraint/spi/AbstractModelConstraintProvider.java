@@ -11,14 +11,12 @@ import java.util.function.Predicate;
 
 import com.ibm.fhir.model.annotation.Constraint;
 
+/**
+ * An abstract base class that extends {@link AbstractConstraintProvider} and implements {@link ModelConstraintProvider}
+ */
 public abstract class AbstractModelConstraintProvider extends AbstractConstraintProvider implements ModelConstraintProvider {
     @Override
     public abstract boolean appliesTo(Class<?> modelClass);
-
-    @Override
-    protected void addConstraints(List<Constraint> constraints) {
-        // do nothing
-    }
 
     @Override
     protected void addRemovalPredicates(List<Predicate<Constraint>> removalPredicates) {
@@ -26,7 +24,7 @@ public abstract class AbstractModelConstraintProvider extends AbstractConstraint
     }
 
     @Override
-    protected void addReplacements(List<Replacement> replacements) {
+    protected void addConstraints(List<Constraint> constraints) {
         // do nothing
     }
 }

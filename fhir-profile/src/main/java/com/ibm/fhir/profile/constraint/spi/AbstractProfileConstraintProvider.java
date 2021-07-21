@@ -17,17 +17,12 @@ public abstract class AbstractProfileConstraintProvider extends AbstractConstrai
     public abstract boolean appliesTo(String url, String version);
 
     @Override
-    protected void addConstraints(List<Constraint> constraints) {
-        // do nothing
-    }
-
-    @Override
     protected void addRemovalPredicates(List<Predicate<Constraint>> removalPredicates) {
         // do nothing
     }
 
     @Override
-    protected void addReplacements(List<Replacement> replacements) {
+    protected void addConstraints(List<Constraint> constraints) {
         // do nothing
     }
 }

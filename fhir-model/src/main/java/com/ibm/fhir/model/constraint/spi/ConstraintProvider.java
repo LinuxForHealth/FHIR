@@ -9,39 +9,41 @@ package com.ibm.fhir.model.constraint.spi;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.function.Predicate;
 
 import com.ibm.fhir.model.annotation.Constraint;
 
+/**
+ * An interface used to provide (or augment) the constraints used in a specific context
+ */
 public interface ConstraintProvider {
-    List<Constraint> getConstraints();
+    /**
+     * Get the list of removal predicates for this constraint provider.
+     *
+     * @return
+     *     the list of removal predicates for this constraint provider
+     */
     List<Predicate<Constraint>> getRemovalPredicates();
-    List<Replacement> getReplacements();
 
-    public static class Replacement {
-        private final Predicate<Constraint> predicate;
-        private final Constraint constraint;
+    /**
+     * Get the list of constraints for this constraint provider.
+     *
+     * @return
+     *     the list of constraints for this constraint provider
+     */
+    List<Constraint> getConstraints();
 
-        private Replacement(Predicate<Constraint> predicate, Constraint constraint) {
-            this.predicate = Objects.requireNonNull(predicate, "predicate");
-            this.constraint = Objects.requireNonNull(constraint, "constraint");
-        }
-
-        public Predicate<Constraint> getPredicate() {
-            return predicate;
-        }
-
-        public Constraint getConstraint() {
-            return constraint;
-        }
-
-        public static Replacement replacement(Predicate<Constraint> predicate, Constraint constraint) {
-            return new Replacement(predicate, constraint);
-        }
-    }
-
+    /**
+     * Get the list of constraint provider instances of the given type from the ServiceLoader.
+     *
+     * @param <T>
+     *     the type of provider
+     * @param providerClass
+     *     the provider class
+     * @return
+     *     the list of constraint provider instances of the given type from the ServiceLoader
+     */
     static <T extends ConstraintProvider> List<T> providers(Class<T> providerClass) {
         List<T> providers = new ArrayList<>();
         for (T provider : ServiceLoader.load(providerClass)) {

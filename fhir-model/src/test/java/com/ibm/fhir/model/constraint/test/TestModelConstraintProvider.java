@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.model.constraint.test;
 
-import static com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement.replacement;
-
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -22,33 +20,18 @@ public class TestModelConstraintProvider extends AbstractModelConstraintProvider
     }
 
     @Override
-    protected void addConstraints(List<Constraint> constraints) {
-        constraints.add(Constraint.Factory.createConstraint(
-            "added-pat-1",
-            Constraint.LEVEL_RULE,
-            Constraint.LOCATION_BASE,
-            "description",
-            "expression",
-            "source",
-            false,
-            false));
-    }
-
-    @Override
     protected void addRemovalPredicates(List<Predicate<Constraint>> removalPredicates) {
         removalPredicates.add(idEquals("pat-1"));
     }
 
     @Override
-    protected void addReplacements(List<Replacement> replacements) {
-        replacements.add(replacement(idEquals("patient-4"), Constraint.Factory.createConstraint(
-            "replaced-patient-4",
-            Constraint.LEVEL_WARNING,
-            Constraint.LOCATION_BASE,
-            "description",
-            "expession",
-            "source",
-            false,
-            false)));
+    protected void addConstraints(List<Constraint> constraints) {
+        constraints.add(constraint(
+            "added-pat-1",
+            Constraint.LEVEL_RULE,
+            "Patient.contact",
+            "SHALL at least contain a contact's details or a reference to an organization",
+            "name.exists() or telecom.exists() or address.exists() or organization.exists()",
+            "http://hl7.org/fhir/StructureDefinition/Patient"));
     }
 }

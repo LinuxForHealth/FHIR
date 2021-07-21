@@ -25,8 +25,7 @@ public class ProfileConstraintProviderTest {
         Set<String> ids = constraints.stream()
                 .map(constraint -> constraint.id())
                 .collect(Collectors.toSet());
-        assertTrue(ids.contains("added-vs-4"));
         assertTrue(!ids.contains("vs-1"));
-        assertTrue(ids.contains("replaced-vs-2"));
+        assertTrue(ids.contains("added-vs-4"));
     }
 }

@@ -25,8 +25,7 @@ public class ModelConstraintProviderTest {
         Set<String> ids = constraints.stream()
                 .map(constraint -> constraint.id())
                 .collect(Collectors.toSet());
-        assertTrue(ids.contains("added-pat-1"));
         assertTrue(!ids.contains("pat-1"));
-        assertTrue(ids.contains("replaced-patient-4"));
+        assertTrue(ids.contains("added-pat-1"));
     }
 }

@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
-import com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
 import com.ibm.fhir.model.resource.StructureDefinition.Differential;
@@ -94,13 +93,10 @@ public final class ProfileSupport {
         constraints.addAll(generator.generate());
         for (ProfileConstraintProvider provider : PROFILE_CONSTRAINT_PROVIDERS) {
             if (provider.appliesTo(getUrl(profile), getVersion(profile))) {
-                constraints.addAll(provider.getConstraints());
                 for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
                     constraints.removeIf(removalPredicate);
                 }
-                for (Replacement replacement : provider.getReplacements()) {
-                    constraints.replaceAll(constraint -> replacement.getPredicate().test(constraint) ? replacement.getConstraint() : constraint);
-                }
+                constraints.addAll(provider.getConstraints());
             }
         }
         return constraints;

@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.profile.constraint.test;
 
-import static com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement.replacement;
-
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -21,33 +19,18 @@ public class TestProfileConstraintProvider extends AbstractProfileConstraintProv
     }
 
     @Override
-    protected void addConstraints(List<Constraint> constraints) {
-        constraints.add(Constraint.Factory.createConstraint(
-            "added-vs-4",
-            Constraint.LEVEL_RULE,
-            Constraint.LOCATION_BASE,
-            "description",
-            "expression",
-            "source",
-            false,
-            false));
-    }
-
-    @Override
     protected void addRemovalPredicates(List<Predicate<Constraint>> removalPredicates) {
         removalPredicates.add(idEquals("vs-1"));
     }
 
     @Override
-    protected void addReplacements(List<Replacement> replacements) {
-        replacements.add(replacement(idEquals("vs-2"), Constraint.Factory.createConstraint(
-            "replaced-vs-2",
+    protected void addConstraints(List<Constraint> constraints) {
+        constraints.add(constraint(
+            "added-vs-4",
             Constraint.LEVEL_RULE,
             Constraint.LOCATION_BASE,
             "description",
             "expression",
-            "source",
-            false,
-            false)));
+            "source"));
     }
 }

@@ -7,6 +7,8 @@
 package com.ibm.fhir.validation;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
@@ -27,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.constraint.spi.ConstraintValidator;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -366,19 +369,27 @@ public class FHIRValidator {
                     evaluationContext.addEvaluationListener(diagnosticsEvaluationListener);
                 }
 
+                ConstraintValidator validator = getConstraintValidator(constraint.validatorClass());
+
                 for (FHIRPathNode contextNode : initialContext) {
                     if (aborted) {
                         break;
                     }
 
-                    diagnosticsEvaluationListener.reset();
-                    evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
-                    evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
+                    Collection<FHIRPathNode> result;
 
-                    Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
+                    if (validator != null) {
+                        result = isValid(validator, contextNode, constraint) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    } else {
+                        diagnosticsEvaluationListener.reset();
+                        evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
+                        evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
 
-                    issues.addAll(evaluationContext.getIssues());
-                    evaluationContext.clearIssues();
+                        result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
+
+                        issues.addAll(evaluationContext.getIssues());
+                        evaluationContext.clearIssues();
+                    }
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
                         issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), diagnosticsEvaluationListener.getDiagnostics(), contextNode.path()));
@@ -398,6 +409,28 @@ public class FHIRValidator {
             } catch (Exception e) {
                 throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() + " with location: " + constraint.location() + " and expression: " + constraint.expression() + " at path: " + path, e);
             }
+        }
+
+        private boolean isValid(ConstraintValidator validator, FHIRPathNode contextNode, Constraint constraint) {
+            if (contextNode.isElementNode()) {
+                return validator.isValid(contextNode.asElementNode().element(), constraint);
+            }
+            if (contextNode.isResourceNode()) {
+                return validator.isValid(contextNode.asResourceNode().resource(), constraint);
+            }
+            throw new AssertionError();
+        }
+
+        private ConstraintValidator getConstraintValidator(Class<? extends ConstraintValidator> validatorClass) {
+            if (validatorClass == null || ConstraintValidator.class.equals(validatorClass)) {
+                return null;
+            }
+            try {
+                return validatorClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Unable to instantiate constraint validator class: " + validatorClass, e);
+            }
+            return null;
         }
 
         private boolean isAbsolute(String url) {

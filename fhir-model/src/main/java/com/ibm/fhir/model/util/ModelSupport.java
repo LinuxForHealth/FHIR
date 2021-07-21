@@ -42,7 +42,6 @@ import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
 import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
-import com.ibm.fhir.model.constraint.spi.ConstraintProvider.Replacement;
 import com.ibm.fhir.model.constraint.spi.ModelConstraintProvider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
@@ -371,13 +370,10 @@ public final class ModelSupport {
             }
             for (ModelConstraintProvider provider : providers) {
                 if (provider.appliesTo(modelClass)) {
-                    constraints.addAll(provider.getConstraints());
                     for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
                         constraints.removeIf(removalPredicate);
                     }
-                    for (Replacement replacement : provider.getReplacements()) {
-                        constraints.replaceAll(constraint -> replacement.getPredicate().test(constraint) ? replacement.getConstraint() : constraint);
-                    }
+                    constraints.addAll(provider.getConstraints());
                 }
             }
             modelClassConstraintMap.put(modelClass, Collections.unmodifiableList(constraints));
