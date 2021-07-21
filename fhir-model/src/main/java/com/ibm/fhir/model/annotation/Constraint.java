@@ -20,7 +20,7 @@ import com.ibm.fhir.model.type.ElementDefinition;
 /**
  * An annotation interface that represents a formal constraint (invariant)
  *
- * <p>Constraints can be computationally evaluated using a FHIRPath engine or an instance of {@link ConstraintValidator}
+ * <p>Constraints can be computationally evaluated using a FHIRPath engine or an instance of {@link ConstraintValidator}.
  */
 @Repeatable(Constraints.class)
 @Target(ElementType.TYPE)
