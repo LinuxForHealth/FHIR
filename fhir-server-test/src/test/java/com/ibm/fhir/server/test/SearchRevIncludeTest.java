@@ -753,6 +753,8 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .queryParam("_revinclude", "NutritionOrder:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
+        String s = response.readEntity(String.class);
+        System.out.println("SSSS -> " + s);
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Number of returned 'include' resources exceeds allowable limit of 1000");
