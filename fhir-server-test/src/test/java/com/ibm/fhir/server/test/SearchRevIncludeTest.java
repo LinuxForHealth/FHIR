@@ -443,7 +443,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         boolean finished = false;
-        while(!finished) {
+        while (!finished) {
             int completed = 0;
             for (Future<List<String>> future : futures) {
                 if (future.isDone()) {
@@ -454,7 +454,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                     throw new Exception("Failed");
                 }
             }
-            finished = futures.size() == completed++;
+            finished = futures.size() == completed;
             Thread.sleep(1000);
         }
 
@@ -622,7 +622,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         boolean finished = false;
-        while(!finished) {
+        while (!finished) {
             int completed = 0;
             for (Future<Boolean> future : futures) {
                 if (future.isDone()) {
@@ -635,7 +635,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                     throw new Exception("Failed");
                 }
             }
-            finished = futures.size() == completed++;
+            finished = futures.size() == completed;
             Thread.sleep(1000);
         }
         svc.shutdown();
