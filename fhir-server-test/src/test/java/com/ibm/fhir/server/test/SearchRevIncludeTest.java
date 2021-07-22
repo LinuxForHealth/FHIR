@@ -469,6 +469,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     public static class NutritionOrderCallableResult {
         List<String> results = new ArrayList<>();
         Boolean complete = Boolean.FALSE;
+        Boolean deleted = Boolean.FALSE;
     }
 
     public static class NutritionOrderCallable implements Callable<NutritionOrderCallableResult> {
@@ -604,7 +605,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         Iterator<String> iter = nutritionOrderIds.iterator();
         // Generate a Batch
         ExecutorService svc = Executors.newFixedThreadPool(5);
-        List<Future<Boolean>> futures = new ArrayList<>();
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
         int count = 0;
         for (int j = 0; j <10; j++) {
             Bundle.Builder bundleBuilder = Bundle.builder();
@@ -632,19 +633,19 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             // Call the 'batch' API.
             Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
             NutritionOrderCallableDelete callable = new NutritionOrderCallableDelete(getWebTarget(), entity, this);
-            Future<Boolean> future = svc.submit(callable);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
             futures.add(future);
         }
 
         boolean finished = false;
         int completed = 0;
         while (!finished) {
-            List<Future<Boolean>> toRemove = new ArrayList<>();
-            for (Future<Boolean> future : futures) {
-                if (future.isDone()) {
-                    if (!future.get()) {
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone() && !future.get().complete) {
+                    if (!future.get().deleted) {
                         throw new Exception("Failed to complete the delete operation");
                     }
+                    future.get().complete = true;
                     completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
@@ -656,7 +657,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
     }
 
-    public static class NutritionOrderCallableDelete implements Callable<Boolean> {
+    public static class NutritionOrderCallableDelete implements Callable<NutritionOrderCallableResult> {
         private WebTarget target = null;
         private Entity<Bundle> entity = null;
         private SearchRevIncludeTest test = null;
@@ -668,14 +669,15 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         @Override
-        public Boolean call() throws Exception {
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
             Response response = target.path("/").request().post(entity, Response.class);
             test.assertResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundleResponse = response.readEntity(Bundle.class);
             assertFalse(bundleResponse.getEntry().isEmpty());
-            Boolean result = Boolean.TRUE;
+            result.deleted = Boolean.TRUE;
             for (Bundle.Entry entry : bundleResponse.getEntry()) {
-                result = result && entry.getResponse().getStatus() != null;
+                result.deleted = result.deleted && entry.getResponse().getStatus() != null;
             }
             return result;
         }
