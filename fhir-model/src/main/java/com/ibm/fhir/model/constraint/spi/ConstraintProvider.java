@@ -15,7 +15,7 @@ import java.util.function.Predicate;
 import com.ibm.fhir.model.annotation.Constraint;
 
 /**
- * An interface used to provide (or augment) the constraints used in a specific context
+ * An interface used to remove and/or add to the constraints used in a specific context
  */
 public interface ConstraintProvider {
     /**
