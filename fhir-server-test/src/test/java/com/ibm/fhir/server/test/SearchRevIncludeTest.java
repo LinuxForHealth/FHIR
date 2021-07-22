@@ -19,6 +19,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -409,6 +410,8 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .patient(Reference.builder().reference(of("Patient/" + patient3Id)).build())
                 .build();
 
+        String uuid = UUID.randomUUID().toString();
+
         // Generate a Batch
         ExecutorService svc = Executors.newFixedThreadPool(5);
         List<Future<List<String>>> futures = new ArrayList<>();
@@ -418,12 +421,12 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             List<Bundle.Entry> entries = new ArrayList<>();
             for (int i=0; i<101; ++i) {
                 Bundle.Entry.Request request = Bundle.Entry.Request.builder()
-                        .url(Uri.uri("NutritionOrder"))
-                        .method(HTTPVerb.POST)
+                        .url(Uri.uri("NutritionOrder/" + uuid + "-" + count))
+                        .method(HTTPVerb.PUT)
                         .build();
                 Bundle.Entry entry = Bundle.Entry.builder()
                         .request(request)
-                        .resource(nutritionOrder)
+                        .resource(nutritionOrder.toBuilder().id(uuid + "-" + count).build())
                         .build();
                 if (count <= 1001) {
                     entries.add(entry);
@@ -448,9 +451,11 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             List<Future<List<String>>> toRemove = new ArrayList<>();
             for (Future<List<String>> future : futures) {
                 if (future.isDone()) {
-                    nutritionOrderIds.addAll(future.get());
-                    toRemove.add(future);
-                    completed++;
+                    boolean changed = nutritionOrderIds.addAll(future.get());
+                    if (changed) {
+                        toRemove.add(future);
+                        completed++;
+                    }
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
@@ -468,6 +473,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     }
 
     public static class NutritionOrderCallable implements Callable<List<String>> {
+        private Boolean DEBUG = Boolean.FALSE;
         private WebTarget target = null;
         private Entity<Bundle> entity = null;
         private SearchRevIncludeTest test = null;
@@ -489,7 +495,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundleResponse.getEntry()) {
                 results.add(entry.getResponse().getId());
             }
-            System.out.println(this.hashCode() + " " + results.size());
+            if (DEBUG) {
+                System.out.println(this.hashCode() + " " + results.size());
+            }
             return results;
         }
     }
