@@ -314,6 +314,15 @@ public class FHIRValidator {
             validate(elementNode, constraints);
         }
 
+        private boolean isAbsolute(String url) {
+            try {
+                return new URI(url).isAbsolute();
+            } catch (URISyntaxException e) {
+                log.warning("Invalid URI: " + url);
+            }
+            return false;
+        }
+
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
             List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(resourceType));
@@ -364,6 +373,13 @@ public class FHIRValidator {
 
         private void validate(FHIRPathNode node, Constraint constraint) {
             String path = node.path();
+            ConstraintValidator<?> validator = getConstraintValidator(constraint.validatorClass());
+
+            if ((constraint.expression() == null || constraint.expression().isEmpty()) && validator == null) {
+                log.log(Level.WARNING, "No expression or validator for constraint: " + constraint);
+                return;
+            }
+
             try {
                 if (log.isLoggable(Level.FINER)) {
                     log.finer("    Constraint: " + constraint);
@@ -381,8 +397,6 @@ public class FHIRValidator {
                 if (constraint.generated()) {
                     evaluationContext.addEvaluationListener(diagnosticsEvaluationListener);
                 }
-
-                ConstraintValidator<?> validator = getConstraintValidator(constraint.validatorClass());
 
                 for (FHIRPathNode contextNode : initialContext) {
                     if (aborted) {
@@ -420,22 +434,8 @@ public class FHIRValidator {
                     evaluationContext.removeEvaluationListener(diagnosticsEvaluationListener);
                 }
             } catch (Exception e) {
-                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() + " with location: " + constraint.location() + " and expression: " + constraint.expression() + " at path: " + path, e);
+                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() + " with location: " + constraint.location() + ((validator != null) ? " and validator: " + validator.getClass().getName() : " and expression: " + constraint.expression()) + " at path: " + path, e);
             }
-        }
-
-        private boolean isValid(ConstraintValidator<?> validator, FHIRPathNode node, Constraint constraint) {
-            return getIsValidFunction(validator).apply(validator, getValidationTarget(node), constraint);
-        }
-
-        private Visitable getValidationTarget(FHIRPathNode node) {
-            if (node.isElementNode()) {
-                return node.asElementNode().element();
-            }
-            if (node.isResourceNode()) {
-                return node.asResourceNode().resource();
-            }
-            throw new AssertionError("Expected element or resource node but found: " + node.type());
         }
 
         private ConstraintValidator<?> getConstraintValidator(Class<? extends ConstraintValidator<?>> validatorClass) {
@@ -445,19 +445,23 @@ public class FHIRValidator {
             try {
                 return validatorClass.getDeclaredConstructor().newInstance();
             } catch (Exception e) {
-                log.log(Level.WARNING, "Unable to instantiate ConstraintValidator class: " + validatorClass, e);
+                log.log(Level.WARNING, "Unable to instantiate ConstraintValidator class: " + validatorClass.getName());
             }
             return null;
         }
 
-        private IsValidFunction getIsValidFunction(ConstraintValidator<?> validator) {
-            return IS_VALID_FUNCTION_MAP.computeIfAbsent(validator.getClass(), k -> computeIsValidFunction(validator));
+        private boolean isValid(ConstraintValidator<?> validator, FHIRPathNode node, Constraint constraint) {
+            return getIsValidFunction(validator.getClass()).apply(validator, getValidationTarget(node), constraint);
         }
 
-        private IsValidFunction computeIsValidFunction(ConstraintValidator<?> validator) {
+        private IsValidFunction getIsValidFunction(Class<?> validatorClass) {
+            return IS_VALID_FUNCTION_MAP.computeIfAbsent(validatorClass, k -> computeIsValidFunction(validatorClass));
+        }
+
+        private IsValidFunction computeIsValidFunction(Class<?> validatorClass) {
             try {
-                Method isValidMethod = findIsValidMethod(validator);
                 MethodHandles.Lookup lookup = MethodHandles.lookup();
+                Method isValidMethod = findIsValidMethod(validatorClass);
                 MethodHandle handle = lookup.unreflect(isValidMethod);
                 CallSite site = LambdaMetafactory.metafactory(
                         lookup,
@@ -468,36 +472,31 @@ public class FHIRValidator {
                         handle.type());
                 return (IsValidFunction) site.getTarget().invoke();
             } catch (Throwable t) {
-                log.log(Level.WARNING, "Unable to compute IsValueFunction from ConstraintValidator: " + validator.getClass(), t);
+                throw new RuntimeException("Unable to compute IsValidFunction for ConstraintValidator class: " + validatorClass.getName(), t);
             }
-            return new IsValidFunction() {
-                @Override
-                public boolean apply(ConstraintValidator<?> validator, Visitable visitable, Constraint constraint) {
-                    return true;
-                }
-            };
         }
 
-        private Method findIsValidMethod(ConstraintValidator<?> validator) {
-            for (Method method : validator.getClass().getDeclaredMethods()) {
+        private Method findIsValidMethod(Class<?> validatorClass) {
+            for (Method method : validatorClass.getDeclaredMethods()) {
                 if (Modifier.isPublic(method.getModifiers()) &&
                         "isValid".equals(method.getName()) &&
-                        method.getParameterCount() == 2 &&
+                        (method.getParameterCount() == 2) &&
                         Visitable.class.isAssignableFrom(method.getParameterTypes()[0]) &&
                         Constraint.class.equals(method.getParameterTypes()[1])) {
                     return method;
                 }
             }
-            throw new AssertionError("isValid method not found in ConstraintValidator: " + validator.getClass());
+            throw new AssertionError();
         }
 
-        private boolean isAbsolute(String url) {
-            try {
-                return new URI(url).isAbsolute();
-            } catch (URISyntaxException e) {
-                log.warning("Invalid URI: " + url);
+        private Visitable getValidationTarget(FHIRPathNode node) {
+            if (node.isElementNode()) {
+                return node.asElementNode().element();
             }
-            return false;
+            if (node.isResourceNode()) {
+                return node.asResourceNode().resource();
+            }
+            throw new AssertionError();
         }
 
         @FunctionalInterface

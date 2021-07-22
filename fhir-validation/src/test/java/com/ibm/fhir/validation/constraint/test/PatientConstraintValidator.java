@@ -16,6 +16,10 @@ import com.ibm.fhir.model.type.HumanName;
 public class PatientConstraintValidator implements ConstraintValidator<Patient> {
     private static final Logger log = Logger.getLogger(PatientConstraintValidator.class.getName());
 
+    public PatientConstraintValidator() {
+        super();
+    }
+
     public boolean appliesTo(Class<?> modelClass) {
         return Patient.class.equals(modelClass);
     }
