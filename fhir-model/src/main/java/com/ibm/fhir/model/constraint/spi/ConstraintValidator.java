@@ -9,36 +9,22 @@ package com.ibm.fhir.model.constraint.spi;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.visitor.Visitable;
 
 /**
  * An interface for programmatically evaluating constraints against a validation target {@link Element} or {@link Resource}
  */
-public interface ConstraintValidator {
-    /**
-     * Indicates whether an element is valid with respect to the given constraint
-     *
-     * @param element
-     *     the element
-     * @param constraint
-     *     the constraint
-     * @return
-     *     true if the element is valid with respect to the given constraint, false otherwise
-     */
-    default boolean isValid(Element element, Constraint constraint) {
-        return true;
-    }
+public interface ConstraintValidator<T extends Visitable> {
 
     /**
-     * Indicates whether a resource is valid with respect to the given constraint
+     * Indicates whether an element or resource is valid with respect to the given constraint
      *
-     * @param resource
-     *     the resource
+     * @param elementOrResource
+     *     the element or resource
      * @param constraint
      *     the constraint
      * @return
-     *     true if the resource is valid with respect to the given constraint, false otherwise
+     *     true if the element or resource is valid with respect to the given constraint, false otherwise
      */
-    default boolean isValid(Resource resource, Constraint constraint) {
-        return true;
-    }
+    boolean isValid(T elementOrResource, Constraint constraint);
 }

@@ -105,7 +105,7 @@ public abstract class AbstractConstraintProvider implements ConstraintProvider {
      * @return
      *     a {@link Constraint} instance
      */
-    protected Constraint constraint(String id, String level, String location, String description, Class<? extends ConstraintValidator> validationClass) {
+    protected Constraint constraint(String id, String level, String location, String description, Class<? extends ConstraintValidator<?>> validationClass) {
         return Constraint.Factory.createConstraint(id, level, location, description, "", "", false, false, validationClass);
     }
 
@@ -151,7 +151,7 @@ public abstract class AbstractConstraintProvider implements ConstraintProvider {
      * @return
      *     a {@link Constraint} instance
      */
-    protected Constraint constraint(String id, String level, String location, String description, String expression, String source, Class<? extends ConstraintValidator> validatorClass) {
+    protected Constraint constraint(String id, String level, String location, String description, String expression, String source, Class<? extends ConstraintValidator<?>> validatorClass) {
         return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false, validatorClass);
     }
 

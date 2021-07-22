@@ -16,6 +16,7 @@ import java.util.Objects;
 
 import com.ibm.fhir.model.constraint.spi.ConstraintValidator;
 import com.ibm.fhir.model.type.ElementDefinition;
+import com.ibm.fhir.model.visitor.Visitable;
 
 /**
  * An annotation interface that represents a formal constraint (invariant)
@@ -105,12 +106,17 @@ public @interface Constraint {
      * The {@link ConstraintValidator} class used to validate this constraint
      *
      * @implNote
-     *     The default value is {@link ConstraintValidator} which is non-instantiable. Constraint providers may set this
+     *     The default value is {@link FHIRPathConstraintValidator} which is non-instantiable. Constraint providers may set this
      *     to a concrete implementation of the {@link ConstraintValidator} interface using {@link Constraint.Factory}.
      * @return
      *     the {@link ConstraintValidator} class used to validate this constraint
      */
-    Class<? extends ConstraintValidator> validatorClass() default ConstraintValidator.class;
+    Class<? extends ConstraintValidator<?>> validatorClass() default FHIRPathConstraintValidator.class;
+
+    /**
+     * A marker interface indicating the constraint should be evaluated using a FHIRPath engine
+     */
+    interface FHIRPathConstraintValidator extends ConstraintValidator<Visitable> { }
 
     /**
      * A factory class for programmatically creating Constraint instances using an anonymous inner class
@@ -136,7 +142,7 @@ public @interface Constraint {
                 source,
                 modelChecked,
                 generated,
-                ConstraintValidator.class);
+                FHIRPathConstraintValidator.class);
         }
 
         public static Constraint createConstraint(
@@ -148,7 +154,7 @@ public @interface Constraint {
                 String source,
                 boolean modelChecked,
                 boolean generated,
-                Class<? extends ConstraintValidator> validatorClass) {
+                Class<? extends ConstraintValidator<?>> validatorClass) {
             return new Constraint() {
                 @Override
                 public String id() {
@@ -191,7 +197,7 @@ public @interface Constraint {
                 }
 
                 @Override
-                public Class<? extends ConstraintValidator> validatorClass() {
+                public Class<? extends ConstraintValidator<?>> validatorClass() {
                     return validatorClass;
                 }
 
