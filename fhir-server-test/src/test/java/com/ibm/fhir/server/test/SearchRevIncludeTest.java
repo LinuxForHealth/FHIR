@@ -413,10 +413,10 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         ExecutorService svc = Executors.newFixedThreadPool(5);
         List<Future<List<String>>> futures = new ArrayList<>();
         int count = 0;
-        for (int j = 0; j <20; j++) {
+        for (int j = 0; j <10; j++) {
             Bundle.Builder bundleBuilder = Bundle.builder();
             List<Bundle.Entry> entries = new ArrayList<>();
-            for (int i=0; i<51; ++i) {
+            for (int i=0; i<101; ++i) {
                 Bundle.Entry.Request request = Bundle.Entry.Request.builder()
                         .url(Uri.uri("NutritionOrder"))
                         .method(HTTPVerb.POST)
@@ -462,6 +462,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             finished = futures.size() == completed;
             Thread.sleep(1000);
         }
+        System.out.println("Nutrition Order Size: " + nutritionOrderIds.size());
 
         assertTrue(nutritionOrderIds.size() > 1000);
     }
@@ -488,6 +489,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             for (Bundle.Entry entry : bundleResponse.getEntry()) {
                 results.add(entry.getResponse().getId());
             }
+            System.out.println(this.hashCode() + " " + results.size());
             return results;
         }
     }
@@ -598,20 +600,22 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         ExecutorService svc = Executors.newFixedThreadPool(5);
         List<Future<Boolean>> futures = new ArrayList<>();
         int count = 0;
-        for (int j = 0; j <20; j++) {
+        for (int j = 0; j <10; j++) {
             Bundle.Builder bundleBuilder = Bundle.builder();
             List<Bundle.Entry> entries = new ArrayList<>();
-            for (int i=0; i<51; ++i) {
-                Bundle.Entry.Request request = Bundle.Entry.Request.builder()
-                        .url(Uri.uri("NutritionOrder/" + iter.next()))
-                        .method(HTTPVerb.DELETE)
-                        .build();
-                Bundle.Entry entry = Bundle.Entry.builder()
-                        .request(request)
-                        .build();
-                if (count <= 1000) {
-                    entries.add(entry);
-                    count++;
+            for (int i=0; i<101; ++i) {
+                if (iter.hasNext()) {
+                    Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                            .url(Uri.uri("NutritionOrder/" + iter.next()))
+                            .method(HTTPVerb.DELETE)
+                            .build();
+                    Bundle.Entry entry = Bundle.Entry.builder()
+                            .request(request)
+                            .build();
+                    if (count <= 1000) {
+                        entries.add(entry);
+                        count++;
+                    }
                 }
             }
             Bundle bundle = bundleBuilder
