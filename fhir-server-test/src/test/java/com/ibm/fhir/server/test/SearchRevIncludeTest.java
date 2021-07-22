@@ -445,14 +445,19 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         boolean finished = false;
         while (!finished) {
             int completed = 0;
+            List<Future<List<String>>> toRemove = new ArrayList<>();
             for (Future<List<String>> future : futures) {
                 if (future.isDone()) {
                     nutritionOrderIds.addAll(future.get());
+                    toRemove.add(future);
                     completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
                 }
+            }
+            for (Future<List<String>> future : toRemove) {
+                futures.remove(future);
             }
             finished = futures.size() == completed;
             Thread.sleep(1000);
@@ -624,16 +629,21 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         boolean finished = false;
         while (!finished) {
             int completed = 0;
+            List<Future<Boolean>> toRemove = new ArrayList<>();
             for (Future<Boolean> future : futures) {
                 if (future.isDone()) {
                     if (!future.get()) {
                         throw new Exception("Failed to complete the delete operation");
                     }
+                    toRemove.add(future);
                     completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
                 }
+            }
+            for (Future<Boolean> future : toRemove) {
+                futures.remove(future);
             }
             finished = futures.size() == completed;
             Thread.sleep(1000);
