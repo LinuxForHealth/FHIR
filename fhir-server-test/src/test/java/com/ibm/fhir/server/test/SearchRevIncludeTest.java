@@ -447,12 +447,15 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
         boolean finished = false;
         int completed = 0;
-        while (!finished) {
+        int terminal = 0;
+        while (!finished && terminal++ != 300) {
             for (Future<NutritionOrderCallableResult> future : futures) {
-                if (future.isDone() && !future.get().complete) {
-                    nutritionOrderIds.addAll(future.get().results);
-                    future.get().complete = Boolean.TRUE;
-                    completed++;
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        nutritionOrderIds.addAll(future.get().results);
+                        future.get().complete = Boolean.TRUE;
+                        completed++;
+                    }
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
@@ -638,15 +641,18 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         boolean finished = false;
+        int terminal = 0;
         int completed = 0;
-        while (!finished) {
+        while (!finished && terminal++ != 300) {
             for (Future<NutritionOrderCallableResult> future : futures) {
-                if (future.isDone() && !future.get().complete) {
-                    if (!future.get().deleted) {
-                        throw new Exception("Failed to complete the delete operation");
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        if (!future.get().deleted) {
+                            throw new Exception("Failed to complete the delete operation");
+                        }
+                        future.get().complete = true;
+                        completed++;
                     }
-                    future.get().complete = true;
-                    completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
