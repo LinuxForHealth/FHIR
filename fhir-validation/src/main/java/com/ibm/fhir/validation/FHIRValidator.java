@@ -23,7 +23,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -478,8 +477,7 @@ public class FHIRValidator {
 
         private Method findIsValidMethod(Class<?> validatorClass) {
             for (Method method : validatorClass.getDeclaredMethods()) {
-                if (Modifier.isPublic(method.getModifiers()) &&
-                        "isValid".equals(method.getName()) &&
+                if ("isValid".equals(method.getName()) &&
                         (method.getParameterCount() == 2) &&
                         Visitable.class.isAssignableFrom(method.getParameterTypes()[0]) &&
                         Constraint.class.equals(method.getParameterTypes()[1])) {
