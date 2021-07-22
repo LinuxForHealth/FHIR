@@ -185,7 +185,7 @@ public class NewQueryBuilder {
                 if (resourceTypes == null) {
                     // The _type parameter was not specified, so we need to generate a list
                     // of all supported resource types for our UNION query.
-                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes = this.identityCache.getResourceTypeNames();
                     resourceTypes.remove("Resource");
                     resourceTypes.remove("DomainResource");
                 }
@@ -257,7 +257,7 @@ public class NewQueryBuilder {
                 if (resourceTypes == null) {
                     // The _type parameter was not specified, so we need to generate a list
                     // of all supported resource types for our UNION query.
-                    resourceTypes = new ArrayList<>(this.identityCache.getResourceTypeNames());
+                    resourceTypes = this.identityCache.getResourceTypeNames();
                     resourceTypes.remove("Resource");
                     resourceTypes.remove("DomainResource");
                 }
