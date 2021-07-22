@@ -114,7 +114,7 @@ public @interface Constraint {
     Class<? extends ConstraintValidator<?>> validatorClass() default FHIRPathConstraintValidator.class;
 
     /**
-     * A marker interface indicating the constraint should be evaluated using a FHIRPath engine
+     * A marker interface used to indicate that a constraint should be evaluated using a FHIRPath engine
      */
     interface FHIRPathConstraintValidator extends ConstraintValidator<Visitable> { }
 
