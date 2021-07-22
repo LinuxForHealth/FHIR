@@ -15,7 +15,6 @@ import com.ibm.fhir.model.visitor.Visitable;
  * An interface for programmatically evaluating constraints against a validation target {@link Element} or {@link Resource}
  */
 public interface ConstraintValidator<T extends Visitable> {
-
     /**
      * Indicates whether an element or resource is valid with respect to the given constraint
      *
