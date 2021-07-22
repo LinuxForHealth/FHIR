@@ -414,7 +414,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
         // Generate a Batch
         ExecutorService svc = Executors.newFixedThreadPool(5);
-        List<Future<List<String>>> futures = new ArrayList<>();
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
         int count = 0;
         for (int j = 0; j <10; j++) {
             Bundle.Builder bundleBuilder = Bundle.builder();
@@ -441,28 +441,22 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             // Call the 'batch' API.
             Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
             NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity, this);
-            Future<List<String>> future = svc.submit(callable);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
             futures.add(future);
         }
 
         boolean finished = false;
+        int completed = 0;
         while (!finished) {
-            int completed = 0;
-            List<Future<List<String>>> toRemove = new ArrayList<>();
-            for (Future<List<String>> future : futures) {
-                if (future.isDone()) {
-                    boolean changed = nutritionOrderIds.addAll(future.get());
-                    if (changed) {
-                        toRemove.add(future);
-                        completed++;
-                    }
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone() && !future.get().complete) {
+                    nutritionOrderIds.addAll(future.get().results);
+                    future.get().complete = Boolean.TRUE;
+                    completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
                 }
-            }
-            for (Future<List<String>> future : toRemove) {
-                futures.remove(future);
             }
             finished = futures.size() == completed;
             Thread.sleep(1000);
@@ -472,13 +466,16 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertTrue(nutritionOrderIds.size() > 1000);
     }
 
-    public static class NutritionOrderCallable implements Callable<List<String>> {
+    public static class NutritionOrderCallableResult {
+        List<String> results = new ArrayList<>();
+        Boolean complete = Boolean.FALSE;
+    }
+
+    public static class NutritionOrderCallable implements Callable<NutritionOrderCallableResult> {
         private Boolean DEBUG = Boolean.FALSE;
         private WebTarget target = null;
         private Entity<Bundle> entity = null;
         private SearchRevIncludeTest test = null;
-
-        private List<String> results = new ArrayList<>();
 
         public NutritionOrderCallable(WebTarget target, Entity<Bundle> entity, SearchRevIncludeTest test) {
             this.target = target;
@@ -487,18 +484,19 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         @Override
-        public List<String> call() throws Exception {
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
             Response response = target.path("/").request().post(entity, Response.class);
             test.assertResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundleResponse = response.readEntity(Bundle.class);
             assertFalse(bundleResponse.getEntry().isEmpty());
             for (Bundle.Entry entry : bundleResponse.getEntry()) {
-                results.add(entry.getResponse().getId());
+                result.results.add(entry.getResponse().getId());
             }
             if (DEBUG) {
-                System.out.println(this.hashCode() + " " + results.size());
+                System.out.println(this.hashCode() + " " + result.results.size());
             }
-            return results;
+            return result;
         }
     }
 
@@ -639,28 +637,23 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
 
         boolean finished = false;
+        int completed = 0;
         while (!finished) {
-            int completed = 0;
             List<Future<Boolean>> toRemove = new ArrayList<>();
             for (Future<Boolean> future : futures) {
                 if (future.isDone()) {
                     if (!future.get()) {
                         throw new Exception("Failed to complete the delete operation");
                     }
-                    toRemove.add(future);
                     completed++;
                 } else if (future.isCancelled()) {
                     svc.shutdown();
                     throw new Exception("Failed");
                 }
             }
-            for (Future<Boolean> future : toRemove) {
-                futures.remove(future);
-            }
             finished = futures.size() == completed;
             Thread.sleep(1000);
         }
-        svc.shutdown();
     }
 
     public static class NutritionOrderCallableDelete implements Callable<Boolean> {
