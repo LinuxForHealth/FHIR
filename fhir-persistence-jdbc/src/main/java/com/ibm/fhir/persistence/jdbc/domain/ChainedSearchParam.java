@@ -87,7 +87,7 @@ public class ChainedSearchParam extends SearchParam {
         else if (currentParm.getType() == Type.COMPOSITE) {
             visitor.addCompositeParam(currentSubQuery, currentParm);
         } else {
-            visitor.addFilter(currentSubQuery, currentParm);
+            visitor.addFilter(currentSubQuery, getRootResourceType(), currentParm);
         }
     }
 }

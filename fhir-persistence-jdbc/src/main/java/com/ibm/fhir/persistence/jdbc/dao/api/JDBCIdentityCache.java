@@ -7,7 +7,6 @@
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.List;
-import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
@@ -81,8 +80,14 @@ public interface JDBCIdentityCache {
     List<Long> getCommonTokenValueIdList(String tokenValue);
 
     /**
-     * Get the set of all resource type names.
+     * Get the list of all resource type names.
      * @return
      */
-    Set<String> getResourceTypeNames() throws FHIRPersistenceException;
+    List<String> getResourceTypeNames() throws FHIRPersistenceException;
+
+    /**
+     * Get the list of all resource type ids.
+     * @return
+     */
+    List<Integer> getResourceTypeIds() throws FHIRPersistenceException;
 }
