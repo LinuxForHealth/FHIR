@@ -413,7 +413,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         String uuid = UUID.randomUUID().toString();
 
         // Generate a Batch
-        ExecutorService svc = Executors.newFixedThreadPool(5);
+        ExecutorService svc = Executors.newFixedThreadPool(3);
         List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
         int count = 0;
         for (int j = 0; j <10; j++) {
@@ -442,6 +442,7 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
             Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
             NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity);
             Future<NutritionOrderCallableResult> future = svc.submit(callable);
+            Thread.sleep(1000);
             futures.add(future);
         }
 
