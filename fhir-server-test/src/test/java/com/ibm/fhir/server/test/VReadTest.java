@@ -60,6 +60,7 @@ public class VReadTest extends FHIRServerTestBase {
         // Get the patient's logical id and version id.
         patientId = getLocationLogicalId(response);
         patientVersion = getLocationVersionId(response);
+        addToResourceRegistry("Patient", patientId);
 
         // Next, call the 'vread' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patientId + "/_history/" + patientVersion)

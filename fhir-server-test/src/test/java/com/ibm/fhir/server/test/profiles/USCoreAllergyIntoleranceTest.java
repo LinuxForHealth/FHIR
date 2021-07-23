@@ -6,23 +6,19 @@
 
 package com.ibm.fhir.server.test.profiles;
 
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Provenance;
@@ -57,11 +53,10 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
 
     @Override
     public List<String> getRequiredProfiles() {
-        //@formatter:off
-        return Arrays.asList(  "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance|3.1.1",
+        return Arrays.asList(
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-allergyintolerance|3.1.1",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient|3.1.1",
             "http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance|3.1.1");
-        //@formatter:on
     }
 
     @Override
@@ -72,25 +67,25 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
         }
     }
 
+    @BeforeMethod
+    protected void checkProfile() {
+      if (skip) {
+        throw new SkipException("Skipping tests profile - 'fhir-ig-us-core/AllergyIntolerance' not loaded");
+      }
+    }
+
     public void loadAllergyIntoleranceActive() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/AllergyIntolerance-example.json";
-        WebTarget target = getWebTarget();
 
-        AllergyIntolerance allergyIntolerance = TestUtil.readExampleResource(resource);
+        AllergyIntolerance r = TestUtil.readExampleResource(resource);
 
-        Entity<AllergyIntolerance> entity = Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("AllergyIntolerance").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        allergyIntoleranceIdActive = getLocationLogicalId(response);
-        response = target.path("AllergyIntolerance/" + allergyIntoleranceIdActive).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        allergyIntoleranceIdActive = createResourceAndReturnTheLogicalId("AllergyIntolerance", r);
     }
 
     public void loadAllergyIntoleranceInactive() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/AllergyIntolerance-example.json";
-        WebTarget target = getWebTarget();
 
-        AllergyIntolerance allergyIntolerance = TestUtil.readExampleResource(resource);
+        AllergyIntolerance r = TestUtil.readExampleResource(resource);
         // @formatter:off
         CodeableConcept allergyIntoleranceClinicalStatusCodes = CodeableConcept.builder()
                 .coding(Coding.builder()
@@ -100,21 +95,15 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
                     .build())
                 .build();
         // @formatter:on
-        allergyIntolerance = allergyIntolerance.toBuilder().clinicalStatus(allergyIntoleranceClinicalStatusCodes).build();
+        r = r.toBuilder().clinicalStatus(allergyIntoleranceClinicalStatusCodes).build();
 
-        Entity<AllergyIntolerance> entity = Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("AllergyIntolerance").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        allergyIntoleranceIdInactive = getLocationLogicalId(response);
-        response = target.path("AllergyIntolerance/" + allergyIntoleranceIdInactive).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        allergyIntoleranceIdInactive = createResourceAndReturnTheLogicalId("AllergyIntolerance", r);
     }
 
     public void loadAllergyIntoleranceResolved() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/AllergyIntolerance-example.json";
-        WebTarget target = getWebTarget();
 
-        AllergyIntolerance allergyIntolerance = TestUtil.readExampleResource(resource);
+        AllergyIntolerance r = TestUtil.readExampleResource(resource);
         // @formatter:off
         CodeableConcept allergyIntoleranceClinicalStatusCodes = CodeableConcept.builder()
                 .coding(Coding.builder()
@@ -124,20 +113,13 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
                     .build())
                 .build();
         // @formatter:on
-        allergyIntolerance = allergyIntolerance.toBuilder().clinicalStatus(allergyIntoleranceClinicalStatusCodes).build();
+        r = r.toBuilder().clinicalStatus(allergyIntoleranceClinicalStatusCodes).build();
 
-        Entity<AllergyIntolerance> entity = Entity.entity(allergyIntolerance, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("AllergyIntolerance").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        allergyIntoleranceIdResolved = getLocationLogicalId(response);
-        response = target.path("AllergyIntolerance/" + allergyIntoleranceIdResolved).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        allergyIntoleranceIdResolved = createResourceAndReturnTheLogicalId("AllergyIntolerance", r);
     }
 
     public void loadProvenanceForAllergyIntoleranceIdActive() throws Exception {
-        WebTarget target = getWebTarget();
-
-     // Build the Provenance
+        // Build the Provenance
         Canonical profile = Canonical.of("http://hl7.org/fhir/us/core/StructureDefinition/us-core-provenance");
         Meta meta = Meta.builder().profile(profile).build();
 
@@ -173,12 +155,7 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
                 .build())
             .build();
 
-        Entity<Provenance> entity = Entity.entity(provenance, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Provenance").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        provenanceId = getLocationLogicalId(response);
-        response = target.path("Provenance/" + provenanceId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        provenanceId = createResourceAndReturnTheLogicalId("Provenance", provenance);
     }
 
     // Load Resources
@@ -186,16 +163,9 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     public void loadResources() throws Exception {
         if (!skip) {
             loadAllergyIntoleranceActive();
-            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdActive);
-
             loadAllergyIntoleranceInactive();
-            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdInactive);
-
             loadAllergyIntoleranceResolved();
-            addToResourceRegistry("AllergyIntolerance", allergyIntoleranceIdResolved);
-
             loadProvenanceForAllergyIntoleranceIdActive();
-            addToResourceRegistry("Provenance", provenanceId);
         }
     }
 
@@ -203,136 +173,112 @@ public class USCoreAllergyIntoleranceTest extends ProfilesTestBase {
     public void testSearchForAllAllergiesForAPatient() throws Exception {
         // SHALL support searching for all allergies for a patient using the patient search parameter
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#mandatory-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdResolved);
-            assertContainsIds(bundle, allergyIntoleranceIdActive);
-            assertContainsIds(bundle, allergyIntoleranceIdInactive);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdResolved);
+        assertContainsIds(bundle, allergyIntoleranceIdActive);
+        assertContainsIds(bundle, allergyIntoleranceIdInactive);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByInactiveStatusWithSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|inactive");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdInactive);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|inactive");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdInactive);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByResolvedStatusWithSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|resolved");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdResolved);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|resolved");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdResolved);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByActiveStatusWithSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|active");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdActive);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical|active");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdActive);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByInactiveStatusWithoutSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "inactive");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdInactive);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "inactive");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdInactive);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByResolvedStatusWithoutSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "resolved");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdResolved);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "resolved");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdResolved);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByActiveStatusWithoutSystem() throws Exception {
         // SHOULD support searching using the combination of the patient and clinical-status search parameters
         // http://build.fhir.org/ig/HL7/US-Core-R4/StructureDefinition-us-core-allergyintolerance.html#optional-search-parameters
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "active");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdActive);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "active");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdActive);
     }
 
     @Test
     public void testSearchForAllAllergiesForAPatientByActiveStatusWithoutSystemAndRevinclude() throws Exception {
         // http://example.org/fhir/AllergyIntolerance?_revinclude=Provenance%3Atarget&patient=Examples
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("_revinclude", "Provenance:target");
-            FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, allergyIntoleranceIdActive);
-            assertContainsIds(bundle, provenanceId);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("_revinclude", "Provenance:target");
+        FHIRResponse response = client.search(AllergyIntolerance.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, allergyIntoleranceIdActive);
+        assertContainsIds(bundle, provenanceId);
     }
 }

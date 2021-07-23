@@ -68,6 +68,8 @@ public class EraseOperationTest extends FHIRServerTestBase {
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
+    public static final boolean DEBUG = false;
+
     /**
      * used when processing Erase on all Resources
      */
@@ -85,7 +87,9 @@ public class EraseOperationTest extends FHIRServerTestBase {
             String logicalId = test.generateCompleteMockResource(resourceType);
             test.eraseResource(resourceType, logicalId, false, "message");
             test.checkResourceNoLongerExists(resourceType, logicalId);
-            System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
+            if (DEBUG) {
+                System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
+            }
             return 1;
         }
     }
@@ -1262,7 +1266,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
             e.printStackTrace();
             fail();
         }
-        System.out.println();
         System.out.println("Finished long running test");
     }
 

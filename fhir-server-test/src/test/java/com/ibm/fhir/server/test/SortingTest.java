@@ -1055,8 +1055,6 @@ public class SortingTest extends FHIRServerTestBase {
                 list.add(((Patient) bundle.getEntry().get(i).getResource()).getMeta().getLastUpdated().getValue().toInstant());
             }
         }
-
         assertTrueNaturalOrderingReverseInstant(list);
     }
-
 }

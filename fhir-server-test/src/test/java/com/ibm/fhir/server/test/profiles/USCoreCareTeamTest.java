@@ -13,17 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CareTeam;
 import com.ibm.fhir.model.test.TestUtil;
@@ -46,9 +42,7 @@ public class USCoreCareTeamTest extends ProfilesTestBase {
 
     @Override
     public List<String> getRequiredProfiles() {
-        //@formatter:off
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-careteam|3.1.1");
-        //@formatter:on
     }
 
     @Override
@@ -66,34 +60,15 @@ public class USCoreCareTeamTest extends ProfilesTestBase {
         }
     }
 
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteCareTeam();
-        }
-    }
-
     public void loadCareTeam() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/CareTeam-example.json";
-        WebTarget target = getWebTarget();
 
-        CareTeam CareTeam = TestUtil.readExampleResource(resource);
+        CareTeam careTeam = TestUtil.readExampleResource(resource);
 
         // Note: The test uses ACTIVE as a CodeableConcept rather than a plain string.
-        CareTeam = CareTeam.toBuilder().status(CareTeamStatus.ACTIVE).build();
+        careTeam = careTeam.toBuilder().status(CareTeamStatus.ACTIVE).build();
 
-        Entity<CareTeam> entity = Entity.entity(CareTeam, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("CareTeam").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        careTeamId = getLocationLogicalId(response);
-        response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCareTeam() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        careTeamId = createResourceAndReturnTheLogicalId("CareTeam", careTeam);
     }
 
     @Test

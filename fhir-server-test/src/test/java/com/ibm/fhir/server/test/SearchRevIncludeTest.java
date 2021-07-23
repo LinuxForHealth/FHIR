@@ -8,6 +8,7 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.of;
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertNull;
 import static org.testng.Assert.assertTrue;
@@ -16,7 +17,13 @@ import static org.testng.Assert.fail;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -48,7 +55,9 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.EncounterStatus;
+import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.LinkType;
 import com.ibm.fhir.model.type.code.NutritionOrderIntent;
 import com.ibm.fhir.model.type.code.NutritionOrderStatus;
@@ -392,8 +401,6 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
 
     @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreatePatient3"})
     public void testCreateNutritionOrders() throws Exception {
-        WebTarget target = getWebTarget();
-
         // Build a new NutritionOrder and add reference to patient.
         NutritionOrder nutritionOrder = TestUtil.getMinimalResource(ResourceType.NUTRITION_ORDER, Format.JSON);
         nutritionOrder = nutritionOrder.toBuilder()
@@ -403,16 +410,97 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .patient(Reference.builder().reference(of("Patient/" + patient3Id)).build())
                 .build();
 
-        // Call the 'create' API.
-        Entity<NutritionOrder> entity = Entity.entity(nutritionOrder, FHIRMediaType.APPLICATION_FHIR_JSON);
-        for (int i=0; i<1001; ++i) {
-            Response response = target.path("NutritionOrder").request().post(entity, Response.class);
-            assertResponse(response, Response.Status.CREATED.getStatusCode());
+        String uuid = UUID.randomUUID().toString();
 
-            // Get the nutrition order logical id value.
-            nutritionOrderIds.add(getLocationLogicalId(response));
+        // Generate a Batch
+        ExecutorService svc = Executors.newFixedThreadPool(5);
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
+        int count = 0;
+        for (int j = 0; j <10; j++) {
+            Bundle.Builder bundleBuilder = Bundle.builder();
+            List<Bundle.Entry> entries = new ArrayList<>();
+            for (int i=0; i<101; ++i) {
+                Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                        .url(Uri.uri("NutritionOrder/" + uuid + "-" + count))
+                        .method(HTTPVerb.PUT)
+                        .build();
+                Bundle.Entry entry = Bundle.Entry.builder()
+                        .request(request)
+                        .resource(nutritionOrder.toBuilder().id(uuid + "-" + count).build())
+                        .build();
+                if (count <= 1001) {
+                    entries.add(entry);
+                    count++;
+                }
+            }
+            Bundle bundle = bundleBuilder
+                    .type(BundleType.TRANSACTION)
+                    .entry(entries)
+                    .build();
+
+            // Call the 'batch' API.
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
+            futures.add(future);
         }
+
+        boolean finished = false;
+        int completed = 0;
+        int terminal = 0;
+        while (!finished && terminal++ != 300) {
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        nutritionOrderIds.addAll(future.get().results);
+                        future.get().complete = Boolean.TRUE;
+                        completed++;
+                    }
+                } else if (future.isCancelled()) {
+                    svc.shutdown();
+                    throw new Exception("Failed");
+                }
+            }
+            finished = futures.size() == completed;
+            Thread.sleep(1000);
+        }
+        System.out.println("Nutrition Order Size: " + nutritionOrderIds.size());
+
         assertTrue(nutritionOrderIds.size() > 1000);
+    }
+
+    public static class NutritionOrderCallableResult {
+        List<String> results = new ArrayList<>();
+        Boolean complete = Boolean.FALSE;
+        Boolean deleted = Boolean.FALSE;
+    }
+
+    public static class NutritionOrderCallable implements Callable<NutritionOrderCallableResult> {
+        private Boolean DEBUG = Boolean.FALSE;
+        private WebTarget target = null;
+        private Entity<Bundle> entity = null;
+
+        public NutritionOrderCallable(WebTarget target, Entity<Bundle> entity) {
+            this.target = target;
+            this.entity = entity;
+        }
+
+        @Override
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
+            Response response = target.path("/").request().post(entity, Response.class);
+            assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL);
+            Bundle bundleResponse = response.readEntity(Bundle.class);
+            assertFalse(bundleResponse.getEntry().isEmpty());
+            for (Bundle.Entry entry : bundleResponse.getEntry()) {
+                assertEquals(entry.getResponse().getStatus().getValue(), "201");
+                result.results.add(entry.getResponse().getId());
+            }
+            if (DEBUG) {
+                System.out.println(this.hashCode() + " " + result.results.size());
+            }
+            return result;
+        }
     }
 
     @AfterClass
@@ -515,11 +603,88 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     }
 
     @AfterClass
-    public void testDeleteNutritionOrders() {
-        WebTarget target = getWebTarget();
-        for (String nutritionOrderId : nutritionOrderIds) {
-            Response response   = target.path("NutritionOrder/" + nutritionOrderId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
+    public void testDeleteNutritionOrders() throws Exception {
+        Iterator<String> iter = nutritionOrderIds.iterator();
+        // Generate a Batch
+        ExecutorService svc = Executors.newFixedThreadPool(5);
+        List<Future<NutritionOrderCallableResult>> futures = new ArrayList<>();
+        int count = 0;
+        for (int j = 0; j <10; j++) {
+            Bundle.Builder bundleBuilder = Bundle.builder();
+            List<Bundle.Entry> entries = new ArrayList<>();
+            for (int i=0; i<101; ++i) {
+                if (iter.hasNext()) {
+                    Bundle.Entry.Request request = Bundle.Entry.Request.builder()
+                            .url(Uri.uri("NutritionOrder/" + iter.next()))
+                            .method(HTTPVerb.DELETE)
+                            .build();
+                    Bundle.Entry entry = Bundle.Entry.builder()
+                            .request(request)
+                            .build();
+                    if (count <= 1000) {
+                        entries.add(entry);
+                        count++;
+                    }
+                }
+            }
+            Bundle bundle = bundleBuilder
+                    .type(BundleType.BATCH)
+                    .entry(entries)
+                    .build();
+
+            // Call the 'batch' API.
+            Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
+            NutritionOrderCallableDelete callable = new NutritionOrderCallableDelete(getWebTarget(), entity, this);
+            Future<NutritionOrderCallableResult> future = svc.submit(callable);
+            futures.add(future);
+        }
+
+        boolean finished = false;
+        int terminal = 0;
+        int completed = 0;
+        while (!finished && terminal++ != 300) {
+            for (Future<NutritionOrderCallableResult> future : futures) {
+                if (future.isDone()) {
+                    if (!future.get().complete) {
+                        if (!future.get().deleted) {
+                            throw new Exception("Failed to complete the delete operation");
+                        }
+                        future.get().complete = true;
+                        completed++;
+                    }
+                } else if (future.isCancelled()) {
+                    svc.shutdown();
+                    throw new Exception("Failed");
+                }
+            }
+            finished = futures.size() == completed;
+            Thread.sleep(1000);
+        }
+    }
+
+    public static class NutritionOrderCallableDelete implements Callable<NutritionOrderCallableResult> {
+        private WebTarget target = null;
+        private Entity<Bundle> entity = null;
+        private SearchRevIncludeTest test = null;
+
+        public NutritionOrderCallableDelete(WebTarget target, Entity<Bundle> entity, SearchRevIncludeTest test) {
+            this.target = target;
+            this.entity = entity;
+            this.test = test;
+        }
+
+        @Override
+        public NutritionOrderCallableResult call() throws Exception {
+            NutritionOrderCallableResult result = new NutritionOrderCallableResult();
+            Response response = target.path("/").request().post(entity, Response.class);
+            test.assertResponse(response, Response.Status.OK.getStatusCode());
+            Bundle bundleResponse = response.readEntity(Bundle.class);
+            assertFalse(bundleResponse.getEntry().isEmpty());
+            result.deleted = Boolean.TRUE;
+            for (Bundle.Entry entry : bundleResponse.getEntry()) {
+                result.deleted = result.deleted && entry.getResponse().getStatus() != null;
+            }
+            return result;
         }
     }
 
@@ -610,6 +775,12 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .queryParam("_revinclude", "NutritionOrder:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
+
+        if (response.getStatus() == 200) {
+            Bundle bundle = response.readEntity(Bundle.class);
+            System.out.println(bundle.getEntry().size());
+            printOutResource(true, bundle);
+        }
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Number of returned 'include' resources exceeds allowable limit of 1000");
