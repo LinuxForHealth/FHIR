@@ -132,13 +132,13 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
         List<With> withs = new ArrayList<>();
 
         if (processSettings1) {
-            withs.add(With.with("autovacuum_vacuum_scale_factor", Integer.toString(vacuumCostLimit)));
+            withs.add(With.with("autovacuum_vacuum_scale_factor", Double.toString(vacuumScaleFactor)));
         }
-        if (processSettings1) {
-            withs.add(With.with("autovacuum_vacuum_threshold", Double.toString(vacuumCostLimit)));
+        if (processSettings2) {
+            withs.add(With.with("autovacuum_vacuum_threshold", Integer.toString(vacuumThreshold)));
         }
-        if (processSettings1) {
-            withs.add(With.with("autovacuum_vacuum_cost_limit",  Integer.toString(vacuumCostLimit)));
+        if (processSettings3) {
+            withs.add(With.with("autovacuum_vacuum_cost_limit", Integer.toString(vacuumCostLimit)));
         }
         return withs;
     }
