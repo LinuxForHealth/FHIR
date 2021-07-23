@@ -146,16 +146,14 @@ public class FHIRPathEvaluator {
      *     if an exception occurs during evaluation
      */
     public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
-        Objects.requireNonNull("resourceOrElement cannot be null");
-
+        Objects.requireNonNull(resourceOrElement, "resourceOrElement");
         if (resourceOrElement instanceof Resource) {
             return evaluate((Resource) resourceOrElement, expr);
-        } else if (resourceOrElement instanceof Element) {
+        }
+        if (resourceOrElement instanceof Element) {
             return evaluate((Element) resourceOrElement, expr);
         }
-
-        throw new IllegalArgumentException("FHIRPath Context cannot be established for object of type " +
-                resourceOrElement.getClass().getName());
+        throw new AssertionError();
     }
 
     /**
