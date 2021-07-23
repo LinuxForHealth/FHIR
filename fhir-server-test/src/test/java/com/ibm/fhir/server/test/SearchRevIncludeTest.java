@@ -434,13 +434,13 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 }
             }
             Bundle bundle = bundleBuilder
-                    .type(BundleType.BATCH)
+                    .type(BundleType.TRANSACTION)
                     .entry(entries)
                     .build();
 
             // Call the 'batch' API.
             Entity<Bundle> entity = Entity.entity(bundle, FHIRMediaType.APPLICATION_FHIR_JSON);
-            NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity, this);
+            NutritionOrderCallable callable = new NutritionOrderCallable(getWebTarget(), entity);
             Future<NutritionOrderCallableResult> future = svc.submit(callable);
             futures.add(future);
         }
@@ -479,22 +479,21 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         private Boolean DEBUG = Boolean.FALSE;
         private WebTarget target = null;
         private Entity<Bundle> entity = null;
-        private SearchRevIncludeTest test = null;
 
-        public NutritionOrderCallable(WebTarget target, Entity<Bundle> entity, SearchRevIncludeTest test) {
+        public NutritionOrderCallable(WebTarget target, Entity<Bundle> entity) {
             this.target = target;
             this.entity = entity;
-            this.test = test;
         }
 
         @Override
         public NutritionOrderCallableResult call() throws Exception {
             NutritionOrderCallableResult result = new NutritionOrderCallableResult();
             Response response = target.path("/").request().post(entity, Response.class);
-            test.assertResponse(response, Response.Status.OK.getStatusCode());
+            assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL);
             Bundle bundleResponse = response.readEntity(Bundle.class);
             assertFalse(bundleResponse.getEntry().isEmpty());
             for (Bundle.Entry entry : bundleResponse.getEntry()) {
+                assertEquals(entry.getResponse().getStatus().getValue(), "201");
                 result.results.add(entry.getResponse().getId());
             }
             if (DEBUG) {
@@ -776,6 +775,12 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
                 .queryParam("_revinclude", "NutritionOrder:patient")
                 .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .get();
+
+        if (response.getStatus() == 200) {
+            Bundle bundle = response.readEntity(Bundle.class);
+            System.out.println(bundle.getEntry().size());
+            printOutResource(true, bundle);
+        }
         assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
         assertExceptionOperationOutcome(response.readEntity(OperationOutcome.class),
                 "Number of returned 'include' resources exceeds allowable limit of 1000");

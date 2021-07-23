@@ -32,8 +32,8 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
         final R4ExamplesDriver driver = new R4ExamplesDriver();
 
         // Setup a Pool
-        ExecutorService es = Executors.newFixedThreadPool(3);
-        driver.setPool(es, 3);
+        ExecutorService es = Executors.newFixedThreadPool(5);
+        driver.setPool(es, 5);
 
         DriverMetrics dm = new DriverMetrics();
         driver.setMetrics(dm);
