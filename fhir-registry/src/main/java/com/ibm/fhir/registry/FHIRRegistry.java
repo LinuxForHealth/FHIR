@@ -228,7 +228,6 @@ public final class FHIRRegistry {
             }
         }
         return Collections.unmodifiableList(searchParameters);
-
     }
 
     /**

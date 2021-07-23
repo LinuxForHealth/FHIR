@@ -186,18 +186,18 @@ public class EvaluationResultTree {
     /**
      * An implementation of EvaluationListener that builds an EvaluationResultTree
      */
-    public static class BuildingListener implements EvaluationListener {
+    public static class BuildingEvaluationListener implements EvaluationListener {
         protected final Predicate<ParserRuleContext> predicate;
         protected final Stack<MutableNode> resultTreeNodeStack = new Stack<>();
         protected EvaluationResultTree resultTree;
         protected int depth = 0;
 
-        public BuildingListener() {
+        public BuildingEvaluationListener() {
             this(t -> true);
         }
 
         /**
-         * Create a building listener with the given parser rule context predicate.
+         * Create a building evaluation listener with the given parser rule context predicate.
          *
          * <p>The predicate is used to determine which parser rule context(s) should be considered when
          * building the evaluation result tree.
@@ -205,12 +205,12 @@ public class EvaluationResultTree {
          * @param predicate
          *     the predicate
          */
-        public BuildingListener(Predicate<ParserRuleContext> predicate) {
+        public BuildingEvaluationListener(Predicate<ParserRuleContext> predicate) {
             this.predicate = predicate;
         }
 
         /**
-         * Reset this building listener
+         * Reset this building evaluation listener
          */
         public void reset() {
             resultTreeNodeStack.clear();
