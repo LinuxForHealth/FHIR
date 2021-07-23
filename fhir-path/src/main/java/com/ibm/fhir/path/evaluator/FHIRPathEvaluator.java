@@ -90,8 +90,6 @@ import net.jcip.annotations.NotThreadSafe;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
- *
- * The static factory method {@link #evaluator()} is threadsafe, but the created instances are not.
  */
 @NotThreadSafe
 public class FHIRPathEvaluator {
