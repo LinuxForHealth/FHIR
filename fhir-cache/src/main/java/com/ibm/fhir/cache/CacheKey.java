@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * A general purpose cache key class used to create a composite key from an array of values
+ * A general purpose cache key class that represents a composite key using an array of values
  */
 public class CacheKey {
     private final Object[] values;
