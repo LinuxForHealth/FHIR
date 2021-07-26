@@ -1,6 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2019
- * 
+ * (C) Copyright IBM Corp. 2019, 2021
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -34,13 +34,13 @@ public class TypeFunctionTest {
         Collection<FHIRPathNode> result = FHIRPathEvaluator.evaluator().evaluate(evaluationContext, "Patient.contact.type()");
         TypeInfo actual = getSingleton(result).asTypeInfoNode().typeInfo();
         List<TupleTypeInfoElement> element = new ArrayList<>();
-        element.add(new TupleTypeInfoElement("relationship", "List<FHIR.CodeableConcept>", false));
-        element.add(new TupleTypeInfoElement("name", "FHIR.HumanName"));
-        element.add(new TupleTypeInfoElement("telecom", "List<FHIR.ContactPoint>", false));
-        element.add(new TupleTypeInfoElement("address", "FHIR.Address"));
-        element.add(new TupleTypeInfoElement("gender", "FHIR.code"));
-        element.add(new TupleTypeInfoElement("organization", "FHIR.Reference"));
-        element.add(new TupleTypeInfoElement("period", "FHIR.Period"));
+        element.add(new TupleTypeInfoElement("relationship", "FHIR.CodeableConcept", false));
+        element.add(new TupleTypeInfoElement("name", "FHIR.HumanName", true));
+        element.add(new TupleTypeInfoElement("telecom", "FHIR.ContactPoint", false));
+        element.add(new TupleTypeInfoElement("address", "FHIR.Address", true));
+        element.add(new TupleTypeInfoElement("gender", "FHIR.code", true));
+        element.add(new TupleTypeInfoElement("organization", "FHIR.Reference", true));
+        element.add(new TupleTypeInfoElement("period", "FHIR.Period", true));
         TypeInfo expected = new TupleTypeInfo(element);
         Assert.assertEquals(actual, expected);
     }
