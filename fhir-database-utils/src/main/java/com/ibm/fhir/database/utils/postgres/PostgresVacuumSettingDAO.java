@@ -38,7 +38,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
     private String tableName = null;
 
     private int vacuumCostLimit = 0;
-    private double vacuumScaleFactor = 0.0;
+    private Double vacuumScaleFactor = null;
     private int vacuumThreshold = 0;
 
     /**
@@ -50,7 +50,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
      * @param vacuumScaleFactor
      * @param vacuumThreshold
      */
-    public PostgresVacuumSettingDAO(String schema, String tableName, int vacuumCostLimit, double vacuumScaleFactor, int vacuumThreshold) {
+    public PostgresVacuumSettingDAO(String schema, String tableName, int vacuumCostLimit, Double vacuumScaleFactor, int vacuumThreshold) {
         this.schema = schema;
         this.tableName = tableName;
         this.vacuumCostLimit = vacuumCostLimit;
@@ -82,7 +82,8 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                                     .split(",");
                         for (String setting : sar) {
                             String[] kv = setting.split("=");
-                            if ("autovacuum_vacuum_scale_factor".equals(kv[0]) && vacuumScaleFactor == Double.parseDouble(kv[1])) {
+                            if ("autovacuum_vacuum_scale_factor".equals(kv[0]) && (vacuumScaleFactor == null && vacuumScaleFactor == Double.parseDouble(kv[1]))) {
+                                // Setting already in place or we are skipping the autovacuum_vacuum_scale_factor
                                 processSettings1 = false;
                             } else if ("autovacuum_vacuum_threshold".equals(kv[0]) && vacuumThreshold == Integer.parseInt(kv[1])) {
                                 processSettings2 = false;
@@ -97,6 +98,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
             }
 
             if (processSettings1 || processSettings2 || processSettings3) {
+                LOG.info("Starting update for the autovacuum on table '" + schema + "." + tableName + "'");
                 // Build the SQL
                 StringBuilder builder = new StringBuilder();
                 builder.append("alter table ")
@@ -110,13 +112,26 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                 final String statement1 = builder.toString();
 
                 LOG.fine(() -> "Updating the table vacuum settings " + statement1);
-                try (PreparedStatement ps = c.prepareStatement(statement1)) {
-                    ps.execute();
-                } catch (SQLException x) {
-                    throw translator.translate(x);
+                int retry = 0;
+                while (++retry <= 10) {
+                    try (PreparedStatement ps = c.prepareStatement(statement1)) {
+                        // IFF we hit a Lock (wait_event = relation) we'll just wait forever on the lock while the vacuum completes.
+                        // we set a high number intentionally, and ensure it does eventually quit. This change should be about 100ms max, it's only changing
+                        // metadata.
+                        ps.setQueryTimeout(1000);
+                        ps.execute();
+                    } catch (SQLException x) {
+                        if (retry == 10) {
+                            throw translator.translate(x);
+                        } else {
+                            LOG.warning("Retrying the vacuum settings on [" + retry + "] '" + schema + "." + tableName + "'");
+                        }
+                    }
                 }
 
                 LOG.info("Completed update for the autovacuum on table '" + schema + "." + tableName + "'");
+            } else {
+                LOG.info("Skip update for the autovacuum on table (settings already configured) '" + schema + "." + tableName + "'");
             }
         }
     }

@@ -60,10 +60,10 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
 import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
-import com.ibm.fhir.database.utils.postgres.VacuumSettingsTableDataModelVisitor;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
@@ -166,7 +166,7 @@ public class Main {
     private String vacuumTableName = null;
     private int vacuumCostLimit = 2000;
     private int vacuumThreshold = 1000;
-    private double vacuumScaleFactor = 0.01;
+    private Double vacuumScaleFactor = null;
 
     // The database type being populated (default: Db2)
     private DbType dbType = DbType.DB2;
@@ -2013,25 +2013,43 @@ public class Main {
         buildCommonModel(pdm, true, false, false);
 
         // Setup the Connection Pool
+        this.maxConnectionPoolSize = 10;
         configureConnectionPool();
         PostgresAdapter adapter = new PostgresAdapter(connectionPool);
 
+        if (vacuumTableName != null) {
+            runSingleTable(adapter, pdm, schema.getSchemaName(), vacuumTableName);
+        } else {
+            // Process all tables in the schema ... except for XX_RESOURCES and COMMON_TOKEN_VALUES and COMMON_CANONICAL_VALUES
+            GatherTablesDataModelVisitor visitor = new GatherTablesDataModelVisitor();
+            pdm.visit(visitor);
+
+            for (Table tbl : visitor.getTables()) {
+                runSingleTable(adapter, pdm, schema.getSchemaName(), tbl.getObjectName());
+            }
+        }
+    }
+
+    /**
+     * runs the vacuum update inside a single connection and single transaction.
+     *
+     * @param adapter
+     * @param pdm
+     * @param schemaName
+     * @param vacuumTableName
+     */
+    private void runSingleTable(PostgresAdapter adapter, PhysicalDataModel pdm, String schemaName, String vacuumTableName) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
-                if (vacuumTableName != null) {
-                    // If the vacuumTableName exists, then we try finding the table definition.
-                    Table table = pdm.findTable(schema.getSchemaName(), vacuumTableName);
-                    if (table == null) {
-                        logger.severe("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
-                        throw new IllegalArgumentException("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
-                    }
-                    PostgresVacuumSettingDAO alterVacuumSettings =
-                            new PostgresVacuumSettingDAO(schema.getSchemaName(), table.getObjectName(), vacuumCostLimit, vacuumScaleFactor, vacuumThreshold);
-                    adapter.runStatement(alterVacuumSettings);
-                } else {
-                    // Process all tables in the schema ... except for XX_RESOURCES and COMMON_TOKEN_VALUES and COMMON_CANONICAL_VALUES
-                    pdm.visit(new VacuumSettingsTableDataModelVisitor(adapter, schema.getSchemaName(), vacuumCostLimit, vacuumScaleFactor, vacuumThreshold));
+                // If the vacuumTableName exists, then we try finding the table definition.
+                Table table = pdm.findTable(schemaName, vacuumTableName);
+                if (table == null) {
+                    logger.severe("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
+                    throw new IllegalArgumentException("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
                 }
+                PostgresVacuumSettingDAO alterVacuumSettings =
+                        new PostgresVacuumSettingDAO(schemaName, table.getObjectName(), vacuumCostLimit, vacuumScaleFactor, vacuumThreshold);
+                adapter.runStatement(alterVacuumSettings);
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
                 tx.setRollbackOnly();
