@@ -82,7 +82,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                                     .split(",");
                         for (String setting : sar) {
                             String[] kv = setting.split("=");
-                            if ("autovacuum_vacuum_scale_factor".equals(kv[0]) && (vacuumScaleFactor == null && vacuumScaleFactor == Double.parseDouble(kv[1]))) {
+                            if ("autovacuum_vacuum_scale_factor".equals(kv[0]) && (vacuumScaleFactor == null || vacuumScaleFactor == Double.parseDouble(kv[1]))) {
                                 // Setting already in place or we are skipping the autovacuum_vacuum_scale_factor
                                 processSettings1 = false;
                             } else if ("autovacuum_vacuum_threshold".equals(kv[0]) && vacuumThreshold == Integer.parseInt(kv[1])) {
