@@ -371,6 +371,8 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 ## Adjust the Vacuum Settings for PostgreSQL Tables only
 Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://ibm.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
 
+The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
+
 ### Specific Tables
 To update a specific tables settings, you can run with  `--vacuum-table-name`.
 
