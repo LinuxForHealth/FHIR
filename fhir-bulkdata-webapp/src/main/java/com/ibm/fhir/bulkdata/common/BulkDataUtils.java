@@ -366,7 +366,7 @@ public class BulkDataUtils {
                     String queryString = tokens[1];
 
                     // uses URLSupport, so we make a dummy URL so we don't get a MALFORMED Exception.
-                    Map<String, List<String>> queryParameters = URLSupport.getQueryParameters("https://localhost:9443?" + queryString);
+                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(queryString, false);
 
                     Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypeString);
                     if (!queryParameters.isEmpty() && resourceType != null) {
