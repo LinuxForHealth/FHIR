@@ -61,9 +61,9 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
         if (translator.getType() == DbType.POSTGRESQL) {
-            boolean processSettings1 = true;
-            boolean processSettings2 = true;
-            boolean processSettings3 = true;
+            boolean isScaleFactor = true;
+            boolean isVacuumThreshold = true;
+            boolean isVacuumCostLimit = true;
             LOG.fine(() -> "Checking the table vacuum settings");
             final String statement0 = "select (reloptions)::VARCHAR "
                     + "from pg_class "
@@ -84,11 +84,11 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                             String[] kv = setting.split("=");
                             if ("autovacuum_vacuum_scale_factor".equals(kv[0]) && (vacuumScaleFactor == null || vacuumScaleFactor == Double.parseDouble(kv[1]))) {
                                 // Setting already in place or we are skipping the autovacuum_vacuum_scale_factor
-                                processSettings1 = false;
+                                isScaleFactor = false;
                             } else if ("autovacuum_vacuum_threshold".equals(kv[0]) && vacuumThreshold == Integer.parseInt(kv[1])) {
-                                processSettings2 = false;
+                                isVacuumThreshold = false;
                             } else if ("autovacuum_vacuum_cost_limit".equals(kv[0]) && vacuumCostLimit == Integer.parseInt(kv[1])) {
-                                processSettings3 = false;
+                                isVacuumCostLimit = false;
                             }
                         }
                     }
@@ -97,17 +97,17 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
                 throw translator.translate(x);
             }
 
-            if (processSettings1 || processSettings2 || processSettings3) {
+            List<With> withs = generateWiths(isScaleFactor, isVacuumThreshold, isVacuumCostLimit);
+            if (!withs.isEmpty()) {
                 LOG.info("Starting update for the autovacuum on table '" + schema + "." + tableName + "'");
                 // Build the SQL
                 StringBuilder builder = new StringBuilder();
                 builder.append("alter table ")
                     .append(schema).append(".").append(tableName)
                     .append(" SET ( ")
-                    .append(
-                        generateWiths(processSettings1, processSettings2, processSettings3).stream()
-                            .map(with -> with.buildWithComponent())
-                            .collect(Collectors.joining(",")))
+                    .append(withs.stream()
+                                    .map(with -> with.buildWithComponent())
+                                    .collect(Collectors.joining(",")))
                     .append(" )");
                 final String statement1 = builder.toString();
 
@@ -138,21 +138,21 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
 
     /**
      * Selective generation of the settings
-     * @param processSettings1
-     * @param processSettings2
-     * @param processSettings3
+     * @param isScaleFactor
+     * @param isVacuumThreshold
+     * @param isVacuumCostLimit
      * @return
      */
-    private List<With> generateWiths(boolean processSettings1,boolean processSettings2, boolean processSettings3){
+    private List<With> generateWiths(boolean isScaleFactor, boolean isVacuumThreshold, boolean isVacuumCostLimit){
         List<With> withs = new ArrayList<>();
 
-        if (processSettings1 && vacuumScaleFactor != null) {
+        if (isScaleFactor && vacuumScaleFactor != null) {
             withs.add(With.with("autovacuum_vacuum_scale_factor", Double.toString(vacuumScaleFactor)));
         }
-        if (processSettings2) {
+        if (isVacuumThreshold) {
             withs.add(With.with("autovacuum_vacuum_threshold", Integer.toString(vacuumThreshold)));
         }
-        if (processSettings3) {
+        if (isVacuumCostLimit) {
             withs.add(With.with("autovacuum_vacuum_cost_limit", Integer.toString(vacuumCostLimit)));
         }
         return withs;
