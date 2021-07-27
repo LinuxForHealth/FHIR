@@ -364,12 +364,13 @@ public class BulkDataUtils {
                 String typeFilterDecoded = URLDecoder.decode(typeFilter.trim(), StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
                     URI uri = new URI(typeFilterDecoded.trim());
-                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(uri.getQuery(), false);
 
-                    if (uri.getPath() == null) {
+                    if (uri.getPath() == null && uri.getQuery() == null) {
                         logger.log(Level.WARNING, "Bad type filter: {0}", typeFilterDecoded);
                         continue;
                     }
+
+                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(uri.getQuery(), false);
                     Class<? extends Resource> resourceType = ModelSupport.getResourceType(uri.getPath());
                     if (!queryParameters.isEmpty() && resourceType != null) {
                         searchParametersForResoureTypes
