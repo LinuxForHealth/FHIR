@@ -6,10 +6,12 @@
 
 package com.ibm.fhir.server.util;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 
-import com.ibm.fhir.core.util.URLSupport;
+import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
  * This class is used for parsing partial URL strings, specifically those
@@ -55,11 +57,10 @@ public class FHIRUrlParser {
         if (tokens.length > 1) {
             query = tokens[1];
             if (query != null && !query.isEmpty()) {
-                URLSupport.parseQuery(urlString, false)
-                    .entrySet()
+                URLEncodedUtils.parse(query, StandardCharsets.UTF_8)
                     .stream()
-                    .forEachOrdered(k -> {
-                        queryParameters.put(k.getKey(), k.getValue());
+                    .forEachOrdered(kv -> {
+                        queryParameters.add(kv.getName(), kv.getValue());
                     });
             }
         }

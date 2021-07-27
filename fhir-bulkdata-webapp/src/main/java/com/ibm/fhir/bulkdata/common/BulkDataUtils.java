@@ -11,6 +11,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -351,9 +353,10 @@ public class BulkDataUtils {
      * @param typeFilters
      * @return
      * @throws UnsupportedEncodingException
+     * @throws URISyntaxException
      * @implnote The exception is very unlikely as we deal in UTF8 only.
      */
-    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException {
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException, URISyntaxException {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
         if (typeFilters != null) {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
@@ -361,14 +364,13 @@ public class BulkDataUtils {
             for (String typeFilter : typeFilterList) {
                 String typeFilterDecoded = URLDecoder.decode(typeFilter, StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
-                    String[] tokens = typeFilterDecoded.split("\\?");
-                    String resourceTypeString = tokens[0].trim();
-                    String queryString = tokens[1];
+                    String tmpTypeFilter = URLSupport.decode(typeFilter.trim());
 
-                    // uses URLSupport, so we make a dummy URL so we don't get a MALFORMED Exception.
-                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(queryString, false);
+                    URI uri = new URI(tmpTypeFilter);
 
-                    Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypeString);
+                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(uri.getQuery(), false);
+
+                    Class<? extends Resource> resourceType = ModelSupport.getResourceType(uri.getPath());
                     if (!queryParameters.isEmpty() && resourceType != null) {
                         if (searchParametersForResoureTypes.get(resourceType) == null) {
                             List<Map<String, List<String>>> searchParametersForResourceType = new ArrayList<>();
