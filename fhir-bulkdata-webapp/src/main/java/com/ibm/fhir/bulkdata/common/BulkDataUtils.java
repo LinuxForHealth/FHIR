@@ -27,11 +27,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.ws.rs.core.MultivaluedHashMap;
-import javax.ws.rs.core.MultivaluedMap;
-
-import org.apache.http.client.utils.URLEncodedUtils;
-
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequest;
@@ -44,6 +39,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
+import com.ibm.fhir.core.util.URLSupport;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -371,9 +367,7 @@ public class BulkDataUtils {
 
                     // Similar to Code for FHIRUrlParser, however, not using this as it confuses the dependency tree, where we
                     // are trying to avoid importing or making available the extra JAXRS endpoints on this webapp.
-                    MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
-                    URLEncodedUtils.parse(queryString, StandardCharsets.UTF_8)
-                        .stream().forEachOrdered(kv -> queryParameters.add(kv.getName(), kv.getValue()));
+                    Map<String, List<String>> queryParameters = URLSupport.getQueryParameters("https://localhost:9443?" + queryString);
 
                     Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypeString);
                     if (!queryParameters.isEmpty() && resourceType != null) {
