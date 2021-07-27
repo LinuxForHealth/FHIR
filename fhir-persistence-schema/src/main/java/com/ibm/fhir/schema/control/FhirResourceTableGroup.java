@@ -8,7 +8,6 @@ package com.ibm.fhir.schema.control;
 
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_CANONICAL_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
@@ -236,7 +235,7 @@ public class FhirResourceTableGroup {
                     }
 
                     if (priorVersion < FhirSchemaVersion.V0019.vid()) {
-                        statements.add(new PostgresVacuumSettingDAO(schemaName, CODE_SYSTEMS, 2000, null, 1000));
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
                     return statements;
                 });
