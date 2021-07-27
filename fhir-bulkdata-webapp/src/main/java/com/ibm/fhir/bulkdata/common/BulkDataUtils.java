@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -26,9 +27,10 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonReader;
+import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.MultivaluedMap;
+
+import org.apache.http.client.utils.URLEncodedUtils;
 
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
@@ -52,9 +54,12 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
-import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonReader;
 
 /**
  * Utility functions for IBM COS.
@@ -344,8 +349,15 @@ public class BulkDataUtils {
         return issues;
     }
 
-
-    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws Exception {
+    /**
+     * converts the type filter into a series of search parameters which are used to filter the bulk data export results.
+     *
+     * @param typeFilters
+     * @return
+     * @throws UnsupportedEncodingException
+     * @implnote The exception is very unlikely as we deal in UTF8 only.
+     */
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
         if (typeFilters != null) {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
@@ -353,16 +365,24 @@ public class BulkDataUtils {
             for (String typeFilter : typeFilterList) {
                 String typeFilterDecoded = URLDecoder.decode(typeFilter, StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
-                    FHIRUrlParser parser = new FHIRUrlParser(typeFilterDecoded);
-                    Class<? extends Resource> resourceType = ModelSupport
-                            .getResourceType(typeFilterDecoded.substring(0, typeFilterDecoded.indexOf("?")).trim());
-                    if (parser.getQueryParameters().size() > 0 && resourceType != null) {
+                    String[] tokens = typeFilterDecoded.split("\\?");
+                    String resourceTypeString = tokens[0].trim();
+                    String queryString = tokens[1];
+
+                    // Similar to Code for FHIRUrlParser, however, not using this as it confuses the dependency tree, where we
+                    // are trying to avoid importing or making available the extra JAXRS endpoints on this webapp.
+                    MultivaluedMap<String, String> queryParameters = new MultivaluedHashMap<>();
+                    URLEncodedUtils.parse(queryString, StandardCharsets.UTF_8)
+                        .stream().forEachOrdered(kv -> queryParameters.add(kv.getName(), kv.getValue()));
+
+                    Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypeString);
+                    if (!queryParameters.isEmpty() && resourceType != null) {
                         if (searchParametersForResoureTypes.get(resourceType) == null) {
                             List<Map<String, List<String>>> searchParametersForResourceType = new ArrayList<>();
-                            searchParametersForResourceType.add(parser.getQueryParameters());
+                            searchParametersForResourceType.add(queryParameters);
                             searchParametersForResoureTypes.put(resourceType, searchParametersForResourceType);
                         } else {
-                            searchParametersForResoureTypes.get(resourceType).add(parser.getQueryParameters());
+                            searchParametersForResoureTypes.get(resourceType).add(queryParameters);
                         }
                     }
                 }

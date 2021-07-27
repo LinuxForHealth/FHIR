@@ -57,6 +57,8 @@ public class FHIRUrlParser {
         if (tokens.length > 1) {
             query = tokens[1];
             if (query != null && !query.isEmpty()) {
+                // Similar code is replicated in BulkDataUtils
+                // @see BulkDataUtils getSearchParametersFromTypeFilters
                 URLEncodedUtils.parse(query, StandardCharsets.UTF_8).stream().forEachOrdered(k -> queryParameters.add(k.getName(), k.getValue()));
             }
         }
@@ -77,5 +79,4 @@ public class FHIRUrlParser {
     public MultivaluedMap<String, String> getQueryParameters() {
         return queryParameters;
     }
-
 }
