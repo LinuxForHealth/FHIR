@@ -146,7 +146,7 @@ public class PostgresVacuumSettingDAO implements IDatabaseStatement {
     private List<With> generateWiths(boolean processSettings1,boolean processSettings2, boolean processSettings3){
         List<With> withs = new ArrayList<>();
 
-        if (processSettings1) {
+        if (processSettings1 && vacuumScaleFactor != null) {
             withs.add(With.with("autovacuum_vacuum_scale_factor", Double.toString(vacuumScaleFactor)));
         }
         if (processSettings2) {
