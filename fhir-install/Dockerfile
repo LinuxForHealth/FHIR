@@ -57,6 +57,10 @@ RUN configure.sh && \
 
 COPY --chown=1001:0 --from=base /opt/ibm-fhir-server /opt/ibm-fhir-server
 
+RUN mkdir -p /config/configDropins/overrides && \
+    chmod -R 775 /config/configDropins/overrides && \
+    chmod -R 775 /opt/ol/wlp/usr/servers/defaultServer/configDropins/defaults
+
 # Set the working directory to the liberty defaultServer
 WORKDIR ${FHIR_CONFIG_HOME}
 
