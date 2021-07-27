@@ -354,7 +354,6 @@ public class BulkDataUtils {
      * @return
      * @throws UnsupportedEncodingException
      * @throws URISyntaxException
-     * @implnote The exception is very unlikely as we deal in UTF8 only.
      */
     public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException, URISyntaxException {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
@@ -362,23 +361,20 @@ public class BulkDataUtils {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
 
             for (String typeFilter : typeFilterList) {
-                String typeFilterDecoded = URLDecoder.decode(typeFilter, StandardCharsets.UTF_8.toString());
+                String typeFilterDecoded = URLDecoder.decode(typeFilter.trim(), StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
-                    String tmpTypeFilter = URLSupport.decode(typeFilter.trim());
-
-                    URI uri = new URI(tmpTypeFilter);
-
+                    URI uri = new URI(typeFilterDecoded.trim());
                     Map<String, List<String>> queryParameters = URLSupport.parseQuery(uri.getQuery(), false);
 
+                    if (uri.getPath() == null) {
+                        logger.log(Level.WARNING, "Bad type filter: {0}", typeFilterDecoded);
+                        continue;
+                    }
                     Class<? extends Resource> resourceType = ModelSupport.getResourceType(uri.getPath());
                     if (!queryParameters.isEmpty() && resourceType != null) {
-                        if (searchParametersForResoureTypes.get(resourceType) == null) {
-                            List<Map<String, List<String>>> searchParametersForResourceType = new ArrayList<>();
-                            searchParametersForResourceType.add(queryParameters);
-                            searchParametersForResoureTypes.put(resourceType, searchParametersForResourceType);
-                        } else {
-                            searchParametersForResoureTypes.get(resourceType).add(queryParameters);
-                        }
+                        searchParametersForResoureTypes
+                            .computeIfAbsent(resourceType, k -> new ArrayList<>())
+                            .add(queryParameters);
                     }
                 }
             }
