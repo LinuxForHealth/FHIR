@@ -365,8 +365,7 @@ public class BulkDataUtils {
                     String resourceTypeString = tokens[0].trim();
                     String queryString = tokens[1];
 
-                    // Similar to Code for FHIRUrlParser, however, not using this as it confuses the dependency tree, where we
-                    // are trying to avoid importing or making available the extra JAXRS endpoints on this webapp.
+                    // uses URLSupport, so we make a dummy URL so we don't get a MALFORMED Exception.
                     Map<String, List<String>> queryParameters = URLSupport.getQueryParameters("https://localhost:9443?" + queryString);
 
                     Class<? extends Resource> resourceType = ModelSupport.getResourceType(resourceTypeString);
