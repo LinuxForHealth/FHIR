@@ -288,7 +288,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public void dropProcedure(String schemaName, String procedureName) {
         final String nm = getQualifiedName(schemaName, procedureName);
-        final String ddl = "DROP PROCEDURE " + nm;
+        final String ddl = "DROP PROCEDURE IF EXISTS " + nm;
 
         try {
             runStatement(ddl);
@@ -300,7 +300,7 @@ public abstract class CommonDatabaseAdapter implements IDatabaseAdapter, IDataba
     @Override
     public void dropFunction(String schemaName, String functionName) {
         final String nm = getQualifiedName(schemaName, functionName);
-        final String ddl = "DROP FUNCTION " + nm;
+        final String ddl = "DROP FUNCTION IF EXISTS " + nm;
 
         try {
             runStatement(ddl);

@@ -443,7 +443,7 @@ public class PostgresAdapter extends CommonDatabaseAdapter {
         // we can't drop.
         for (String existingFunction : existingFunctions) {
             final StringBuilder ddl = new StringBuilder()
-                    .append("DROP FUNCTION ")
+                    .append("DROP FUNCTION IF EXISTS ")
                     .append(existingFunction);
             try {
                 runStatement(ddl.toString());
