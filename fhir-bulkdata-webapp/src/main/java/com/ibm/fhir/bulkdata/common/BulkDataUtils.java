@@ -365,7 +365,7 @@ public class BulkDataUtils {
                 if (typeFilterDecoded.contains("?")) {
                     URI uri = new URI(typeFilterDecoded.trim());
 
-                    if (uri.getPath() == null && uri.getQuery() == null) {
+                    if (uri.getPath() == null || uri.getQuery() == null) {
                         logger.log(Level.WARNING, "Bad type filter: {0}", typeFilterDecoded);
                         continue;
                     }
