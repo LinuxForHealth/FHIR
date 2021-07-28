@@ -1,0 +1,16 @@
+{
+    "__comment": "FHIR Server configuration for mythical tenant id 'tenant2'",
+    "fhirServer": {
+        "core": {
+            "externalBaseUrl": "https://chocolate.fudge"
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "NotThisRole"
+                ]
+            }
+        }
+    }
+}

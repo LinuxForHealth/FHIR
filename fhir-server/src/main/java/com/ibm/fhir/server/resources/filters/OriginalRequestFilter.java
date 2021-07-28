@@ -11,14 +11,10 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.model.resource.OperationOutcome;
-import com.ibm.fhir.model.util.FHIRUtil;
 
 /**
  * Replaces the Base URL in the OriginalRequestURI
@@ -33,31 +29,25 @@ public class OriginalRequestFilter implements ContainerRequestFilter {
     public void filter(ContainerRequestContext requestContext) throws IOException {
         UriInfo info = requestContext.getUriInfo();
 
+        // This will never be null
         FHIRRequestContext ctx = FHIRRequestContext.get();
-        if (ctx == null) {
-            requestContext.abortWith(buildAbortWithResponseBadContext());
-        } else {
-            String baseUrl = FHIRConfigHelper.getStringProperty(PROPERTY_EXTERNAL_BASE_URL, null);
-            if (baseUrl != null) {
-                String originalRequestUri = baseUrl +
-                        "/" + info.getPath() + "?" + info.getRequestUri().getRawQuery();
-                ctx.setOriginalRequestUri(originalRequestUri);
-                LOG.fine(() ->  "originalRequestUri override [" + originalRequestUri + "]");
-            }  else {
-                LOG.fine(() -> "No BaseURL specified, requestUri nont changed.s");
-            }
-        }
-    }
+        String baseUrl = FHIRConfigHelper.getStringProperty(PROPERTY_EXTERNAL_BASE_URL, null);
+        if (baseUrl != null) {
+            StringBuilder originalRequestUri = new StringBuilder();
+            originalRequestUri
+                    .append(baseUrl)
+                    .append("/")
+                    .append(info.getPath());
 
-    /**
-     * builds the abort responsne context.
-     * @return
-     */
-    public Response buildAbortWithResponseBadContext() {
-        String diagnostics = "Context is not yet set.";
-        OperationOutcome oo = FHIRUtil.buildOperationOutcome(new FHIROperationException(diagnostics), false);
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
-                .entity(oo)
-                .build();
+            // Conditionally add the Query
+            String rawQuery = info.getRequestUri().getRawQuery();
+            if (rawQuery != null) {
+                originalRequestUri
+                        .append("?")
+                        .append(rawQuery);
+            }
+            ctx.setOriginalRequestUri(originalRequestUri.toString());
+            LOG.fine(() ->  "originalRequestUri override [" + originalRequestUri + "]");
+        }
     }
 }
