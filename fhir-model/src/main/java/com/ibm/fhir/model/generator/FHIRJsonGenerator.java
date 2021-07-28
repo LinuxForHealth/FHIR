@@ -43,14 +43,8 @@ public class FHIRJsonGenerator extends FHIRAbstractGenerator {
     private static final JsonGeneratorFactory GENERATOR_FACTORY = Json.createGeneratorFactory(null);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY = Json.createGeneratorFactory(Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true));
 
-    private final boolean prettyPrinting;
-
-    protected FHIRJsonGenerator() {
-        this(false);
-    }
-
     protected FHIRJsonGenerator(boolean prettyPrinting) {
-        this.prettyPrinting = prettyPrinting;
+        super(prettyPrinting);
     }
 
     @Override
