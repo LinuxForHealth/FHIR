@@ -2364,4 +2364,21 @@ public class SearchTest extends FHIRServerTestBase {
         printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
+
+    @Test(groups = { "server-search" })
+    public void testSearchWithTenant2_OverrideUri() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Patient")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .header("X-FHIR-TENANT-ID", "tenant1")
+                .header("X-FHIR-DSID", "profile")
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        this.printOutResource(true, bundle);
+        assertNotNull(bundle);
+        String selfLink = getSelfLink(bundle);
+        assertEquals(selfLink, "https://chocolate.fudge/Patient?_count=11&_page=1");
+    }
 }

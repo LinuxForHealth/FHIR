@@ -30,6 +30,7 @@ import com.ibm.fhir.server.resources.Search;
 import com.ibm.fhir.server.resources.Update;
 import com.ibm.fhir.server.resources.VRead;
 import com.ibm.fhir.server.resources.WellKnown;
+import com.ibm.fhir.server.resources.filters.OriginalRequestFilter;
 
 public class FHIRApplication extends Application {
     private static final Logger log = Logger.getLogger(FHIRApplication.class.getName());
@@ -63,6 +64,7 @@ public class FHIRApplication extends Application {
                 classes.add(Search.class);
                 classes.add(Update.class);
                 classes.add(VRead.class);
+                classes.add(OriginalRequestFilter.class);
                 if (FHIRConfigHelper.getBooleanProperty(FHIRConfiguration.PROPERTY_SECURITY_OAUTH_SMART_ENABLED, false)) {
                     classes.add(WellKnown.class);
                 }
