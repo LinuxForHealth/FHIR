@@ -3,7 +3,7 @@ layout: post
 title:  IBM FHIR Server User's Guide
 description: IBM FHIR Server User's Guide
 Copyright: years 2017, 2021
-lastupdated: "2021-07-08"
+lastupdated: "2021-07-28"
 permalink: /FHIRServerUsersGuide/
 ---
 
@@ -1944,7 +1944,7 @@ Because the FHIR API relies on links and references between resources (both abso
 
 This can be accomplished by configuring the `fhirServer/core/originalRequestUriHeaderName` property in the default fhir-server-config.json. When this parameter is configured, the IBM FHIR Server will use the value of the corresponding header to set the "originalRequestUri" for the scope of the request.
 
-For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123).
+For example, consider a FHIR Server that is listening at https://fhir:9443/fhir-server/api/v4 and is configured with an  originalRequestUriHeaderName of `X-FHIR-FORWARDED-URL`. If this server is proxied by a server at https://example.com/fhir, then the proxy must set the `X-FHIR-FORWARDED-URL` header to the value of the front-end request URL (e.g. https://example.com/fhir/Patient/abc-123). In alternative deployments, the `fhirServer/core/externalBaseUrl` may be used in-lieu of the `X-FHIR-FORWARDED-URL`.
 
 The originalRequestUriHeader is expected to contain the full path of the original request. Values with no scheme (e.g. `https://`) will be handled like relative URLs, but full URL values (including scheme, hostname, optional port, and path) are recommended. Query string values can be included in the header value but will be ignored by the server; the server will use the query string of the actual request to process the request.
 
@@ -1973,6 +1973,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/maxPageSize`|integer|Sets the maximum page size for search and history request results. If a user-specified `_count` parameter value exceeds the maximum page size, then a warning is logged and the maximum page size will be used.|
 |`fhirServer/core/maxPageIncludeCount`|integer|Sets the maximum number of 'include' resources allowed per page for search and history request results. If the number of 'include' resources returned for a page of results from a search or history request will exceed the maximum number of 'include' resources allowed per page, then an error will be returned in the request results.|
 |`fhirServer/core/capabilitiesUrl`|string|The URL that is embedded in the default Capabilities statement|
+|`fhirServer/core/externalBaseUrl`|string|The base URL that is embedded in the Search bundle response, as of version 4.9.0.|
 |`fhirServer/validation/failFast`|boolean|Indicates whether validation should fail fast on create and update interactions|
 |`fhirServer/term/capabilitiesUrl`|string|The URL that is embedded in the Terminology Capabilities statement using `mode=terminology`|
 |`fhirServer/term/disableCaching`|boolean|Indicates whether caching is disabled for the FHIR terminology module, this includes caching in `CodeSystemSupport`, `ValueSetSupport`, `GraphTermServiceProvider`, and `RemoteTermServiceProvider`|
@@ -2143,6 +2144,7 @@ This section contains reference information about each of the configuration prop
 |`fhirServer/core/maxPageSize`|1000|
 |`fhirServer/core/maxPageIncludeCount`|1000|
 |`fhirServer/core/capabilitiesUrl`|null|
+|`fhirServer/core/externalBaseUrl`|null|
 |`fhirServer/validation/failFast`|false|
 |`fhirServer/term/capabilitiesUrl`|null|
 |`fhirServer/term/cachingDisabled`|false|
@@ -2280,6 +2282,7 @@ must restart the server for that change to take effect.
 |`fhirServer/core/maxPageSize`|Y|Y|
 |`fhirServer/core/maxPageIncludeCount`|Y|Y|
 |`fhirServer/core/capabilitiesUrl`|Y|Y|
+|`fhirServer/core/externalBaseUrl`|Y|Y|
 |`fhirServer/validation/failFast`|Y|Y|
 |`fhirServer/term/cachingDisabled`|N|N|
 |`fhirServer/term/graphTermServiceProviders/enabled`|N|N|
@@ -2601,7 +2604,7 @@ IBM FHIR Server Supports the following custom HTTP Headers:
 |------------------|----------------------------|
 |`X-FHIR-TENANT-ID`|Specifies which tenant config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/tenantIdHeaderName`.|
 |`X-FHIR-DSID`|Specifies which datastore config should be used for the request. Default is `default`. The header name can be overridden via config property `fhirServer/core/dataSourceIdHeaderName`.|
-|`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`.|
+|`X-FHIR-FORWARDED-URL`|The original (user-facing) request URL; used for constructing absolute URLs within the server response. Only enabled when explicitly configured in the default fhir-server-config.json. If either the config property or the header itself is missing, the server will use the actual request URL. The header name can be overridden via config property `fhirServer/core/originalRequestUriHeaderName`. Note, `fhirServer/core/externalBaseUrl` overrides the `X-FHIR-FORWARDED-URL` and is used to construct the absolute URL.|
 |`X-FHIR-UPDATE-IF-MODIFIED`|When set to true, for update and patch requests, the server will perform a resource comparison and only perform the update if the contents of the resource have changed. For all other values, the update will be executed as normal.|
 
 # 6 Related topics
