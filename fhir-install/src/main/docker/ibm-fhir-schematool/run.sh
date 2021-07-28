@@ -268,7 +268,7 @@ function allocate_tenant {
         _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5"
 
         # Tenant Key and Name already exist
-        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" out.log)
+        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" ${SCHEMA_TOOL_LOCATION}/workarea/out.log)
         if [ ! -z "${ALREADY_EXISTS}" ]
         then
             error_warn "Unexpected failure in allocate-tenant"
