@@ -91,7 +91,7 @@ public class ConstraintGenerator {
                 index++;
                 generated.add(expr);
             } catch (ConstraintGenerationException e) {
-                log.warning("Constraint was not generated due to the following error: " + e.getMessage() + " (elementDefinition: " + child.elementDefinition.getId() + ", profile: " + url + ")");
+                log.warning("Constraint was not generated due to the following error: " + e.getMessage() + " (elementDefinition: " + e.getElementDefinition().getId() + ", profile: " + url + ")");
             } catch (Exception e) {
                 log.log(Level.SEVERE, "An exception occurred while generating constraint for element definition: " + child.elementDefinition.getId() + " from profile: " + url, e);
             }
@@ -349,7 +349,7 @@ public class ConstraintGenerator {
             }
 
             if (discriminatorMap.size() > 1) {
-                throw new ConstraintGenerationException("Multiple discriminator types are not supported");
+                throw new ConstraintGenerationException("Multiple discriminator types are not supported", elementDefinition);
             }
 
             for (DiscriminatorType.Value key : discriminatorMap.keySet()) {
@@ -394,10 +394,10 @@ public class ConstraintGenerator {
                 }
             }
             if (identifier.equals(sb.toString())) {
-                throw new ConstraintGenerationException("Discriminator not generated");
+                throw new ConstraintGenerationException("Discriminator not generated", elementDefinition);
             }
         } else {
-            throw new ConstraintGenerationException("Slice definition not found");
+            throw new ConstraintGenerationException("Slice definition not found", elementDefinition);
         }
 
         return sb.toString();
@@ -559,6 +559,18 @@ public class ConstraintGenerator {
             }
 
             sb.append("code = '").append(coding.getCode().getValue()).append("').exists())");
+
+            if (!discriminator) {
+                sb.append(cardinality(node, sb.toString()));
+            }
+        } else if (pattern.is(Coding.class)) {
+            Coding coding = pattern.as(Coding.class);
+
+            sb.append(identifier)
+                .append(".where(system = '")
+                .append(coding.getSystem().getValue())
+                .append("' and code = '")
+                .append(coding.getCode().getValue()).append("')");
 
             if (!discriminator) {
                 sb.append(cardinality(node, sb.toString()));
@@ -735,11 +747,11 @@ public class ConstraintGenerator {
             String contentReference = elementDefinition.getContentReference().getValue();
             int index = contentReference.indexOf("#");
             if (index == -1 || index >= contentReference.length() - 1) {
-                throw new ConstraintGenerationException("Invalid content reference: " + contentReference);
+                throw new ConstraintGenerationException("Invalid content reference: " + contentReference, elementDefinition);
             }
             contentReference = contentReference.substring(index + 1);
             if (!elementDefinitionMap.containsKey(contentReference)) {
-                throw new ConstraintGenerationException("Element definition not found for content reference: " + contentReference);
+                throw new ConstraintGenerationException("Element definition not found for content reference: " + contentReference, elementDefinition);
             }
             elementDefinition = elementDefinitionMap.get(contentReference);
         }
@@ -835,6 +847,9 @@ public class ConstraintGenerator {
         return ((pattern instanceof CodeableConcept) &&
                 (pattern.as(CodeableConcept.class).getCoding().stream()
                         .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)))) ||
+               ((pattern instanceof Coding) &&
+                        (pattern.as(Coding.class).getSystem() != null) &&
+                        (pattern.as(Coding.class).getCode() != null)) ||
                ((pattern instanceof Identifier) &&
                 (pattern.as(Identifier.class).getSystem() != null) &&
                 (pattern.as(Identifier.class).getSystem().getValue() != null)) ||
@@ -1072,8 +1087,15 @@ public class ConstraintGenerator {
     static class ConstraintGenerationException extends RuntimeException {
         private static final long serialVersionUID = 1L;
 
-        public ConstraintGenerationException(String message) {
+        private final ElementDefinition elementDefinition;
+
+        public ConstraintGenerationException(String message, ElementDefinition elementDefinition) {
             super(message);
+            this.elementDefinition = elementDefinition;
+        }
+
+        public ElementDefinition getElementDefinition() {
+            return elementDefinition;
         }
     }
 }

@@ -9,7 +9,6 @@ package com.ibm.fhir.registry.spi;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
@@ -19,8 +18,6 @@ import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
  * An abstract base class for {@link FHIRRegistryResourceProvider} implementations
  */
 public abstract class AbstractRegistryResourceProvider implements FHIRRegistryResourceProvider {
-    private static final Logger log = Logger.getLogger(AbstractRegistryResourceProvider.class.getName());
-
     @Override
     public final FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
         Objects.requireNonNull(resourceType, "resourceType");
@@ -34,7 +31,6 @@ public abstract class AbstractRegistryResourceProvider implements FHIRRegistryRe
                         return registryResource;
                     }
                 }
-                log.warning("Unable to find resource: " + url + " with version: " + version);
             } else {
                 for (FHIRRegistryResource registryResource : registryResources) {
                     if (registryResource.isDefaultVersion()) {
