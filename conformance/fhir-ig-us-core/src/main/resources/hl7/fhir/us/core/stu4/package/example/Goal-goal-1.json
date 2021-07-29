@@ -1,0 +1,36 @@
+{
+	"resourceType": "Goal",
+	"id": "goal-1",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Goal 1 Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a goal 1 example for the *US Core Goal Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-goal"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>lifecycleStatus</b>: active</p><p><b>description</b>: <span title=\"Codes: \">Patient is targeting a pulse oximetry of 92% and a weight of 195 lbs</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><h3>Targets</h3><table class=\"grid\"><tr><td>-</td><td><b>Due[x]</b></td></tr><tr><td>*</td><td>2016-04-05</td></tr></table></div>"
+	},
+	"lifecycleStatus": "active",
+	"description": {
+		"text": "Patient is targeting a pulse oximetry of 92% and a weight of 195 lbs"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy Shaw"
+	},
+	"target": [
+		{
+			"dueDate": "2016-04-05"
+		}
+	]
+}

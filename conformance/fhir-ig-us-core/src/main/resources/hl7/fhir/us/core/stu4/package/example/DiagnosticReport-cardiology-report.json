@@ -1,0 +1,57 @@
+{
+	"resourceType": "DiagnosticReport",
+	"id": "cardiology-report",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "DiagnosticReport Cardiology Report Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a DiagnosticReport cardiology report example for the *US Core DiagnosticReport Note Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-note"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 45033-8}\">Cardiovascular physiologic and EKG assessment panel</span> (<span title=\"Codes: {http://loinc.org LP29708-2}\">Cardiology</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>Amy V. Shaw </b>  1987-02-20 ( Medical Record Number: 1032702 (USUAL))</td></tr><tr><td>When For</td><td>Jan 1, 2011 9:39:30 PM</td></tr></table><p><b>Report Details</b></p></div>"
+	},
+	"status": "final",
+	"category": [
+		{
+			"coding": [
+				{
+					"system": "http://loinc.org",
+					"code": "LP29708-2",
+					"display": "Cardiology"
+				}
+			],
+			"text": "Cardiology"
+		}
+	],
+	"code": {
+		"coding": [
+			{
+				"system": "http://loinc.org",
+				"code": "45033-8",
+				"display": "Cardiovascular physiologic and EKG assessment panel"
+			}
+		],
+		"text": "Cardiovascular physiologic and EKG assessment panel"
+	},
+	"subject": {
+		"reference": "Patient/example"
+	},
+	"effectiveDateTime": "2011-01-01T21:39:30.000Z",
+	"presentedForm": [
+		{
+			"contentType": "application/pdf",
+			"url": "http://example.org/pdfdownloads/cardiopanel-report-123.pdf",
+			"hash": "RVFILy4uQWdNRQo="
+		}
+	]
+}

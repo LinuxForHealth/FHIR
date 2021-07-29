@@ -1,0 +1,149 @@
+{
+	"resourceType": "SearchParameter",
+	"id": "us-core-immunization-date",
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\">  <!-- <h2>SearchParameter: USCoreImmunizationDate</h2> --><b> description</b> : <p><strong>Vaccination  (non)-Administration Date</strong><br/><strong>NOTE</strong>: This US Core SearchParameter definition extends the usage context of the\n<a href=\"http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html\">Conformance expectation extension</a></p>\n<ul><li>multipleAnd</li><li>multipleOr</li><li>comparator</li><li>modifier</li><li>chain</li></ul>\n\n\t\t\t<br/>\n\t\t\t<p><b> id</b> us-core-immunization-date</p>\n\t\t\t<p><b> url</b> : <b> http://hl7.org/fhir/us/core/SearchParameter/us-core-immunization-date</b>\n\t\t\t</p>\n\t\t\t<p><b> version</b> : 4.0.1</p>\n\t\t\t<p><b> name</b> : USCoreImmunizationDate</p>\n\t\t\t<p><b> derivedFrom</b> : http://hl7.org/fhir/SearchParameter/clinical-date\n\t\t\t</p>\n\t\t\t<p><b> status</b> : active</p>\n\t\t\t<p><b> experimental</b>  False</p>\n\t\t\t<p><b> date</b> : 2020-11-20</p>\n\t\t\t<p><b> publisher</b> : HL7 International - US Realm Steering Committee</p>\n\t\t\t<p><b> contact</b> : http://www.hl7.org/Special/committees/usrealm/index.cfm</p>\n\t\t\t<p><b> useContext</b> : </p>\n\t\t\t<p><b> jurisdiction</b> : United States of America (the) <span> (Details : {urn:iso:std:iso:3166 code 'US' = 'United States of America', given as 'United\n           States of America (the)'})</span>\n\t\t\t</p>\n\t\t\t  <!-- <p>\n\t\t<b> purpose</b> : Need to search by identifier for various infrastructural cases - mainly retrieving packages,\n         and matching as part of a chain</p> -->\n\t\t\t<p><b> code</b> : <code>date</code>\n\t\t\t</p>\n\t\t\t<p><b> base</b> :Immunization</p>\n\t\t\t<p><b> type</b> : date</p>\n\t\t\t<p><b> expression</b> : <code>Immunization.occurrence</code>\n\t\t\t</p>\n\t\t\t<p><b> xpath</b> : <code>f:Immunization/f:occurrenceDateTime|f:Immunization/f:occurrenceString</code>\n\t\t\t</p>\n\t\t\t<p><b> xpathUsage</b> : normal</p>\n\t\t\t<p><b> mulitpleOr</b> : True   (Conformance Expectation = MAY)</p>\n\t\t\t<p><b> mulitpleAnd</b> : True  ( Conformance Expectation = SHOULD)</p>\n    \n    \n    <p><b> comparator</b> : <code>eq</code> ( Conformance Expectation = MAY)</p>\n    \n    <p><b> comparator</b> : <code>ne</code> ( Conformance Expectation = MAY)</p>\n    \n    <p><b> comparator</b> : <code>gt</code> ( Conformance Expectation = SHALL)</p>\n    \n    <p><b> comparator</b> : <code>ge</code> ( Conformance Expectation = SHALL)</p>\n    \n    <p><b> comparator</b> : <code>lt</code> ( Conformance Expectation = SHALL)</p>\n    \n    <p><b> comparator</b> : <code>le</code> ( Conformance Expectation = SHALL)</p>\n    \n    <p><b> comparator</b> : <code>sa</code> ( Conformance Expectation = MAY)</p>\n    \n    <p><b> comparator</b> : <code>eb</code> ( Conformance Expectation = MAY)</p>\n    \n    <p><b> comparator</b> : <code>ap</code> ( Conformance Expectation = MAY)</p>\n    \n    \n    \n    \n\t\t</div>"
+	},
+	"url": "http://hl7.org/fhir/us/core/SearchParameter/us-core-immunization-date",
+	"version": "4.0.0",
+	"name": "USCoreImmunizationDate",
+	"derivedFrom": "http://hl7.org/fhir/SearchParameter/clinical-date",
+	"status": "active",
+	"experimental": false,
+	"date": "2020-11-20T05:19:27.999173Z",
+	"publisher": "HL7 International - US Realm Steering Committee",
+	"contact": [
+		{
+			"name": "HL7 International - US Realm Steering Committee",
+			"telecom": [
+				{
+					"system": "url",
+					"value": "http://www.hl7.org/Special/committees/usrealm/index.cfm"
+				}
+			]
+		}
+	],
+	"description": "**Vaccination  (non)-Administration Date**  \n**NOTE**: This US Core SearchParameter definition extends the usage context of the\n[Conformance expectation extension](http://hl7.org/fhir/R4/extension-capabilitystatement-expectation.html)\n - multipleAnd\n - multipleOr\n - comparator\n - modifier\n - chain",
+	"jurisdiction": [
+		{
+			"coding": [
+				{
+					"system": "urn:iso:std:iso:3166",
+					"code": "US"
+				}
+			]
+		}
+	],
+	"code": "date",
+	"base": [
+		"Immunization"
+	],
+	"type": "date",
+	"expression": "Immunization.occurrence",
+	"xpath": "f:Immunization/f:occurrenceDateTime|f:Immunization/f:occurrenceString",
+	"xpathUsage": "normal",
+	"multipleOr": true,
+	"_multipleOr": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "MAY"
+			}
+		]
+	},
+	"multipleAnd": true,
+	"_multipleAnd": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+				"valueCode": "SHOULD"
+			}
+		]
+	},
+	"comparator": [
+		"eq",
+		"ne",
+		"gt",
+		"ge",
+		"lt",
+		"le",
+		"sa",
+		"eb",
+		"ap"
+	],
+	"_comparator": [
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "SHALL"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "SHALL"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "SHALL"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "SHALL"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}
+			]
+		},
+		{
+			"extension": [
+				{
+					"url": "http://hl7.org/fhir/StructureDefinition/capabilitystatement-expectation",
+					"valueCode": "MAY"
+				}
+			]
+		}
+	]
+}

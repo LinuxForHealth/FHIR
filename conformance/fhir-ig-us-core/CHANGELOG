@@ -18,3 +18,8 @@ Source - http://hl7.org/fhir/us/core/STU3.1.1/
    - Refer to https://jira.hl7.org/browse/FHIR-28409 Invalid XHTML in Examples MedicationRequest-uscore-mo2 XML/JSON
 - Modify DiagnosticReport-cardiology-report JSON and XML samples contain invalid hashes https://jira.hl7.org/browse/FHIR-28408
 - Add implicit-system extensions to applicable token SearchParameter definitions (performance optimization for https://github.com/IBM/FHIR/issues/1929)
+
+
+# STU4
+- Changed the text-generated for the CapabilityStatements CapabilityStatement-us-core-client.json and CapabilityStatement-us-core-server.json
+    as the xhtml was invalid

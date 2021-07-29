@@ -14,7 +14,7 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import com.ibm.fhir.ig.us.core.USCoreResourceProvider;
+import com.ibm.fhir.ig.us.core.USCoreSTU3ResourceProvider;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -25,13 +25,13 @@ import com.ibm.fhir.validation.FHIRValidator;
 public class USCoreResourceProviderTest {
     @Test
     public void testUSCoreResourceProvider() {
-        FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
+        FHIRRegistryResourceProvider provider = new USCoreSTU3ResourceProvider();
         assertEquals(provider.getRegistryResources().size(), 147);
     }
 
     @Test
     public void testValidateResources() throws Exception {
-        FHIRRegistryResourceProvider provider = new USCoreResourceProvider();
+        FHIRRegistryResourceProvider provider = new USCoreSTU3ResourceProvider();
 
         List<Exception> exceptions = new ArrayList<>();
         List<Issue> issues = new ArrayList<>();

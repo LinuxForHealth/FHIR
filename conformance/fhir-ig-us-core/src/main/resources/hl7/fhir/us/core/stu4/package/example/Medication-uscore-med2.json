@@ -1,0 +1,33 @@
+{
+	"resourceType": "Medication",
+	"id": "uscore-med2",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Uscore Med2 Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a uscore med2 example for the *US Core Medication Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-medication"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>code</b>: <span title=\"Codes: {http://www.nlm.nih.gov/research/umls/rxnorm 582620}\">Nizatidine 15 MG/ML Oral Solution [Axid]</span></p></div>"
+	},
+	"code": {
+		"coding": [
+			{
+				"system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+				"code": "582620",
+				"display": "Nizatidine 15 MG/ML Oral Solution [Axid]"
+			}
+		],
+		"text": "Nizatidine 15 MG/ML Oral Solution [Axid]"
+	}
+}

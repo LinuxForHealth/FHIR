@@ -1,0 +1,61 @@
+{
+	"resourceType": "MedicationRequest",
+	"id": "self-tylenol",
+	"meta": {
+		"extension": [
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-name",
+				"valueString": "Self Tylenol Example"
+			},
+			{
+				"url": "http://hl7.org/fhir/StructureDefinition/instance-description",
+				"valueMarkdown": "This is a self tylenol example for the *MedicationRequest Profile*."
+			}
+		],
+		"profile": [
+			"http://hl7.org/fhir/us/core/StructureDefinition/us-core-medicationrequest"
+		]
+	},
+	"text": {
+		"status": "generated",
+		"div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 12345689 (OFFICIAL)</p><p><b>status</b>: active</p><p><b>intent</b>: plan</p><p><b>reported</b>: true</p><p><b>medication</b>: <span title=\"Codes: {http://www.nlm.nih.gov/research/umls/rxnorm 1187314}\">Tylenol PM Pill</span></p><p><b>subject</b>: <a href=\"Patient-example.html\">Amy V. Shaw. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p><p><b>encounter</b>: <a href=\"Encounter-example-1.html\">Office Visit. Generated Summary: status: finished; <span title=\"{http://terminology.hl7.org/CodeSystem/v3-ActCode AMB}\">ambulatory</span>; <span title=\"Codes: {http://www.ama-assn.org/go/cpt 99201}\">Office Visit</span>; period: Nov 1, 2015 10:00:14 PM --&gt; Nov 1, 2015 11:00:14 PM</a></p><p><b>authoredOn</b>: 2019-06-24</p><p><b>requester</b>: <a href=\"Patient-example.html\">**self-prescribed**. Generated Summary: Medical Record Number: 1032702 (USUAL); active; Amy V. Shaw , Amy V. Baxter ; Phone: 555-555-5555, amy.shaw@example.com; gender: female; birthDate: 1987-02-20</a></p></div>"
+	},
+	"identifier": [
+		{
+			"use": "official",
+			"system": "http://acme.org/prescriptions",
+			"value": "12345689"
+		}
+	],
+	"status": "active",
+	"intent": "plan",
+	"reportedBoolean": true,
+	"medicationCodeableConcept": {
+		"coding": [
+			{
+				"system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+				"code": "1187314",
+				"display": "Tylenol PM Pill"
+			}
+		],
+		"text": "Tylenol PM Pill"
+	},
+	"subject": {
+		"reference": "Patient/example",
+		"display": "Amy V. Shaw"
+	},
+	"encounter": {
+		"reference": "Encounter/example-1",
+		"display": "Office Visit"
+	},
+	"authoredOn": "2019-06-24",
+	"requester": {
+		"reference": "Patient/example",
+		"display": "**self-prescribed**"
+	},
+	"dosageInstruction": [
+		{
+			"text": "Takes 1-2 tablets once daily at bedtime as needed for restless legs"
+		}
+	]
+}
