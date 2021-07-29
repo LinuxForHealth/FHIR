@@ -563,6 +563,18 @@ public class ConstraintGenerator {
             if (!discriminator) {
                 sb.append(cardinality(node, sb.toString()));
             }
+        } else if (pattern.is(Coding.class)) {
+            Coding coding = pattern.as(Coding.class);
+
+            sb.append(identifier)
+                .append(".where(system = '")
+                .append(coding.getSystem().getValue())
+                .append("' and code = '")
+                .append(coding.getCode().getValue()).append("')");
+
+            if (!discriminator) {
+                sb.append(cardinality(node, sb.toString()));
+            }
         } else if (pattern.is(Identifier.class)) {
             Identifier _identifier = pattern.as(Identifier.class);
             String system = _identifier.getSystem().getValue();
@@ -835,6 +847,9 @@ public class ConstraintGenerator {
         return ((pattern instanceof CodeableConcept) &&
                 (pattern.as(CodeableConcept.class).getCoding().stream()
                         .allMatch(coding -> (coding.getCode() != null && coding.getCode().getValue() != null)))) ||
+               ((pattern instanceof Coding) &&
+                        (pattern.as(Coding.class).getSystem() != null) &&
+                        (pattern.as(Coding.class).getCode() != null)) ||
                ((pattern instanceof Identifier) &&
                 (pattern.as(Identifier.class).getSystem() != null) &&
                 (pattern.as(Identifier.class).getSystem().getValue() != null)) ||
