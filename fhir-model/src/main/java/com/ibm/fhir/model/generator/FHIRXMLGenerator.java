@@ -45,14 +45,8 @@ import com.ibm.fhir.model.visitor.Visitable;
 public class FHIRXMLGenerator extends FHIRAbstractGenerator {
     private static final int DEFAULT_INDENT_AMOUNT = 2;
 
-    private final boolean prettyPrinting;
-
-    protected FHIRXMLGenerator() {
-        this(false);
-    }
-
     protected FHIRXMLGenerator(boolean prettyPrinting) {
-        this.prettyPrinting = prettyPrinting;
+        super(prettyPrinting);
     }
 
     @Override
@@ -82,11 +76,6 @@ public class FHIRXMLGenerator extends FHIRAbstractGenerator {
         } catch (Exception e) {
             throw new FHIRGeneratorException(e.getMessage(), (visitor != null) ? visitor.getPath() : null, e);
         }
-    }
-
-    @Override
-    public boolean isPrettyPrinting() {
-        return prettyPrinting;
     }
 
     @Override
