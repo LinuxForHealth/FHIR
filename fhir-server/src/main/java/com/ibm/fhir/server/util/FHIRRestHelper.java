@@ -3095,7 +3095,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<Long> indexIds, String resourceLogicalId) throws Exception {
         int result = 0;
         // Since the try logic is slightly different in the code paths, we want to dispatch to separate methods to simplify the logic.
-        if (resourceLogicalId != null) {
+        if (indexIds == null) {
             result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId);
         } else {
             result = doReindexList(operationOutcomeResult, tstamp, indexIds);
@@ -3113,6 +3113,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @throws Exception
      */
     public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds) throws Exception {
+        // If the indexIds are empty, assume zero.
+        if (indexIds.isEmpty()) {
+            return 0;
+        }
+
         /*
          * How the backoff works...
          * indexIds[1,2,3,4,5,6,7,8,9,10]
@@ -3121,18 +3126,18 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
          * Result: Deadlock
          *
          * Pass2 left=0, right=1, max=10
+         * Move over by 1
          * Result: Pass
          *
-         * Pass3 left=1, right=10, max=10
-         * Result: Deadlock
-         *
-         * Pass 4: left=1, right=2, max=10
+         * Pass3 left=1, right=2, max=10
+         * Move over by 1
          * Result: Pass
          *
-         * Pass 5: left=2, right=10, max=10
-         * Result: Pass
+         * ... all the way up to 10
          *
          * Return total count back to caller.
+         *
+         * @implNote tried divide and conquer and it caused it to try large pass fail, small pass succeed, and therefore chose a small linear pass.
          */
 
         // Maximum number to retry
@@ -3165,12 +3170,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                 } catch (FHIRPersistenceDataAccessException x) {
                     // At this point, the transaction is marked for rollback
                     if (x.isTransactionRetryable()) {
-                        if (x.getCause() instanceof LockException) {
+                        if (x.getCause() instanceof LockException && ((LockException) x.getCause()).isDeadlock()) {
                             backoff = true;
-                            long wait = 0;
-                            log.fine(() -> "'DeadLock' executing random retry and backing off on processing");
-                            wait = RANDOM.nextInt(5000);
+                            long wait = RANDOM.nextInt(5000);
                             log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, backing off [wait=" + wait + "ms]");
+                            Thread.sleep(wait);
                         } else {
                             log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, not backing off");
                         }
@@ -3184,16 +3188,11 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             }
 
             if (backoff) {
-                // Failed to Execute a backoff...
-                // - Left is set
-                // - Move the right in (10% of the distance between right and left)
-                right = (int) Math.ceil((right - left) / 10.0) + left;
+                // we're now going to move over one at a time.
+                right = left + 1;
             } else {
-                // Success
-                // - Move the cursor to the right
-                // - Move the Max outward
                 left = right;
-                right = max;
+                right += 1;
             }
         }
         return result;
