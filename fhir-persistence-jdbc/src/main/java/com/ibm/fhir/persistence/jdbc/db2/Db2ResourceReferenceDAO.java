@@ -149,7 +149,13 @@ public class Db2ResourceReferenceDAO extends ResourceReferenceDAO {
                 ps.setInt(a++, tv.getCodeSystemId());
             }
 
-            ps.executeUpdate();
+            try {
+                ps.executeUpdate();
+            } catch (SQLException x) {
+                logger.throwing("Db2ResourceReferenceDAO", "doCommonTokenValuesUpsert", x);
+                logger.fine("Retrying the execution in case of synchronization issues");
+                ps.executeUpdate();
+            }
         } catch (SQLException x) {
             StringBuilder values = new StringBuilder();
             for (CommonTokenValue tv: tokenValues) {

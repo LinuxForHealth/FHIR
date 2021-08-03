@@ -12,7 +12,6 @@ import static org.testng.Assert.assertTrue;
 import java.io.ByteArrayInputStream;
 import java.util.Properties;
 
-import jakarta.json.JsonObject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -27,6 +26,8 @@ import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
+
+import jakarta.json.JsonObject;
 
 public abstract class TerminologyOperationTestBase extends FHIRServerTestBase {
 
@@ -48,6 +49,10 @@ public abstract class TerminologyOperationTestBase extends FHIRServerTestBase {
         Response response = getWebTarget().path(resourceType + "/" + id).request().put(entity, Response.class);
         String responseBody = response.readEntity(String.class);
         assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL, responseBody);
+
+        // To support delete AFTER the IT is run.
+        String logicalId = getLocationLogicalId(response);
+        addToResourceRegistry(resourceType, logicalId);
         return response;
     }
 

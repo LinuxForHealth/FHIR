@@ -67,6 +67,9 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
     public void setup() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.bulkdata.import.azure.enabled", "false"));
+        if (!ON) {
+            System.out.println("Import Test Disabled, Skipping");
+        }
     }
 
     private Parameters generateParameters(String inputFormat, String inputSource, String resourceType, String url, String provider) throws FHIRGeneratorException, IOException {
@@ -236,8 +239,6 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -264,8 +265,6 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
             // Check eventual value
             response = pollingFailure(contentLocation);
             assertEquals(response.getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -314,8 +313,6 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
             response = polling(contentLocation);
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
             checkValidResponse(response);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 
@@ -332,8 +329,6 @@ public class ImportOperationAzureTest extends FHIRServerTestBase {
             Bundle bundle = response.readEntity(Bundle.class);
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
-        } else {
-            System.out.println("Import Test Disabled, Skipping");
         }
     }
 }

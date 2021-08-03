@@ -10,6 +10,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -26,10 +29,6 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonReader;
-
 import com.ibm.cloud.objectstorage.services.s3.AmazonS3;
 import com.ibm.cloud.objectstorage.services.s3.model.AbortMultipartUploadRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.CompleteMultipartUploadRequest;
@@ -42,6 +41,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
+import com.ibm.fhir.core.util.URLSupport;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
@@ -52,9 +52,12 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationAdapter;
 import com.ibm.fhir.operation.bulkdata.config.ConfigurationFactory;
-import com.ibm.fhir.server.util.FHIRUrlParser;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonReader;
 
 /**
  * Utility functions for IBM COS.
@@ -344,26 +347,35 @@ public class BulkDataUtils {
         return issues;
     }
 
-
-    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws Exception {
+    /**
+     * converts the type filter into a series of search parameters which are used to filter the bulk data export results.
+     *
+     * @param typeFilters
+     * @return
+     * @throws UnsupportedEncodingException
+     * @throws URISyntaxException
+     */
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException, URISyntaxException {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
         if (typeFilters != null) {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
 
             for (String typeFilter : typeFilterList) {
-                String typeFilterDecoded = URLDecoder.decode(typeFilter, StandardCharsets.UTF_8.toString());
+                String typeFilterDecoded = URLDecoder.decode(typeFilter.trim(), StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
-                    FHIRUrlParser parser = new FHIRUrlParser(typeFilterDecoded);
-                    Class<? extends Resource> resourceType = ModelSupport
-                            .getResourceType(typeFilterDecoded.substring(0, typeFilterDecoded.indexOf("?")).trim());
-                    if (parser.getQueryParameters().size() > 0 && resourceType != null) {
-                        if (searchParametersForResoureTypes.get(resourceType) == null) {
-                            List<Map<String, List<String>>> searchParametersForResourceType = new ArrayList<>();
-                            searchParametersForResourceType.add(parser.getQueryParameters());
-                            searchParametersForResoureTypes.put(resourceType, searchParametersForResourceType);
-                        } else {
-                            searchParametersForResoureTypes.get(resourceType).add(parser.getQueryParameters());
-                        }
+                    URI uri = new URI(typeFilterDecoded.trim());
+
+                    if (uri.getPath() == null || uri.getQuery() == null) {
+                        logger.log(Level.WARNING, "Bad type filter: {0}", typeFilterDecoded);
+                        continue;
+                    }
+
+                    Map<String, List<String>> queryParameters = URLSupport.parseQuery(uri.getQuery(), false);
+                    Class<? extends Resource> resourceType = ModelSupport.getResourceType(uri.getPath());
+                    if (!queryParameters.isEmpty() && resourceType != null) {
+                        searchParametersForResoureTypes
+                            .computeIfAbsent(resourceType, k -> new ArrayList<>())
+                            .add(queryParameters);
                     }
                 }
             }

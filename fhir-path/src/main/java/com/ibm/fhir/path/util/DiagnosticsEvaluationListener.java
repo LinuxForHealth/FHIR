@@ -22,14 +22,24 @@ import com.ibm.fhir.path.FHIRPathParser.FunctionContext;
 import com.ibm.fhir.path.FHIRPathParser.FunctionInvocationContext;
 import com.ibm.fhir.path.FHIRPathParser.InvocationExpressionContext;
 import com.ibm.fhir.path.FHIRPathParser.TermExpressionContext;
-import com.ibm.fhir.path.util.EvaluationResultTree.BuildingListener;
+import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationListener;
+import com.ibm.fhir.path.util.EvaluationResultTree.BuildingEvaluationListener;
 import com.ibm.fhir.path.util.EvaluationResultTree.Node;
 
-public class DiagnosticsEvaluationListener extends BuildingListener {
+/**
+ * An {@link EvaluationListener} that produces diagnostics from an {@link EvaluationResultTree}
+ */
+public class DiagnosticsEvaluationListener extends BuildingEvaluationListener {
     public DiagnosticsEvaluationListener() {
         super(t -> ExpressionContext.class.isAssignableFrom(t.getClass()) && !TermExpressionContext.class.equals(t.getClass()));
     }
 
+    /**
+     * Get the diagnostics produced by this evaluation listener.
+     *
+     * @return
+     *     the diagnostics
+     */
     public String getDiagnostics() {
         if (resultTree == null) {
             return null;

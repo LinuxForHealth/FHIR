@@ -48,7 +48,7 @@ import com.ibm.fhir.model.type.Coding;
  */
 public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
-    public static Boolean DEBUG_APPLY = Boolean.TRUE;
+    public static Boolean DEBUG_APPLY = Boolean.FALSE;
     public static final String TEST_GROUP_NAME = "plan-defintion-apply-operation";
 
     // URL Pattern:
@@ -82,6 +82,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("Patient ID => [" + patientId + "]");
         }
+        addToResourceRegistry("Patient", patientId);
 
         // Subject - Practitioner
         Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
@@ -94,6 +95,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("Practitioner ID => [" + practitionerId + "]");
         }
+        addToResourceRegistry("Practitioner", practitionerId);
 
         // ActivityDefinition 1
         ActivityDefinition ad = TestUtil.readLocalResource("ActivityDefinition-1.json");
@@ -106,6 +108,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("ActivityDefinition ID => [" + adId + "]");
         }
+        addToResourceRegistry("ActivityDefinition", adId);
 
         // ActivityDefinition 2
         ActivityDefinition ad2 = TestUtil.readLocalResource("ActivityDefinition-2.json");
@@ -118,6 +121,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("ActivityDefinition ID => [" + adId2 + "]");
         }
+        addToResourceRegistry("ActivityDefinition", adId2);
 
         // Many need to create
         // Subject - Organization
@@ -139,6 +143,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("PlanDefinition ID => [" + planDefinitionId + "]");
         }
+        addToResourceRegistry("PlanDefinition", planDefinitionId);
 
         // Store the Plan Definition
         response = target.path("PlanDefinition/" + planDefinitionId).request().get(Response.class);

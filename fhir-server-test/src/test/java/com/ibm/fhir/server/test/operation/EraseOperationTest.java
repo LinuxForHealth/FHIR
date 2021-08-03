@@ -68,6 +68,8 @@ public class EraseOperationTest extends FHIRServerTestBase {
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" +
                     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
 
+    public static final boolean DEBUG = false;
+
     /**
      * used when processing Erase on all Resources
      */
@@ -85,10 +87,11 @@ public class EraseOperationTest extends FHIRServerTestBase {
             String logicalId = test.generateCompleteMockResource(resourceType);
             test.eraseResource(resourceType, logicalId, false, "message");
             test.checkResourceNoLongerExists(resourceType, logicalId);
-            System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
+            if (DEBUG) {
+                System.out.println("Done testing erase on " + resourceType + "/" + logicalId + "'");
+            }
             return 1;
         }
-
     }
 
     /**
@@ -113,12 +116,14 @@ public class EraseOperationTest extends FHIRServerTestBase {
             Resource r = FHIRParser.parser(Format.JSON).parse(example);
             WebTarget target = getWebTarget();
             Entity<Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
-            Response response = target.path(resourceType).request().post(entity, Response.class);
-            assertResponse(response, Response.Status.CREATED.getStatusCode());
-            String id = getLocationLogicalId(response);
-            response = target.path(resourceType + "/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-            return id;
+            try (Response response = target.path(resourceType).request().post(entity, Response.class)) {
+                assertResponse(response, Response.Status.CREATED.getStatusCode());
+                String id = getLocationLogicalId(response);
+                try (Response responseGet = target.path(resourceType + "/" + id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get()) {
+                    assertResponse(responseGet, Response.Status.OK.getStatusCode());
+                }
+                return id;
+            }
         }
     }
 
@@ -345,36 +350,39 @@ public class EraseOperationTest extends FHIRServerTestBase {
     private void checkResourceExists(String resourceType, String logicalId) {
         WebTarget target = getWebTarget();
         target = target.path("/" + resourceType + "/" + logicalId);
-        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        try (Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
                 .header("X-FHIR-TENANT-ID", "default")
                 .header("X-FHIR-DSID", "default")
-                .get(Response.class);
-        assertEquals(r.getStatus(), Status.OK.getStatusCode());
+                .get(Response.class)) {
+            assertEquals(r.getStatus(), Status.OK.getStatusCode());
+        }
         if ("Patient".equals(resourceType)) {
-            r = getWebTarget().path("/" + resourceType)
+            try (Response r = getWebTarget().path("/" + resourceType)
                     .queryParam("_id", logicalId)
                     .queryParam("_tag", "6aAf1ugE47")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .header("X-FHIR-TENANT-ID", "default")
                     .header("X-FHIR-DSID", "default")
-                    .get();
-            Bundle bundle = r.readEntity(Bundle.class);
-            assertNotNull(bundle);
-            assertFalse(bundle.getEntry().isEmpty());
-            assertEquals(bundle.getEntry().size(), 1);
+                    .get()) {
+                Bundle bundle = r.readEntity(Bundle.class);
+                assertNotNull(bundle);
+                assertFalse(bundle.getEntry().isEmpty());
+                assertEquals(bundle.getEntry().size(), 1);
+            }
         } else {
             // must  be structure definition
-            r = getWebTarget().path("/" + resourceType)
+            try (Response r = getWebTarget().path("/" + resourceType)
                     .queryParam("_id", logicalId)
                     .queryParam("kind", "resource")
                     .request(FHIRMediaType.APPLICATION_FHIR_JSON)
                     .header("X-FHIR-TENANT-ID", "default")
                     .header("X-FHIR-DSID", "default")
-                    .get();
-            Bundle bundle = r.readEntity(Bundle.class);
-            assertNotNull(bundle);
-            assertFalse(bundle.getEntry().isEmpty());
-            assertEquals(bundle.getEntry().size(), 1);
+                    .get()) {
+                Bundle bundle = r.readEntity(Bundle.class);
+                assertNotNull(bundle);
+                assertFalse(bundle.getEntry().isEmpty());
+                assertEquals(bundle.getEntry().size(), 1);
+            }
         }
     }
 
@@ -927,30 +935,31 @@ public class EraseOperationTest extends FHIRServerTestBase {
 
         WebTarget target = getWebTarget();
         target = target.path("/");
-        Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
+        try (Response r = target.request(FHIRMediaType.APPLICATION_FHIR_JSON)
                      .header("X-FHIR-TENANT-ID", "default")
                      .header("X-FHIR-DSID", "default")
-                     .post(entity, Response.class);
-        assertResponse(r, Status.OK.getStatusCode());
+                     .post(entity, Response.class)) {
+            assertResponse(r, Status.OK.getStatusCode());
 
-        Bundle responseBundle = r.readEntity(Bundle.class);
-        int countFail = 0;
-        int countSuccess = 0;
-        int countUnknown = 0;
-        for(Bundle.Entry entry : responseBundle.getEntry()) {
-            Bundle.Entry.Response response =  entry.getResponse();
-            if ("404".equals(response.getStatus().getValue())) {
-                // this should be hit when there is a
-                countFail++;
-            } else if ("200".equals(response.getStatus().getValue())) {
-                countSuccess++;
-            } else {
-                countUnknown++;
+            Bundle responseBundle = r.readEntity(Bundle.class);
+            int countFail = 0;
+            int countSuccess = 0;
+            int countUnknown = 0;
+            for(Bundle.Entry entry : responseBundle.getEntry()) {
+                Bundle.Entry.Response response =  entry.getResponse();
+                if ("404".equals(response.getStatus().getValue())) {
+                    // this should be hit when there is a
+                    countFail++;
+                } else if ("200".equals(response.getStatus().getValue())) {
+                    countSuccess++;
+                } else {
+                    countUnknown++;
+                }
             }
+            assertEquals(countFail, 1);
+            assertEquals(countSuccess, 1);
+            assertEquals(countUnknown, 0);
         }
-        assertEquals(countFail, 1);
-        assertEquals(countSuccess, 1);
-        assertEquals(countUnknown, 0);
     }
 
     /**
@@ -1257,7 +1266,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
             e.printStackTrace();
             fail();
         }
-        System.out.println();
         System.out.println("Finished long running test");
     }
 
@@ -1398,7 +1406,6 @@ public class EraseOperationTest extends FHIRServerTestBase {
         eraseResource("Patient", id, false, "Deleting per Patient Request");
         checkResourceNoLongerExists("Patient", id);
     }
-
 
     public void loadExtraLargeBundle(Patient r, String id) {
         WebTarget target = getWebTarget();

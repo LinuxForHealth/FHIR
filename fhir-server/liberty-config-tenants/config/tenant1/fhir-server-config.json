@@ -38,7 +38,8 @@
         "core": {
           "defaultPageSize": 11,
           "maxPageSize": 1001,
-          "maxPageIncludeCount": 1000
+          "maxPageIncludeCount": 1000,
+          "externalBaseUrl": "https://chocolate.fudge"
         },
         "persistence": {
             "datasources": {

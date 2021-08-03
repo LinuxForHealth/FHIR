@@ -715,10 +715,7 @@ public final class FHIRPathUtil {
 
     public static TupleTypeInfoElement buildTupleTypeInfoElement(ElementInfo elementInfo) {
         FHIRPathType type = FHIRPathType.from(elementInfo.getType());
-        if (elementInfo.isRepeating()) {
-            return new TupleTypeInfoElement(elementInfo.getName(), "List<" + type.namespace() + "." + type.getName() + ">", false);
-        }
-        return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName());
+        return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName(), !elementInfo.isRepeating());
     }
 
     public static ClassInfo buildClassInfo(FHIRPathType type) {
@@ -743,10 +740,7 @@ public final class FHIRPathUtil {
         } else {
             typeName = type.getName();
         }
-        if (elementInfo.isRepeating()) {
-            return new ClassInfoElement(elementInfo.getName(), "List<" + typeName + ">", false);
-        }
-        return new ClassInfoElement(elementInfo.getName(), typeName);
+        return new ClassInfoElement(elementInfo.getName(), typeName, !elementInfo.isRepeating());
     }
 
     public static Collection<FHIRPathNode> unordered(Collection<FHIRPathNode> nodes) {

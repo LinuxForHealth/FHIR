@@ -10,6 +10,8 @@ import java.io.FileInputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -193,6 +195,11 @@ public class EraseTestMain {
                         count++;
                     }
                     return count;
+                }
+
+                @Override
+                public Collection<Integer> getAllIds() {
+                    return Collections.emptyList();
                 }
 
                 @Override

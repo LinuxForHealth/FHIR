@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.persistence.jdbc.cache;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,6 +52,20 @@ public class IdNameCache<T> implements IIdNameCache<T> {
 
         if (result == null) {
             result = shared.get(key);
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<String> getAllNames() {
+        Collection<String> result = null;
+        Map<T,String> localMap = local.get();
+        if (localMap != null) {
+            result = localMap.values();
+        }
+
+        if (result == null) {
+            result = shared.values();
         }
         return result;
     }

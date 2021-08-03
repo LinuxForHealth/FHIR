@@ -60,7 +60,10 @@ import com.ibm.fhir.database.utils.model.PhysicalDataModel;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tenant;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
+import com.ibm.fhir.database.utils.postgres.GatherTablesDataModelVisitor;
+import com.ibm.fhir.database.utils.postgres.PostgresAdapter;
 import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
 import com.ibm.fhir.database.utils.tenant.AddTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.DeleteTenantKeyDAO;
 import com.ibm.fhir.database.utils.tenant.GetTenantDAO;
@@ -104,6 +107,7 @@ import com.ibm.fhir.task.core.service.TaskService;
  * This utility also includes an option to exercise the tenant partitioning code.
  */
 public class Main {
+
     private static final Logger logger = Logger.getLogger(Main.class.getName());
     private static final int EXIT_OK = 0; // validation was successful
     private static final int EXIT_BAD_ARGS = 1; // invalid CLI arguments
@@ -157,6 +161,13 @@ public class Main {
     // The database user we will grant tenant data access privileges to
     private String grantTo;
 
+    // Action flag related to Vacuuming:
+    private boolean updateVacuum = false;
+    private String vacuumTableName = null;
+    private int vacuumCostLimit = 2000;
+    private int vacuumThreshold = 1000;
+    private Double vacuumScaleFactor = null;
+
     // The database type being populated (default: Db2)
     private DbType dbType = DbType.DB2;
     private IDatabaseTranslator translator = new Db2Translator();
@@ -193,7 +204,7 @@ public class Main {
     private PoolConnectionProvider connectionPool;
     private ITransactionProvider transactionProvider;
 
-    //-----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the common methods and functions
     /**
      * @return a created connection to the selected database
@@ -233,10 +244,14 @@ public class Main {
 
     /**
      * builds the common model based on the flags passed in
+     *
      * @param pdm
-     * @param fhirSchema - true indicates if the fhir model is added to the Physical Data Model
-     * @param oauthSchema - true indicates if the oauth model is added to the Physical Data Model
-     * @param javaBatchSchema - true indicates if the model is added to the Physical Data Model
+     * @param fhirSchema
+     *            - true indicates if the fhir model is added to the Physical Data Model
+     * @param oauthSchema
+     *            - true indicates if the oauth model is added to the Physical Data Model
+     * @param javaBatchSchema
+     *            - true indicates if the model is added to the Physical Data Model
      */
     protected void buildCommonModel(PhysicalDataModel pdm, boolean fhirSchema, boolean oauthSchema, boolean javaBatchSchema) {
         if (fhirSchema) {
@@ -285,8 +300,7 @@ public class Main {
      * @param collector
      * @param vhs
      */
-    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector,
-            VersionHistoryService vhs) {
+    protected void applyModel(PhysicalDataModel pdm, IDatabaseAdapter adapter, ITaskCollector collector, VersionHistoryService vhs) {
         logger.info("Collecting model update tasks");
         pdm.collect(collector, adapter, this.transactionProvider, vhs);
 
@@ -306,6 +320,7 @@ public class Main {
 
     /**
      * specific feature to check if it is compatible.
+     *
      * @return
      */
     protected boolean checkCompatibility() {
@@ -360,7 +375,7 @@ public class Main {
     protected void updateSchema() {
         // Build/update the FHIR-related tables as well as the stored procedures
         PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema,updateJavaBatchSchema);
+        buildCommonModel(pdm, updateFhirSchema, updateOauthSchema, updateJavaBatchSchema);
 
         // The objects are applied in parallel, which relies on each object
         // expressing its dependencies correctly. Changes are only applied
@@ -377,7 +392,8 @@ public class Main {
         CreateVersionHistory.createTableIfNeeded(schema.getAdminSchemaName(), adapter);
 
         // Current version history for the data schema
-        VersionHistoryService vhs = new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
+        VersionHistoryService vhs =
+                new VersionHistoryService(schema.getAdminSchemaName(), schema.getSchemaName(), schema.getOauthSchemaName(), schema.getJavaBatchSchemaName());
         vhs.setTransactionProvider(transactionProvider);
         vhs.setTarget(adapter);
         vhs.init();
@@ -391,7 +407,7 @@ public class Main {
 
         // If the db is multi-tenant, we populate the resource types and parameter names in allocate-tenant.
         // Otherwise, if its a new schema, populate the resource types and parameters names (codes) now
-        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb ) {
+        if (!MULTITENANT_FEATURE_ENABLED.contains(dbType) && newDb) {
             populateResourceTypeAndParameterNameTableEntries(null);
         }
 
@@ -421,8 +437,9 @@ public class Main {
      *           DerbyBootstrapper.populateResourceTypeAndParameterNameTableEntries
      *           and DerbyFhirDatabase.populateResourceTypeAndParameterNameTableEntries
      *           The reason is there are three different ways of managing the transaction.
-     * @param tenantId the mt_id that is used to setup the partition.
-     *                 passing in null signals not multi-tenant.
+     * @param tenantId
+     *            the mt_id that is used to setup the partition.
+     *            passing in null signals not multi-tenant.
      */
     protected void populateResourceTypeAndParameterNameTableEntries(Integer tenantId) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -501,6 +518,7 @@ public class Main {
      * Add part of the schema drop process, we first kill all
      * the foreign key constraints. The rest of the drop is
      * performed in a second transaction.
+     *
      * @param pdm
      */
     private void dropForeignKeyConstraints(PhysicalDataModel pdm, String tagGroup, String tag) {
@@ -522,7 +540,7 @@ public class Main {
         }
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the Stored Procedures and Functions feature
     /**
      * Update the stored procedures used by FHIR to insert records
@@ -553,7 +571,8 @@ public class Main {
                     tx.setRollbackOnly();
                     throw x;
                 }
-                // Reminder: Don't fall into the trap, let the connectionPool and Transaction Management handle the transaction commit.
+                // Reminder: Don't fall into the trap, let the connectionPool and Transaction Management handle the
+                // transaction commit.
             } catch (SQLException x) {
                 tx.setRollbackOnly();
                 throw translator.translate(x);
@@ -561,7 +580,7 @@ public class Main {
         }
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // The following method is related to the Privilege feature
     /**
      * Grant the minimum required set of privileges on the FHIR schema objects
@@ -583,8 +602,7 @@ public class Main {
 
         // Build/update the tables as well as the stored procedures
         PhysicalDataModel pdm = new PhysicalDataModel();
-        buildCommonModel(pdm, updateFhirSchema || grantFhirSchema, updateOauthSchema || grantOauthSchema,
-            updateJavaBatchSchema || grantJavaBatchSchema);
+        buildCommonModel(pdm, updateFhirSchema || grantFhirSchema, updateOauthSchema || grantOauthSchema, updateJavaBatchSchema || grantJavaBatchSchema);
 
         final IDatabaseAdapter adapter = getDbAdapter(dbType, connectionPool);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -603,13 +621,14 @@ public class Main {
     /**
      * Do we want to build the multitenant variant of the schema (currently only supported
      * by DB2)
+     *
      * @return
      */
     protected boolean isMultitenant() {
         return MULTITENANT_FEATURE_ENABLED.contains(this.dbType);
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // The following methods are related to Multi-Tenant only.
     /**
      * Add a new tenant key so that we can rotate the values (add a
@@ -622,7 +641,7 @@ public class Main {
         }
 
         // Only if the Tenant Key file is provided as a parameter is it not null.
-        // in  this case we want special behavior.
+        // in this case we want special behavior.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         } else {
@@ -645,8 +664,7 @@ public class Main {
                 if (tenant != null) {
                     // Attach the new tenant key to the tenant:
                     AddTenantKeyDAO adder =
-                            new AddTenantKeyDAO(schema.getAdminSchemaName(), tenant.getTenantId(), tenantKey, tenantSalt,
-                                    FhirSchemaConstants.TENANT_SEQUENCE);
+                            new AddTenantKeyDAO(schema.getAdminSchemaName(), tenant.getTenantId(), tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
                     adapter.runStatement(adder);
                 } else {
                     throw new IllegalArgumentException("Tenant does not exist: " + addKeyForTenant);
@@ -663,8 +681,7 @@ public class Main {
             logger.info("New tenant key: " + addKeyForTenant + " [key=" + tenantKey + "]");
         } else {
             // Loaded from File
-            logger.info(
-                    "New tenant key from file: " + addKeyForTenant + " [tenantKeyFileName=" + tenantKeyFileName + "]");
+            logger.info("New tenant key from file: " + addKeyForTenant + " [tenantKeyFileName=" + tenantKeyFileName + "]");
             if (!tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
                 tenantKeyFileUtil.writeTenantFile(tenantKeyFileName, tenantKey);
             }
@@ -675,9 +692,12 @@ public class Main {
     /**
      * checks if tenant name and tenant key exists.
      *
-     * @param adapter    the db2 adapter as this is a db2 feature only now
-     * @param tenantName the tenant's name
-     * @param tenantKey  tenant key
+     * @param adapter
+     *            the db2 adapter as this is a db2 feature only now
+     * @param tenantName
+     *            the tenant's name
+     * @param tenantKey
+     *            tenant key
      */
     protected void checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -699,8 +719,7 @@ public class Main {
                         throw new IllegalArgumentException("Problem checking the results");
                     }
                 } catch (SQLException e) {
-                    throw new IllegalArgumentException(
-                            "Exception when querying backend to verify tenant key and tenant name", e);
+                    throw new IllegalArgumentException("Exception when querying backend to verify tenant key and tenant name", e);
                 }
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -725,7 +744,7 @@ public class Main {
         // activities related to this tenant, such as setting the tenant context.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
             // Only if the Tenant Key file is provided as a parameter is it not null.
-            // in  this case we want special behavior.
+            // in this case we want special behavior.
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         } else {
             tenantKey = getRandomKey();
@@ -753,8 +772,7 @@ public class Main {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 tenantId =
-                        adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt,
-                                FhirSchemaConstants.TENANT_SEQUENCE);
+                        adapter.allocateTenant(schema.getAdminSchemaName(), schema.getSchemaName(), tenantName, tenantKey, tenantSalt, FhirSchemaConstants.TENANT_SEQUENCE);
 
                 // The tenant-id is important because this is also used to identify the partition number
                 logger.info("Tenant Id[" + tenantName + "] = [" + tenantId + "]");
@@ -818,19 +836,19 @@ public class Main {
 
         // Scan over the list to see if the tenant we are working with
         // already exists
-        for (TenantInfo ti: tenants) {
+        for (TenantInfo ti : tenants) {
             if (ti.getTenantName().equals(this.tenantName)) {
                 if (ti.getTenantSchema() == null) {
                     // The schema is empty so no chance of adding tenants
                     throw new IllegalArgumentException("Schema '" + schema.getSchemaName() + "'"
-                        + " for tenant '" + ti.getTenantName() + "'"
-                        + " does not contain a valid IBM FHIR Server schema");
+                            + " for tenant '" + ti.getTenantName() + "'"
+                            + " does not contain a valid IBM FHIR Server schema");
                 } else if (!ti.getTenantSchema().equalsIgnoreCase(schema.getSchemaName())) {
                     // The given schema name doesn't match where we think this tenant
                     // should be located, so throw an error before any damage is done
                     throw new IllegalArgumentException("--schema-name argument '" + schema.getSchemaName()
-                    + "' does not match schema '" + ti.getTenantSchema() + "' for tenant '"
-                    + ti.getTenantName() + "'");
+                            + "' does not match schema '" + ti.getTenantSchema() + "' for tenant '"
+                            + ti.getTenantName() + "'");
                 }
             }
         }
@@ -842,6 +860,7 @@ public class Main {
      * looking up the schema from one of the tables we know should exist. The schema
      * name may therefore be null if the tenant record (in FHIR_ADMIN.TENANTS) exists,
      * but all the tables from that schema have been dropped.
+     *
      * @return
      */
     protected List<TenantInfo> getTenantList() {
@@ -883,7 +902,7 @@ public class Main {
 
         // make sure the list is sorted by tenantId. Lambdas really do clean up this sort of code
         tenants.sort((TenantInfo left, TenantInfo right) -> left.getTenantId() < right.getTenantId() ? -1 : left.getTenantId() > right.getTenantId() ? 1 : 0);
-        for (TenantInfo ti: tenants) {
+        for (TenantInfo ti : tenants) {
             // For issue 1847 we only want to process for the named data schema if one is provided
             // If no -schema-name arg is given, we process all tenants.
             if (ti.getTenantSchema() != null && (!schema.isOverrideDataSchema() || schema.matchesDataSchema(ti.getTenantSchema()))) {
@@ -914,7 +933,7 @@ public class Main {
 
                 System.out.println(TenantInfo.getHeader());
                 tenants.forEach(System.out::println);
-            } catch(UndefinedNameException x) {
+            } catch (UndefinedNameException x) {
                 System.out.println("The FHIR_ADMIN schema appears not to be deployed with the TENANTS table");
             } catch (DataAccessException x) {
                 // Something went wrong, so mark the transaction as failed
@@ -941,7 +960,7 @@ public class Main {
         // Part of Bring your own Tenant Key
         if (tenantKeyFileName != null) {
             // Only if the Tenant Key file is provided as a parameter is it not null.
-            // in  this case we want special behavior.
+            // in this case we want special behavior.
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         }
 
@@ -1023,7 +1042,7 @@ public class Main {
             // the schema used for this tenant in the database
             if (!tenantSchema.equalsIgnoreCase(schema.getSchemaName())) {
                 throw new IllegalArgumentException("--schema-name '" + schema.getSchemaName() + "' argument does not match tenant schema: '"
-                    + tenantSchema + "'");
+                        + tenantSchema + "'");
             }
         }
 
@@ -1034,6 +1053,7 @@ public class Main {
      * Mark the tenant so that it can no longer be accessed (this prevents
      * the SET_TENANT method from authenticating the tenantName/tenantKey
      * pair, so the SV_TENANT_ID variable never gets set).
+     *
      * @return the TenantInfo associated with the tenant
      */
     protected TenantInfo freezeTenant() {
@@ -1043,7 +1063,6 @@ public class Main {
 
         TenantInfo result = getTenantInfo();
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-
 
         logger.info("Marking tenant for drop: " + tenantName);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
@@ -1062,40 +1081,39 @@ public class Main {
         return result;
     }
 
-
     /**
      * Deallocate this tenant, dropping all the related partitions. This needs to be
      * idempotent because there are steps which must be run in separate transactions
      * (due to how Db2 handles detaching partitions). This is further complicated by
      * referential integrity constraints in the schema. See:
-     *  - https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.partition.doc/doc/t0021576.html
+     * - https://www.ibm.com/support/knowledgecenter/SSEPGG_11.5.0/com.ibm.db2.luw.admin.partition.doc/doc/t0021576.html
      *
      * The workaround described in the above link is:
-     *   // Change the RI constraint to informational:
-     *   1. ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
+     * // Change the RI constraint to informational:
+     * 1. ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
      *
-     *   2. ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
+     * 2. ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
      *
-     *   3. SET INTEGRITY FOR child OFF;
+     * 3. SET INTEGRITY FOR child OFF;
      *
-     *   // Change the RI constraint back to enforced:
-     *   4. ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
+     * // Change the RI constraint back to enforced:
+     * 4. ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
      *
-     *   5. SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
-     *   6.   Assuming that the CHILD table does not have any dependencies on partition P0,
-     *   7.   and that no updates on the CHILD table are permitted until this UOW is complete,
-     *        no RI violation is possible during this UOW.
+     * 5. SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
+     * 6. Assuming that the CHILD table does not have any dependencies on partition P0,
+     * 7. and that no updates on the CHILD table are permitted until this UOW is complete,
+     * no RI violation is possible during this UOW.
      *
-     *   COMMIT WORK;
+     * COMMIT WORK;
      *
-     *   Unfortunately, #7 above essentially requires that all writes cease until the
-     *   UOW is completed and the integrity is enabled again on all the child (leaf)
-     *   tables. Of course, this could be relaxed if the application is trusted not
-     *   to mess up the referential integrity...which we know to be true for the
-     *   FHIR server persistence layer.
+     * Unfortunately, #7 above essentially requires that all writes cease until the
+     * UOW is completed and the integrity is enabled again on all the child (leaf)
+     * tables. Of course, this could be relaxed if the application is trusted not
+     * to mess up the referential integrity...which we know to be true for the
+     * FHIR server persistence layer.
      *
-     *   If the risk is deemed too high, tenant removal should be performed in a
-     *   maintenance window.
+     * If the risk is deemed too high, tenant removal should be performed in a
+     * maintenance window.
      */
     protected void dropTenant() {
         if (!MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
@@ -1138,6 +1156,7 @@ public class Main {
      * Drop any tables which have previously been detached. Once all tables have been
      * dropped, we go on to drop the tablespace. If the tablespace drop is successful,
      * we know the cleanup is complete so we can update the tenant status accordingly
+     *
      * @param pdm
      * @param tenantInfo
      */
@@ -1168,9 +1187,9 @@ public class Main {
                 } catch (DataAccessException x) {
                     boolean error = x instanceof DataAccessException && x.getCause() instanceof SQLException
                             && (((SQLException) x.getCause()).getErrorCode() == -282);
-                    if (error && wait++ <= 30){
+                    if (error && wait++ <= 30) {
                         retry = true;
-                        logger.warning("Waiting on async dettach dependency to finish - count '"+ wait + "'");
+                        logger.warning("Waiting on async dettach dependency to finish - count '" + wait + "'");
                         try {
                             Thread.sleep(2000);
                         } catch (InterruptedException e) {
@@ -1205,11 +1224,11 @@ public class Main {
      * to have to go through this, because the child table partition will be
      * detached before the parent anyway, so theoretically this workaround
      * shouldn't be necessary.
-     *   ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
-     *   ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
-     *   SET INTEGRITY FOR child OFF;
-     *   ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
-     *   SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
+     * ALTER TABLE child ALTER FOREIGN KEY fk NOT ENFORCED;
+     * ALTER TABLE parent DETACH PARTITION p0 INTO TABLE pdet;
+     * SET INTEGRITY FOR child OFF;
+     * ALTER TABLE child ALTER FOREIGN KEY fk ENFORCED;
+     * SET INTEGRITY FOR child ALL IMMEDIATE UNCHECKED;
      */
     protected void detachTenantPartitions(PhysicalDataModel pdm, TenantInfo tenantInfo) {
         Db2Adapter adapter = new Db2Adapter(connectionPool);
@@ -1277,7 +1296,7 @@ public class Main {
         int tenantId = tenantInfo.getTenantId();
 
         // Only if the Tenant Key file is provided as a parameter is it not null.
-        // in  this case we want special behavior.
+        // in this case we want special behavior.
         if (tenantKeyFileUtil.keyFileExists(tenantKeyFileName)) {
             tenantKey = this.tenantKeyFileUtil.readTenantFile(tenantKeyFileName);
         }
@@ -1298,7 +1317,7 @@ public class Main {
         }
     }
 
-    //-----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
     // The following methods are related to parsing arguments and action selection
     /**
      * Parse the command-line arguments, building up the environment and
@@ -1354,7 +1373,7 @@ public class Main {
                             } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                             }
-                        } else if (tmp.startsWith("OAUTH")){
+                        } else if (tmp.startsWith("OAUTH")) {
                             this.grantOauthSchema = true;
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                                 schema.setOauthSchemaName(args[nextIdx]);
@@ -1362,7 +1381,7 @@ public class Main {
                             } else {
                                 throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                             }
-                        } else if (tmp.startsWith("DATA")){
+                        } else if (tmp.startsWith("DATA")) {
                             this.grantFhirSchema = true;
                             if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                                 schema.setSchemaName(args[nextIdx]);
@@ -1467,7 +1486,7 @@ public class Main {
                 this.createJavaBatchSchema = true;
                 break;
             case "--create-schema-fhir":
-                this.createFhirSchema =  true;
+                this.createFhirSchema = true;
                 if (nextIdx < args.length && !args[nextIdx].startsWith("--")) {
                     schema.setSchemaName(args[nextIdx]);
                     i++;
@@ -1519,6 +1538,37 @@ public class Main {
                 if (++i < args.length) {
                     // properties are given as name=value
                     addProperty(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--update-vacuum":
+                updateVacuum = true;
+                break;
+            case "--vacuum-cost-limit":
+                if (++i < args.length) {
+                    this.vacuumCostLimit = Integer.parseInt(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--vacuum-threshold":
+                if (++i < args.length) {
+                    this.vacuumThreshold = Integer.parseInt(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--vacuum-scale-factor":
+                if (++i < args.length) {
+                    this.vacuumScaleFactor = Double.parseDouble(args[i]);
+                } else {
+                    throw new IllegalArgumentException("Missing value for argument at posn: " + i);
+                }
+                break;
+            case "--vacuum-table-name":
+                if (++i < args.length) {
+                    this.vacuumTableName = args[i];
                 } else {
                     throw new IllegalArgumentException("Missing value for argument at posn: " + i);
                 }
@@ -1654,7 +1704,7 @@ public class Main {
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             // Process each tenant one-by-one
             List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti: tenants) {
+            for (TenantInfo ti : tenants) {
 
                 // If no --schema-name override was specified, we process all tenants, otherwise we
                 // process only tenants which belong to the override schema name
@@ -1671,7 +1721,7 @@ public class Main {
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             // Process each tenant one-by-one
             List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti: tenants) {
+            for (TenantInfo ti : tenants) {
 
                 // If no --schema-name override was specified, we process all tenants, otherwise we
                 // process only tenants which belong to the override schema name
@@ -1686,6 +1736,7 @@ public class Main {
 
     /**
      * Get the list of resource types to drive resource-by-resource operations
+     *
      * @return the full list of FHIR R4 resource types, or a subset of names if so configured
      */
     private Set<String> getResourceTypes() {
@@ -1695,9 +1746,7 @@ public class Main {
             // Should simplify FhirSchemaGenerator and always pass in this list. When switching
             // over to false, migration is required to drop the tables no longer required.
             final boolean includeAbstractResourceTypes = true;
-            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream()
-                    .map(Class::getSimpleName)
-                    .collect(Collectors.toSet());
+            result = ModelSupport.getResourceTypes(includeAbstractResourceTypes).stream().map(Class::getSimpleName).collect(Collectors.toSet());
         } else {
             result = this.resourceTypeSubset;
         }
@@ -1707,6 +1756,7 @@ public class Main {
 
     /**
      * Get the list of resource types from the database.
+     *
      * @param adapter
      * @param schemaName
      * @return
@@ -1727,6 +1777,7 @@ public class Main {
 
     /**
      * Migrate the IS_DELETED data for the given tenant
+     *
      * @param ti
      */
     private void dataMigrationForV0010(TenantInfo ti) {
@@ -1736,7 +1787,7 @@ public class Main {
         Set<String> resourceTypes = getResourceTypes();
 
         // Process each update in its own transaction so we don't stress the tx log space
-        for (String resourceTypeName: resourceTypes) {
+        for (String resourceTypeName : resourceTypes) {
             try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
                 try {
                     SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
@@ -1766,7 +1817,7 @@ public class Main {
         Set<String> resourceTypes = getResourceTypes();
 
         // Process each resource type in its own transaction to avoid pressure on the tx log
-        for (String resourceTypeName: resourceTypes) {
+        for (String resourceTypeName : resourceTypes) {
             try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
                 try {
                     // only process tables which have been converted to the V0010 schema but
@@ -1775,7 +1826,8 @@ public class Main {
                     // has to be done after the transaction in which the alter table was performed.
                     GetXXLogicalResourceNeedsMigration needsMigrating = new GetXXLogicalResourceNeedsMigration(schema.getSchemaName(), resourceTypeName);
                     if (adapter.runStatement(needsMigrating)) {
-                        logger.info("V0010-V0012 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES denormalized columns in schema " + schema.getSchemaName());
+                        logger.info("V0010-V0012 Migration: Updating " + resourceTypeName + "_LOGICAL_RESOURCES denormalized columns in schema "
+                                + schema.getSchemaName());
                         InitializeLogicalResourceDenorms cmd = new InitializeLogicalResourceDenorms(schema.getSchemaName(), resourceTypeName);
                         adapter.runStatement(cmd);
                     }
@@ -1790,6 +1842,7 @@ public class Main {
 
     /**
      * Migrate the LOGICAL_RESOURCE IS_DELETED and LAST_UPDATED data for the given tenant
+     *
      * @param ti
      */
     private void dataMigrationForV0014(TenantInfo ti) {
@@ -1799,14 +1852,14 @@ public class Main {
         List<ResourceType> resourceTypes = getResourceTypesList(adapter, schema.getSchemaName());
 
         // Process each update in its own transaction so we don't over-stress the tx log space
-        for (ResourceType resourceType: resourceTypes) {
+        for (ResourceType resourceType : resourceTypes) {
             try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
                 try {
                     SetTenantIdDb2 setTenantId = new SetTenantIdDb2(schema.getAdminSchemaName(), ti.getTenantId());
                     adapter.runStatement(setTenantId);
 
                     logger.info("V0014 Migration: Updating " + "LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for " + resourceType.toString()
-                        + " for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                            + " for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
 
                     dataMigrationForV0014(adapter, ti.getTenantSchema(), resourceType);
                 } catch (DataAccessException x) {
@@ -1826,7 +1879,7 @@ public class Main {
         List<ResourceType> resourceTypes = getResourceTypesList(adapter, schema.getSchemaName());
 
         // Process each resource type in its own transaction to avoid pressure on the tx log
-        for (ResourceType resourceType: resourceTypes) {
+        for (ResourceType resourceType : resourceTypes) {
             try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
                 try {
                     dataMigrationForV0014(adapter, schema.getSchemaName(), resourceType);
@@ -1853,7 +1906,8 @@ public class Main {
         if (adapter.runStatement(needsMigrating)) {
             logger.info("V0014 Migration: Updating LOGICAL_RESOURCES.IS_DELETED and LAST_UPDATED for schema '"
                     + schemaName + "' and resource type '" + resourceType.toString() + "'");
-            MigrateV0014LogicalResourceIsDeletedLastUpdated cmd = new MigrateV0014LogicalResourceIsDeletedLastUpdated(schemaName, resourceType.getName(), resourceType.getId());
+            MigrateV0014LogicalResourceIsDeletedLastUpdated cmd =
+                    new MigrateV0014LogicalResourceIsDeletedLastUpdated(schemaName, resourceType.getName(), resourceType.getId());
             adapter.runStatement(cmd);
         }
     }
@@ -1862,11 +1916,10 @@ public class Main {
      * Backfill the RESOURCE_CHANGE_LOG table if it is empty
      */
     protected void backfillResourceChangeLog() {
-
         if (MULTITENANT_FEATURE_ENABLED.contains(dbType)) {
             // Process each tenant one-by-one
             List<TenantInfo> tenants = getTenantList();
-            for (TenantInfo ti: tenants) {
+            for (TenantInfo ti : tenants) {
 
                 // If no --schema-name override was specified, we process all tenants, otherwise we
                 // process only tenants which belong to the override schema name
@@ -1912,9 +1965,9 @@ public class Main {
                 GetResourceChangeLogEmpty isEmpty = new GetResourceChangeLogEmpty(schema.getSchemaName());
                 if (adapter.runStatement(isEmpty)) {
                     // change log is empty, so we need to backfill it with data
-                    for (String resourceTypeName: resourceTypes) {
+                    for (String resourceTypeName : resourceTypes) {
                         logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
-                            + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
+                                + " resources for tenant '" + ti.getTenantName() + "', schema '" + ti.getTenantSchema() + "'");
                         BackfillResourceChangeLogDb2 backfill = new BackfillResourceChangeLogDb2(schema.getSchemaName(), resourceTypeName);
                         adapter.runStatement(backfill);
                     }
@@ -1932,16 +1985,76 @@ public class Main {
     /**
      * Backfill the RESOURCE_CHANGE_LOG table for all the resource types. Non-multi-tenant
      * implementation
+     *
      * @param adapter
      */
     private void doBackfill(IDatabaseAdapter adapter) {
         Set<String> resourceTypes = getResourceTypes();
 
-        for (String resourceTypeName: resourceTypes) {
+        for (String resourceTypeName : resourceTypes) {
             logger.info("Backfilling RESOURCE_CHANGE_LOG with " + resourceTypeName
-                + " resources for schema '" + schema.getSchemaName() + "'");
+                    + " resources for schema '" + schema.getSchemaName() + "'");
             BackfillResourceChangeLog backfill = new BackfillResourceChangeLog(schema.getSchemaName(), resourceTypeName);
             adapter.runStatement(backfill);
+        }
+    }
+
+    /**
+     * updates the vacuum settings for postgres.
+     */
+    public void updateVacuumSettings() {
+        if (dbType != DbType.POSTGRESQL) {
+            logger.severe("Updating the vacuum settings is only supported on postgres and the setting is for '" + dbType + "'");
+            return;
+        }
+
+        // Create the Physical Data Model
+        PhysicalDataModel pdm = new PhysicalDataModel();
+        buildCommonModel(pdm, true, false, false);
+
+        // Setup the Connection Pool
+        this.maxConnectionPoolSize = 10;
+        configureConnectionPool();
+        PostgresAdapter adapter = new PostgresAdapter(connectionPool);
+
+        if (vacuumTableName != null) {
+            runSingleTable(adapter, pdm, schema.getSchemaName(), vacuumTableName);
+        } else {
+            // Process all tables in the schema ... except for XX_RESOURCES and COMMON_TOKEN_VALUES and COMMON_CANONICAL_VALUES
+            GatherTablesDataModelVisitor visitor = new GatherTablesDataModelVisitor();
+            pdm.visit(visitor);
+
+            for (Table tbl : visitor.getTables()) {
+                runSingleTable(adapter, pdm, schema.getSchemaName(), tbl.getObjectName());
+            }
+        }
+    }
+
+    /**
+     * runs the vacuum update inside a single connection and single transaction.
+     *
+     * @param adapter
+     * @param pdm
+     * @param schemaName
+     * @param vacuumTableName
+     */
+    private void runSingleTable(PostgresAdapter adapter, PhysicalDataModel pdm, String schemaName, String vacuumTableName) {
+        try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
+            try {
+                // If the vacuumTableName exists, then we try finding the table definition.
+                Table table = pdm.findTable(schemaName, vacuumTableName);
+                if (table == null) {
+                    logger.severe("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
+                    throw new IllegalArgumentException("Table [" + vacuumTableName + "] is not found, and no vacuum settings are able to be updated.");
+                }
+                PostgresVacuumSettingDAO alterVacuumSettings =
+                        new PostgresVacuumSettingDAO(schemaName, table.getObjectName(), vacuumCostLimit, vacuumScaleFactor, vacuumThreshold);
+                adapter.runStatement(alterVacuumSettings);
+            } catch (DataAccessException x) {
+                // Something went wrong, so mark the transaction as failed
+                tx.setRollbackOnly();
+                throw x;
+            }
         }
     }
 
@@ -1973,6 +2086,8 @@ public class Main {
 
         if (addKeyForTenant != null) {
             addTenantKey();
+        } else if (updateVacuum) {
+            updateVacuumSettings();
         } else if (this.dropAdmin || this.dropFhirSchema || this.dropJavaBatchSchema || this.dropOauthSchema) {
             // only proceed with the drop if the user has provided additional confirmation
             if (this.confirmDrop) {
@@ -2056,13 +2171,11 @@ public class Main {
      * Log warning messages for deprecated tables.
      */
     private void logWarningMessagesForDeprecatedTables() {
-        List<String> deprecatedTables = Arrays.asList(
-            "DOMAINRESOURCE_DATE_VALUES", "DOMAINRESOURCE_LATLNG_VALUES", "DOMAINRESOURCE_LOGICAL_RESOURCES", "DOMAINRESOURCE_NUMBER_VALUES",
-            "DOMAINRESOURCE_QUANTITY_VALUES", "DOMAINRESOURCE_RESOURCE_TOKEN_REFS", "DOMAINRESOURCE_RESOURCES","DOMAINRESOURCE_STR_VALUES",
-            "RESOURCE_DATE_VALUES", "RESOURCE_LATLNG_VALUES", "RESOURCE_LOGICAL_RESOURCES", "RESOURCE_NUMBER_VALUES",
-            "RESOURCE_QUANTITY_VALUES", "RESOURCE_RESOURCE_TOKEN_REFS", "RESOURCE_RESOURCES", "RESOURCE_STR_VALUES");
+        List<String> deprecatedTables =
+                Arrays.asList("DOMAINRESOURCE_DATE_VALUES", "DOMAINRESOURCE_LATLNG_VALUES", "DOMAINRESOURCE_LOGICAL_RESOURCES", "DOMAINRESOURCE_NUMBER_VALUES", "DOMAINRESOURCE_QUANTITY_VALUES", "DOMAINRESOURCE_RESOURCE_TOKEN_REFS", "DOMAINRESOURCE_RESOURCES", "DOMAINRESOURCE_STR_VALUES", "RESOURCE_DATE_VALUES", "RESOURCE_LATLNG_VALUES", "RESOURCE_LOGICAL_RESOURCES", "RESOURCE_NUMBER_VALUES", "RESOURCE_QUANTITY_VALUES", "RESOURCE_RESOURCE_TOKEN_REFS", "RESOURCE_RESOURCES", "RESOURCE_STR_VALUES");
         for (String deprecatedTable : deprecatedTables) {
-            logger.warning("Table '" + deprecatedTable + "' will be dropped in a future release. No data should be written to this table. If any data exists in the table, that data should be deleted.");
+            logger.warning("Table '" + deprecatedTable
+                    + "' will be dropped in a future release. No data should be written to this table. If any data exists in the table, that data should be deleted.");
         }
     }
 

@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -22,6 +23,12 @@ public interface INameIdCache<T> {
      * @return
      */
     T getId(String resourceType);
+    
+    /**
+     * Get all resource type identifiers in the cache
+     * @return
+     */
+    Collection<T> getAllIds();
     
     /**
      * Add the resource type to the local cache

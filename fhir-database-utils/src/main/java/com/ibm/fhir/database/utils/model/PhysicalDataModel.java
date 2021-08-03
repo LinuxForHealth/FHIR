@@ -233,6 +233,10 @@ public class PhysicalDataModel implements IDataModel {
             .forEach(obj -> obj.visit(v));
     }
 
+    /**
+     * Visits all objects in the data model
+     * @param v
+     */
     public void visit(DataModelVisitor v) {
         // visit every object
         this.allObjects.forEach(obj -> obj.visit(v));

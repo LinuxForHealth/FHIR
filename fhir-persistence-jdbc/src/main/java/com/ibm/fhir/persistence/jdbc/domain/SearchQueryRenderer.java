@@ -1022,9 +1022,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     /**
      * Add a filter on the LOGICAL_ID for the given query parameter values
      * @param queryData
+     * @param resourceType
      * @param queryParm
      */
-    protected void addIdFilter(QueryData queryData, QueryParameter queryParm) throws FHIRPersistenceException {
+    protected void addIdFilter(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final String parentAlias = queryData.getLRAlias();
         List<String> values = queryParm.getValues().stream().map(p -> p.getValueCode()).collect(Collectors.toList());
@@ -1035,6 +1036,13 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             currentSubQuery.from().where().and(parentAlias, "LOGICAL_ID").in(values);
         } else {
             throw new FHIRPersistenceException("_id parameter value list is empty");
+        }
+        // If this is a whole-system search, add the following predicate in order to take
+        // advantage of index on the LOGICAL_RESOURCES table:
+        // AND <parentAlias>.RESOURCE_TYPE_ID IN (<list-of-all-resource-type-ids>)
+        if (isWholeSystemSearch(resourceType)) {
+            List<Long> resourceTypeIds = this.identityCache.getResourceTypeIds().stream().map(Long::valueOf).collect(Collectors.toList());
+            currentSubQuery.from().where().and(parentAlias, "RESOURCE_TYPE_ID").inLiteralLong(resourceTypeIds);
         }
     }
 
@@ -1394,7 +1402,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         if (queryParm.getNextParameter() == null) {
             // just a single inclusion parameter, so we can optimize and treat as a simple join
             // to the main parameter filter block
-            addFilter(queryData, queryParm);
+            addFilter(queryData, resourceType, queryParm);
         } else {
             // Attach a series of exists clauses to the parameter query block
             final WhereAdapter where = queryData.getQuery().from().where();
@@ -1828,7 +1836,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
     }
 
     @Override
-    public void addFilter(QueryData queryData, QueryParameter currentParm) throws FHIRPersistenceException {
+    public void addFilter(QueryData queryData, String resourceType, QueryParameter currentParm) throws FHIRPersistenceException {
         // A variant where we just use a simple join instead of an exists (sub-select) to implement
         // the parameter filter.
         logger.fine("chainDepth: " + queryData.getChainDepth());
@@ -1837,7 +1845,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String lrAlias = queryData.getLRAlias();
 
         if (ID.equals(code)) {
-            addIdFilter(queryData, currentParm);
+            addIdFilter(queryData, resourceType, currentParm);
         } else if (LAST_UPDATED.equals(code)) {
             // Compute the _lastUpdated filter predicate for the given query parameter
             NewLastUpdatedParmBehaviorUtil util = new NewLastUpdatedParmBehaviorUtil(lrAlias);

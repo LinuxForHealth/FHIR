@@ -113,9 +113,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() >= 1);
     }
@@ -134,9 +132,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         assertResponse(response, Response.Status.OK.getStatusCode());
         Bundle bundle = response.readEntity(Bundle.class);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 0);
     }
@@ -228,9 +224,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() >= 1);
 
         // Testing the behavior specific to the URI patterns
@@ -247,9 +241,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() == 0);
 
         // Response should be empty as the URI value is not an exact match
@@ -265,9 +257,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
 
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
         assertTrue(bundle.getEntry().size() > 0);
     }
 
@@ -287,10 +277,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
 
         assertTrue(bundle.getEntry().size() > 0);
     }
@@ -310,10 +297,7 @@ public class SearchExtensionsTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-
-        if (DEBUG_SEARCH) {
-            SearchAllTest.generateOutput(bundle);
-        }
+        printOutResource(DEBUG_SEARCH, bundle);
 
         assertTrue(bundle.getEntry().size() == 0);
     }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
 
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
@@ -121,8 +120,6 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
 
     @Test(groups = { "server-search-lastupdatedid" })
     public void testCreatePatient() throws Exception {
-        WebTarget target = getWebTarget();
-
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
@@ -145,15 +142,11 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
 
         patient = patient.toBuilder().meta(meta).text(text).gender(AdministrativeGender.MALE).build();
 
-        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Patient").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-
-        // Get the patient's logical id value.
-        patientId = getLocationLogicalId(response);
+        // Create the patient and get the logical id.
+        patientId = createResourceAndReturnTheLogicalId("Patient", patient);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
-        response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        Response response = getWebTarget().path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         Patient responsePatient = response.readEntity(Patient.class);
         TestUtil.assertResourceEquals(patient, responsePatient);
@@ -173,8 +166,10 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
                 target = target.queryParam(parts[0], replaceValues(parts[1]));
             }
 
-            System.out.println(testCaseName);
             Response response = target.request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            if (response.getStatus() != 200) {
+                System.out.println("Not OK: " + testCaseName);
+            }
             assertResponse(response, Response.Status.OK.getStatusCode());
 
             Bundle bundle = response.readEntity(Bundle.class);
@@ -201,8 +196,10 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
                 target = target.queryParam(parts[0], replaceValues(parts[1]));
             }
 
-            System.out.println(testCaseName);
             Response response = target.request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            if (response.getStatus() != 200) {
+                System.out.println("Not OK: " + testCaseName);
+            }
             assertResponse(response, Response.Status.OK.getStatusCode());
 
             Bundle bundle = response.readEntity(Bundle.class);
@@ -225,8 +222,10 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
                 target = target.queryParam(parts[0], replaceValues(parts[1]));
             }
 
-            System.out.println(testCaseName);
             Response response = target.request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            if (response.getStatus() != 200) {
+                System.out.println("Not OK: " + testCaseName);
+            }
             assertResponse(response, Response.Status.OK.getStatusCode());
 
             Bundle bundle = response.readEntity(Bundle.class);
@@ -253,8 +252,10 @@ public class SearchLastUpdatedIdTest extends FHIRServerTestBase {
                 target = target.queryParam(parts[0], replaceValues(parts[1]));
             }
 
-            System.out.println(testCaseName);
             Response response = target.request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+            if (response.getStatus() != 200) {
+                System.out.println("Not OK: " + testCaseName);
+            }
             assertResponse(response, Response.Status.OK.getStatusCode());
 
             Bundle bundle = response.readEntity(Bundle.class);

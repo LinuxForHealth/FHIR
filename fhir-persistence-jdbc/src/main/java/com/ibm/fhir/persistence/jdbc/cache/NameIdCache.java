@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.jdbc.cache;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -52,6 +53,20 @@ public class NameIdCache<T> implements INameIdCache<T> {
 
         if (result == null) {
             result = shared.get(key);
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<T> getAllIds() {
+        Collection<T> result = null;
+        Map<String,T> localMap = local.get();
+        if (localMap != null) {
+            result = localMap.values();
+        }
+
+        if (result == null) {
+            result = shared.values();
         }
         return result;
     }

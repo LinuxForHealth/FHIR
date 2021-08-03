@@ -181,7 +181,7 @@ function _call_db2 {
 
     # since we are generating, we can debug this... with set +x
     set -x
-    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+    /opt/java/openjdk/bin/java -Dlog.dir=${SCHEMA_TOOL_LOCATION}/workarea -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
         --prop "db.host=${DB_HOSTNAME}" \
         --prop "db.port=${DB_PORT}" \
         --prop "db.database=${DB_NAME}" \
@@ -189,7 +189,7 @@ function _call_db2 {
         --prop "password=${DB_PASSWORD}" \
         ${SSL_STANZA} \
         --db-type db2 \
-        ${INPUT} 2>&1 | tee out.log
+        ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
     echo "$?" > response_code
     set +x
 }
@@ -215,7 +215,7 @@ function _call_postgres {
 
     # since we are generating, we can debug this... with set +x
     set -x
-    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+    /opt/java/openjdk/bin/java -Dlog.dir=${SCHEMA_TOOL_LOCATION}/workarea -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
         --prop "db.host=${DB_HOSTNAME}" \
         --prop "db.port=${DB_PORT}" \
         --prop "db.database=${DB_NAME}" \
@@ -223,7 +223,7 @@ function _call_postgres {
         --prop "password=${DB_PASSWORD}" \
         ${SSL_STANZA} \
         --db-type postgresql \
-        ${INPUT} 2>&1 | tee out.log
+        ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
     set +x
 }
 
@@ -268,7 +268,7 @@ function allocate_tenant {
         _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5"
 
         # Tenant Key and Name already exist
-        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" out.log)
+        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" ${SCHEMA_TOOL_LOCATION}/workarea/out.log)
         if [ ! -z "${ALREADY_EXISTS}" ]
         then
             error_warn "Unexpected failure in allocate-tenant"

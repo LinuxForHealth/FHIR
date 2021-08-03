@@ -36,10 +36,12 @@ public class CodeSystemClearCacheOperationTest extends TerminologyOperationTestB
     public static final String CODE_SYSTEM_URL = "http://ibm.com/fhir/CodeSystem/test";
     public static final String CODE_SYSTEM_VERSION = "1.0.0";
 
+    @Override
     @BeforeClass
     public void setup() throws Exception {
-        Response response = doPut("CodeSystem", CODE_SYSTEM_ID, "testdata/CodeSystem-test.json");
-        assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL);
+        try (Response response = doPut("CodeSystem", CODE_SYSTEM_ID, "testdata/CodeSystem-test.json")) {
+            assertEquals(response.getStatusInfo().getFamily(), Response.Status.Family.SUCCESSFUL);
+        }
     }
 
     @Test(groups = { TEST_GROUP_NAME })

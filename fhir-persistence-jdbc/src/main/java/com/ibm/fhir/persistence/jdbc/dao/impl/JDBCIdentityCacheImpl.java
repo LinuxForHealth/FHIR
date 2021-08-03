@@ -6,9 +6,9 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -166,7 +166,12 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
     }
 
     @Override
-    public Set<String> getResourceTypeNames() throws FHIRPersistenceException {
-        return resourceDAO.readAllResourceTypeNames().keySet();
+    public List<String> getResourceTypeNames() throws FHIRPersistenceException {
+        return new ArrayList<>(cache.getResourceTypeNameCache().getAllNames());
+    }
+
+    @Override
+    public List<Integer> getResourceTypeIds() throws FHIRPersistenceException {
+        return new ArrayList<>(cache.getResourceTypeCache().getAllIds());
     }
 }

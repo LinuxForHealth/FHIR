@@ -90,8 +90,6 @@ import net.jcip.annotations.NotThreadSafe;
 
 /**
  * A FHIRPath evaluation engine that implements the FHIRPath 2.0.0 <a href="http://hl7.org/fhirpath/N1/">specification</a>
- *
- * The static factory method {@link #evaluator()} is threadsafe, but the created instances are not.
  */
 @NotThreadSafe
 public class FHIRPathEvaluator {
@@ -148,16 +146,14 @@ public class FHIRPathEvaluator {
      *     if an exception occurs during evaluation
      */
     public Collection<FHIRPathNode> evaluate(Visitable resourceOrElement, String expr) throws FHIRPathException {
-        Objects.requireNonNull("resourceOrElement cannot be null");
-
+        Objects.requireNonNull(resourceOrElement, "resourceOrElement");
         if (resourceOrElement instanceof Resource) {
             return evaluate((Resource) resourceOrElement, expr);
-        } else if (resourceOrElement instanceof Element) {
+        }
+        if (resourceOrElement instanceof Element) {
             return evaluate((Element) resourceOrElement, expr);
         }
-
-        throw new IllegalArgumentException("FHIRPath Context cannot be established for object of type " +
-                resourceOrElement.getClass().getName());
+        throw new AssertionError();
     }
 
     /**

@@ -278,9 +278,10 @@ public interface SearchQueryVisitor<T> {
      * Add a filter predicate to the given chained sub-query element. This must be
      * the last element of the chain.
      * @param currentSubQuery
+     * @param resourceType
      * @param currentParm
      */
-    void addFilter(T currentSubQuery, QueryParameter currentParm) throws FHIRPersistenceException;
+    void addFilter(T currentSubQuery, String resourceType, QueryParameter currentParm) throws FHIRPersistenceException;
 
     /**
      * @param queryData
