@@ -18,11 +18,19 @@ public interface Preflight {
      *
      * @throws FHIROperationException
      */
-    public void preflight() throws FHIROperationException;
+    void preflight() throws FHIROperationException;
 
     /**
      * Checks the storage type is allowed.
      * @param storageDetail
      */
-    public void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException;
+    void checkStorageAllowed(StorageDetail storageDetail) throws FHIROperationException;
+
+    /**
+     * checks parquet is enabled for this type
+     * @return
+     */
+    default boolean checkParquet() {
+        return false;
+    }
 }
