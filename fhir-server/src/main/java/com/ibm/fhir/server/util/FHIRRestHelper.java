@@ -3114,8 +3114,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      */
     public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds) throws Exception {
         // If the indexIds are empty or null, then it's not properly formed.
-        if (indexIds == nulll || indexIds.isEmpty()) {
-            throw new IllegalArgumentExecption("No indexIds sent to the $reindex list method");
+        if (indexIds == null || indexIds.isEmpty()) {
+            throw new IllegalArgumentException("No indexIds sent to the $reindex list method");
         }
 
         /*
