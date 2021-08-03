@@ -19,6 +19,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -33,6 +34,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.UriInfo;
+
+import org.owasp.encoder.Encode;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
@@ -306,11 +309,27 @@ public class FHIRResource {
             log.log(Level.FINE, sb.toString());
         }
 
-        // Single Location to ensure the Operation Outcomes are Encode.forHtml and avoids any injections.
-        EncodingVisitor<OperationOutcome> v = new EncodingVisitor<>(EncodingContext.HTML);
-        oo.accept(v);
+        // Single location to ensure the OperationOutcome diagnostic strings are encoded for
+        // use within HTML, avoiding potential XSS / injection attacks from naive usage.
+        // However, it does NOT ensure that other fields in the OperationOutcome (e.g. OperationOutcomeIssue.details.text) are encoded.
+        Collection<Issue> currentIssues = oo.getIssue();
+        List<Issue> issues = new ArrayList<>();
+        for (Issue current : currentIssues) {
+            if (current.getDiagnostics() != null) {
+                String diagnostics = current.getDiagnostics().getValue();
+                issues.add(
+                    current.toBuilder()
+                       .diagnostics(string(Encode.forHtml(diagnostics)))
+                    .build());
+            } else {
+                issues.add(current);
+            }
+        }
+
         return Response.status(status)
-                .entity(v.getResult())
+                .entity(oo.toBuilder()
+                    .issue(issues)
+                    .build())
                 .build();
     }
 
@@ -434,7 +453,7 @@ public class FHIRResource {
     }
 
     protected FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
-        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        String msg = "'" + Encode.forHtml(resourceTypeName) + "' is not a valid resource type.";
         Issue issue = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
