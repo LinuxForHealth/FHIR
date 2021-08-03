@@ -22,7 +22,7 @@ The automation runs with these steps:
 11. **Setup previous release's cached database** - if and only if the cache exists, we setup the database and start it
 12. **Migrate to the current release** - runs the update-schema
 13. **Run LATEST Integration Tests** - Run the reindex and current integration tests and check verison history are updated
-14. **Teardown and cleanup** - Shutsdown the Docker images and prunes the system completely
+14. **Teardown and cleanup** - Shuts down the Docker images and prunes the system completely
 15. **Cache the Database** - Cache the Database iff migration_cache is true
 16. **Gather error logs** - This step only runs upon a failure condition. 
 17. **Upload logs** - The step uploads the results of the integration tests and the operational logs are posted to the job. 
@@ -37,7 +37,7 @@ The GitHub Action is parameterized with a matrix for each migration based on the
 strategy:
   matrix:
     datastore: [ 'db2', 'postgres' ]
-      target: ['previous', 'last']
+    target: ['previous', 'last']
 ```
 
 ### Parameter: **datastore**
@@ -48,7 +48,7 @@ Each datastore layer that is tested as part of the framework uses the default bu
 
 ### Parameter: **target** 
 
-The target indicates the starting point of a release number or `previous` or last `release`. To keep this a low number of jobs, we should keep to the minimum numbers.
+The target indicates the starting point as a release number, the `last` release, or the `previous` minor release. To keep this a low number of jobs, we should keep to the minimum numbers.
 
 Each release is specified by MAJOR.MINOR.PATCH. The framework tests using the previous MINOR release, and the previous release to the previous MINOR release. 
 
@@ -81,7 +81,7 @@ The following files are the files that orchestrate datastore specific tasks as w
 |`fhir/build/migration/bin/8_teardown.sh`|Shuts down the docker images and prunes the db|
 |`fhir/build/common/gather-logs.sh migration`|gathers the log files|
 
-`fhir/` is the directory the code is the destination where `main` is checked out.
+`fhir/` is the directory in which the `main` branch is checked out.
 `prev/` is the directory the previous release is checked out to, which is generally a tag.
 
 The logs are in the workarea under each datastore specific set of scripts.
