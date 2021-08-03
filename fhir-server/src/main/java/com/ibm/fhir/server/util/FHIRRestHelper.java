@@ -3140,8 +3140,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
          * @implNote tried divide and conquer and it caused it to try large pass fail, small pass succeed, and therefore chose a small linear pass.
          */
 
-        // Maximum number to retry
-        final int TX_ATTEMPTS = 5;
+        // Maximum attempts to retry across all windows.
+        final int TX_ATTEMPTS = 10;
 
         int result = 0;
         int max = indexIds.size();
@@ -3150,47 +3150,46 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         int right = max;
 
         int window = 0;
-        while (left < max) {
+        int attempt = 1;
+        while (left < max && attempt <= TX_ATTEMPTS) {
             window++;
             if (log.isLoggable(Level.FINE)) {
-                log.fine("$reindex window[" + window + "] -> left=[" + left + "] right=[" + right + "] max=[" + max + "]");
+                log.fine("$reindex window [" + window + "/" + attempt + "] -> left=[" + left + "] right=[" + right + "] max=[" + max + "]");
             }
 
             boolean backoff = false;
+
             List<Long> subListIndexIds = indexIds.subList(left, right);
 
-            int attempt = 1;
-            while (attempt <= TX_ATTEMPTS && !backoff) {
-                FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
-                txn.begin();
-                try {
-                    FHIRPersistenceContext persistenceContext = null;
-                    result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null);
-                    attempt = TX_ATTEMPTS + 1; // end the retry loop
-                } catch (FHIRPersistenceDataAccessException x) {
-                    // At this point, the transaction is marked for rollback
-                    if (x.isTransactionRetryable()) {
-                        if (x.getCause() instanceof LockException && ((LockException) x.getCause()).isDeadlock()) {
-                            backoff = true;
-                            long wait = RANDOM.nextInt(5000);
-                            log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, backing off [wait=" + wait + "ms]");
-                            Thread.sleep(wait);
-                        } else {
-                            log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, not backing off");
-                        }
+            FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
+            try {
+                FHIRPersistenceContext persistenceContext = null;
+                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null);
+            } catch (FHIRPersistenceDataAccessException x) {
+                // At this point, the transaction is marked for rollback
+                if (x.isTransactionRetryable() && ++attempt <= TX_ATTEMPTS) {
+                    if (x.getCause() instanceof LockException && ((LockException) x.getCause()).isDeadlock()) {
+                        backoff = true;
+                        long wait = RANDOM.nextInt(5000);
+                        log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, backing off [wait=" + wait + "ms]");
+                        Thread.sleep(wait);
                     } else {
-                        throw x;
+                        log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, not backing off");
                     }
-                } finally {
-                    txn.end();
+                } else {
+                    throw x;
                 }
-                attempt++;
+            } finally {
+                txn.end();
             }
 
+            // backoff controls how we increment the window.
             if (backoff) {
                 // we're now going to move over one at a time.
                 right = left + 1;
             } else {
+                // we're sliding over by one more
                 left = right;
                 right += 1;
             }
