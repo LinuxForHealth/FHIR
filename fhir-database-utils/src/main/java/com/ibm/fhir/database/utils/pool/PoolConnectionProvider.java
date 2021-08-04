@@ -266,7 +266,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
         else {
             // NOP. This just means that no SQL statements were executed
             // and so there's nothing to do. Not a problem.
-            logger.info("No work to commit; no connection was acquired on this thread");
+            logger.fine("No work to commit; no connection was acquired on this thread");
         }
     }
 
