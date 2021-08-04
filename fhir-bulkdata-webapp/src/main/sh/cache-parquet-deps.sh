@@ -6,6 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
 
+# This script is experimental and is provided as a point-in-time reference for downloading the spark/parquet dependencies.
+
 JARS=(aws-java-sdk-core-1.11.596.jar
 aws-java-sdk-s3-1.11.596.jar
 chill_2.12-0.9.5.jar
