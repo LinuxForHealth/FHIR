@@ -34,10 +34,12 @@ public class OriginalRequestFilter implements ContainerRequestFilter {
         String baseUrl = FHIRConfigHelper.getStringProperty(PROPERTY_EXTERNAL_BASE_URL, null);
         if (baseUrl != null) {
             StringBuilder originalRequestUri = new StringBuilder();
-            originalRequestUri
-                    .append(baseUrl)
+            originalRequestUri.append(baseUrl);
+            if (!info.getPath().equals("/")) {
+                originalRequestUri
                     .append("/")
                     .append(info.getPath());
+            }
 
             // Conditionally add the Query
             String rawQuery = info.getRequestUri().getRawQuery();
