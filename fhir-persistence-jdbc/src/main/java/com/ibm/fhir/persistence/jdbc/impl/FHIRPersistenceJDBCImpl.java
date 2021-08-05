@@ -56,6 +56,8 @@ import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -2610,7 +2612,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             getTransaction().setRollbackOnly();
 
             // It's possible this is a deadlock exception, in which case it could be considered retryable
-            if (dax.isTransactionRetryable()) {
+            // If DB2 and a constraint violation, let's retry as it is also worth retrying.
+            if (dax.isTransactionRetryable()
+                    || (DbType.DB2.equals(connectionStrategy.getFlavor().getType()) && dax instanceof UniqueConstraintViolationException)) {
                 log.log(Level.WARNING, "Retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
                 FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.", dax);
                 fpx.setTransactionRetryable(true);
