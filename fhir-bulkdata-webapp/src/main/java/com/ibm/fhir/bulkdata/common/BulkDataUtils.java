@@ -355,7 +355,7 @@ public class BulkDataUtils {
      * @throws UnsupportedEncodingException
      * @throws URISyntaxException
      */
-    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters (String typeFilters) throws UnsupportedEncodingException, URISyntaxException {
+    public static Map<Class<? extends Resource>, List<Map<String, List<String>>>> getSearchParametersFromTypeFilters(String typeFilters) throws UnsupportedEncodingException, URISyntaxException {
         HashMap<Class<? extends Resource>, List<Map<String, List<String>>>> searchParametersForResoureTypes = new HashMap<>();
         if (typeFilters != null) {
             List<String> typeFilterList = Arrays.asList(typeFilters.split("\\s*,\\s*"));
@@ -363,7 +363,8 @@ public class BulkDataUtils {
             for (String typeFilter : typeFilterList) {
                 String typeFilterDecoded = URLDecoder.decode(typeFilter.trim(), StandardCharsets.UTF_8.toString());
                 if (typeFilterDecoded.contains("?")) {
-                    URI uri = new URI(typeFilterDecoded.trim());
+                    // Need to account for Systems and re-encode.
+                    URI uri = new URI(typeFilterDecoded.trim().replaceAll("\\|", "%7C"));
 
                     if (uri.getPath() == null || uri.getQuery() == null) {
                         logger.log(Level.WARNING, "Bad type filter: {0}", typeFilterDecoded);
