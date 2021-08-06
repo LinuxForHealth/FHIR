@@ -43,6 +43,8 @@ public class SystemExportResourceHandler {
             throw new Exception(msg);
         }
 
+        long priorSize = chunkData.getBufferStream().size();
+
         for (Resource res : resources) {
             try {
                 // No need to fill buffer for parquet because we're letting spark write to COS;
@@ -66,8 +68,9 @@ public class SystemExportResourceHandler {
                 throw e;
             }
         }
+
         chunkData.addCurrentUploadResourceNum(resSubTotal);
-        chunkData.addCurrentUploadSize(chunkData.getBufferStream().size());
+        chunkData.addCurrentUploadSize(chunkData.getBufferStream().size() - priorSize);
         chunkData.addTotalResourcesNum(resSubTotal);
         if (logger.isLoggable(Level.FINE)) {
             logger.fine("fillChunkDataBuffer: Processed resources - " + resSubTotal + "; Bufferred data size - "
