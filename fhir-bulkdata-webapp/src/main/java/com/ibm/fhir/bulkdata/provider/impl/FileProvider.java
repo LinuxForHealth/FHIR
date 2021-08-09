@@ -194,14 +194,20 @@ public class FileProvider implements Provider {
         chunkData.getBufferStream().writeTo(out);
         chunkData.getBufferStream().reset();
 
-        StringBuilder output = new StringBuilder();
-        output.append(fhirResourceType);
-        output.append('[');
-        output.append(chunkData.getCurrentUploadResourceNum());
-        output.append(']');
-        chunkData.setResourceTypeSummary(output.toString());
-
         if (chunkData.isFinishCurrentUpload()) {
+            // Partition status for the exported resources, e.g, Patient[1000,1000,200]
+            if (chunkData.getResourceTypeSummary() == null) {
+                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                }
+            } else {
+                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+                }
+            }
+
             out.close();
             out = null;
             chunkData.setPartNum(1);
