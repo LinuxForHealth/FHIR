@@ -841,16 +841,37 @@ public abstract class FHIRServerTestBase {
         }
     }
 
+
     /**
      * Gets the self link of the bundle.
      * @param bundle the bundle
      * @return the self link, or null
      */
     protected String getSelfLink(Bundle bundle) {
+        return getLink(bundle, "self");
+    }
+
+
+    /**
+     * Gets the next link of the bundle.
+     * @param bundle the bundle
+     * @return the next link, or null
+     */
+    protected String getNextLink(Bundle bundle) {
+        return getLink(bundle, "next");
+    }
+
+    /**
+     * Gets the link with the specified relation type of the bundle.
+     * @param bundle the bundle
+     * @param relation the relation type
+     * @return the link, or null
+     */
+    private String getLink(Bundle bundle, String relation) {
         for (Bundle.Link link : bundle.getLink()) {
             String type = link.getRelation().getValue();
             String uri = link.getUrl().getValue();
-            if ("self".equals(type)) {
+            if (relation.equals(type)) {
                 return uri;
             }
         }
