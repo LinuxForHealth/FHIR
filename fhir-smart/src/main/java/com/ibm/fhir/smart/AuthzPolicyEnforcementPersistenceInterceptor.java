@@ -115,7 +115,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
         FHIRSearchContext searchContext = event.getSearchContextImpl();
         if (searchContext != null) {
-
             Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
 
             // Determine if compartment search
