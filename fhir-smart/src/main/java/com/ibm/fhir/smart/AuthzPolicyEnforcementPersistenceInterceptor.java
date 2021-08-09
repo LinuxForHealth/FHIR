@@ -69,25 +69,33 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
     @Override
     public void beforeRead(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAccess(event);
+        String resourceType = event.getFhirResourceType();
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
     }
 
     @Override
     public void beforeVread(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAccess(event);
+        String resourceType = event.getFhirResourceType();
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
     }
 
     @Override
     public void beforeHistory(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        enforceDirectPatientAccess(event);
+        String resourceType = event.getFhirResourceType();
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        checkScopes(resourceType, Permission.READ, getScopesFromToken(jwt));
+        enforceDirectPatientAccess(resourceType, event.getFhirResourceId(), jwt);
     }
 
-    private void enforceDirectPatientAccess(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
-        if (PATIENT.equals(event.getFhirResourceType())) {
-            DecodedJWT jwt = JWT.decode(getAccessToken());
+    private void enforceDirectPatientAccess(String resourceType, String resourceId, DecodedJWT jwt) throws FHIRPersistenceInterceptorException {
+        if (PATIENT.equals(resourceType)) {
             Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
-            if (!patientIdFromToken.contains(event.getFhirResourceId())) {
-                String msg = "Interaction with 'Patient/" + event.getFhirResourceId() +
+            if (!patientIdFromToken.contains(resourceId)) {
+                String msg = "Interaction with 'Patient/" + resourceId +
                         "' is not permitted under patient context '" + patientIdFromToken + "'.";
                 throw new FHIRPersistenceInterceptorException(msg)
                         .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
@@ -102,9 +110,12 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
      */
     @Override
     public void beforeSearch(FHIRPersistenceEvent event) throws FHIRPersistenceInterceptorException {
+        DecodedJWT jwt = JWT.decode(getAccessToken());
+        checkScopes(event.getFhirResourceType(), Permission.READ, getScopesFromToken(jwt));
+
         FHIRSearchContext searchContext = event.getSearchContextImpl();
         if (searchContext != null) {
-            DecodedJWT jwt = JWT.decode(getAccessToken());
+
             Set<String> patientIdFromToken = getPatientIdFromToken(jwt);
 
             // Determine if compartment search
@@ -256,7 +267,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * Determine whether authorization to one or more referenced resources is granted by the end user in the form of scope strings
+     * Determine whether authorization to one or more referenced resources is granted by the end user in the form of scope strings.
      *
      * @param references a list of resource references; this method will dereference only relative literal references
      * @param persistence the FHIRPersistence implementation to use for dereferencing the literal references
@@ -355,7 +366,34 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * Enforce the authorizations granted by the end user in the form of scope strings
+     * Check whether the permissions required for the current interaction are granted by the approved scopes.
+     *
+     * @param resourceType the resource type used in the endpoint of the request (or "Resource" for whole-system interactions)
+     * @param requiredPermission the permission required for the requested interaction
+     * @param approvedScopes a list of SMART scopes associated with the request
+     * @throws FHIRPersistenceInterceptorException if the interaction is not permitted
+     */
+    private void checkScopes(String resourceType, Permission requiredPermission, List<Scope> approvedScopes) throws FHIRPersistenceInterceptorException {
+        for (Scope scope : approvedScopes) {
+            // "Resource" is used for "*" which applies to all resource types
+            if (scope.getResourceType() == ResourceType.Value.RESOURCE || scope.getResourceType().value().equals(resourceType)) {
+                if (hasPermission(scope.getPermission(), requiredPermission)) {
+                    return;
+                }
+            }
+        }
+
+        String msg = requiredPermission.value() + " permission for '" + resourceType +
+                "' is not granted by any of the provided scopes: " + approvedScopes;
+        if (log.isLoggable(Level.FINE)) {
+            log.fine(msg);
+        }
+        throw new FHIRPersistenceInterceptorException(msg)
+                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.FORBIDDEN));
+    }
+
+    /**
+     * Enforce the authorizations granted by the end user in the form of scope strings.
      *
      * @param resource the resource to check
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
@@ -377,7 +415,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * Determine whether authorization to a given resource is granted by the end user in the form of scope strings
+     * Determine whether authorization to a given resource is granted by the end user in the form of scope strings.
      *
      * @param resource the resource to check
      * @param contextIds an identifier for the current context (e.g. patient or user) as determined by the scope strings
@@ -395,7 +433,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 // First filter the list to only scopes which grant the required permissions on the passed resourceType
                 .filter(s -> s.getResourceType() == ResourceType.Value.RESOURCE ||
                         s.getResourceType().value().equals(resourceType))
-                .filter(s -> hasPermission(s.getPermission(),requiredPermission))
+                .filter(s -> hasPermission(s.getPermission(), requiredPermission))
                 // Then group the scopes by their context type
                 .collect(Collectors.groupingBy(s -> s.getContextType()));
 
@@ -447,7 +485,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * Internal helper for checking compartment membership
+     * Internal helper for checking compartment membership.
      *
      * @param resource
      * @param compartmentType
@@ -534,7 +572,7 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
     }
 
     /**
-     * @param permission
+     * @param grantedPermission
      * @param requiredPermission
      * @return true if the grantedPermission includes the requiredPermission; otherwise false
      */
