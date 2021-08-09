@@ -1077,7 +1077,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected WhereFragment getDateFilter(QueryParameter queryParm, String paramAlias) {
         WhereFragment where = new WhereFragment();
         NewDateParmBehaviorUtil util = new NewDateParmBehaviorUtil();
-        
+
         // It is possible that multiple date parameters could be chained together if there were
         // multiple query parameters specified for the same date search parameter and we were
         // able to consolidate them. Check specifically if we have a consolidated parameter which
@@ -1097,7 +1097,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                 return where;
             }
         }
-        
+
         boolean first = true;
         while (queryParm != null) {
             if (first) {
@@ -1192,6 +1192,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         Operator operator = getOperator(queryParm, EQ);
 
         boolean parmValueProcessed = false;
+        // TODO this could be more efficient if we can get the common token value ids all at once: https://github.com/IBM/FHIR/issues/2184
         for (QueryParameterValue value : queryParm.getValues()) {
             // If multiple values are present, we need to OR them together.
             if (parmValueProcessed) {
@@ -1260,7 +1261,13 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
                         // resulting in far better execution plans for many search queries. Because COMMON_TOKEN_VALUE_ID
                         // is the primary key for the common_token_values table, we don't need the CODE_SYSTEM_ID = ? predicate.
                         Long commonTokenValueId = this.identityCache.getCommonTokenValueId(targetResourceType, searchValue);
-                        whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId)); // use literal
+                        // if the commonTokenValueId is null, then it didn't exist in either the cache or the db, so no need to include it in the filter
+                        // however, if its the last value then we need to include it anyway for the RHS of the OR
+                        if (commonTokenValueId != null || value == queryParm.getValues().get(queryParm.getValues().size() - 1)) {
+                            whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(nullCheck(commonTokenValueId)); // use literal
+                        } else {
+                            parmValueProcessed = false;
+                        }
                     } else {
                         // grab the list of all matching common_token_value_id values
                         addCommonTokenValueIdFilter(whereClause, paramAlias, searchValue);
