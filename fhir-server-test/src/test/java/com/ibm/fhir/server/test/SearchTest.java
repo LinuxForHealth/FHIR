@@ -1352,6 +1352,25 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNull(bundle.getTotal());
         assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNull(getNextLink(bundle));
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_none_exact_count() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_count", "1")
+                .queryParam("_total", "none")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNull(bundle.getTotal());
+        assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNotNull(getNextLink(bundle));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })

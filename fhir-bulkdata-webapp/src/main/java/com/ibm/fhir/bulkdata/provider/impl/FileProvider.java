@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
@@ -196,17 +197,7 @@ public class FileProvider implements Provider {
 
         if (chunkData.isFinishCurrentUpload()) {
             // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-            if (chunkData.getResourceTypeSummary() == null) {
-                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                }
-            } else {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                }
-            }
+            BulkDataUtils.updateSummary(fhirResourceType, chunkData);
 
             out.close();
             out = null;

@@ -268,7 +268,7 @@ public class AuthzPolicyEnforcementTest {
 
     @Test
     public void testBeforeSearch() throws FHIRPersistenceInterceptorException {
-        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read"));
+        FHIRRequestContext.get().setHttpHeaders(buildRequestHeaders("patient/Patient.read patient/Observation.read patient/Practitioner.read"));
         Practitioner practitioner = null;
         try {
             practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
@@ -289,7 +289,7 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient compartment interaction was not allowed but should have been", e);
         }
 
         // Invalid compartment search: wrong Patient compartment
@@ -299,7 +299,7 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(1, e.getIssues().size());
@@ -315,7 +315,7 @@ public class AuthzPolicyEnforcementTest {
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient compartment interaction was not allowed but should have been", e);
         }
 
         // Invalid compartment search: Encounter not in Patient compartment
@@ -325,7 +325,7 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(e.getIssues().size(), 1);
@@ -341,7 +341,7 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(e.getIssues().size(), 1);
@@ -357,7 +357,7 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(e.getIssues().size(), 1);
@@ -373,7 +373,7 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(e.getIssues().size(), 1);
@@ -389,13 +389,30 @@ public class AuthzPolicyEnforcementTest {
             properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
             FHIRPersistenceEvent event = new FHIRPersistenceEvent(observation, properties);
             interceptor.beforeSearch(event);
-            fail("Patient interaction was allowed but should not be");
+            fail("Patient compartment interaction was allowed but should not be");
         } catch (FHIRPersistenceInterceptorException e) {
             // success
             assertEquals(e.getIssues().size(), 1);
             assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
             assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
                 "Compartment search for compartment type 'RelatedPerson' is not permitted.");
+        }
+
+        // Invalid compartment search: resource type not in list of provided scopes
+        try {
+            queryParameterValue.setValueString("Patient/" + PATIENT_ID);
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "AllergyIntolerance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(practitioner, properties);
+            interceptor.beforeSearch(event);
+            fail("AllergyIntolerance interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
+                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
         }
 
         // Valid non-compartment search: converted to Patient compartment search
@@ -411,7 +428,7 @@ public class AuthzPolicyEnforcementTest {
                 assertEquals("Patient/" + PATIENT_ID, searchParameter.getValues().get(0).getValueString());
             }
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient interaction was not allowed but should have been", e);
         }
 
         // Valid non-compartment search: converted to Patient compartment search and compartment search parm is first in list
@@ -438,7 +455,7 @@ public class AuthzPolicyEnforcementTest {
             assertEquals("status", searchParms.get(1).getCode());
             assertEquals("final", searchParms.get(1).getValues().get(0).getValueCode());
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient interaction was not allowed but should have been", e);
         }
 
         // Valid non-compartment search: Patient search is now allowed, but converted to a compartment search
@@ -454,7 +471,7 @@ public class AuthzPolicyEnforcementTest {
                 assertEquals("Patient/" + PATIENT_ID, searchParameter.getValues().get(0).getValueString());
             }
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient interaction was not allowed but should have been", e);
         }
 
         // Valid non-compartment search: resource type not in Patient compartment so not converted to compartment search
@@ -466,7 +483,41 @@ public class AuthzPolicyEnforcementTest {
             interceptor.beforeSearch(event);
             assertEquals(searchContext.getSearchParameters().size(), 0);
         } catch (FHIRPersistenceInterceptorException e) {
-            fail("Patient interaction was not allowed but should have been");
+            fail("Patient interaction was not allowed but should have been", e);
+        }
+
+        // Invalid non-compartment search: resource type not in list of provided scopes
+        try {
+            searchContext = new FHIRSearchContextImpl();
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "AllergyIntolerance");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(practitioner, properties);
+            interceptor.beforeSearch(event);
+            fail("AllergyIntolerance interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                "read permission for 'AllergyIntolerance' is not granted by any of the provided scopes: " +
+                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
+        }
+
+        // Invalid non-compartment search: non-compartment resource type not in list of provided scopes
+        try {
+            searchContext = new FHIRSearchContextImpl();
+            properties.put(FHIRPersistenceEvent.PROPNAME_RESOURCE_TYPE, "Medication");
+            properties.put(FHIRPersistenceEvent.PROPNAME_SEARCH_CONTEXT_IMPL, searchContext);
+            FHIRPersistenceEvent event = new FHIRPersistenceEvent(practitioner, properties);
+            interceptor.beforeSearch(event);
+            fail("Medication interaction was allowed but should not be");
+        } catch (FHIRPersistenceInterceptorException e) {
+            // success
+            assertEquals(e.getIssues().size(), 1);
+            assertEquals(e.getIssues().get(0).getCode(), IssueType.FORBIDDEN);
+            assertEquals(e.getIssues().get(0).getDetails().getText().getValue(),
+                "read permission for 'Medication' is not granted by any of the provided scopes: " +
+                "[patient/Patient.read, patient/Observation.read, patient/Practitioner.read]");
         }
     }
 

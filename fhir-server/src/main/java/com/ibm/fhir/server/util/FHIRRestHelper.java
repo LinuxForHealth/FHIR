@@ -2922,7 +2922,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // to avoid unnecessarily paging through additional page numbers < 1
             int nextPageNumber = Math.max(context.getPageNumber() + 1, 1);
             if (nextPageNumber <= context.getLastPageNumber()
-                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() > 0)) {
+                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() == context.getPageSize())) {
 
                 // starting with the self URI
                 String nextLinkUrl = selfUri;
