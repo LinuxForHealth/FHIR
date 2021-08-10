@@ -26,6 +26,7 @@ import com.azure.storage.blob.models.BlobRange;
 import com.azure.storage.blob.models.BlobRequestConditions;
 import com.azure.storage.blob.models.BlobStorageException;
 import com.azure.storage.blob.specialized.AppendBlobClient;
+import com.ibm.fhir.bulkdata.common.BulkDataUtils;
 import com.ibm.fhir.bulkdata.dto.ReadResultDTO;
 import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
@@ -259,17 +260,7 @@ public class AzureProvider implements Provider {
 
         if (chunkData.isFinishCurrentUpload()) {
             // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-            if (chunkData.getResourceTypeSummary() == null) {
-                chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                }
-            } else {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-                if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                    chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-                }
-            }
+            BulkDataUtils.updateSummary(fhirResourceType, chunkData);
 
             ConfigurationAdapter config = ConfigurationFactory.getInstance();
             long resourceCountThreshold = config.getCoreAzureObjectResourceCountThreshold();

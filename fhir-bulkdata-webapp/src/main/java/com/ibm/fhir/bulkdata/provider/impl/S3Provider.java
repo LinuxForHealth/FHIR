@@ -459,18 +459,8 @@ public class S3Provider implements Provider {
         parquetWriter.writeParquet(resources, itemName);
 
         // Partition status for the exported resources, e.g, Patient[1000,1000,200]
-        if (chunkData.getResourceTypeSummary() == null) {
-            chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
-            if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
-            }
-        } else {
-            chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
-            if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
-                chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
+        BulkDataUtils.updateSummary(fhirResourceType, chunkData);
 
-            }
-        }
         if (chunkData.getPageNum() < chunkData.getLastPageNum()) {
             chunkData.setPartNum(1);
             chunkData.setUploadId(null);
