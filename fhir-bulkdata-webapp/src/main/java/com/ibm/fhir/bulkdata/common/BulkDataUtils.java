@@ -40,6 +40,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartRequest;
 import com.ibm.cloud.objectstorage.services.s3.model.UploadPartResult;
+import com.ibm.fhir.bulkdata.jbatch.export.data.ExportTransientUserData;
 import com.ibm.fhir.bulkdata.jbatch.load.data.ImportTransientUserData;
 import com.ibm.fhir.core.util.URLSupport;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -390,6 +391,25 @@ public class BulkDataUtils {
                         new String(Base64.getDecoder().decode(dataSourcesInfo), StandardCharsets.UTF_8)))) {
             JsonArray dataSourceArray = reader.readArray();
             return dataSourceArray;
+        }
+    }
+
+    /**
+     * Update the chunkData with the stats from the newly finished upload.
+     * The data is added to the summary from the chunkData's currentUploadResourceNum.
+     *
+     * @param fhirResourceType
+     * @param chunkData
+     */
+    public static void updateSummary(String fhirResourceType, ExportTransientUserData chunkData) {
+        if (chunkData.getResourceTypeSummary() == null) {
+            chunkData.setResourceTypeSummary(fhirResourceType + "[" + chunkData.getCurrentUploadResourceNum());
+        } else {
+            chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "," + chunkData.getCurrentUploadResourceNum());
+        }
+
+        if (chunkData.getPageNum() >= chunkData.getLastPageNum()) {
+            chunkData.setResourceTypeSummary(chunkData.getResourceTypeSummary() + "]");
         }
     }
 }
