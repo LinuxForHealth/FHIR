@@ -8,9 +8,11 @@ package com.ibm.fhir.persistence.jdbc.cache;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
@@ -60,6 +62,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
      * Called after a transaction commit() to transfer all the staged (thread-local) data
      * over to the shared LRU cache.
      */
+    @Override
     public void updateSharedMaps() {
 
         LinkedHashMap<String,Integer> sysMap = codeSystems.get();
@@ -123,7 +126,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
     @Override
     public void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues,
-        List<ResourceTokenValueRec> misses) {
+            List<ResourceTokenValueRec> misses) {
         // Make one pass over the collection and resolve as much as we can in one go. Anything
         // we can't resolve gets put into the corresponding missing lists. Worst case is two passes, when
         // there's nothing in the local cache and we have to then look up everything in the shared cache
@@ -386,6 +389,65 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
             // if the code-system isn't found, it is unlikely the token value would
             // be available anyway (so a database read is inevitable).
             result = null;
+        }
+
+        return result;
+    }
+
+    public List<Long> resolveCommonTokenValueIdsPreservingOrder(List<CommonTokenValue> tokenValues, List<Integer> misses) {
+        List<Long> result = new ArrayList<>();
+
+        LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
+
+        for (int i = 0; i < tokenValues.size(); i++) {
+            CommonTokenValue token = tokenValues.get(i);
+
+            Long tokenValueId = valMap != null ? valMap.get(token) : null;
+            if (tokenValueId == null) {
+                // not found in the local cache, try the shared cache
+                synchronized (tokenValuesCache) {
+                    tokenValueId = tokenValuesCache.get(token);
+                }
+
+                if (tokenValueId != null) {
+                    // add to the local cache so we can find it again without locking
+                    addTokenValue(token, tokenValueId);
+                } else {
+                    misses.add(i);
+                }
+            }
+
+            result.add(tokenValueId);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Set<Long> resolveCommonTokenValueIds(Collection<CommonTokenValue> tokenValues, Set<CommonTokenValue> misses) {
+        Set<Long> result = new HashSet<>();
+
+        LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
+
+        for (CommonTokenValue token : tokenValues) {
+            Long tokenValueId = valMap != null ? valMap.get(token) : null;
+            if (tokenValueId == null) {
+                // not found in the local cache, try the shared cache
+                synchronized (tokenValuesCache) {
+                    tokenValueId = tokenValuesCache.get(token);
+                }
+
+                if (tokenValueId != null) {
+                    // add to the local cache so we can find it again without locking
+                    addTokenValue(token, tokenValueId);
+                }
+            }
+
+            if (tokenValueId != null) {
+                result.add(tokenValueId);
+            } else {
+                misses.add(token);
+            }
         }
 
         return result;

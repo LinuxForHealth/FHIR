@@ -13,7 +13,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,7 +143,112 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             ps.setString(2, codeSystem);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = new CommonTokenValueResult(rs.getInt(1), rs.getLong(2));
+                result = new CommonTokenValueResult(rs.getInt(1), null, rs.getLong(2));
+            } else {
+                result = null;
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    public List<CommonTokenValueResult> readCommonTokenValueIdPreservingOrder(List<CommonTokenValue> tokenValues) {
+        List<CommonTokenValueResult> result = new ArrayList<>();
+
+        String SQL = ""
+                + "SELECT c.code_system_id, c.token_value, c.common_token_value_id "
+                + "  FROM common_token_values c"
+                + " RIGHT JOIN (VALUES ";
+
+        String delim = "";
+        for (int i = 1; i <= tokenValues.size(); i++) {
+            SQL += delim + "(" + i + ",?,?)";
+            delim = ", ";
+        }
+
+        SQL = SQL + ") AS tmp (ordinal,system,code) ON tmp.system = c.code_system_id AND tmp.code = c.token_value"
+                + " ORDER BY tmp.ordinal";
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            for (int i = 0; i <= tokenValues.size(); i++) {
+                CommonTokenValue tokenValue = tokenValues.get(i);
+
+                ps.setString(i*2 - 1, tokenValue.getTokenValue());
+                ps.setInt(i*2, tokenValue.getCodeSystemId());
+            }
+
+            ResultSet rs = ps.executeQuery();
+            for (int i = 0; i <= tokenValues.size(); i++) {
+                result.add(new CommonTokenValueResult(rs.getInt(1), rs.getString(2), rs.getLong(3)));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+        Set<CommonTokenValueResult> result = new HashSet<>();
+
+        String SQL = ""
+                + "SELECT c.code_system_id, c.token_value, c.common_token_value_id "
+                + "  FROM common_token_values c"
+                + "  JOIN (VALUES "
+                + Collections.nCopies(tokenValues.size(), "(?,?)").stream().collect(Collectors.joining(", "))
+                + ") AS tmp (system,code) ON tmp.system = c.code_system_id AND tmp.code = c.token_value";
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            Iterator<CommonTokenValue> iterator = tokenValues.iterator();
+            for (int i = 0; i <= tokenValues.size(); i++) {
+                CommonTokenValue tokenValue = iterator.next();
+
+                ps.setString(i*2 - 1, tokenValue.getTokenValue());
+                ps.setInt(i*2, tokenValue.getCodeSystemId());
+            }
+
+            ResultSet rs = ps.executeQuery();
+            for (int i = 0; i <= tokenValues.size(); i++) {
+                result.add(new CommonTokenValueResult(rs.getInt(1), rs.getString(2), rs.getLong(3)));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    public List<CommonTokenValueResult> readCommonTokenValueIds3(List<CommonTokenValue> tokenValues) {
+        List<CommonTokenValueResult> result = new ArrayList<>();
+
+        String SQL = ""
+                + "SELECT c.code_system_id, c.common_token_value_id "
+                + "  FROM common_token_values c"
+                + " WHERE ";
+
+        String delim = "";
+        for (CommonTokenValue tokenValue : tokenValues) {
+            SQL = SQL + delim + "(c.token_value = ? AND c.code_system_id = ?)";
+            delim = " OR ";
+        }
+
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            for (int i = 0; i <= tokenValues.size(); i++) {
+                CommonTokenValue tokenValue = tokenValues.get(i);
+
+                ps.setString(i*2 - 1, tokenValue.getTokenValue());
+                ps.setInt(i*2, tokenValue.getCodeSystemId());
+            }
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                result.add(new CommonTokenValueResult(rs.getInt(1), null, rs.getLong(2)));
             } else {
                 result = null;
             }

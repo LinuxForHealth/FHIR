@@ -6,9 +6,12 @@
 
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
 /**
  * Provides access to all the identity information we need when processing
@@ -64,8 +67,19 @@ public interface JDBCIdentityCache {
      * a cache, or the database if not found in the cache.
      * @param codeSystem
      * @param tokenValue
+     * @return The common token value id or null if it doesn't exist
      */
     Long getCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Get the common_token_value_ids for the given tokenValues. Reads from
+     * a cache, or the database if not found in the cache.
+     * CommonTokenValues with no corresponding record in the database will
+     * be omitted from the result set.
+     * @param tokenValues
+     * @return A non-null, possibly-empty set of common token value ids
+     */
+    Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues);
 
     /**
      * Get a list of matching common_token_value_id values. Implementations may decide
