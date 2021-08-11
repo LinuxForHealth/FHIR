@@ -778,6 +778,7 @@ public class AuthzPolicyEnforcementTest {
         final Set<ResourceType.Value> provenance = Collections.singleton(PROVENANCE);
 
         return new Object[][] {
+            //String scopeString, Set<ResourceType.Value> resourceTypesPermittedByScope, Permission permission
             {"patient/*.*", all_resources, Permission.ALL},
             {"patient/*.read", all_resources, Permission.READ},
             {"patient/*.write", all_resources, Permission.WRITE},
@@ -797,6 +798,10 @@ public class AuthzPolicyEnforcementTest {
             {"patient/Patient.write openid profile", patient, Permission.WRITE},
 
             {"patient/Patient.read patient/Observation.read", union(patient, observation), Permission.READ},
+
+            {"user/*.*", all_resources, Permission.ALL},
+            {"user/Patient.read", patient, Permission.READ},
+            {"user/Observation.write", observation, Permission.WRITE},
 
             {"openid profile", Collections.EMPTY_SET, null},
         };

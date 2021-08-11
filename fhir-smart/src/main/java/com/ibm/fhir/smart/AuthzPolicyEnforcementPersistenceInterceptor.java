@@ -436,6 +436,16 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
                 // Then group the scopes by their context type
                 .collect(Collectors.groupingBy(s -> s.getContextType()));
 
+        if (approvedScopeMap.containsKey(ContextType.USER)) {
+            // For `user` scopes, we grant access to all resources of the requested type.
+            // Implementers that use these scopes are encouraged to layer on their own permissions model beyond this.
+            if (log.isLoggable(Level.FINE)) {
+                log.fine(requiredPermission.value() + " permission for '" + resourceType + "/" + resource.getId() +
+                    "' is granted via scope " + approvedScopeMap.get(ContextType.USER));
+            }
+            return true;
+        }
+
         if (approvedScopeMap.containsKey(ContextType.PATIENT)) {
             if (resource instanceof Provenance) {
                 // Addressed for issue #1881, Provenance is a special-case:  a Patient-compartment resource type that
@@ -474,10 +484,6 @@ public class AuthzPolicyEnforcementPersistenceInterceptor implements FHIRPersist
 
             // Else, see if the target resource belongs to the Patient compartment of the in-context patient
             return isInCompartment(resource, CompartmentType.PATIENT, contextIds);
-        }
-
-        if (approvedScopeMap.containsKey(ContextType.USER)) {
-            throw new UnsupportedOperationException("SMART scopes with context type 'user' are not yet supported.");
         }
 
         return false;
