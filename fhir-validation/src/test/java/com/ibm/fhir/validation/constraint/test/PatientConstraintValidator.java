@@ -26,7 +26,7 @@ public class PatientConstraintValidator implements ConstraintValidator<Patient> 
 
     @Override
     public boolean isValid(Patient patient, Constraint constraint) {
-        log.info("PatientConstraintValidator.isValid(Patient, Constraint) method");
+        log.fine("PatientConstraintValidator.isValid(Patient, Constraint) method");
         for (HumanName name : patient.getName()) {
             if (name.getFamily() == null) {
                 return false;

@@ -439,7 +439,7 @@ public class ParameterVisitorBatchDAO implements ExtractedParameterValueVisitor,
             // Add the new token value to the collection we're building...what's the resourceTypeId?
             final int resourceTypeId = identityCache.getResourceTypeId(param.getResourceType());
             if (tokenValue == null) {
-                logger.info("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
+                logger.fine("tokenValue is NULL for: " + parameterName + "[" + parameterNameId + "], " + codeSystem);
             }
 
             // Issue 1683, for composites we now also record the current composite id (can be null)
