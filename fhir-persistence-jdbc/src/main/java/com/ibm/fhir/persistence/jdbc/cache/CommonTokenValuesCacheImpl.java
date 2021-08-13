@@ -394,35 +394,6 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         return result;
     }
 
-    public List<Long> resolveCommonTokenValueIdsPreservingOrder(List<CommonTokenValue> tokenValues, List<Integer> misses) {
-        List<Long> result = new ArrayList<>();
-
-        LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
-
-        for (int i = 0; i < tokenValues.size(); i++) {
-            CommonTokenValue token = tokenValues.get(i);
-
-            Long tokenValueId = valMap != null ? valMap.get(token) : null;
-            if (tokenValueId == null) {
-                // not found in the local cache, try the shared cache
-                synchronized (tokenValuesCache) {
-                    tokenValueId = tokenValuesCache.get(token);
-                }
-
-                if (tokenValueId != null) {
-                    // add to the local cache so we can find it again without locking
-                    addTokenValue(token, tokenValueId);
-                } else {
-                    misses.add(i);
-                }
-            }
-
-            result.add(tokenValueId);
-        }
-
-        return result;
-    }
-
     @Override
     public Set<Long> resolveCommonTokenValueIds(Collection<CommonTokenValue> tokenValues, Set<CommonTokenValue> misses) {
         Set<Long> result = new HashSet<>();

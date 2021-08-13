@@ -13,7 +13,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,6 +28,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.persistence.jdbc.postgres.PostgresResourceReferenceDAO;
 
 
@@ -47,6 +50,37 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
      */
     public DerbyResourceReferenceDAO(IDatabaseTranslator t, Connection c, String schemaName, ICommonTokenValuesCache cache) {
         super(t, c, schemaName, cache);
+    }
+
+    @Override
+    public Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+        if (tokenValues.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Set<CommonTokenValueResult> result = new HashSet<>();
+
+        // Derby doesn't support VALUES where an entire column is just bind variables, so we need to use a temporary table instead
+        insertToCommonTokenValuesTmp(tokenValues);
+
+        String SQL = ""
+                + "SELECT c.token_value, c.code_system_id, c.common_token_value_id "
+                + "  FROM common_token_values c"
+                + "  JOIN SESSION.common_token_values_tmp tmp"
+                + "    ON tmp.token_value = c.token_value "
+                + "   AND tmp.code_system_id = c.code_system_id";
+
+        try (PreparedStatement ps = getConnection().prepareStatement(SQL)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(new CommonTokenValueResult(rs.getString(1), rs.getInt(2), rs.getLong(3)));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw getTranslator().translate(x);
+        }
+
+        return result;
     }
 
     @Override
@@ -157,6 +191,29 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
     @Override
     protected void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues) {
 
+        insertToCommonTokenValuesTmp(tokenValues);
+
+        // Upsert the values from the declared global temp table into common_token_values
+        // ORDER BY helps to minimize the chance of deadlocks
+        StringBuilder upsert = new StringBuilder();
+        upsert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
+        upsert.append("     SELECT src.token_value, src.code_system_id ");
+        upsert.append("       FROM SESSION.common_token_values_tmp src ");
+        upsert.append(" LEFT OUTER JOIN common_token_values ctv ");
+        upsert.append("              ON ctv.token_value = src.token_value ");
+        upsert.append("             AND ctv.code_system_id = src.code_system_id ");
+        upsert.append("      WHERE ctv.token_value IS NULL ");
+        upsert.append("   ORDER BY src.token_value, src.code_system_id");
+
+        try (Statement s = getConnection().createStatement()) {
+            s.executeUpdate(upsert.toString());
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, upsert.toString(), x);
+            throw getTranslator().translate(x);
+        }
+    }
+
+    private void insertToCommonTokenValuesTmp(Collection<CommonTokenValue> tokenValues) {
         final String insert = "INSERT INTO SESSION.common_token_values_tmp(token_value, code_system_id) VALUES (?, ?)";
         int batchCount = 0;
         try (PreparedStatement ps = getConnection().prepareStatement(insert)) {
@@ -176,25 +233,6 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, insert.toString(), x);
-            throw getTranslator().translate(x);
-        }
-
-        // Upsert the values from the declared global temp table into common_token_values
-        // ORDER BY helps to minimize the chance of deadlocks
-        StringBuilder upsert = new StringBuilder();
-        upsert.append("INSERT INTO common_token_values (token_value, code_system_id) ");
-        upsert.append("     SELECT src.token_value, src.code_system_id ");
-        upsert.append("       FROM SESSION.common_token_values_tmp src ");
-        upsert.append(" LEFT OUTER JOIN common_token_values ctv ");
-        upsert.append("              ON ctv.token_value = src.token_value ");
-        upsert.append("             AND ctv.code_system_id = src.code_system_id ");
-        upsert.append("      WHERE ctv.token_value IS NULL ");
-        upsert.append("   ORDER BY src.token_value, src.code_system_id");
-
-        try (Statement s = getConnection().createStatement()) {
-            s.executeUpdate(upsert.toString());
-        } catch (SQLException x) {
-            logger.log(Level.SEVERE, upsert.toString(), x);
             throw getTranslator().translate(x);
         }
     }

@@ -537,8 +537,45 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             // precedence drama, we simply wrap everything in parens just to be safe
             where.leftParen();
 
-            if (Modifier.IN.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier()) ||
-                    Modifier.ABOVE.equals(queryParm.getModifier()) || Modifier.BELOW.equals(queryParm.getModifier())) {
+            if (Modifier.IN.equals(queryParm.getModifier()) ||
+                    Modifier.NOT_IN.equals(queryParm.getModifier()) ||
+                    Modifier.ABOVE.equals(queryParm.getModifier()) ||
+                    Modifier.BELOW.equals(queryParm.getModifier())) {
+                // IN and NOT_IN can follow the same code path here because of our assumption that
+                // if there's any matching parameter values then we'll also find a matching common_token_value_id
+                //
+                // Assume we have a valueset vs with codes like s1|c1 and s2|c2 and we have Basic resources `a` and `b`.
+                // Now the query comes like Basic?p:not-in=vs
+                //
+                // Scenario 1: `a` has the value `s1|c1` for the coding targeted by parameter p.
+                //
+                //    WHERE NOT EXISTS(
+                //    SELECT 1
+                //    FROM Basic_RESOURCE_TOKEN_REFS AS P2
+                //    WHERE P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
+                //      AND P2.PARAMETER_NAME_ID = 20046
+                //      AND ((P2.COMMON_TOKEN_VALUE_ID IN (1)))))) AS LR
+                //
+                // the select subquery selects 1 for `a`
+                // the select subquery selects empty for `b`
+                // so as a result it selects `b` and not `a`
+                //
+                //
+                // Scenario 2: none of the resources have any of the values from the valueset
+                //
+                //    WHERE NOT EXISTS(
+                //    SELECT 1
+                //    FROM Basic_RESOURCE_TOKEN_REFS AS P2
+                //    WHERE P2.LOGICAL_RESOURCE_ID = LR1.LOGICAL_RESOURCE_ID
+                //      AND P2.PARAMETER_NAME_ID = 20046
+                //      AND ((P2.COMMON_TOKEN_VALUE_ID IN (-1)))))) AS LR
+                //
+                // The select subquery will always return empty (we never have a -1 in the db)
+                // so as a result it selects `a` and `b` (and any other resources)
+                //
+                // This is what we want because it matches the semantics of `:not`; it select
+                // resources with other values AND resources with no value for this parameter at all
+                //
                 populateCodesSubSegment(where, queryParm.getModifier(), value, paramAlias);
             } else {
                 String system = value.getValueSystem();
@@ -686,7 +723,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         // was done when the search parameter was parsed, so does not need to be done here.
         Map<String, Set<String>> codeSetMap = null;
         if (Modifier.IN.equals(modifier) || Modifier.NOT_IN.equals(modifier)) {
-            // XXX: what does this do for :not-in !?
             codeSetMap = ValueSetSupport.getCodeSetMap(ValueSetSupport.getValueSet(parameterValue.getValueCode()));
         } else if (Modifier.ABOVE.equals(modifier) || Modifier.BELOW.equals(modifier)) {
             CodeSystem codeSystem = CodeSystemSupport.getCodeSystem(parameterValue.getValueSystem());
@@ -730,30 +766,9 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         if (commonTokenValueIds.isEmpty()) {
             commonTokenValueIds = Collections.singleton(-1L);
         }
-        // <parameterTableAlias>.COMMON_TOKEN_VALUE_ID IN (...)
+
         Long[] itemsArray = new Long[commonTokenValueIds.size()];
         whereClauseSegment.col(parameterTableAlias, COMMON_TOKEN_VALUE_ID).in(commonTokenValueIds.toArray(itemsArray));
-
-        // XXX do we need this for :not-in ?
-//        for (String codeSetUrl : codeSetMap.keySet()) {
-//            Set<String> codes = codeSetMap.get(codeSetUrl);
-//            if (codes != null) {
-//                // Strip version from canonical codeSet URL. We don't store version in TOKEN_VALUES
-//                // table so will just ignore it.
-//                int index = codeSetUrl.lastIndexOf("|");
-//                if (index != -1) {
-//                    codeSetUrl = codeSetUrl.substring(0, index);
-//                }
-//
-//                // TODO: switch to use COMMON_TOKEN_VALUES support -dependent on issue #2184
-//
-//                // <parameterTableAlias>.TOKEN_VALUE IN (...)
-//                whereClauseSegment.col(parameterTableAlias, TOKEN_VALUE).in(new ArrayList<>(codes));
-//
-//                // AND <parameterTableAlias>.CODE_SYSTEM_ID = {n}
-//                whereClauseSegment.and().col(parameterTableAlias, CODE_SYSTEM_ID).eq(nullCheck(identityCache.getCodeSystemId(codeSetUrl)));
-//            }
-//        }
     }
 
     /**
@@ -1231,7 +1246,6 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     protected WhereFragment getReferenceFilter(QueryParameter queryParm, String paramAlias) throws FHIRPersistenceException {
         WhereFragment whereClause = new WhereFragment();
         whereClause.leftParen();
-        Operator operator = getOperator(queryParm, EQ);
 
         if (Modifier.IDENTIFIER.equals(queryParm.getModifier())) {
             handleIdentifier(queryParm, paramAlias, whereClause);
@@ -1244,80 +1258,56 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
             resourceTypesAndIds.add(getResourceTypeAndId(queryParm, value));
         }
 
-        if (operator == Operator.NE) {
-            boolean parmValueProcessed = false;
-            for (Pair<String, String> resourceAndId : resourceTypesAndIds) {
-                // If multiple values are present, we need to OR them together.
-                if (parmValueProcessed) {
-                    whereClause.or();
-                } else {
-                    parmValueProcessed = true;
-                }
+        List<CommonTokenValue> resourceReferenceTokenValues = new ArrayList<>(queryParm.getValues().size());
+        List<String> ambiguousResourceReferenceTokenValues = new ArrayList<>();
+        for (Pair<String, String> resourceTypeAndId : resourceTypesAndIds) {
+            String targetResourceType = resourceTypeAndId.getLeft();
+            String targetResourceId = resourceTypeAndId.getRight();
 
-                String targetResourceType = resourceAndId.getLeft();
-                String targetResourceId = resourceAndId.getRight();
-
-                // inequality, so can't use discrete common_token_value_ids
-                whereClause.col(paramAlias, TOKEN_VALUE).operator(operator).bind(targetResourceId);
-
-                // add the [optional] condition for the resource type if we have one
-                if (targetResourceType != null) {
-                    // For better performance, use a literal for the resource type code-system-id, not a parameter marker
-                    Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                    whereClause.and(paramAlias, CODE_SYSTEM_ID).eq(nullCheck(codeSystemIdForResourceType));
-                }
+            if (targetResourceType != null) {
+                Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
+                // targetResourceType is treated as the code-system for references
+                resourceReferenceTokenValues.add(new CommonTokenValue(nullCheck(codeSystemIdForResourceType), targetResourceId));
+            } else {
+                ambiguousResourceReferenceTokenValues.add(targetResourceId);
             }
-        } else {
-            List<CommonTokenValue> resourceReferenceTokenValues = new ArrayList<>(queryParm.getValues().size());
-            List<String> ambiguousResourceReferenceTokenValues = new ArrayList<>();
-            for (Pair<String, String> resourceAndId : resourceTypesAndIds) {
-                String targetResourceType = resourceAndId.getLeft();
-                String targetResourceId = resourceAndId.getRight();
+        }
 
-                if (targetResourceType != null) {
-                    Integer codeSystemIdForResourceType = getCodeSystemId(targetResourceType);
-                    // targetResourceType is treated as the code-system for references
-                    resourceReferenceTokenValues.add(new CommonTokenValue(nullCheck(codeSystemIdForResourceType), targetResourceId));
-                } else {
-                    ambiguousResourceReferenceTokenValues.add(targetResourceId);
-                }
+        // For unambiguous resource references, look up the common token value ids
+        Set<Long> resourceReferenceTokenIds = getCommonTokenValueIds(resourceReferenceTokenValues);
+
+        // Not sure if this is needed or not, but it seems safer to include the dummy clause so as to not break the callers
+        if (resourceReferenceTokenIds.isEmpty()) {
+            resourceReferenceTokenIds = Collections.singleton(-1L);
+        }
+
+        // Local variable to keep track of when we need the OR delimeter
+        boolean parmValueProcessed = false;
+
+        // For each token value id
+        Iterator<Long> iterator = resourceReferenceTokenIds.iterator();
+        while (iterator.hasNext()) {
+            Long resourceReferenceTokenId = iterator.next();
+            // If multiple values are present, we need to OR them together.
+            if (parmValueProcessed) {
+                whereClause.or();
+            } else {
+                parmValueProcessed = true;
             }
 
-            // For unambiguous resource references, look up the common token value ids
-            Set<Long> resourceReferenceTokenIds = getCommonTokenValueIds(resourceReferenceTokenValues);
+            whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(resourceReferenceTokenId); // use literal
+        }
 
-            if (resourceReferenceTokenIds.isEmpty()) {
-                resourceReferenceTokenIds = Collections.singleton(-1L);
+        for (String targetResourceId : ambiguousResourceReferenceTokenValues) {
+            // If multiple values are present, we need to OR them together.
+            if (parmValueProcessed) {
+                whereClause.or();
+            } else {
+                parmValueProcessed = true;
             }
 
-            // Local variable to keep track of when we need the OR delimeter
-            boolean parmValueProcessed = false;
-
-            // For each token value id
-            Iterator<Long> iterator = resourceReferenceTokenIds.iterator();
-            while (iterator.hasNext()) {
-                Long resourceReferenceTokenId = iterator.next();
-                // If multiple values are present, we need to OR them together.
-                if (parmValueProcessed) {
-                    whereClause.or();
-                } else {
-                    parmValueProcessed = true;
-                }
-
-                whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(resourceReferenceTokenId); // use literal
-            }
-
-            for (String targetResourceId : ambiguousResourceReferenceTokenValues) {
-                // If multiple values are present, we need to OR them together.
-                if (parmValueProcessed) {
-                    whereClause.or();
-                } else {
-                    parmValueProcessed = true;
-                }
-
-                // grab the list of all matching common_token_value_id values
-                addCommonTokenValueIdFilter(whereClause, paramAlias, targetResourceId);
-            }
+            // grab the list of all matching common_token_value_id values
+            addCommonTokenValueIdFilter(whereClause, paramAlias, targetResourceId);
         }
 
         whereClause.rightParen();

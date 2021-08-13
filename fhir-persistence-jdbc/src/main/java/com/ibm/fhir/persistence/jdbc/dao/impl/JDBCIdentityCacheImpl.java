@@ -164,43 +164,6 @@ public class JDBCIdentityCacheImpl implements JDBCIdentityCache {
         return result;
     }
 
-//    public List<Long> getCommonTokenValueIdsPreservingOrder(List<CommonTokenValue> tokenValues) {
-//        List<Integer> misses = new ArrayList<>();
-//        List<Long> result = cache.getResourceReferenceCache().resolveCommonTokenValueIds(tokenValues, misses);
-//
-//        if (misses.isEmpty()) {
-//            return result;
-//        }
-//
-//        Map<CommonTokenValue,Integer> valueAndIndex = new LinkedHashMap<>();
-//        for (Integer missIndex : misses) {
-//            CommonTokenValue commonTokenValue = tokenValues.get(missIndex);
-//
-//            if (logger.isLoggable(Level.FINE)) {
-//                logger.fine("Cache miss. Fetching common_token_value_id from database: " + commonTokenValue);
-//            }
-//            valueAndIndex.put(commonTokenValue, missIndex);
-//        }
-//        Set<CommonTokenValueResult> readCommonTokenValueIds = resourceReferenceDAO.readCommonTokenValueIds(valueAndIndex.keySet());
-
-//        if (result == null) {
-//
-//            CommonTokenValueResult dto = resourceReferenceDAO.readCommonTokenValueId(codeSystem, tokenValue);
-//            if (dto != null) {
-//                // Value exists in the database, so we can add this to our cache. Note that we still
-//                // choose to add it the thread-local cache - this avoids any locking. The values will
-//                // be promoted to the shared cache at the end of the transaction. This avoids unnecessary
-//                // contention.
-//                result = dto.getCommonTokenValueId();
-//                if (logger.isLoggable(Level.FINE)) {
-//                    logger.fine("Adding common_token_value_id to cache: '" + codeSystem + "|" + tokenValue + "' = " + result);
-//                }
-//                cache.getResourceReferenceCache().addCodeSystem(codeSystem, dto.getCodeSystemId());
-//                cache.getResourceReferenceCache().addTokenValue(new CommonTokenValue(dto.getCodeSystemId(), tokenValue), result);
-//            }
-//        return result;
-//    }
-
     @Override
     public Set<Long> getCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
         Set<CommonTokenValue> misses = new HashSet<>();
