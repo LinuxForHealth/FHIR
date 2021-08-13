@@ -81,7 +81,10 @@ public class ParameterExtractionTest {
     private static final String SAMPLE_UNIT = "s";
     private static final String SAMPLE_REF_RESOURCE_TYPE = "Patient";
     private static final String SAMPLE_REF_ID = "abc";
+    private static final String SAMPLE_REF_VERSION = "1";
     private static final String SAMPLE_REF = SAMPLE_REF_RESOURCE_TYPE + "/" + SAMPLE_REF_ID;
+    private static final String SAMPLE_VERSIONED_REF = SAMPLE_REF_RESOURCE_TYPE + "/" + SAMPLE_REF_ID + "/_history/" + SAMPLE_REF_VERSION;
+    private static final String SAMPLE_VERSIONED_CANONICAL_REF = SAMPLE_URI + "|" + SAMPLE_REF_VERSION;
     private static final String SAMPLE_DATE_START = "2016-01-01T00:00:00.000000Z";
     private static final String SAMPLE_DATE_END = "2016-01-02T00:00:00.000000Z";
     private static final String UNITSOFMEASURE = "http://unitsofmeasure.org";
@@ -141,10 +144,38 @@ public class ParameterExtractionTest {
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
-        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(params.size(), 2, "Number of extracted parameters");
+        assertEquals(((StringParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_URI);
+        assertEquals(((CompositeParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.CANONICAL_SUFFIX);
+        List<ExtractedParameterValue> components = ((CompositeParmVal) params.get(1)).getComponent();
+        assertEquals(components.size(), 2, "Number of components");
+        assertEquals(((StringParmVal) components.get(0)).getName(),
+            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+        assertEquals(((StringParmVal) components.get(0)).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) components.get(1)).getName(),
+            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+        assertEquals(((StringParmVal) components.get(1)).getValueString(), null);
 
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
+        canonical = Canonical.of(SAMPLE_VERSIONED_CANONICAL_REF);
+        canonical.accept(parameterBuilder);
+        params = parameterBuilder.getResult();
+        assertEquals(params.size(), 2, "Number of extracted parameters");
+        assertEquals(((StringParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((StringParmVal) params.get(0)).getValueString(), SAMPLE_VERSIONED_CANONICAL_REF);
+        assertEquals(((CompositeParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.CANONICAL_SUFFIX);
+        components = ((CompositeParmVal) params.get(1)).getComponent();
+        assertEquals(components.size(), 2, "Number of components");
+        assertEquals(((StringParmVal) components.get(0)).getName(),
+            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+        assertEquals(((StringParmVal) components.get(0)).getValueString(), SAMPLE_URI);
+        assertEquals(((StringParmVal) components.get(1)).getName(),
+            SearchUtil.makeCompositeSubCode(((CompositeParmVal) params.get(1)).getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+        assertEquals(((StringParmVal) components.get(1)).getValueString(), SAMPLE_REF_VERSION);
+        
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
+        canonical = Canonical.of(SAMPLE_URI);
         canonical.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
@@ -297,8 +328,21 @@ public class ParameterExtractionTest {
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
         assertEquals(params.size(), 1, "Number of extracted parameters");
-        assertEquals(((TokenParmVal) params.get(0)).getValueCode(), SAMPLE_URI);
+        assertEquals(((ReferenceParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_URI);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), null);
 
+        uri = Uri.of(SAMPLE_VERSIONED_REF);
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
+        uri.accept(parameterBuilder);
+        params = parameterBuilder.getResult();
+        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(((ReferenceParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_REF_ID);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getVersion(), new java.lang.Integer(SAMPLE_REF_VERSION));
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), SAMPLE_REF_RESOURCE_TYPE);
+
+        uri = Uri.of(SAMPLE_URI);
         parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, uriSearchParam);
         uri.accept(parameterBuilder);
         params = parameterBuilder.getResult();
@@ -729,10 +773,23 @@ public class ParameterExtractionTest {
         assertEquals(params.size(), 2, "Number of extracted parameters");
         assertEquals(((ReferenceParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
         assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_REF_ID);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getVersion(), null);
         assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), SAMPLE_REF_RESOURCE_TYPE);
         assertEquals(((TokenParmVal) params.get(1)).getName(), SEARCH_PARAM_CODE_VALUE + SearchConstants.IDENTIFIER_MODIFIER_SUFFIX);
         assertEquals(((TokenParmVal) params.get(1)).getValueSystem(), SAMPLE_URI);
         assertEquals(((TokenParmVal) params.get(1)).getValueCode(), SAMPLE_STRING);
+
+        parameterBuilder = new JDBCParameterBuildingVisitor(SAMPLE_REF_RESOURCE_TYPE, referenceSearchParam);
+        Reference.builder()
+                .reference(string(SAMPLE_VERSIONED_REF))
+                .build()
+                .accept(parameterBuilder);
+        params = parameterBuilder.getResult();
+        assertEquals(params.size(), 1, "Number of extracted parameters");
+        assertEquals(((ReferenceParmVal) params.get(0)).getName(), SEARCH_PARAM_CODE_VALUE);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getValue(), SAMPLE_REF_ID);
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getVersion(), new java.lang.Integer(SAMPLE_REF_VERSION));
+        assertEquals(((ReferenceParmVal) params.get(0)).getRefValue().getTargetResourceType(), SAMPLE_REF_RESOURCE_TYPE);
     }
 
     @Test

@@ -290,7 +290,23 @@
             "xpathUsage": "normal"
         }
     },
-
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-canonical",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+            "name": "canonical",
+            "status": "active",
+            "description": "test param",
+            "code": "canonical",
+            "base": ["Basic"],
+            "type": "uri",
+            "expression": "Basic.extension.where(url='http://example.org/canonical').value as canonical",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/canonical']/f:valueCanonical",
+            "xpathUsage": "normal"
+        }
+    },
     {
         "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-uri",
         "resource": {
@@ -305,6 +321,23 @@
             "type": "uri",
             "expression": "Basic.extension.where(url='http://example.org/missing-uri').value",
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-uri']/f:valueIdentifier",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-missing-canonical",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-canonical",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-canonical",
+            "name": "missing-canonical",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-canonical",
+            "base": ["Basic"],
+            "type": "uri",
+            "expression": "Basic.extension.where(url='http://example.org/missing-canonical').value as canonical",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-canonical']/f:valueIdentifier",
             "xpathUsage": "normal"
         }
     }]

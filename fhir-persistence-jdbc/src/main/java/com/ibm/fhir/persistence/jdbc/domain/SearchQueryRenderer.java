@@ -37,6 +37,7 @@ import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
 import static com.ibm.fhir.search.SearchConstants.TAG;
+import static com.ibm.fhir.search.SearchConstants.URL;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -69,8 +70,8 @@ import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.dao.api.JDBCIdentityCache;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.util.CanonicalSupport;
+import com.ibm.fhir.persistence.jdbc.util.CanonicalValue;
 import com.ibm.fhir.persistence.jdbc.util.NewUriModifierUtil;
-import com.ibm.fhir.persistence.jdbc.util.QuerySegmentAggregator;
 import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 import com.ibm.fhir.persistence.jdbc.util.type.NewDateParmBehaviorUtil;
 import com.ibm.fhir.persistence.jdbc.util.type.NewLastUpdatedParmBehaviorUtil;
@@ -223,7 +224,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     public QueryData countRoot(String rootResourceType) {
         final int aliasIndex = 0;
         final String xxLogicalResources = resourceLogicalResources(rootResourceType);
-        final String lrAliasName = "LR" + aliasIndex;
+        final String lrAliasName = getLRAlias(aliasIndex);
 
         // The basic count query from the xx_LOGICAL_RESOURCES table. Query
         // parameters are bolted on as exists statements in the WHERE clause.
@@ -288,7 +289,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     public QueryData getParameterBaseQuery(QueryData parent) {
         final int aliasIndex = getNextAliasIndex();
         final String xxLogicalResources = resourceLogicalResources(parent.getResourceType());
-        final String lrAlias = "LR" + aliasIndex;
+        final String lrAlias = getLRAlias(aliasIndex);
         final String parentLRAlias = parent.getLRAlias();
 
         // SELECT 1 FROM xx_LOGICAL_RESOURCES LRn
@@ -1453,7 +1454,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String joinResourceType = inclusionParm.getJoinResourceType();
         final String targetResourceType = inclusionParm.getSearchParameterTargetType();
         final int aliasIndex = getNextAliasIndex();
-        final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
         final String xxLogicalResources = targetResourceType + "_LOGICAL_RESOURCES";
         final String xxResources = targetResourceType + "_RESOURCES";
         final String paramAlias = getParamAlias(aliasIndex);
@@ -1461,19 +1461,57 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String rAlias = "R0";
 
         SelectAdapter select = queryData.getQuery();
-        select.from(tokenValues, alias(paramAlias))
-        .innerJoin(xxLogicalResources, alias(lrAlias),
-            on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
-            .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
-            .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
-            .and(paramAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds)
-            )
-        .innerJoin(xxResources, alias(rAlias),
-            on(lrAlias, "LOGICAL_RESOURCE_ID").eq(rAlias, "LOGICAL_RESOURCE_ID")
-            .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(rAlias, "VERSION_ID")
-            .and(rAlias, IS_DELETED).eq().literal("N")
-            )
-            ;
+        if (inclusionParm.isCanonical()) {
+            final String joinStrValues = joinResourceType + "_STR_VALUES";
+            final String targetStrValues = targetResourceType + "_STR_VALUES";
+            final String nextParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_URI);
+            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            select.from(joinStrValues, alias(paramAlias))
+                .innerJoin(targetStrValues, alias(nextParamAlias),
+                    on(nextParamAlias, "STR_VALUE").eq(paramAlias, "STR_VALUE")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceUriCode))
+                    .and(nextParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetUriCode))
+                    .and(paramAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds))
+                .innerJoin(joinStrValues, alias(nextPlus1ParamAlias),
+                    on(nextPlus1ParamAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus1ParamAlias, "COMPOSITE_ID").eq(paramAlias, "COMPOSITE_ID")
+                    .and(nextPlus1ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceVersionCode)))
+                .innerJoin(targetStrValues, alias(nextPlus2ParamAlias),
+                    on(nextPlus2ParamAlias, "LOGICAL_RESOURCE_ID").eq(nextParamAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus2ParamAlias, "COMPOSITE_ID").eq(nextParamAlias, "COMPOSITE_ID")
+                    .and(nextPlus2ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetVersionCode))
+                    .and()
+                    .leftParen().col(nextPlus1ParamAlias, "STR_VALUE").isNull()
+                    .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
+                    .rightParen())
+                .innerJoin(xxLogicalResources, alias(lrAlias),
+                    on(nextParamAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"))
+                .innerJoin(xxResources, alias(rAlias),
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(rAlias, "LOGICAL_RESOURCE_ID")
+                    .and(lrAlias, "VERSION_ID").eq(rAlias, "VERSION_ID")
+                    .and(rAlias, IS_DELETED).eq().literal("N"));
+        } else {
+            final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+            select.from(tokenValues, alias(paramAlias))
+                .innerJoin(xxLogicalResources, alias(lrAlias),
+                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
+                    .and(paramAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds))
+                .innerJoin(xxResources, alias(rAlias),
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(rAlias, "LOGICAL_RESOURCE_ID")
+                    .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(rAlias, "VERSION_ID")
+                    .and(rAlias, IS_DELETED).eq().literal("N"));
+        }
 
         return queryData;
     }
@@ -1503,33 +1541,63 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final String targetResourceType = inclusionParm.getSearchParameterTargetType();
         final int aliasIndex = getNextAliasIndex();
         final SelectAdapter query = queryData.getQuery();
-        final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
         final String targetLR = targetResourceType + "_LOGICAL_RESOURCES";
         final String parentLR = joinResourceType +"_LOGICAL_RESOURCES";
         final String parentR = joinResourceType + "_RESOURCES";
         final String paramAlias = getParamAlias(aliasIndex);
         final String parentLRAlias = "LR0";
         final String rAlias = "R0";
-
-        final String lrAlias = "LR" + aliasIndex;
+        final String lrAlias = getLRAlias(aliasIndex);
 
         // parentLR <- token_values <- logical_resources IN (123,456)
-        query.from(parentLR, alias(parentLRAlias))
-            .innerJoin(tokenValues, alias(paramAlias),
-                on(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
-                .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType))
-                )
-            .innerJoin(targetLR, alias(lrAlias),
-                on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
-                .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(lrAlias, "VERSION_ID")
-                .and(lrAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds)
-                .and(lrAlias, "IS_DELETED").eq().literal("N")
-                )
-            .innerJoin(parentR, alias(rAlias),
-                on(parentLRAlias, "CURRENT_RESOURCE_ID").eq(rAlias, "RESOURCE_ID")
-                )
-            ;
+        query.from(parentLR, alias(parentLRAlias));
+        if (inclusionParm.isCanonical()) {
+            final String joinStrValues = joinResourceType + "_STR_VALUES";
+            final String targetStrValues = targetResourceType + "_STR_VALUES";
+            final String nextParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_URI);
+            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
+                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            query.from()
+                .innerJoin(joinStrValues, alias(paramAlias),
+                    on(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceUriCode)))
+                .innerJoin(targetStrValues, alias(nextParamAlias),
+                    on(nextParamAlias, "STR_VALUE").eq(paramAlias, "STR_VALUE")
+                    .and(nextParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetUriCode))
+                    .and(nextParamAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds))
+                .innerJoin(targetStrValues, alias(nextPlus1ParamAlias),
+                    on(nextPlus1ParamAlias, "LOGICAL_RESOURCE_ID").eq(nextParamAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus1ParamAlias, "COMPOSITE_ID").eq(nextParamAlias, "COMPOSITE_ID")
+                    .and(nextPlus1ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetVersionCode)))
+                .innerJoin(joinStrValues, alias(nextPlus2ParamAlias),
+                    on(nextPlus2ParamAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus2ParamAlias, "COMPOSITE_ID").eq(paramAlias, "COMPOSITE_ID")
+                    .and(nextPlus2ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceVersionCode))
+                    .and()
+                    .leftParen().col(nextPlus2ParamAlias, "STR_VALUE").isNull()
+                    .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
+                    .rightParen());
+        } else {
+            final String tokenValues = joinResourceType + "_TOKEN_VALUES_V";
+            query.from()
+                .innerJoin(tokenValues, alias(paramAlias),
+                    on(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(inclusionParm.getSearchParameter()))
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(getCodeSystemId(targetResourceType)))
+                .innerJoin(targetLR, alias(lrAlias),
+                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    .and().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrAlias, "VERSION_ID")).eq(lrAlias, "VERSION_ID")
+                    .and(lrAlias, "LOGICAL_RESOURCE_ID").inLiteralLong(logicalResourceIds));
+        }
+        query.from().innerJoin(parentR, alias(rAlias), on(parentLRAlias, "CURRENT_RESOURCE_ID").eq(rAlias, "RESOURCE_ID"));
 
         return queryData;
     }
@@ -1705,8 +1773,62 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
 
     @Override
     public QueryData addCanonicalParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
+        String code = queryParm.getCode();
+        if (PROFILE.equals(code)) {
+            return addProfileParam(queryData, resourceType, queryParm);
+        }
+        
+        // Convert all values into CanonicalValues
+        boolean versionNotSpecified = true;
+        List<CanonicalValue> canonicalValues = new ArrayList<>();
+        for (QueryParameterValue parmValue : queryParm.getValues()) {
+            CanonicalValue canonicalValue = CanonicalSupport.createCanonicalValueFrom(parmValue.getValueString());
+            if (canonicalValue.getVersion() != null) {
+                versionNotSpecified = false;
+            }
+            canonicalValues.add(canonicalValue);
+        }
+        
+        if ((versionNotSpecified && URL.equals(code))) {
+            // If no version specified and 'url' search parameter, we can process as a normal string parameter
+            return addStringParam(queryData, resourceType, queryParm);
+        } else {
+            // Process as a composite parameter
+            String compositeCode = URL.equals(code) ? SearchConstants.CANONICAL_URL_NAME : code + SearchConstants.CANONICAL_SUFFIX;
+            QueryParameter compositeParameter = new QueryParameter(Type.COMPOSITE, compositeCode, null, null);
+
+            // For each value in the original query parameter, build a value in the composite parameter
+            for (CanonicalValue canonicalValue : canonicalValues) {
+                QueryParameterValue compositeValue = new QueryParameterValue();
+
+                // Build query parameter for the uri value
+                QueryParameterValue uriParameterValue = new QueryParameterValue();
+                uriParameterValue.setValueString(canonicalValue.getUri());
+                QueryParameter uriParameter = new QueryParameter(Type.URI,
+                    SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.CANONICAL_COMPONENT_URI),
+                    null, null, Collections.singletonList(uriParameterValue));
+                compositeValue.addComponent(uriParameter);
+
+                // Build query parameter for the version value if specified
+                if (canonicalValue.getVersion() != null) {
+                    QueryParameterValue versionParameterValue = new QueryParameterValue();
+                    versionParameterValue.setValueString(canonicalValue.getVersion());
+                    QueryParameter versionParameter = new QueryParameter(Type.URI,
+                        SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.CANONICAL_COMPONENT_VERSION),
+                        null, null, Collections.singletonList(versionParameterValue));
+                    compositeValue.addComponent(versionParameter);
+                }
+
+                compositeParameter.getValues().add(compositeValue);
+            }
+
+            // Now process as a composite parameter
+            return addCompositeParam(queryData, compositeParameter);
+        }
+    }
+
+    private QueryData addProfileParam(QueryData queryData, String resourceType, QueryParameter queryParm) throws FHIRPersistenceException {
         // Join to the canonical parameter table...which in this case means the xx_profiles table
-        // because current _profile is the only search parameter to be defined as a canonical
         final int aliasIndex = getNextAliasIndex();
         final String lrAlias = queryData.getLRAlias();
         final String paramTableName;
@@ -1716,10 +1838,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             paramTableName = resourceType + "_PROFILES";
         }
         final String paramAlias = getParamAlias(aliasIndex);
-        final String parameterName = queryParm.getCode();
-        if (!"_profile".equals(parameterName)) {
-            throw new FHIRPersistenceException("Only _profile is supported as a canonical");
-        }
 
         // Build the filter predicate for the canonical values, handling the parse
         WhereFragment whereFragment = new WhereFragment();
@@ -1818,24 +1936,62 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = getNextAliasIndex();
         final String targetResourceType = currentParm.getModifierResourceTypeName();
-        final String tokenValues = sourceResourceType + "_TOKEN_VALUES_V"; // because we need TOKEN_VALUE
         final String xxLogicalResources = targetResourceType + "_LOGICAL_RESOURCES";
-        final String paramAlias = getParamAlias(aliasIndex);
-        final String lrAlias = "LR" + aliasIndex;
-        final String lrPrevAlias = queryData.getLRAlias();
-        final Integer codeSystemIdForTargetResourceType = getCodeSystemId(targetResourceType);
+        final String lrAlias = getLRAlias(aliasIndex);
+        String paramAlias = getParamAlias(aliasIndex);
 
         // Add this chain element as a join to the current query. For forward chaining,
         // we need to join logical-resources and token-values
-        currentSubQuery.from()
-            .innerJoin(tokenValues, alias(paramAlias), on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrPrevAlias, "LOGICAL_RESOURCE_ID"))
-            .innerJoin(xxLogicalResources, alias(lrAlias),
-                on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
-                .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForTargetResourceType))
-                .and(lrAlias, "IS_DELETED").eq().literal("N")
-              );
-
+        if (currentParm.isCanonical()) {
+            // Chain via the 'url' and 'version' search parameter values
+            final String sourceStrValues = sourceResourceType + "_STR_VALUES";
+            final String targetStrValues = targetResourceType + "_STR_VALUES";
+            final String nextParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            currentSubQuery.from()
+                .innerJoin(sourceStrValues, alias(paramAlias),
+                    on(paramAlias, "LOGICAL_RESOURCE_ID").eq(queryData.getLRAlias(), "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceUriCode)))
+                .innerJoin(targetStrValues, alias(nextParamAlias),
+                    on(nextParamAlias, "STR_VALUE").eq(paramAlias, "STR_VALUE")
+                    .and(nextParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetUriCode)))
+                .innerJoin(sourceStrValues, alias(nextPlus1ParamAlias),
+                    on(nextPlus1ParamAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus1ParamAlias, "COMPOSITE_ID").eq(paramAlias, "COMPOSITE_ID")
+                    .and(nextPlus1ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceVersionCode)))
+                .innerJoin(targetStrValues, alias(nextPlus2ParamAlias),
+                    on(nextPlus2ParamAlias, "LOGICAL_RESOURCE_ID").eq(nextParamAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus2ParamAlias, "COMPOSITE_ID").eq(nextParamAlias, "COMPOSITE_ID")
+                    .and(nextPlus2ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetVersionCode))
+                    .and()
+                    .leftParen().col(nextPlus2ParamAlias, "STR_VALUE").isNull()
+                    .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
+                    .rightParen())
+                .innerJoin(xxLogicalResources, alias(lrAlias),
+                    on(lrAlias, "LOGICAL_RESOURCE_ID").eq(nextPlus2ParamAlias, "LOGICAL_RESOURCE_ID")
+                    .and(lrAlias, "IS_DELETED").eq().literal("N"));
+            paramAlias = nextPlus2ParamAlias;
+        } else {
+            // Chain via the logical ID
+            final String tokenValues = sourceResourceType + "_TOKEN_VALUES_V"; // because we need TOKEN_VALUE
+            currentSubQuery.from()
+                .innerJoin(tokenValues, alias(paramAlias),
+                    on(paramAlias, "LOGICAL_RESOURCE_ID").eq(queryData.getLRAlias(), "LOGICAL_RESOURCE_ID"))
+                .innerJoin(xxLogicalResources, alias(lrAlias),
+                    on(lrAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(getCodeSystemId(targetResourceType)))
+                    .and(lrAlias, "IS_DELETED").eq().literal("N"));
+        }
 
         logger.exiting(CLASSNAME, "addChained");
         // Return details of the aliases needed for future chain elements
@@ -1922,24 +2078,58 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
         final SelectAdapter currentSubQuery = queryData.getQuery();
         final int aliasIndex = getNextAliasIndex();
         final String resourceTypeName = currentParm.getModifierResourceTypeName();
-        final String tokenValues = resourceTypeName + "_TOKEN_VALUES_V";
         final String xxLogicalResources = resourceTypeName + "_LOGICAL_RESOURCES";
-        final String paramAlias = getParamAlias(aliasIndex);
-        final String lrAlias = "LR" + aliasIndex;
+        final String lrAlias = getLRAlias(aliasIndex);
         final String lrPrevAlias = queryData.getLRAlias();
-        final Integer codeSystemIdForRefResourceType = getCodeSystemId(refResourceType);
+        String paramAlias = getParamAlias(aliasIndex);
 
-        currentSubQuery.from()
-              .innerJoin(tokenValues, alias(paramAlias),
+        if (currentParm.isCanonical()) {
+            final String strValues = resourceTypeName + "_STR_VALUES";
+            final String refStrValues = refResourceType + "_STR_VALUES";
+            final String nextParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
+            final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
+                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            currentSubQuery.from()
+                .innerJoin(refStrValues, alias(paramAlias),
+                    on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrPrevAlias, "LOGICAL_RESOURCE_ID")
+                    .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetUriCode)))
+                .innerJoin(strValues, alias(nextParamAlias),
+                    on(nextParamAlias, "STR_VALUE").eq(paramAlias, "STR_VALUE")
+                    .and(nextParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceUriCode)))
+                .innerJoin(refStrValues, alias(nextPlus1ParamAlias),
+                    on(nextPlus1ParamAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus1ParamAlias, "COMPOSITE_ID").eq(paramAlias, "COMPOSITE_ID")
+                    .and(nextPlus1ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetVersionCode)))
+                .innerJoin(strValues, alias(nextPlus2ParamAlias),
+                    on(nextPlus2ParamAlias, "LOGICAL_RESOURCE_ID").eq(nextParamAlias, "LOGICAL_RESOURCE_ID")
+                    .and(nextPlus2ParamAlias, "COMPOSITE_ID").eq(nextParamAlias, "COMPOSITE_ID")
+                    .and(nextPlus2ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(sourceVersionCode))
+                    .and()
+                    .leftParen().col(nextPlus2ParamAlias, "STR_VALUE").isNull()
+                    .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
+                    .rightParen());
+            paramAlias = nextPlus2ParamAlias;
+        } else {
+            final String tokenValues = resourceTypeName + "_TOKEN_VALUES_V";
+            currentSubQuery.from()
+                .innerJoin(tokenValues, alias(paramAlias),
                     on(lrPrevAlias, "LOGICAL_ID").eq(paramAlias, "TOKEN_VALUE") // correlate with the main query
                     .and(lrPrevAlias, "VERSION_ID").eq().coalesce(col(paramAlias, "REF_VERSION_ID"), col(lrPrevAlias, "VERSION_ID"))
                     .and(paramAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(currentParm.getCode()))
-                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(codeSystemIdForRefResourceType))
-                    )
+                    .and(paramAlias, "CODE_SYSTEM_ID").eq(nullCheck(getCodeSystemId(refResourceType))));
+        }
+        currentSubQuery.from()
               .innerJoin(xxLogicalResources, alias(lrAlias),
-                  on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID"))
-              ;
-
+                  on(lrAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
+                  .and(lrAlias, "IS_DELETED").eq().literal("N"));
 
         // Return a new QueryData with the aliases configured to use by the next element in the chain
         logger.exiting(CLASSNAME, "addReverseChained");
@@ -2125,7 +2315,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, paramTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
+            valuesTable = paramValuesTableName(resourceType, component);
         }
 
         if (componentNum == 1) {
@@ -2176,7 +2366,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // optimize token parameter joins if the expression lets us
             valuesTable = getTokenParamTable(filter, resourceType, componentTableAlias);
         } else {
-            valuesTable = QuerySegmentAggregator.tableName(resourceType, component).trim();
+            valuesTable = paramValuesTableName(resourceType, component);
         }
 
         if (componentNum == 1) {
