@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -60,17 +61,23 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
 
         Set<CommonTokenValueResult> result = new HashSet<>();
 
-        // Derby doesn't support VALUES where an entire column is just bind variables, so we need to use a temporary table instead
-        insertToCommonTokenValuesTmp(tokenValues);
-
         String SQL = ""
                 + "SELECT c.token_value, c.code_system_id, c.common_token_value_id "
                 + "  FROM common_token_values c"
-                + "  JOIN SESSION.common_token_values_tmp tmp"
-                + "    ON tmp.token_value = c.token_value "
-                + "   AND tmp.code_system_id = c.code_system_id";
+                + " WHERE ";
+
+        String delim = "";
+        for (CommonTokenValue ctv : tokenValues) {
+            SQL += delim + "(c.token_value = ? AND c.code_system_id = " + ctv.getCodeSystemId() + ")";
+            delim = " OR ";
+        }
 
         try (PreparedStatement ps = getConnection().prepareStatement(SQL)) {
+            Iterator<CommonTokenValue> iterator = tokenValues.iterator();
+            for (int i = 1; i <= tokenValues.size(); i++) {
+                ps.setString(i, iterator.next().getTokenValue());
+            }
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 result.add(new CommonTokenValueResult(rs.getString(1), rs.getInt(2), rs.getLong(3)));
