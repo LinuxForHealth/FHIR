@@ -12,17 +12,27 @@ package com.ibm.fhir.persistence.jdbc.dto;
  * corresponding code system id
  */
 public class CommonTokenValueResult {
+    private final String tokenValue;
     private final int codeSystemId;
     private final long commonTokenValueId;
 
     /**
      * Public constructor
+     * @param tokenValue
      * @param codeSystemId
      * @param commonTokenValueId
      */
-    public CommonTokenValueResult(int codeSystemId, long commonTokenValueId) {
+    public CommonTokenValueResult(String tokenValue, int codeSystemId, long commonTokenValueId) {
+        this.tokenValue = tokenValue;
         this.codeSystemId = codeSystemId;
         this.commonTokenValueId = commonTokenValueId;
+    }
+
+    /**
+     * @return the tokenValue
+     */
+    public String getTokenValue() {
+        return tokenValue;
     }
 
     /**

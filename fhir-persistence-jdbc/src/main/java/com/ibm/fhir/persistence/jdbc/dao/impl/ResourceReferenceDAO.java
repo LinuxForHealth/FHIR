@@ -13,7 +13,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -140,12 +143,56 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             ps.setString(2, codeSystem);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = new CommonTokenValueResult(rs.getInt(1), rs.getLong(2));
+                result = new CommonTokenValueResult(null, rs.getInt(1), rs.getLong(2));
             } else {
                 result = null;
             }
         } catch (SQLException x) {
             logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    @Override
+    public Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+        if (tokenValues.isEmpty()) {
+            return Collections.emptySet();
+        }
+
+        Set<CommonTokenValueResult> result = new HashSet<>();
+
+        StringBuilder select = new StringBuilder()
+                .append("SELECT c.token_value, c.code_system_id, c.common_token_value_id ")
+                .append("  FROM common_token_values c")
+                .append("  JOIN (VALUES ");
+
+        String delim = "";
+        for (CommonTokenValue tokenValue : tokenValues) {
+            select.append(delim);
+            // CodeSystemId is an int that comes from the db so we can use the literal for that.
+            // TokenValue is a string that could possibly come from the end user, so that should be a bind variable.
+            select.append("(?," + tokenValue.getCodeSystemId() + ")");
+            delim = ", ";
+        }
+
+        select.append(") AS tmp (token_value,code_system_id) ON tmp.token_value = c.token_value AND tmp.code_system_id = c.code_system_id");
+
+        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+            Iterator<CommonTokenValue> iterator = tokenValues.iterator();
+            for (int i = 1; i <= tokenValues.size(); i++) {
+                CommonTokenValue tokenValue = iterator.next();
+
+                ps.setString(i, tokenValue.getTokenValue());
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(new CommonTokenValueResult(rs.getString(1), rs.getInt(2), rs.getLong(3)));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, select.toString(), x);
             throw translator.translate(x);
         }
 
