@@ -43,7 +43,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -195,7 +194,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Get the common token value ids for the passed list of token values {system, code}
+     * Get the common token value ids for the passed list of token values {system, code}.
      * @param tokenValues
      * @return
      * @throws FHIRPersistenceException
@@ -684,7 +683,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. If tje ctvs list is empty, then -1 is used to make
+     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. If the ctvs list is empty, then -1 is used to make
      * sure the row isn't produced. If there is a single match, the predicate is COMMON_TOKEN_VALUE_ID = {n}.
      * If there are multiple matches, the predicate is COMMON_TOKEN_VALUE_ID IN (1, 2, 3, ...).
      * The query uses literal values not bind variables on purpose (better performance).
@@ -697,11 +696,11 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         final List<Long> ctvList = new ArrayList<>(ctvs);
         if (ctvList.isEmpty()) {
             // use -1...resulting in no data
-            where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(-1L);
+            where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(-1L);
         } else if (ctvList.size() == 1) {
-            where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").eq(ctvList.get(0));
+            where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(ctvList.get(0));
         } else {
-            where.col(paramAlias, "COMMON_TOKEN_VALUE_ID").inLiteralLong(ctvList);
+            where.col(paramAlias, COMMON_TOKEN_VALUE_ID).inLiteralLong(ctvList);
         }
     }
 
@@ -763,12 +762,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
         }
 
         Set<Long> commonTokenValueIds = getCommonTokenValueIds(commonTokenValues);
-        if (commonTokenValueIds.isEmpty()) {
-            commonTokenValueIds = Collections.singleton(-1L);
-        }
-
-        Long[] itemsArray = new Long[commonTokenValueIds.size()];
-        whereClauseSegment.col(parameterTableAlias, COMMON_TOKEN_VALUE_ID).in(commonTokenValueIds.toArray(itemsArray));
+        addCommonTokenValueIdFilter(whereClauseSegment, parameterTableAlias, commonTokenValueIds);
     }
 
     /**
@@ -1275,36 +1269,10 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
 
         // For unambiguous resource references, look up the common token value ids
         Set<Long> resourceReferenceTokenIds = getCommonTokenValueIds(resourceReferenceTokenValues);
-
-        // Not sure if this is needed or not, but it seems safer to include the dummy clause so as to not break the callers
-        if (resourceReferenceTokenIds.isEmpty()) {
-            resourceReferenceTokenIds = Collections.singleton(-1L);
-        }
-
-        // Local variable to keep track of when we need the OR delimeter
-        boolean parmValueProcessed = false;
-
-        // For each token value id
-        Iterator<Long> iterator = resourceReferenceTokenIds.iterator();
-        while (iterator.hasNext()) {
-            Long resourceReferenceTokenId = iterator.next();
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClause.or();
-            } else {
-                parmValueProcessed = true;
-            }
-
-            whereClause.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(resourceReferenceTokenId); // use literal
-        }
+        addCommonTokenValueIdFilter(whereClause, paramAlias, resourceReferenceTokenIds);
 
         for (String targetResourceId : ambiguousResourceReferenceTokenValues) {
-            // If multiple values are present, we need to OR them together.
-            if (parmValueProcessed) {
-                whereClause.or();
-            } else {
-                parmValueProcessed = true;
-            }
+            whereClause.or();
 
             // grab the list of all matching common_token_value_id values
             addCommonTokenValueIdFilter(whereClause, paramAlias, targetResourceId);

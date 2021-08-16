@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,11 @@ public class CommonTokenValue {
     // tokenValue can be null
     private final String tokenValue;
 
+    /**
+     * Construct a common token value from a codeSystemId and tokenValue
+     * @param codeSystemId
+     * @param tokenValue
+     */
     public CommonTokenValue(int codeSystemId, String tokenValue) {
         if (codeSystemId < 0) {
             // Called before the code-system record was created (or fetched from) the database

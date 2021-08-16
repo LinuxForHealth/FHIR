@@ -61,18 +61,19 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
 
         Set<CommonTokenValueResult> result = new HashSet<>();
 
-        String SQL = ""
-                + "SELECT c.token_value, c.code_system_id, c.common_token_value_id "
-                + "  FROM common_token_values c"
-                + " WHERE ";
+        StringBuilder select = new StringBuilder()
+                .append("SELECT c.token_value, c.code_system_id, c.common_token_value_id ")
+                .append("  FROM common_token_values c")
+                .append(" WHERE ");
 
         String delim = "";
         for (CommonTokenValue ctv : tokenValues) {
-            SQL += delim + "(c.token_value = ? AND c.code_system_id = " + ctv.getCodeSystemId() + ")";
+            select.append(delim);
+            select.append("(c.token_value = ? AND c.code_system_id = " + ctv.getCodeSystemId() + ")");
             delim = " OR ";
         }
 
-        try (PreparedStatement ps = getConnection().prepareStatement(SQL)) {
+        try (PreparedStatement ps = getConnection().prepareStatement(select.toString())) {
             Iterator<CommonTokenValue> iterator = tokenValues.iterator();
             for (int i = 1; i <= tokenValues.size(); i++) {
                 ps.setString(i, iterator.next().getTokenValue());
@@ -83,7 +84,7 @@ public class DerbyResourceReferenceDAO extends ResourceReferenceDAO {
                 result.add(new CommonTokenValueResult(rs.getString(1), rs.getInt(2), rs.getLong(3)));
             }
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, SQL, x);
+            logger.log(Level.SEVERE, select.toString(), x);
             throw getTranslator().translate(x);
         }
 
