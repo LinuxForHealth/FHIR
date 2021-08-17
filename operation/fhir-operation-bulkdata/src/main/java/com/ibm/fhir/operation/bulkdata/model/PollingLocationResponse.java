@@ -8,28 +8,24 @@ package com.ibm.fhir.operation.bulkdata.model;
 
 import static com.ibm.fhir.model.type.String.string;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
 import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.JsonSupport;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import jakarta.json.JsonReaderFactory;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
@@ -108,18 +104,10 @@ public class PollingLocationResponse {
 
     public void addOperationOutcomeToExtension(OperationOutcome outcome) throws FHIRGeneratorException, IOException {
         // Convert to the JsonObject and add as "operationOutcome" to the existing extension.
-        try (StringWriter writer = new StringWriter();) {
-            FHIRGenerator.generator(Format.JSON).generate(outcome, writer);
-
-            String outcomeString = writer.toString();
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(outcomeString.getBytes());
-                    JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
-                JsonObject jsonObject = Json.createObjectBuilder()
-                        .add("outcome", jsonReader.readObject())
-                        .build();
-                this.setExtension(jsonObject);
-            }
-        }
+        JsonObject jsonObject = Json.createObjectBuilder()
+                .add("outcome", JsonSupport.toJsonObject(outcome))
+                .build();
+        this.setExtension(jsonObject);
     }
 
     public static class Output {
