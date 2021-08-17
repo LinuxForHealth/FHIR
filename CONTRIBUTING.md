@@ -74,7 +74,10 @@ Connect with us through https://chat.fhir.org/ or open an [issue](https://github
 ## Setup
 The IBM FHIR Server is built with Maven and requires Java 8 or higher.  To build the project from the root directory, please execute:
 
-> mvn clean install -f fhir-parent/pom.xml
+```
+mvn clean install -f fhir-examples
+mvn clean install -f fhir-parent
+```
 
 ## Testing
 To ensure a working build, please run the full build from the root of the project before submitting your pull request.
