@@ -6,29 +6,57 @@
 
 package com.ibm.fhir.operation.bulkdata.model;
 
+import static com.ibm.fhir.model.type.String.string;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import jakarta.json.Json;
-import jakarta.json.stream.JsonGenerator;
-import jakarta.json.stream.JsonGeneratorFactory;
-
 import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 /**
  * ResponseMetadata to manipulate the response back to the client.
  * This response object is intent for the polling location.
  */
 public class PollingLocationResponse {
+    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+    public static final OperationOutcome EMPTY_RESULTS_DURING_EXPORT = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(IssueType.INFORMATIONAL)
+                .details(CodeableConcept.builder()
+                    .text(string("No Data Exported"))
+                    .build())
+                .build())
+            .build();
+
     private String transactionTime;
     private String request;
     private Boolean requiresAccessToken;
     private List<Output> output;
     private List<Output> error;
+    private JsonObject extension;
 
     public String getTransactionTime() {
         return transactionTime;
@@ -68,6 +96,30 @@ public class PollingLocationResponse {
 
     public void setError(List<Output> error) {
         this.error = error;
+    }
+
+    public JsonObject getExtension() {
+        return extension;
+    }
+
+    public void setExtension(JsonObject extension) {
+        this.extension = extension;
+    }
+
+    public void addOperationOutcomeToExtension(OperationOutcome outcome) throws FHIRGeneratorException, IOException {
+        // Convert to the JsonObject and add as "operationOutcome" to the existing extension.
+        try (StringWriter writer = new StringWriter();) {
+            FHIRGenerator.generator(Format.JSON).generate(outcome, writer);
+
+            String outcomeString = writer.toString();
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(outcomeString.getBytes());
+                    JsonReader jsonReader = JSON_READER_FACTORY.createReader(bais, StandardCharsets.UTF_8)) {
+                JsonObject jsonObject = Json.createObjectBuilder()
+                        .add("outcome", jsonReader.readObject())
+                        .build();
+                this.setExtension(jsonObject);
+            }
+        }
     }
 
     public static class Output {
@@ -151,12 +203,10 @@ public class PollingLocationResponse {
 
                 if (output.getCount() != null) {
                     generatorOutput.write("count", Long.parseLong(output.getCount()));
-
                 }
 
                 if (output.getInputUrl() != null) {
                     generatorOutput.write("inputUrl", output.getInputUrl());
-
                 }
 
                 generatorOutput.writeEnd();
@@ -214,6 +264,11 @@ public class PollingLocationResponse {
                         }
                         generator.writeEnd();
                     }
+
+                    if (response.getExtension() != null) {
+                        generator.write("extension", response.getExtension());
+                    }
+
                     generator.writeEnd();
                 }
                 o = writer.toString();
