@@ -170,22 +170,20 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, canonical);
             }
             
+            StringParmVal p = new StringParmVal();
+            p.setResourceType(resourceType);
+            p.setName(searchParamCode);
+            p.setUrl(searchParamUrl);
+            p.setVersion(searchParamVersion);
+            p.setValueString(canonical.getValue());
+            result.add(p);
+
             // For REFERENCE search parameters, we need to treat as both string and as composite.
             if (REFERENCE.equals(this.searchParamType)) {
-                // Parse the canonical value into a uri and a version. Create a normal string
-                // parameter for the input canonical value, and then create as composite parm to correlate
-                // uri and version (even if version is null).
+                // Parse the canonical value into a uri and a version and then create as a composite
+                // parameter to correlate uri and version (even if version is null).
                 CanonicalValue canonicalValue = CanonicalSupport.createCanonicalValueFrom(canonical.getValue());
                 
-                // Just the uri parm
-                StringParmVal p = new StringParmVal();
-                p.setResourceType(resourceType);
-                p.setName(searchParamCode);
-                p.setUrl(searchParamUrl);
-                p.setVersion(searchParamVersion);
-                p.setValueString(canonical.getValue());
-                result.add(p);
-
                 // Composite for uri + version
                 CompositeParmVal cp = new CompositeParmVal();
                 cp.setResourceType(resourceType);
@@ -212,14 +210,6 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 cp.addComponent(vp);
 
                 result.add(cp);
-            } else {
-                StringParmVal p = new StringParmVal();
-                p.setResourceType(resourceType);
-                p.setName(searchParamCode);
-                p.setUrl(searchParamUrl);
-                p.setVersion(searchParamVersion);
-                p.setValueString(canonical.getValue());
-                result.add(p);
             }
         }
         return false;

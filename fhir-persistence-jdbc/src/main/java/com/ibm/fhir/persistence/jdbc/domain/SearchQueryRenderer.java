@@ -32,6 +32,9 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNDERSCORE_WILDCARD;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants._RESOURCES;
+import static com.ibm.fhir.search.SearchConstants.CANONICAL_COMPONENT_URI;
+import static com.ibm.fhir.search.SearchConstants.CANONICAL_COMPONENT_VERSION;
+import static com.ibm.fhir.search.SearchConstants.CANONICAL_SUFFIX;
 import static com.ibm.fhir.search.SearchConstants.ID;
 import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
@@ -1468,13 +1471,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
             final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
-                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_URI);
+                CANONICAL_SUFFIX, CANONICAL_COMPONENT_URI);
             final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
-                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
+                CANONICAL_SUFFIX, CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_VERSION);
             select.from(joinStrValues, alias(paramAlias))
                 .innerJoin(targetStrValues, alias(nextParamAlias),
                     on(nextParamAlias, "STR_VALUE").eq(paramAlias, "STR_VALUE")
@@ -1558,13 +1561,13 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
             final String sourceUriCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
-                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_URI);
+                CANONICAL_SUFFIX, CANONICAL_COMPONENT_URI);
             final String sourceVersionCode = SearchUtil.makeCompositeSubCode(inclusionParm.getSearchParameter() +
-                SearchConstants.CANONICAL_SUFFIX, SearchConstants.CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
+                CANONICAL_SUFFIX, CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_VERSION);
             query.from()
                 .innerJoin(joinStrValues, alias(paramAlias),
                     on(parentLRAlias, "LOGICAL_RESOURCE_ID").eq(paramAlias, "LOGICAL_RESOURCE_ID")
@@ -1794,7 +1797,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             return addStringParam(queryData, resourceType, queryParm);
         } else {
             // Process as a composite parameter
-            String compositeCode = URL.equals(code) ? SearchConstants.CANONICAL_URL_NAME : code + SearchConstants.CANONICAL_SUFFIX;
+            String compositeCode = code + CANONICAL_SUFFIX;
             QueryParameter compositeParameter = new QueryParameter(Type.COMPOSITE, compositeCode, null, null);
 
             // For each value in the original query parameter, build a value in the composite parameter
@@ -1805,7 +1808,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                 QueryParameterValue uriParameterValue = new QueryParameterValue();
                 uriParameterValue.setValueString(canonicalValue.getUri());
                 QueryParameter uriParameter = new QueryParameter(Type.URI,
-                    SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.CANONICAL_COMPONENT_URI),
+                    SearchUtil.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_URI),
                     null, null, Collections.singletonList(uriParameterValue));
                 compositeValue.addComponent(uriParameter);
 
@@ -1814,7 +1817,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     QueryParameterValue versionParameterValue = new QueryParameterValue();
                     versionParameterValue.setValueString(canonicalValue.getVersion());
                     QueryParameter versionParameter = new QueryParameter(Type.URI,
-                        SearchUtil.makeCompositeSubCode(compositeCode, SearchConstants.CANONICAL_COMPONENT_VERSION),
+                        SearchUtil.makeCompositeSubCode(compositeCode, CANONICAL_COMPONENT_VERSION),
                         null, null, Collections.singletonList(versionParameterValue));
                     compositeValue.addComponent(versionParameter);
                 }
@@ -1949,14 +1952,14 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
-                SearchConstants.CANONICAL_COMPONENT_URI);
-            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
+            final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_VERSION);
             currentSubQuery.from()
                 .innerJoin(sourceStrValues, alias(paramAlias),
                     on(paramAlias, "LOGICAL_RESOURCE_ID").eq(queryData.getLRAlias(), "LOGICAL_RESOURCE_ID")
@@ -2089,14 +2092,14 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             final String nextParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus1ParamAlias = getParamAlias(getNextAliasIndex());
             final String nextPlus2ParamAlias = getParamAlias(getNextAliasIndex());
-            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
-                SearchConstants.CANONICAL_COMPONENT_URI);
+            final String sourceUriCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
             final String sourceVersionCode = SearchUtil.makeCompositeSubCode(currentParm.getCode() + SearchConstants.CANONICAL_SUFFIX,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
-            final String targetUriCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_URI);
-            final String targetVersionCode = SearchUtil.makeCompositeSubCode(SearchConstants.CANONICAL_URL_NAME,
-                SearchConstants.CANONICAL_COMPONENT_VERSION);
+                CANONICAL_COMPONENT_VERSION);
+            final String targetUriCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_URI);
+            final String targetVersionCode = SearchUtil.makeCompositeSubCode(URL + CANONICAL_SUFFIX,
+                CANONICAL_COMPONENT_VERSION);
             currentSubQuery.from()
                 .innerJoin(refStrValues, alias(paramAlias),
                     on(paramAlias, "LOGICAL_RESOURCE_ID").eq(lrPrevAlias, "LOGICAL_RESOURCE_ID")

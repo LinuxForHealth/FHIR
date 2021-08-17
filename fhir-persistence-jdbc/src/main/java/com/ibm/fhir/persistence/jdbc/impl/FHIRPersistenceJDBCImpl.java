@@ -2253,7 +2253,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // Create a canonical composite parameter
             CompositeParmVal cp = new CompositeParmVal();
             cp.setResourceType(urlParm.getResourceType());
-            cp.setName(SearchConstants.CANONICAL_URL_NAME);
+            cp.setName(SearchConstants.URL + SearchConstants.CANONICAL_SUFFIX);
             cp.setUrl(urlParm.getUrl());
             cp.setVersion(urlParm.getVersion());
 

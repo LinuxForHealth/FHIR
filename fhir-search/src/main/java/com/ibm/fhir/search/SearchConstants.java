@@ -127,8 +127,7 @@ public class SearchConstants {
     public static final String TEXT_MODIFIER_SUFFIX = ":text";
     
     // Extracted search parameter suffixes for canonical values
-    public static final String CANONICAL_URL_NAME = "internal_canonical_url";
-    public static final String CANONICAL_SUFFIX = ":canonical";
+    public static final String CANONICAL_SUFFIX = "_canonical";
     public static final String CANONICAL_COMPONENT_URI = "uri";
     public static final String CANONICAL_COMPONENT_VERSION = "version";
 
