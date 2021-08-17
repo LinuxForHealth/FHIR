@@ -85,6 +85,8 @@ public class ReindexOperation extends AbstractOperation {
         }
 
         try {
+            // Deliberately not using ClockFactory.getDefaultClock() here for time fixing.
+            // This timestamp is used for database maintenance purposes and does not show up in user data.
             Instant tstamp = Instant.now();
             List<Long> indexIds = null;
             int resourceCount = 10;

@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
+import com.ibm.fhir.core.clock.ClockFactory;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -173,7 +174,7 @@ public final class CadfReporterStep {
             if (rTime != null) {
                 this.reporterTime = rTime;
             } else {
-                this.reporterTime = Instant.now().atZone(ZoneId.of("UTC"));
+                this.reporterTime = Instant.now(ClockFactory.getDefaultClock()).atZone(ZoneId.of("UTC"));
             }
         }
 

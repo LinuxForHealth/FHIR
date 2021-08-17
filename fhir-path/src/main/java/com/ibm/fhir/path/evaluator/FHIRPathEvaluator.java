@@ -59,6 +59,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.core.clock.ClockFactory;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.misc.Interval;
 
@@ -259,7 +260,7 @@ public class FHIRPathEvaluator {
     }
 
     private void setDateTimeConstants(EvaluationContext evaluationContext) {
-        ZonedDateTime now = ZonedDateTime.now();
+        ZonedDateTime now = ZonedDateTime.now(ClockFactory.getDefaultClock());
         evaluationContext.setExternalConstant("now", singleton(dateTimeValue(now)));
         evaluationContext.setExternalConstant("today", singleton(dateValue(LocalDate.from(now))));
         evaluationContext.setExternalConstant("timeOfDay", singleton(timeValue(LocalTime.from(now))));

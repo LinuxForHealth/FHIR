@@ -10,6 +10,7 @@ import java.time.ZonedDateTime;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.core.clock.ClockFactory;
 import com.ibm.fhir.model.resource.Group.Characteristic;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.code.QuantityComparator;
@@ -30,7 +31,7 @@ public class PatientAgeCharacteristicProcessor implements CharacteristicProcesso
 
             if (age.getUnit() != null && "years".equals(age.getUnit().getValue())) {
                 String val = fromQuantityComparator(comparator, exclude);
-                ZonedDateTime zdt = ZonedDateTime.now().minusYears(age.getValue().getValue().intValue());
+                ZonedDateTime zdt = ZonedDateTime.now(ClockFactory.getDefaultClock()).minusYears(age.getValue().getValue().intValue());
                 queryParams.add("birthdate", val + zdt.getYear());
             }
         }

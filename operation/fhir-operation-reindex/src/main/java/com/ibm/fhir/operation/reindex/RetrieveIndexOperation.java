@@ -84,6 +84,8 @@ public class RetrieveIndexOperation extends AbstractOperation {
             String indexIdsString = "";
             int count = MAX_COUNT;
             Long afterIndexId = null;
+            // Deliberately not using ClockFactory.getDefaultClock() here for time fixing.
+            // This timestamp is used for database maintenance purposes and does not show up in user data.
             Instant notModifiedAfter = Instant.now();
             String resourceTypeName = resourceType != null ? resourceType.getSimpleName() : null;
 

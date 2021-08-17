@@ -1836,7 +1836,7 @@ public class CodeGenerator {
                 .javadoc("Factory method for creating a " + className + " that represents the current DateTime")
                 .javadocEnd();
             cb.method(mods("public", "static"), className, "now")
-                ._return(className + ".builder().value(ZonedDateTime.now()).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock())).build()")
             .end().newLine();
 
             cb.javadocStart()
@@ -1846,7 +1846,7 @@ public class CodeGenerator {
                 .javadocEnd();
             cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
                 .invoke("Objects", "requireNonNull", args("offset","\"offset\""))
-                ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock().withZone(offset))).build()")
             .end().newLine();
         }
 
@@ -1875,7 +1875,7 @@ public class CodeGenerator {
                 .javadoc("Factory method for creating a " + className + " that represents the current Instant")
                 .javadocEnd();
             cb.method(mods("public", "static"), className, "now")
-                ._return(className + ".builder().value(ZonedDateTime.now()).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock())).build()")
             .end().newLine();
 
             cb.javadocStart()
@@ -1885,7 +1885,7 @@ public class CodeGenerator {
                 .javadocEnd();
             cb.method(mods("public", "static"), className, "now", params("ZoneOffset offset"))
                 .invoke("Objects", "requireNonNull", args("offset","\"offset\""))
-                ._return(className + ".builder().value(ZonedDateTime.now(offset)).build()")
+                ._return(className + ".builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock().withZone(offset))).build()")
             .end().newLine();
         }
 
@@ -2283,6 +2283,7 @@ public class CodeGenerator {
             imports.add("java.time.ZonedDateTime");
             imports.add("java.time.temporal.ChronoUnit");
             imports.add("com.ibm.fhir.model.util.ModelSupport");
+            imports.add("com.ibm.fhir.core.clock.ClockFactory");
         }
 
         if (isTime(structureDefinition)) {

@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.core.clock.ClockFactory;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -95,7 +96,7 @@ public class DateTime extends Element {
      * Factory method for creating a DateTime that represents the current DateTime
      */
     public static DateTime now() {
-        return DateTime.builder().value(ZonedDateTime.now()).build();
+        return DateTime.builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock())).build();
     }
 
     /**
@@ -106,7 +107,7 @@ public class DateTime extends Element {
      */
     public static DateTime now(ZoneOffset offset) {
         Objects.requireNonNull(offset, "offset");
-        return DateTime.builder().value(ZonedDateTime.now(offset)).build();
+        return DateTime.builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock().withZone(offset))).build();
     }
 
     @Override

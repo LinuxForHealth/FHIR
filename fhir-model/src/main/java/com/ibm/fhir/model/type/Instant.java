@@ -17,6 +17,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.core.clock.ClockFactory;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -84,7 +85,7 @@ public class Instant extends Element {
      * Factory method for creating a Instant that represents the current Instant
      */
     public static Instant now() {
-        return Instant.builder().value(ZonedDateTime.now()).build();
+        return Instant.builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock())).build();
     }
 
     /**
@@ -95,7 +96,7 @@ public class Instant extends Element {
      */
     public static Instant now(ZoneOffset offset) {
         Objects.requireNonNull(offset, "offset");
-        return Instant.builder().value(ZonedDateTime.now(offset)).build();
+        return Instant.builder().value(ZonedDateTime.now(ClockFactory.getDefaultClock().withZone(offset))).build();
     }
 
     @Override
