@@ -72,9 +72,7 @@ git commit -s
 Connect with us through https://chat.fhir.org/ or open an [issue](https://github.com/IBM/FHIR/issues). The IBM FHIR Server has a dedicated "stream" at https://chat.fhir.org/#narrow/stream/212434-ibm (`#ibm`).
 
 ## Setup
-The IBM FHIR Server is built with Maven and requires Java 8 or higher.  To build the project from the root directory, please execute:
-
-> mvn clean install -f fhir-parent/pom.xml
+See the [Setting up for development](https://github.com/IBM/FHIR/wiki/Setting-up-for-development) in the wiki.
 
 ## Testing
 To ensure a working build, please run the full build from the root of the project before submitting your pull request.
