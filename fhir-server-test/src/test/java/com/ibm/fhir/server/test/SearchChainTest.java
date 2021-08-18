@@ -20,7 +20,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Encounter;
@@ -32,7 +31,6 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  * The tests execute the chained behavior in order to exercise reference chains.
@@ -103,7 +101,7 @@ public class SearchChainTest extends FHIRServerTestBase {
                 .reference(com.ibm.fhir.model.type.String.of("Patient/" + patientId + "/_history/2")).build();
 
         // Build a new Procedure and then call the 'create' API.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder().subject(reference).build();
 
         // Call the 'create' API.

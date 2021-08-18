@@ -24,7 +24,6 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Xhtml;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.visitor.EncodingVisitor;
 import com.ibm.fhir.model.visitor.EncodingVisitor.EncodingContext;
 
@@ -33,7 +32,7 @@ public class EncodingVisitorTest {
 
     @BeforeClass
     public static void setup() throws Exception {
-        oo = TestUtil.getMinimalResource(ResourceType.OPERATION_OUTCOME);
+        oo = TestUtil.getMinimalResource(OperationOutcome.class);
         Issue issue = oo.getIssue().get(0).toBuilder()
                 .extension(Extension.builder()
                     .id("\" onload=\"alert('test1')")
