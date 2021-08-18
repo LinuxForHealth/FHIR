@@ -2992,6 +2992,16 @@ public class CodeGenerator {
         .end();
         cb.newLine();
 
+        cb.javadocStart()
+            .javadoc("Read a resource from the passed InputStream and filter its top-level elements to the collection of elementsToInclude.")
+            .javadoc("This method does not close the passed InputStream.")
+            .javadoc("")
+            .javadocParam("<T>", "The resource type to read")
+            .javadocParam("in", "An input stream with the JSON contents of a FHIR resource")
+            .javadocParam("elementsToInclude", "The top-level elements to include or null to indicate that no filter should be applied")
+            .javadocReturn("")
+            .javadocThrows("FHIRParserException", "if the resource could not be parsed for any reason")
+            .javadocEnd();
         // public <T extends Resource> T parseAndFilter(InputStream in, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("InputStream in", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingInputStream(in), StandardCharsets.UTF_8)")
@@ -3012,6 +3022,16 @@ public class CodeGenerator {
         .end();
         cb.newLine();
 
+        cb.javadocStart()
+            .javadoc("Read a resource using the passed Reader and filter its top-level elements to the collection of elementsToInclude.")
+            .javadoc("This method does not close the passed InputStream.")
+            .javadoc("")
+            .javadocParam("<T>", "The resource type to read")
+            .javadocParam("reader", "A reader with the JSON contents of a FHIR resource")
+            .javadocParam("elementsToInclude", "The top-level elements to include or null to indicate that no filter should be applied")
+            .javadocReturn("")
+            .javadocThrows("FHIRParserException", "if the resource could not be parsed for any reason")
+            .javadocEnd();
         // public <T extends Resource> T parseAndFilter(Reader reader, java.util.List<java.lang.String> elementsToInclude) throws FHIRException
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("Reader reader", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
             ._try("JsonReader jsonReader = JSON_READER_FACTORY.createReader(nonClosingReader(reader))")
@@ -3025,11 +3045,29 @@ public class CodeGenerator {
         .end();
         cb.newLine();
 
+        cb.javadocStart()
+            .javadoc("Read a resource from a JsonObject. This method does not close the passed InputStream.")
+            .javadoc("")
+            .javadocParam("<T>", "The resource type to read")
+            .javadocParam("jsonObject", "A JsonObject with the contents of a FHIR resource")
+            .javadocReturn("")
+            .javadocThrows("FHIRParserException", "if the resource could not be parsed for any reason")
+            .javadocEnd();
         cb.method(mods("public"), "<T extends Resource> T", "parse", args("JsonObject jsonObject"), throwsExceptions("FHIRParserException"))
             ._return("parseAndFilter(jsonObject, null)")
         .end();
         cb.newLine();
 
+        cb.javadocStart()
+            .javadoc("Read a resource from a JsonObject and filter its top-level elements to the collection of elementsToInclude.")
+            .javadoc("This method does not close the passed InputStream.")
+            .javadoc("")
+            .javadocParam("<T>", "The resource type to read")
+            .javadocParam("jsonObject", "A JsonObject with the contents of a FHIR resource")
+            .javadocParam("elementsToInclude", "The top-level elements to include or null to indicate that no filter should be applied")
+            .javadocReturn("")
+            .javadocThrows("FHIRParserException", "if the resource could not be parsed for any reason")
+            .javadocEnd();
         // public <T extends Resource> T parseAndFilter(JsonObject jsonObject, java.util.List<java.lang.String> elementsToInclude)
         cb.annotation("SuppressWarnings", quote("unchecked"));
         cb.method(mods("public"), "<T extends Resource> T", "parseAndFilter", params("JsonObject jsonObject", "Collection<java.lang.String> elementsToInclude"), throwsExceptions("FHIRParserException"))
