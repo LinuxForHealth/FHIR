@@ -23,6 +23,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Measure;
@@ -31,6 +32,7 @@ import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  *  This class tests the persistence layer support for the FHIR canonical search parameters.
@@ -53,9 +55,9 @@ public abstract class AbstractCanonicalTest extends AbstractPersistenceTest {
      */
     @BeforeClass
     public void createResources() throws Exception {
-        CarePlan carePlan = TestUtil.readExampleResource("json/ibm/minimal/CarePlan-1.json");
-        Measure measure = TestUtil.readExampleResource("json/ibm/minimal/Measure-1.json");
-        Library library = TestUtil.readExampleResource("json/ibm/minimal/Library-1.json");
+        CarePlan carePlan = TestUtil.getMinimalResource(ResourceType.CARE_PLAN, Format.JSON);
+        Measure measure = TestUtil.getMinimalResource(ResourceType.MEASURE, Format.JSON);
+        Library library = TestUtil.getMinimalResource(ResourceType.LIBRARY, Format.JSON);
 
         // a Library that is referenced by a Measure
         savedLibrary1 = library.toBuilder()

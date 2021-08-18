@@ -18,14 +18,19 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
+import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
+import com.ibm.fhir.model.type.code.ResourceType;
 
 public class SearchReferenceTest extends FHIRServerTestBase {
 
@@ -43,6 +48,14 @@ public class SearchReferenceTest extends FHIRServerTestBase {
     private String patientWithLogicalReference;
     @SuppressWarnings("unused")
     private String patientWithLiteralAndLogicalReference;
+    @SuppressWarnings("unused")
+    private String measureWithUrlOnly;
+    @SuppressWarnings("unused")
+    private String measureWithUrlAndVersion;
+    @SuppressWarnings("unused")
+    private String measureWithLibraryNoVersion;
+    @SuppressWarnings("unused")
+    private String measureWithLibraryWithVersion;
 
     /*
      * creates the various test cases for a patient with a reference
@@ -80,6 +93,9 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         String tmpPatientId = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", tmpPatientId);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/"
                 + tmpPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
@@ -174,7 +190,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3002", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3002");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -193,7 +209,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3002", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3002");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -212,7 +228,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3002", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3002");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -233,7 +249,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("https://localhost:9443/fhir-server/api/v4/Organization/3003", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "https://localhost:9443/fhir-server/api/v4/Organization/3003");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -253,7 +269,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("https://localhost:9443/fhir-server/api/v4/Organization/3003", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "https://localhost:9443/fhir-server/api/v4/Organization/3003");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -273,7 +289,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("https://localhost:9443/fhir-server/api/v4/Organization/3003", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "https://localhost:9443/fhir-server/api/v4/Organization/3003");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -320,7 +336,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("https://an.example.com/Organization/3004", p.getManagingOrganization().getReference().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "https://an.example.com/Organization/3004");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -363,8 +379,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("http://terminology.hl7.org/CodeSystem/v3-IdentifierScope", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3005a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "http://terminology.hl7.org/CodeSystem/v3-IdentifierScope");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3005a");
 
         // Code system is case-sensitive - no results expected
         response =
@@ -391,8 +407,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("http://terminology.hl7.org/CodeSystem/v3-IdentifierScope", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3005a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "http://terminology.hl7.org/CodeSystem/v3-IdentifierScope");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3005a");
 
         // No code system specified - code is not case-sensitive - result expected
         response =
@@ -408,8 +424,8 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("http://terminology.hl7.org/CodeSystem/v3-IdentifierScope", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3005a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "http://terminology.hl7.org/CodeSystem/v3-IdentifierScope");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3005a");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -428,9 +444,9 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
-        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3007a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3006");
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "https://an.example.com/OrgId");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3007a");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -449,9 +465,9 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
-        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3007a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3006");
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "https://an.example.com/OrgId");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3007a");
 
         // Code system is not case-sensitive - result expected
         response =
@@ -467,9 +483,9 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
-        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3007a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3006");
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "https://an.example.com/OrgId");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3007a");
     }
 
     @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreatePatient" })
@@ -489,8 +505,168 @@ public class SearchReferenceTest extends FHIRServerTestBase {
             }
         }
         assertNotNull(p);
-        assertEquals("Organization/3006", p.getManagingOrganization().getReference().getValue());
-        assertEquals("https://an.example.com/OrgId", p.getManagingOrganization().getIdentifier().getSystem().getValue());
-        assertEquals("3007a", p.getManagingOrganization().getIdentifier().getValue().getValue());
+        assertEquals(p.getManagingOrganization().getReference().getValue(), "Organization/3006");
+        assertEquals(p.getManagingOrganization().getIdentifier().getSystem().getValue(), "https://an.example.com/OrgId");
+        assertEquals(p.getManagingOrganization().getIdentifier().getValue().getValue(), "3007a");
     }
+
+    /*
+     * creates the various test cases for a measure with a reference
+     */
+    public String createMeasureWithReference(String url, String version, String library) throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Measure and then call the 'create' API.
+        Measure measure = TestUtil.getMinimalResource(ResourceType.MEASURE, Format.JSON);
+
+        measure = measure.toBuilder()
+                .url(url == null ? null : Uri.of(url))
+                .version(version == null ? null : string(version))
+                .build();
+        if (library != null) {
+            measure = measure.toBuilder()
+                    .library(Canonical.of(library))
+                    .build();
+        }
+        Entity<Measure> entity =
+                Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response =
+                target.path("Measure").request()
+                .post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measure's logical id value.
+        String tmpMeasureId = getLocationLogicalId(response);
+
+        // Add the measure to the resource registry.
+        addToResourceRegistry("Measure", tmpMeasureId);
+        
+        // Next, call the 'read' API to retrieve the new measure and verify it.
+        response = target.path("Measure/"
+                + tmpMeasureId).request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Measure responseMeasure = response.readEntity(Measure.class);
+        TestUtil.assertResourceEquals(measure, responseMeasure);
+        return tmpMeasureId;
+    }
+
+    @Test(groups = { "server-search-reference" })
+    public void testCreateMeasure() throws Exception {
+        // url and no version
+        measureWithUrlOnly = createMeasureWithReference("http://example.org/fhir/Measure/abc", null, null);
+
+        // url and version
+        measureWithUrlAndVersion = createMeasureWithReference("http://example.org/fhir/Measure/abc", "1.0", null);
+
+        // url and version and library with no version
+        measureWithLibraryNoVersion = createMeasureWithReference("http://example.org/fhir/Measure/def", "1.0", "http://example.org/fhir/Library/abc");
+
+        // url and version and library with version
+        measureWithLibraryWithVersion = createMeasureWithReference("http://example.org/fhir/Measure/def", "1.0", "http://example.org/fhir/Library/abc|1.0");
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalUrlNoVersion() {
+        // expected to find multiple matches
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("url", "http://example.org/fhir/Measure/abc").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Resource resource = entry.getResource();
+            assertNotNull(resource);
+            assertTrue(resource instanceof Measure);
+            assertEquals(((Measure) entry.getResource()).getUrl().getValue(), "http://example.org/fhir/Measure/abc");
+        }
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalUrlWithVersion() {
+        // expected to find at least one match
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("url", "http://example.org/fhir/Measure/abc|1.0").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Resource resource = entry.getResource();
+            assertNotNull(resource);
+            assertTrue(resource instanceof Measure);
+            assertEquals(((Measure) entry.getResource()).getUrl().getValue(), "http://example.org/fhir/Measure/abc");
+            assertEquals(((Measure) entry.getResource()).getVersion().getValue(), "1.0");
+        }
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalUrlWithBadVersion() {
+        // not expected to find any matches
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("url", "http://example.org/fhir/Measure/abc|badversion").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 0);
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalLibraryNoVersion() {
+        // expected to find multiple matches
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("depends-on", "http://example.org/fhir/Library/abc").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() > 1);
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Resource resource = entry.getResource();
+            assertNotNull(resource);
+            assertTrue(resource instanceof Measure);
+            assertTrue(((Measure) entry.getResource()).getLibrary().get(0).getValue().startsWith("http://example.org/fhir/Library/abc"));
+        }
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalLibraryWithVersion() {
+        // expected to find at least one match
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("depends-on", "http://example.org/fhir/Library/abc|1.0").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+        for (Bundle.Entry entry : bundle.getEntry()) {
+            Resource resource = entry.getResource();
+            assertNotNull(resource);
+            assertTrue(resource instanceof Measure);
+            assertTrue(((Measure) entry.getResource()).getLibrary().get(0).getValue().startsWith("http://example.org/fhir/Library/abc|1.0"));
+        }
+    }
+
+    @Test(groups = { "server-search-reference" }, dependsOnMethods = { "testCreateMeasure" })
+    public void testSearchCanonicalLibraryWithBadVersion() {
+        // not expected to find any matches
+        WebTarget target = getWebTarget();
+
+        Response response =
+                target.path("Measure").queryParam("depends-on", "http://example.org/fhir/Library/abc|badversion").request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() == 0);
+    }
+
 }

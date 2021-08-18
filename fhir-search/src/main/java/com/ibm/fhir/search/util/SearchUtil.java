@@ -1147,7 +1147,7 @@ public class SearchUtil {
      * Common logic from handling a single queryParameterValueString based on its type
      */
     private static List<QueryParameterValue> processQueryParameterValueString(Class<?> resourceType, SearchParameter searchParameter, Modifier modifier,
-        String modifierResourceTypeName, String queryParameterValueString, boolean isCanonical) throws FHIRSearchException, Exception {
+            String modifierResourceTypeName, String queryParameterValueString, boolean isCanonical) throws FHIRSearchException, Exception {
         String parameterCode = searchParameter.getCode().getValue();
         Type type = Type.fromValue(searchParameter.getType().getValue());
         List<QueryParameterValue> queryParameterValues;
@@ -2881,7 +2881,7 @@ public class SearchUtil {
             // Split into components
             for (String component : subExpression.split("\\.")) {
                 component = component.trim();
-                if ((dataType == null || !component.equals(dataType.getSimpleName())) && !component.startsWith("where")) {
+                if (dataType == null || !component.equals(dataType.getSimpleName())) {
                     if (component.contains(" as ")) {
                         dataType = ModelSupport.getDataType(component.substring(component.indexOf(" as ") + 4));
                     } else if (component.startsWith("as(")) {
@@ -2893,7 +2893,7 @@ public class SearchUtil {
                     }
                 }
             }
-            if ("Canonical".equals(dataType.getSimpleName())) {
+            if (Canonical.class.getSimpleName().equals(dataType.getSimpleName())) {
                 return true;
             }
         }

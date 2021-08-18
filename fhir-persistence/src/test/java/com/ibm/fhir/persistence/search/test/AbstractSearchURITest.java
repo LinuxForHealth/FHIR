@@ -152,8 +152,6 @@ public abstract class AbstractSearchURITest extends AbstractPLSearchTest {
         assertSearchDoesntReturnComposition("subject:Basic.canonical", "http://HL7.org/FHIR/dstu2");
         assertSearchDoesntReturnComposition("subject:Basic.canonical", "http://hl7.org/fhir/DSTU");
         assertSearchDoesntReturnComposition("subject:Basic.canonical", "urn:uuid:53FEFA32-1111-2222-3333-55EE120877B7");
-
-        // TODO add test for diacritics and other unusual characters
     }
 
     @Test

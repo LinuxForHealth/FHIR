@@ -35,7 +35,11 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
+import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.Library;
+import com.ibm.fhir.model.resource.Measure;
+import com.ibm.fhir.model.resource.MeasureReport;
 import com.ibm.fhir.model.resource.NutritionOrder;
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Organization;
@@ -45,6 +49,7 @@ import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.resource.Procedure.Performer;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -81,6 +86,10 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
     private String procedure5Id;
     private String encounter1Id;
     private List<String> nutritionOrderIds = new ArrayList<>();
+    private String carePlanId;
+    private String measureReportId;
+    private String measureId;
+    private String libraryId;
     private Instant now = Instant.now();
     private String tag = Long.toString(now.toEpochMilli());
 
@@ -102,6 +111,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the organization's logical id value.
         organization1Id = getLocationLogicalId(response);
 
+        // Add the organization to the resource registry.
+        addToResourceRegistry("Organization", organization1Id);
+        
         // Next, call the 'read' API to retrieve the new organization and verify it.
         response = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -133,6 +145,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the practitioner logical id value.
         practitioner1Id = getLocationLogicalId(response);
 
+        // Add the practitioner to the resource registry.
+        addToResourceRegistry("Practitioner", practitioner1Id);
+        
         // Next, call the 'read' API to retrieve the new practitioner and verify it.
         response = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -164,6 +179,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient1Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient1Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -198,6 +216,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient2Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient2Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -230,6 +251,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the patient's logical id value.
         patient3Id = getLocationLogicalId(response);
 
+        // Add the patient to the resource registry.
+        addToResourceRegistry("Patient", patient3Id);
+        
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -258,6 +282,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure1Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure1Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -286,6 +313,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure2Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure2Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -313,6 +343,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure3Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure3Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -340,6 +373,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure4Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure4Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure4Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -370,6 +406,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the procedure's logical id value.
         procedure5Id = getLocationLogicalId(response);
 
+        // Add the procedure to the resource registry.
+        addToResourceRegistry("Procedure", procedure5Id);
+        
         // Next, call the 'read' API to retrieve the new procedure and verify it.
         response = target.path("Procedure/" + procedure5Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -394,6 +433,9 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         // Get the encounter's logical id value.
         encounter1Id = getLocationLogicalId(response);
 
+        // Add the encounter to the resource registry.
+        addToResourceRegistry("Encounter", encounter1Id);
+        
         // Next, call the 'read' API to retrieve the new encounter and verify it.
         response = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
@@ -504,103 +546,115 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         }
     }
 
-    @AfterClass
-    public void testDeletePatient1() {
+    @Test(groups = { "server-search-revinclude" })
+    public void testCreateLibrary() throws Exception {
         WebTarget target = getWebTarget();
-        if (patient1Id != null) {
-            Response response   = target.path("Patient/" + patient1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+
+        // Build a new Library and then call the 'create' API.
+        Library library = TestUtil.getMinimalResource(ResourceType.LIBRARY, Format.JSON);
+        library = library.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Library/abc"))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Library> entity = Entity.entity(library, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Library").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the library's logical id value.
+        libraryId = getLocationLogicalId(response);
+
+        // Add the library to the resource registry.
+        addToResourceRegistry("Library", libraryId);
+        
+        // Next, call the 'read' API to retrieve the new library and verify it.
+        response = target.path("Library/" + libraryId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @AfterClass
-    public void testDeletePatient2() {
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateLibrary"})
+    public void testCreateMeasure() throws Exception {
         WebTarget target = getWebTarget();
-        if (patient2Id != null) {
-            Response response   = target.path("Patient/" + patient2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+
+        // Build a new Measure and then call the 'create' API.
+        Measure measure = TestUtil.getMinimalResource(ResourceType.MEASURE, Format.JSON);
+        measure = measure.toBuilder()
+                .url(Uri.of("http://example.org/fhir/Measure/abc"))
+                .version(com.ibm.fhir.model.type.String.string("1.0"))
+                .library(Canonical.of("http://example.org/fhir/Library/abc|1.0"))
+                .name(of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<Measure> entity = Entity.entity(measure, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Measure").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the measure's logical id value.
+        measureId = getLocationLogicalId(response);
+
+        // Add the measure to the resource registry.
+        addToResourceRegistry("Measure", measureId);
+        
+        // Next, call the 'read' API to retrieve the new measure and verify it.
+        response = target.path("Measure/" + measureId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @AfterClass
-    public void testDeletePatient3() {
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateCarePlan() throws Exception {
         WebTarget target = getWebTarget();
-        if (patient3Id != null) {
-            Response response   = target.path("Patient/" + patient3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+
+        // Build a new CarePlan and then call the 'create' API.
+        CarePlan carePlan = TestUtil.getMinimalResource(ResourceType.CARE_PLAN, Format.JSON);
+        carePlan = carePlan.toBuilder()
+                .instantiatesCanonical(Canonical.of("http://example.org/fhir/Measure/abc"))
+                .instantiatesUri(Uri.of(tag))
+                .build();
+
+        // Call the 'create' API.
+        Entity<CarePlan> entity = Entity.entity(carePlan, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("CarePlan").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // Get the carePlan's logical id value.
+        carePlanId = getLocationLogicalId(response);
+
+        // Add the carePlan to the resource registry.
+        addToResourceRegistry("CarePlan", carePlanId);
+        
+        // Next, call the 'read' API to retrieve the new carePlan and verify it.
+        response = target.path("CarePlan/" + carePlanId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
-    @AfterClass
-    public void testDeleteProcedure1() {
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testCreateMeasureReport() throws Exception {
         WebTarget target = getWebTarget();
-        if (procedure1Id != null) {
-            Response response   = target.path("Procedure/" + procedure1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
 
-    @AfterClass
-    public void testDeleteProcedure2() {
-        WebTarget target = getWebTarget();
-        if (procedure2Id != null) {
-            Response response   = target.path("Procedure/" + procedure2Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
+        // Build a new MeasureReport and then call the 'create' API.
+        MeasureReport measureReport = TestUtil.getMinimalResource(ResourceType.MEASURE_REPORT, Format.JSON);
+        measureReport = measureReport.toBuilder()
+                .measure(Canonical.of("http://example.org/fhir/Measure/abc|2.0"))
+                .subject(Reference.builder().reference(of("Patient/" + tag)).build())
+                .build();
 
-    @AfterClass
-    public void testDeleteProcedure3() {
-        WebTarget target = getWebTarget();
-        if (procedure3Id != null) {
-            Response response   = target.path("Procedure/" + procedure3Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
+        // Call the 'create' API.
+        Entity<MeasureReport> entity = Entity.entity(measureReport, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("MeasureReport").request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
 
-    @AfterClass
-    public void testDeleteProcedure4() {
-        WebTarget target = getWebTarget();
-        if (procedure4Id != null) {
-            Response response   = target.path("Procedure/" + procedure4Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
+        // Get the measureReport's logical id value.
+        measureReportId = getLocationLogicalId(response);
 
-    @AfterClass
-    public void testDeleteProcedure5() {
-        WebTarget target = getWebTarget();
-        if (procedure5Id != null) {
-            Response response   = target.path("Procedure/" + procedure5Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteOrganization1() {
-        WebTarget target = getWebTarget();
-        if (organization1Id != null) {
-            Response response   = target.path("Organization/" + organization1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeletePractitioner1() {
-        WebTarget target = getWebTarget();
-        if (practitioner1Id != null) {
-            Response response   = target.path("Practitioner/" + practitioner1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
-    }
-
-    @AfterClass
-    public void testDeleteEncounter1() {
-        WebTarget target = getWebTarget();
-        if (encounter1Id != null) {
-            Response response   = target.path("Encounter/" + encounter1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-            assertResponse(response, Response.Status.OK.getStatusCode());
-        }
+        // Add the measureReport to the resource registry.
+        addToResourceRegistry("MeasureReport", measureReportId);
+        
+        // Next, call the 'read' API to retrieve the new measureReport and verify it.
+        response = target.path("MeasureReport/" + measureReportId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
     }
 
     @AfterClass
@@ -1231,4 +1285,90 @@ public class SearchRevIncludeTest extends FHIRServerTestBase {
         assertTrue(resourceIds.contains(procedure4Id));
         assertTrue(resourceIds.contains(procedure5Id));
     }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasure"})
+    public void testSearchCanonicalRevIncludeSingleIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "Measure:depends-on")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(libraryId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(measureId, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalRevIncludeNoVersionSingleIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "CarePlan:instantiates-canonical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(2, bundle.getEntry().size());
+        assertEquals(measureId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        assertEquals(carePlanId, bundle.getEntry().get(1).getResource().getId());
+        assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(1).getSearch().getMode());
+    }
+
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateMeasureReport"})
+    public void testSearchCanonicalRevIncludeVersionNoIncludedResult() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Measure")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "MeasureReport:measure")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getEntry().size());
+        assertEquals(measureId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+    }
+
+    @Test(groups = { "server-search-revinclude" }, dependsOnMethods = {"testCreateCarePlan"})
+    public void testSearchCanonicalRevIncludeIterate() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Library")
+                .queryParam("name", tag)
+                .queryParam("_revinclude", "Measure:depends-on")
+                .queryParam("_revinclude:iterate", "CarePlan:instantiates-canonical")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertEquals(1, bundle.getTotal().getValue().intValue());
+        assertEquals(3, bundle.getEntry().size());
+        assertEquals(libraryId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(SearchEntryMode.MATCH, bundle.getEntry().get(0).getSearch().getMode());
+        List<String> includeResourceIds = new ArrayList<>();
+        for (int i=1; i<bundle.getEntry().size(); ++i) {
+            includeResourceIds.add(bundle.getEntry().get(i).getResource().getId());
+            assertEquals(SearchEntryMode.INCLUDE, bundle.getEntry().get(i).getSearch().getMode());
+        }
+        assertTrue(includeResourceIds.contains(measureId));
+        assertTrue(includeResourceIds.contains(carePlanId));
+    }
+
 }

@@ -1976,7 +1976,7 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
                     .and(nextPlus2ParamAlias, "COMPOSITE_ID").eq(nextParamAlias, "COMPOSITE_ID")
                     .and(nextPlus2ParamAlias, "PARAMETER_NAME_ID").eq(getParameterNameId(targetVersionCode))
                     .and()
-                    .leftParen().col(nextPlus2ParamAlias, "STR_VALUE").isNull()
+                    .leftParen().col(nextPlus1ParamAlias, "STR_VALUE").isNull()
                     .or().col(nextPlus2ParamAlias, "STR_VALUE").eq().col(nextPlus1ParamAlias, "STR_VALUE")
                     .rightParen())
                 .innerJoin(xxLogicalResources, alias(lrAlias),

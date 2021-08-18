@@ -2,7 +2,7 @@
 layout: post
 title:  Conformance
 description: Notes on the Conformance of the IBM FHIR Server
-date:   2021-05-26
+date:   2021-08-18
 permalink: /conformance/
 ---
 
@@ -272,7 +272,7 @@ The IBM FHIR Server does not consider the `Quantity.comparator` field as part of
 ### Searching on URI
 URI searches on the IBM FHIR Server are case-sensitive with "exact-match" semantics. The `above` and `below` prefixes can be used to perform path-based matching that is based on the `/` delimiter.
 
-There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://build.fhir.org/references.html#canonical). The following section of this document describes how the IBM FHIR Server processes canonical reference searches.
+There is one exception to the statement above. The `url` search parameter, which is defined in the base FHIR specification on definitional resource types as a URI search parameter, is actually treated as a canonical search parameter of type REFERENCE, as documented in the [FHIR specification](http://hl7.org/fhir/R4/references.html#canonical). The following section of this document describes how the IBM FHIR Server processes canonical reference searches.
 
 ### Searching on Reference
 Reference searches on the IBM FHIR Server support search on elements of type Reference and on elements of type canonical.
@@ -281,7 +281,7 @@ Reference searches on the IBM FHIR Server support search on elements of type Ref
 
 Reference searches may be of the following types:
 
-* a relative reference - `1` where it is reflexsively determined to be a subset of possible targets, such as `Patient/1`, `Group/1`
+* a relative reference - `1` where it is reflectively determined to be a subset of possible targets, such as `Patient/1`, `Group/1`
 * a logical reference - `Patient/1` where it is explicitly set
 * uri searches - where it is explicitly searched using a URI on the server, such as `reference=http://example.org/fhir/Patient/123`
 
@@ -303,13 +303,14 @@ Elements of type Reference may contain a versioned reference, such as `Patient/1
 
 **Search on Elements of Type Canonical:**
 
-Canonical searches search against the canonical URL of a resource. This is for resource types that have a defined element `url` which is the URL that always identifies the resource across all contexts of use. The list of resource types that have a canonical URL and are allowed to be the target of a reference to a canonical URL are documented in the [FHIR specification](http://build.fhir.org/references.html#canonical).
+Canonical searches search against elements of type canonical which contain a reference to a canonical URL. The canonical reference is to a resource's defined element `url` which is the URL that always identifies the resource across all contexts of use. The list of resource types that have a canonical URL and are allowed to be the target of a canonical reference are documented in the [FHIR specification](http://hl7.org/fhir/R4/references.html#canonical). A canonical reference can optionally contain a version, delimited by the `|` character (i.e. `http://example.org/fhir/ValueSet/123|1.0.0`). The version is a reference to a resource’s business version - the indexed `version` element value (not to be confused with a resource’s `meta.versionId` element).
+
+When a resource which contains a canonical element is indexed for search, the reference contained in the canonical element will be parsed into the URL part and the version part (if specified). These values will be stored separately and compared against during canonical searches as described below.
 
 Canonical searches are processed following these rules:
-* The search parameter value is a reference to a definitional FHIR resource (of a type from the list documented in the FHIR specification), where the reference is to the resource’s indexed `url` element value.
-    * The reference can optionally contain a version, delimited by the `|` character (i.e. `http://example.org/fhir/ValueSet/123|1.0.0`). The version will be automatically detected and interpreted as a reference to a resource’s business version - the indexed `version` element value (not to be confused with a resource’s `meta.versionId` element).
-* Searches which do not specify a version will match against all resources whose indexed `url` value matches the search parameter value, regardless if the resource has a `version` value specified.
-* Searches which do specify a version will match only against those resources whose indexed `url` and indexed `version` values match the `url` and `version` components of the search parameter value.
+* The search parameter value is a reference to a canonical URL, which may optionally contain a version delimited by the `|` character. If a version is specified, it will be automatically detected and used in the search.
+* Searches which do not specify a version will match against all resources whose indexed `url` portion of the reference matches the search parameter value, regardless if the reference contains a version. For example, assume one Measure resource contains a canonical reference of `http://example.org/fhir/Library/abc` in its `library` field, and another Measure resource contains a canonical reference of `http://example.org/fhir/Library/abc|1.0.0` in its `library` field. If a search parameter value of `http://example.org/fhir/Library/abc` is used in a canonical search against the `library` field, both of the Measure resources will be a match because the `url` portion of the reference is a match for both resources, regardless of the `version` portion of the reference.
+* Searches which do specify a version will match only against those resources whose indexed `url` portion of the reference and indexed `version` portion of the reference match the `url` and `version` components of the search parameter value. For example, assume the same Measure resources as in the previous example. If a search parameter value of `http://example.org/fhir/Library/abc|2.0.0` is used in a canonical search against the `library` field, neither of the Measure resources will be a match. Although the indexed `url` portion of the reference is a match for both resources, since a version was specified in the search parameter value, the search will also attempt to match the `version` component of the search parameter value with the indexed `version` portion of the references, and neither is a match.
 * Canonical search parameters may be used when performing chained, reverse chained (`_has`), `_include`, or `_revinclude` searches. As described above, versioned canonical references act against the business version of a resource, not it’s versionId. The special rules that apply to chaining and include references specifying versions of the form `/_history/xx` do not apply to versioned canonical references. Versions of the form `/_history/xx` are not supported with canonical references.
 * The `:above` and `:below` modifiers are not supported with canonical search parameters.
 * Canonical references will be resolved via indexed search values. They will not be resolved via registry look-ups.
