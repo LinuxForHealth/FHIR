@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,19 +35,27 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A patient's point-in-time set of recommendations (i.e. forecasting) according to a published schedule with optional 
  * supporting justification.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "imr-1",
     level = "Rule",
     location = "ImmunizationRecommendation.recommendation",
     description = "One of vaccineCode or targetDisease SHALL be present",
-    expression = "vaccineCode.exists() or targetDisease.exists()"
+    expression = "vaccineCode.exists() or targetDisease.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ImmunizationRecommendation"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationRecommendation extends DomainResource {
@@ -65,18 +74,13 @@ public class ImmunizationRecommendation extends DomainResource {
     @Required
     private final List<Recommendation> recommendation;
 
-    private volatile int hashCode;
-
     private ImmunizationRecommendation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        patient = builder.patient;
+        date = builder.date;
         authority = builder.authority;
-        recommendation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.recommendation, "recommendation"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.requireChildren(this);
+        recommendation = Collections.unmodifiableList(builder.recommendation);
     }
 
     /**
@@ -574,7 +578,21 @@ public class ImmunizationRecommendation extends DomainResource {
          */
         @Override
         public ImmunizationRecommendation build() {
-            return new ImmunizationRecommendation(this);
+            ImmunizationRecommendation immunizationRecommendation = new ImmunizationRecommendation(this);
+            if (validating) {
+                validate(immunizationRecommendation);
+            }
+            return immunizationRecommendation;
+        }
+
+        protected void validate(ImmunizationRecommendation immunizationRecommendation) {
+            super.validate(immunizationRecommendation);
+            ValidationSupport.checkList(immunizationRecommendation.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunizationRecommendation.patient, "patient");
+            ValidationSupport.requireNonNull(immunizationRecommendation.date, "date");
+            ValidationSupport.checkNonEmptyList(immunizationRecommendation.recommendation, "recommendation", Recommendation.class);
+            ValidationSupport.checkReferenceType(immunizationRecommendation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationRecommendation.authority, "authority", "Organization");
         }
 
         protected Builder from(ImmunizationRecommendation immunizationRecommendation) {
@@ -595,7 +613,7 @@ public class ImmunizationRecommendation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VaccineCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type of vaccine administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
@@ -603,7 +621,7 @@ public class ImmunizationRecommendation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "TargetDisease",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The disease that the recommended vaccination targets.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-target-disease"
         )
@@ -611,7 +629,7 @@ public class ImmunizationRecommendation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VaccineCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type of vaccine administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
         )
@@ -619,7 +637,7 @@ public class ImmunizationRecommendation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationStatus",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-status"
         )
@@ -628,7 +646,7 @@ public class ImmunizationRecommendation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImmunizationRecommendationReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The reason for the patient's status with respect to a vaccination protocol.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-reason"
         )
@@ -645,24 +663,20 @@ public class ImmunizationRecommendation extends DomainResource {
         private final List<Reference> supportingImmunization;
         private final List<Reference> supportingPatientInformation;
 
-        private volatile int hashCode;
-
         private Recommendation(Builder builder) {
             super(builder);
-            vaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode"));
+            vaccineCode = Collections.unmodifiableList(builder.vaccineCode);
             targetDisease = builder.targetDisease;
-            contraindicatedVaccineCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contraindicatedVaccineCode, "contraindicatedVaccineCode"));
-            forecastStatus = ValidationSupport.requireNonNull(builder.forecastStatus, "forecastStatus");
-            forecastReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.forecastReason, "forecastReason"));
-            dateCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateCriterion, "dateCriterion"));
+            contraindicatedVaccineCode = Collections.unmodifiableList(builder.contraindicatedVaccineCode);
+            forecastStatus = builder.forecastStatus;
+            forecastReason = Collections.unmodifiableList(builder.forecastReason);
+            dateCriterion = Collections.unmodifiableList(builder.dateCriterion);
             description = builder.description;
             series = builder.series;
-            doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            supportingImmunization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingImmunization, "supportingImmunization"));
-            supportingPatientInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingPatientInformation, "supportingPatientInformation"));
-            ValidationSupport.checkReferenceType(supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
-            ValidationSupport.requireValueOrChildren(this);
+            doseNumber = builder.doseNumber;
+            seriesDoses = builder.seriesDoses;
+            supportingImmunization = Collections.unmodifiableList(builder.supportingImmunization);
+            supportingPatientInformation = Collections.unmodifiableList(builder.supportingPatientInformation);
         }
 
         /**
@@ -1342,7 +1356,26 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             @Override
             public Recommendation build() {
-                return new Recommendation(this);
+                Recommendation recommendation = new Recommendation(this);
+                if (validating) {
+                    validate(recommendation);
+                }
+                return recommendation;
+            }
+
+            protected void validate(Recommendation recommendation) {
+                super.validate(recommendation);
+                ValidationSupport.checkList(recommendation.vaccineCode, "vaccineCode", CodeableConcept.class);
+                ValidationSupport.checkList(recommendation.contraindicatedVaccineCode, "contraindicatedVaccineCode", CodeableConcept.class);
+                ValidationSupport.requireNonNull(recommendation.forecastStatus, "forecastStatus");
+                ValidationSupport.checkList(recommendation.forecastReason, "forecastReason", CodeableConcept.class);
+                ValidationSupport.checkList(recommendation.dateCriterion, "dateCriterion", DateCriterion.class);
+                ValidationSupport.choiceElement(recommendation.doseNumber, "doseNumber", PositiveInt.class, String.class);
+                ValidationSupport.choiceElement(recommendation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+                ValidationSupport.checkList(recommendation.supportingImmunization, "supportingImmunization", Reference.class);
+                ValidationSupport.checkList(recommendation.supportingPatientInformation, "supportingPatientInformation", Reference.class);
+                ValidationSupport.checkReferenceType(recommendation.supportingImmunization, "supportingImmunization", "Immunization", "ImmunizationEvaluation");
+                ValidationSupport.requireValueOrChildren(recommendation);
             }
 
             protected Builder from(Recommendation recommendation) {
@@ -1369,7 +1402,7 @@ public class ImmunizationRecommendation extends DomainResource {
         public static class DateCriterion extends BackboneElement {
             @Binding(
                 bindingName = "ImmunizationRecommendationDateCriterion",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Classifies date criterion with respect to conveying information about a patient's vaccination status (e.g. due date, latest to give date, etc.).",
                 valueSet = "http://hl7.org/fhir/ValueSet/immunization-recommendation-date-criterion"
             )
@@ -1378,13 +1411,10 @@ public class ImmunizationRecommendation extends DomainResource {
             @Required
             private final DateTime value;
 
-            private volatile int hashCode;
-
             private DateCriterion(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -1630,7 +1660,18 @@ public class ImmunizationRecommendation extends DomainResource {
                  */
                 @Override
                 public DateCriterion build() {
-                    return new DateCriterion(this);
+                    DateCriterion dateCriterion = new DateCriterion(this);
+                    if (validating) {
+                        validate(dateCriterion);
+                    }
+                    return dateCriterion;
+                }
+
+                protected void validate(DateCriterion dateCriterion) {
+                    super.validate(dateCriterion);
+                    ValidationSupport.requireNonNull(dateCriterion.code, "code");
+                    ValidationSupport.requireNonNull(dateCriterion.value, "value");
+                    ValidationSupport.requireValueOrChildren(dateCriterion);
                 }
 
                 protected Builder from(DateCriterion dateCriterion) {

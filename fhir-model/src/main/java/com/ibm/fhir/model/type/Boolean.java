@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,12 +24,9 @@ public class Boolean extends Element {
 
     private final java.lang.Boolean value;
 
-    private volatile int hashCode;
-
     private Boolean(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -52,11 +49,25 @@ public class Boolean extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Boolean objects from a java.lang.Boolean
+     * 
+     * @param value
+     *     A java.lang.Boolean, not null
+     */
     public static Boolean of(java.lang.Boolean value) {
+        Objects.requireNonNull(value, "value");
         return Boolean.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Boolean objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Boolean, not null
+     */
     public static Boolean of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Boolean.builder().value(value).build();
     }
 
@@ -201,7 +212,16 @@ public class Boolean extends Element {
          */
         @Override
         public Boolean build() {
-            return new Boolean(this);
+            Boolean _boolean = new Boolean(this);
+            if (validating) {
+                validate(_boolean);
+            }
+            return _boolean;
+        }
+
+        protected void validate(Boolean _boolean) {
+            super.validate(_boolean);
+            ValidationSupport.requireValueOrChildren(_boolean);
         }
 
         protected Builder from(Boolean _boolean) {

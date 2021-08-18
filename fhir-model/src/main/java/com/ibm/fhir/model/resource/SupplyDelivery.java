@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -33,13 +34,20 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SupplyDeliveryStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Record of delivery of what is supplied.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyDelivery extends DomainResource {
     private final List<Identifier> identifier;
@@ -52,7 +60,7 @@ public class SupplyDelivery extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SupplyDeliveryStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply delivery.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-status|4.0.1"
     )
@@ -61,7 +69,7 @@ public class SupplyDelivery extends DomainResource {
     private final Reference patient;
     @Binding(
         bindingName = "SupplyDeliveryType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of supply dispense.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplydelivery-type|4.0.1"
     )
@@ -77,29 +85,19 @@ public class SupplyDelivery extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole" })
     private final List<Reference> receiver;
 
-    private volatile int hashCode;
-
     private SupplyDelivery(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
         status = builder.status;
         patient = builder.patient;
         type = builder.type;
         suppliedItem = builder.suppliedItem;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        occurrence = builder.occurrence;
         supplier = builder.supplier;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
-        ValidationSupport.checkValueSetBinding(type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "SupplyRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "SupplyDelivery", "Contract");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
+        receiver = Collections.unmodifiableList(builder.receiver);
     }
 
     /**
@@ -846,7 +844,27 @@ public class SupplyDelivery extends DomainResource {
          */
         @Override
         public SupplyDelivery build() {
-            return new SupplyDelivery(this);
+            SupplyDelivery supplyDelivery = new SupplyDelivery(this);
+            if (validating) {
+                validate(supplyDelivery);
+            }
+            return supplyDelivery;
+        }
+
+        protected void validate(SupplyDelivery supplyDelivery) {
+            super.validate(supplyDelivery);
+            ValidationSupport.checkList(supplyDelivery.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(supplyDelivery.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(supplyDelivery.partOf, "partOf", Reference.class);
+            ValidationSupport.choiceElement(supplyDelivery.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(supplyDelivery.receiver, "receiver", Reference.class);
+            ValidationSupport.checkValueSetBinding(supplyDelivery.type, "type", "http://hl7.org/fhir/ValueSet/supplydelivery-type", "http://terminology.hl7.org/CodeSystem/supply-item-type", "medication", "device");
+            ValidationSupport.checkReferenceType(supplyDelivery.basedOn, "basedOn", "SupplyRequest");
+            ValidationSupport.checkReferenceType(supplyDelivery.partOf, "partOf", "SupplyDelivery", "Contract");
+            ValidationSupport.checkReferenceType(supplyDelivery.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(supplyDelivery.supplier, "supplier", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(supplyDelivery.destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(supplyDelivery.receiver, "receiver", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(SupplyDelivery supplyDelivery) {
@@ -875,20 +893,16 @@ public class SupplyDelivery extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SupplyDeliveryItem",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The item that was delivered.",
             valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
         )
         private final Element item;
 
-        private volatile int hashCode;
-
         private SuppliedItem(Builder builder) {
             super(builder);
             quantity = builder.quantity;
-            item = ValidationSupport.choiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -1139,7 +1153,18 @@ public class SupplyDelivery extends DomainResource {
              */
             @Override
             public SuppliedItem build() {
-                return new SuppliedItem(this);
+                SuppliedItem suppliedItem = new SuppliedItem(this);
+                if (validating) {
+                    validate(suppliedItem);
+                }
+                return suppliedItem;
+            }
+
+            protected void validate(SuppliedItem suppliedItem) {
+                super.validate(suppliedItem);
+                ValidationSupport.choiceElement(suppliedItem.item, "item", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(suppliedItem.item, "item", "Medication", "Substance", "Device");
+                ValidationSupport.requireValueOrChildren(suppliedItem);
             }
 
             protected Builder from(SuppliedItem suppliedItem) {

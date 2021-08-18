@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,18 +8,18 @@ package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.test.TestUtil.isResourceInResponse;
 import static com.ibm.fhir.model.type.String.string;
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -45,6 +45,7 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Practitioner;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
@@ -105,6 +106,8 @@ public class BundleTest extends FHIRServerTestBase {
 
     private static final String PREFER_HEADER_RETURN_REPRESENTATION = "return=representation";
     private static final String PREFER_HEADER_NAME = "Prefer";
+
+    private static final String UPDATE_IF_MODIFIED_HEADER_NAME = "X-FHIR-UPDATE-IF-MODIFIED";
 
     /**
      * Retrieve the server's conformance statement to determine the status of
@@ -1222,7 +1225,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1261,7 +1264,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1300,7 +1303,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.CONFLICT);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.CONFLICT);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -1385,7 +1388,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
     }
 
     @Test(groups = { "transaction" }, dependsOnMethods = { "testTransactionUpdates" })
@@ -1420,7 +1423,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
 
         assertSearchResults(target, family1, 1);
         assertSearchResults(target, family2, 1);
@@ -2004,7 +2007,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.readEntity(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.DELETED);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.DELETED);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchCreates", "testTransactionCreates" })
@@ -2089,7 +2092,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.getResource(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.MULTIPLE_MATCHES);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.MULTIPLE_MATCHES);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testTransactionConditionalCreates" })
@@ -2111,7 +2114,7 @@ public class BundleTest extends FHIRServerTestBase {
         OperationOutcome oo = response.getResource(OperationOutcome.class);
 
         assertNotNull(oo);
-        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnumConstant(), IssueType.ValueSet.INVALID);
+        assertEquals(oo.getIssue().get(0).getCode().getValueAsEnum(), IssueType.Value.INVALID);
     }
 
     @Test(groups = { "batch" }, dependsOnMethods = { "testBatchUpdates" })
@@ -2241,17 +2244,7 @@ public class BundleTest extends FHIRServerTestBase {
 
         Bundle bundle = buildBundle(BundleType.BATCH);
 
-        // Commented out because $hello operation isn't installed by default
-        // 1. GET request at global level
-        //bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "$hello?input=" + message, null, null);
-
-        // 2. POST request at global level
-        //Parameters hellowWorldParameters = Parameters.builder()
-        //        .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
-
-        //bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
-
-        // 3. POST request with resource at resource level
+        // 1. POST request with resource at resource level
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
 
         Parameters validateOperationParameters = Parameters.builder()
@@ -2260,9 +2253,20 @@ public class BundleTest extends FHIRServerTestBase {
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "Patient/$validate", null,
                 validateOperationParameters);
 
-        // 4. POST request with resource at resource instance level
+        // 2. POST request with resource at resource instance level
         bundle = addRequestToBundle(null, bundle, HTTPVerb.POST,
                 "Patient/" + patientB1.getId() + "/$validate", null, validateOperationParameters);
+
+        //////
+        // Commented out because $hello operation isn't installed by default
+        //////
+        // 3. GET request at global level
+        //bundle = addRequestToBundle(null, bundle, HTTPVerb.GET, "$hello?input=" + message, null, null);
+
+        // 4. POST request at global level
+        //Parameters hellowWorldParameters = Parameters.builder()
+        //        .parameter(Parameter.builder().name(string("input")).value(string(message)).build()).build();
+        //bundle = addRequestToBundle(null, bundle, HTTPVerb.POST, "$hello", null, hellowWorldParameters);
 
         printBundle(method, "request", bundle);
 
@@ -2272,17 +2276,11 @@ public class BundleTest extends FHIRServerTestBase {
         Bundle responseBundle = getEntityWithExtraWork(response,method);
 
         assertResponseBundle(responseBundle, BundleType.BATCH_RESPONSE, 2);
-        // Commented out because $hello operation isn't installed by default
-//        assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
-//        assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(0), Status.OK.getStatusCode());
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode());
 
-        // Commented out because $hello operation isn't installed by default
-//        assertNotNull(responseBundle.getEntry().get(0).getResource().getParameters());
-//        assertNotNull(responseBundle.getEntry().get(1).getResource().getParameters());
-        assertNotNull(responseBundle.getEntry().get(0).getResponse().getOutcome());
-        assertNotNull(responseBundle.getEntry().get(1).getResponse().getOutcome());
+        assertNotNull(responseBundle.getEntry().get(0).getResource());
+        assertNotNull(responseBundle.getEntry().get(1).getResource());
     }
 
     @Test(groups = { "transaction" })
@@ -2336,6 +2334,94 @@ public class BundleTest extends FHIRServerTestBase {
         assertGoodGetResponse(responseBundle.getEntry().get(1), Status.OK.getStatusCode(), HTTPReturnPreference.MINIMAL);
     }
 
+    /**
+     * Sets UPDATE_IF_MODIFIED_HEADER_NAME  and posts a transaction bundle with an update and a patch; both should be skipped on the server
+     * Procedure has local reference to Patient.
+     */
+    @Test
+    public void testTransactionBundleWithSkippableUpdates() throws Exception {
+        String randomId = UUID.randomUUID().toString();
+        Patient patient = Patient.builder()
+                .id(randomId)
+                .active(com.ibm.fhir.model.type.Boolean.TRUE)
+                .build();
+        Bundle.Entry.Request bundleEntryRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PUT)
+                .url(Uri.of("Patient/"+randomId))
+                .build();
+        Bundle.Entry bundleEntry = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:1"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+        Bundle.Entry bundleEntry2 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:2"))
+                .resource(patient)
+                .request(bundleEntryRequest)
+                .build();
+
+        Bundle.Entry.Request patchRequest = Bundle.Entry.Request.builder()
+                .method(HTTPVerb.PATCH)
+                .url(Uri.of("Patient/"+randomId))
+                .build();
+        Parameters nopPatch = Parameters.builder()
+                .parameter(Parameter.builder()
+                    .name(string("operation"))
+                    .part(Parameter.builder()
+                        .name(string("type"))
+                        .value(Code.of("replace"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("path"))
+                        .value(string("Patient.active"))
+                        .build())
+                    .part(Parameter.builder()
+                        .name(string("value"))
+                        .value(com.ibm.fhir.model.type.Boolean.TRUE)
+                        .build())
+                    .build())
+                .build();
+        Bundle.Entry bundleEntry3 = Bundle.Entry.builder()
+                .fullUrl(Uri.of("urn:3"))
+                .resource(nopPatch)
+                .request(patchRequest)
+                .build();
+
+        Bundle requestBundle = Bundle.builder()
+                .id("bundle1")
+                .type(BundleType.TRANSACTION)
+                .entry(bundleEntry, bundleEntry2, bundleEntry3)
+                .build();
+
+        // Process bundle
+        FHIRRequestHeader returnPref = FHIRRequestHeader.header(PREFER_HEADER_NAME, PREFER_HEADER_RETURN_REPRESENTATION);
+        FHIRRequestHeader updateOnlyIfModified = FHIRRequestHeader.header(UPDATE_IF_MODIFIED_HEADER_NAME, true);
+        FHIRResponse response = client.transaction(requestBundle, returnPref, updateOnlyIfModified);
+        assertNotNull(response);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle responseBundle = response.getResource(Bundle.class);
+        printBundle("PUT", "response", responseBundle);
+
+        // Validate results
+        assertNotNull(responseBundle);
+        assertEquals(3, responseBundle.getEntry().size());
+
+        Bundle.Entry entry1 = responseBundle.getEntry().get(0);
+        assertNotNull(entry1.getResource());
+        assertEquals(entry1.getResponse().getStatus().getValue(), "201");
+        assertEquals(entry1.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        Patient responsePatient = entry1.getResource().as(Patient.class);
+
+        Bundle.Entry entry2 = responseBundle.getEntry().get(1);
+        assertEquals(entry2.getResponse().getStatus().getValue(), "200");
+        assertEquals(entry2.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        assertEquals(entry2.getResource(), responsePatient);
+
+        Bundle.Entry entry3 = responseBundle.getEntry().get(2);
+        assertEquals(entry3.getResponse().getStatus().getValue(), "200");
+        assertEquals(entry3.getResponse().getLocation().getValue(), "Patient/"+randomId+"/_history/1");
+        assertEquals(entry3.getResource(), responsePatient);
+    }
 
     /**
      * Helper function to create a set of Observations, and return them in a
@@ -2451,17 +2537,6 @@ public class BundleTest extends FHIRServerTestBase {
         if (DEBUG) {
             System.out.println(method + " " + bundleType + " bundle contents:\n"
                     + TestUtil.writeResource(bundle, Format.JSON, prettyPrint));
-        }
-    }
-
-    private void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
-        assertNotNull(bundle);
-        assertNotNull(bundle.getType());
-        assertNotNull(bundle.getType().getValue());
-        assertEquals(expectedType.getValue(), bundle.getType().getValue());
-        if (expectedEntryCount > 0) {
-            assertNotNull(bundle.getEntry());
-            assertEquals(expectedEntryCount, bundle.getEntry().size());
         }
     }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -30,12 +31,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The regulatory authorization of a medicinal product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductAuthorization extends DomainResource {
     @Summary
@@ -74,14 +82,12 @@ public class MedicinalProductAuthorization extends DomainResource {
     @Summary
     private final Procedure procedure;
 
-    private volatile int hashCode;
-
     private MedicinalProductAuthorization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         subject = builder.subject;
-        country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        country = Collections.unmodifiableList(builder.country);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         status = builder.status;
         statusDate = builder.statusDate;
         restoreDate = builder.restoreDate;
@@ -90,14 +96,10 @@ public class MedicinalProductAuthorization extends DomainResource {
         dateOfFirstAuthorization = builder.dateOfFirstAuthorization;
         internationalBirthDate = builder.internationalBirthDate;
         legalBasis = builder.legalBasis;
-        jurisdictionalAuthorization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdictionalAuthorization, "jurisdictionalAuthorization"));
+        jurisdictionalAuthorization = Collections.unmodifiableList(builder.jurisdictionalAuthorization);
         holder = builder.holder;
         regulator = builder.regulator;
         procedure = builder.procedure;
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
-        ValidationSupport.checkReferenceType(holder, "holder", "Organization");
-        ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -948,7 +950,22 @@ public class MedicinalProductAuthorization extends DomainResource {
          */
         @Override
         public MedicinalProductAuthorization build() {
-            return new MedicinalProductAuthorization(this);
+            MedicinalProductAuthorization medicinalProductAuthorization = new MedicinalProductAuthorization(this);
+            if (validating) {
+                validate(medicinalProductAuthorization);
+            }
+            return medicinalProductAuthorization;
+        }
+
+        protected void validate(MedicinalProductAuthorization medicinalProductAuthorization) {
+            super.validate(medicinalProductAuthorization);
+            ValidationSupport.checkList(medicinalProductAuthorization.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicinalProductAuthorization.country, "country", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductAuthorization.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductAuthorization.jurisdictionalAuthorization, "jurisdictionalAuthorization", JurisdictionalAuthorization.class);
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.subject, "subject", "MedicinalProduct", "MedicinalProductPackaged");
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.holder, "holder", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductAuthorization.regulator, "regulator", "Organization");
         }
 
         protected Builder from(MedicinalProductAuthorization medicinalProductAuthorization) {
@@ -988,16 +1005,13 @@ public class MedicinalProductAuthorization extends DomainResource {
         @Summary
         private final Period validityPeriod;
 
-        private volatile int hashCode;
-
         private JurisdictionalAuthorization(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(builder.identifier);
             country = builder.country;
-            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
             legalStatusOfSupply = builder.legalStatusOfSupply;
             validityPeriod = builder.validityPeriod;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1360,7 +1374,18 @@ public class MedicinalProductAuthorization extends DomainResource {
              */
             @Override
             public JurisdictionalAuthorization build() {
-                return new JurisdictionalAuthorization(this);
+                JurisdictionalAuthorization jurisdictionalAuthorization = new JurisdictionalAuthorization(this);
+                if (validating) {
+                    validate(jurisdictionalAuthorization);
+                }
+                return jurisdictionalAuthorization;
+            }
+
+            protected void validate(JurisdictionalAuthorization jurisdictionalAuthorization) {
+                super.validate(jurisdictionalAuthorization);
+                ValidationSupport.checkList(jurisdictionalAuthorization.identifier, "identifier", Identifier.class);
+                ValidationSupport.checkList(jurisdictionalAuthorization.jurisdiction, "jurisdiction", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(jurisdictionalAuthorization);
             }
 
             protected Builder from(JurisdictionalAuthorization jurisdictionalAuthorization) {
@@ -1390,15 +1415,12 @@ public class MedicinalProductAuthorization extends DomainResource {
         @Summary
         private final List<MedicinalProductAuthorization.Procedure> application;
 
-        private volatile int hashCode;
-
         private Procedure(Builder builder) {
             super(builder);
             identifier = builder.identifier;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            date = ValidationSupport.choiceElement(builder.date, "date", Period.class, DateTime.class);
-            application = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.application, "application"));
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            date = builder.date;
+            application = Collections.unmodifiableList(builder.application);
         }
 
         /**
@@ -1725,7 +1747,19 @@ public class MedicinalProductAuthorization extends DomainResource {
              */
             @Override
             public Procedure build() {
-                return new Procedure(this);
+                Procedure procedure = new Procedure(this);
+                if (validating) {
+                    validate(procedure);
+                }
+                return procedure;
+            }
+
+            protected void validate(Procedure procedure) {
+                super.validate(procedure);
+                ValidationSupport.requireNonNull(procedure.type, "type");
+                ValidationSupport.choiceElement(procedure.date, "date", Period.class, DateTime.class);
+                ValidationSupport.checkList(procedure.application, "application", MedicinalProductAuthorization.Procedure.class);
+                ValidationSupport.requireValueOrChildren(procedure);
             }
 
             protected Builder from(Procedure procedure) {

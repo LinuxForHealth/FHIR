@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,10 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,20 +30,21 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
 
 /**
  * DAO to handle maintenance of the local and external reference tables
  * which contain the relationships described by "reference" elements in
  * each resource (e.g. Observation.subject).
- * 
+ *
  * The DAO uses a cache for looking up the ids for various entities. The
  * DAO can create new entries, but these can only be used locally until
  * the transaction commits, at which point they can be consolidated into
  * the shared cache. This has the benefit that we reduce the number of times
  * we need to lock the global cache, because we only update it once per
  * transaction.
- * 
+ *
  * For improved performance, we also make use of batch statements which
  * are managed as member variables. This is why it's important to close
  * this DAO before the transaction commits, ensuring that any outstanding
@@ -50,21 +54,21 @@ import com.ibm.fhir.schema.control.FhirSchemaConstants;
  */
 public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, AutoCloseable {
     private static final Logger logger = Logger.getLogger(ResourceReferenceDAO.class.getName());
-    
+
     private final String schemaName;
 
     // hold on to the connection because we use batches to improve efficiency
     private final Connection connection;
-    
+
     // The cache used to track the ids of the normalized entities we're managing
     private final ICommonTokenValuesCache cache;
-    
+
     // The translator for the type of database we are connected to
     private final IDatabaseTranslator translator;
 
     // The number of operations we allow before submitting a batch
     protected static final int BATCH_SIZE = 100;
-    
+
     /**
      * Public constructor
      * @param c
@@ -110,6 +114,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
 
     @Override
     public void flush() throws FHIRPersistenceException {
+        // NOP at this time
     }
 
     @Override
@@ -122,200 +127,106 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         return this.cache;
     }
 
-    /**
-     * Look up the database id for the given externalSystemName
-     * @param externalSystemName
-     * @return the database id, or null if no record exists
-     */
-    public Integer queryExternalSystemId(String externalSystemName) {
-        Integer result;
-        
-        final String SQL = "SELECT external_system_id FROM external_systems where external_system_name = ?";
+    @Override
+    public CommonTokenValueResult readCommonTokenValueId(String codeSystem, String tokenValue) {
+        CommonTokenValueResult result;
 
+        final String SQL = ""
+                + "SELECT c.code_system_id, c.common_token_value_id "
+                + "  FROM common_token_values c,"
+                + "       code_systems s "
+                + " WHERE c.token_value = ? "
+                + "   AND s.code_system_name = ? "
+                + "   AND c.code_system_id = s.code_system_id";
         try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, externalSystemName);
+            ps.setString(1, tokenValue);
+            ps.setString(2, codeSystem);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                result = rs.getInt(1);
+                result = new CommonTokenValueResult(null, rs.getInt(1), rs.getLong(2));
             } else {
                 result = null;
             }
         } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            throw translator.translate(x);
-        }
-        
-        return result;
-    }
-    
-    /**
-     * Find the database id for the given externalReferenceValue
-     * @param externalReferenceValue
-     * @return
-     */
-    public Integer queryExternalReferenceValueId(String externalReferenceValue) {
-        Integer result;
-        
-        final String SQL = "SELECT external_reference_value_id FROM external_reference_values WHERE external_reference_value = ?";
-        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
-            ps.setString(1, externalReferenceValue);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                result = rs.getInt(1);
-            } else {
-                result = null;
-            }
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
             logger.log(Level.SEVERE, SQL, x);
             throw translator.translate(x);
         }
-        
+
         return result;
     }
-    
-    /**
-     * Get a list of matching records from external_reference_values. Cheaper to do as one
-     * query instead of individuals
-     * @param externalReferenceValue
-     * @return
-     */
-    public List<ExternalReferenceValue> queryExternalReferenceValues(String... externalReferenceValues) {
-        List<ExternalReferenceValue> result = new ArrayList<>();
-        if (externalReferenceValues.length == 0) {
-            throw new IllegalArgumentException("externalReferenceValues array cannot be empty");
+
+    @Override
+    public Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues) {
+        if (tokenValues.isEmpty()) {
+            return Collections.emptySet();
         }
 
-        final StringBuilder sql = new StringBuilder();
-        sql.append("SELECT external_reference_value_id, external_reference_value FROM external_reference_values WHERE external_reference_value IN (");
-        
-        for (int i=0; i<externalReferenceValues.length; i++) {
-            if (i == 0) {
-                sql.append("?");
-            } else {
-                sql.append(",?");
-            }
+        Set<CommonTokenValueResult> result = new HashSet<>();
+
+        StringBuilder select = new StringBuilder()
+                .append("SELECT c.token_value, c.code_system_id, c.common_token_value_id ")
+                .append("  FROM common_token_values c")
+                .append("  JOIN (VALUES ");
+
+        String delim = "";
+        for (CommonTokenValue tokenValue : tokenValues) {
+            select.append(delim);
+            // CodeSystemId is an int that comes from the db so we can use the literal for that.
+            // TokenValue is a string that could possibly come from the end user, so that should be a bind variable.
+            select.append("(?," + tokenValue.getCodeSystemId() + ")");
+            delim = ", ";
         }
-        sql.append(")");
-        
-        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-            int a = 1;
-            for (String xrv: externalReferenceValues) {
-                ps.setString(a++, xrv);
+
+        select.append(") AS tmp (token_value,code_system_id) ON tmp.token_value = c.token_value AND tmp.code_system_id = c.code_system_id");
+
+        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+            Iterator<CommonTokenValue> iterator = tokenValues.iterator();
+            for (int i = 1; i <= tokenValues.size(); i++) {
+                CommonTokenValue tokenValue = iterator.next();
+
+                ps.setString(i, tokenValue.getTokenValue());
             }
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                result.add(new ExternalReferenceValue(rs.getLong(1), rs.getString(2)));
+                result.add(new CommonTokenValueResult(rs.getString(1), rs.getInt(2), rs.getLong(3)));
             }
         } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, sql.toString(), x);
+            logger.log(Level.SEVERE, select.toString(), x);
             throw translator.translate(x);
         }
-        
+
         return result;
     }
-    
-    public List<ExternalSystem> queryExternalSystems(String... externalSystemNames) {
-        List<ExternalSystem> result = new ArrayList<>();
-        if (externalSystemNames.length == 0) {
-            throw new IllegalArgumentException("externalReferenceValues array cannot be empty");
-        }
 
-        final StringBuilder sql = new StringBuilder();
-        sql.append("SELECT external_system_id, external_system_name FROM external_systems WHERE external_system_name IN (");
-        
-        for (int i=0; i<externalSystemNames.length; i++) {
-            if (i == 0) {
-                sql.append("?");
-            } else {
-                sql.append(",?");
-            }
-        }
-        sql.append(")");
-        
-        try (PreparedStatement ps = connection.prepareStatement(sql.toString())) {
-            int a = 1;
-            for (String xrv: externalSystemNames) {
-                ps.setString(a++, xrv);
-            }
-            
+    @Override
+    public Integer readCanonicalId(String canonicalValue) {
+        Integer result;
+        final String SQL = ""
+                + "SELECT canonical_id "
+                + "  FROM common_canonical_values "
+                + " WHERE url = ? ";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, canonicalValue);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                result.add(new ExternalSystem(rs.getLong(1), rs.getString(2)));
+            if (rs.next()) {
+                result = rs.getInt(1);
+            } else {
+                result = null;
             }
         } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, sql.toString(), x);
+            logger.log(Level.SEVERE, SQL, x);
             throw translator.translate(x);
         }
-        
+
         return result;
     }
 
     @Override
-    public void deleteExternalReferences(int resourceTypeId, String logicalId) {
-        final String DML = "DELETE FROM external_references "
-                + "WHERE logical_resource_id IN ( "
-                + " SELECT logical_resource_id FROM logical_resources "
-                + "  WHERE resource_type_id = ? "
-                + "    AND logical_id = ?)";
-        
-        try (PreparedStatement ps = connection.prepareStatement(DML)) {
-            ps.setInt(1, resourceTypeId);
-            ps.setString(2, logicalId);
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
-
-    }
-
-    @Override
-    public void deleteLocalReferences(long logicalResourceId) {
-        final String DML = "DELETE FROM local_references WHERE logical_resource_id = ?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(DML)) {
-            ps.setLong(1, logicalResourceId);
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
-    }
-
-    @Override
-    public void deleteLogicalResourceCompartments(long logicalResourceId) {
-        final String DML = "DELETE FROM logical_resource_compartments WHERE logical_resource_id = ?";
-        
-        try (PreparedStatement ps = connection.prepareStatement(DML)) {
-            ps.setLong(1, logicalResourceId);
-            ps.executeUpdate();
-        } catch (SQLException x) {
-            // make the exception a little bit more meaningful knowing the database type
-            logger.log(Level.SEVERE, DML, x);
-            throw translator.translate(x);
-        }
-    }
-
-    @Override
-    public void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
-        // Grab the ids for all the code-systems, and upsert any misses
-        List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
-        cache.resolveCodeSystems(xrefs, systemMisses);
-        upsertCodeSystems(systemMisses);
-
-        // Now that all the code-systems ids are known, we can search the cache
-        // for all the token values, upserting anything new
-        List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
-        cache.resolveTokenValues(xrefs, valueMisses);
-        upsertCommonTokenValues(valueMisses);
-
-        insertResourceTokenRefs(resourceType, xrefs);
+    public void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
+        // This method is only called when we're not using transaction data
+        logger.fine("Persist parameters for this resource - no transaction data available");
+        persist(xrefs, profileRecs, tagRecs, securityRecs);
     }
 
     /**
@@ -331,8 +242,8 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         final String tableName = resourceType + "_RESOURCE_TOKEN_REFS";
         DataDefinitionUtil.assertValidName(tableName);
         final String insert = "INSERT INTO " + tableName + "("
-                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
-                + "VALUES (?, ?, ?, ?)";
+                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id, composite_id) "
+                + "VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = connection.prepareStatement(insert)) {
             int count = 0;
             for (ResourceTokenValueRec xr: xrefs) {
@@ -343,7 +254,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                 if (xr.getCommonTokenValueId() != null) {
                     ps.setLong(3, xr.getCommonTokenValueId());
                 } else {
-                    ps.setNull(3, Types.BIGINT);                    
+                    ps.setNull(3, Types.BIGINT);
                 }
 
                 // version can be null
@@ -352,13 +263,20 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                 } else {
                     ps.setNull(4, Types.INTEGER);
                 }
+
+                // compositeId can be null
+                if (xr.getCompositeId() != null) {
+                    ps.setInt(5, xr.getCompositeId());
+                } else {
+                    ps.setNull(5, Types.INTEGER);
+                }
                 ps.addBatch();
                 if (++count == BATCH_SIZE) {
                     ps.executeBatch();
                     count = 0;
                 }
             }
-            
+
             if (count > 0) {
                 ps.executeBatch();
             }
@@ -367,7 +285,59 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             throw translator.translate(x);
         }
     }
-    
+
+    /**
+     * Insert any whole-system parameters to the token_refs table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertSystemResourceTokenRefs(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = "RESOURCE_TOKEN_REFS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "parameter_name_id, logical_resource_id, common_token_value_id, ref_version_id) "
+                + "VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                if (xr.isSystemLevel()) {
+                    ps.setInt(1, xr.getParameterNameId());
+                    ps.setLong(2, xr.getLogicalResourceId());
+
+                    // common token value can be null
+                    if (xr.getCommonTokenValueId() != null) {
+                        ps.setLong(3, xr.getCommonTokenValueId());
+                    } else {
+                        ps.setNull(3, Types.BIGINT);
+                    }
+
+                    // version can be null
+                    if (xr.getRefVersionId() != null) {
+                        ps.setInt(4, xr.getRefVersionId());
+                    } else {
+                        ps.setNull(4, Types.INTEGER);
+                    }
+
+                    ps.addBatch();
+                    if (++count == BATCH_SIZE) {
+                        ps.executeBatch();
+                        count = 0;
+                    }
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+
     /**
      * Add all the systems we currently don't have in the database. If all target
      * databases handled MERGE properly this would be easy, but they don't so
@@ -379,7 +349,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         if (systems.isEmpty()) {
             return;
         }
-        
+
         // Unique list so we don't try and create the same name more than once
         Set<String> systemNames = systems.stream().map(xr -> xr.getCodeSystemValue()).collect(Collectors.toSet());
         StringBuilder paramList = new StringBuilder();
@@ -392,11 +362,11 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_SEARCH_STRING_BYTES + ")))");
             inList.append("?");
         }
-        
+
         final String paramListStr = paramList.toString();
         doCodeSystemsUpsert(paramListStr, systemNames);
-        
-        
+
+
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
         // second query.
@@ -404,7 +374,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         select.append("SELECT code_system_name, code_system_id FROM code_systems WHERE code_system_name IN (");
         select.append(inList);
         select.append(")");
-        
+
         Map<String, Integer> idMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
             // load a map with all the ids we need which we can then use to update the
@@ -422,7 +392,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             logger.log(Level.SEVERE, select.toString(), x);
             throw translator.translate(x);
         }
-        
+
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: systems) {
             Integer id = idMap.get(xr.getCodeSystemValue());
@@ -438,25 +408,325 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             }
         }
     }
-    
+
+    /**
+     * Add the missing values to the database (and get ids allocated)
+     * @param profileValues
+     */
+    public void upsertCanonicalValues(List<ResourceProfileRec> profileValues) {
+        if (profileValues.isEmpty()) {
+            return;
+        }
+
+        // Unique list so we don't try and create the same name more than once
+        Set<String> names = profileValues.stream().map(xr -> xr.getCanonicalValue()).collect(Collectors.toSet());
+        StringBuilder paramList = new StringBuilder();
+        StringBuilder inList = new StringBuilder();
+        for (int i=0; i<names.size(); i++) {
+            if (paramList.length() > 0) {
+                paramList.append(", ");
+                inList.append(",");
+            }
+            paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.CANONICAL_URL_BYTES + ")))");
+            inList.append("?");
+        }
+
+        final String paramListStr = paramList.toString();
+        doCanonicalValuesUpsert(paramListStr, names);
+
+
+        // Now grab the ids for the rows we just created. If we had a RETURNING implementation
+        // which worked reliably across all our database platforms, we wouldn't need this
+        // second query.
+        StringBuilder select = new StringBuilder();
+        select.append("SELECT url, canonical_id FROM common_canonical_values WHERE url IN (");
+        select.append(inList);
+        select.append(")");
+
+        Map<String, Integer> idMap = new HashMap<>();
+        try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
+            // load a map with all the ids we need which we can then use to update the
+            // ExternalResourceReferenceRec objects
+            int a = 1;
+            for (String name: names) {
+                ps.setString(a++, name);
+            }
+
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                idMap.put(rs.getString(1), rs.getInt(2));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, select.toString(), x);
+            throw translator.translate(x);
+        }
+
+        // Now update the ids for all the matching systems in our list
+        for (ResourceProfileRec xr: profileValues) {
+            Integer id = idMap.get(xr.getCanonicalValue());
+            if (id != null) {
+                xr.setCanonicalValueId(id);
+
+                // Add this value to the (thread-local) cache
+                cache.addCanonicalValue(xr.getCanonicalValue(), id);
+            } else {
+                // Unlikely...but need to handle just in case
+                logger.severe("Record for common_canonical_value '" + xr.getCanonicalValue() + "' inserted but not found");
+                throw new IllegalStateException("id deleted from database!");
+            }
+        }
+    }
+
+    protected void insertResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_PROFILES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, canonical_id, version, fragment) "
+                + "VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceProfileRec xr: profiles) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setInt(2, xr.getCanonicalValueId());
+
+                // canonical version can be null
+                if (xr.getVersion() != null) {
+                    ps.setString(3, xr.getVersion());
+                } else {
+                    ps.setNull(3, Types.VARCHAR);
+                }
+
+                // canonical fragment can be null
+                if (xr.getFragment() != null) {
+                    ps.setString(4, xr.getFragment());
+                } else {
+                    ps.setNull(4, Types.VARCHAR);
+                }
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert PROFILE parameters
+     * @param resourceType
+     * @param profiles
+     */
+    protected void insertSystemResourceProfiles(String resourceType, Collection<ResourceProfileRec> profiles) {
+        final String tableName = "LOGICAL_RESOURCE_PROFILES";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, canonical_id, version, fragment) "
+                + "VALUES (?, ?, ?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceProfileRec xr: profiles) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setInt(2, xr.getCanonicalValueId());
+
+                // canonical version can be null
+                if (xr.getVersion() != null) {
+                    ps.setString(3, xr.getVersion());
+                } else {
+                    ps.setNull(3, Types.VARCHAR);
+                }
+
+                // canonical fragment can be null
+                if (xr.getFragment() != null) {
+                    ps.setString(4, xr.getFragment());
+                } else {
+                    ps.setNull(4, Types.VARCHAR);
+                }
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert the tags referenced by the given collection of token value records
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertResourceTags(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_TAGS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert _tag parameters to the whole-system LOGICAL_RESOURCE_TAGS table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertSystemResourceTags(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName =  "LOGICAL_RESOURCE_TAGS";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert _security parameters to the resource-specific xx_SECURITY table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName = resourceType + "_SECURITY";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
+    /**
+     * Insert _security parametes to the whole-system LOGICAL_REOURCE_SECURITY table
+     * @param resourceType
+     * @param xrefs
+     */
+    protected void insertSystemResourceSecurity(String resourceType, Collection<ResourceTokenValueRec> xrefs) {
+        // Now all the values should have ids assigned so we can go ahead and insert them
+        // as a batch
+        final String tableName =  "LOGICAL_RESOURCE_SECURITY";
+        DataDefinitionUtil.assertValidName(tableName);
+        final String insert = "INSERT INTO " + tableName + "("
+                + "logical_resource_id, common_token_value_id) "
+                + "VALUES (?, ?)";
+        try (PreparedStatement ps = connection.prepareStatement(insert)) {
+            int count = 0;
+            for (ResourceTokenValueRec xr: xrefs) {
+                ps.setLong(1, xr.getLogicalResourceId());
+                ps.setLong(2, xr.getCommonTokenValueId());
+                ps.addBatch();
+                if (++count == BATCH_SIZE) {
+                    ps.executeBatch();
+                    count = 0;
+                }
+            }
+
+            if (count > 0) {
+                ps.executeBatch();
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, insert, x);
+            throw translator.translate(x);
+        }
+    }
+
     /**
      * Insert any missing values into the code_systems table
      * @param paramList
-     * @param systems
+     * @param systemNames
      */
     public abstract void doCodeSystemsUpsert(String paramList, Collection<String> systemNames);
-    
+
+    /**
+     * Insert any missing values into the common_canonical_values table
+     * @param paramList
+     * @param urls
+     */
+    public abstract void doCanonicalValuesUpsert(String paramList, Collection<String> urls);
+
     /**
      * Add reference value records for each unique reference name in the given list
      * @param values
      */
     public void upsertCommonTokenValues(List<ResourceTokenValueRec> values) {
-        
+
         // Unique list so we don't try and create the same name more than once.
         // Ignore any null token-values, because we don't want to (can't) store
         // them in our common token values table.
         Set<CommonTokenValue> tokenValues = values.stream().filter(x -> x.getTokenValue() != null).map(xr -> new CommonTokenValue(xr.getCodeSystemValueId(), xr.getTokenValue())).collect(Collectors.toSet());
-        
+
         if (tokenValues.isEmpty()) {
             // nothing to do
             return;
@@ -473,19 +743,19 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
             }
             paramList.append("(CAST(? AS VARCHAR(" + FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES + "))");
             paramList.append(",CAST(? AS INT))");
-            
+
             // also build the inList for the select statement later
             if (inList.length() > 0) {
                 inList.append(",");
             }
             inList.append("(?,?)");
         }
-        
+
         // query is a negative outer join so we only pick the rows from v for which
         // there is no row found in ctv.
         final String paramListStr = paramList.toString();
         doCommonTokenValuesUpsert(paramListStr, tokenValues);
-        
+
         // Now grab the ids for the rows we just created. If we had a RETURNING implementation
         // which worked reliably across all our database platforms, we wouldn't need this
         // second query.
@@ -497,7 +767,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         select.append("       JOIN common_token_values ctv ");
         select.append("              ON ctv.token_value = v.token_value ");
         select.append("             AND ctv.code_system_id = v.code_system_id ");
-        
+
         // Grab the ids
         Map<CommonTokenValue, Long> idMap = new HashMap<>();
         try (PreparedStatement ps = connection.prepareStatement(select.toString())) {
@@ -516,7 +786,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
         } catch (SQLException x) {
             throw translator.translate(x);
         }
-        
+
         // Now update the ids for all the matching systems in our list
         for (ResourceTokenValueRec xr: values) {
             // ignore entries with null tokenValue elements - we don't store them in common_token_values
@@ -525,7 +795,7 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
                 Long id = idMap.get(key);
                 if (id != null) {
                     xr.setCommonTokenValueId(id);
-    
+
                     // update the thread-local cache with this id. The values aren't committed to the shared cache
                     // until the transaction commits
                     cache.addTokenValue(key, id);
@@ -546,27 +816,94 @@ public abstract class ResourceReferenceDAO implements IResourceReferenceDAO, Aut
     protected abstract void doCommonTokenValuesUpsert(String paramList, Collection<CommonTokenValue> tokenValues);
 
     @Override
-    public void persist(Collection<ResourceTokenValueRec> records) {
+    public void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs) {
         // Grab the ids for all the code-systems, and upsert any misses
         List<ResourceTokenValueRec> systemMisses = new ArrayList<>();
         cache.resolveCodeSystems(records, systemMisses);
+        cache.resolveCodeSystems(tagRecs, systemMisses);
+        cache.resolveCodeSystems(securityRecs, systemMisses);
         upsertCodeSystems(systemMisses);
 
         // Now that all the code-systems ids are known, we can search the cache
         // for all the token values, upserting anything new
         List<ResourceTokenValueRec> valueMisses = new ArrayList<>();
         cache.resolveTokenValues(records, valueMisses);
+        cache.resolveTokenValues(tagRecs, valueMisses);
+        cache.resolveTokenValues(securityRecs, valueMisses);
         upsertCommonTokenValues(valueMisses);
 
-        // Now split the records into groups based on resource type.
+        // Process all the common canonical values
+        List<ResourceProfileRec> canonicalMisses = new ArrayList<>();
+        cache.resolveCanonicalValues(profileRecs, canonicalMisses);
+        upsertCanonicalValues(canonicalMisses);
+
+        // Now split the token-value records into groups based on resource type.
         Map<String,List<ResourceTokenValueRec>> recordMap = new HashMap<>();
         for (ResourceTokenValueRec rtv: records) {
             List<ResourceTokenValueRec> list = recordMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
             list.add(rtv);
         }
-        
+
         for (Map.Entry<String, List<ResourceTokenValueRec>> entry: recordMap.entrySet()) {
             insertResourceTokenRefs(entry.getKey(), entry.getValue());
+            insertSystemResourceTokenRefs(entry.getKey(), entry.getValue());
         }
+
+        // Split profile values by resource type
+        Map<String,List<ResourceProfileRec>> profileMap = new HashMap<>();
+        for (ResourceProfileRec rtv: profileRecs) {
+            List<ResourceProfileRec> list = profileMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+
+        for (Map.Entry<String, List<ResourceProfileRec>> entry: profileMap.entrySet()) {
+            insertResourceProfiles(entry.getKey(), entry.getValue());
+            insertSystemResourceProfiles(entry.getKey(), entry.getValue());
+        }
+
+        // Split tag records by resource type
+        Map<String,List<ResourceTokenValueRec>> tagMap = new HashMap<>();
+        for (ResourceTokenValueRec rtv: tagRecs) {
+            List<ResourceTokenValueRec> list = tagMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+
+        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: tagMap.entrySet()) {
+            insertResourceTags(entry.getKey(), entry.getValue());
+            insertSystemResourceTags(entry.getKey(), entry.getValue());
+        }
+
+        // Split security records by resource type
+        Map<String,List<ResourceTokenValueRec>> securityMap = new HashMap<>();
+        for (ResourceTokenValueRec rtv: securityRecs) {
+            List<ResourceTokenValueRec> list = securityMap.computeIfAbsent(rtv.getResourceType(), k -> { return new ArrayList<>(); });
+            list.add(rtv);
+        }
+
+        for (Map.Entry<String, List<ResourceTokenValueRec>> entry: securityMap.entrySet()) {
+            insertResourceSecurity(entry.getKey(), entry.getValue());
+            insertSystemResourceSecurity(entry.getKey(), entry.getValue());
+        }
+    }
+
+    @Override
+    public List<Long> readCommonTokenValueIdList(final String tokenValue) {
+        final List<Long> result = new ArrayList<>();
+        final String SQL = ""
+                + "SELECT c.common_token_value_id "
+                + "  FROM common_token_values c "
+                + " WHERE c.token_value = ?";
+        try (PreparedStatement ps = connection.prepareStatement(SQL)) {
+            ps.setString(1, tokenValue);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getLong(1));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, SQL, x);
+            throw translator.translate(x);
+        }
+
+        return result;
     }
 }

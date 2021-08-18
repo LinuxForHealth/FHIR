@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -39,19 +40,27 @@ import com.ibm.fhir.model.type.code.GraphCompartmentRule;
 import com.ibm.fhir.model.type.code.GraphCompartmentUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A formal computable definition of a graph of resources - that is, a coherent set of resources that form a graph by 
  * following references. The Graph Definition resource defines a set and makes rules about the set.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "gdf-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/GraphDefinition"
 )
 @Constraint(
     id = "graphDefinition-1",
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/GraphDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -73,7 +83,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -93,7 +103,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -102,7 +112,7 @@ public class GraphDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -111,26 +121,23 @@ public class GraphDefinition extends DomainResource {
     private final Canonical profile;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private GraphDefinition(Builder builder) {
         super(builder);
         url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        name = builder.name;
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
-        start = ValidationSupport.requireNonNull(builder.start, "start");
+        start = builder.start;
         profile = builder.profile;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        ValidationSupport.requireChildren(this);
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -972,7 +979,22 @@ public class GraphDefinition extends DomainResource {
          */
         @Override
         public GraphDefinition build() {
-            return new GraphDefinition(this);
+            GraphDefinition graphDefinition = new GraphDefinition(this);
+            if (validating) {
+                validate(graphDefinition);
+            }
+            return graphDefinition;
+        }
+
+        protected void validate(GraphDefinition graphDefinition) {
+            super.validate(graphDefinition);
+            ValidationSupport.requireNonNull(graphDefinition.name, "name");
+            ValidationSupport.requireNonNull(graphDefinition.status, "status");
+            ValidationSupport.checkList(graphDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(graphDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(graphDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(graphDefinition.start, "start");
+            ValidationSupport.checkList(graphDefinition.link, "link", Link.class);
         }
 
         protected Builder from(GraphDefinition graphDefinition) {
@@ -1007,8 +1029,6 @@ public class GraphDefinition extends DomainResource {
         private final String description;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
             path = builder.path;
@@ -1016,8 +1036,7 @@ public class GraphDefinition extends DomainResource {
             min = builder.min;
             max = builder.max;
             description = builder.description;
-            target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-            ValidationSupport.requireValueOrChildren(this);
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -1389,7 +1408,17 @@ public class GraphDefinition extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.checkList(link.target, "target", Target.class);
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {
@@ -1410,7 +1439,7 @@ public class GraphDefinition extends DomainResource {
         public static class Target extends BackboneElement {
             @Binding(
                 bindingName = "ResourceType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
             )
@@ -1421,16 +1450,13 @@ public class GraphDefinition extends DomainResource {
             private final List<Compartment> compartment;
             private final List<GraphDefinition.Link> link;
 
-            private volatile int hashCode;
-
             private Target(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 params = builder.params;
                 profile = builder.profile;
-                compartment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.compartment, "compartment"));
-                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-                ValidationSupport.requireValueOrChildren(this);
+                compartment = Collections.unmodifiableList(builder.compartment);
+                link = Collections.unmodifiableList(builder.link);
             }
 
             /**
@@ -1800,7 +1826,19 @@ public class GraphDefinition extends DomainResource {
                  */
                 @Override
                 public Target build() {
-                    return new Target(this);
+                    Target target = new Target(this);
+                    if (validating) {
+                        validate(target);
+                    }
+                    return target;
+                }
+
+                protected void validate(Target target) {
+                    super.validate(target);
+                    ValidationSupport.requireNonNull(target.type, "type");
+                    ValidationSupport.checkList(target.compartment, "compartment", Compartment.class);
+                    ValidationSupport.checkList(target.link, "link", GraphDefinition.Link.class);
+                    ValidationSupport.requireValueOrChildren(target);
                 }
 
                 protected Builder from(Target target) {
@@ -1820,7 +1858,7 @@ public class GraphDefinition extends DomainResource {
             public static class Compartment extends BackboneElement {
                 @Binding(
                     bindingName = "GraphCompartmentUse",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Defines how a compartment rule is used.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-use|4.0.1"
                 )
@@ -1828,7 +1866,7 @@ public class GraphDefinition extends DomainResource {
                 private final GraphCompartmentUse use;
                 @Binding(
                     bindingName = "CompartmentCode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Identifies a compartment.",
                     valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
                 )
@@ -1836,7 +1874,7 @@ public class GraphDefinition extends DomainResource {
                 private final CompartmentCode code;
                 @Binding(
                     bindingName = "GraphCompartmentRule",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How a compartment must be linked.",
                     valueSet = "http://hl7.org/fhir/ValueSet/graph-compartment-rule|4.0.1"
                 )
@@ -1845,16 +1883,13 @@ public class GraphDefinition extends DomainResource {
                 private final String expression;
                 private final String description;
 
-                private volatile int hashCode;
-
                 private Compartment(Builder builder) {
                     super(builder);
-                    use = ValidationSupport.requireNonNull(builder.use, "use");
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
-                    rule = ValidationSupport.requireNonNull(builder.rule, "rule");
+                    use = builder.use;
+                    code = builder.code;
+                    rule = builder.rule;
                     expression = builder.expression;
                     description = builder.description;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2192,7 +2227,19 @@ public class GraphDefinition extends DomainResource {
                      */
                     @Override
                     public Compartment build() {
-                        return new Compartment(this);
+                        Compartment compartment = new Compartment(this);
+                        if (validating) {
+                            validate(compartment);
+                        }
+                        return compartment;
+                    }
+
+                    protected void validate(Compartment compartment) {
+                        super.validate(compartment);
+                        ValidationSupport.requireNonNull(compartment.use, "use");
+                        ValidationSupport.requireNonNull(compartment.code, "code");
+                        ValidationSupport.requireNonNull(compartment.rule, "rule");
+                        ValidationSupport.requireValueOrChildren(compartment);
                     }
 
                     protected Builder from(Compartment compartment) {

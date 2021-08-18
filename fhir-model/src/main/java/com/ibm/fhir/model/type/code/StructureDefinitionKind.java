@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class StructureDefinitionKind extends Code {
      * <p>A primitive type that has a value and an extension. These can be used throughout complex datatype, Resource and 
      * extension definitions. Only the base specification can define primitive types.
      */
-    public static final StructureDefinitionKind PRIMITIVE_TYPE = StructureDefinitionKind.builder().value(ValueSet.PRIMITIVE_TYPE).build();
+    public static final StructureDefinitionKind PRIMITIVE_TYPE = StructureDefinitionKind.builder().value(Value.PRIMITIVE_TYPE).build();
 
     /**
      * Complex Data Type
@@ -34,7 +34,7 @@ public class StructureDefinitionKind extends Code {
      * specification defines a number of complex types, and other specifications can define additional types. These 
      * structures do not have a maintained identity.
      */
-    public static final StructureDefinitionKind COMPLEX_TYPE = StructureDefinitionKind.builder().value(ValueSet.COMPLEX_TYPE).build();
+    public static final StructureDefinitionKind COMPLEX_TYPE = StructureDefinitionKind.builder().value(Value.COMPLEX_TYPE).build();
 
     /**
      * Resource
@@ -45,14 +45,14 @@ public class StructureDefinitionKind extends Code {
      * points etc, or act as the targets of references in FHIR defined resources - though other specificatiosn can treat them 
      * this way).
      */
-    public static final StructureDefinitionKind RESOURCE = StructureDefinitionKind.builder().value(ValueSet.RESOURCE).build();
+    public static final StructureDefinitionKind RESOURCE = StructureDefinitionKind.builder().value(Value.RESOURCE).build();
 
     /**
      * Logical
      * 
      * <p>A pattern or a template that is not intended to be a real resource or complex type.
      */
-    public static final StructureDefinitionKind LOGICAL = StructureDefinitionKind.builder().value(ValueSet.LOGICAL).build();
+    public static final StructureDefinitionKind LOGICAL = StructureDefinitionKind.builder().value(Value.LOGICAL).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,46 @@ public class StructureDefinitionKind extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this StructureDefinitionKind as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this StructureDefinitionKind as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating StructureDefinitionKind objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static StructureDefinitionKind of(ValueSet value) {
+        switch (value) {
+        case PRIMITIVE_TYPE:
+            return PRIMITIVE_TYPE;
+        case COMPLEX_TYPE:
+            return COMPLEX_TYPE;
+        case RESOURCE:
+            return RESOURCE;
+        case LOGICAL:
+            return LOGICAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating StructureDefinitionKind objects from a passed enum value.
      */
-    public static StructureDefinitionKind of(ValueSet value) {
+    public static StructureDefinitionKind of(Value value) {
         switch (value) {
         case PRIMITIVE_TYPE:
             return PRIMITIVE_TYPE;
@@ -91,7 +123,7 @@ public class StructureDefinitionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static StructureDefinitionKind of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -103,7 +135,7 @@ public class StructureDefinitionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -115,7 +147,7 @@ public class StructureDefinitionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -144,11 +176,7 @@ public class StructureDefinitionKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -177,19 +205,50 @@ public class StructureDefinitionKind extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for StructureDefinitionKind
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public StructureDefinitionKind build() {
-            return new StructureDefinitionKind(this);
+            StructureDefinitionKind structureDefinitionKind = new StructureDefinitionKind(this);
+            if (validating) {
+                validate(structureDefinitionKind);
+            }
+            return structureDefinitionKind;
+        }
+
+        protected void validate(StructureDefinitionKind structureDefinitionKind) {
+            super.validate(structureDefinitionKind);
+        }
+
+        protected Builder from(StructureDefinitionKind structureDefinitionKind) {
+            super.from(structureDefinitionKind);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Primitive Data Type
@@ -241,7 +300,7 @@ public class StructureDefinitionKind extends Code {
         }
 
         /**
-         * Factory method for creating StructureDefinitionKind.ValueSet values from a passed string value.
+         * Factory method for creating StructureDefinitionKind.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -255,6 +314,85 @@ public class StructureDefinitionKind extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Primitive Data Type
+         * 
+         * <p>A primitive type that has a value and an extension. These can be used throughout complex datatype, Resource and 
+         * extension definitions. Only the base specification can define primitive types.
+         */
+        PRIMITIVE_TYPE("primitive-type"),
+
+        /**
+         * Complex Data Type
+         * 
+         * <p>A complex structure that defines a set of data elements that is suitable for use in 'resources'. The base 
+         * specification defines a number of complex types, and other specifications can define additional types. These 
+         * structures do not have a maintained identity.
+         */
+        COMPLEX_TYPE("complex-type"),
+
+        /**
+         * Resource
+         * 
+         * <p>A 'resource' - a directed acyclic graph of elements that aggregrates other types into an identifiable entity. The 
+         * base FHIR resources are defined by the FHIR specification itself but other 'resources' can be defined in additional 
+         * specifications (though these will not be recognised as 'resources' by the FHIR specification (i.e. they do not get end-
+         * points etc, or act as the targets of references in FHIR defined resources - though other specificatiosn can treat them 
+         * this way).
+         */
+        RESOURCE("resource"),
+
+        /**
+         * Logical
+         * 
+         * <p>A pattern or a template that is not intended to be a real resource or complex type.
+         */
+        LOGICAL("logical");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating StructureDefinitionKind.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding StructureDefinitionKind.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "primitive-type":
+                return PRIMITIVE_TYPE;
+            case "complex-type":
+                return COMPLEX_TYPE;
+            case "resource":
+                return RESOURCE;
+            case "logical":
+                return LOGICAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class QuestionnaireItemType extends Code {
      * 
      * <p>An item with no direct answer but should have at least one child item.
      */
-    public static final QuestionnaireItemType GROUP = QuestionnaireItemType.builder().value(ValueSet.GROUP).build();
+    public static final QuestionnaireItemType GROUP = QuestionnaireItemType.builder().value(Value.GROUP).build();
 
     /**
      * Display
      * 
      * <p>Text for display that will not capture an answer or have child items.
      */
-    public static final QuestionnaireItemType DISPLAY = QuestionnaireItemType.builder().value(ValueSet.DISPLAY).build();
+    public static final QuestionnaireItemType DISPLAY = QuestionnaireItemType.builder().value(Value.DISPLAY).build();
 
     /**
      * Question
@@ -39,70 +39,70 @@ public class QuestionnaireItemType extends Code {
      * <p>An item that defines a specific answer to be captured, and which may have child items. (the answer provided in the 
      * QuestionnaireResponse should be of the defined datatype).
      */
-    public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.builder().value(ValueSet.QUESTION).build();
+    public static final QuestionnaireItemType QUESTION = QuestionnaireItemType.builder().value(Value.QUESTION).build();
 
     /**
      * Boolean
      * 
      * <p>Question with a yes/no answer (valueBoolean).
      */
-    public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.builder().value(ValueSet.BOOLEAN).build();
+    public static final QuestionnaireItemType BOOLEAN = QuestionnaireItemType.builder().value(Value.BOOLEAN).build();
 
     /**
      * Decimal
      * 
      * <p>Question with is a real number answer (valueDecimal).
      */
-    public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.builder().value(ValueSet.DECIMAL).build();
+    public static final QuestionnaireItemType DECIMAL = QuestionnaireItemType.builder().value(Value.DECIMAL).build();
 
     /**
      * Integer
      * 
      * <p>Question with an integer answer (valueInteger).
      */
-    public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.builder().value(ValueSet.INTEGER).build();
+    public static final QuestionnaireItemType INTEGER = QuestionnaireItemType.builder().value(Value.INTEGER).build();
 
     /**
      * Date
      * 
      * <p>Question with a date answer (valueDate).
      */
-    public static final QuestionnaireItemType DATE = QuestionnaireItemType.builder().value(ValueSet.DATE).build();
+    public static final QuestionnaireItemType DATE = QuestionnaireItemType.builder().value(Value.DATE).build();
 
     /**
      * Date Time
      * 
      * <p>Question with a date and time answer (valueDateTime).
      */
-    public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.builder().value(ValueSet.DATE_TIME).build();
+    public static final QuestionnaireItemType DATE_TIME = QuestionnaireItemType.builder().value(Value.DATE_TIME).build();
 
     /**
      * Time
      * 
      * <p>Question with a time (hour:minute:second) answer independent of date. (valueTime).
      */
-    public static final QuestionnaireItemType TIME = QuestionnaireItemType.builder().value(ValueSet.TIME).build();
+    public static final QuestionnaireItemType TIME = QuestionnaireItemType.builder().value(Value.TIME).build();
 
     /**
      * String
      * 
      * <p>Question with a short (few words to short sentence) free-text entry answer (valueString).
      */
-    public static final QuestionnaireItemType STRING = QuestionnaireItemType.builder().value(ValueSet.STRING).build();
+    public static final QuestionnaireItemType STRING = QuestionnaireItemType.builder().value(Value.STRING).build();
 
     /**
      * Text
      * 
      * <p>Question with a long (potentially multi-paragraph) free-text entry answer (valueString).
      */
-    public static final QuestionnaireItemType TEXT = QuestionnaireItemType.builder().value(ValueSet.TEXT).build();
+    public static final QuestionnaireItemType TEXT = QuestionnaireItemType.builder().value(Value.TEXT).build();
 
     /**
      * Url
      * 
      * <p>Question with a URL (website, FTP site, etc.) answer (valueUri).
      */
-    public static final QuestionnaireItemType URL = QuestionnaireItemType.builder().value(ValueSet.URL).build();
+    public static final QuestionnaireItemType URL = QuestionnaireItemType.builder().value(Value.URL).build();
 
     /**
      * Choice
@@ -110,7 +110,7 @@ public class QuestionnaireItemType extends Code {
      * <p>Question with a Coding drawn from a list of possible answers (specified in either the answerOption property, or via 
      * the valueset referenced in the answerValueSet property) as an answer (valueCoding).
      */
-    public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.builder().value(ValueSet.CHOICE).build();
+    public static final QuestionnaireItemType CHOICE = QuestionnaireItemType.builder().value(Value.CHOICE).build();
 
     /**
      * Open Choice
@@ -118,21 +118,21 @@ public class QuestionnaireItemType extends Code {
      * <p>Answer is a Coding drawn from a list of possible answers (as with the choice type) or a free-text entry in a string 
      * (valueCoding or valueString).
      */
-    public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.builder().value(ValueSet.OPEN_CHOICE).build();
+    public static final QuestionnaireItemType OPEN_CHOICE = QuestionnaireItemType.builder().value(Value.OPEN_CHOICE).build();
 
     /**
      * Attachment
      * 
      * <p>Question with binary content such as an image, PDF, etc. as an answer (valueAttachment).
      */
-    public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.builder().value(ValueSet.ATTACHMENT).build();
+    public static final QuestionnaireItemType ATTACHMENT = QuestionnaireItemType.builder().value(Value.ATTACHMENT).build();
 
     /**
      * Reference
      * 
      * <p>Question with a reference to another resource (practitioner, organization, etc.) as an answer (valueReference).
      */
-    public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.builder().value(ValueSet.REFERENCE).build();
+    public static final QuestionnaireItemType REFERENCE = QuestionnaireItemType.builder().value(Value.REFERENCE).build();
 
     /**
      * Quantity
@@ -141,7 +141,7 @@ public class QuestionnaireItemType extends Code {
      * answer. (valueQuantity) There is an extension 'http://hl7.org/fhir/StructureDefinition/questionnaire-unit' that can be 
      * used to define what unit should be captured (or the unit that has a ucum conversion from the provided unit).
      */
-    public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.builder().value(ValueSet.QUANTITY).build();
+    public static final QuestionnaireItemType QUANTITY = QuestionnaireItemType.builder().value(Value.QUANTITY).build();
 
     private volatile int hashCode;
 
@@ -149,14 +149,72 @@ public class QuestionnaireItemType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this QuestionnaireItemType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this QuestionnaireItemType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating QuestionnaireItemType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static QuestionnaireItemType of(ValueSet value) {
+        switch (value) {
+        case GROUP:
+            return GROUP;
+        case DISPLAY:
+            return DISPLAY;
+        case QUESTION:
+            return QUESTION;
+        case BOOLEAN:
+            return BOOLEAN;
+        case DECIMAL:
+            return DECIMAL;
+        case INTEGER:
+            return INTEGER;
+        case DATE:
+            return DATE;
+        case DATE_TIME:
+            return DATE_TIME;
+        case TIME:
+            return TIME;
+        case STRING:
+            return STRING;
+        case TEXT:
+            return TEXT;
+        case URL:
+            return URL;
+        case CHOICE:
+            return CHOICE;
+        case OPEN_CHOICE:
+            return OPEN_CHOICE;
+        case ATTACHMENT:
+            return ATTACHMENT;
+        case REFERENCE:
+            return REFERENCE;
+        case QUANTITY:
+            return QUANTITY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating QuestionnaireItemType objects from a passed enum value.
      */
-    public static QuestionnaireItemType of(ValueSet value) {
+    public static QuestionnaireItemType of(Value value) {
         switch (value) {
         case GROUP:
             return GROUP;
@@ -206,7 +264,7 @@ public class QuestionnaireItemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static QuestionnaireItemType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -218,7 +276,7 @@ public class QuestionnaireItemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -230,7 +288,7 @@ public class QuestionnaireItemType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -259,11 +317,7 @@ public class QuestionnaireItemType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -292,19 +346,50 @@ public class QuestionnaireItemType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for QuestionnaireItemType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public QuestionnaireItemType build() {
-            return new QuestionnaireItemType(this);
+            QuestionnaireItemType questionnaireItemType = new QuestionnaireItemType(this);
+            if (validating) {
+                validate(questionnaireItemType);
+            }
+            return questionnaireItemType;
+        }
+
+        protected void validate(QuestionnaireItemType questionnaireItemType) {
+            super.validate(questionnaireItemType);
+        }
+
+        protected Builder from(QuestionnaireItemType questionnaireItemType) {
+            super.from(questionnaireItemType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Group
@@ -445,7 +530,7 @@ public class QuestionnaireItemType extends Code {
         }
 
         /**
-         * Factory method for creating QuestionnaireItemType.ValueSet values from a passed string value.
+         * Factory method for creating QuestionnaireItemType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -459,6 +544,200 @@ public class QuestionnaireItemType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Group
+         * 
+         * <p>An item with no direct answer but should have at least one child item.
+         */
+        GROUP("group"),
+
+        /**
+         * Display
+         * 
+         * <p>Text for display that will not capture an answer or have child items.
+         */
+        DISPLAY("display"),
+
+        /**
+         * Question
+         * 
+         * <p>An item that defines a specific answer to be captured, and which may have child items. (the answer provided in the 
+         * QuestionnaireResponse should be of the defined datatype).
+         */
+        QUESTION("question"),
+
+        /**
+         * Boolean
+         * 
+         * <p>Question with a yes/no answer (valueBoolean).
+         */
+        BOOLEAN("boolean"),
+
+        /**
+         * Decimal
+         * 
+         * <p>Question with is a real number answer (valueDecimal).
+         */
+        DECIMAL("decimal"),
+
+        /**
+         * Integer
+         * 
+         * <p>Question with an integer answer (valueInteger).
+         */
+        INTEGER("integer"),
+
+        /**
+         * Date
+         * 
+         * <p>Question with a date answer (valueDate).
+         */
+        DATE("date"),
+
+        /**
+         * Date Time
+         * 
+         * <p>Question with a date and time answer (valueDateTime).
+         */
+        DATE_TIME("dateTime"),
+
+        /**
+         * Time
+         * 
+         * <p>Question with a time (hour:minute:second) answer independent of date. (valueTime).
+         */
+        TIME("time"),
+
+        /**
+         * String
+         * 
+         * <p>Question with a short (few words to short sentence) free-text entry answer (valueString).
+         */
+        STRING("string"),
+
+        /**
+         * Text
+         * 
+         * <p>Question with a long (potentially multi-paragraph) free-text entry answer (valueString).
+         */
+        TEXT("text"),
+
+        /**
+         * Url
+         * 
+         * <p>Question with a URL (website, FTP site, etc.) answer (valueUri).
+         */
+        URL("url"),
+
+        /**
+         * Choice
+         * 
+         * <p>Question with a Coding drawn from a list of possible answers (specified in either the answerOption property, or via 
+         * the valueset referenced in the answerValueSet property) as an answer (valueCoding).
+         */
+        CHOICE("choice"),
+
+        /**
+         * Open Choice
+         * 
+         * <p>Answer is a Coding drawn from a list of possible answers (as with the choice type) or a free-text entry in a string 
+         * (valueCoding or valueString).
+         */
+        OPEN_CHOICE("open-choice"),
+
+        /**
+         * Attachment
+         * 
+         * <p>Question with binary content such as an image, PDF, etc. as an answer (valueAttachment).
+         */
+        ATTACHMENT("attachment"),
+
+        /**
+         * Reference
+         * 
+         * <p>Question with a reference to another resource (practitioner, organization, etc.) as an answer (valueReference).
+         */
+        REFERENCE("reference"),
+
+        /**
+         * Quantity
+         * 
+         * <p>Question with a combination of a numeric value and unit, potentially with a comparator (&lt;, &gt;, etc.) as an 
+         * answer. (valueQuantity) There is an extension 'http://hl7.org/fhir/StructureDefinition/questionnaire-unit' that can be 
+         * used to define what unit should be captured (or the unit that has a ucum conversion from the provided unit).
+         */
+        QUANTITY("quantity");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating QuestionnaireItemType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding QuestionnaireItemType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "group":
+                return GROUP;
+            case "display":
+                return DISPLAY;
+            case "question":
+                return QUESTION;
+            case "boolean":
+                return BOOLEAN;
+            case "decimal":
+                return DECIMAL;
+            case "integer":
+                return INTEGER;
+            case "date":
+                return DATE;
+            case "dateTime":
+                return DATE_TIME;
+            case "time":
+                return TIME;
+            case "string":
+                return STRING;
+            case "text":
+                return TEXT;
+            case "url":
+                return URL;
+            case "choice":
+                return CHOICE;
+            case "open-choice":
+                return OPEN_CHOICE;
+            case "attachment":
+                return ATTACHMENT;
+            case "reference":
+                return REFERENCE;
+            case "quantity":
+                return QUANTITY;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

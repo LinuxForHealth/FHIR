@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,12 +14,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
@@ -31,8 +31,8 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
  *
  * <pre>
  * {
-    "applicationName": "fhir-bulkimportexport-webapp",
-    "moduleName": "fhir-bulkimportexport.war",
+    "applicationName": "fhir-bulkdata-webapp",
+    "moduleName": "fhir-bulkdata-webapp.war",
     "jobXMLName": "FhirBulkExportChunkJob",
     "jobParameters": {
         "fhir.resourcetype": "Patient",
@@ -126,54 +126,6 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder cosBucketName(String cosBucketName) {
-            jobParameter.setCosBucketName(cosBucketName);
-            return this;
-        }
-
-        @Override
-        public Builder cosLocation(String cosLocation) {
-            jobParameter.setCosLocation(cosLocation);
-            return this;
-        }
-
-        @Override
-        public Builder cosEndpointInternal(String cosEndpointUrl) {
-            jobParameter.setCosEndpointInternal(cosEndpointUrl);
-            return this;
-        }
-
-        @Override
-        public Builder cosEndpointExternal(String cosEndpointUrl) {
-            jobParameter.setCosEndpointExternal(cosEndpointUrl);
-            return this;
-        }
-
-        @Override
-        public Builder cosCredentialIbm(String cosCredentialIbm) {
-            jobParameter.setCosCredentialIbm(cosCredentialIbm);
-            return this;
-        }
-
-        @Override
-        public Builder cosApiKey(String cosApiKey) {
-            jobParameter.setCosApiKey(cosApiKey);
-            return this;
-        }
-
-        @Override
-        public Builder cosSrvInstId(String cosSrvInstId) {
-            jobParameter.setCosSrvInstId(cosSrvInstId);
-            return this;
-        }
-
-        @Override
-        public Builder fhirTenant(String fhirTenant) {
-            jobParameter.setFhirTenant(fhirTenant);
-            return this;
-        }
-
-        @Override
         public Builder fhirDataStoreId(String fhirDataStoreId) {
             jobParameter.setFhirDataStoreId(fhirDataStoreId);
             return this;
@@ -221,14 +173,26 @@ public class JobInstanceRequest {
         }
 
         @Override
-        public Builder cosBucketNameOperationOutcome(String cosBucketNameOperationOutcome) {
-            jobParameter.setCosOperationBucketNameOo(cosBucketNameOperationOutcome);
+        public Builder incomingUrl(String incomingUrl) {
+            jobParameter.setIncomingUrl(incomingUrl);
             return this;
         }
 
         @Override
-        public Builder incomingUrl(String incomingUrl) {
-            jobParameter.setIncomingUrl(incomingUrl);
+        public Builder fhirTenant(String fhirTenant) {
+            jobParameter.setFhirTenant(fhirTenant);
+            return this;
+        }
+
+        @Override
+        public Builder source(String source) {
+            jobParameter.setSource(source);
+            return this;
+        }
+
+        @Override
+        public Builder outcome(String outcome) {
+            jobParameter.setOutcome(outcome);
             return this;
         }
     }

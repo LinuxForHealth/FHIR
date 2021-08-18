@@ -7,30 +7,34 @@
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
-        <version>4.6.0-SNAPSHOT</version>
+        <version>4.9.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
 
     <artifactId>fhir-server-test</artifactId>
 
     <properties>
-
-        <!-- We don't want maven to automatically run our tests since they 
-            require a server -->
+        <!-- We don't want maven to automatically run our tests since they require a server -->
         <skipTests>true</skipTests>
         <surefire.suiteXmlFiles>src/test/java/testng.xml</surefire.suiteXmlFiles>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-client</artifactId>
+            <artifactId>fhir-server</artifactId>
             <version>${project.version}</version>
-            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-jdk14</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-validation</artifactId>
+            <artifactId>fhir-client</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
@@ -52,16 +56,17 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-notification-kafka</artifactId>
             <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-cli</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>fhir-examples</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>fhir-term-remote</artifactId>
+            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- Use the Grizzly container instead due to https://github.com/eclipse-ee4j/tyrus/issues/676 -->
@@ -82,8 +87,8 @@
         </dependency>
         <dependency>
             <!-- required for the Tyrus client to work on Java 11 -->
-            <groupId>javax.xml.ws</groupId>
-            <artifactId>jaxws-api</artifactId>
+            <groupId>jakarta.xml.ws</groupId>
+            <artifactId>jakarta.xml.ws-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -99,6 +104,7 @@
                     <artifactId>jboss-rmi-api_1.0_spec</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>
@@ -113,6 +119,7 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.ibm.fhir</groupId>
@@ -124,6 +131,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-nop</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -133,7 +141,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-Xms1G -Xmx4G</argLine>
+                    <printSummary>true</printSummary>
+                    <forkCount>1C</forkCount>
+                    <argLine>-Xms2G -Xmx4G</argLine>
                     <systemPropertyVariables>
                         <com.ibm.fhir.server.test.R4ExampleServerTest.index>${fhir-server-test.index}</com.ibm.fhir.server.test.R4ExampleServerTest.index>
                     </systemPropertyVariables>

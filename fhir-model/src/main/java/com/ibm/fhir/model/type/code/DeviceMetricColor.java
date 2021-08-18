@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,56 +24,56 @@ public class DeviceMetricColor extends Code {
      * 
      * <p>Color for representation - black.
      */
-    public static final DeviceMetricColor BLACK = DeviceMetricColor.builder().value(ValueSet.BLACK).build();
+    public static final DeviceMetricColor BLACK = DeviceMetricColor.builder().value(Value.BLACK).build();
 
     /**
      * Color Red
      * 
      * <p>Color for representation - red.
      */
-    public static final DeviceMetricColor RED = DeviceMetricColor.builder().value(ValueSet.RED).build();
+    public static final DeviceMetricColor RED = DeviceMetricColor.builder().value(Value.RED).build();
 
     /**
      * Color Green
      * 
      * <p>Color for representation - green.
      */
-    public static final DeviceMetricColor GREEN = DeviceMetricColor.builder().value(ValueSet.GREEN).build();
+    public static final DeviceMetricColor GREEN = DeviceMetricColor.builder().value(Value.GREEN).build();
 
     /**
      * Color Yellow
      * 
      * <p>Color for representation - yellow.
      */
-    public static final DeviceMetricColor YELLOW = DeviceMetricColor.builder().value(ValueSet.YELLOW).build();
+    public static final DeviceMetricColor YELLOW = DeviceMetricColor.builder().value(Value.YELLOW).build();
 
     /**
      * Color Blue
      * 
      * <p>Color for representation - blue.
      */
-    public static final DeviceMetricColor BLUE = DeviceMetricColor.builder().value(ValueSet.BLUE).build();
+    public static final DeviceMetricColor BLUE = DeviceMetricColor.builder().value(Value.BLUE).build();
 
     /**
      * Color Magenta
      * 
      * <p>Color for representation - magenta.
      */
-    public static final DeviceMetricColor MAGENTA = DeviceMetricColor.builder().value(ValueSet.MAGENTA).build();
+    public static final DeviceMetricColor MAGENTA = DeviceMetricColor.builder().value(Value.MAGENTA).build();
 
     /**
      * Color Cyan
      * 
      * <p>Color for representation - cyan.
      */
-    public static final DeviceMetricColor CYAN = DeviceMetricColor.builder().value(ValueSet.CYAN).build();
+    public static final DeviceMetricColor CYAN = DeviceMetricColor.builder().value(Value.CYAN).build();
 
     /**
      * Color White
      * 
      * <p>Color for representation - white.
      */
-    public static final DeviceMetricColor WHITE = DeviceMetricColor.builder().value(ValueSet.WHITE).build();
+    public static final DeviceMetricColor WHITE = DeviceMetricColor.builder().value(Value.WHITE).build();
 
     private volatile int hashCode;
 
@@ -81,14 +81,54 @@ public class DeviceMetricColor extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceMetricColor as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceMetricColor as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceMetricColor objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceMetricColor of(ValueSet value) {
+        switch (value) {
+        case BLACK:
+            return BLACK;
+        case RED:
+            return RED;
+        case GREEN:
+            return GREEN;
+        case YELLOW:
+            return YELLOW;
+        case BLUE:
+            return BLUE;
+        case MAGENTA:
+            return MAGENTA;
+        case CYAN:
+            return CYAN;
+        case WHITE:
+            return WHITE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceMetricColor objects from a passed enum value.
      */
-    public static DeviceMetricColor of(ValueSet value) {
+    public static DeviceMetricColor of(Value value) {
         switch (value) {
         case BLACK:
             return BLACK;
@@ -120,7 +160,7 @@ public class DeviceMetricColor extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceMetricColor of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -132,7 +172,7 @@ public class DeviceMetricColor extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -144,7 +184,7 @@ public class DeviceMetricColor extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -173,11 +213,7 @@ public class DeviceMetricColor extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -206,19 +242,50 @@ public class DeviceMetricColor extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceMetricColor
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public DeviceMetricColor build() {
-            return new DeviceMetricColor(this);
+            DeviceMetricColor deviceMetricColor = new DeviceMetricColor(this);
+            if (validating) {
+                validate(deviceMetricColor);
+            }
+            return deviceMetricColor;
+        }
+
+        protected void validate(DeviceMetricColor deviceMetricColor) {
+            super.validate(deviceMetricColor);
+        }
+
+        protected Builder from(DeviceMetricColor deviceMetricColor) {
+            super.from(deviceMetricColor);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Color Black
@@ -291,7 +358,7 @@ public class DeviceMetricColor extends Code {
         }
 
         /**
-         * Factory method for creating DeviceMetricColor.ValueSet values from a passed string value.
+         * Factory method for creating DeviceMetricColor.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -305,6 +372,114 @@ public class DeviceMetricColor extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Color Black
+         * 
+         * <p>Color for representation - black.
+         */
+        BLACK("black"),
+
+        /**
+         * Color Red
+         * 
+         * <p>Color for representation - red.
+         */
+        RED("red"),
+
+        /**
+         * Color Green
+         * 
+         * <p>Color for representation - green.
+         */
+        GREEN("green"),
+
+        /**
+         * Color Yellow
+         * 
+         * <p>Color for representation - yellow.
+         */
+        YELLOW("yellow"),
+
+        /**
+         * Color Blue
+         * 
+         * <p>Color for representation - blue.
+         */
+        BLUE("blue"),
+
+        /**
+         * Color Magenta
+         * 
+         * <p>Color for representation - magenta.
+         */
+        MAGENTA("magenta"),
+
+        /**
+         * Color Cyan
+         * 
+         * <p>Color for representation - cyan.
+         */
+        CYAN("cyan"),
+
+        /**
+         * Color White
+         * 
+         * <p>Color for representation - white.
+         */
+        WHITE("white");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceMetricColor.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DeviceMetricColor.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "black":
+                return BLACK;
+            case "red":
+                return RED;
+            case "green":
+                return GREEN;
+            case "yellow":
+                return YELLOW;
+            case "blue":
+                return BLUE;
+            case "magenta":
+                return MAGENTA;
+            case "cyan":
+                return CYAN;
+            case "white":
+                return WHITE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

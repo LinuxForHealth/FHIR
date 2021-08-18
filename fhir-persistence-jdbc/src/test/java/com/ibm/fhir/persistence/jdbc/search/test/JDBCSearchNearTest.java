@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -44,6 +44,7 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -56,7 +57,7 @@ import com.ibm.fhir.search.util.SearchUtil;
  * Specification: Positional Searching for Location Resource</a>
  * <br>
  * Original LONG/LAT
- * 
+ *
  * <pre>
  *  "position": {
  *      "longitude": -83.6945691,
@@ -95,8 +96,8 @@ public class JDBCSearchNearTest {
 
         savedResource = TestUtil.readExampleResource("json/spec/location-example.json");
 
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         persistence   = new FHIRPersistenceJDBCImpl(this.testProps, connectionPool, cache);
 
         SingleResourceResult<Location> result =
@@ -113,13 +114,13 @@ public class JDBCSearchNearTest {
             if (persistence.isTransactional()) {
                 persistence.getTransaction().begin();
             }
-            
+
             FHIRSearchContext ctx = SearchUtil.parseQueryParameters(Location.class, Collections.emptyMap(), true);
             FHIRPersistenceContext persistenceContext =
                     FHIRPersistenceContextFactory.createPersistenceContext(null, ctx);
             persistence.delete(persistenceContext, Location.class, savedResource.getId());
             if (persistence.isTransactional()) {
-                persistence.getTransaction().commit();
+                persistence.getTransaction().end();
             }
         }
         FHIRRequestContext.get().setTenantId("default");
@@ -162,7 +163,7 @@ public class JDBCSearchNearTest {
     @AfterMethod(alwaysRun = true)
     public void commitTrx() throws Exception {
         if (persistence != null && persistence.isTransactional()) {
-            persistence.getTransaction().commit();
+            persistence.getTransaction().end();
         }
     }
 

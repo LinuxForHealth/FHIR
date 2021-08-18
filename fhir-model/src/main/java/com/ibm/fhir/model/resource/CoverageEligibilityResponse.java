@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,18 +42,26 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EligibilityResponsePurpose;
 import com.ibm.fhir.model.type.code.EligibilityResponseStatus;
 import com.ibm.fhir.model.type.code.RemittanceOutcome;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides eligibility and plan details from the processing of an CoverageEligibilityRequest resource.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ces-1",
     level = "Rule",
     location = "CoverageEligibilityResponse.insurance.item",
     description = "SHALL contain a category or a billcode but not both.",
-    expression = "category.exists() xor productOrService.exists()"
+    expression = "category.exists() xor productOrService.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/CoverageEligibilityResponse"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityResponse extends DomainResource {
@@ -60,7 +69,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EligibilityResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -69,7 +78,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EligibilityResponsePurpose",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityresponse-purpose|4.0.1"
     )
@@ -93,7 +102,7 @@ public class CoverageEligibilityResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -108,37 +117,30 @@ public class CoverageEligibilityResponse extends DomainResource {
     private final String preAuthRef;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
     private final CodeableConcept form;
     private final List<Error> error;
 
-    private volatile int hashCode;
-
     private CoverageEligibilityResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        purpose = Collections.unmodifiableList(builder.purpose);
+        patient = builder.patient;
+        serviced = builder.serviced;
+        created = builder.created;
         requestor = builder.requestor;
-        request = ValidationSupport.requireNonNull(builder.request, "request");
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        request = builder.request;
+        outcome = builder.outcome;
         disposition = builder.disposition;
-        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
+        insurer = builder.insurer;
+        insurance = Collections.unmodifiableList(builder.insurance);
         preAuthRef = builder.preAuthRef;
         form = builder.form;
-        error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(request, "request", "CoverageEligibilityRequest");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.requireChildren(this);
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
@@ -1004,7 +1006,30 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         @Override
         public CoverageEligibilityResponse build() {
-            return new CoverageEligibilityResponse(this);
+            CoverageEligibilityResponse coverageEligibilityResponse = new CoverageEligibilityResponse(this);
+            if (validating) {
+                validate(coverageEligibilityResponse);
+            }
+            return coverageEligibilityResponse;
+        }
+
+        protected void validate(CoverageEligibilityResponse coverageEligibilityResponse) {
+            super.validate(coverageEligibilityResponse);
+            ValidationSupport.checkList(coverageEligibilityResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.status, "status");
+            ValidationSupport.checkNonEmptyList(coverageEligibilityResponse.purpose, "purpose", EligibilityResponsePurpose.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.patient, "patient");
+            ValidationSupport.choiceElement(coverageEligibilityResponse.serviced, "serviced", Date.class, Period.class);
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.created, "created");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.request, "request");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.outcome, "outcome");
+            ValidationSupport.requireNonNull(coverageEligibilityResponse.insurer, "insurer");
+            ValidationSupport.checkList(coverageEligibilityResponse.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(coverageEligibilityResponse.error, "error", Error.class);
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.request, "request", "CoverageEligibilityRequest");
+            ValidationSupport.checkReferenceType(coverageEligibilityResponse.insurer, "insurer", "Organization");
         }
 
         protected Builder from(CoverageEligibilityResponse coverageEligibilityResponse) {
@@ -1040,16 +1065,12 @@ public class CoverageEligibilityResponse extends DomainResource {
         private final Period benefitPeriod;
         private final List<Item> item;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             inforce = builder.inforce;
             benefitPeriod = builder.benefitPeriod;
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.requireValueOrChildren(this);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1379,7 +1400,19 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkList(insurance.item, "item", Item.class);
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -1398,21 +1431,21 @@ public class CoverageEligibilityResponse extends DomainResource {
         public static class Item extends BackboneElement {
             @Binding(
                 bindingName = "BenefitCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Benefit categories such as: oral, medical, vision etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
             )
             private final CodeableConcept category;
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
@@ -1424,21 +1457,21 @@ public class CoverageEligibilityResponse extends DomainResource {
             private final String description;
             @Binding(
                 bindingName = "BenefitNetwork",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Code to classify in or out of network services.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-network"
             )
             private final CodeableConcept network;
             @Binding(
                 bindingName = "BenefitUnit",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Unit covered/serviced - individual or family.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-unit"
             )
             private final CodeableConcept unit;
             @Binding(
                 bindingName = "BenefitTerm",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Coverage unit - annual, lifetime.",
                 valueSet = "http://hl7.org/fhir/ValueSet/benefit-term"
             )
@@ -1447,20 +1480,18 @@ public class CoverageEligibilityResponse extends DomainResource {
             private final Boolean authorizationRequired;
             @Binding(
                 bindingName = "AuthSupporting",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Type of supporting information to provide with a preauthorization.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverageeligibilityresponse-ex-auth-support"
             )
             private final List<CodeableConcept> authorizationSupporting;
             private final Uri authorizationUrl;
 
-            private volatile int hashCode;
-
             private Item(Builder builder) {
                 super(builder);
                 category = builder.category;
                 productOrService = builder.productOrService;
-                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                modifier = Collections.unmodifiableList(builder.modifier);
                 provider = builder.provider;
                 excluded = builder.excluded;
                 name = builder.name;
@@ -1468,12 +1499,10 @@ public class CoverageEligibilityResponse extends DomainResource {
                 network = builder.network;
                 unit = builder.unit;
                 term = builder.term;
-                benefit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.benefit, "benefit"));
+                benefit = Collections.unmodifiableList(builder.benefit);
                 authorizationRequired = builder.authorizationRequired;
-                authorizationSupporting = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizationSupporting, "authorizationSupporting"));
+                authorizationSupporting = Collections.unmodifiableList(builder.authorizationSupporting);
                 authorizationUrl = builder.authorizationUrl;
-                ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2125,7 +2154,20 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 @Override
                 public Item build() {
-                    return new Item(this);
+                    Item item = new Item(this);
+                    if (validating) {
+                        validate(item);
+                    }
+                    return item;
+                }
+
+                protected void validate(Item item) {
+                    super.validate(item);
+                    ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(item.benefit, "benefit", Benefit.class);
+                    ValidationSupport.checkList(item.authorizationSupporting, "authorizationSupporting", CodeableConcept.class);
+                    ValidationSupport.checkReferenceType(item.provider, "provider", "Practitioner", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(item);
                 }
 
                 protected Builder from(Item item) {
@@ -2154,7 +2196,7 @@ public class CoverageEligibilityResponse extends DomainResource {
             public static class Benefit extends BackboneElement {
                 @Binding(
                     bindingName = "BenefitType",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Deductable, visits, co-pay, etc.",
                     valueSet = "http://hl7.org/fhir/ValueSet/benefit-type"
                 )
@@ -2165,14 +2207,11 @@ public class CoverageEligibilityResponse extends DomainResource {
                 @Choice({ UnsignedInt.class, String.class, Money.class })
                 private final Element used;
 
-                private volatile int hashCode;
-
                 private Benefit(Builder builder) {
                     super(builder);
-                    type = ValidationSupport.requireNonNull(builder.type, "type");
-                    allowed = ValidationSupport.choiceElement(builder.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
-                    used = ValidationSupport.choiceElement(builder.used, "used", UnsignedInt.class, String.class, Money.class);
-                    ValidationSupport.requireValueOrChildren(this);
+                    type = builder.type;
+                    allowed = builder.allowed;
+                    used = builder.used;
                 }
 
                 /**
@@ -2458,7 +2497,19 @@ public class CoverageEligibilityResponse extends DomainResource {
                      */
                     @Override
                     public Benefit build() {
-                        return new Benefit(this);
+                        Benefit benefit = new Benefit(this);
+                        if (validating) {
+                            validate(benefit);
+                        }
+                        return benefit;
+                    }
+
+                    protected void validate(Benefit benefit) {
+                        super.validate(benefit);
+                        ValidationSupport.requireNonNull(benefit.type, "type");
+                        ValidationSupport.choiceElement(benefit.allowed, "allowed", UnsignedInt.class, String.class, Money.class);
+                        ValidationSupport.choiceElement(benefit.used, "used", UnsignedInt.class, String.class, Money.class);
+                        ValidationSupport.requireValueOrChildren(benefit);
                     }
 
                     protected Builder from(Benefit benefit) {
@@ -2479,19 +2530,16 @@ public class CoverageEligibilityResponse extends DomainResource {
     public static class Error extends BackboneElement {
         @Binding(
             bindingName = "AdjudicationError",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The error codes for adjudication processing.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )
         @Required
         private final CodeableConcept code;
 
-        private volatile int hashCode;
-
         private Error(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
         }
 
         /**
@@ -2705,7 +2753,17 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             @Override
             public Error build() {
-                return new Error(this);
+                Error error = new Error(this);
+                if (validating) {
+                    validate(error);
+                }
+                return error;
+            }
+
+            protected void validate(Error error) {
+                super.validate(error);
+                ValidationSupport.requireNonNull(error.code, "code");
+                ValidationSupport.requireValueOrChildren(error);
             }
 
             protected Builder from(Error error) {

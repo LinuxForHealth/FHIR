@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationStatementStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -54,13 +56,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * or missing or less precise. As stated earlier, the medication statement information may come from the patient's 
  * memory, from a prescription bottle or from a list of medications the patient, clinician or other party maintains. 
  * Medication administration is more formal and is not missing detailed information.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "medicationStatement-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medication-statement-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medication-statement-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationStatement",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -76,7 +85,7 @@ public class MedicationStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationStatementStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of a MedicationStatement.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-status|4.0.1"
     )
@@ -84,7 +93,7 @@ public class MedicationStatement extends DomainResource {
     private final MedicationStatementStatus status;
     @Binding(
         bindingName = "MedicationStatementStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept indicating the reason for the status of the statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-status-codes"
     )
@@ -92,7 +101,7 @@ public class MedicationStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationStatementCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A coded concept identifying where the medication included in the MedicationStatement is expected to be consumed or administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-statement-category"
     )
@@ -102,7 +111,7 @@ public class MedicationStatement extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying the substance or product being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -125,7 +134,7 @@ public class MedicationStatement extends DomainResource {
     private final List<Reference> derivedFrom;
     @Binding(
         bindingName = "MedicationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying why the medication is being taken.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -135,35 +144,25 @@ public class MedicationStatement extends DomainResource {
     private final List<Annotation> note;
     private final List<Dosage> dosage;
 
-    private volatile int hashCode;
-
     private MedicationStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        statusReason = Collections.unmodifiableList(builder.statusReason);
         category = builder.category;
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        medication = builder.medication;
+        subject = builder.subject;
         context = builder.context;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         dateAsserted = builder.dateAsserted;
         informationSource = builder.informationSource;
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        ValidationSupport.requireChildren(this);
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        dosage = Collections.unmodifiableList(builder.dosage);
     }
 
     /**
@@ -1241,7 +1240,35 @@ public class MedicationStatement extends DomainResource {
          */
         @Override
         public MedicationStatement build() {
-            return new MedicationStatement(this);
+            MedicationStatement medicationStatement = new MedicationStatement(this);
+            if (validating) {
+                validate(medicationStatement);
+            }
+            return medicationStatement;
+        }
+
+        protected void validate(MedicationStatement medicationStatement) {
+            super.validate(medicationStatement);
+            ValidationSupport.checkList(medicationStatement.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicationStatement.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(medicationStatement.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(medicationStatement.status, "status");
+            ValidationSupport.checkList(medicationStatement.statusReason, "statusReason", CodeableConcept.class);
+            ValidationSupport.requireChoiceElement(medicationStatement.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(medicationStatement.subject, "subject");
+            ValidationSupport.choiceElement(medicationStatement.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(medicationStatement.derivedFrom, "derivedFrom", Reference.class);
+            ValidationSupport.checkList(medicationStatement.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(medicationStatement.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(medicationStatement.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationStatement.dosage, "dosage", Dosage.class);
+            ValidationSupport.checkReferenceType(medicationStatement.basedOn, "basedOn", "MedicationRequest", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(medicationStatement.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Observation");
+            ValidationSupport.checkReferenceType(medicationStatement.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationStatement.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationStatement.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationStatement.informationSource, "informationSource", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(medicationStatement.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(MedicationStatement medicationStatement) {

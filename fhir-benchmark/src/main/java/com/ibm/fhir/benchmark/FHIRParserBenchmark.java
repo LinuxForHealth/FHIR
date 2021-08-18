@@ -1,16 +1,17 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.benchmark;
 
+import static com.ibm.fhir.benchmark.runner.FHIRBenchmarkRunner.PROPERTY_EXAMPLE_NAME;
+
 import java.io.IOException;
 import java.io.StringReader;
 
 import org.openjdk.jmh.annotations.Benchmark;
-import org.openjdk.jmh.annotations.Param;
 import org.openjdk.jmh.annotations.Scope;
 import org.openjdk.jmh.annotations.Setup;
 import org.openjdk.jmh.annotations.State;
@@ -31,23 +32,18 @@ public class FHIRParserBenchmark {
         FHIRParser jsonParser = FHIRParser.parser(Format.JSON);
         FHIRParser xmlParser = FHIRParser.parser(Format.XML);
     }
-    
+
     @State(Scope.Benchmark)
     public static class FHIRParserState {
+        public static final String SPEC_EXAMPLE_NAME = System.getProperty(PROPERTY_EXAMPLE_NAME);
+
         FhirContext context;
         String JSON_SPEC_EXAMPLE;
         String XML_SPEC_EXAMPLE;
-        
-        // JMH will inject the value into the annotated field before any Setup method is called.
-        @Param({"valuesets"})
-        public String exampleName;
-        
+
         @Setup
         public void setUp() throws IOException {
-            if (exampleName == null) {
-                System.err.println("exampleName is null; if you're in Eclipse then make sure annotation processing is on and you've ran 'mvn clean package'.");
-                System.exit(1);
-            }
+            String exampleName = SPEC_EXAMPLE_NAME;
             System.out.println("Setting up for example " + exampleName);
             context = FhirContext.forR4();
             context.setParserErrorHandler(new StrictErrorHandler());
@@ -55,28 +51,44 @@ public class FHIRParserBenchmark {
             XML_SPEC_EXAMPLE = BenchmarkUtil.getSpecExample(Format.XML, exampleName);
         }
     }
-    
+
     @Benchmark
     public Resource benchmarkJsonParser(FHIRParsers parsers, FHIRParserState state) throws Exception {
+        parsers.jsonParser.setValidating(true);
         return parsers.jsonParser.parse(new StringReader(state.JSON_SPEC_EXAMPLE));
     }
-    
+
+    @Benchmark
+    public Resource benchmarkJsonParserNonValidating(FHIRParsers parsers, FHIRParserState state) throws Exception {
+        parsers.jsonParser.setValidating(false);
+        return parsers.jsonParser.parse(new StringReader(state.JSON_SPEC_EXAMPLE));
+    }
+
     @Benchmark
     public Resource benchmarkXMLParser(FHIRParsers parsers, FHIRParserState state) throws Exception {
+        parsers.xmlParser.setValidating(true);
         return parsers.xmlParser.parse(new StringReader(state.XML_SPEC_EXAMPLE));
     }
-    
+
+    @Benchmark
+    public Resource benchmarkXMLParserNonValidating(FHIRParsers parsers, FHIRParserState state) throws Exception {
+        parsers.xmlParser.setValidating(false);
+        return parsers.xmlParser.parse(new StringReader(state.XML_SPEC_EXAMPLE));
+    }
+
     @Benchmark
     public void benchmarkHAPIJsonParser(FHIRParserState state) throws Exception {
         state.context.newJsonParser().parseResource(new StringReader(state.JSON_SPEC_EXAMPLE));
     }
-    
+
     @Benchmark
     public void benchmarkHAPIXMLParser(FHIRParserState state) throws Exception {
         state.context.newXmlParser().parseResource(new StringReader(state.XML_SPEC_EXAMPLE));
     }
-    
+
     public static void main(String[] args) throws Exception {
-        new FHIRBenchmarkRunner(FHIRParserBenchmark.class).run();
+        new FHIRBenchmarkRunner(FHIRParserBenchmark.class)
+            .property(PROPERTY_EXAMPLE_NAME, BenchmarkUtil.getRandomSpecExampleName())
+            .run();
     }
 }

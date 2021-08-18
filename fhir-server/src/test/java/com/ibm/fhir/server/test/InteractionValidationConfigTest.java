@@ -69,7 +69,7 @@ public class InteractionValidationConfigTest {
     @BeforeClass
     void setup() throws FHIRException {
         FHIRConfiguration.setConfigHome("src/test/resources");
-        FHIRRegistry.getInstance().register(new MockRegistryResourceProvider());
+        FHIRRegistry.getInstance().addProvider(new MockRegistryResourceProvider());
         persistence = new MockPersistenceImpl();
         helper = new FHIRRestHelper(persistence);
     }
@@ -100,8 +100,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doCreate("Patient", patient, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doCreate("Patient", patient, null, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -127,8 +127,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doCreate("Encounter", encounter, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doCreate("Encounter", encounter, null, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -154,8 +154,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doCreate("Encounter", encounter, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doCreate("Encounter", encounter, null, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -181,16 +181,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Patient", patient, null, null, false);
+            helper.doCreate("Patient", patient, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Patient'",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Patient'");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -214,16 +214,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Encounter", encounter, null, null, false);
+            helper.doCreate("Encounter", encounter, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Encounter'",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Encounter'");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -254,16 +254,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Procedure", procedure, null, null, false);
+            helper.doCreate("Procedure", procedure, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Procedure'",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Procedure'");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -294,16 +294,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Procedure", procedure, null, null, false);
+            helper.doCreate("Procedure", procedure, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Procedure'",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Procedure'");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -321,16 +321,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doCreate("Practitioner", practitioner, null, null, false);
+            helper.doCreate("Practitioner", practitioner, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -345,7 +345,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Patient", "1", false, false, null, null);
+            Resource resource = helper.doRead("Patient", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -363,7 +363,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", false, false, null, null);
+            Resource resource = helper.doRead("Encounter", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -381,7 +381,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Resource resource = helper.doRead("Encounter", "1", false, false, null, null);
+            Resource resource = helper.doRead("Encounter", "1", false, false, null, null).getResource();
             assertNotNull(resource);
         } catch (FHIROperationException e) {
             fail();
@@ -404,11 +404,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'read' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -428,11 +428,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'read' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -452,11 +452,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'read' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -476,11 +476,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'read' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -500,11 +500,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -578,11 +578,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'vread' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -602,11 +602,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'vread' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -626,11 +626,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'vread' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -650,11 +650,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'vread' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -674,11 +674,11 @@ public class InteractionValidationConfigTest {
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -693,7 +693,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doHistory("Patient", "1", new MultivaluedHashMap<>(), "test", null);
+            Bundle bundle = helper.doHistory("Patient", "1", new MultivaluedHashMap<>(), "test");
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -711,7 +711,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), "test", null);
+            Bundle bundle = helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), "test");
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -729,7 +729,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), "test", null);
+            Bundle bundle = helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), "test");
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -747,16 +747,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doHistory("Patient", "1", new MultivaluedHashMap<>(), null, null);
+            helper.doHistory("Patient", "1", new MultivaluedHashMap<>(), null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'history' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -771,16 +771,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), null, null);
+            helper.doHistory("Encounter", "1", new MultivaluedHashMap<>(), null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'history' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -795,16 +795,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doHistory("Procedure", "1", new MultivaluedHashMap<>(), null, null);
+            helper.doHistory("Procedure", "1", new MultivaluedHashMap<>(), null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'history' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -819,16 +819,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doHistory("Procedure", "1", new MultivaluedHashMap<>(), null, null);
+            helper.doHistory("Procedure", "1", new MultivaluedHashMap<>(), null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'history' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -843,16 +843,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doHistory("Practitioner", "1", new MultivaluedHashMap<>(), null, null);
+            helper.doHistory("Practitioner", "1", new MultivaluedHashMap<>(), null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -867,7 +867,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doSearch("Patient", null, null, new MultivaluedHashMap<>(), "test", null, null);
+            Bundle bundle = helper.doSearch("Patient", null, null, new MultivaluedHashMap<>(), "test", null);
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -885,7 +885,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), "test", null, null);
+            Bundle bundle = helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), "test", null);
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -903,7 +903,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), "test", null, null);
+            Bundle bundle = helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), "test", null);
             assertNotNull(bundle);
         } catch (FHIROperationException e) {
             fail();
@@ -921,16 +921,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doSearch("Patient", null, null, new MultivaluedHashMap<>(), null, null, null);
+            helper.doSearch("Patient", null, null, new MultivaluedHashMap<>(), null, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'search' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -945,16 +945,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), null, null, null);
+            helper.doSearch("Encounter", null, null, new MultivaluedHashMap<>(), null, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'search' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -969,16 +969,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doSearch("Procedure", null, null, new MultivaluedHashMap<>(), null, null, null);
+            helper.doSearch("Procedure", null, null, new MultivaluedHashMap<>(), null, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'search' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -993,16 +993,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doSearch("Procedure", null, null, new MultivaluedHashMap<>(), null, null, null);
+            helper.doSearch("Procedure", null, null, new MultivaluedHashMap<>(), null, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'search' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1017,16 +1017,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doSearch("Practitioner", null, null, new MultivaluedHashMap<>(), null, null, null);
+            helper.doSearch("Practitioner", null, null, new MultivaluedHashMap<>(), null, null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -1051,7 +1051,7 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Patient", "1", patient, null, null, null, false);
+            FHIRRestOperationResponse response = helper.doUpdate("Patient", "1", patient, null, null, false, false);
             assertEquals(ALL_OK, response.getOperationOutcome());
         } catch (FHIROperationException e) {
             fail();
@@ -1079,8 +1079,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, false, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -1107,8 +1107,8 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
-            assertEquals(ALL_OK, response.getOperationOutcome());
+            FHIRRestOperationResponse response = helper.doUpdate("Encounter", "1", encounter, null, null, false, false);
+            assertEquals(response.getOperationOutcome(), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }
@@ -1134,16 +1134,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Patient", "1", patient, null, null, null, false);
+            helper.doUpdate("Patient", "1", patient, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'update' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1167,16 +1167,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
+            helper.doUpdate("Encounter", "1", encounter, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'update' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1200,16 +1200,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Encounter", "1", encounter, null, null, null, false);
+            helper.doUpdate("Encounter", "1", encounter, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'update' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1240,16 +1240,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Procedure", "1", procedure, null, null, null, false);
+            helper.doUpdate("Procedure", "1", procedure, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'update' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1267,16 +1267,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doUpdate("Practitioner", "1", practitioner, null, null, null, false);
+            helper.doUpdate("Practitioner", "1", practitioner, null, null, false, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -1291,16 +1291,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Patient", "1", null, null, null, null);
+            helper.doPatch("Patient", "1", null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'patch' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1315,16 +1315,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Encounter", "1", null, null, null, null);
+            helper.doPatch("Encounter", "1", null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'patch' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1339,16 +1339,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Procedure", "1", null, null, null, null);
+            helper.doPatch("Procedure", "1", null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'patch' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1363,16 +1363,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Encounter", "1", null, null, null, null);
+            helper.doPatch("Encounter", "1", null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'patch' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1382,24 +1382,21 @@ public class InteractionValidationConfigTest {
     @Test
     public void testPatchNotValidOpenFalse() throws Exception {
         FHIRRequestContext.get().setTenantId("interactionConfigTest1");
-        Practitioner practitioner = Practitioner.builder()
-                .active(com.ibm.fhir.model.type.Boolean.TRUE)
-                .build();
 
         // Process request
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doPatch("Practitioner", "1", null, null, null, null);
+            helper.doPatch("Practitioner", "1", null, null, null, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -1414,9 +1411,9 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doDelete("Patient", "1", null, null);
+            FHIRRestOperationResponse response = helper.doDelete("Patient", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("Deleted 1 Patient resource(s) with the following id(s): 1",
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
@@ -1437,9 +1434,9 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null, null);
+            FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("Deleted 1 Encounter resource(s) with the following id(s): 1",
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
@@ -1460,9 +1457,9 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null, null);
+            FHIRRestOperationResponse response = helper.doDelete("Encounter", "1", null);
             List<Issue> issues = response.getOperationOutcome().getIssue();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("Deleted 1 Encounter resource(s) with the following id(s): 1",
                 issues.get(0).getDetails().getText().getValue());
             assertEquals(IssueSeverity.INFORMATION, issues.get(0).getSeverity());
@@ -1483,16 +1480,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doDelete("Patient", "1", null, null);
+            helper.doDelete("Patient", "1", null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'delete' is not allowed for resource type 'Patient'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1507,16 +1504,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doDelete("Encounter", "1", null, null);
+            helper.doDelete("Encounter", "1", null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'delete' is not allowed for resource type 'Encounter'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1531,16 +1528,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doDelete("Procedure", "1", null, null);
+            helper.doDelete("Procedure", "1", null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'delete' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1555,16 +1552,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doDelete("Procedure", "1", null, null);
+            helper.doDelete("Procedure", "1", null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested interaction of type 'delete' is not allowed for resource type 'Procedure'",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1579,16 +1576,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doDelete("Practitioner", "1", null, null);
+            helper.doDelete("Practitioner", "1", null);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
+            assertEquals(issues.size(), 1);
             assertEquals("The requested resource type 'Practitioner' is not found",
                 issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.NOT_FOUND, issues.get(0).getCode());
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.NOT_FOUND);
         }
     }
 
@@ -1650,10 +1647,10 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle, null);
-            assertEquals(2, bundle.getEntry().size());
+            Bundle bundle = helper.doBundle(requestBundle, false);
+            assertEquals(bundle.getEntry().size(), 2);
             for (Entry bundleEntry : bundle.getEntry()) {
-                assertEquals(ALL_OK, bundleEntry.getResource().as(OperationOutcome.class));
+                assertEquals(bundleEntry.getResource().as(OperationOutcome.class), ALL_OK);
             }
         } catch (FHIROperationException e) {
             fail();
@@ -1718,16 +1715,16 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            helper.doBundle(requestBundle, null);
+            helper.doBundle(requestBundle, false);
             fail();
         } catch (FHIROperationException e) {
             // Validate results
             List<Issue> issues = e.getIssues();
-            assertEquals(1, issues.size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Patient'",
-                issues.get(0).getDetails().getText().getValue());
-            assertEquals(IssueSeverity.ERROR, issues.get(0).getSeverity());
-            assertEquals(IssueType.BUSINESS_RULE, issues.get(0).getCode());
+            assertEquals(issues.size(), 1);
+            assertEquals(issues.get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Patient'");
+            assertEquals(issues.get(0).getSeverity(), IssueSeverity.ERROR);
+            assertEquals(issues.get(0).getCode(), IssueType.BUSINESS_RULE);
         }
     }
 
@@ -1789,10 +1786,10 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle, null);
-            assertEquals(2, bundle.getEntry().size());
+            Bundle bundle = helper.doBundle(requestBundle, false);
+            assertEquals(bundle.getEntry().size(), 2);
             for (Entry bundleEntry : bundle.getEntry()) {
-                assertEquals(ALL_OK, bundleEntry.getResource().as(OperationOutcome.class));
+                assertEquals(bundleEntry.getResource().as(OperationOutcome.class), ALL_OK);
             }
         } catch (FHIROperationException e) {
             fail();
@@ -1857,11 +1854,11 @@ public class InteractionValidationConfigTest {
         FHIRRequestContext.get().setOriginalRequestUri("test");
         FHIRRequestContext.get().setReturnPreference(HTTPReturnPreference.OPERATION_OUTCOME);
         try {
-            Bundle bundle = helper.doBundle(requestBundle, null);
-            assertEquals(2, bundle.getEntry().size());
-            assertEquals("The requested interaction of type 'create' is not allowed for resource type 'Patient'",
-                bundle.getEntry().get(0).getResource().as(OperationOutcome.class).getIssue().get(0).getDetails().getText().getValue());
-            assertEquals(ALL_OK, bundle.getEntry().get(1).getResource().as(OperationOutcome.class));
+            Bundle bundle = helper.doBundle(requestBundle, false);
+            assertEquals(bundle.getEntry().size(), 2);
+            assertEquals(bundle.getEntry().get(0).getResource().as(OperationOutcome.class).getIssue().get(0).getDetails().getText().getValue(),
+                    "The requested interaction of type 'create' is not allowed for resource type 'Patient'");
+            assertEquals(bundle.getEntry().get(1).getResource().as(OperationOutcome.class), ALL_OK);
         } catch (FHIROperationException e) {
             fail();
         }

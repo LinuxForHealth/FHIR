@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,19 +40,27 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DaysOfWeek;
 import com.ibm.fhir.model.type.code.LocationMode;
 import com.ibm.fhir.model.type.code.LocationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Details and position information for a physical place where services are provided and resources and participants may 
  * be stored, found, contained, or accommodated.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "location-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0116",
     expression = "operationalStatus.exists() implies (operationalStatus.memberOf('http://terminology.hl7.org/ValueSet/v2-0116', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Location",
     generated = true
 )
 @Constraint(
@@ -60,6 +69,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType",
     expression = "type.exists() implies (type.all(memberOf('http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Location",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -69,7 +79,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the location is still in use.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-status|4.0.1"
     )
@@ -77,7 +87,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OperationalStatus",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The operational status if the location (where typically a bed/room).",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0116"
     )
@@ -90,7 +100,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether a resource instance represents a specific location or a class of locations.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-mode|4.0.1"
     )
@@ -98,7 +108,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LocationType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Indicates the type of function performed at the location.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
     )
@@ -108,7 +118,7 @@ public class Location extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PhysicalType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Physical form of the location.",
         valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
     )
@@ -124,31 +134,25 @@ public class Location extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private Location(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         operationalStatus = builder.operationalStatus;
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(builder.alias);
         description = builder.description;
         mode = builder.mode;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        type = Collections.unmodifiableList(builder.type);
+        telecom = Collections.unmodifiableList(builder.telecom);
         address = builder.address;
         physicalType = builder.physicalType;
         position = builder.position;
         managingOrganization = builder.managingOrganization;
         partOf = builder.partOf;
-        hoursOfOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hoursOfOperation, "hoursOfOperation"));
+        hoursOfOperation = Collections.unmodifiableList(builder.hoursOfOperation);
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Location");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1083,7 +1087,24 @@ public class Location extends DomainResource {
          */
         @Override
         public Location build() {
-            return new Location(this);
+            Location location = new Location(this);
+            if (validating) {
+                validate(location);
+            }
+            return location;
+        }
+
+        protected void validate(Location location) {
+            super.validate(location);
+            ValidationSupport.checkList(location.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(location.alias, "alias", String.class);
+            ValidationSupport.checkList(location.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(location.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(location.hoursOfOperation, "hoursOfOperation", HoursOfOperation.class);
+            ValidationSupport.checkList(location.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(location.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(location.partOf, "partOf", "Location");
+            ValidationSupport.checkReferenceType(location.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Location location) {
@@ -1120,14 +1141,11 @@ public class Location extends DomainResource {
         private final Decimal latitude;
         private final Decimal altitude;
 
-        private volatile int hashCode;
-
         private Position(Builder builder) {
             super(builder);
-            longitude = ValidationSupport.requireNonNull(builder.longitude, "longitude");
-            latitude = ValidationSupport.requireNonNull(builder.latitude, "latitude");
+            longitude = builder.longitude;
+            latitude = builder.latitude;
             altitude = builder.altitude;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1408,7 +1426,18 @@ public class Location extends DomainResource {
              */
             @Override
             public Position build() {
-                return new Position(this);
+                Position position = new Position(this);
+                if (validating) {
+                    validate(position);
+                }
+                return position;
+            }
+
+            protected void validate(Position position) {
+                super.validate(position);
+                ValidationSupport.requireNonNull(position.longitude, "longitude");
+                ValidationSupport.requireNonNull(position.latitude, "latitude");
+                ValidationSupport.requireValueOrChildren(position);
             }
 
             protected Builder from(Position position) {
@@ -1427,7 +1456,7 @@ public class Location extends DomainResource {
     public static class HoursOfOperation extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )
@@ -1436,15 +1465,12 @@ public class Location extends DomainResource {
         private final Time openingTime;
         private final Time closingTime;
 
-        private volatile int hashCode;
-
         private HoursOfOperation(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
             allDay = builder.allDay;
             openingTime = builder.openingTime;
             closingTime = builder.closingTime;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1758,7 +1784,17 @@ public class Location extends DomainResource {
              */
             @Override
             public HoursOfOperation build() {
-                return new HoursOfOperation(this);
+                HoursOfOperation hoursOfOperation = new HoursOfOperation(this);
+                if (validating) {
+                    validate(hoursOfOperation);
+                }
+                return hoursOfOperation;
+            }
+
+            protected void validate(HoursOfOperation hoursOfOperation) {
+                super.validate(hoursOfOperation);
+                ValidationSupport.checkList(hoursOfOperation.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+                ValidationSupport.requireValueOrChildren(hoursOfOperation);
             }
 
             protected Builder from(HoursOfOperation hoursOfOperation) {

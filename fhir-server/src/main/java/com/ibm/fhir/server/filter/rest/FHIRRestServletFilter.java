@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,6 +23,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriBuilder;
 
@@ -32,6 +33,7 @@ import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.config.FHIRConfiguration;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
+import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.exception.FHIRException;
@@ -41,6 +43,7 @@ import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.FHIRUtil;
+import com.ibm.fhir.server.exception.FHIRRestServletRequestException;
 
 /**
  * This class is a servlet filter which is registered with the REST API's servlet. The main purpose of the class is to
@@ -115,6 +118,8 @@ public class FHIRRestServletFilter extends HttpFilter {
         String encodedRequestDescription = Encode.forHtml(requestDescription.toString());
         log.info("Received request: " + encodedRequestDescription);
 
+        int statusOnException = HttpServletResponse.SC_BAD_REQUEST;
+
         try {
             // Checks for Valid Tenant Configuration
             checkValidTenantConfiguration(tenantId);
@@ -138,6 +143,14 @@ public class FHIRRestServletFilter extends HttpFilter {
             Map<String, List<String>> requestHeaders = extractRequestHeaders(request);
             context.setHttpHeaders(requestHeaders);
 
+            // Check the FHIR version parameter.
+            try {
+                checkFhirVersionParameter(requestHeaders);
+            } catch (FHIRRestServletRequestException e) {
+                statusOnException = e.getHttpStatusCode();
+                throw e;
+            }
+
             // Pass the request through to the next filter in the chain.
             chain.doFilter(request, response);
         } catch (Exception e) {
@@ -145,9 +158,9 @@ public class FHIRRestServletFilter extends HttpFilter {
 
             OperationOutcome outcome = FHIRUtil.buildOperationOutcome(e, IssueType.INVALID, IssueSeverity.FATAL, false);
 
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.setStatus(statusOnException);
 
-            Format format = chooseResponseFormat(request.getHeader("Accept"));
+            Format format = chooseResponseFormat(request.getHeader(HttpHeaders.ACCEPT));
             switch (format) {
             case XML:
                 response.setContentType(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_XML);
@@ -261,6 +274,45 @@ public class FHIRRestServletFilter extends HttpFilter {
         return returnPref;
     }
 
+    /**
+     * Check that FHIR version parameters in the HTTP headers are valid.
+     * @param requestHeaders the headers
+     * @throws FHIRRestServletRequestException
+     */
+    void checkFhirVersionParameter(Map<String, List<String>> requestHeaders) throws FHIRRestServletRequestException {
+        Map<String, Integer> headerStatusMap = new LinkedHashMap<>();
+        // 415 Unsupported Media Type is the appropriate response when the client posts a format that is not supported to the server.
+        headerStatusMap.put(HttpHeaders.CONTENT_TYPE, HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+        // 406 Not Acceptable is the appropriate response when the Accept header requests a format that the server does not support.
+        headerStatusMap.put(HttpHeaders.ACCEPT, HttpServletResponse.SC_NOT_ACCEPTABLE);
+
+        for (String headerName : headerStatusMap.keySet()) {
+            String fhirVersion = null;
+            for (String headerValue : requestHeaders.getOrDefault(headerName, Collections.emptyList())) {
+                for (String headerValueElement : headerValue.split(",")) {
+                    for (Map.Entry<String, String> parameter : MediaType.valueOf(headerValueElement).getParameters().entrySet()) {
+                        if (FHIRMediaType.FHIR_VERSION_PARAMETER.equalsIgnoreCase(parameter.getKey())) {
+                            String curFhirVersion = parameter.getValue();
+                            if (curFhirVersion != null && !FHIRMediaType.SUPPORTED_FHIR_VERSIONS.contains(curFhirVersion)) {
+                                throw new FHIRRestServletRequestException("Invalid '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                    + "' parameter value in '" + headerName + "' header; the following FHIR versions are supported: "
+                                        + FHIRMediaType.SUPPORTED_FHIR_VERSIONS, headerStatusMap.get(headerName));
+                            }
+                            // If Content-Type header, check for multiple different FHIR versions
+                            if (headerName.equals(HttpHeaders.CONTENT_TYPE)) {
+                                if (fhirVersion != null && !fhirVersion.equals(curFhirVersion)) {
+                                    throw new FHIRRestServletRequestException("Multiple different '" + FHIRMediaType.FHIR_VERSION_PARAMETER
+                                        + "' parameter values in '" + headerName + "' header", headerStatusMap.get(headerName));
+                                }
+                                fhirVersion = curFhirVersion;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private Format chooseResponseFormat(String acceptableContentTypes) {
         if (acceptableContentTypes.contains(com.ibm.fhir.core.FHIRMediaType.APPLICATION_FHIR_JSON) ||
                 acceptableContentTypes.contains(MediaType.APPLICATION_JSON)) {
@@ -316,41 +368,51 @@ public class FHIRRestServletFilter extends HttpFilter {
     /**
      * Get the original request URL from either the HttpServletRequest or a configured Header (in case of re-writing proxies).
      *
+     * If configured as a header, the header value will only be used for the protocol, server name, port number, and server path;
+     * the query string will come from the HttpServletRequest.
+     *
      * @param request
-     * @return String The complete request URI
+     * @return String The full request URL
      */
     private String getOriginalRequestURI(HttpServletRequest request) {
-        String requestUri = null;
+        StringBuilder requestUriBuilder = null;
 
         // First, check the configured header for the original request URI (in case any proxies have overwritten the user-facing URL)
         if (originalRequestUriHeaderName != null) {
-            requestUri = request.getHeader(originalRequestUriHeaderName);
-            if (requestUri != null && !requestUri.isEmpty()) {
-                // Try to parse it as a URI to ensure its valid
+            String originalRequestUriString = request.getHeader(originalRequestUriHeaderName);
+            if (originalRequestUriString != null && !originalRequestUriString.isEmpty()) {
                 try {
-                    URI originalRequestUri = new URI(requestUri);
+                    String uriStringSansQuery = originalRequestUriString.contains("?") ?
+                            originalRequestUriString.substring(0, originalRequestUriString.indexOf('?')) :
+                            originalRequestUriString;
+                    // Try to parse it as a URI to ensure its valid
+                    URI originalRequestUri = new URI(uriStringSansQuery);
+
                     // If its not absolute, then construct an absolute URI (or else JAX-RS will append the path to the current baseUri)
-                    if (!originalRequestUri.isAbsolute()) {
-                        requestUri = UriBuilder.fromUri(getRequestURL(request))
-                            .replacePath(originalRequestUri.getPath()).build().toString();
+                    if (originalRequestUri.isAbsolute()) {
+                        requestUriBuilder = new StringBuilder(uriStringSansQuery);
+                    } else {
+                        requestUriBuilder = new StringBuilder(UriBuilder.fromUri(getRequestURL(request))
+                            .replacePath(originalRequestUri.getPath()).build().toString());
                     }
                 } catch (Exception e) {
                     log.log(Level.WARNING, "Error while computing the original request URI", e);
-                    requestUri = null;
                 }
             }
         }
 
         // If there was no configured header or the header wasn't present, construct it from the HttpServletRequest
-        if (requestUri == null || requestUri.isEmpty()) {
-            StringBuilder requestUriBuilder = new StringBuilder(request.getRequestURL());
-            String queryString = request.getQueryString();
-            if (queryString != null && !queryString.isEmpty()) {
-                requestUriBuilder.append("?").append(queryString);
-            }
-            requestUri = requestUriBuilder.toString();
+        if (requestUriBuilder == null || requestUriBuilder.toString().isEmpty()) {
+            requestUriBuilder = new StringBuilder(request.getRequestURL());
         }
-        return requestUri;
+
+        // Append the query string from the HttpServletRequest
+        String queryString = request.getQueryString();
+        if (queryString != null && !queryString.isEmpty()) {
+            requestUriBuilder.append("?").append(queryString);
+        }
+
+        return requestUriBuilder.toString();
     }
 
     @Override

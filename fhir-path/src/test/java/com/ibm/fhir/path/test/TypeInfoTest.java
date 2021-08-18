@@ -1,6 +1,6 @@
 /*
- * (C) Copyright IBM Corp. 2019
- * 
+ * (C) Copyright IBM Corp. 2019, 2021
+ *
  * SPDX-License-Identifier: Apache-2.0
  */
 
@@ -29,36 +29,36 @@ public class TypeInfoTest {
         TypeInfo expected = new SimpleTypeInfo("System", "String", "System.Any");
         Assert.assertEquals(actual, expected);
     }
-    
+
     @Test
     public void testClassInfo() {
         TypeInfo actual = FHIRPathUtil.buildClassInfo(FHIRPathType.FHIR_ADDRESS);
         List<ClassInfoElement> element = new ArrayList<>();
-        element.add(new ClassInfoElement("use", "code"));
-        element.add(new ClassInfoElement("type", "code"));
-        element.add(new ClassInfoElement("text", "FHIR.string"));
-        element.add(new ClassInfoElement("line", "List<FHIR.string>", false));
-        element.add(new ClassInfoElement("city", "FHIR.string"));
-        element.add(new ClassInfoElement("district", "FHIR.string"));
-        element.add(new ClassInfoElement("state", "FHIR.string"));
-        element.add(new ClassInfoElement("postalCode", "FHIR.string"));
-        element.add(new ClassInfoElement("country", "FHIR.string"));
-        element.add(new ClassInfoElement("period", "Period"));
+        element.add(new ClassInfoElement("use", "code", true));
+        element.add(new ClassInfoElement("type", "code", true));
+        element.add(new ClassInfoElement("text", "FHIR.string", true));
+        element.add(new ClassInfoElement("line", "FHIR.string", false));
+        element.add(new ClassInfoElement("city", "FHIR.string", true));
+        element.add(new ClassInfoElement("district", "FHIR.string", true));
+        element.add(new ClassInfoElement("state", "FHIR.string", true));
+        element.add(new ClassInfoElement("postalCode", "FHIR.string", true));
+        element.add(new ClassInfoElement("country", "FHIR.string", true));
+        element.add(new ClassInfoElement("period", "Period", true));
         TypeInfo expected = new ClassInfo("FHIR", "Address", "FHIR.Element", element);
         Assert.assertEquals(actual, expected);
     }
-    
+
     @Test
     public void testTupleTypeInfo() {
         TypeInfo actual = FHIRPathUtil.buildTupleTypeInfo(Patient.Contact.class);
         List<TupleTypeInfoElement> element = new ArrayList<>();
-        element.add(new TupleTypeInfoElement("relationship", "List<FHIR.CodeableConcept>", false));
-        element.add(new TupleTypeInfoElement("name", "FHIR.HumanName"));
-        element.add(new TupleTypeInfoElement("telecom", "List<FHIR.ContactPoint>", false));
-        element.add(new TupleTypeInfoElement("address", "FHIR.Address"));
-        element.add(new TupleTypeInfoElement("gender", "FHIR.code"));
-        element.add(new TupleTypeInfoElement("organization", "FHIR.Reference"));
-        element.add(new TupleTypeInfoElement("period", "FHIR.Period"));
+        element.add(new TupleTypeInfoElement("relationship", "FHIR.CodeableConcept", false));
+        element.add(new TupleTypeInfoElement("name", "FHIR.HumanName", true));
+        element.add(new TupleTypeInfoElement("telecom", "FHIR.ContactPoint", false));
+        element.add(new TupleTypeInfoElement("address", "FHIR.Address", true));
+        element.add(new TupleTypeInfoElement("gender", "FHIR.code", true));
+        element.add(new TupleTypeInfoElement("organization", "FHIR.Reference", true));
+        element.add(new TupleTypeInfoElement("period", "FHIR.Period", true));
         TypeInfo expected = new TupleTypeInfo(element);
         Assert.assertEquals(actual, expected);
     }

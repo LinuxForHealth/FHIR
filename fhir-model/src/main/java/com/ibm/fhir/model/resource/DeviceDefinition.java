@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,12 +39,19 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DeviceNameType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The characteristics, operational status and capabilities of a medical-related component of a medical device.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceDefinition extends DomainResource {
     private final List<Identifier> identifier;
@@ -55,7 +63,7 @@ public class DeviceDefinition extends DomainResource {
     private final String modelNumber;
     @Binding(
         bindingName = "DeviceKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Type of device e.g. according to official classification.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -65,7 +73,7 @@ public class DeviceDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Safety",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/device-safety"
     )
     private final List<CodeableConcept> safety;
@@ -86,36 +94,30 @@ public class DeviceDefinition extends DomainResource {
     private final Reference parentDevice;
     private final List<Material> material;
 
-    private volatile int hashCode;
-
     private DeviceDefinition(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        udiDeviceIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udiDeviceIdentifier, "udiDeviceIdentifier"));
-        manufacturer = ValidationSupport.choiceElement(builder.manufacturer, "manufacturer", String.class, Reference.class);
-        deviceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.deviceName, "deviceName"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        udiDeviceIdentifier = Collections.unmodifiableList(builder.udiDeviceIdentifier);
+        manufacturer = builder.manufacturer;
+        deviceName = Collections.unmodifiableList(builder.deviceName);
         modelNumber = builder.modelNumber;
         type = builder.type;
-        specialization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialization, "specialization"));
-        version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
-        safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
-        shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
+        specialization = Collections.unmodifiableList(builder.specialization);
+        version = Collections.unmodifiableList(builder.version);
+        safety = Collections.unmodifiableList(builder.safety);
+        shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
         physicalCharacteristics = builder.physicalCharacteristics;
-        languageCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.languageCode, "languageCode"));
-        capability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.capability, "capability"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        languageCode = Collections.unmodifiableList(builder.languageCode);
+        capability = Collections.unmodifiableList(builder.capability);
+        property = Collections.unmodifiableList(builder.property);
         owner = builder.owner;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         url = builder.url;
         onlineInformation = builder.onlineInformation;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        note = Collections.unmodifiableList(builder.note);
         quantity = builder.quantity;
         parentDevice = builder.parentDevice;
-        material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-        ValidationSupport.checkReferenceType(parentDevice, "parentDevice", "DeviceDefinition");
-        ValidationSupport.requireChildren(this);
+        material = Collections.unmodifiableList(builder.material);
     }
 
     /**
@@ -1339,7 +1341,32 @@ public class DeviceDefinition extends DomainResource {
          */
         @Override
         public DeviceDefinition build() {
-            return new DeviceDefinition(this);
+            DeviceDefinition deviceDefinition = new DeviceDefinition(this);
+            if (validating) {
+                validate(deviceDefinition);
+            }
+            return deviceDefinition;
+        }
+
+        protected void validate(DeviceDefinition deviceDefinition) {
+            super.validate(deviceDefinition);
+            ValidationSupport.checkList(deviceDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(deviceDefinition.udiDeviceIdentifier, "udiDeviceIdentifier", UdiDeviceIdentifier.class);
+            ValidationSupport.choiceElement(deviceDefinition.manufacturer, "manufacturer", String.class, Reference.class);
+            ValidationSupport.checkList(deviceDefinition.deviceName, "deviceName", DeviceName.class);
+            ValidationSupport.checkList(deviceDefinition.specialization, "specialization", Specialization.class);
+            ValidationSupport.checkList(deviceDefinition.version, "version", String.class);
+            ValidationSupport.checkList(deviceDefinition.safety, "safety", CodeableConcept.class);
+            ValidationSupport.checkList(deviceDefinition.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class);
+            ValidationSupport.checkList(deviceDefinition.languageCode, "languageCode", CodeableConcept.class);
+            ValidationSupport.checkList(deviceDefinition.capability, "capability", Capability.class);
+            ValidationSupport.checkList(deviceDefinition.property, "property", Property.class);
+            ValidationSupport.checkList(deviceDefinition.contact, "contact", ContactPoint.class);
+            ValidationSupport.checkList(deviceDefinition.note, "note", Annotation.class);
+            ValidationSupport.checkList(deviceDefinition.material, "material", Material.class);
+            ValidationSupport.checkReferenceType(deviceDefinition.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(deviceDefinition.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(deviceDefinition.parentDevice, "parentDevice", "DeviceDefinition");
         }
 
         protected Builder from(DeviceDefinition deviceDefinition) {
@@ -1383,14 +1410,11 @@ public class DeviceDefinition extends DomainResource {
         @Required
         private final Uri jurisdiction;
 
-        private volatile int hashCode;
-
         private UdiDeviceIdentifier(Builder builder) {
             super(builder);
-            deviceIdentifier = ValidationSupport.requireNonNull(builder.deviceIdentifier, "deviceIdentifier");
-            issuer = ValidationSupport.requireNonNull(builder.issuer, "issuer");
-            jurisdiction = ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction");
-            ValidationSupport.requireValueOrChildren(this);
+            deviceIdentifier = builder.deviceIdentifier;
+            issuer = builder.issuer;
+            jurisdiction = builder.jurisdiction;
         }
 
         /**
@@ -1671,7 +1695,19 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public UdiDeviceIdentifier build() {
-                return new UdiDeviceIdentifier(this);
+                UdiDeviceIdentifier udiDeviceIdentifier = new UdiDeviceIdentifier(this);
+                if (validating) {
+                    validate(udiDeviceIdentifier);
+                }
+                return udiDeviceIdentifier;
+            }
+
+            protected void validate(UdiDeviceIdentifier udiDeviceIdentifier) {
+                super.validate(udiDeviceIdentifier);
+                ValidationSupport.requireNonNull(udiDeviceIdentifier.deviceIdentifier, "deviceIdentifier");
+                ValidationSupport.requireNonNull(udiDeviceIdentifier.issuer, "issuer");
+                ValidationSupport.requireNonNull(udiDeviceIdentifier.jurisdiction, "jurisdiction");
+                ValidationSupport.requireValueOrChildren(udiDeviceIdentifier);
             }
 
             protected Builder from(UdiDeviceIdentifier udiDeviceIdentifier) {
@@ -1692,20 +1728,17 @@ public class DeviceDefinition extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "DeviceNameType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
         )
         @Required
         private final DeviceNameType type;
 
-        private volatile int hashCode;
-
         private DeviceName(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.requireValueOrChildren(this);
+            name = builder.name;
+            type = builder.type;
         }
 
         /**
@@ -1953,7 +1986,18 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public DeviceName build() {
-                return new DeviceName(this);
+                DeviceName deviceName = new DeviceName(this);
+                if (validating) {
+                    validate(deviceName);
+                }
+                return deviceName;
+            }
+
+            protected void validate(DeviceName deviceName) {
+                super.validate(deviceName);
+                ValidationSupport.requireNonNull(deviceName.name, "name");
+                ValidationSupport.requireNonNull(deviceName.type, "type");
+                ValidationSupport.requireValueOrChildren(deviceName);
             }
 
             protected Builder from(DeviceName deviceName) {
@@ -1974,13 +2018,10 @@ public class DeviceDefinition extends DomainResource {
         private final String systemType;
         private final String version;
 
-        private volatile int hashCode;
-
         private Specialization(Builder builder) {
             super(builder);
-            systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
+            systemType = builder.systemType;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2223,7 +2264,17 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public Specialization build() {
-                return new Specialization(this);
+                Specialization specialization = new Specialization(this);
+                if (validating) {
+                    validate(specialization);
+                }
+                return specialization;
+            }
+
+            protected void validate(Specialization specialization) {
+                super.validate(specialization);
+                ValidationSupport.requireNonNull(specialization.systemType, "systemType");
+                ValidationSupport.requireValueOrChildren(specialization);
             }
 
             protected Builder from(Specialization specialization) {
@@ -2243,13 +2294,10 @@ public class DeviceDefinition extends DomainResource {
         private final CodeableConcept type;
         private final List<CodeableConcept> description;
 
-        private volatile int hashCode;
-
         private Capability(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            description = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.description, "description"));
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            description = Collections.unmodifiableList(builder.description);
         }
 
         /**
@@ -2512,7 +2560,18 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public Capability build() {
-                return new Capability(this);
+                Capability capability = new Capability(this);
+                if (validating) {
+                    validate(capability);
+                }
+                return capability;
+            }
+
+            protected void validate(Capability capability) {
+                super.validate(capability);
+                ValidationSupport.requireNonNull(capability.type, "type");
+                ValidationSupport.checkList(capability.description, "description", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(capability);
             }
 
             protected Builder from(Capability capability) {
@@ -2533,14 +2592,11 @@ public class DeviceDefinition extends DomainResource {
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueQuantity, "valueQuantity"));
-            valueCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueCode, "valueCode"));
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
+            valueCode = Collections.unmodifiableList(builder.valueCode);
         }
 
         /**
@@ -2852,7 +2908,19 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public Property build() {
-                return new Property(this);
+                Property property = new Property(this);
+                if (validating) {
+                    validate(property);
+                }
+                return property;
+            }
+
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.requireNonNull(property.type, "type");
+                ValidationSupport.checkList(property.valueQuantity, "valueQuantity", Quantity.class);
+                ValidationSupport.checkList(property.valueCode, "valueCode", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(property);
             }
 
             protected Builder from(Property property) {
@@ -2874,14 +2942,11 @@ public class DeviceDefinition extends DomainResource {
         private final Boolean alternate;
         private final Boolean allergenicIndicator;
 
-        private volatile int hashCode;
-
         private Material(Builder builder) {
             super(builder);
-            substance = ValidationSupport.requireNonNull(builder.substance, "substance");
+            substance = builder.substance;
             alternate = builder.alternate;
             allergenicIndicator = builder.allergenicIndicator;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3153,7 +3218,17 @@ public class DeviceDefinition extends DomainResource {
              */
             @Override
             public Material build() {
-                return new Material(this);
+                Material material = new Material(this);
+                if (validating) {
+                    validate(material);
+                }
+                return material;
+            }
+
+            protected void validate(Material material) {
+                super.validate(material);
+                ValidationSupport.requireNonNull(material.substance, "substance");
+                ValidationSupport.requireValueOrChildren(material);
             }
 
             protected Builder from(Material material) {

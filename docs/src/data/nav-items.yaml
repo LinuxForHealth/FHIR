@@ -1,13 +1,19 @@
-- title: Announcement
+- title: Overview
   pages:
-    - path: /announcement
+    - path: /
 - title: Conformance
   pages:
     - path: /Conformance
 - title: Blog
   pages:
+    - title: The Everything Operation
+      path: /blog/everything
+    - title: 4.5.0 Performance Report
+      path: /performance/performance450
     - title: FHIR Server on Raspberry Pi
       path: /blog/raspberrypi4howto
+    - title: Announcement
+      path: /announcement
 - title: Guides
   pages:
     - title: IBM FHIR Server User's Guide
@@ -18,8 +24,10 @@
       path: /guides/FHIRValidationGuide
     - title: Terminology guide
       path: /guides/FHIRTerminologyGuide
-    - title: Create the fhir-validation assembly
+    - title: Create the Validation assembly
       path: /guides/CreateFHIRValidationAssembly
+    - title: Performance guide
+      path: /guides/FHIRPerformanceGuide
     - title: Search configuration
       path: /guides/FHIRSearchConfiguration
     - title: Bring your own Persistence
@@ -27,9 +35,9 @@
     - title: Setup Db2 on Cloud
       path: /guides/DB2OnCloudSetup
     - title: Bulk Data Guide
-      path: /guides/FHIRBulkOperations/
+      path: /guides/FHIRBulkOperations
     - title: Operation Framework
-      path: /guides/FHIROperationFramework/
+      path: /guides/FHIROperationFramework
 - title: Tips and Tricks
   pages:
     - path: /TipsAndTricks

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,32 +35,42 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ListMode;
 import com.ibm.fhir.model.type.code.ListStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A list is a curated collection of resources.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "lst-1",
     level = "Rule",
     location = "(base)",
     description = "A list can only have an emptyReason if it is empty",
-    expression = "emptyReason.empty() or entry.empty()"
+    expression = "emptyReason.empty() or entry.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "lst-2",
     level = "Rule",
     location = "(base)",
     description = "The deleted flag can only be used if the mode of the list is \"changes\"",
-    expression = "mode = 'changes' or entry.deleted.empty()"
+    expression = "mode = 'changes' or entry.deleted.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "lst-3",
     level = "Rule",
     location = "(base)",
     description = "An entry date can only be used if the mode of the list is \"working\"",
-    expression = "mode = 'working' or entry.date.empty()"
+    expression = "mode = 'working' or entry.date.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/List"
 )
 @Constraint(
     id = "list-4",
@@ -67,6 +78,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
     expression = "orderedBy.exists() implies (orderedBy.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/List",
     generated = true
 )
 @Constraint(
@@ -75,6 +87,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
     expression = "emptyReason.exists() implies (emptyReason.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/List",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -83,7 +96,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The current state of the list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-status|4.0.1"
     )
@@ -92,7 +105,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The processing mode that applies to this list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
     )
@@ -103,7 +116,7 @@ public class List extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ListPurpose",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "What the purpose of a list is.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-example-codes"
     )
@@ -120,7 +133,7 @@ public class List extends DomainResource {
     private final Reference source;
     @Binding(
         bindingName = "ListOrder",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "What order applies to the items in a list.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-order"
     )
@@ -129,19 +142,17 @@ public class List extends DomainResource {
     private final java.util.List<Entry> entry;
     @Binding(
         bindingName = "ListEmptyReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "If a list is empty, why it is empty.",
         valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
     )
     private final CodeableConcept emptyReason;
 
-    private volatile int hashCode;
-
     private List(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        mode = builder.mode;
         title = builder.title;
         code = builder.code;
         subject = builder.subject;
@@ -149,13 +160,9 @@ public class List extends DomainResource {
         date = builder.date;
         source = builder.source;
         orderedBy = builder.orderedBy;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        note = Collections.unmodifiableList(builder.note);
+        entry = Collections.unmodifiableList(builder.entry);
         emptyReason = builder.emptyReason;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -917,7 +924,23 @@ public class List extends DomainResource {
          */
         @Override
         public List build() {
-            return new List(this);
+            List list = new List(this);
+            if (validating) {
+                validate(list);
+            }
+            return list;
+        }
+
+        protected void validate(List list) {
+            super.validate(list);
+            ValidationSupport.checkList(list.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(list.status, "status");
+            ValidationSupport.requireNonNull(list.mode, "mode");
+            ValidationSupport.checkList(list.note, "note", Annotation.class);
+            ValidationSupport.checkList(list.entry, "entry", Entry.class);
+            ValidationSupport.checkReferenceType(list.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(list.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(list.source, "source", "Practitioner", "PractitionerRole", "Patient", "Device");
         }
 
         protected Builder from(List list) {
@@ -945,7 +968,7 @@ public class List extends DomainResource {
     public static class Entry extends BackboneElement {
         @Binding(
             bindingName = "ListItemFlag",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that provide further information about the reason and meaning of the item in the list.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-item-flag"
         )
@@ -955,15 +978,12 @@ public class List extends DomainResource {
         @Required
         private final Reference item;
 
-        private volatile int hashCode;
-
         private Entry(Builder builder) {
             super(builder);
             flag = builder.flag;
             deleted = builder.deleted;
             date = builder.date;
-            item = ValidationSupport.requireNonNull(builder.item, "item");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -1264,7 +1284,17 @@ public class List extends DomainResource {
              */
             @Override
             public Entry build() {
-                return new Entry(this);
+                Entry entry = new Entry(this);
+                if (validating) {
+                    validate(entry);
+                }
+                return entry;
+            }
+
+            protected void validate(Entry entry) {
+                super.validate(entry);
+                ValidationSupport.requireNonNull(entry.item, "item");
+                ValidationSupport.requireValueOrChildren(entry);
             }
 
             protected Builder from(Entry entry) {

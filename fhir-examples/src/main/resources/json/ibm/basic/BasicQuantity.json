@@ -35,6 +35,14 @@
       }
     },
     {
+      "url": "http://example.org/Quantity-unicodeLessThan",
+      "valueQuantity": {
+        "value": 3,
+        "unit": "ult",
+        "comparator": "\u003c"
+      }
+    },
+    {
       "url": "http://example.org/Quantity-lessThan",
       "valueQuantity": {
         "value": 3,
@@ -75,6 +83,28 @@
           "system": "http://unitsofmeasure.org",
           "code": "s"
         },
+        "high": {
+          "value": 10,
+          "unit": "sec",
+          "system": "http://unitsofmeasure.org",
+          "code": "s"
+        }
+      }
+    }, 
+    {
+      "url": "http://example.org/Range-noHigh",
+      "valueRange": {
+          "low": {
+          "value": 5,
+          "unit": "sec",
+          "system": "http://unitsofmeasure.org",
+          "code": "s"
+        }
+      }
+    }, 
+    {
+      "url": "http://example.org/Range-noLow",
+      "valueRange": {
         "high": {
           "value": 10,
           "unit": "sec",

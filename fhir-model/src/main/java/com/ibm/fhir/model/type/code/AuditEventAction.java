@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class AuditEventAction extends Code {
      * 
      * <p>Create a new database object, such as placing an order.
      */
-    public static final AuditEventAction C = AuditEventAction.builder().value(ValueSet.C).build();
+    public static final AuditEventAction C = AuditEventAction.builder().value(Value.C).build();
 
     /**
      * Read/View/Print
      * 
      * <p>Display or print data, such as a doctor census.
      */
-    public static final AuditEventAction R = AuditEventAction.builder().value(ValueSet.R).build();
+    public static final AuditEventAction R = AuditEventAction.builder().value(Value.R).build();
 
     /**
      * Update
      * 
      * <p>Update data, such as revise patient information.
      */
-    public static final AuditEventAction U = AuditEventAction.builder().value(ValueSet.U).build();
+    public static final AuditEventAction U = AuditEventAction.builder().value(Value.U).build();
 
     /**
      * Delete
      * 
      * <p>Delete items, such as a doctor master file record.
      */
-    public static final AuditEventAction D = AuditEventAction.builder().value(ValueSet.D).build();
+    public static final AuditEventAction D = AuditEventAction.builder().value(Value.D).build();
 
     /**
      * Execute
@@ -53,7 +53,7 @@ public class AuditEventAction extends Code {
      * <p>Perform a system or application function such as log-on, program execution or use of an object's method, or perform 
      * a query/search operation.
      */
-    public static final AuditEventAction E = AuditEventAction.builder().value(ValueSet.E).build();
+    public static final AuditEventAction E = AuditEventAction.builder().value(Value.E).build();
 
     private volatile int hashCode;
 
@@ -61,14 +61,48 @@ public class AuditEventAction extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AuditEventAction as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AuditEventAction as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AuditEventAction objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AuditEventAction of(ValueSet value) {
+        switch (value) {
+        case C:
+            return C;
+        case R:
+            return R;
+        case U:
+            return U;
+        case D:
+            return D;
+        case E:
+            return E;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AuditEventAction objects from a passed enum value.
      */
-    public static AuditEventAction of(ValueSet value) {
+    public static AuditEventAction of(Value value) {
         switch (value) {
         case C:
             return C;
@@ -94,7 +128,7 @@ public class AuditEventAction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AuditEventAction of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +140,7 @@ public class AuditEventAction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -118,7 +152,7 @@ public class AuditEventAction extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -147,11 +181,7 @@ public class AuditEventAction extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -180,19 +210,50 @@ public class AuditEventAction extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AuditEventAction
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public AuditEventAction build() {
-            return new AuditEventAction(this);
+            AuditEventAction auditEventAction = new AuditEventAction(this);
+            if (validating) {
+                validate(auditEventAction);
+            }
+            return auditEventAction;
+        }
+
+        protected void validate(AuditEventAction auditEventAction) {
+            super.validate(auditEventAction);
+        }
+
+        protected Builder from(AuditEventAction auditEventAction) {
+            super.from(auditEventAction);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Create
@@ -245,7 +306,7 @@ public class AuditEventAction extends Code {
         }
 
         /**
-         * Factory method for creating AuditEventAction.ValueSet values from a passed string value.
+         * Factory method for creating AuditEventAction.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -259,6 +320,88 @@ public class AuditEventAction extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Create
+         * 
+         * <p>Create a new database object, such as placing an order.
+         */
+        C("C"),
+
+        /**
+         * Read/View/Print
+         * 
+         * <p>Display or print data, such as a doctor census.
+         */
+        R("R"),
+
+        /**
+         * Update
+         * 
+         * <p>Update data, such as revise patient information.
+         */
+        U("U"),
+
+        /**
+         * Delete
+         * 
+         * <p>Delete items, such as a doctor master file record.
+         */
+        D("D"),
+
+        /**
+         * Execute
+         * 
+         * <p>Perform a system or application function such as log-on, program execution or use of an object's method, or perform 
+         * a query/search operation.
+         */
+        E("E");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AuditEventAction.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AuditEventAction.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "C":
+                return C;
+            case "R":
+                return R;
+            case "U":
+                return U;
+            case "D":
+                return D;
+            case "E":
+                return E;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

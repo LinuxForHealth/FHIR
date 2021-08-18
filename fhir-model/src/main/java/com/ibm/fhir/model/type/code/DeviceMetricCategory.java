@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class DeviceMetricCategory extends Code {
      * 
      * <p>DeviceObservations generated for this DeviceMetric are measured.
      */
-    public static final DeviceMetricCategory MEASUREMENT = DeviceMetricCategory.builder().value(ValueSet.MEASUREMENT).build();
+    public static final DeviceMetricCategory MEASUREMENT = DeviceMetricCategory.builder().value(Value.MEASUREMENT).build();
 
     /**
      * Setting
      * 
      * <p>DeviceObservations generated for this DeviceMetric is a setting that will influence the behavior of the Device.
      */
-    public static final DeviceMetricCategory SETTING = DeviceMetricCategory.builder().value(ValueSet.SETTING).build();
+    public static final DeviceMetricCategory SETTING = DeviceMetricCategory.builder().value(Value.SETTING).build();
 
     /**
      * Calculation
      * 
      * <p>DeviceObservations generated for this DeviceMetric are calculated.
      */
-    public static final DeviceMetricCategory CALCULATION = DeviceMetricCategory.builder().value(ValueSet.CALCULATION).build();
+    public static final DeviceMetricCategory CALCULATION = DeviceMetricCategory.builder().value(Value.CALCULATION).build();
 
     /**
      * Unspecified
      * 
      * <p>The category of this DeviceMetric is unspecified.
      */
-    public static final DeviceMetricCategory UNSPECIFIED = DeviceMetricCategory.builder().value(ValueSet.UNSPECIFIED).build();
+    public static final DeviceMetricCategory UNSPECIFIED = DeviceMetricCategory.builder().value(Value.UNSPECIFIED).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class DeviceMetricCategory extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceMetricCategory as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceMetricCategory as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceMetricCategory objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceMetricCategory of(ValueSet value) {
+        switch (value) {
+        case MEASUREMENT:
+            return MEASUREMENT;
+        case SETTING:
+            return SETTING;
+        case CALCULATION:
+            return CALCULATION;
+        case UNSPECIFIED:
+            return UNSPECIFIED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceMetricCategory objects from a passed enum value.
      */
-    public static DeviceMetricCategory of(ValueSet value) {
+    public static DeviceMetricCategory of(Value value) {
         switch (value) {
         case MEASUREMENT:
             return MEASUREMENT;
@@ -84,7 +116,7 @@ public class DeviceMetricCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceMetricCategory of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class DeviceMetricCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class DeviceMetricCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class DeviceMetricCategory extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class DeviceMetricCategory extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceMetricCategory
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public DeviceMetricCategory build() {
-            return new DeviceMetricCategory(this);
+            DeviceMetricCategory deviceMetricCategory = new DeviceMetricCategory(this);
+            if (validating) {
+                validate(deviceMetricCategory);
+            }
+            return deviceMetricCategory;
+        }
+
+        protected void validate(DeviceMetricCategory deviceMetricCategory) {
+            super.validate(deviceMetricCategory);
+        }
+
+        protected Builder from(DeviceMetricCategory deviceMetricCategory) {
+            super.from(deviceMetricCategory);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Measurement
@@ -227,7 +286,7 @@ public class DeviceMetricCategory extends Code {
         }
 
         /**
-         * Factory method for creating DeviceMetricCategory.ValueSet values from a passed string value.
+         * Factory method for creating DeviceMetricCategory.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class DeviceMetricCategory extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Measurement
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric are measured.
+         */
+        MEASUREMENT("measurement"),
+
+        /**
+         * Setting
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric is a setting that will influence the behavior of the Device.
+         */
+        SETTING("setting"),
+
+        /**
+         * Calculation
+         * 
+         * <p>DeviceObservations generated for this DeviceMetric are calculated.
+         */
+        CALCULATION("calculation"),
+
+        /**
+         * Unspecified
+         * 
+         * <p>The category of this DeviceMetric is unspecified.
+         */
+        UNSPECIFIED("unspecified");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceMetricCategory.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DeviceMetricCategory.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "measurement":
+                return MEASUREMENT;
+            case "setting":
+                return SETTING;
+            case "calculation":
+                return CALCULATION;
+            case "unspecified":
+                return UNSPECIFIED;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

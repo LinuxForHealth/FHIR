@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Search Configuration Overview
-date:   2020-01-15 08:37:05 -0400
+date:   2021-06-10
 permalink: /FHIRSearchConfiguration/
 markdown: kramdown
 ---
@@ -27,9 +27,9 @@ The built-in SearchParameters are loaded from the `fhir-registry` in the `fhir-s
 
 The default and tenant level configurations are put in the `default` and tenant-specific (e.g. `tenant1`) config folders respectively. These folders are populated with `extension-search-parameters.json`.
 
-The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java).
+The IBM FHIR Server configuration prefers the JSON formatted configuration documents, and implements caching via [TenantSpecificSearchParameterCache.java](https://github.com/IBM/FHIR/blob/main/fhir-search/src/main/java/com/ibm/fhir/search/parameters/cache/TenantSpecificSearchParameterCache.java).
 
-The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/master/fhir-search/src/main/resources/compartments.json). These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration.
+The IBM FHIR Server supports compartment searches based on the CompartmentDefinition resources found at [fhir-search/src/main/resources/compartments.json](https://github.com/IBM/FHIR/blob/main/fhir-search/src/main/resources/compartments.json). These definitions come directly from the specification and the server provides no corresponding default or tenant-level configuration.
 
 ### 1.1 Tenant-specific parameters
 To configure tenant-specific search parameters, create a file called `extension-search-parameters.json`, placing it in the `${server.config.dir}/config/<tenant-id>` directory. For example, the `${server.config.dir}/config/acme/extension-search-parameters.json` file would contain the search parameters for the `acme` tenant, while `${server.config.dir}/config/qpharma/extension-search-parameters.json` would contain search parameters used by the `qpharma` tenant.
@@ -106,6 +106,18 @@ For more information on search parameters, see the [HL7 FHIR specification](http
 When creating the SearchParameter FHIRPath expression, be sure to test both the FHIRPath expression and the search parameter.
 
 If a search parameter expression extracts an element with a data type that is incompatible with the declared search parameter type, the server skips the value and logs a message. For choice elements, like Extension.value, its recommended to restrict the expression to values of the desired type by using the `as` function. For example, to select only Decimal values from the http://example.org/decimal extension, use an expressions like `Basic.extension.where(url='http://example.org/decimal').value.as(Decimal)`.
+
+#### 1.1.2.1 The implicit-system extension
+The IBM FHIR Server team has introduced a custom SearchParameter extension that can be used to improve search performance for queries that are made against a token SearchParameter without passing a system. Specifically, for SearchParameter resources that index elements of type Code which have a required binding with a single system, adding the following extension to the SearchParameter definition allows the server to infer the system value without requiring end users to explicitly pass it in their queries:
+
+```json
+{
+    "url": "http://ibm.com/fhir/extension/implicit-system",
+    "valueUri": "http://hl7.org/fhir/account-status"
+}
+```
+
+See the [FHIR Performance Guide](FHIRPerformanceGuide#54-search-examples) for more information.
 
 ### 1.2 Filtering
 The IBM FHIR Server supports the filtering of search parameters through `fhir-server-config.json`. The default behavior of the IBM FHIR Server is to consider all built-in and tenant-specific search parameters when storing resources or processing search requests, but you can configure inclusion filters to restrict the IBM FHIR Server's view to specific search parameters on a given resource type.
@@ -251,20 +263,45 @@ In order to avoid this issue, inclusion criteria search parameters should not be
 ##  2 Re-index
 Reindexing is implemented as a custom operation that tells the IBM FHIR Server to read a set of resources and replace the existing search parameters with those newly extracted from the resource body.
 
-The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`. By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+The `$reindex` operation can be invoked via an HTTP(s) POST to `[base]/$reindex`, `[base]/[type]/$reindex`, or `[base]/[type]/[instance]/$reindex`. By default, the operation at the System-level or Type-level selects 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
+
+Reindexing is resource-intensive and can take several hours or even days to complete depending on the approach used, the number of resources currently in the system, and the capability of the hosting platform.
+
+### 2.1 Server-side-driven approach
+By default, the operation will select 10 resources and re-extract their search parameters values based on the current configuration of the server. The operation supports the following parameters to control the behavior:
 
 |name|type|description|
 |----|----|-----------|
-|`tstamp`|string|Reindex any resource not previously reindexed before this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:DDZ.|
+|`tstamp`|string|Reindex only resources not previously reindexed since this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
 |`resourceCount`|integer|The maximum number of resources to reindex in this call. If this number is too large, the processing time might exceed the transaction timeout and fail.|
 
 The IBM FHIR Server tracks when a resource was last reindexed and only resources with a reindex_tstamp value less than the given tstamp parameter will be processed. When a resource is reindexed, its reindex_tstamp is set to the given tstamp value. In most cases, using the current date (for example "2020-10-27") is the best option for this value.
 
-To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$reindex` custom operation.
+### 2.2 Client-side-driven approach
+Another option is to have the client utilize the `$retrieve-index` and `$reindex` in parallel to drive the processing.
 
-For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/master/fhir-bucket#driving-the-reindex-custom-operation.
+The `$retrieve-index` operation is called to retrieve index IDs of resources available for reindexing. This can be done repeatedly by using the `_count` and `afterIndexId` parameters for pagination. The operation supports the following parameters to control the behavior:
 
-Reindexing is resource-intensive and can take several hours or even days to complete depending on the number of resources currently in the system and the capability of the hosting platform.
+|name|type|description|
+|----|----|-----------|
+|`_count`|string|The maximum number of index IDs to retrieve. This may not exceed 1000. If not specified, the maximum number retrieved is 1000.|
+|`notModifiedAfter`|string|Only retrieve index IDs for resources not last updated after this timestamp. Format as a date YYYY-MM-DD or time YYYY-MM-DDTHH:MM:SSZ.|
+|`afterIndexId`|string|Retrieve index IDs starting with the first index ID after this index ID. If this parameter is not specified, the retrieved index IDs start with the first index ID.|
+
+The `$retrieve-index` operation can be invoked via an HTTP(s) POST to `[base]/$retrieve-index` or `[base]/[type]/$retrieve-index`. Invoking this operation at the type-level only retrieves indexIDs for resources of that type.
+
+The `$reindex` operation is called to reindex the resources with index IDs in the specified list. The operation supports the following parameters to control the behavior:
+
+|name|type|description|
+|----|----|-----------|
+|`indexIds`|string|Reindex only resources with an index ID in the specified list, formatted as a comma-delimited list of strings. If number of index IDs in the list is too large, the processing time might exceed the transaction timeout and fail.|
+
+By specifying the index IDs on the `$reindex` operation, the IBM FHIR Server avoids the database overhead of choosing the next resource to reindex and updating the reindex_tstamp. Though it requires the client side to track the reindex progress, it should allow for an overall faster reindex.
+
+### 2.3 fhir-bucket
+To aid in the re-indexing process, the IBM FHIR Server team has expanded the fhir-bucket resource-loading tool to support driving the reindex, with the option of using either the server-side-driven or client-side-driven approach. The fhir-bucket tool uses a thread-pool to make concurrent POST requests to the IBM FHIR Server `$retrieve-index` and `$reindex` custom operations.
+
+For more information on driving the reindex operation from fhir-bucket, see https://github.com/IBM/FHIR/tree/main/fhir-bucket#driving-the-reindex-custom-operation.
 
 ---
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7.

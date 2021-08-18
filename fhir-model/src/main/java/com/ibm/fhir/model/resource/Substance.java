@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,18 +37,26 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRSubstanceStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A homogeneous material with a definite composition.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "substance-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/substance-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/substance-category', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Substance",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -57,7 +66,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRSubstanceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code to indicate if the substance is actively used.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-status|4.0.1"
     )
@@ -65,7 +74,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubstanceCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Category or classification of substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-category"
     )
@@ -73,7 +82,7 @@ public class Substance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubstanceCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Substance codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
     )
@@ -86,18 +95,15 @@ public class Substance extends DomainResource {
     @Summary
     private final List<Ingredient> ingredient;
 
-    private volatile int hashCode;
-
     private Substance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         description = builder.description;
-        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
-        ValidationSupport.requireChildren(this);
+        instance = Collections.unmodifiableList(builder.instance);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
     }
 
     /**
@@ -675,7 +681,20 @@ public class Substance extends DomainResource {
          */
         @Override
         public Substance build() {
-            return new Substance(this);
+            Substance substance = new Substance(this);
+            if (validating) {
+                validate(substance);
+            }
+            return substance;
+        }
+
+        protected void validate(Substance substance) {
+            super.validate(substance);
+            ValidationSupport.checkList(substance.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(substance.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(substance.code, "code");
+            ValidationSupport.checkList(substance.instance, "instance", Instance.class);
+            ValidationSupport.checkList(substance.ingredient, "ingredient", Ingredient.class);
         }
 
         protected Builder from(Substance substance) {
@@ -702,14 +721,11 @@ public class Substance extends DomainResource {
         @Summary
         private final SimpleQuantity quantity;
 
-        private volatile int hashCode;
-
         private Instance(Builder builder) {
             super(builder);
             identifier = builder.identifier;
             expiry = builder.expiry;
             quantity = builder.quantity;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -974,7 +990,16 @@ public class Substance extends DomainResource {
              */
             @Override
             public Instance build() {
-                return new Instance(this);
+                Instance instance = new Instance(this);
+                if (validating) {
+                    validate(instance);
+                }
+                return instance;
+            }
+
+            protected void validate(Instance instance) {
+                super.validate(instance);
+                ValidationSupport.requireValueOrChildren(instance);
             }
 
             protected Builder from(Instance instance) {
@@ -998,21 +1023,17 @@ public class Substance extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubstanceIngredient",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Substance Ingredient codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )
         @Required
         private final Element substance;
 
-        private volatile int hashCode;
-
         private Ingredient(Builder builder) {
             super(builder);
             quantity = builder.quantity;
-            substance = ValidationSupport.requireChoiceElement(builder.substance, "substance", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(substance, "substance", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            substance = builder.substance;
         }
 
         /**
@@ -1266,7 +1287,18 @@ public class Substance extends DomainResource {
              */
             @Override
             public Ingredient build() {
-                return new Ingredient(this);
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireChoiceElement(ingredient.substance, "substance", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(ingredient.substance, "substance", "Substance");
+                ValidationSupport.requireValueOrChildren(ingredient);
             }
 
             protected Builder from(Ingredient ingredient) {

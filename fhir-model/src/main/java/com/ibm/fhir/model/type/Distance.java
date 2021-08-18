@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of length.  If system is present, it SHALL be UCUM.",
-    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)"
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum)",
+    source = "http://hl7.org/fhir/StructureDefinition/Distance"
 )
 @Constraint(
     id = "distance-2",
@@ -33,19 +34,18 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/distance-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/distance-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Distance",
     generated = true
 )
 @Binding(
     bindingName = "DistanceUnits",
-    strength = BindingStrength.ValueSet.EXTENSIBLE,
+    strength = BindingStrength.Value.EXTENSIBLE,
     description = "Appropriate units for Distance.",
     valueSet = "http://hl7.org/fhir/ValueSet/distance-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-distance-units"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Distance extends Quantity {
-    private volatile int hashCode;
-
     private Distance(Builder builder) {
         super(builder);
     }
@@ -254,7 +254,15 @@ public class Distance extends Quantity {
          */
         @Override
         public Distance build() {
-            return new Distance(this);
+            Distance distance = new Distance(this);
+            if (validating) {
+                validate(distance);
+            }
+            return distance;
+        }
+
+        protected void validate(Distance distance) {
+            super.validate(distance);
         }
 
         protected Builder from(Distance distance) {

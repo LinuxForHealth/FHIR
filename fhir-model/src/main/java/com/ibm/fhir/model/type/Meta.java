@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "security.exists() implies (security.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Meta",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -46,7 +47,7 @@ public class Meta extends Element {
     @Summary
     @Binding(
         bindingName = "SecurityLabels",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
@@ -54,23 +55,20 @@ public class Meta extends Element {
     @Summary
     @Binding(
         bindingName = "Tags",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes that represent various types of tags, commonly workflow-related; e.g. \"Needs review by Dr. Jones\".",
         valueSet = "http://hl7.org/fhir/ValueSet/common-tags"
     )
     private final List<Coding> tag;
-
-    private volatile int hashCode;
 
     private Meta(Builder builder) {
         super(builder);
         versionId = builder.versionId;
         lastUpdated = builder.lastUpdated;
         source = builder.source;
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        security = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.security, "security"));
-        tag = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.tag, "tag"));
-        ValidationSupport.requireValueOrChildren(this);
+        profile = Collections.unmodifiableList(builder.profile);
+        security = Collections.unmodifiableList(builder.security);
+        tag = Collections.unmodifiableList(builder.tag);
     }
 
     /**
@@ -449,7 +447,19 @@ public class Meta extends Element {
          */
         @Override
         public Meta build() {
-            return new Meta(this);
+            Meta meta = new Meta(this);
+            if (validating) {
+                validate(meta);
+            }
+            return meta;
+        }
+
+        protected void validate(Meta meta) {
+            super.validate(meta);
+            ValidationSupport.checkList(meta.profile, "profile", Canonical.class);
+            ValidationSupport.checkList(meta.security, "security", Coding.class);
+            ValidationSupport.checkList(meta.tag, "tag", Coding.class);
+            ValidationSupport.requireValueOrChildren(meta);
         }
 
         protected Builder from(Meta meta) {

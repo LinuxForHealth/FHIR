@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,35 +24,35 @@ public class TestReportStatus extends Code {
      * 
      * <p>All test operations have completed.
      */
-    public static final TestReportStatus COMPLETED = TestReportStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final TestReportStatus COMPLETED = TestReportStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * In Progress
      * 
      * <p>A test operations is currently executing.
      */
-    public static final TestReportStatus IN_PROGRESS = TestReportStatus.builder().value(ValueSet.IN_PROGRESS).build();
+    public static final TestReportStatus IN_PROGRESS = TestReportStatus.builder().value(Value.IN_PROGRESS).build();
 
     /**
      * Waiting
      * 
      * <p>A test operation is waiting for an external client request.
      */
-    public static final TestReportStatus WAITING = TestReportStatus.builder().value(ValueSet.WAITING).build();
+    public static final TestReportStatus WAITING = TestReportStatus.builder().value(Value.WAITING).build();
 
     /**
      * Stopped
      * 
      * <p>The test script execution was manually stopped.
      */
-    public static final TestReportStatus STOPPED = TestReportStatus.builder().value(ValueSet.STOPPED).build();
+    public static final TestReportStatus STOPPED = TestReportStatus.builder().value(Value.STOPPED).build();
 
     /**
      * Entered In Error
      * 
      * <p>This test report was entered or created in error.
      */
-    public static final TestReportStatus ENTERED_IN_ERROR = TestReportStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final TestReportStatus ENTERED_IN_ERROR = TestReportStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,48 @@ public class TestReportStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this TestReportStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this TestReportStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating TestReportStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static TestReportStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case WAITING:
+            return WAITING;
+        case STOPPED:
+            return STOPPED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating TestReportStatus objects from a passed enum value.
      */
-    public static TestReportStatus of(ValueSet value) {
+    public static TestReportStatus of(Value value) {
         switch (value) {
         case COMPLETED:
             return COMPLETED;
@@ -93,7 +127,7 @@ public class TestReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static TestReportStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -105,7 +139,7 @@ public class TestReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -117,7 +151,7 @@ public class TestReportStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -146,11 +180,7 @@ public class TestReportStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -179,19 +209,50 @@ public class TestReportStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for TestReportStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public TestReportStatus build() {
-            return new TestReportStatus(this);
+            TestReportStatus testReportStatus = new TestReportStatus(this);
+            if (validating) {
+                validate(testReportStatus);
+            }
+            return testReportStatus;
+        }
+
+        protected void validate(TestReportStatus testReportStatus) {
+            super.validate(testReportStatus);
+        }
+
+        protected Builder from(TestReportStatus testReportStatus) {
+            super.from(testReportStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Completed
@@ -243,7 +304,7 @@ public class TestReportStatus extends Code {
         }
 
         /**
-         * Factory method for creating TestReportStatus.ValueSet values from a passed string value.
+         * Factory method for creating TestReportStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -257,6 +318,87 @@ public class TestReportStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Completed
+         * 
+         * <p>All test operations have completed.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * In Progress
+         * 
+         * <p>A test operations is currently executing.
+         */
+        IN_PROGRESS("in-progress"),
+
+        /**
+         * Waiting
+         * 
+         * <p>A test operation is waiting for an external client request.
+         */
+        WAITING("waiting"),
+
+        /**
+         * Stopped
+         * 
+         * <p>The test script execution was manually stopped.
+         */
+        STOPPED("stopped"),
+
+        /**
+         * Entered In Error
+         * 
+         * <p>This test report was entered or created in error.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating TestReportStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding TestReportStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "completed":
+                return COMPLETED;
+            case "in-progress":
+                return IN_PROGRESS;
+            case "waiting":
+                return WAITING;
+            case "stopped":
+                return STOPPED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,50 +14,63 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 
 /**
  * A resource that includes narrative, extensions, and contained resources.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "dom-2",
     level = "Rule",
     location = "(base)",
     description = "If the resource is contained in another resource, it SHALL NOT contain nested Resources",
-    expression = "contained.contained.empty()"
+    expression = "contained.contained.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Constraint(
     id = "dom-3",
     level = "Rule",
     location = "(base)",
     description = "If the resource is contained in another resource, it SHALL be referred to from elsewhere in the resource or SHALL refer to the containing resource",
-    expression = "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()"
+    expression = "contained.where((('#'+id in (%resource.descendants().reference | %resource.descendants().as(canonical) | %resource.descendants().as(uri) | %resource.descendants().as(url))) or descendants().where(reference = '#').exists() or descendants().where(as(canonical) = '#').exists() or descendants().where(as(canonical) = '#').exists()).not()).trace('unmatched', id).empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Constraint(
     id = "dom-4",
     level = "Rule",
     location = "(base)",
     description = "If a resource is contained in another resource, it SHALL NOT have a meta.versionId or a meta.lastUpdated",
-    expression = "contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()"
+    expression = "contained.meta.versionId.empty() and contained.meta.lastUpdated.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Constraint(
     id = "dom-5",
     level = "Rule",
     location = "(base)",
     description = "If a resource is contained in another resource, it SHALL NOT have a security label",
-    expression = "contained.meta.security.empty()"
+    expression = "contained.meta.security.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Constraint(
     id = "dom-6",
     level = "Warning",
     location = "(base)",
     description = "A resource should have narrative for robust management",
-    expression = "text.`div`.exists()"
+    expression = "text.`div`.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DomainResource"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public abstract class DomainResource extends Resource {
@@ -69,9 +82,9 @@ public abstract class DomainResource extends Resource {
     protected DomainResource(Builder builder) {
         super(builder);
         text = builder.text;
-        contained = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contained, "contained"));
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        contained = Collections.unmodifiableList(builder.contained);
+        extension = Collections.unmodifiableList(builder.extension);
+        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
     }
 
     /**
@@ -355,6 +368,13 @@ public abstract class DomainResource extends Resource {
 
         @Override
         public abstract DomainResource build();
+
+        protected void validate(DomainResource domainResource) {
+            super.validate(domainResource);
+            ValidationSupport.checkList(domainResource.contained, "contained", Resource.class);
+            ValidationSupport.checkList(domainResource.extension, "extension", Extension.class);
+            ValidationSupport.checkList(domainResource.modifierExtension, "modifierExtension", Extension.class);
+        }
 
         protected Builder from(DomainResource domainResource) {
             super.from(domainResource);

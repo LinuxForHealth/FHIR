@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,7 @@ import com.ibm.fhir.model.type.Coding;
  */
 public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
-    public static Boolean DEBUG_APPLY = Boolean.TRUE;
+    public static Boolean DEBUG_APPLY = Boolean.FALSE;
     public static final String TEST_GROUP_NAME = "plan-defintion-apply-operation";
 
     // URL Pattern:
@@ -82,6 +82,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("Patient ID => [" + patientId + "]");
         }
+        addToResourceRegistry("Patient", patientId);
 
         // Subject - Practitioner
         Practitioner doctor = TestUtil.readLocalResource("DrStrangelove.json");
@@ -94,6 +95,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("Practitioner ID => [" + practitionerId + "]");
         }
+        addToResourceRegistry("Practitioner", practitionerId);
 
         // ActivityDefinition 1
         ActivityDefinition ad = TestUtil.readLocalResource("ActivityDefinition-1.json");
@@ -106,6 +108,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("ActivityDefinition ID => [" + adId + "]");
         }
+        addToResourceRegistry("ActivityDefinition", adId);
 
         // ActivityDefinition 2
         ActivityDefinition ad2 = TestUtil.readLocalResource("ActivityDefinition-2.json");
@@ -118,6 +121,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("ActivityDefinition ID => [" + adId2 + "]");
         }
+        addToResourceRegistry("ActivityDefinition", adId2);
 
         // Many need to create
         // Subject - Organization
@@ -139,6 +143,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         if (DEBUG_APPLY) {
             System.out.println("PlanDefinition ID => [" + planDefinitionId + "]");
         }
+        addToResourceRegistry("PlanDefinition", planDefinitionId);
 
         // Store the Plan Definition
         response = target.path("PlanDefinition/" + planDefinitionId).request().get(Response.class);
@@ -150,7 +155,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
     public void testSubjectPatient() {
-        List<String> subjects = Arrays.asList(patientId);
+        List<String> subjects = Arrays.asList("Patient/" + patientId);
 
         // Valid - Instance Level.
         // ApplyOperationResult result =
@@ -158,7 +163,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         // null, practitionerId, null, null, null, null, null, null);
 
         Response response =
-                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, practitionerId, "my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
+                doPost(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, "Practitioner/" + practitionerId, "Organization/my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
         assertEquals(response.getStatus(), 200);
 
         CarePlan carePlan = response.readEntity(CarePlan.class);
@@ -171,7 +176,7 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
     public Response doPost(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject, String encounter, String practitioner,
         String organization, String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
 
-        Parameters parameters = generateParameters(planDefinitionId, subject, null, practitionerId, null, null, null, null, null, null);
+        Parameters parameters = generateParameters(planDefinitionId, subject, null, practitioner, null, null, null, null, null, null);
         WebTarget target = getWebTarget();
 
         // valid && root by default

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class CommunicationRequestStatus extends Code {
      * 
      * <p>The request has been created but is not yet complete or ready for action.
      */
-    public static final CommunicationRequestStatus DRAFT = CommunicationRequestStatus.builder().value(ValueSet.DRAFT).build();
+    public static final CommunicationRequestStatus DRAFT = CommunicationRequestStatus.builder().value(Value.DRAFT).build();
 
     /**
      * Active
      * 
      * <p>The request is in force and ready to be acted upon.
      */
-    public static final CommunicationRequestStatus ACTIVE = CommunicationRequestStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final CommunicationRequestStatus ACTIVE = CommunicationRequestStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * On Hold
@@ -39,7 +39,7 @@ public class CommunicationRequestStatus extends Code {
      * <p>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the 
      * future.
      */
-    public static final CommunicationRequestStatus ON_HOLD = CommunicationRequestStatus.builder().value(ValueSet.ON_HOLD).build();
+    public static final CommunicationRequestStatus ON_HOLD = CommunicationRequestStatus.builder().value(Value.ON_HOLD).build();
 
     /**
      * Revoked
@@ -47,14 +47,14 @@ public class CommunicationRequestStatus extends Code {
      * <p>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the 
      * intended actions. No further activity should occur.
      */
-    public static final CommunicationRequestStatus REVOKED = CommunicationRequestStatus.builder().value(ValueSet.REVOKED).build();
+    public static final CommunicationRequestStatus REVOKED = CommunicationRequestStatus.builder().value(Value.REVOKED).build();
 
     /**
      * Completed
      * 
      * <p>The activity described by the request has been fully performed. No further activity will occur.
      */
-    public static final CommunicationRequestStatus COMPLETED = CommunicationRequestStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final CommunicationRequestStatus COMPLETED = CommunicationRequestStatus.builder().value(Value.COMPLETED).build();
 
     /**
      * Entered in Error
@@ -62,7 +62,7 @@ public class CommunicationRequestStatus extends Code {
      * <p>This request should never have existed and should be considered 'void'. (It is possible that real-world decisions 
      * were based on it. If real-world activity has occurred, the status should be "revoked" rather than "entered-in-error".).
      */
-    public static final CommunicationRequestStatus ENTERED_IN_ERROR = CommunicationRequestStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final CommunicationRequestStatus ENTERED_IN_ERROR = CommunicationRequestStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
@@ -71,7 +71,7 @@ public class CommunicationRequestStatus extends Code {
      * concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
      * system does not know which.
      */
-    public static final CommunicationRequestStatus UNKNOWN = CommunicationRequestStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final CommunicationRequestStatus UNKNOWN = CommunicationRequestStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -79,14 +79,52 @@ public class CommunicationRequestStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CommunicationRequestStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CommunicationRequestStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CommunicationRequestStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CommunicationRequestStatus of(ValueSet value) {
+        switch (value) {
+        case DRAFT:
+            return DRAFT;
+        case ACTIVE:
+            return ACTIVE;
+        case ON_HOLD:
+            return ON_HOLD;
+        case REVOKED:
+            return REVOKED;
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CommunicationRequestStatus objects from a passed enum value.
      */
-    public static CommunicationRequestStatus of(ValueSet value) {
+    public static CommunicationRequestStatus of(Value value) {
         switch (value) {
         case DRAFT:
             return DRAFT;
@@ -116,7 +154,7 @@ public class CommunicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CommunicationRequestStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -128,7 +166,7 @@ public class CommunicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -140,7 +178,7 @@ public class CommunicationRequestStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -169,11 +207,7 @@ public class CommunicationRequestStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -202,19 +236,50 @@ public class CommunicationRequestStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CommunicationRequestStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public CommunicationRequestStatus build() {
-            return new CommunicationRequestStatus(this);
+            CommunicationRequestStatus communicationRequestStatus = new CommunicationRequestStatus(this);
+            if (validating) {
+                validate(communicationRequestStatus);
+            }
+            return communicationRequestStatus;
+        }
+
+        protected void validate(CommunicationRequestStatus communicationRequestStatus) {
+            super.validate(communicationRequestStatus);
+        }
+
+        protected Builder from(CommunicationRequestStatus communicationRequestStatus) {
+            super.from(communicationRequestStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Draft
@@ -285,7 +350,7 @@ public class CommunicationRequestStatus extends Code {
         }
 
         /**
-         * Factory method for creating CommunicationRequestStatus.ValueSet values from a passed string value.
+         * Factory method for creating CommunicationRequestStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -299,6 +364,110 @@ public class CommunicationRequestStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Draft
+         * 
+         * <p>The request has been created but is not yet complete or ready for action.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Active
+         * 
+         * <p>The request is in force and ready to be acted upon.
+         */
+        ACTIVE("active"),
+
+        /**
+         * On Hold
+         * 
+         * <p>The request (and any implicit authorization to act) has been temporarily withdrawn but is expected to resume in the 
+         * future.
+         */
+        ON_HOLD("on-hold"),
+
+        /**
+         * Revoked
+         * 
+         * <p>The request (and any implicit authorization to act) has been terminated prior to the known full completion of the 
+         * intended actions. No further activity should occur.
+         */
+        REVOKED("revoked"),
+
+        /**
+         * Completed
+         * 
+         * <p>The activity described by the request has been fully performed. No further activity will occur.
+         */
+        COMPLETED("completed"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>This request should never have existed and should be considered 'void'. (It is possible that real-world decisions 
+         * were based on it. If real-world activity has occurred, the status should be "revoked" rather than "entered-in-error".).
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The authoring/source system does not know which of the status values currently applies for this request. Note: This 
+         * concept is not to be used for "other" - one of the listed statuses is presumed to apply, but the authoring/source 
+         * system does not know which.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CommunicationRequestStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CommunicationRequestStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "draft":
+                return DRAFT;
+            case "active":
+                return ACTIVE;
+            case "on-hold":
+                return ON_HOLD;
+            case "revoked":
+                return REVOKED;
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

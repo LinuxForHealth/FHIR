@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.Signature;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ProvenanceEntityRole;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -46,13 +48,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * confidence in authenticity, reliability, and trustworthiness, integrity, and stage in lifecycle (e.g. Document 
  * Completion - has the artifact been legally authenticated), all of which may impact security, privacy, and trust 
  * policies.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "provenance-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "reason.exists() implies (reason.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Constraint(
@@ -61,6 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-activity-type",
     expression = "activity.exists() implies (activity.memberOf('http://hl7.org/fhir/ValueSet/provenance-activity-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Constraint(
@@ -69,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/provenance-agent-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/provenance-agent-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Provenance",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -86,14 +97,14 @@ public class Provenance extends DomainResource {
     private final Reference location;
     @Binding(
         bindingName = "ProvenanceReason",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The reason the activity took place.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
     )
     private final List<CodeableConcept> reason;
     @Binding(
         bindingName = "ProvenanceActivity",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The activity that took place.",
         valueSet = "http://hl7.org/fhir/ValueSet/provenance-activity-type"
     )
@@ -103,22 +114,18 @@ public class Provenance extends DomainResource {
     private final List<Entity> entity;
     private final List<Signature> signature;
 
-    private volatile int hashCode;
-
     private Provenance(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.target, "target"));
-        occurred = ValidationSupport.choiceElement(builder.occurred, "occurred", Period.class, DateTime.class);
-        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
-        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+        target = Collections.unmodifiableList(builder.target);
+        occurred = builder.occurred;
+        recorded = builder.recorded;
+        policy = Collections.unmodifiableList(builder.policy);
         location = builder.location;
-        reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
+        reason = Collections.unmodifiableList(builder.reason);
         activity = builder.activity;
-        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
-        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
-        signature = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signature, "signature"));
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.requireChildren(this);
+        agent = Collections.unmodifiableList(builder.agent);
+        entity = Collections.unmodifiableList(builder.entity);
+        signature = Collections.unmodifiableList(builder.signature);
     }
 
     /**
@@ -858,7 +865,24 @@ public class Provenance extends DomainResource {
          */
         @Override
         public Provenance build() {
-            return new Provenance(this);
+            Provenance provenance = new Provenance(this);
+            if (validating) {
+                validate(provenance);
+            }
+            return provenance;
+        }
+
+        protected void validate(Provenance provenance) {
+            super.validate(provenance);
+            ValidationSupport.checkNonEmptyList(provenance.target, "target", Reference.class);
+            ValidationSupport.choiceElement(provenance.occurred, "occurred", Period.class, DateTime.class);
+            ValidationSupport.requireNonNull(provenance.recorded, "recorded");
+            ValidationSupport.checkList(provenance.policy, "policy", Uri.class);
+            ValidationSupport.checkList(provenance.reason, "reason", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(provenance.agent, "agent", Agent.class);
+            ValidationSupport.checkList(provenance.entity, "entity", Entity.class);
+            ValidationSupport.checkList(provenance.signature, "signature", Signature.class);
+            ValidationSupport.checkReferenceType(provenance.location, "location", "Location");
         }
 
         protected Builder from(Provenance provenance) {
@@ -885,14 +909,14 @@ public class Provenance extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ProvenanceAgentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of participation that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ProvenanceAgentRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The role that a provenance agent played with respect to the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
@@ -904,17 +928,12 @@ public class Provenance extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization" })
         private final Reference onBehalfOf;
 
-        private volatile int hashCode;
-
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
-            who = ValidationSupport.requireNonNull(builder.who, "who");
+            role = Collections.unmodifiableList(builder.role);
+            who = builder.who;
             onBehalfOf = builder.onBehalfOf;
-            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1258,7 +1277,20 @@ public class Provenance extends DomainResource {
              */
             @Override
             public Agent build() {
-                return new Agent(this);
+                Agent agent = new Agent(this);
+                if (validating) {
+                    validate(agent);
+                }
+                return agent;
+            }
+
+            protected void validate(Agent agent) {
+                super.validate(agent);
+                ValidationSupport.checkList(agent.role, "role", CodeableConcept.class);
+                ValidationSupport.requireNonNull(agent.who, "who");
+                ValidationSupport.checkReferenceType(agent.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.checkReferenceType(agent.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+                ValidationSupport.requireValueOrChildren(agent);
             }
 
             protected Builder from(Agent agent) {
@@ -1279,7 +1311,7 @@ public class Provenance extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ProvenanceEntityRole",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How an entity was used in an activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/provenance-entity-role|4.0.1"
         )
@@ -1290,14 +1322,11 @@ public class Provenance extends DomainResource {
         private final Reference what;
         private final List<Provenance.Agent> agent;
 
-        private volatile int hashCode;
-
         private Entity(Builder builder) {
             super(builder);
-            role = ValidationSupport.requireNonNull(builder.role, "role");
-            what = ValidationSupport.requireNonNull(builder.what, "what");
-            agent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.agent, "agent"));
-            ValidationSupport.requireValueOrChildren(this);
+            role = builder.role;
+            what = builder.what;
+            agent = Collections.unmodifiableList(builder.agent);
         }
 
         /**
@@ -1598,7 +1627,19 @@ public class Provenance extends DomainResource {
              */
             @Override
             public Entity build() {
-                return new Entity(this);
+                Entity entity = new Entity(this);
+                if (validating) {
+                    validate(entity);
+                }
+                return entity;
+            }
+
+            protected void validate(Entity entity) {
+                super.validate(entity);
+                ValidationSupport.requireNonNull(entity.role, "role");
+                ValidationSupport.requireNonNull(entity.what, "what");
+                ValidationSupport.checkList(entity.agent, "agent", Provenance.Agent.class);
+                ValidationSupport.requireValueOrChildren(entity);
             }
 
             protected Builder from(Entity entity) {

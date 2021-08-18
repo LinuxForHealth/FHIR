@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,18 +37,26 @@ import com.ibm.fhir.model.type.code.DeviceMetricCalibrationType;
 import com.ibm.fhir.model.type.code.DeviceMetricCategory;
 import com.ibm.fhir.model.type.code.DeviceMetricColor;
 import com.ibm.fhir.model.type.code.DeviceMetricOperationalStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes a measurement, calculation or setting capability of a medical device.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "deviceMetric-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
     generated = true
 )
 @Constraint(
@@ -56,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/devicemetric-type",
     expression = "unit.exists() implies (unit.memberOf('http://hl7.org/fhir/ValueSet/devicemetric-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DeviceMetric",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -65,7 +75,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MetricType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Describes the metric type.",
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
@@ -74,7 +84,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MetricUnit",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Describes the unit of the metric.",
         valueSet = "http://hl7.org/fhir/ValueSet/devicemetric-type"
     )
@@ -88,7 +98,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricOperationalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the operational status of the DeviceMetric.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-operational-status|4.0.1"
     )
@@ -96,7 +106,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricColor",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the typical color of representation.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-color|4.0.1"
     )
@@ -104,7 +114,7 @@ public class DeviceMetric extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceMetricCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Describes the category of the metric.",
         valueSet = "http://hl7.org/fhir/ValueSet/metric-category|4.0.1"
     )
@@ -115,23 +125,18 @@ public class DeviceMetric extends DomainResource {
     @Summary
     private final List<Calibration> calibration;
 
-    private volatile int hashCode;
-
     private DeviceMetric(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        type = builder.type;
         unit = builder.unit;
         source = builder.source;
         parent = builder.parent;
         operationalStatus = builder.operationalStatus;
         color = builder.color;
-        category = ValidationSupport.requireNonNull(builder.category, "category");
+        category = builder.category;
         measurementPeriod = builder.measurementPeriod;
-        calibration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.calibration, "calibration"));
-        ValidationSupport.checkReferenceType(source, "source", "Device");
-        ValidationSupport.checkReferenceType(parent, "parent", "Device");
-        ValidationSupport.requireChildren(this);
+        calibration = Collections.unmodifiableList(builder.calibration);
     }
 
     /**
@@ -794,7 +799,21 @@ public class DeviceMetric extends DomainResource {
          */
         @Override
         public DeviceMetric build() {
-            return new DeviceMetric(this);
+            DeviceMetric deviceMetric = new DeviceMetric(this);
+            if (validating) {
+                validate(deviceMetric);
+            }
+            return deviceMetric;
+        }
+
+        protected void validate(DeviceMetric deviceMetric) {
+            super.validate(deviceMetric);
+            ValidationSupport.checkList(deviceMetric.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(deviceMetric.type, "type");
+            ValidationSupport.requireNonNull(deviceMetric.category, "category");
+            ValidationSupport.checkList(deviceMetric.calibration, "calibration", Calibration.class);
+            ValidationSupport.checkReferenceType(deviceMetric.source, "source", "Device");
+            ValidationSupport.checkReferenceType(deviceMetric.parent, "parent", "Device");
         }
 
         protected Builder from(DeviceMetric deviceMetric) {
@@ -820,7 +839,7 @@ public class DeviceMetric extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Describes the type of a metric calibration.",
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-type|4.0.1"
         )
@@ -828,7 +847,7 @@ public class DeviceMetric extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DeviceMetricCalibrationState",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Describes the state of a metric calibration.",
             valueSet = "http://hl7.org/fhir/ValueSet/metric-calibration-state|4.0.1"
         )
@@ -836,14 +855,11 @@ public class DeviceMetric extends DomainResource {
         @Summary
         private final Instant time;
 
-        private volatile int hashCode;
-
         private Calibration(Builder builder) {
             super(builder);
             type = builder.type;
             state = builder.state;
             time = builder.time;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1108,7 +1124,16 @@ public class DeviceMetric extends DomainResource {
              */
             @Override
             public Calibration build() {
-                return new Calibration(this);
+                Calibration calibration = new Calibration(this);
+                if (validating) {
+                    validate(calibration);
+                }
+                return calibration;
+            }
+
+            protected void validate(Calibration calibration) {
+                super.validate(calibration);
+                ValidationSupport.requireValueOrChildren(calibration);
             }
 
             protected Builder from(Calibration calibration) {

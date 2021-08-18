@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,13 +21,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class String extends Element {
     protected final java.lang.String value;
 
-    private volatile int hashCode;
-
     protected String(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkString(value);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -50,11 +46,25 @@ public class String extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating String objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return String.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating String objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return String.builder().value(value).build();
     }
 
@@ -194,7 +204,17 @@ public class String extends Element {
          */
         @Override
         public String build() {
-            return new String(this);
+            String string = new String(this);
+            if (validating) {
+                validate(string);
+            }
+            return string;
+        }
+
+        protected void validate(String string) {
+            super.validate(string);
+            ValidationSupport.checkString(string.value);
+            ValidationSupport.requireValueOrChildren(string);
         }
 
         protected Builder from(String string) {

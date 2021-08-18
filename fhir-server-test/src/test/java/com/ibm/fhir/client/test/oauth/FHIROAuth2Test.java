@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,10 +13,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.Properties;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
@@ -29,6 +25,11 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.client.test.FHIRClientTestBase;
 import com.ibm.fhir.model.test.TestUtil;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+
 /**
  * OAuth 2.0 tests used to register a client and generate an access token
  */
@@ -39,13 +40,12 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     private String accessToken = null;
     private String clientID = null;
     private String clientSecret = null;
+
     private final String oidcRegURL = "https://localhost:9443/oidc/endpoint/oidc-provider/registration";
     private final String tokenURL = "https://localhost:9443/oauth2/endpoint/oauth2-provider/token";
-    private final String clientAdminUsername = "fhiruser";
-    private final String clientAdminPwd = "fhiruser";
 
     @BeforeClass
-    public void setup() throws Exception {
+    public void checkIfOn() throws Exception {
         Properties testProperties = TestUtil.readTestProperties("test.properties");
         ON = Boolean.parseBoolean(testProperties.getProperty("test.client.oauth.enabled", "false"));
     }
@@ -72,7 +72,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
                 assertNotNull(jsonObj);
             }
 
-            WebTarget endpoint = client.getWebTargetUsingBasicAuth(oidcRegURL, clientAdminUsername, clientAdminPwd);
+            WebTarget endpoint = clientOAuth2.getWebTarget(oidcRegURL);
             Entity<JsonObject> entity = Entity.entity(jsonObj, "application/json");
             Invocation.Builder builder = endpoint.request("application/json");
             Response response = builder.post(entity);
@@ -86,8 +86,8 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
             clientID = resJson.get("client_id").toString();
             clientSecret = resJson.get("client_secret").toString();
 
-            // System.out.println("clientID = " + clientID);
-            // System.out.println("clientSecret = " + clientSecret);
+            System.out.println("clientID = " + clientID);
+            System.out.println("clientSecret = " + clientSecret);
         } else {
             System.out.println("testTokenRequest Disabled, Skipping");
         }
@@ -96,7 +96,7 @@ public class FHIROAuth2Test extends FHIRClientTestBase {
     @Test(dependsOnMethods = { "testRegisterClient" })
     public void testTokenRequest() throws Exception {
         if (ON) {
-            WebTarget endpoint = client.getWebTarget(tokenURL);
+            WebTarget endpoint = clientOAuth2.getWebTarget(tokenURL);
             Form form = new Form();
             form.param("grant_type", "client_credentials").param("client_id", clientID.replaceAll("\"", "")).param("client_secret", clientSecret.replaceAll("\"", ""));
 

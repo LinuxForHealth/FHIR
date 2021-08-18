@@ -1,22 +1,24 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.core.context.impl;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.context.FHIRPagingContext;
 
 public class FHIRPagingContextImpl implements FHIRPagingContext {
-    protected static final int DEFAULT_PAGE_SIZE = 10;
-    protected static final int DEFAULT_PAGE_NUMBER = 1;
     protected static final int DEFAULT_LAST_PAGE_NUMBER = Integer.MAX_VALUE;
 
     protected int lastPageNumber;
     protected int pageNumber;
     protected int pageSize;
-    protected int totalCount;
+    protected int maxPageSize;
+    protected int maxPageIncludeCount;
+    protected Integer totalCount;
+    protected int matchCount;
     protected boolean lenient = true;
 
     /**
@@ -24,12 +26,16 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
      * <pre>
      * page number: 1
      * page size: 10
+     * max page size: 1000
+     * max page include count: 1000
      * last page: 214748364
      * </pre>
      */
     public FHIRPagingContextImpl() {
-        this.pageNumber = DEFAULT_PAGE_NUMBER;
-        this.pageSize = DEFAULT_PAGE_SIZE;
+        this.pageNumber = FHIRConstants.FHIR_PAGE_NUMBER_DEFAULT;
+        this.pageSize = FHIRConstants.FHIR_PAGE_SIZE_DEFAULT;
+        this.maxPageSize = FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX;
+        this.maxPageIncludeCount = FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX;
         this.lastPageNumber = DEFAULT_LAST_PAGE_NUMBER;
     }
 
@@ -49,8 +55,23 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     }
 
     @Override
-    public int getTotalCount() {
+    public int getMaxPageSize() {
+        return maxPageSize;
+    }
+
+    @Override
+    public int getMaxPageIncludeCount() {
+        return maxPageIncludeCount;
+    }
+
+    @Override
+    public Integer getTotalCount() {
         return totalCount;
+    }
+
+    @Override
+    public int getMatchCount() {
+        return matchCount;
     }
 
     @Override
@@ -69,8 +90,23 @@ public class FHIRPagingContextImpl implements FHIRPagingContext {
     }
 
     @Override
+    public void setMaxPageSize(int maxPageSize) {
+        this.maxPageSize = maxPageSize;
+    }
+
+    @Override
+    public void setMaxPageIncludeCount(int maxPageIncludeCount) {
+        this.maxPageIncludeCount = maxPageIncludeCount;
+    }
+
+    @Override
     public void setTotalCount(int totalCount) {
         this.totalCount = totalCount;
+    }
+
+    @Override
+    public void setMatchCount(int matchCount) {
+        this.matchCount = matchCount;
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,13 +35,20 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GuidanceResponseStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A guidance response is the formal response to a guidance request, including any output parameters returned by the 
  * evaluation, as well as the description of any proposed actions to be taken.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class GuidanceResponse extends DomainResource {
     @Summary
@@ -54,7 +62,7 @@ public class GuidanceResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GuidanceResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a guidance response.",
         valueSet = "http://hl7.org/fhir/ValueSet/guidance-response-status|4.0.1"
     )
@@ -79,33 +87,23 @@ public class GuidanceResponse extends DomainResource {
     private final Reference result;
     private final List<DataRequirement> dataRequirement;
 
-    private volatile int hashCode;
-
     private GuidanceResponse(Builder builder) {
         super(builder);
         requestIdentifier = builder.requestIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        module = ValidationSupport.requireChoiceElement(builder.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        module = builder.module;
+        status = builder.status;
         subject = builder.subject;
         encounter = builder.encounter;
         occurrenceDateTime = builder.occurrenceDateTime;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        evaluationMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evaluationMessage, "evaluationMessage"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        evaluationMessage = Collections.unmodifiableList(builder.evaluationMessage);
         outputParameters = builder.outputParameters;
         result = builder.result;
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Device");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(evaluationMessage, "evaluationMessage", "OperationOutcome");
-        ValidationSupport.checkReferenceType(outputParameters, "outputParameters", "Parameters");
-        ValidationSupport.checkReferenceType(result, "result", "CarePlan", "RequestGroup");
-        ValidationSupport.requireChildren(this);
+        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
     }
 
     /**
@@ -1049,7 +1047,30 @@ public class GuidanceResponse extends DomainResource {
          */
         @Override
         public GuidanceResponse build() {
-            return new GuidanceResponse(this);
+            GuidanceResponse guidanceResponse = new GuidanceResponse(this);
+            if (validating) {
+                validate(guidanceResponse);
+            }
+            return guidanceResponse;
+        }
+
+        protected void validate(GuidanceResponse guidanceResponse) {
+            super.validate(guidanceResponse);
+            ValidationSupport.checkList(guidanceResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireChoiceElement(guidanceResponse.module, "module", Uri.class, Canonical.class, CodeableConcept.class);
+            ValidationSupport.requireNonNull(guidanceResponse.status, "status");
+            ValidationSupport.checkList(guidanceResponse.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(guidanceResponse.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(guidanceResponse.note, "note", Annotation.class);
+            ValidationSupport.checkList(guidanceResponse.evaluationMessage, "evaluationMessage", Reference.class);
+            ValidationSupport.checkList(guidanceResponse.dataRequirement, "dataRequirement", DataRequirement.class);
+            ValidationSupport.checkReferenceType(guidanceResponse.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(guidanceResponse.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(guidanceResponse.performer, "performer", "Device");
+            ValidationSupport.checkReferenceType(guidanceResponse.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(guidanceResponse.evaluationMessage, "evaluationMessage", "OperationOutcome");
+            ValidationSupport.checkReferenceType(guidanceResponse.outputParameters, "outputParameters", "Parameters");
+            ValidationSupport.checkReferenceType(guidanceResponse.result, "result", "CarePlan", "RequestGroup");
         }
 
         protected Builder from(GuidanceResponse guidanceResponse) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,19 +46,27 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClaimResponseStatus;
 import com.ibm.fhir.model.type.code.NoteType;
 import com.ibm.fhir.model.type.code.RemittanceOutcome;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.Use;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides the adjudication details from the processing of a Claim resource.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "claimResponse-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClaimResponse",
     generated = true
 )
 @Constraint(
@@ -66,6 +75,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "processNote.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ClaimResponse",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -74,7 +84,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -83,7 +93,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type or discipline-style of the claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
     )
@@ -91,7 +101,7 @@ public class ClaimResponse extends DomainResource {
     private final CodeableConcept type;
     @Binding(
         bindingName = "ClaimSubType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A more granular claim typecode.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
     )
@@ -99,7 +109,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Use",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Claim, preauthorization, predetermination.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
     )
@@ -124,7 +134,7 @@ public class ClaimResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The result of the claim processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -135,7 +145,7 @@ public class ClaimResponse extends DomainResource {
     private final Period preAuthPeriod;
     @Binding(
         bindingName = "PayeeType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code for the party to be reimbursed.",
         valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
     )
@@ -148,14 +158,14 @@ public class ClaimResponse extends DomainResource {
     private final Payment payment;
     @Binding(
         bindingName = "FundsReserve",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "For whom funds are to be reserved: (Patient, Provider, None).",
         valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
     )
     private final CodeableConcept fundsReserve;
     @Binding(
         bindingName = "Forms",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The forms codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/forms"
     )
@@ -167,43 +177,35 @@ public class ClaimResponse extends DomainResource {
     private final List<Insurance> insurance;
     private final List<Error> error;
 
-    private volatile int hashCode;
-
     private ClaimResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = builder.type;
         subType = builder.subType;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        created = ValidationSupport.requireNonNull(builder.created, "created");
-        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        use = builder.use;
+        patient = builder.patient;
+        created = builder.created;
+        insurer = builder.insurer;
         requestor = builder.requestor;
         request = builder.request;
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        outcome = builder.outcome;
         disposition = builder.disposition;
         preAuthRef = builder.preAuthRef;
         preAuthPeriod = builder.preAuthPeriod;
         payeeType = builder.payeeType;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        addItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addItem, "addItem"));
-        adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
-        total = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.total, "total"));
+        item = Collections.unmodifiableList(builder.item);
+        addItem = Collections.unmodifiableList(builder.addItem);
+        adjudication = Collections.unmodifiableList(builder.adjudication);
+        total = Collections.unmodifiableList(builder.total);
         payment = builder.payment;
         fundsReserve = builder.fundsReserve;
         formCode = builder.formCode;
         form = builder.form;
-        processNote = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processNote, "processNote"));
-        communicationRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationRequest, "communicationRequest"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        error = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.error, "error"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(request, "request", "Claim");
-        ValidationSupport.checkReferenceType(communicationRequest, "communicationRequest", "CommunicationRequest");
-        ValidationSupport.requireChildren(this);
+        processNote = Collections.unmodifiableList(builder.processNote);
+        communicationRequest = Collections.unmodifiableList(builder.communicationRequest);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        error = Collections.unmodifiableList(builder.error);
     }
 
     /**
@@ -1526,7 +1528,36 @@ public class ClaimResponse extends DomainResource {
          */
         @Override
         public ClaimResponse build() {
-            return new ClaimResponse(this);
+            ClaimResponse claimResponse = new ClaimResponse(this);
+            if (validating) {
+                validate(claimResponse);
+            }
+            return claimResponse;
+        }
+
+        protected void validate(ClaimResponse claimResponse) {
+            super.validate(claimResponse);
+            ValidationSupport.checkList(claimResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(claimResponse.status, "status");
+            ValidationSupport.requireNonNull(claimResponse.type, "type");
+            ValidationSupport.requireNonNull(claimResponse.use, "use");
+            ValidationSupport.requireNonNull(claimResponse.patient, "patient");
+            ValidationSupport.requireNonNull(claimResponse.created, "created");
+            ValidationSupport.requireNonNull(claimResponse.insurer, "insurer");
+            ValidationSupport.requireNonNull(claimResponse.outcome, "outcome");
+            ValidationSupport.checkList(claimResponse.item, "item", Item.class);
+            ValidationSupport.checkList(claimResponse.addItem, "addItem", AddItem.class);
+            ValidationSupport.checkList(claimResponse.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+            ValidationSupport.checkList(claimResponse.total, "total", Total.class);
+            ValidationSupport.checkList(claimResponse.processNote, "processNote", ProcessNote.class);
+            ValidationSupport.checkList(claimResponse.communicationRequest, "communicationRequest", Reference.class);
+            ValidationSupport.checkList(claimResponse.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(claimResponse.error, "error", Error.class);
+            ValidationSupport.checkReferenceType(claimResponse.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(claimResponse.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(claimResponse.requestor, "requestor", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(claimResponse.request, "request", "Claim");
+            ValidationSupport.checkReferenceType(claimResponse.communicationRequest, "communicationRequest", "CommunicationRequest");
         }
 
         protected Builder from(ClaimResponse claimResponse) {
@@ -1574,15 +1605,12 @@ public class ClaimResponse extends DomainResource {
         private final List<Adjudication> adjudication;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            itemSequence = ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence");
-            noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.requireValueOrChildren(this);
+            itemSequence = builder.itemSequence;
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1951,7 +1979,20 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.itemSequence, "itemSequence");
+                ValidationSupport.checkList(item.noteNumber, "noteNumber", PositiveInt.class);
+                ValidationSupport.checkNonEmptyList(item.adjudication, "adjudication", Adjudication.class);
+                ValidationSupport.checkList(item.detail, "detail", Detail.class);
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -1971,7 +2012,7 @@ public class ClaimResponse extends DomainResource {
         public static class Adjudication extends BackboneElement {
             @Binding(
                 bindingName = "Adjudication",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The adjudication codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
             )
@@ -1979,7 +2020,7 @@ public class ClaimResponse extends DomainResource {
             private final CodeableConcept category;
             @Binding(
                 bindingName = "AdjudicationReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The adjudication reason codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adjudication-reason"
             )
@@ -1987,15 +2028,12 @@ public class ClaimResponse extends DomainResource {
             private final Money amount;
             private final Decimal value;
 
-            private volatile int hashCode;
-
             private Adjudication(Builder builder) {
                 super(builder);
-                category = ValidationSupport.requireNonNull(builder.category, "category");
+                category = builder.category;
                 reason = builder.reason;
                 amount = builder.amount;
                 value = builder.value;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2300,7 +2338,17 @@ public class ClaimResponse extends DomainResource {
                  */
                 @Override
                 public Adjudication build() {
-                    return new Adjudication(this);
+                    Adjudication adjudication = new Adjudication(this);
+                    if (validating) {
+                        validate(adjudication);
+                    }
+                    return adjudication;
+                }
+
+                protected void validate(Adjudication adjudication) {
+                    super.validate(adjudication);
+                    ValidationSupport.requireNonNull(adjudication.category, "category");
+                    ValidationSupport.requireValueOrChildren(adjudication);
                 }
 
                 protected Builder from(Adjudication adjudication) {
@@ -2325,15 +2373,12 @@ public class ClaimResponse extends DomainResource {
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                detailSequence = ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence");
-                noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
-                ValidationSupport.requireValueOrChildren(this);
+                detailSequence = builder.detailSequence;
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -2699,7 +2744,20 @@ public class ClaimResponse extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.detailSequence, "detailSequence");
+                    ValidationSupport.checkList(detail.noteNumber, "noteNumber", PositiveInt.class);
+                    ValidationSupport.checkNonEmptyList(detail.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -2721,14 +2779,11 @@ public class ClaimResponse extends DomainResource {
                 private final List<PositiveInt> noteNumber;
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
-                    subDetailSequence = ValidationSupport.requireNonNull(builder.subDetailSequence, "subDetailSequence");
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.adjudication, "adjudication"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    subDetailSequence = builder.subDetailSequence;
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -3040,7 +3095,19 @@ public class ClaimResponse extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.subDetailSequence, "subDetailSequence");
+                        ValidationSupport.checkList(subDetail.noteNumber, "noteNumber", PositiveInt.class);
+                        ValidationSupport.checkList(subDetail.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {
@@ -3066,7 +3133,7 @@ public class ClaimResponse extends DomainResource {
         private final List<Reference> provider;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
@@ -3074,14 +3141,14 @@ public class ClaimResponse extends DomainResource {
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
         @Binding(
             bindingName = "ProgramCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Program specific reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
         )
@@ -3092,7 +3159,7 @@ public class ClaimResponse extends DomainResource {
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Place of service: pharmacy, school, prison, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-place"
         )
@@ -3103,14 +3170,14 @@ public class ClaimResponse extends DomainResource {
         private final Money net;
         @Binding(
             bindingName = "OralSites",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the teeth, quadrant, sextant and arch.",
             valueSet = "http://hl7.org/fhir/ValueSet/tooth"
         )
         private final CodeableConcept bodySite;
         @Binding(
             bindingName = "Surface",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the tooth surface and surface combinations.",
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
@@ -3120,31 +3187,26 @@ public class ClaimResponse extends DomainResource {
         private final List<ClaimResponse.Item.Adjudication> adjudication;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private AddItem(Builder builder) {
             super(builder);
-            itemSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.itemSequence, "itemSequence"));
-            detailSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detailSequence, "detailSequence"));
-            subdetailSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subdetailSequence, "subdetailSequence"));
-            provider = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provider, "provider"));
-            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-            programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
-            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            itemSequence = Collections.unmodifiableList(builder.itemSequence);
+            detailSequence = Collections.unmodifiableList(builder.detailSequence);
+            subdetailSequence = Collections.unmodifiableList(builder.subdetailSequence);
+            provider = Collections.unmodifiableList(builder.provider);
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = builder.serviced;
+            location = builder.location;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subSite, "subSite"));
-            noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-            adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            subSite = Collections.unmodifiableList(builder.subSite);
+            noteNumber = Collections.unmodifiableList(builder.noteNumber);
+            adjudication = Collections.unmodifiableList(builder.adjudication);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -4094,7 +4156,31 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public AddItem build() {
-                return new AddItem(this);
+                AddItem addItem = new AddItem(this);
+                if (validating) {
+                    validate(addItem);
+                }
+                return addItem;
+            }
+
+            protected void validate(AddItem addItem) {
+                super.validate(addItem);
+                ValidationSupport.checkList(addItem.itemSequence, "itemSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.detailSequence, "detailSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.subdetailSequence, "subdetailSequence", PositiveInt.class);
+                ValidationSupport.checkList(addItem.provider, "provider", Reference.class);
+                ValidationSupport.requireNonNull(addItem.productOrService, "productOrService");
+                ValidationSupport.checkList(addItem.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(addItem.programCode, "programCode", CodeableConcept.class);
+                ValidationSupport.choiceElement(addItem.serviced, "serviced", Date.class, Period.class);
+                ValidationSupport.choiceElement(addItem.location, "location", CodeableConcept.class, Address.class, Reference.class);
+                ValidationSupport.checkList(addItem.subSite, "subSite", CodeableConcept.class);
+                ValidationSupport.checkList(addItem.noteNumber, "noteNumber", PositiveInt.class);
+                ValidationSupport.checkNonEmptyList(addItem.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+                ValidationSupport.checkList(addItem.detail, "detail", Detail.class);
+                ValidationSupport.checkReferenceType(addItem.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(addItem.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(addItem);
             }
 
             protected Builder from(AddItem addItem) {
@@ -4127,7 +4213,7 @@ public class ClaimResponse extends DomainResource {
         public static class Detail extends BackboneElement {
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
@@ -4135,7 +4221,7 @@ public class ClaimResponse extends DomainResource {
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
@@ -4149,20 +4235,17 @@ public class ClaimResponse extends DomainResource {
             private final List<ClaimResponse.Item.Adjudication> adjudication;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
-                ValidationSupport.requireValueOrChildren(this);
+                noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                adjudication = Collections.unmodifiableList(builder.adjudication);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -4699,7 +4782,21 @@ public class ClaimResponse extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.productOrService, "productOrService");
+                    ValidationSupport.checkList(detail.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.noteNumber, "noteNumber", PositiveInt.class);
+                    ValidationSupport.checkNonEmptyList(detail.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -4723,7 +4820,7 @@ public class ClaimResponse extends DomainResource {
             public static class SubDetail extends BackboneElement {
                 @Binding(
                     bindingName = "ServiceProduct",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
@@ -4731,7 +4828,7 @@ public class ClaimResponse extends DomainResource {
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                     valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
                 )
@@ -4744,19 +4841,16 @@ public class ClaimResponse extends DomainResource {
                 @Required
                 private final List<ClaimResponse.Item.Adjudication> adjudication;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
-                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+                    productOrService = builder.productOrService;
+                    modifier = Collections.unmodifiableList(builder.modifier);
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    noteNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.noteNumber, "noteNumber"));
-                    adjudication = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.adjudication, "adjudication"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    noteNumber = Collections.unmodifiableList(builder.noteNumber);
+                    adjudication = Collections.unmodifiableList(builder.adjudication);
                 }
 
                 /**
@@ -5244,7 +5338,20 @@ public class ClaimResponse extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.productOrService, "productOrService");
+                        ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.noteNumber, "noteNumber", PositiveInt.class);
+                        ValidationSupport.checkNonEmptyList(subDetail.adjudication, "adjudication", ClaimResponse.Item.Adjudication.class);
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {
@@ -5271,7 +5378,7 @@ public class ClaimResponse extends DomainResource {
         @Summary
         @Binding(
             bindingName = "Adjudication",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The adjudication codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication"
         )
@@ -5281,13 +5388,10 @@ public class ClaimResponse extends DomainResource {
         @Required
         private final Money amount;
 
-        private volatile int hashCode;
-
         private Total(Builder builder) {
             super(builder);
-            category = ValidationSupport.requireNonNull(builder.category, "category");
-            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-            ValidationSupport.requireValueOrChildren(this);
+            category = builder.category;
+            amount = builder.amount;
         }
 
         /**
@@ -5537,7 +5641,18 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public Total build() {
-                return new Total(this);
+                Total total = new Total(this);
+                if (validating) {
+                    validate(total);
+                }
+                return total;
+            }
+
+            protected void validate(Total total) {
+                super.validate(total);
+                ValidationSupport.requireNonNull(total.category, "category");
+                ValidationSupport.requireNonNull(total.amount, "amount");
+                ValidationSupport.requireValueOrChildren(total);
             }
 
             protected Builder from(Total total) {
@@ -5555,7 +5670,7 @@ public class ClaimResponse extends DomainResource {
     public static class Payment extends BackboneElement {
         @Binding(
             bindingName = "PaymentType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type (partial, complete) of the payment.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-paymenttype"
         )
@@ -5564,7 +5679,7 @@ public class ClaimResponse extends DomainResource {
         private final Money adjustment;
         @Binding(
             bindingName = "PaymentAdjustmentReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Payment Adjustment reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/payment-adjustment-reason"
         )
@@ -5574,17 +5689,14 @@ public class ClaimResponse extends DomainResource {
         private final Money amount;
         private final Identifier identifier;
 
-        private volatile int hashCode;
-
         private Payment(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             adjustment = builder.adjustment;
             adjustmentReason = builder.adjustmentReason;
             date = builder.date;
-            amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+            amount = builder.amount;
             identifier = builder.identifier;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -5948,7 +6060,18 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public Payment build() {
-                return new Payment(this);
+                Payment payment = new Payment(this);
+                if (validating) {
+                    validate(payment);
+                }
+                return payment;
+            }
+
+            protected void validate(Payment payment) {
+                super.validate(payment);
+                ValidationSupport.requireNonNull(payment.type, "type");
+                ValidationSupport.requireNonNull(payment.amount, "amount");
+                ValidationSupport.requireValueOrChildren(payment);
             }
 
             protected Builder from(Payment payment) {
@@ -5971,7 +6094,7 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt number;
         @Binding(
             bindingName = "NoteType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The presentation types of notes.",
             valueSet = "http://hl7.org/fhir/ValueSet/note-type|4.0.1"
         )
@@ -5980,23 +6103,19 @@ public class ClaimResponse extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
         )
         private final CodeableConcept language;
 
-        private volatile int hashCode;
-
         private ProcessNote(Builder builder) {
             super(builder);
             number = builder.number;
             type = builder.type;
-            text = ValidationSupport.requireNonNull(builder.text, "text");
+            text = builder.text;
             language = builder.language;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -6297,7 +6416,18 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public ProcessNote build() {
-                return new ProcessNote(this);
+                ProcessNote processNote = new ProcessNote(this);
+                if (validating) {
+                    validate(processNote);
+                }
+                return processNote;
+            }
+
+            protected void validate(ProcessNote processNote) {
+                super.validate(processNote);
+                ValidationSupport.requireNonNull(processNote.text, "text");
+                ValidationSupport.checkValueSetBinding(processNote.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(processNote);
             }
 
             protected Builder from(ProcessNote processNote) {
@@ -6326,18 +6456,13 @@ public class ClaimResponse extends DomainResource {
         @ReferenceTarget({ "ClaimResponse" })
         private final Reference claimResponse;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            sequence = builder.sequence;
+            focal = builder.focal;
+            coverage = builder.coverage;
             businessArrangement = builder.businessArrangement;
             claimResponse = builder.claimResponse;
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -6687,7 +6812,21 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.sequence, "sequence");
+                ValidationSupport.requireNonNull(insurance.focal, "focal");
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.claimResponse, "claimResponse", "ClaimResponse");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -6711,22 +6850,19 @@ public class ClaimResponse extends DomainResource {
         private final PositiveInt subDetailSequence;
         @Binding(
             bindingName = "AdjudicationError",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The adjudication error codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/adjudication-error"
         )
         @Required
         private final CodeableConcept code;
 
-        private volatile int hashCode;
-
         private Error(Builder builder) {
             super(builder);
             itemSequence = builder.itemSequence;
             detailSequence = builder.detailSequence;
             subDetailSequence = builder.subDetailSequence;
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
         }
 
         /**
@@ -7033,7 +7169,17 @@ public class ClaimResponse extends DomainResource {
              */
             @Override
             public Error build() {
-                return new Error(this);
+                Error error = new Error(this);
+                if (validating) {
+                    validate(error);
+                }
+                return error;
+            }
+
+            protected void validate(Error error) {
+                super.validate(error);
+                ValidationSupport.requireNonNull(error.code, "code");
+                ValidationSupport.requireValueOrChildren(error);
             }
 
             protected Builder from(Error error) {

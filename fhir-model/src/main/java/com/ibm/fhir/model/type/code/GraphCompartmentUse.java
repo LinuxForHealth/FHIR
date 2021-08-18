@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class GraphCompartmentUse extends Code {
      * 
      * <p>This compartment rule is a condition for whether the rule applies.
      */
-    public static final GraphCompartmentUse CONDITION = GraphCompartmentUse.builder().value(ValueSet.CONDITION).build();
+    public static final GraphCompartmentUse CONDITION = GraphCompartmentUse.builder().value(Value.CONDITION).build();
 
     /**
      * Requirement
      * 
      * <p>This compartment rule is enforced on any relationships that meet the conditions.
      */
-    public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.builder().value(ValueSet.REQUIREMENT).build();
+    public static final GraphCompartmentUse REQUIREMENT = GraphCompartmentUse.builder().value(Value.REQUIREMENT).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class GraphCompartmentUse extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this GraphCompartmentUse as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this GraphCompartmentUse as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating GraphCompartmentUse objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static GraphCompartmentUse of(ValueSet value) {
+        switch (value) {
+        case CONDITION:
+            return CONDITION;
+        case REQUIREMENT:
+            return REQUIREMENT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating GraphCompartmentUse objects from a passed enum value.
      */
-    public static GraphCompartmentUse of(ValueSet value) {
+    public static GraphCompartmentUse of(Value value) {
         switch (value) {
         case CONDITION:
             return CONDITION;
@@ -66,7 +94,7 @@ public class GraphCompartmentUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static GraphCompartmentUse of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class GraphCompartmentUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class GraphCompartmentUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class GraphCompartmentUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class GraphCompartmentUse extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for GraphCompartmentUse
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public GraphCompartmentUse build() {
-            return new GraphCompartmentUse(this);
+            GraphCompartmentUse graphCompartmentUse = new GraphCompartmentUse(this);
+            if (validating) {
+                validate(graphCompartmentUse);
+            }
+            return graphCompartmentUse;
+        }
+
+        protected void validate(GraphCompartmentUse graphCompartmentUse) {
+            super.validate(graphCompartmentUse);
+        }
+
+        protected Builder from(GraphCompartmentUse graphCompartmentUse) {
+            super.from(graphCompartmentUse);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Condition
@@ -195,7 +250,7 @@ public class GraphCompartmentUse extends Code {
         }
 
         /**
-         * Factory method for creating GraphCompartmentUse.ValueSet values from a passed string value.
+         * Factory method for creating GraphCompartmentUse.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class GraphCompartmentUse extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Condition
+         * 
+         * <p>This compartment rule is a condition for whether the rule applies.
+         */
+        CONDITION("condition"),
+
+        /**
+         * Requirement
+         * 
+         * <p>This compartment rule is enforced on any relationships that meet the conditions.
+         */
+        REQUIREMENT("requirement");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating GraphCompartmentUse.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding GraphCompartmentUse.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "condition":
+                return CONDITION;
+            case "requirement":
+                return REQUIREMENT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

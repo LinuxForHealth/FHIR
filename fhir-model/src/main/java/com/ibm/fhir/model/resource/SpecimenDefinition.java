@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,12 +37,19 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.SpecimenContainedPreference;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A kind of specimen with associated set of requirements.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SpecimenDefinition extends DomainResource {
     @Summary
@@ -49,7 +57,7 @@ public class SpecimenDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CollectedSpecimenType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of the specimen to be collected.",
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
     )
@@ -57,7 +65,7 @@ public class SpecimenDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PreparePatient",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Checks on the patient prior specimen collection.",
         valueSet = "http://hl7.org/fhir/ValueSet/prepare-patient-prior-specimen-collection"
     )
@@ -67,24 +75,21 @@ public class SpecimenDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SpecimenCollection",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The action to collect a type of specimen.",
         valueSet = "http://hl7.org/fhir/ValueSet/specimen-collection"
     )
     private final List<CodeableConcept> collection;
     private final List<TypeTested> typeTested;
 
-    private volatile int hashCode;
-
     private SpecimenDefinition(Builder builder) {
         super(builder);
         identifier = builder.identifier;
         typeCollected = builder.typeCollected;
-        patientPreparation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patientPreparation, "patientPreparation"));
+        patientPreparation = Collections.unmodifiableList(builder.patientPreparation);
         timeAspect = builder.timeAspect;
-        collection = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.collection, "collection"));
-        typeTested = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeTested, "typeTested"));
-        ValidationSupport.requireChildren(this);
+        collection = Collections.unmodifiableList(builder.collection);
+        typeTested = Collections.unmodifiableList(builder.typeTested);
     }
 
     /**
@@ -606,7 +611,18 @@ public class SpecimenDefinition extends DomainResource {
          */
         @Override
         public SpecimenDefinition build() {
-            return new SpecimenDefinition(this);
+            SpecimenDefinition specimenDefinition = new SpecimenDefinition(this);
+            if (validating) {
+                validate(specimenDefinition);
+            }
+            return specimenDefinition;
+        }
+
+        protected void validate(SpecimenDefinition specimenDefinition) {
+            super.validate(specimenDefinition);
+            ValidationSupport.checkList(specimenDefinition.patientPreparation, "patientPreparation", CodeableConcept.class);
+            ValidationSupport.checkList(specimenDefinition.collection, "collection", CodeableConcept.class);
+            ValidationSupport.checkList(specimenDefinition.typeTested, "typeTested", TypeTested.class);
         }
 
         protected Builder from(SpecimenDefinition specimenDefinition) {
@@ -628,14 +644,14 @@ public class SpecimenDefinition extends DomainResource {
         private final Boolean isDerived;
         @Binding(
             bindingName = "IntendedSpecimenType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type of specimen conditioned in a container for lab testing.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0487"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "SpecimenContainedPreference",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Degree of preference of a type of conditioned specimen.",
             valueSet = "http://hl7.org/fhir/ValueSet/specimen-contained-preference|4.0.1"
         )
@@ -646,26 +662,23 @@ public class SpecimenDefinition extends DomainResource {
         private final Duration retentionTime;
         @Binding(
             bindingName = "RejectionCriterion",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Criterion for rejection of the specimen by laboratory.",
             valueSet = "http://hl7.org/fhir/ValueSet/rejection-criteria"
         )
         private final List<CodeableConcept> rejectionCriterion;
         private final List<Handling> handling;
 
-        private volatile int hashCode;
-
         private TypeTested(Builder builder) {
             super(builder);
             isDerived = builder.isDerived;
             type = builder.type;
-            preference = ValidationSupport.requireNonNull(builder.preference, "preference");
+            preference = builder.preference;
             container = builder.container;
             requirement = builder.requirement;
             retentionTime = builder.retentionTime;
-            rejectionCriterion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rejectionCriterion, "rejectionCriterion"));
-            handling = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.handling, "handling"));
-            ValidationSupport.requireValueOrChildren(this);
+            rejectionCriterion = Collections.unmodifiableList(builder.rejectionCriterion);
+            handling = Collections.unmodifiableList(builder.handling);
         }
 
         /**
@@ -1127,7 +1140,19 @@ public class SpecimenDefinition extends DomainResource {
              */
             @Override
             public TypeTested build() {
-                return new TypeTested(this);
+                TypeTested typeTested = new TypeTested(this);
+                if (validating) {
+                    validate(typeTested);
+                }
+                return typeTested;
+            }
+
+            protected void validate(TypeTested typeTested) {
+                super.validate(typeTested);
+                ValidationSupport.requireNonNull(typeTested.preference, "preference");
+                ValidationSupport.checkList(typeTested.rejectionCriterion, "rejectionCriterion", CodeableConcept.class);
+                ValidationSupport.checkList(typeTested.handling, "handling", Handling.class);
+                ValidationSupport.requireValueOrChildren(typeTested);
             }
 
             protected Builder from(TypeTested typeTested) {
@@ -1150,21 +1175,21 @@ public class SpecimenDefinition extends DomainResource {
         public static class Container extends BackboneElement {
             @Binding(
                 bindingName = "ContainerMaterial",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Types of material for specimen containers.",
                 valueSet = "http://hl7.org/fhir/ValueSet/container-material"
             )
             private final CodeableConcept material;
             @Binding(
                 bindingName = "ContainerType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Type of specimen container.",
                 valueSet = "http://hl7.org/fhir/ValueSet/specimen-container-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "ContainerCap",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Color of the container cap.",
                 valueSet = "http://hl7.org/fhir/ValueSet/container-cap"
             )
@@ -1176,8 +1201,6 @@ public class SpecimenDefinition extends DomainResource {
             private final List<Additive> additive;
             private final String preparation;
 
-            private volatile int hashCode;
-
             private Container(Builder builder) {
                 super(builder);
                 material = builder.material;
@@ -1185,10 +1208,9 @@ public class SpecimenDefinition extends DomainResource {
                 cap = builder.cap;
                 description = builder.description;
                 capacity = builder.capacity;
-                minimumVolume = ValidationSupport.choiceElement(builder.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
-                additive = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additive, "additive"));
+                minimumVolume = builder.minimumVolume;
+                additive = Collections.unmodifiableList(builder.additive);
                 preparation = builder.preparation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1627,7 +1649,18 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 @Override
                 public Container build() {
-                    return new Container(this);
+                    Container container = new Container(this);
+                    if (validating) {
+                        validate(container);
+                    }
+                    return container;
+                }
+
+                protected void validate(Container container) {
+                    super.validate(container);
+                    ValidationSupport.choiceElement(container.minimumVolume, "minimumVolume", SimpleQuantity.class, String.class);
+                    ValidationSupport.checkList(container.additive, "additive", Additive.class);
+                    ValidationSupport.requireValueOrChildren(container);
                 }
 
                 protected Builder from(Container container) {
@@ -1653,20 +1686,16 @@ public class SpecimenDefinition extends DomainResource {
                 @Choice({ CodeableConcept.class, Reference.class })
                 @Binding(
                     bindingName = "ContainerAdditive",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Substance added to specimen container.",
                     valueSet = "http://terminology.hl7.org/ValueSet/v2-0371"
                 )
                 @Required
                 private final Element additive;
 
-                private volatile int hashCode;
-
                 private Additive(Builder builder) {
                     super(builder);
-                    additive = ValidationSupport.requireChoiceElement(builder.additive, "additive", CodeableConcept.class, Reference.class);
-                    ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-                    ValidationSupport.requireValueOrChildren(this);
+                    additive = builder.additive;
                 }
 
                 /**
@@ -1893,7 +1922,18 @@ public class SpecimenDefinition extends DomainResource {
                      */
                     @Override
                     public Additive build() {
-                        return new Additive(this);
+                        Additive additive = new Additive(this);
+                        if (validating) {
+                            validate(additive);
+                        }
+                        return additive;
+                    }
+
+                    protected void validate(Additive additive) {
+                        super.validate(additive);
+                        ValidationSupport.requireChoiceElement(additive.additive, "additive", CodeableConcept.class, Reference.class);
+                        ValidationSupport.checkReferenceType(additive.additive, "additive", "Substance");
+                        ValidationSupport.requireValueOrChildren(additive);
                     }
 
                     protected Builder from(Additive additive) {
@@ -1912,7 +1952,7 @@ public class SpecimenDefinition extends DomainResource {
         public static class Handling extends BackboneElement {
             @Binding(
                 bindingName = "HandlingConditionSet",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Set of handling instructions prior testing of the specimen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/handling-condition"
             )
@@ -1921,15 +1961,12 @@ public class SpecimenDefinition extends DomainResource {
             private final Duration maxDuration;
             private final String instruction;
 
-            private volatile int hashCode;
-
             private Handling(Builder builder) {
                 super(builder);
                 temperatureQualifier = builder.temperatureQualifier;
                 temperatureRange = builder.temperatureRange;
                 maxDuration = builder.maxDuration;
                 instruction = builder.instruction;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2227,7 +2264,16 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 @Override
                 public Handling build() {
-                    return new Handling(this);
+                    Handling handling = new Handling(this);
+                    if (validating) {
+                        validate(handling);
+                    }
+                    return handling;
+                }
+
+                protected void validate(Handling handling) {
+                    super.validate(handling);
+                    ValidationSupport.requireValueOrChildren(handling);
                 }
 
                 protected Builder from(Handling handling) {

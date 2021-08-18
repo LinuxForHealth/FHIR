@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,7 +29,7 @@ public class HumanName extends Element {
     @Summary
     @Binding(
         bindingName = "NameUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The use of a human name.",
         valueSet = "http://hl7.org/fhir/ValueSet/name-use|4.0.1"
     )
@@ -47,18 +47,15 @@ public class HumanName extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private HumanName(Builder builder) {
         super(builder);
         use = builder.use;
         text = builder.text;
         family = builder.family;
-        given = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.given, "given"));
-        prefix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prefix, "prefix"));
-        suffix = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suffix, "suffix"));
+        given = Collections.unmodifiableList(builder.given);
+        prefix = Collections.unmodifiableList(builder.prefix);
+        suffix = Collections.unmodifiableList(builder.suffix);
         period = builder.period;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -458,7 +455,19 @@ public class HumanName extends Element {
          */
         @Override
         public HumanName build() {
-            return new HumanName(this);
+            HumanName humanName = new HumanName(this);
+            if (validating) {
+                validate(humanName);
+            }
+            return humanName;
+        }
+
+        protected void validate(HumanName humanName) {
+            super.validate(humanName);
+            ValidationSupport.checkList(humanName.given, "given", String.class);
+            ValidationSupport.checkList(humanName.prefix, "prefix", String.class);
+            ValidationSupport.checkList(humanName.suffix, "suffix", String.class);
+            ValidationSupport.requireValueOrChildren(humanName);
         }
 
         protected Builder from(HumanName humanName) {

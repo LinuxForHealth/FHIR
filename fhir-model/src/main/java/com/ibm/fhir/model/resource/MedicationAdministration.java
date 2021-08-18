@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationAdministrationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,13 +47,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Describes the event of a patient consuming or otherwise being administered a medication. This may be as simple as 
  * swallowing a tablet or it may be a long running infusion. Related resources tie this event to the authorizing 
  * prescription, and the specific encounter between patient and health care practitioner.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "mad-1",
     level = "Rule",
     location = "MedicationAdministration.dosage",
     description = "SHALL have at least one of dosage.dose or dosage.rate[x]",
-    expression = "dose.exists() or rate.exists()"
+    expression = "dose.exists() or rate.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationAdministration"
 )
 @Constraint(
     id = "medicationAdministration-2",
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medication-admin-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medication-admin-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationAdministration",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -72,7 +82,7 @@ public class MedicationAdministration extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationAdministrationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of a MedicationAdministration.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-status|4.0.1"
     )
@@ -80,14 +90,14 @@ public class MedicationAdministration extends DomainResource {
     private final MedicationAdministrationStatus status;
     @Binding(
         bindingName = "MedicationAdministrationNegationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A set of codes indicating the reason why the MedicationAdministration is negated.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-not-given-codes"
     )
     private final List<CodeableConcept> statusReason;
     @Binding(
         bindingName = "MedicationAdministrationCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A coded concept describing where the medication administered is expected to occur.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-admin-category"
     )
@@ -97,7 +107,7 @@ public class MedicationAdministration extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying substance or product that can be administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -118,7 +128,7 @@ public class MedicationAdministration extends DomainResource {
     private final List<Performer> performer;
     @Binding(
         bindingName = "MedicationAdministrationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A set of codes indicating the reason why the MedicationAdministration was made.",
         valueSet = "http://hl7.org/fhir/ValueSet/reason-medication-given-codes"
     )
@@ -134,38 +144,27 @@ public class MedicationAdministration extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
-    private volatile int hashCode;
-
     private MedicationAdministration(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        statusReason = Collections.unmodifiableList(builder.statusReason);
         category = builder.category;
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        medication = builder.medication;
+        subject = builder.subject;
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
-        effective = ValidationSupport.requireChoiceElement(builder.effective, "effective", DateTime.class, Period.class);
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        effective = builder.effective;
+        performer = Collections.unmodifiableList(builder.performer);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         request = builder.request;
-        device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        device = Collections.unmodifiableList(builder.device);
+        note = Collections.unmodifiableList(builder.note);
         dosage = builder.dosage;
-        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "Procedure");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        ValidationSupport.checkReferenceType(request, "request", "MedicationRequest");
-        ValidationSupport.checkReferenceType(device, "device", "Device");
-        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1341,7 +1340,38 @@ public class MedicationAdministration extends DomainResource {
          */
         @Override
         public MedicationAdministration build() {
-            return new MedicationAdministration(this);
+            MedicationAdministration medicationAdministration = new MedicationAdministration(this);
+            if (validating) {
+                validate(medicationAdministration);
+            }
+            return medicationAdministration;
+        }
+
+        protected void validate(MedicationAdministration medicationAdministration) {
+            super.validate(medicationAdministration);
+            ValidationSupport.checkList(medicationAdministration.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicationAdministration.instantiates, "instantiates", Uri.class);
+            ValidationSupport.checkList(medicationAdministration.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(medicationAdministration.status, "status");
+            ValidationSupport.checkList(medicationAdministration.statusReason, "statusReason", CodeableConcept.class);
+            ValidationSupport.requireChoiceElement(medicationAdministration.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(medicationAdministration.subject, "subject");
+            ValidationSupport.checkList(medicationAdministration.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.requireChoiceElement(medicationAdministration.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(medicationAdministration.performer, "performer", Performer.class);
+            ValidationSupport.checkList(medicationAdministration.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(medicationAdministration.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(medicationAdministration.device, "device", Reference.class);
+            ValidationSupport.checkList(medicationAdministration.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationAdministration.eventHistory, "eventHistory", Reference.class);
+            ValidationSupport.checkReferenceType(medicationAdministration.partOf, "partOf", "MedicationAdministration", "Procedure");
+            ValidationSupport.checkReferenceType(medicationAdministration.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationAdministration.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationAdministration.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationAdministration.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
+            ValidationSupport.checkReferenceType(medicationAdministration.request, "request", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationAdministration.device, "device", "Device");
+            ValidationSupport.checkReferenceType(medicationAdministration.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationAdministration medicationAdministration) {
@@ -1375,7 +1405,7 @@ public class MedicationAdministration extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "MedicationAdministrationPerformerFunction",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code describing the role an individual played in administering the medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/med-admin-perform-function"
         )
@@ -1385,14 +1415,10 @@ public class MedicationAdministration extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1644,7 +1670,18 @@ public class MedicationAdministration extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Device");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -1663,21 +1700,21 @@ public class MedicationAdministration extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "MedicationAdministrationSite",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the site location the medicine enters into or onto the body.",
             valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
         )
         private final CodeableConcept site;
         @Binding(
             bindingName = "RouteOfAdministration",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
             valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
         )
         private final CodeableConcept route;
         @Binding(
             bindingName = "MedicationAdministrationMethod",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the technique by which the medicine is administered.",
             valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
         )
@@ -1686,8 +1723,6 @@ public class MedicationAdministration extends DomainResource {
         @Choice({ Ratio.class, SimpleQuantity.class })
         private final Element rate;
 
-        private volatile int hashCode;
-
         private Dosage(Builder builder) {
             super(builder);
             text = builder.text;
@@ -1695,8 +1730,7 @@ public class MedicationAdministration extends DomainResource {
             route = builder.route;
             method = builder.method;
             dose = builder.dose;
-            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, SimpleQuantity.class);
-            ValidationSupport.requireValueOrChildren(this);
+            rate = builder.rate;
         }
 
         /**
@@ -2070,7 +2104,17 @@ public class MedicationAdministration extends DomainResource {
              */
             @Override
             public Dosage build() {
-                return new Dosage(this);
+                Dosage dosage = new Dosage(this);
+                if (validating) {
+                    validate(dosage);
+                }
+                return dosage;
+            }
+
+            protected void validate(Dosage dosage) {
+                super.validate(dosage);
+                ValidationSupport.choiceElement(dosage.rate, "rate", Ratio.class, SimpleQuantity.class);
+                ValidationSupport.requireValueOrChildren(dosage);
             }
 
             protected Builder from(Dosage dosage) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,11 +22,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Uuid extends Uri {
     private static final Pattern PATTERN = Pattern.compile("urn:uuid:[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}");
 
-    private volatile int hashCode;
-
     private Uuid(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override
@@ -34,11 +31,25 @@ public class Uuid extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Uuid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Uuid of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uuid.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Uuid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uuid.builder().value(value).build();
     }
 
@@ -176,7 +187,16 @@ public class Uuid extends Uri {
          */
         @Override
         public Uuid build() {
-            return new Uuid(this);
+            Uuid uuid = new Uuid(this);
+            if (validating) {
+                validate(uuid);
+            }
+            return uuid;
+        }
+
+        protected void validate(Uuid uuid) {
+            super.validate(uuid);
+            ValidationSupport.checkValue(uuid.value, PATTERN);
         }
 
         protected Builder from(Uuid uuid) {

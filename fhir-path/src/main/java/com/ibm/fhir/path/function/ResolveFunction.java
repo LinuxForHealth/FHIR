@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,13 +8,13 @@ package com.ibm.fhir.path.function;
 
 import static com.ibm.fhir.model.util.FHIRUtil.REFERENCE_PATTERN;
 import static com.ibm.fhir.model.util.ModelSupport.isResourceType;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Matcher;
 
-import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
@@ -26,7 +26,10 @@ import com.ibm.fhir.path.FHIRPathType;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 
 public class ResolveFunction extends FHIRPathAbstractFunction {
-    private static final int RESOURCE_TYPE = 4;
+    private static final int BASE_URL_GROUP = 1;
+    private static final int RESOURCE_TYPE_GROUP = 4;
+    private static final int LOGICAL_ID_GROUP = 5;
+    private static final int VERSION_ID_GROUP = 7;
 
     @Override
     public String getName() {
@@ -77,17 +80,30 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                 String referenceType = getReferenceType(reference);
 
                 String resourceType = null;
+                Resource resource = null;
+                FHIRPathResourceNode resourceNode = null;
 
                 if (referenceReference != null) {
                     if (referenceReference.startsWith("#")) {
                         // internal fragment reference
-                        resourceType = resolveInternalFragmentReference(evaluationContext.getTree(), referenceReference);
+                        resourceNode = resolveInternalFragmentReference(node.asElementNode().getTree(), node, referenceReference);
+                        if (resourceNode != null) {
+                            resource = resourceNode.resource();
+                            if (resource != null) {
+                                resourceType = resource.getClass().getSimpleName();
+                            }
+                        }
                     } else {
                         Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                         if (matcher.matches()) {
-                            resourceType = matcher.group(RESOURCE_TYPE);
+                            resourceType = matcher.group(RESOURCE_TYPE_GROUP);
                             if (referenceType != null && !resourceType.equals(referenceType)) {
                                 throw new IllegalArgumentException("Resource type found in reference URL does not match reference type");
+                            }
+                            String baseUrl = matcher.group(BASE_URL_GROUP);
+                            if ((baseUrl == null ||  matchesServiceBaseUrl(baseUrl)) && evaluationContext.resolveRelativeReferences()) {
+                                // relative reference
+                                resource = resolveRelativeReference(evaluationContext, node, resourceType, matcher.group(LOGICAL_ID_GROUP), matcher.group(VERSION_ID_GROUP));
                             }
                         }
                     }
@@ -103,27 +119,39 @@ public class ResolveFunction extends FHIRPathAbstractFunction {
                     generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INFORMATIONAL, "Resource type could not be inferred from reference: " + referenceReference, node.path());
                 }
 
-                result.add(FHIRPathResourceNode.resourceNode(type));
+                if (resourceNode == null) {
+                    resourceNode = (resource != null) ? FHIRPathTree.tree(resource).getRoot().asResourceNode() : FHIRPathResourceNode.resourceNode(type);
+                }
+
+                result.add(resourceNode);
             }
         }
         return result;
     }
 
-    private String resolveInternalFragmentReference(FHIRPathTree tree, String referenceReference) {
+    protected Resource resolveRelativeReference(EvaluationContext evaluationContext, FHIRPathNode node, String type, String logicalId, String versionId) {
+        return null;
+    }
+
+    protected boolean matchesServiceBaseUrl(String baseUrl) {
+        return false;
+    }
+
+    private FHIRPathResourceNode resolveInternalFragmentReference(FHIRPathTree tree, FHIRPathNode node, String referenceReference) {
         if (tree != null) {
-            FHIRPathNode root = tree.getRoot();
-            if (root.isResourceNode()) {
-                Resource resource = root.asResourceNode().resource();
+            FHIRPathResourceNode rootResource = getRootResourceNode(tree, node);
+            if (rootResource != null) {
                 if ("#".equals(referenceReference)) {
-                    return resource.getClass().getSimpleName();
+                    return rootResource;
                 }
                 String id = referenceReference.substring(1);
-                if (resource instanceof DomainResource) {
-                    DomainResource domainResource = (DomainResource) resource;
-                    for (Resource contained : domainResource.getContained()) {
-                        if (contained.getId() != null &&
-                                id.equals(contained.getId())) {
-                            return contained.getClass().getSimpleName();
+                if (FHIRPathType.FHIR_DOMAIN_RESOURCE.isAssignableFrom(rootResource.type())) {
+                    for (FHIRPathNode child : rootResource.children()) {
+                        if ("contained".equals(child.name())) {
+                            Resource contained = child.asResourceNode().resource();
+                            if (contained.getId() != null && contained.getId().equals(id)) {
+                                return child.asResourceNode();
+                            }
                         }
                     }
                 }

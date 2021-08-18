@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,7 +20,6 @@ import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRAllTypes;
 import com.ibm.fhir.model.type.code.SortDirection;
@@ -36,14 +35,16 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "DataRequirement.codeFilter",
     description = "Either a path or a searchParam must be provided, but not both",
-    expression = "path.exists() xor searchParam.exists()"
+    expression = "path.exists() xor searchParam.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement"
 )
 @Constraint(
     id = "drq-2",
     level = "Rule",
     location = "DataRequirement.dateFilter",
     description = "Either a path or a searchParam must be provided, but not both",
-    expression = "path.exists() xor searchParam.exists()"
+    expression = "path.exists() xor searchParam.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement"
 )
 @Constraint(
     id = "dataRequirement-3",
@@ -51,6 +52,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DataRequirement",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -58,7 +60,7 @@ public class DataRequirement extends Element {
     @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
     )
@@ -71,7 +73,7 @@ public class DataRequirement extends Element {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a data requirement (E.g., Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -87,20 +89,16 @@ public class DataRequirement extends Element {
     @Summary
     private final List<Sort> sort;
 
-    private volatile int hashCode;
-
     private DataRequirement(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-        mustSupport = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mustSupport, "mustSupport"));
-        codeFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeFilter, "codeFilter"));
-        dateFilter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dateFilter, "dateFilter"));
+        type = builder.type;
+        profile = Collections.unmodifiableList(builder.profile);
+        subject = builder.subject;
+        mustSupport = Collections.unmodifiableList(builder.mustSupport);
+        codeFilter = Collections.unmodifiableList(builder.codeFilter);
+        dateFilter = Collections.unmodifiableList(builder.dateFilter);
         limit = builder.limit;
-        sort = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sort, "sort"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireValueOrChildren(this);
+        sort = Collections.unmodifiableList(builder.sort);
     }
 
     /**
@@ -603,7 +601,24 @@ public class DataRequirement extends Element {
          */
         @Override
         public DataRequirement build() {
-            return new DataRequirement(this);
+            DataRequirement dataRequirement = new DataRequirement(this);
+            if (validating) {
+                validate(dataRequirement);
+            }
+            return dataRequirement;
+        }
+
+        protected void validate(DataRequirement dataRequirement) {
+            super.validate(dataRequirement);
+            ValidationSupport.requireNonNull(dataRequirement.type, "type");
+            ValidationSupport.checkList(dataRequirement.profile, "profile", Canonical.class);
+            ValidationSupport.choiceElement(dataRequirement.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(dataRequirement.mustSupport, "mustSupport", String.class);
+            ValidationSupport.checkList(dataRequirement.codeFilter, "codeFilter", CodeFilter.class);
+            ValidationSupport.checkList(dataRequirement.dateFilter, "dateFilter", DateFilter.class);
+            ValidationSupport.checkList(dataRequirement.sort, "sort", Sort.class);
+            ValidationSupport.checkReferenceType(dataRequirement.subject, "subject", "Group");
+            ValidationSupport.requireValueOrChildren(dataRequirement);
         }
 
         protected Builder from(DataRequirement dataRequirement) {
@@ -634,15 +649,12 @@ public class DataRequirement extends Element {
         @Summary
         private final List<Coding> code;
 
-        private volatile int hashCode;
-
         private CodeFilter(Builder builder) {
             super(builder);
             path = builder.path;
             searchParam = builder.searchParam;
             valueSet = builder.valueSet;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
         }
 
         /**
@@ -974,7 +986,17 @@ public class DataRequirement extends Element {
              */
             @Override
             public CodeFilter build() {
-                return new CodeFilter(this);
+                CodeFilter codeFilter = new CodeFilter(this);
+                if (validating) {
+                    validate(codeFilter);
+                }
+                return codeFilter;
+            }
+
+            protected void validate(CodeFilter codeFilter) {
+                super.validate(codeFilter);
+                ValidationSupport.checkList(codeFilter.code, "code", Coding.class);
+                ValidationSupport.requireValueOrChildren(codeFilter);
             }
 
             protected Builder from(CodeFilter codeFilter) {
@@ -1001,14 +1023,11 @@ public class DataRequirement extends Element {
         @Choice({ DateTime.class, Period.class, Duration.class })
         private final Element value;
 
-        private volatile int hashCode;
-
         private DateFilter(Builder builder) {
             super(builder);
             path = builder.path;
             searchParam = builder.searchParam;
-            value = ValidationSupport.choiceElement(builder.value, "value", DateTime.class, Period.class, Duration.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -1294,7 +1313,17 @@ public class DataRequirement extends Element {
              */
             @Override
             public DateFilter build() {
-                return new DateFilter(this);
+                DateFilter dateFilter = new DateFilter(this);
+                if (validating) {
+                    validate(dateFilter);
+                }
+                return dateFilter;
+            }
+
+            protected void validate(DateFilter dateFilter) {
+                super.validate(dateFilter);
+                ValidationSupport.choiceElement(dateFilter.value, "value", DateTime.class, Period.class, Duration.class);
+                ValidationSupport.requireValueOrChildren(dateFilter);
             }
 
             protected Builder from(DateFilter dateFilter) {
@@ -1317,20 +1346,17 @@ public class DataRequirement extends Element {
         @Summary
         @Binding(
             bindingName = "SortDirection",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The possible sort directions, ascending or descending.",
             valueSet = "http://hl7.org/fhir/ValueSet/sort-direction|4.0.1"
         )
         @Required
         private final SortDirection direction;
 
-        private volatile int hashCode;
-
         private Sort(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            direction = ValidationSupport.requireNonNull(builder.direction, "direction");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            direction = builder.direction;
         }
 
         /**
@@ -1578,7 +1604,18 @@ public class DataRequirement extends Element {
              */
             @Override
             public Sort build() {
-                return new Sort(this);
+                Sort sort = new Sort(this);
+                if (validating) {
+                    validate(sort);
+                }
+                return sort;
+            }
+
+            protected void validate(Sort sort) {
+                super.validate(sort);
+                ValidationSupport.requireNonNull(sort.path, "path");
+                ValidationSupport.requireNonNull(sort.direction, "direction");
+                ValidationSupport.requireValueOrChildren(sort);
             }
 
             protected Builder from(Sort sort) {

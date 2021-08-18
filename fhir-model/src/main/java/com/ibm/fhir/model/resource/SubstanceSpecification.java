@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,12 +35,19 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The detailed description of a substance, typically at a level beyond what is used for prescribing.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceSpecification extends DomainResource {
     @Summary
@@ -87,8 +95,6 @@ public class SubstanceSpecification extends DomainResource {
     @ReferenceTarget({ "SubstanceSourceMaterial" })
     private final Reference sourceMaterial;
 
-    private volatile int hashCode;
-
     private SubstanceSpecification(Builder builder) {
         super(builder);
         identifier = builder.identifier;
@@ -96,27 +102,20 @@ public class SubstanceSpecification extends DomainResource {
         status = builder.status;
         domain = builder.domain;
         description = builder.description;
-        source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
+        source = Collections.unmodifiableList(builder.source);
         comment = builder.comment;
-        moiety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.moiety, "moiety"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        moiety = Collections.unmodifiableList(builder.moiety);
+        property = Collections.unmodifiableList(builder.property);
         referenceInformation = builder.referenceInformation;
         structure = builder.structure;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        molecularWeight = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.molecularWeight, "molecularWeight"));
-        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+        code = Collections.unmodifiableList(builder.code);
+        name = Collections.unmodifiableList(builder.name);
+        molecularWeight = Collections.unmodifiableList(builder.molecularWeight);
+        relationship = Collections.unmodifiableList(builder.relationship);
         nucleicAcid = builder.nucleicAcid;
         polymer = builder.polymer;
         protein = builder.protein;
         sourceMaterial = builder.sourceMaterial;
-        ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-        ValidationSupport.checkReferenceType(referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
-        ValidationSupport.checkReferenceType(nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
-        ValidationSupport.checkReferenceType(polymer, "polymer", "SubstancePolymer");
-        ValidationSupport.checkReferenceType(protein, "protein", "SubstanceProtein");
-        ValidationSupport.checkReferenceType(sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1130,7 +1129,28 @@ public class SubstanceSpecification extends DomainResource {
          */
         @Override
         public SubstanceSpecification build() {
-            return new SubstanceSpecification(this);
+            SubstanceSpecification substanceSpecification = new SubstanceSpecification(this);
+            if (validating) {
+                validate(substanceSpecification);
+            }
+            return substanceSpecification;
+        }
+
+        protected void validate(SubstanceSpecification substanceSpecification) {
+            super.validate(substanceSpecification);
+            ValidationSupport.checkList(substanceSpecification.source, "source", Reference.class);
+            ValidationSupport.checkList(substanceSpecification.moiety, "moiety", Moiety.class);
+            ValidationSupport.checkList(substanceSpecification.property, "property", Property.class);
+            ValidationSupport.checkList(substanceSpecification.code, "code", Code.class);
+            ValidationSupport.checkList(substanceSpecification.name, "name", Name.class);
+            ValidationSupport.checkList(substanceSpecification.molecularWeight, "molecularWeight", SubstanceSpecification.Structure.Isotope.MolecularWeight.class);
+            ValidationSupport.checkList(substanceSpecification.relationship, "relationship", Relationship.class);
+            ValidationSupport.checkReferenceType(substanceSpecification.source, "source", "DocumentReference");
+            ValidationSupport.checkReferenceType(substanceSpecification.referenceInformation, "referenceInformation", "SubstanceReferenceInformation");
+            ValidationSupport.checkReferenceType(substanceSpecification.nucleicAcid, "nucleicAcid", "SubstanceNucleicAcid");
+            ValidationSupport.checkReferenceType(substanceSpecification.polymer, "polymer", "SubstancePolymer");
+            ValidationSupport.checkReferenceType(substanceSpecification.protein, "protein", "SubstanceProtein");
+            ValidationSupport.checkReferenceType(substanceSpecification.sourceMaterial, "sourceMaterial", "SubstanceSourceMaterial");
         }
 
         protected Builder from(SubstanceSpecification substanceSpecification) {
@@ -1178,8 +1198,6 @@ public class SubstanceSpecification extends DomainResource {
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
-        private volatile int hashCode;
-
         private Moiety(Builder builder) {
             super(builder);
             role = builder.role;
@@ -1188,8 +1206,7 @@ public class SubstanceSpecification extends DomainResource {
             stereochemistry = builder.stereochemistry;
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
-            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
-            ValidationSupport.requireValueOrChildren(this);
+            amount = builder.amount;
         }
 
         /**
@@ -1576,7 +1593,17 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Moiety build() {
-                return new Moiety(this);
+                Moiety moiety = new Moiety(this);
+                if (validating) {
+                    validate(moiety);
+                }
+                return moiety;
+            }
+
+            protected void validate(Moiety moiety) {
+                super.validate(moiety);
+                ValidationSupport.choiceElement(moiety.amount, "amount", Quantity.class, String.class);
+                ValidationSupport.requireValueOrChildren(moiety);
             }
 
             protected Builder from(Moiety moiety) {
@@ -1611,17 +1638,13 @@ public class SubstanceSpecification extends DomainResource {
         @Choice({ Quantity.class, String.class })
         private final Element amount;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
             category = builder.category;
             code = builder.code;
             parameters = builder.parameters;
-            definingSubstance = ValidationSupport.choiceElement(builder.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
-            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, String.class);
-            ValidationSupport.checkReferenceType(definingSubstance, "definingSubstance", "SubstanceSpecification", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            definingSubstance = builder.definingSubstance;
+            amount = builder.amount;
         }
 
         /**
@@ -1962,7 +1985,19 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Property build() {
-                return new Property(this);
+                Property property = new Property(this);
+                if (validating) {
+                    validate(property);
+                }
+                return property;
+            }
+
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.choiceElement(property.definingSubstance, "definingSubstance", Reference.class, CodeableConcept.class);
+                ValidationSupport.choiceElement(property.amount, "amount", Quantity.class, String.class);
+                ValidationSupport.checkReferenceType(property.definingSubstance, "definingSubstance", "SubstanceSpecification", "Substance");
+                ValidationSupport.requireValueOrChildren(property);
             }
 
             protected Builder from(Property property) {
@@ -1999,20 +2034,16 @@ public class SubstanceSpecification extends DomainResource {
         @Summary
         private final List<Representation> representation;
 
-        private volatile int hashCode;
-
         private Structure(Builder builder) {
             super(builder);
             stereochemistry = builder.stereochemistry;
             opticalActivity = builder.opticalActivity;
             molecularFormula = builder.molecularFormula;
             molecularFormulaByMoiety = builder.molecularFormulaByMoiety;
-            isotope = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.isotope, "isotope"));
+            isotope = Collections.unmodifiableList(builder.isotope);
             molecularWeight = builder.molecularWeight;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            representation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.representation, "representation"));
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            source = Collections.unmodifiableList(builder.source);
+            representation = Collections.unmodifiableList(builder.representation);
         }
 
         /**
@@ -2495,7 +2526,20 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Structure build() {
-                return new Structure(this);
+                Structure structure = new Structure(this);
+                if (validating) {
+                    validate(structure);
+                }
+                return structure;
+            }
+
+            protected void validate(Structure structure) {
+                super.validate(structure);
+                ValidationSupport.checkList(structure.isotope, "isotope", Isotope.class);
+                ValidationSupport.checkList(structure.source, "source", Reference.class);
+                ValidationSupport.checkList(structure.representation, "representation", Representation.class);
+                ValidationSupport.checkReferenceType(structure.source, "source", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(structure);
             }
 
             protected Builder from(Structure structure) {
@@ -2527,8 +2571,6 @@ public class SubstanceSpecification extends DomainResource {
             @Summary
             private final MolecularWeight molecularWeight;
 
-            private volatile int hashCode;
-
             private Isotope(Builder builder) {
                 super(builder);
                 identifier = builder.identifier;
@@ -2536,7 +2578,6 @@ public class SubstanceSpecification extends DomainResource {
                 substitution = builder.substitution;
                 halfLife = builder.halfLife;
                 molecularWeight = builder.molecularWeight;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2859,7 +2900,16 @@ public class SubstanceSpecification extends DomainResource {
                  */
                 @Override
                 public Isotope build() {
-                    return new Isotope(this);
+                    Isotope isotope = new Isotope(this);
+                    if (validating) {
+                        validate(isotope);
+                    }
+                    return isotope;
+                }
+
+                protected void validate(Isotope isotope) {
+                    super.validate(isotope);
+                    ValidationSupport.requireValueOrChildren(isotope);
                 }
 
                 protected Builder from(Isotope isotope) {
@@ -2884,14 +2934,11 @@ public class SubstanceSpecification extends DomainResource {
                 @Summary
                 private final Quantity amount;
 
-                private volatile int hashCode;
-
                 private MolecularWeight(Builder builder) {
                     super(builder);
                     method = builder.method;
                     type = builder.type;
                     amount = builder.amount;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -3159,7 +3206,16 @@ public class SubstanceSpecification extends DomainResource {
                      */
                     @Override
                     public MolecularWeight build() {
-                        return new MolecularWeight(this);
+                        MolecularWeight molecularWeight = new MolecularWeight(this);
+                        if (validating) {
+                            validate(molecularWeight);
+                        }
+                        return molecularWeight;
+                    }
+
+                    protected void validate(MolecularWeight molecularWeight) {
+                        super.validate(molecularWeight);
+                        ValidationSupport.requireValueOrChildren(molecularWeight);
                     }
 
                     protected Builder from(MolecularWeight molecularWeight) {
@@ -3184,14 +3240,11 @@ public class SubstanceSpecification extends DomainResource {
             @Summary
             private final Attachment attachment;
 
-            private volatile int hashCode;
-
             private Representation(Builder builder) {
                 super(builder);
                 type = builder.type;
                 representation = builder.representation;
                 attachment = builder.attachment;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3456,7 +3509,16 @@ public class SubstanceSpecification extends DomainResource {
                  */
                 @Override
                 public Representation build() {
-                    return new Representation(this);
+                    Representation representation = new Representation(this);
+                    if (validating) {
+                        validate(representation);
+                    }
+                    return representation;
+                }
+
+                protected void validate(Representation representation) {
+                    super.validate(representation);
+                    ValidationSupport.requireValueOrChildren(representation);
                 }
 
                 protected Builder from(Representation representation) {
@@ -3486,17 +3548,13 @@ public class SubstanceSpecification extends DomainResource {
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
-        private volatile int hashCode;
-
         private Code(Builder builder) {
             super(builder);
             code = builder.code;
             status = builder.status;
             statusDate = builder.statusDate;
             comment = builder.comment;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -3849,7 +3907,18 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Code build() {
-                return new Code(this);
+                Code code = new Code(this);
+                if (validating) {
+                    validate(code);
+                }
+                return code;
+            }
+
+            protected void validate(Code code) {
+                super.validate(code);
+                ValidationSupport.checkList(code.source, "source", Reference.class);
+                ValidationSupport.checkReferenceType(code.source, "source", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(code);
             }
 
             protected Builder from(Code code) {
@@ -3893,23 +3962,19 @@ public class SubstanceSpecification extends DomainResource {
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
-        private volatile int hashCode;
-
         private Name(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             type = builder.type;
             status = builder.status;
             preferred = builder.preferred;
-            language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
-            domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
-            jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
-            synonym = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.synonym, "synonym"));
-            translation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.translation, "translation"));
-            official = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.official, "official"));
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            language = Collections.unmodifiableList(builder.language);
+            domain = Collections.unmodifiableList(builder.domain);
+            jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
+            synonym = Collections.unmodifiableList(builder.synonym);
+            translation = Collections.unmodifiableList(builder.translation);
+            official = Collections.unmodifiableList(builder.official);
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -4568,7 +4633,25 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Name build() {
-                return new Name(this);
+                Name name = new Name(this);
+                if (validating) {
+                    validate(name);
+                }
+                return name;
+            }
+
+            protected void validate(Name name) {
+                super.validate(name);
+                ValidationSupport.requireNonNull(name.name, "name");
+                ValidationSupport.checkList(name.language, "language", CodeableConcept.class);
+                ValidationSupport.checkList(name.domain, "domain", CodeableConcept.class);
+                ValidationSupport.checkList(name.jurisdiction, "jurisdiction", CodeableConcept.class);
+                ValidationSupport.checkList(name.synonym, "synonym", SubstanceSpecification.Name.class);
+                ValidationSupport.checkList(name.translation, "translation", SubstanceSpecification.Name.class);
+                ValidationSupport.checkList(name.official, "official", Official.class);
+                ValidationSupport.checkList(name.source, "source", Reference.class);
+                ValidationSupport.checkReferenceType(name.source, "source", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(name);
             }
 
             protected Builder from(Name name) {
@@ -4599,14 +4682,11 @@ public class SubstanceSpecification extends DomainResource {
             @Summary
             private final DateTime date;
 
-            private volatile int hashCode;
-
             private Official(Builder builder) {
                 super(builder);
                 authority = builder.authority;
                 status = builder.status;
                 date = builder.date;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4871,7 +4951,16 @@ public class SubstanceSpecification extends DomainResource {
                  */
                 @Override
                 public Official build() {
-                    return new Official(this);
+                    Official official = new Official(this);
+                    if (validating) {
+                        validate(official);
+                    }
+                    return official;
+                }
+
+                protected void validate(Official official) {
+                    super.validate(official);
+                    ValidationSupport.requireValueOrChildren(official);
                 }
 
                 protected Builder from(Official official) {
@@ -4908,20 +4997,15 @@ public class SubstanceSpecification extends DomainResource {
         @ReferenceTarget({ "DocumentReference" })
         private final List<Reference> source;
 
-        private volatile int hashCode;
-
         private Relationship(Builder builder) {
             super(builder);
-            substance = ValidationSupport.choiceElement(builder.substance, "substance", Reference.class, CodeableConcept.class);
+            substance = builder.substance;
             relationship = builder.relationship;
             isDefining = builder.isDefining;
-            amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
+            amount = builder.amount;
             amountRatioLowLimit = builder.amountRatioLowLimit;
             amountType = builder.amountType;
-            source = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.source, "source"));
-            ValidationSupport.checkReferenceType(substance, "substance", "SubstanceSpecification");
-            ValidationSupport.checkReferenceType(source, "source", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            source = Collections.unmodifiableList(builder.source);
         }
 
         /**
@@ -5357,7 +5441,21 @@ public class SubstanceSpecification extends DomainResource {
              */
             @Override
             public Relationship build() {
-                return new Relationship(this);
+                Relationship relationship = new Relationship(this);
+                if (validating) {
+                    validate(relationship);
+                }
+                return relationship;
+            }
+
+            protected void validate(Relationship relationship) {
+                super.validate(relationship);
+                ValidationSupport.choiceElement(relationship.substance, "substance", Reference.class, CodeableConcept.class);
+                ValidationSupport.choiceElement(relationship.amount, "amount", Quantity.class, Range.class, Ratio.class, String.class);
+                ValidationSupport.checkList(relationship.source, "source", Reference.class);
+                ValidationSupport.checkReferenceType(relationship.substance, "substance", "SubstanceSpecification");
+                ValidationSupport.checkReferenceType(relationship.source, "source", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(relationship);
             }
 
             protected Builder from(Relationship relationship) {

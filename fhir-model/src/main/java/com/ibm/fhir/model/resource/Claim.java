@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -44,6 +45,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClaimStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.Use;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -51,13 +53,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A provider issued list of professional services and products which have been provided, or are to be provided, to a 
  * patient which is sent to an insurer for reimbursement.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "claim-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/claim-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/claim-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Claim",
     generated = true
 )
 @Constraint(
@@ -66,6 +75,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "accident.type",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActIncidentCode",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActIncidentCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Claim",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -74,7 +84,7 @@ public class Claim extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -83,7 +93,7 @@ public class Claim extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClaimType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type or discipline-style of the claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-type"
     )
@@ -91,7 +101,7 @@ public class Claim extends DomainResource {
     private final CodeableConcept type;
     @Binding(
         bindingName = "ClaimSubType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A more granular claim typecode.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-subtype"
     )
@@ -99,7 +109,7 @@ public class Claim extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Use",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The purpose of the Claim: predetermination, preauthorization, claim.",
         valueSet = "http://hl7.org/fhir/ValueSet/claim-use|4.0.1"
     )
@@ -126,7 +136,7 @@ public class Claim extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ProcessPriority",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The timeliness with which processing is required: stat, normal, deferred.",
         valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
     )
@@ -134,7 +144,7 @@ public class Claim extends DomainResource {
     private final CodeableConcept priority;
     @Binding(
         bindingName = "FundsReserve",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "For whom funds are to be reserved: (Patient, Provider, None).",
         valueSet = "http://hl7.org/fhir/ValueSet/fundsreserve"
     )
@@ -160,46 +170,35 @@ public class Claim extends DomainResource {
     private final List<Item> item;
     private final Money total;
 
-    private volatile int hashCode;
-
     private Claim(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        type = builder.type;
         subType = builder.subType;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        use = builder.use;
+        patient = builder.patient;
         billablePeriod = builder.billablePeriod;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         enterer = builder.enterer;
         insurer = builder.insurer;
-        provider = ValidationSupport.requireNonNull(builder.provider, "provider");
-        priority = ValidationSupport.requireNonNull(builder.priority, "priority");
+        provider = builder.provider;
+        priority = builder.priority;
         fundsReserve = builder.fundsReserve;
-        related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
+        related = Collections.unmodifiableList(builder.related);
         prescription = builder.prescription;
         originalPrescription = builder.originalPrescription;
         payee = builder.payee;
         referral = builder.referral;
         facility = builder.facility;
-        careTeam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeam, "careTeam"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-        procedure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedure, "procedure"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.insurance, "insurance"));
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        procedure = Collections.unmodifiableList(builder.procedure);
+        insurance = Collections.unmodifiableList(builder.insurance);
         accident = builder.accident;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
+        item = Collections.unmodifiableList(builder.item);
         total = builder.total;
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-        ValidationSupport.checkReferenceType(originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
-        ValidationSupport.checkReferenceType(referral, "referral", "ServiceRequest");
-        ValidationSupport.checkReferenceType(facility, "facility", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1526,7 +1525,38 @@ public class Claim extends DomainResource {
          */
         @Override
         public Claim build() {
-            return new Claim(this);
+            Claim claim = new Claim(this);
+            if (validating) {
+                validate(claim);
+            }
+            return claim;
+        }
+
+        protected void validate(Claim claim) {
+            super.validate(claim);
+            ValidationSupport.checkList(claim.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(claim.status, "status");
+            ValidationSupport.requireNonNull(claim.type, "type");
+            ValidationSupport.requireNonNull(claim.use, "use");
+            ValidationSupport.requireNonNull(claim.patient, "patient");
+            ValidationSupport.requireNonNull(claim.created, "created");
+            ValidationSupport.requireNonNull(claim.provider, "provider");
+            ValidationSupport.requireNonNull(claim.priority, "priority");
+            ValidationSupport.checkList(claim.related, "related", Related.class);
+            ValidationSupport.checkList(claim.careTeam, "careTeam", CareTeam.class);
+            ValidationSupport.checkList(claim.supportingInfo, "supportingInfo", SupportingInfo.class);
+            ValidationSupport.checkList(claim.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.checkList(claim.procedure, "procedure", Procedure.class);
+            ValidationSupport.checkNonEmptyList(claim.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(claim.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(claim.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(claim.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(claim.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(claim.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(claim.prescription, "prescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.originalPrescription, "originalPrescription", "DeviceRequest", "MedicationRequest", "VisionPrescription");
+            ValidationSupport.checkReferenceType(claim.referral, "referral", "ServiceRequest");
+            ValidationSupport.checkReferenceType(claim.facility, "facility", "Location");
         }
 
         protected Builder from(Claim claim) {
@@ -1571,22 +1601,18 @@ public class Claim extends DomainResource {
         private final Reference claim;
         @Binding(
             bindingName = "RelatedClaimRelationship",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Relationship of this claim to a related Claim.",
             valueSet = "http://hl7.org/fhir/ValueSet/related-claim-relationship"
         )
         private final CodeableConcept relationship;
         private final Identifier reference;
 
-        private volatile int hashCode;
-
         private Related(Builder builder) {
             super(builder);
             claim = builder.claim;
             relationship = builder.relationship;
             reference = builder.reference;
-            ValidationSupport.checkReferenceType(claim, "claim", "Claim");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1856,7 +1882,17 @@ public class Claim extends DomainResource {
              */
             @Override
             public Related build() {
-                return new Related(this);
+                Related related = new Related(this);
+                if (validating) {
+                    validate(related);
+                }
+                return related;
+            }
+
+            protected void validate(Related related) {
+                super.validate(related);
+                ValidationSupport.checkReferenceType(related.claim, "claim", "Claim");
+                ValidationSupport.requireValueOrChildren(related);
             }
 
             protected Builder from(Related related) {
@@ -1875,7 +1911,7 @@ public class Claim extends DomainResource {
     public static class Payee extends BackboneElement {
         @Binding(
             bindingName = "PayeeType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code for the party to be reimbursed.",
             valueSet = "http://hl7.org/fhir/ValueSet/payeetype"
         )
@@ -1884,14 +1920,10 @@ public class Claim extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Payee(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             party = builder.party;
-            ValidationSupport.checkReferenceType(party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2143,7 +2175,18 @@ public class Claim extends DomainResource {
              */
             @Override
             public Payee build() {
-                return new Payee(this);
+                Payee payee = new Payee(this);
+                if (validating) {
+                    validate(payee);
+                }
+                return payee;
+            }
+
+            protected void validate(Payee payee) {
+                super.validate(payee);
+                ValidationSupport.requireNonNull(payee.type, "type");
+                ValidationSupport.checkReferenceType(payee.party, "party", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(payee);
             }
 
             protected Builder from(Payee payee) {
@@ -2167,30 +2210,26 @@ public class Claim extends DomainResource {
         private final Boolean responsible;
         @Binding(
             bindingName = "CareTeamRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The role codes for the care team members.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-careteamrole"
         )
         private final CodeableConcept role;
         @Binding(
             bindingName = "ProviderQualification",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Provider professional qualifications.",
             valueSet = "http://hl7.org/fhir/ValueSet/provider-qualification"
         )
         private final CodeableConcept qualification;
 
-        private volatile int hashCode;
-
         private CareTeam(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            provider = ValidationSupport.requireNonNull(builder.provider, "provider");
+            sequence = builder.sequence;
+            provider = builder.provider;
             responsible = builder.responsible;
             role = builder.role;
             qualification = builder.qualification;
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2530,7 +2569,19 @@ public class Claim extends DomainResource {
              */
             @Override
             public CareTeam build() {
-                return new CareTeam(this);
+                CareTeam careTeam = new CareTeam(this);
+                if (validating) {
+                    validate(careTeam);
+                }
+                return careTeam;
+            }
+
+            protected void validate(CareTeam careTeam) {
+                super.validate(careTeam);
+                ValidationSupport.requireNonNull(careTeam.sequence, "sequence");
+                ValidationSupport.requireNonNull(careTeam.provider, "provider");
+                ValidationSupport.checkReferenceType(careTeam.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(careTeam);
             }
 
             protected Builder from(CareTeam careTeam) {
@@ -2554,7 +2605,7 @@ public class Claim extends DomainResource {
         private final PositiveInt sequence;
         @Binding(
             bindingName = "InformationCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The valuset used for additional information category codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-informationcategory"
         )
@@ -2562,7 +2613,7 @@ public class Claim extends DomainResource {
         private final CodeableConcept category;
         @Binding(
             bindingName = "InformationCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The valuset used for additional information codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-exception"
         )
@@ -2573,23 +2624,20 @@ public class Claim extends DomainResource {
         private final Element value;
         @Binding(
             bindingName = "MissingReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reason codes for the missing teeth.",
             valueSet = "http://hl7.org/fhir/ValueSet/missing-tooth-reason"
         )
         private final CodeableConcept reason;
 
-        private volatile int hashCode;
-
         private SupportingInfo(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            category = ValidationSupport.requireNonNull(builder.category, "category");
+            sequence = builder.sequence;
+            category = builder.category;
             code = builder.code;
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", Date.class, Period.class);
-            value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+            timing = builder.timing;
+            value = builder.value;
             reason = builder.reason;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2970,7 +3018,20 @@ public class Claim extends DomainResource {
              */
             @Override
             public SupportingInfo build() {
-                return new SupportingInfo(this);
+                SupportingInfo supportingInfo = new SupportingInfo(this);
+                if (validating) {
+                    validate(supportingInfo);
+                }
+                return supportingInfo;
+            }
+
+            protected void validate(SupportingInfo supportingInfo) {
+                super.validate(supportingInfo);
+                ValidationSupport.requireNonNull(supportingInfo.sequence, "sequence");
+                ValidationSupport.requireNonNull(supportingInfo.category, "category");
+                ValidationSupport.choiceElement(supportingInfo.timing, "timing", Date.class, Period.class);
+                ValidationSupport.choiceElement(supportingInfo.value, "value", Boolean.class, String.class, Quantity.class, Attachment.class, Reference.class);
+                ValidationSupport.requireValueOrChildren(supportingInfo);
             }
 
             protected Builder from(SupportingInfo supportingInfo) {
@@ -2996,7 +3057,7 @@ public class Claim extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example ICD10 Diagnostic codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
         )
@@ -3004,37 +3065,33 @@ public class Claim extends DomainResource {
         private final Element diagnosis;
         @Binding(
             bindingName = "DiagnosisType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The type of the diagnosis: admitting, principal, discharge.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosistype"
         )
         private final List<CodeableConcept> type;
         @Binding(
             bindingName = "DiagnosisOnAdmission",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Present on admission.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosis-on-admission"
         )
         private final CodeableConcept onAdmission;
         @Binding(
             bindingName = "DiagnosisRelatedGroup",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The DRG codes associated with the diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-diagnosisrelatedgroup"
         )
         private final CodeableConcept packageCode;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            diagnosis = ValidationSupport.requireChoiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            sequence = builder.sequence;
+            diagnosis = builder.diagnosis;
+            type = Collections.unmodifiableList(builder.type);
             onAdmission = builder.onAdmission;
             packageCode = builder.packageCode;
-            ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3400,7 +3457,20 @@ public class Claim extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.sequence, "sequence");
+                ValidationSupport.requireChoiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(diagnosis.type, "type", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {
@@ -3423,7 +3493,7 @@ public class Claim extends DomainResource {
         private final PositiveInt sequence;
         @Binding(
             bindingName = "ProcedureType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example procedure type codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-procedure-type"
         )
@@ -3433,7 +3503,7 @@ public class Claim extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "ICD10_Procedures",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example ICD10 Procedure codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/icd-10-procedures"
         )
@@ -3442,18 +3512,13 @@ public class Claim extends DomainResource {
         @ReferenceTarget({ "Device" })
         private final List<Reference> udi;
 
-        private volatile int hashCode;
-
         private Procedure(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            sequence = builder.sequence;
+            type = Collections.unmodifiableList(builder.type);
             date = builder.date;
-            procedure = ValidationSupport.requireChoiceElement(builder.procedure, "procedure", CodeableConcept.class, Reference.class);
-            udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
-            ValidationSupport.checkReferenceType(procedure, "procedure", "Procedure");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            procedure = builder.procedure;
+            udi = Collections.unmodifiableList(builder.udi);
         }
 
         /**
@@ -3847,7 +3912,22 @@ public class Claim extends DomainResource {
              */
             @Override
             public Procedure build() {
-                return new Procedure(this);
+                Procedure procedure = new Procedure(this);
+                if (validating) {
+                    validate(procedure);
+                }
+                return procedure;
+            }
+
+            protected void validate(Procedure procedure) {
+                super.validate(procedure);
+                ValidationSupport.requireNonNull(procedure.sequence, "sequence");
+                ValidationSupport.checkList(procedure.type, "type", CodeableConcept.class);
+                ValidationSupport.requireChoiceElement(procedure.procedure, "procedure", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(procedure.udi, "udi", Reference.class);
+                ValidationSupport.checkReferenceType(procedure.procedure, "procedure", "Procedure");
+                ValidationSupport.checkReferenceType(procedure.udi, "udi", "Device");
+                ValidationSupport.requireValueOrChildren(procedure);
             }
 
             protected Builder from(Procedure procedure) {
@@ -3882,20 +3962,15 @@ public class Claim extends DomainResource {
         @ReferenceTarget({ "ClaimResponse" })
         private final Reference claimResponse;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            focal = ValidationSupport.requireNonNull(builder.focal, "focal");
+            sequence = builder.sequence;
+            focal = builder.focal;
             identifier = builder.identifier;
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             businessArrangement = builder.businessArrangement;
-            preAuthRef = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.preAuthRef, "preAuthRef"));
+            preAuthRef = Collections.unmodifiableList(builder.preAuthRef);
             claimResponse = builder.claimResponse;
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.checkReferenceType(claimResponse, "claimResponse", "ClaimResponse");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4326,7 +4401,22 @@ public class Claim extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.sequence, "sequence");
+                ValidationSupport.requireNonNull(insurance.focal, "focal");
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkList(insurance.preAuthRef, "preAuthRef", String.class);
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.checkReferenceType(insurance.claimResponse, "claimResponse", "ClaimResponse");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -4351,7 +4441,7 @@ public class Claim extends DomainResource {
         private final Date date;
         @Binding(
             bindingName = "AccidentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Type of accident: work place, auto, etc.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActIncidentCode"
         )
@@ -4360,15 +4450,11 @@ public class Claim extends DomainResource {
         @Choice({ Address.class, Reference.class })
         private final Element location;
 
-        private volatile int hashCode;
-
         private Accident(Builder builder) {
             super(builder);
-            date = ValidationSupport.requireNonNull(builder.date, "date");
+            date = builder.date;
             type = builder.type;
-            location = ValidationSupport.choiceElement(builder.location, "location", Address.class, Reference.class);
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            location = builder.location;
         }
 
         /**
@@ -4653,7 +4739,19 @@ public class Claim extends DomainResource {
              */
             @Override
             public Accident build() {
-                return new Accident(this);
+                Accident accident = new Accident(this);
+                if (validating) {
+                    validate(accident);
+                }
+                return accident;
+            }
+
+            protected void validate(Accident accident) {
+                super.validate(accident);
+                ValidationSupport.requireNonNull(accident.date, "date");
+                ValidationSupport.choiceElement(accident.location, "location", Address.class, Reference.class);
+                ValidationSupport.checkReferenceType(accident.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(accident);
             }
 
             protected Builder from(Accident accident) {
@@ -4679,21 +4777,21 @@ public class Claim extends DomainResource {
         private final List<PositiveInt> informationSequence;
         @Binding(
             bindingName = "RevenueCenter",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for the revenue or cost centers supplying the service and/or products.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
         )
         private final CodeableConcept revenue;
         @Binding(
             bindingName = "BenefitCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Benefit categories such as: oral-basic, major, glasses.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
@@ -4701,14 +4799,14 @@ public class Claim extends DomainResource {
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
         private final List<CodeableConcept> modifier;
         @Binding(
             bindingName = "ProgramCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Program specific reason codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
         )
@@ -4719,7 +4817,7 @@ public class Claim extends DomainResource {
         @Choice({ CodeableConcept.class, Address.class, Reference.class })
         @Binding(
             bindingName = "ServicePlace",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Place of service: pharmacy, school, prison, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-place"
         )
@@ -4732,14 +4830,14 @@ public class Claim extends DomainResource {
         private final List<Reference> udi;
         @Binding(
             bindingName = "OralSites",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the teeth, quadrant, sextant and arch.",
             valueSet = "http://hl7.org/fhir/ValueSet/tooth"
         )
         private final CodeableConcept bodySite;
         @Binding(
             bindingName = "Surface",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The code for the tooth surface and surface combinations.",
             valueSet = "http://hl7.org/fhir/ValueSet/surface"
         )
@@ -4748,35 +4846,29 @@ public class Claim extends DomainResource {
         private final List<Reference> encounter;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            careTeamSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeamSequence, "careTeamSequence"));
-            diagnosisSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosisSequence, "diagnosisSequence"));
-            procedureSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureSequence, "procedureSequence"));
-            informationSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.informationSequence, "informationSequence"));
+            sequence = builder.sequence;
+            careTeamSequence = Collections.unmodifiableList(builder.careTeamSequence);
+            diagnosisSequence = Collections.unmodifiableList(builder.diagnosisSequence);
+            procedureSequence = Collections.unmodifiableList(builder.procedureSequence);
+            informationSequence = Collections.unmodifiableList(builder.informationSequence);
             revenue = builder.revenue;
             category = builder.category;
-            productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-            programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
-            serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-            location = ValidationSupport.choiceElement(builder.location, "location", CodeableConcept.class, Address.class, Reference.class);
+            productOrService = builder.productOrService;
+            modifier = Collections.unmodifiableList(builder.modifier);
+            programCode = Collections.unmodifiableList(builder.programCode);
+            serviced = builder.serviced;
+            location = builder.location;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             factor = builder.factor;
             net = builder.net;
-            udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
+            udi = Collections.unmodifiableList(builder.udi);
             bodySite = builder.bodySite;
-            subSite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subSite, "subSite"));
-            encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.checkReferenceType(udi, "udi", "Device");
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-            ValidationSupport.requireValueOrChildren(this);
+            subSite = Collections.unmodifiableList(builder.subSite);
+            encounter = Collections.unmodifiableList(builder.encounter);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -5817,7 +5909,33 @@ public class Claim extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.sequence, "sequence");
+                ValidationSupport.checkList(item.careTeamSequence, "careTeamSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.diagnosisSequence, "diagnosisSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.procedureSequence, "procedureSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.informationSequence, "informationSequence", PositiveInt.class);
+                ValidationSupport.requireNonNull(item.productOrService, "productOrService");
+                ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(item.programCode, "programCode", CodeableConcept.class);
+                ValidationSupport.choiceElement(item.serviced, "serviced", Date.class, Period.class);
+                ValidationSupport.choiceElement(item.location, "location", CodeableConcept.class, Address.class, Reference.class);
+                ValidationSupport.checkList(item.udi, "udi", Reference.class);
+                ValidationSupport.checkList(item.subSite, "subSite", CodeableConcept.class);
+                ValidationSupport.checkList(item.encounter, "encounter", Reference.class);
+                ValidationSupport.checkList(item.detail, "detail", Detail.class);
+                ValidationSupport.checkReferenceType(item.location, "location", "Location");
+                ValidationSupport.checkReferenceType(item.udi, "udi", "Device");
+                ValidationSupport.checkReferenceType(item.encounter, "encounter", "Encounter");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -5855,21 +5973,21 @@ public class Claim extends DomainResource {
             private final PositiveInt sequence;
             @Binding(
                 bindingName = "RevenueCenter",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the revenue or cost centers supplying the service and/or products.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
             )
             private final CodeableConcept revenue;
             @Binding(
                 bindingName = "BenefitCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Benefit categories such as: oral-basic, major, glasses.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
             )
             private final CodeableConcept category;
             @Binding(
                 bindingName = "ServiceProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowable service and product codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
             )
@@ -5877,14 +5995,14 @@ public class Claim extends DomainResource {
             private final CodeableConcept productOrService;
             @Binding(
                 bindingName = "Modifiers",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                 valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
             )
             private final List<CodeableConcept> modifier;
             @Binding(
                 bindingName = "ProgramCode",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Program specific reason codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
             )
@@ -5897,24 +6015,20 @@ public class Claim extends DomainResource {
             private final List<Reference> udi;
             private final List<SubDetail> subDetail;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                sequence = builder.sequence;
                 revenue = builder.revenue;
                 category = builder.category;
-                productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-                programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
+                productOrService = builder.productOrService;
+                modifier = Collections.unmodifiableList(builder.modifier);
+                programCode = Collections.unmodifiableList(builder.programCode);
                 quantity = builder.quantity;
                 unitPrice = builder.unitPrice;
                 factor = builder.factor;
                 net = builder.net;
-                udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
-                subDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subDetail, "subDetail"));
-                ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                ValidationSupport.requireValueOrChildren(this);
+                udi = Collections.unmodifiableList(builder.udi);
+                subDetail = Collections.unmodifiableList(builder.subDetail);
             }
 
             /**
@@ -6546,7 +6660,23 @@ public class Claim extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.sequence, "sequence");
+                    ValidationSupport.requireNonNull(detail.productOrService, "productOrService");
+                    ValidationSupport.checkList(detail.modifier, "modifier", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.programCode, "programCode", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.udi, "udi", Reference.class);
+                    ValidationSupport.checkList(detail.subDetail, "subDetail", SubDetail.class);
+                    ValidationSupport.checkReferenceType(detail.udi, "udi", "Device");
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {
@@ -6575,21 +6705,21 @@ public class Claim extends DomainResource {
                 private final PositiveInt sequence;
                 @Binding(
                     bindingName = "RevenueCenter",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for the revenue or cost centers supplying the service and/or products.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-revenue-center"
                 )
                 private final CodeableConcept revenue;
                 @Binding(
                     bindingName = "BenefitCategory",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Benefit categories such as: oral-basic, major, glasses.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
                 )
                 private final CodeableConcept category;
                 @Binding(
                     bindingName = "ServiceProduct",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Allowable service and product codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
                 )
@@ -6597,14 +6727,14 @@ public class Claim extends DomainResource {
                 private final CodeableConcept productOrService;
                 @Binding(
                     bindingName = "Modifiers",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
                     valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
                 )
                 private final List<CodeableConcept> modifier;
                 @Binding(
                     bindingName = "ProgramCode",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Program specific reason codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/ex-program-code"
                 )
@@ -6616,23 +6746,19 @@ public class Claim extends DomainResource {
                 @ReferenceTarget({ "Device" })
                 private final List<Reference> udi;
 
-                private volatile int hashCode;
-
                 private SubDetail(Builder builder) {
                     super(builder);
-                    sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
+                    sequence = builder.sequence;
                     revenue = builder.revenue;
                     category = builder.category;
-                    productOrService = ValidationSupport.requireNonNull(builder.productOrService, "productOrService");
-                    modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-                    programCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programCode, "programCode"));
+                    productOrService = builder.productOrService;
+                    modifier = Collections.unmodifiableList(builder.modifier);
+                    programCode = Collections.unmodifiableList(builder.programCode);
                     quantity = builder.quantity;
                     unitPrice = builder.unitPrice;
                     factor = builder.factor;
                     net = builder.net;
-                    udi = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udi, "udi"));
-                    ValidationSupport.checkReferenceType(udi, "udi", "Device");
-                    ValidationSupport.requireValueOrChildren(this);
+                    udi = Collections.unmodifiableList(builder.udi);
                 }
 
                 /**
@@ -7215,7 +7341,22 @@ public class Claim extends DomainResource {
                      */
                     @Override
                     public SubDetail build() {
-                        return new SubDetail(this);
+                        SubDetail subDetail = new SubDetail(this);
+                        if (validating) {
+                            validate(subDetail);
+                        }
+                        return subDetail;
+                    }
+
+                    protected void validate(SubDetail subDetail) {
+                        super.validate(subDetail);
+                        ValidationSupport.requireNonNull(subDetail.sequence, "sequence");
+                        ValidationSupport.requireNonNull(subDetail.productOrService, "productOrService");
+                        ValidationSupport.checkList(subDetail.modifier, "modifier", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.programCode, "programCode", CodeableConcept.class);
+                        ValidationSupport.checkList(subDetail.udi, "udi", Reference.class);
+                        ValidationSupport.checkReferenceType(subDetail.udi, "udi", "Device");
+                        ValidationSupport.requireValueOrChildren(subDetail);
                     }
 
                     protected Builder from(SubDetail subDetail) {

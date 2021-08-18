@@ -167,6 +167,16 @@ public interface IDatabaseTranslator {
     String limit(String arg);
 
     /**
+     * Construct a pagination clause specific to the type of database
+     * @implNote To be deterministic, queries using pagination must include an
+     * ORDER BY clause which is unique.
+     * @param offset the row offset
+     * @param rowsPerPage limit the number of rows returned (from the offset)
+     * @return
+     */
+    String pagination(int offset, int rowsPerPage);
+
+    /**
      * Get the JDBC connection URL based on the properties
      * @param connectionProperties
      * @return

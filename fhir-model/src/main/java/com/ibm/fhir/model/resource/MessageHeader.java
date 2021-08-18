@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ResponseType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -43,14 +45,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The header for a message exchange that is either requesting or responding to an action. The reference(s) that are the 
  * subject of the action as well as other information related to the action are typically transmitted in a bundle in 
  * which the MessageHeader resource instance is the first resource in the bundle.
+ * 
+ * <p>Maturity level: FMM4 (Trial Use)
  */
+@Maturity(
+    level = 4,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MessageHeader extends DomainResource {
     @Summary
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
@@ -76,7 +84,7 @@ public class MessageHeader extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EventReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Reason for event occurrence.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-reason-encounter"
     )
@@ -88,26 +96,19 @@ public class MessageHeader extends DomainResource {
     @Summary
     private final Canonical definition;
 
-    private volatile int hashCode;
-
     private MessageHeader(Builder builder) {
         super(builder);
-        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
-        destination = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.destination, "destination"));
+        event = builder.event;
+        destination = Collections.unmodifiableList(builder.destination);
         sender = builder.sender;
         enterer = builder.enterer;
         author = builder.author;
-        source = ValidationSupport.requireNonNull(builder.source, "source");
+        source = builder.source;
         responsible = builder.responsible;
         reason = builder.reason;
         response = builder.response;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(builder.focus);
         definition = builder.definition;
-        ValidationSupport.checkReferenceType(sender, "sender", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -808,7 +809,23 @@ public class MessageHeader extends DomainResource {
          */
         @Override
         public MessageHeader build() {
-            return new MessageHeader(this);
+            MessageHeader messageHeader = new MessageHeader(this);
+            if (validating) {
+                validate(messageHeader);
+            }
+            return messageHeader;
+        }
+
+        protected void validate(MessageHeader messageHeader) {
+            super.validate(messageHeader);
+            ValidationSupport.requireChoiceElement(messageHeader.event, "event", Coding.class, Uri.class);
+            ValidationSupport.checkList(messageHeader.destination, "destination", Destination.class);
+            ValidationSupport.requireNonNull(messageHeader.source, "source");
+            ValidationSupport.checkList(messageHeader.focus, "focus", Reference.class);
+            ValidationSupport.checkReferenceType(messageHeader.sender, "sender", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(messageHeader.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(messageHeader.author, "author", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(messageHeader.responsible, "responsible", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(MessageHeader messageHeader) {
@@ -844,17 +861,12 @@ public class MessageHeader extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
         private final Reference receiver;
 
-        private volatile int hashCode;
-
         private Destination(Builder builder) {
             super(builder);
             name = builder.name;
             target = builder.target;
-            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
+            endpoint = builder.endpoint;
             receiver = builder.receiver;
-            ValidationSupport.checkReferenceType(target, "target", "Device");
-            ValidationSupport.checkReferenceType(receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1169,7 +1181,19 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Destination build() {
-                return new Destination(this);
+                Destination destination = new Destination(this);
+                if (validating) {
+                    validate(destination);
+                }
+                return destination;
+            }
+
+            protected void validate(Destination destination) {
+                super.validate(destination);
+                ValidationSupport.requireNonNull(destination.endpoint, "endpoint");
+                ValidationSupport.checkReferenceType(destination.target, "target", "Device");
+                ValidationSupport.checkReferenceType(destination.receiver, "receiver", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(destination);
             }
 
             protected Builder from(Destination destination) {
@@ -1199,16 +1223,13 @@ public class MessageHeader extends DomainResource {
         @Required
         private final Url endpoint;
 
-        private volatile int hashCode;
-
         private Source(Builder builder) {
             super(builder);
             name = builder.name;
             software = builder.software;
             version = builder.version;
             contact = builder.contact;
-            endpoint = ValidationSupport.requireNonNull(builder.endpoint, "endpoint");
-            ValidationSupport.requireValueOrChildren(this);
+            endpoint = builder.endpoint;
         }
 
         /**
@@ -1538,7 +1559,17 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Source build() {
-                return new Source(this);
+                Source source = new Source(this);
+                if (validating) {
+                    validate(source);
+                }
+                return source;
+            }
+
+            protected void validate(Source source) {
+                super.validate(source);
+                ValidationSupport.requireNonNull(source.endpoint, "endpoint");
+                ValidationSupport.requireValueOrChildren(source);
             }
 
             protected Builder from(Source source) {
@@ -1563,7 +1594,7 @@ public class MessageHeader extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResponseType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The kind of response to a message.",
             valueSet = "http://hl7.org/fhir/ValueSet/response-code|4.0.1"
         )
@@ -1573,15 +1604,11 @@ public class MessageHeader extends DomainResource {
         @ReferenceTarget({ "OperationOutcome" })
         private final Reference details;
 
-        private volatile int hashCode;
-
         private Response(Builder builder) {
             super(builder);
-            identifier = ValidationSupport.requireNonNull(builder.identifier, "identifier");
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            identifier = builder.identifier;
+            code = builder.code;
             details = builder.details;
-            ValidationSupport.checkReferenceType(details, "details", "OperationOutcome");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1863,7 +1890,19 @@ public class MessageHeader extends DomainResource {
              */
             @Override
             public Response build() {
-                return new Response(this);
+                Response response = new Response(this);
+                if (validating) {
+                    validate(response);
+                }
+                return response;
+            }
+
+            protected void validate(Response response) {
+                super.validate(response);
+                ValidationSupport.requireNonNull(response.identifier, "identifier");
+                ValidationSupport.requireNonNull(response.code, "code");
+                ValidationSupport.checkReferenceType(response.details, "details", "OperationOutcome");
+                ValidationSupport.requireValueOrChildren(response);
             }
 
             protected Builder from(Response response) {

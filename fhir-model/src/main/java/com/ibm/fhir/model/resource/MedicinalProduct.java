@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,12 +33,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Detailed definition of a medicinal product, typically for uses other than direct patient care (e.g. regulatory use).
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProduct extends DomainResource {
     @Summary
@@ -88,37 +96,28 @@ public class MedicinalProduct extends DomainResource {
     @Summary
     private final List<SpecialDesignation> specialDesignation;
 
-    private volatile int hashCode;
-
     private MedicinalProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
         domain = builder.domain;
         combinedPharmaceuticalDoseForm = builder.combinedPharmaceuticalDoseForm;
         legalStatusOfSupply = builder.legalStatusOfSupply;
         additionalMonitoringIndicator = builder.additionalMonitoringIndicator;
-        specialMeasures = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialMeasures, "specialMeasures"));
+        specialMeasures = Collections.unmodifiableList(builder.specialMeasures);
         paediatricUseIndicator = builder.paediatricUseIndicator;
-        productClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.productClassification, "productClassification"));
-        marketingStatus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.marketingStatus, "marketingStatus"));
-        pharmaceuticalProduct = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pharmaceuticalProduct, "pharmaceuticalProduct"));
-        packagedMedicinalProduct = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.packagedMedicinalProduct, "packagedMedicinalProduct"));
-        attachedDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.attachedDocument, "attachedDocument"));
-        masterFile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.masterFile, "masterFile"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        clinicalTrial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clinicalTrial, "clinicalTrial"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.name, "name"));
-        crossReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.crossReference, "crossReference"));
-        manufacturingBusinessOperation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturingBusinessOperation, "manufacturingBusinessOperation"));
-        specialDesignation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialDesignation, "specialDesignation"));
-        ValidationSupport.checkReferenceType(pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
-        ValidationSupport.checkReferenceType(packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
-        ValidationSupport.checkReferenceType(attachedDocument, "attachedDocument", "DocumentReference");
-        ValidationSupport.checkReferenceType(masterFile, "masterFile", "DocumentReference");
-        ValidationSupport.checkReferenceType(contact, "contact", "Organization", "PractitionerRole");
-        ValidationSupport.checkReferenceType(clinicalTrial, "clinicalTrial", "ResearchStudy");
-        ValidationSupport.requireChildren(this);
+        productClassification = Collections.unmodifiableList(builder.productClassification);
+        marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
+        pharmaceuticalProduct = Collections.unmodifiableList(builder.pharmaceuticalProduct);
+        packagedMedicinalProduct = Collections.unmodifiableList(builder.packagedMedicinalProduct);
+        attachedDocument = Collections.unmodifiableList(builder.attachedDocument);
+        masterFile = Collections.unmodifiableList(builder.masterFile);
+        contact = Collections.unmodifiableList(builder.contact);
+        clinicalTrial = Collections.unmodifiableList(builder.clinicalTrial);
+        name = Collections.unmodifiableList(builder.name);
+        crossReference = Collections.unmodifiableList(builder.crossReference);
+        manufacturingBusinessOperation = Collections.unmodifiableList(builder.manufacturingBusinessOperation);
+        specialDesignation = Collections.unmodifiableList(builder.specialDesignation);
     }
 
     /**
@@ -1337,7 +1336,35 @@ public class MedicinalProduct extends DomainResource {
          */
         @Override
         public MedicinalProduct build() {
-            return new MedicinalProduct(this);
+            MedicinalProduct medicinalProduct = new MedicinalProduct(this);
+            if (validating) {
+                validate(medicinalProduct);
+            }
+            return medicinalProduct;
+        }
+
+        protected void validate(MedicinalProduct medicinalProduct) {
+            super.validate(medicinalProduct);
+            ValidationSupport.checkList(medicinalProduct.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicinalProduct.specialMeasures, "specialMeasures", String.class);
+            ValidationSupport.checkList(medicinalProduct.productClassification, "productClassification", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProduct.marketingStatus, "marketingStatus", MarketingStatus.class);
+            ValidationSupport.checkList(medicinalProduct.pharmaceuticalProduct, "pharmaceuticalProduct", Reference.class);
+            ValidationSupport.checkList(medicinalProduct.packagedMedicinalProduct, "packagedMedicinalProduct", Reference.class);
+            ValidationSupport.checkList(medicinalProduct.attachedDocument, "attachedDocument", Reference.class);
+            ValidationSupport.checkList(medicinalProduct.masterFile, "masterFile", Reference.class);
+            ValidationSupport.checkList(medicinalProduct.contact, "contact", Reference.class);
+            ValidationSupport.checkList(medicinalProduct.clinicalTrial, "clinicalTrial", Reference.class);
+            ValidationSupport.checkNonEmptyList(medicinalProduct.name, "name", Name.class);
+            ValidationSupport.checkList(medicinalProduct.crossReference, "crossReference", Identifier.class);
+            ValidationSupport.checkList(medicinalProduct.manufacturingBusinessOperation, "manufacturingBusinessOperation", ManufacturingBusinessOperation.class);
+            ValidationSupport.checkList(medicinalProduct.specialDesignation, "specialDesignation", SpecialDesignation.class);
+            ValidationSupport.checkReferenceType(medicinalProduct.pharmaceuticalProduct, "pharmaceuticalProduct", "MedicinalProductPharmaceutical");
+            ValidationSupport.checkReferenceType(medicinalProduct.packagedMedicinalProduct, "packagedMedicinalProduct", "MedicinalProductPackaged");
+            ValidationSupport.checkReferenceType(medicinalProduct.attachedDocument, "attachedDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProduct.masterFile, "masterFile", "DocumentReference");
+            ValidationSupport.checkReferenceType(medicinalProduct.contact, "contact", "Organization", "PractitionerRole");
+            ValidationSupport.checkReferenceType(medicinalProduct.clinicalTrial, "clinicalTrial", "ResearchStudy");
         }
 
         protected Builder from(MedicinalProduct medicinalProduct) {
@@ -1378,14 +1405,11 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final List<CountryLanguage> countryLanguage;
 
-        private volatile int hashCode;
-
         private Name(Builder builder) {
             super(builder);
-            productName = ValidationSupport.requireNonNull(builder.productName, "productName");
-            namePart = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.namePart, "namePart"));
-            countryLanguage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.countryLanguage, "countryLanguage"));
-            ValidationSupport.requireValueOrChildren(this);
+            productName = builder.productName;
+            namePart = Collections.unmodifiableList(builder.namePart);
+            countryLanguage = Collections.unmodifiableList(builder.countryLanguage);
         }
 
         /**
@@ -1697,7 +1721,19 @@ public class MedicinalProduct extends DomainResource {
              */
             @Override
             public Name build() {
-                return new Name(this);
+                Name name = new Name(this);
+                if (validating) {
+                    validate(name);
+                }
+                return name;
+            }
+
+            protected void validate(Name name) {
+                super.validate(name);
+                ValidationSupport.requireNonNull(name.productName, "productName");
+                ValidationSupport.checkList(name.namePart, "namePart", NamePart.class);
+                ValidationSupport.checkList(name.countryLanguage, "countryLanguage", CountryLanguage.class);
+                ValidationSupport.requireValueOrChildren(name);
             }
 
             protected Builder from(Name name) {
@@ -1720,13 +1756,10 @@ public class MedicinalProduct extends DomainResource {
             @Required
             private final Coding type;
 
-            private volatile int hashCode;
-
             private NamePart(Builder builder) {
                 super(builder);
-                part = ValidationSupport.requireNonNull(builder.part, "part");
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                ValidationSupport.requireValueOrChildren(this);
+                part = builder.part;
+                type = builder.type;
             }
 
             /**
@@ -1972,7 +2005,18 @@ public class MedicinalProduct extends DomainResource {
                  */
                 @Override
                 public NamePart build() {
-                    return new NamePart(this);
+                    NamePart namePart = new NamePart(this);
+                    if (validating) {
+                        validate(namePart);
+                    }
+                    return namePart;
+                }
+
+                protected void validate(NamePart namePart) {
+                    super.validate(namePart);
+                    ValidationSupport.requireNonNull(namePart.part, "part");
+                    ValidationSupport.requireNonNull(namePart.type, "type");
+                    ValidationSupport.requireValueOrChildren(namePart);
                 }
 
                 protected Builder from(NamePart namePart) {
@@ -1997,14 +2041,11 @@ public class MedicinalProduct extends DomainResource {
             @Required
             private final CodeableConcept language;
 
-            private volatile int hashCode;
-
             private CountryLanguage(Builder builder) {
                 super(builder);
-                country = ValidationSupport.requireNonNull(builder.country, "country");
+                country = builder.country;
                 jurisdiction = builder.jurisdiction;
-                language = ValidationSupport.requireNonNull(builder.language, "language");
-                ValidationSupport.requireValueOrChildren(this);
+                language = builder.language;
             }
 
             /**
@@ -2279,7 +2320,18 @@ public class MedicinalProduct extends DomainResource {
                  */
                 @Override
                 public CountryLanguage build() {
-                    return new CountryLanguage(this);
+                    CountryLanguage countryLanguage = new CountryLanguage(this);
+                    if (validating) {
+                        validate(countryLanguage);
+                    }
+                    return countryLanguage;
+                }
+
+                protected void validate(CountryLanguage countryLanguage) {
+                    super.validate(countryLanguage);
+                    ValidationSupport.requireNonNull(countryLanguage.country, "country");
+                    ValidationSupport.requireNonNull(countryLanguage.language, "language");
+                    ValidationSupport.requireValueOrChildren(countryLanguage);
                 }
 
                 protected Builder from(CountryLanguage countryLanguage) {
@@ -2312,19 +2364,14 @@ public class MedicinalProduct extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference regulator;
 
-        private volatile int hashCode;
-
         private ManufacturingBusinessOperation(Builder builder) {
             super(builder);
             operationType = builder.operationType;
             authorisationReferenceNumber = builder.authorisationReferenceNumber;
             effectiveDate = builder.effectiveDate;
             confidentialityIndicator = builder.confidentialityIndicator;
-            manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
+            manufacturer = Collections.unmodifiableList(builder.manufacturer);
             regulator = builder.regulator;
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.checkReferenceType(regulator, "regulator", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2711,7 +2758,19 @@ public class MedicinalProduct extends DomainResource {
              */
             @Override
             public ManufacturingBusinessOperation build() {
-                return new ManufacturingBusinessOperation(this);
+                ManufacturingBusinessOperation manufacturingBusinessOperation = new ManufacturingBusinessOperation(this);
+                if (validating) {
+                    validate(manufacturingBusinessOperation);
+                }
+                return manufacturingBusinessOperation;
+            }
+
+            protected void validate(ManufacturingBusinessOperation manufacturingBusinessOperation) {
+                super.validate(manufacturingBusinessOperation);
+                ValidationSupport.checkList(manufacturingBusinessOperation.manufacturer, "manufacturer", Reference.class);
+                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.manufacturer, "manufacturer", "Organization");
+                ValidationSupport.checkReferenceType(manufacturingBusinessOperation.regulator, "regulator", "Organization");
+                ValidationSupport.requireValueOrChildren(manufacturingBusinessOperation);
             }
 
             protected Builder from(ManufacturingBusinessOperation manufacturingBusinessOperation) {
@@ -2748,19 +2807,15 @@ public class MedicinalProduct extends DomainResource {
         @Summary
         private final CodeableConcept species;
 
-        private volatile int hashCode;
-
         private SpecialDesignation(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+            identifier = Collections.unmodifiableList(builder.identifier);
             type = builder.type;
             intendedUse = builder.intendedUse;
-            indication = ValidationSupport.choiceElement(builder.indication, "indication", CodeableConcept.class, Reference.class);
+            indication = builder.indication;
             status = builder.status;
             date = builder.date;
             species = builder.species;
-            ValidationSupport.checkReferenceType(indication, "indication", "MedicinalProductIndication");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3172,7 +3227,19 @@ public class MedicinalProduct extends DomainResource {
              */
             @Override
             public SpecialDesignation build() {
-                return new SpecialDesignation(this);
+                SpecialDesignation specialDesignation = new SpecialDesignation(this);
+                if (validating) {
+                    validate(specialDesignation);
+                }
+                return specialDesignation;
+            }
+
+            protected void validate(SpecialDesignation specialDesignation) {
+                super.validate(specialDesignation);
+                ValidationSupport.checkList(specialDesignation.identifier, "identifier", Identifier.class);
+                ValidationSupport.choiceElement(specialDesignation.indication, "indication", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(specialDesignation.indication, "indication", "MedicinalProductIndication");
+                ValidationSupport.requireValueOrChildren(specialDesignation);
             }
 
             protected Builder from(SpecialDesignation specialDesignation) {

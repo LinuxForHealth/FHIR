@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,14 +25,14 @@ public class SectionMode extends Code {
      * <p>This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is 
      * tracking changes.
      */
-    public static final SectionMode WORKING = SectionMode.builder().value(ValueSet.WORKING).build();
+    public static final SectionMode WORKING = SectionMode.builder().value(Value.WORKING).build();
 
     /**
      * Snapshot List
      * 
      * <p>This list was prepared as a snapshot. It should not be assumed to be current.
      */
-    public static final SectionMode SNAPSHOT = SectionMode.builder().value(ValueSet.SNAPSHOT).build();
+    public static final SectionMode SNAPSHOT = SectionMode.builder().value(Value.SNAPSHOT).build();
 
     /**
      * Change List
@@ -40,7 +40,7 @@ public class SectionMode extends Code {
      * <p>A point-in-time list that shows what changes have been made or recommended. E.g. a discharge medication list 
      * showing what was added and removed during an encounter.
      */
-    public static final SectionMode CHANGES = SectionMode.builder().value(ValueSet.CHANGES).build();
+    public static final SectionMode CHANGES = SectionMode.builder().value(Value.CHANGES).build();
 
     private volatile int hashCode;
 
@@ -48,14 +48,44 @@ public class SectionMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SectionMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SectionMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SectionMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SectionMode of(ValueSet value) {
+        switch (value) {
+        case WORKING:
+            return WORKING;
+        case SNAPSHOT:
+            return SNAPSHOT;
+        case CHANGES:
+            return CHANGES;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SectionMode objects from a passed enum value.
      */
-    public static SectionMode of(ValueSet value) {
+    public static SectionMode of(Value value) {
         switch (value) {
         case WORKING:
             return WORKING;
@@ -77,7 +107,7 @@ public class SectionMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SectionMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -89,7 +119,7 @@ public class SectionMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +131,7 @@ public class SectionMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -130,11 +160,7 @@ public class SectionMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -163,19 +189,50 @@ public class SectionMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SectionMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public SectionMode build() {
-            return new SectionMode(this);
+            SectionMode sectionMode = new SectionMode(this);
+            if (validating) {
+                validate(sectionMode);
+            }
+            return sectionMode;
+        }
+
+        protected void validate(SectionMode sectionMode) {
+            super.validate(sectionMode);
+        }
+
+        protected Builder from(SectionMode sectionMode) {
+            super.from(sectionMode);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Working List
@@ -215,7 +272,7 @@ public class SectionMode extends Code {
         }
 
         /**
-         * Factory method for creating SectionMode.ValueSet values from a passed string value.
+         * Factory method for creating SectionMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -229,6 +286,71 @@ public class SectionMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Working List
+         * 
+         * <p>This list is the master list, maintained in an ongoing fashion with regular updates as the real world list it is 
+         * tracking changes.
+         */
+        WORKING("working"),
+
+        /**
+         * Snapshot List
+         * 
+         * <p>This list was prepared as a snapshot. It should not be assumed to be current.
+         */
+        SNAPSHOT("snapshot"),
+
+        /**
+         * Change List
+         * 
+         * <p>A point-in-time list that shows what changes have been made or recommended. E.g. a discharge medication list 
+         * showing what was added and removed during an encounter.
+         */
+        CHANGES("changes");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SectionMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding SectionMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "working":
+                return WORKING;
+            case "snapshot":
+                return SNAPSHOT;
+            case "changes":
+                return CHANGES;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

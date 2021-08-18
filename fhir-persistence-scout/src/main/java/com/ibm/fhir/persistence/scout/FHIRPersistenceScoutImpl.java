@@ -1,5 +1,5 @@
 /**
- * (C) Copyright IBM Corp. 2020,2021
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -56,6 +56,7 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.FHIRPersistenceTransaction;
 import com.ibm.fhir.persistence.MultiResourceResult;
+import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.SingleResourceResult;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
@@ -455,7 +456,8 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     }
 
     @Override
-    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, String resourceLogicalId) throws FHIRPersistenceException {
+    public int reindex(FHIRPersistenceContext context, OperationOutcome.Builder oob, java.time.Instant tstamp, List<Long> indexIds,
+        String resourceLogicalId) throws FHIRPersistenceException {
         return 0;
     }
 
@@ -463,6 +465,17 @@ public class FHIRPersistenceScoutImpl implements FHIRPersistence {
     public ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType, java.time.Instant fromLastModified,
         java.time.Instant toLastModified, Function<ResourcePayload, Boolean> process) throws FHIRPersistenceException {
 
+        throw new FHIRPersistenceNotSupportedException("API not supported at this time");
+    }
+
+    @Override
+    public List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName)
+        throws FHIRPersistenceException {
+        throw new FHIRPersistenceNotSupportedException("API not supported at this time");
+    }
+
+    @Override
+    public List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException {
         throw new FHIRPersistenceNotSupportedException("API not supported at this time");
     }
 }

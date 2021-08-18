@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ChargeItemDefinitionPriceComponentType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,13 +51,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The ChargeItemDefinition resource provides the properties that apply to the (billing) codes necessary to calculate 
  * costs and prices. The properties may differ largely depending on type and realm, therefore this resource gives only a 
  * rough structure and requires profiling for each type of billing code system.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "cid-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ChargeItemDefinition"
 )
 @Constraint(
     id = "chargeItemDefinition-1",
@@ -63,6 +72,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ChargeItemDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -85,7 +95,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -106,7 +116,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -119,7 +129,7 @@ public class ChargeItemDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ChargeItemDefinitionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Billing Code defined by this ChargeItemDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/chargeitem-billingcodes"
     )
@@ -129,35 +139,31 @@ public class ChargeItemDefinition extends DomainResource {
     private final List<Applicability> applicability;
     private final List<PropertyGroup> propertyGroup;
 
-    private volatile int hashCode;
-
     private ChargeItemDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         title = builder.title;
-        derivedFromUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFromUri, "derivedFromUri"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        derivedFromUri = Collections.unmodifiableList(builder.derivedFromUri);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
         code = builder.code;
-        instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-        applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
-        propertyGroup = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.propertyGroup, "propertyGroup"));
-        ValidationSupport.checkReferenceType(instance, "instance", "Medication", "Substance", "Device");
-        ValidationSupport.requireChildren(this);
+        instance = Collections.unmodifiableList(builder.instance);
+        applicability = Collections.unmodifiableList(builder.applicability);
+        propertyGroup = Collections.unmodifiableList(builder.propertyGroup);
     }
 
     /**
@@ -1386,7 +1392,28 @@ public class ChargeItemDefinition extends DomainResource {
          */
         @Override
         public ChargeItemDefinition build() {
-            return new ChargeItemDefinition(this);
+            ChargeItemDefinition chargeItemDefinition = new ChargeItemDefinition(this);
+            if (validating) {
+                validate(chargeItemDefinition);
+            }
+            return chargeItemDefinition;
+        }
+
+        protected void validate(ChargeItemDefinition chargeItemDefinition) {
+            super.validate(chargeItemDefinition);
+            ValidationSupport.requireNonNull(chargeItemDefinition.url, "url");
+            ValidationSupport.checkList(chargeItemDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(chargeItemDefinition.derivedFromUri, "derivedFromUri", Uri.class);
+            ValidationSupport.checkList(chargeItemDefinition.partOf, "partOf", Canonical.class);
+            ValidationSupport.checkList(chargeItemDefinition.replaces, "replaces", Canonical.class);
+            ValidationSupport.requireNonNull(chargeItemDefinition.status, "status");
+            ValidationSupport.checkList(chargeItemDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(chargeItemDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(chargeItemDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(chargeItemDefinition.instance, "instance", Reference.class);
+            ValidationSupport.checkList(chargeItemDefinition.applicability, "applicability", Applicability.class);
+            ValidationSupport.checkList(chargeItemDefinition.propertyGroup, "propertyGroup", PropertyGroup.class);
+            ValidationSupport.checkReferenceType(chargeItemDefinition.instance, "instance", "Medication", "Substance", "Device");
         }
 
         protected Builder from(ChargeItemDefinition chargeItemDefinition) {
@@ -1426,14 +1453,11 @@ public class ChargeItemDefinition extends DomainResource {
         private final String language;
         private final String expression;
 
-        private volatile int hashCode;
-
         private Applicability(Builder builder) {
             super(builder);
             description = builder.description;
             language = builder.language;
             expression = builder.expression;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1704,7 +1728,16 @@ public class ChargeItemDefinition extends DomainResource {
              */
             @Override
             public Applicability build() {
-                return new Applicability(this);
+                Applicability applicability = new Applicability(this);
+                if (validating) {
+                    validate(applicability);
+                }
+                return applicability;
+            }
+
+            protected void validate(Applicability applicability) {
+                super.validate(applicability);
+                ValidationSupport.requireValueOrChildren(applicability);
             }
 
             protected Builder from(Applicability applicability) {
@@ -1725,13 +1758,10 @@ public class ChargeItemDefinition extends DomainResource {
         private final List<ChargeItemDefinition.Applicability> applicability;
         private final List<PriceComponent> priceComponent;
 
-        private volatile int hashCode;
-
         private PropertyGroup(Builder builder) {
             super(builder);
-            applicability = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.applicability, "applicability"));
-            priceComponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priceComponent, "priceComponent"));
-            ValidationSupport.requireValueOrChildren(this);
+            applicability = Collections.unmodifiableList(builder.applicability);
+            priceComponent = Collections.unmodifiableList(builder.priceComponent);
         }
 
         /**
@@ -2016,7 +2046,18 @@ public class ChargeItemDefinition extends DomainResource {
              */
             @Override
             public PropertyGroup build() {
-                return new PropertyGroup(this);
+                PropertyGroup propertyGroup = new PropertyGroup(this);
+                if (validating) {
+                    validate(propertyGroup);
+                }
+                return propertyGroup;
+            }
+
+            protected void validate(PropertyGroup propertyGroup) {
+                super.validate(propertyGroup);
+                ValidationSupport.checkList(propertyGroup.applicability, "applicability", ChargeItemDefinition.Applicability.class);
+                ValidationSupport.checkList(propertyGroup.priceComponent, "priceComponent", PriceComponent.class);
+                ValidationSupport.requireValueOrChildren(propertyGroup);
             }
 
             protected Builder from(PropertyGroup propertyGroup) {
@@ -2036,7 +2077,7 @@ public class ChargeItemDefinition extends DomainResource {
         public static class PriceComponent extends BackboneElement {
             @Binding(
                 bindingName = "ChargeItemDefinitionPriceComponentType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Codes indicating the kind of the price component.",
                 valueSet = "http://hl7.org/fhir/ValueSet/invoice-priceComponentType|4.0.1"
             )
@@ -2046,15 +2087,12 @@ public class ChargeItemDefinition extends DomainResource {
             private final Decimal factor;
             private final Money amount;
 
-            private volatile int hashCode;
-
             private PriceComponent(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 code = builder.code;
                 factor = builder.factor;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2357,7 +2395,17 @@ public class ChargeItemDefinition extends DomainResource {
                  */
                 @Override
                 public PriceComponent build() {
-                    return new PriceComponent(this);
+                    PriceComponent priceComponent = new PriceComponent(this);
+                    if (validating) {
+                        validate(priceComponent);
+                    }
+                    return priceComponent;
+                }
+
+                protected void validate(PriceComponent priceComponent) {
+                    super.validate(priceComponent);
+                    ValidationSupport.requireNonNull(priceComponent.type, "type");
+                    ValidationSupport.requireValueOrChildren(priceComponent);
                 }
 
                 protected Builder from(PriceComponent priceComponent) {

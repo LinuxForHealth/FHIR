@@ -1,5 +1,5 @@
 ###############################################################################
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -49,6 +49,26 @@ Write-Host 'Installing fhir server in Integration Tests'
 Write-Host ' - Directory - ' $SIT
 & $SIT\fhir-server-dist\install.bat $SIT
 
+# Create datastores for tenant1
+Write-Host 'Creating datastores for tenant1'
+[string]$SCHEMATOOL = $SIT + '\fhir-server-dist\tools\fhir-persistence-schema-*-cli.jar' | Resolve-Path
+[string]$DB_LOC = $SIT + '\wlp\usr\servers\fhir-server\derby'
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\fhirDB --prop db.create=Y `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\profile --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\reference --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
+  --update-schema
+java -jar $SCHEMATOOL `
+  --db-type derby --prop db.database=${DB_LOC}\study1 --prop db.create=Y `
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource `
+  --update-schema
+
 # If the Config Exists, let's wipe it outfind
 Write-Host 'Copying configuration to install location'
 $RM_ITEM=[string]$SIT + '\wlp\usr\servers\fhir-server\config'
@@ -56,9 +76,18 @@ If ( Test-Path $RM_ITEM ) {
     Write-Host 'Removing -> ' $RM_ITEM
     Remove-Item -path $RM_ITEM -Recurse -Force
 }
+$RM_ITEM2=[string]$SIT + '\wlp\usr\servers\fhir-server\configDropins'
+If ( Test-Path $RM_ITEM2 ) {
+    Write-Host 'Removing -> ' $RM_ITEM2
+    Remove-Item -path $RM_ITEM2 -Recurse -Force
+}
 
 $SERVER_ROOT=[string]$SIT + '\wlp\usr\servers\fhir-server\'
 New-Item -Path $SERVER_ROOT -Name 'config' -ItemType 'directory'
+New-Item -Path $SERVER_ROOT -Name 'configDropins' -ItemType 'directory'
+$CONFIGS_DROPINS=[string]$SERVER_ROOT + 'configDropins\'
+New-Item -Path $CONFIGS_DROPINS -Name 'defaults' -ItemType 'directory'
+New-Item -Path $CONFIGS_DROPINS -Name 'overrides' -ItemType 'directory'
 
 # Copy over the Files for default, tenant1, tenant2
 $DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\config\*'
@@ -68,6 +97,17 @@ Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*'
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
 
+# Only copy over the Derby datasource definition for this instance
+$OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\defaults\datasource.xml'
+$OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\defaults\datasource.xml'
+Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
+$OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\datasource-derby.xml'
+$OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
+Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
+$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\jvm.options'
+$OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\jvm.options'
+Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
+
 Write-Host 'Copying test artifacts to install location'
 $CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-test\target\fhir-operation-test-*-tests.jar'
 $USERLIB_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\userlib'
@@ -76,6 +116,9 @@ $USERLIB_DIR=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server'
 If (!(Test-Path -Path $USERLIB_DIR) ) {
     New-Item -Path $USERLIB_DIR -Name 'userlib' -ItemType 'directory'
 }
+Copy-Item $CP_ITEM -Destination $USERLIB_DST
+
+$CP_ITEM=[string]$DIR_WORKSPACE + '\operation\fhir-operation-term-cache\target\fhir-operation-term-cache-*.jar'
 Copy-Item $CP_ITEM -Destination $USERLIB_DST
 
 # Start up the fhir server

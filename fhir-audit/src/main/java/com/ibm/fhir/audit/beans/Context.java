@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,13 +13,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Map;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
-import javax.json.JsonValue;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+import jakarta.json.JsonValue;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
 
 import com.ibm.fhir.exception.FHIRException;
 
@@ -213,6 +213,10 @@ public class Context {
                         generator.writeEnd();
                     }
 
+                    if (obj.getResourceName() != null) {
+                        generator.write("resource_name", obj.getResourceName());
+                    }
+
                     generator.writeEnd();
                 }
                 o = writer.toString();
@@ -302,6 +306,12 @@ public class Context {
                     builder.batch(b);
                 }
 
+                t = jsonObject.get("resource_name");
+                if (t != null) {
+                    String resourceName = jsonObject.getString("resource_name");
+                    builder.resourceName(resourceName);
+                }
+
                 return builder.build();
             } catch (Exception e) {
                 throw new FHIRException("Problem parsing the Context", e);
@@ -369,6 +379,11 @@ public class Context {
             return this;
         }
 
+        public Builder resourceName(String resourceName) {
+            context.setResourceName(resourceName);
+            return this;
+        }
+
         public Context build() {
             return context;
         }
@@ -376,5 +391,19 @@ public class Context {
 
     public static Builder builder() {
         return new Builder();
+    }
+
+    /**
+     * @return the resourceName
+     */
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    /**
+     * @param resourceName the resourceName to set
+     */
+    public void setResourceName(String resourceName) {
+        this.resourceName = resourceName;
     }
 }

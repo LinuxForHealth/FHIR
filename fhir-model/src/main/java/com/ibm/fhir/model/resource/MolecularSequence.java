@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,33 +39,43 @@ import com.ibm.fhir.model.type.code.OrientationType;
 import com.ibm.fhir.model.type.code.QualityType;
 import com.ibm.fhir.model.type.code.RepositoryType;
 import com.ibm.fhir.model.type.code.SequenceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.StrandType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Raw data describing a biological sequence.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "msq-3",
     level = "Rule",
     location = "(base)",
     description = "Only 0 and 1 are valid for coordinateSystem",
-    expression = "coordinateSystem = 1 or coordinateSystem = 0"
+    expression = "coordinateSystem = 1 or coordinateSystem = 0",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Constraint(
     id = "msq-5",
     level = "Rule",
     location = "MolecularSequence.referenceSeq",
     description = "GenomeBuild and chromosome must be both contained if either one of them is contained",
-    expression = "(chromosome.empty() and genomeBuild.empty()) or (chromosome.exists() and genomeBuild.exists())"
+    expression = "(chromosome.empty() and genomeBuild.empty()) or (chromosome.exists() and genomeBuild.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Constraint(
     id = "msq-6",
     level = "Rule",
     location = "MolecularSequence.referenceSeq",
     description = "Have and only have one of the following elements in referenceSeq : 1. genomeBuild ; 2 referenceSeqId; 3. referenceSeqPointer;  4. referenceSeqString;",
-    expression = "(genomeBuild.count()+referenceSeqId.count()+ referenceSeqPointer.count()+ referenceSeqString.count()) = 1"
+    expression = "(genomeBuild.count()+referenceSeqId.count()+ referenceSeqPointer.count()+ referenceSeqString.count()) = 1",
+    source = "http://hl7.org/fhir/StructureDefinition/MolecularSequence"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MolecularSequence extends DomainResource {
@@ -73,7 +84,7 @@ public class MolecularSequence extends DomainResource {
     @Summary
     @Binding(
         bindingName = "sequenceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Type if a sequence -- DNA, RNA, or amino acid sequence.",
         valueSet = "http://hl7.org/fhir/ValueSet/sequence-type|4.0.1"
     )
@@ -113,32 +124,24 @@ public class MolecularSequence extends DomainResource {
     @Summary
     private final List<StructureVariant> structureVariant;
 
-    private volatile int hashCode;
-
     private MolecularSequence(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
-        coordinateSystem = ValidationSupport.requireNonNull(builder.coordinateSystem, "coordinateSystem");
+        coordinateSystem = builder.coordinateSystem;
         patient = builder.patient;
         specimen = builder.specimen;
         device = builder.device;
         performer = builder.performer;
         quantity = builder.quantity;
         referenceSeq = builder.referenceSeq;
-        variant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variant, "variant"));
+        variant = Collections.unmodifiableList(builder.variant);
         observedSeq = builder.observedSeq;
-        quality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.quality, "quality"));
+        quality = Collections.unmodifiableList(builder.quality);
         readCoverage = builder.readCoverage;
-        repository = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.repository, "repository"));
-        pointer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pointer, "pointer"));
-        structureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structureVariant, "structureVariant"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(device, "device", "Device");
-        ValidationSupport.checkReferenceType(performer, "performer", "Organization");
-        ValidationSupport.checkReferenceType(pointer, "pointer", "MolecularSequence");
-        ValidationSupport.requireChildren(this);
+        repository = Collections.unmodifiableList(builder.repository);
+        pointer = Collections.unmodifiableList(builder.pointer);
+        structureVariant = Collections.unmodifiableList(builder.structureVariant);
     }
 
     /**
@@ -1069,7 +1072,27 @@ public class MolecularSequence extends DomainResource {
          */
         @Override
         public MolecularSequence build() {
-            return new MolecularSequence(this);
+            MolecularSequence molecularSequence = new MolecularSequence(this);
+            if (validating) {
+                validate(molecularSequence);
+            }
+            return molecularSequence;
+        }
+
+        protected void validate(MolecularSequence molecularSequence) {
+            super.validate(molecularSequence);
+            ValidationSupport.checkList(molecularSequence.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(molecularSequence.coordinateSystem, "coordinateSystem");
+            ValidationSupport.checkList(molecularSequence.variant, "variant", Variant.class);
+            ValidationSupport.checkList(molecularSequence.quality, "quality", Quality.class);
+            ValidationSupport.checkList(molecularSequence.repository, "repository", Repository.class);
+            ValidationSupport.checkList(molecularSequence.pointer, "pointer", Reference.class);
+            ValidationSupport.checkList(molecularSequence.structureVariant, "structureVariant", StructureVariant.class);
+            ValidationSupport.checkReferenceType(molecularSequence.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(molecularSequence.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(molecularSequence.device, "device", "Device");
+            ValidationSupport.checkReferenceType(molecularSequence.performer, "performer", "Organization");
+            ValidationSupport.checkReferenceType(molecularSequence.pointer, "pointer", "MolecularSequence");
         }
 
         protected Builder from(MolecularSequence molecularSequence) {
@@ -1101,7 +1124,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "chromosome-human",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Chromosome number for human.",
             valueSet = "http://hl7.org/fhir/ValueSet/chromosome-human"
         )
@@ -1111,7 +1134,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "orientationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for orientation.",
             valueSet = "http://hl7.org/fhir/ValueSet/orientation-type|4.0.1"
         )
@@ -1119,7 +1142,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "sequenceReference",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reference identifier.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-referenceSeq"
         )
@@ -1132,7 +1155,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "strandType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for strand.",
             valueSet = "http://hl7.org/fhir/ValueSet/strand-type|4.0.1"
         )
@@ -1141,8 +1164,6 @@ public class MolecularSequence extends DomainResource {
         private final Integer windowStart;
         @Summary
         private final Integer windowEnd;
-
-        private volatile int hashCode;
 
         private ReferenceSeq(Builder builder) {
             super(builder);
@@ -1155,8 +1176,6 @@ public class MolecularSequence extends DomainResource {
             strand = builder.strand;
             windowStart = builder.windowStart;
             windowEnd = builder.windowEnd;
-            ValidationSupport.checkReferenceType(referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1620,7 +1639,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public ReferenceSeq build() {
-                return new ReferenceSeq(this);
+                ReferenceSeq referenceSeq = new ReferenceSeq(this);
+                if (validating) {
+                    validate(referenceSeq);
+                }
+                return referenceSeq;
+            }
+
+            protected void validate(ReferenceSeq referenceSeq) {
+                super.validate(referenceSeq);
+                ValidationSupport.checkReferenceType(referenceSeq.referenceSeqPointer, "referenceSeqPointer", "MolecularSequence");
+                ValidationSupport.requireValueOrChildren(referenceSeq);
             }
 
             protected Builder from(ReferenceSeq referenceSeq) {
@@ -1660,8 +1689,6 @@ public class MolecularSequence extends DomainResource {
         @ReferenceTarget({ "Observation" })
         private final Reference variantPointer;
 
-        private volatile int hashCode;
-
         private Variant(Builder builder) {
             super(builder);
             start = builder.start;
@@ -1670,8 +1697,6 @@ public class MolecularSequence extends DomainResource {
             referenceAllele = builder.referenceAllele;
             cigar = builder.cigar;
             variantPointer = builder.variantPointer;
-            ValidationSupport.checkReferenceType(variantPointer, "variantPointer", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2052,7 +2077,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Variant build() {
-                return new Variant(this);
+                Variant variant = new Variant(this);
+                if (validating) {
+                    validate(variant);
+                }
+                return variant;
+            }
+
+            protected void validate(Variant variant) {
+                super.validate(variant);
+                ValidationSupport.checkReferenceType(variant.variantPointer, "variantPointer", "Observation");
+                ValidationSupport.requireValueOrChildren(variant);
             }
 
             protected Builder from(Variant variant) {
@@ -2076,7 +2111,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for quality report.",
             valueSet = "http://hl7.org/fhir/ValueSet/quality-type|4.0.1"
         )
@@ -2085,7 +2120,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityStandardSequence",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Reference identifier of the sequence that used to mark the quality of tested samples.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-standardSequence"
         )
@@ -2099,7 +2134,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "qualityMethod",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The method used to evaluate the numerical quality of the observed sequence.",
             valueSet = "http://hl7.org/fhir/ValueSet/sequence-quality-method"
         )
@@ -2123,11 +2158,9 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final Roc roc;
 
-        private volatile int hashCode;
-
         private Quality(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             standardSequence = builder.standardSequence;
             start = builder.start;
             end = builder.end;
@@ -2142,7 +2175,6 @@ public class MolecularSequence extends DomainResource {
             recall = builder.recall;
             fScore = builder.fScore;
             roc = builder.roc;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2784,7 +2816,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Quality build() {
-                return new Quality(this);
+                Quality quality = new Quality(this);
+                if (validating) {
+                    validate(quality);
+                }
+                return quality;
+            }
+
+            protected void validate(Quality quality) {
+                super.validate(quality);
+                ValidationSupport.requireNonNull(quality.type, "type");
+                ValidationSupport.requireValueOrChildren(quality);
             }
 
             protected Builder from(Quality quality) {
@@ -2827,18 +2869,15 @@ public class MolecularSequence extends DomainResource {
             @Summary
             private final List<Decimal> fMeasure;
 
-            private volatile int hashCode;
-
             private Roc(Builder builder) {
                 super(builder);
-                score = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.score, "score"));
-                numTP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numTP, "numTP"));
-                numFP = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFP, "numFP"));
-                numFN = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.numFN, "numFN"));
-                precision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precision, "precision"));
-                sensitivity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sensitivity, "sensitivity"));
-                fMeasure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fMeasure, "fMeasure"));
-                ValidationSupport.requireValueOrChildren(this);
+                score = Collections.unmodifiableList(builder.score);
+                numTP = Collections.unmodifiableList(builder.numTP);
+                numFP = Collections.unmodifiableList(builder.numFP);
+                numFN = Collections.unmodifiableList(builder.numFN);
+                precision = Collections.unmodifiableList(builder.precision);
+                sensitivity = Collections.unmodifiableList(builder.sensitivity);
+                fMeasure = Collections.unmodifiableList(builder.fMeasure);
             }
 
             /**
@@ -3359,7 +3398,23 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Roc build() {
-                    return new Roc(this);
+                    Roc roc = new Roc(this);
+                    if (validating) {
+                        validate(roc);
+                    }
+                    return roc;
+                }
+
+                protected void validate(Roc roc) {
+                    super.validate(roc);
+                    ValidationSupport.checkList(roc.score, "score", Integer.class);
+                    ValidationSupport.checkList(roc.numTP, "numTP", Integer.class);
+                    ValidationSupport.checkList(roc.numFP, "numFP", Integer.class);
+                    ValidationSupport.checkList(roc.numFN, "numFN", Integer.class);
+                    ValidationSupport.checkList(roc.precision, "precision", Decimal.class);
+                    ValidationSupport.checkList(roc.sensitivity, "sensitivity", Decimal.class);
+                    ValidationSupport.checkList(roc.fMeasure, "fMeasure", Decimal.class);
+                    ValidationSupport.requireValueOrChildren(roc);
                 }
 
                 protected Builder from(Roc roc) {
@@ -3385,7 +3440,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "repositoryType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Type for access of external URI.",
             valueSet = "http://hl7.org/fhir/ValueSet/repository-type|4.0.1"
         )
@@ -3402,17 +3457,14 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final String readsetId;
 
-        private volatile int hashCode;
-
         private Repository(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             url = builder.url;
             name = builder.name;
             datasetId = builder.datasetId;
             variantsetId = builder.variantsetId;
             readsetId = builder.readsetId;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3775,7 +3827,17 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public Repository build() {
-                return new Repository(this);
+                Repository repository = new Repository(this);
+                if (validating) {
+                    validate(repository);
+                }
+                return repository;
+            }
+
+            protected void validate(Repository repository) {
+                super.validate(repository);
+                ValidationSupport.requireNonNull(repository.type, "type");
+                ValidationSupport.requireValueOrChildren(repository);
             }
 
             protected Builder from(Repository repository) {
@@ -3798,7 +3860,7 @@ public class MolecularSequence extends DomainResource {
         @Summary
         @Binding(
             bindingName = "LOINC LL379-9 answerlist",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "DNA change type.",
             valueSet = "http://loinc.org/vs/LL379-9|4.0.1"
         )
@@ -3812,8 +3874,6 @@ public class MolecularSequence extends DomainResource {
         @Summary
         private final Inner inner;
 
-        private volatile int hashCode;
-
         private StructureVariant(Builder builder) {
             super(builder);
             variantType = builder.variantType;
@@ -3821,7 +3881,6 @@ public class MolecularSequence extends DomainResource {
             length = builder.length;
             outer = builder.outer;
             inner = builder.inner;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4144,7 +4203,16 @@ public class MolecularSequence extends DomainResource {
              */
             @Override
             public StructureVariant build() {
-                return new StructureVariant(this);
+                StructureVariant structureVariant = new StructureVariant(this);
+                if (validating) {
+                    validate(structureVariant);
+                }
+                return structureVariant;
+            }
+
+            protected void validate(StructureVariant structureVariant) {
+                super.validate(structureVariant);
+                ValidationSupport.requireValueOrChildren(structureVariant);
             }
 
             protected Builder from(StructureVariant structureVariant) {
@@ -4167,13 +4235,10 @@ public class MolecularSequence extends DomainResource {
             @Summary
             private final Integer end;
 
-            private volatile int hashCode;
-
             private Outer(Builder builder) {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4413,7 +4478,16 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Outer build() {
-                    return new Outer(this);
+                    Outer outer = new Outer(this);
+                    if (validating) {
+                        validate(outer);
+                    }
+                    return outer;
+                }
+
+                protected void validate(Outer outer) {
+                    super.validate(outer);
+                    ValidationSupport.requireValueOrChildren(outer);
                 }
 
                 protected Builder from(Outer outer) {
@@ -4434,13 +4508,10 @@ public class MolecularSequence extends DomainResource {
             @Summary
             private final Integer end;
 
-            private volatile int hashCode;
-
             private Inner(Builder builder) {
                 super(builder);
                 start = builder.start;
                 end = builder.end;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4680,7 +4751,16 @@ public class MolecularSequence extends DomainResource {
                  */
                 @Override
                 public Inner build() {
-                    return new Inner(this);
+                    Inner inner = new Inner(this);
+                    if (validating) {
+                        validate(inner);
+                    }
+                    return inner;
+                }
+
+                protected void validate(Inner inner) {
+                    super.validate(inner);
+                    ValidationSupport.requireValueOrChildren(inner);
                 }
 
                 protected Builder from(Inner inner) {

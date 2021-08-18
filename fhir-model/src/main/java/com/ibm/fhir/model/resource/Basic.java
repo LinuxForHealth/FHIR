@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -28,13 +29,20 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Basic is used for handling concepts not yet defined in FHIR, narrative-only resources that don't map to an existing 
  * resource, and custom resources not appropriate for inclusion in the FHIR specification.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Basic extends DomainResource {
     @Summary
@@ -42,7 +50,7 @@ public class Basic extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BasicResourceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for identifying types of resources not yet defined by FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/basic-resource-type"
     )
@@ -56,17 +64,13 @@ public class Basic extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization" })
     private final Reference author;
 
-    private volatile int hashCode;
-
     private Basic(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        code = builder.code;
         subject = builder.subject;
         created = builder.created;
         author = builder.author;
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -535,7 +539,18 @@ public class Basic extends DomainResource {
          */
         @Override
         public Basic build() {
-            return new Basic(this);
+            Basic basic = new Basic(this);
+            if (validating) {
+                validate(basic);
+            }
+            return basic;
+        }
+
+        protected void validate(Basic basic) {
+            super.validate(basic);
+            ValidationSupport.checkList(basic.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(basic.code, "code");
+            ValidationSupport.checkReferenceType(basic.author, "author", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
         }
 
         protected Builder from(Basic basic) {

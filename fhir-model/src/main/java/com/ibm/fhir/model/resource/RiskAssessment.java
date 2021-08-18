@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,25 +39,34 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.RiskAssessmentStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An assessment of the likely outcome(s) for a patient or other subject as well as the likelihood of each outcome.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ras-1",
     level = "Rule",
     location = "RiskAssessment.prediction.probability",
     description = "low and high must be percentages, if present",
-    expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))"
+    expression = "(low.empty() or ((low.code = '%') and (low.system = %ucum))) and (high.empty() or ((high.code = '%') and (high.system = %ucum)))",
+    source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Constraint(
     id = "ras-2",
     level = "Rule",
     location = "RiskAssessment.prediction",
     description = "Must be <= 100",
-    expression = "probability is decimal implies (probability as decimal) <= 100"
+    expression = "probability is decimal implies (probability as decimal) <= 100",
+    source = "http://hl7.org/fhir/StructureDefinition/RiskAssessment"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class RiskAssessment extends DomainResource {
@@ -67,7 +77,7 @@ public class RiskAssessment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RiskAssessmentStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the risk assessment; e.g. preliminary, final, amended, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
@@ -76,7 +86,7 @@ public class RiskAssessment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RiskAssessmentMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The mechanism or algorithm used to make the assessment; e.g. TIMI, PRISM, Cardiff Type 2 diabetes, etc."
     )
     private final CodeableConcept method;
@@ -106,33 +116,25 @@ public class RiskAssessment extends DomainResource {
     private final String mitigation;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private RiskAssessment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         basedOn = builder.basedOn;
         parent = builder.parent;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         method = builder.method;
         code = builder.code;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
+        occurrence = builder.occurrence;
         condition = builder.condition;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        basis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basis, "basis"));
-        prediction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prediction, "prediction"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        basis = Collections.unmodifiableList(builder.basis);
+        prediction = Collections.unmodifiableList(builder.prediction);
         mitigation = builder.mitigation;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(condition, "condition", "Condition");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1091,7 +1093,29 @@ public class RiskAssessment extends DomainResource {
          */
         @Override
         public RiskAssessment build() {
-            return new RiskAssessment(this);
+            RiskAssessment riskAssessment = new RiskAssessment(this);
+            if (validating) {
+                validate(riskAssessment);
+            }
+            return riskAssessment;
+        }
+
+        protected void validate(RiskAssessment riskAssessment) {
+            super.validate(riskAssessment);
+            ValidationSupport.checkList(riskAssessment.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(riskAssessment.status, "status");
+            ValidationSupport.requireNonNull(riskAssessment.subject, "subject");
+            ValidationSupport.choiceElement(riskAssessment.occurrence, "occurrence", DateTime.class, Period.class);
+            ValidationSupport.checkList(riskAssessment.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(riskAssessment.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(riskAssessment.basis, "basis", Reference.class);
+            ValidationSupport.checkList(riskAssessment.prediction, "prediction", Prediction.class);
+            ValidationSupport.checkList(riskAssessment.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(riskAssessment.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(riskAssessment.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(riskAssessment.condition, "condition", "Condition");
+            ValidationSupport.checkReferenceType(riskAssessment.performer, "performer", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(riskAssessment.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(RiskAssessment riskAssessment) {
@@ -1123,7 +1147,7 @@ public class RiskAssessment extends DomainResource {
     public static class Prediction extends BackboneElement {
         @Binding(
             bindingName = "RiskAssessmentOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The condition or other outcome; e.g. death, remission, amputation, infection, etc."
         )
         private final CodeableConcept outcome;
@@ -1131,7 +1155,7 @@ public class RiskAssessment extends DomainResource {
         private final Element probability;
         @Binding(
             bindingName = "RiskAssessmentProbability",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The likelihood of the occurrence of a specified outcome.",
             valueSet = "http://hl7.org/fhir/ValueSet/risk-probability"
         )
@@ -1141,17 +1165,14 @@ public class RiskAssessment extends DomainResource {
         private final Element when;
         private final String rationale;
 
-        private volatile int hashCode;
-
         private Prediction(Builder builder) {
             super(builder);
             outcome = builder.outcome;
-            probability = ValidationSupport.choiceElement(builder.probability, "probability", Decimal.class, Range.class);
+            probability = builder.probability;
             qualitativeRisk = builder.qualitativeRisk;
             relativeRisk = builder.relativeRisk;
-            when = ValidationSupport.choiceElement(builder.when, "when", Period.class, Range.class);
+            when = builder.when;
             rationale = builder.rationale;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1519,7 +1540,18 @@ public class RiskAssessment extends DomainResource {
              */
             @Override
             public Prediction build() {
-                return new Prediction(this);
+                Prediction prediction = new Prediction(this);
+                if (validating) {
+                    validate(prediction);
+                }
+                return prediction;
+            }
+
+            protected void validate(Prediction prediction) {
+                super.validate(prediction);
+                ValidationSupport.choiceElement(prediction.probability, "probability", Decimal.class, Range.class);
+                ValidationSupport.choiceElement(prediction.when, "when", Period.class, Range.class);
+                ValidationSupport.requireValueOrChildren(prediction);
             }
 
             protected Builder from(Prediction prediction) {

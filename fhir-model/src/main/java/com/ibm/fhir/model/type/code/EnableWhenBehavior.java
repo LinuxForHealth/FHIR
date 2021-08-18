@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class EnableWhenBehavior extends Code {
      * 
      * <p>Enable the question when all the enableWhen criteria are satisfied.
      */
-    public static final EnableWhenBehavior ALL = EnableWhenBehavior.builder().value(ValueSet.ALL).build();
+    public static final EnableWhenBehavior ALL = EnableWhenBehavior.builder().value(Value.ALL).build();
 
     /**
      * Any
      * 
      * <p>Enable the question when any of the enableWhen criteria are satisfied.
      */
-    public static final EnableWhenBehavior ANY = EnableWhenBehavior.builder().value(ValueSet.ANY).build();
+    public static final EnableWhenBehavior ANY = EnableWhenBehavior.builder().value(Value.ANY).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class EnableWhenBehavior extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EnableWhenBehavior as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EnableWhenBehavior as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EnableWhenBehavior objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EnableWhenBehavior of(ValueSet value) {
+        switch (value) {
+        case ALL:
+            return ALL;
+        case ANY:
+            return ANY;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EnableWhenBehavior objects from a passed enum value.
      */
-    public static EnableWhenBehavior of(ValueSet value) {
+    public static EnableWhenBehavior of(Value value) {
         switch (value) {
         case ALL:
             return ALL;
@@ -66,7 +94,7 @@ public class EnableWhenBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EnableWhenBehavior of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class EnableWhenBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class EnableWhenBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class EnableWhenBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class EnableWhenBehavior extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EnableWhenBehavior
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public EnableWhenBehavior build() {
-            return new EnableWhenBehavior(this);
+            EnableWhenBehavior enableWhenBehavior = new EnableWhenBehavior(this);
+            if (validating) {
+                validate(enableWhenBehavior);
+            }
+            return enableWhenBehavior;
+        }
+
+        protected void validate(EnableWhenBehavior enableWhenBehavior) {
+            super.validate(enableWhenBehavior);
+        }
+
+        protected Builder from(EnableWhenBehavior enableWhenBehavior) {
+            super.from(enableWhenBehavior);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * All
@@ -195,7 +250,7 @@ public class EnableWhenBehavior extends Code {
         }
 
         /**
-         * Factory method for creating EnableWhenBehavior.ValueSet values from a passed string value.
+         * Factory method for creating EnableWhenBehavior.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class EnableWhenBehavior extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * All
+         * 
+         * <p>Enable the question when all the enableWhen criteria are satisfied.
+         */
+        ALL("all"),
+
+        /**
+         * Any
+         * 
+         * <p>Enable the question when any of the enableWhen criteria are satisfied.
+         */
+        ANY("any");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EnableWhenBehavior.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EnableWhenBehavior.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "all":
+                return ALL;
+            case "any":
+                return ANY;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

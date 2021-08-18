@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -51,18 +52,26 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ContractPublicationStatus;
 import com.ibm.fhir.model.type.code.ContractStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Legally enforceable, formally recorded unilateral or bilateral directive i.e., a policy or agreement.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "contract-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contract-legalstate",
     expression = "legalState.exists() implies (legalState.memberOf('http://hl7.org/fhir/ValueSet/contract-legalstate', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Contract",
     generated = true
 )
 @Constraint(
@@ -71,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "term.offer.decision",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActConsentDirective",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActConsentDirective', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Contract",
     generated = true
 )
 @Constraint(
@@ -79,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "term.asset.relationship",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-content-class",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Contract",
     generated = true
 )
 @Constraint(
@@ -87,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "signer.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/contract-signer-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contract-signer-type', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Contract",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -99,14 +111,14 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-status|4.0.1"
     )
     private final ContractStatus status;
     @Binding(
         bindingName = "ContractLegalState",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Detailed codes for the legal state of a contract.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-legalstate"
     )
@@ -116,7 +128,7 @@ public class Contract extends DomainResource {
     private final Uri instantiatesUri;
     @Binding(
         bindingName = "ContractContentDerivative",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "This is an example set of Content Derivative type codes, which represent the minimal content derived from the basal information source.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-content-derivative"
     )
@@ -127,7 +139,7 @@ public class Contract extends DomainResource {
     private final Period applies;
     @Binding(
         bindingName = "ContractExpiration",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the Cessation of Contracts.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-expiration-type"
     )
@@ -150,7 +162,7 @@ public class Contract extends DomainResource {
     private final Reference author;
     @Binding(
         bindingName = "ContractScope",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the range of legal concerns.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-scope"
     )
@@ -160,7 +172,7 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "List of overall contract codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-type"
     )
@@ -168,7 +180,7 @@ public class Contract extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ContractSubtype",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed codes within the above.",
         valueSet = "http://hl7.org/fhir/ValueSet/contract-subtype"
     )
@@ -186,11 +198,9 @@ public class Contract extends DomainResource {
     @Choice({ Attachment.class, Reference.class })
     private final Element legallyBinding;
 
-    private volatile int hashCode;
-
     private Contract(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         url = builder.url;
         version = builder.version;
         status = builder.status;
@@ -201,36 +211,28 @@ public class Contract extends DomainResource {
         issued = builder.issued;
         applies = builder.applies;
         expirationType = builder.expirationType;
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
-        authority = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authority, "authority"));
-        domain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.domain, "domain"));
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        subject = Collections.unmodifiableList(builder.subject);
+        authority = Collections.unmodifiableList(builder.authority);
+        domain = Collections.unmodifiableList(builder.domain);
+        site = Collections.unmodifiableList(builder.site);
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(builder.alias);
         author = builder.author;
         scope = builder.scope;
-        topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
+        topic = builder.topic;
         type = builder.type;
-        subType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subType, "subType"));
+        subType = Collections.unmodifiableList(builder.subType);
         contentDefinition = builder.contentDefinition;
-        term = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.term, "term"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        signer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.signer, "signer"));
-        friendly = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.friendly, "friendly"));
-        legal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.legal, "legal"));
-        rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
-        legallyBinding = ValidationSupport.choiceElement(builder.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
-        ValidationSupport.checkReferenceType(instantiatesCanonical, "instantiatesCanonical", "Contract");
-        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.checkReferenceType(domain, "domain", "Location");
-        ValidationSupport.checkReferenceType(site, "site", "Location");
-        ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.checkReferenceType(legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
-        ValidationSupport.requireChildren(this);
+        term = Collections.unmodifiableList(builder.term);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
+        signer = Collections.unmodifiableList(builder.signer);
+        friendly = Collections.unmodifiableList(builder.friendly);
+        legal = Collections.unmodifiableList(builder.legal);
+        rule = Collections.unmodifiableList(builder.rule);
+        legallyBinding = builder.legallyBinding;
     }
 
     /**
@@ -1891,7 +1893,38 @@ public class Contract extends DomainResource {
          */
         @Override
         public Contract build() {
-            return new Contract(this);
+            Contract contract = new Contract(this);
+            if (validating) {
+                validate(contract);
+            }
+            return contract;
+        }
+
+        protected void validate(Contract contract) {
+            super.validate(contract);
+            ValidationSupport.checkList(contract.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(contract.subject, "subject", Reference.class);
+            ValidationSupport.checkList(contract.authority, "authority", Reference.class);
+            ValidationSupport.checkList(contract.domain, "domain", Reference.class);
+            ValidationSupport.checkList(contract.site, "site", Reference.class);
+            ValidationSupport.checkList(contract.alias, "alias", String.class);
+            ValidationSupport.choiceElement(contract.topic, "topic", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(contract.subType, "subType", CodeableConcept.class);
+            ValidationSupport.checkList(contract.term, "term", Term.class);
+            ValidationSupport.checkList(contract.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(contract.relevantHistory, "relevantHistory", Reference.class);
+            ValidationSupport.checkList(contract.signer, "signer", Signer.class);
+            ValidationSupport.checkList(contract.friendly, "friendly", Friendly.class);
+            ValidationSupport.checkList(contract.legal, "legal", Legal.class);
+            ValidationSupport.checkList(contract.rule, "rule", Rule.class);
+            ValidationSupport.choiceElement(contract.legallyBinding, "legallyBinding", Attachment.class, Reference.class);
+            ValidationSupport.checkReferenceType(contract.instantiatesCanonical, "instantiatesCanonical", "Contract");
+            ValidationSupport.checkReferenceType(contract.authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(contract.domain, "domain", "Location");
+            ValidationSupport.checkReferenceType(contract.site, "site", "Location");
+            ValidationSupport.checkReferenceType(contract.author, "author", "Patient", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(contract.relevantHistory, "relevantHistory", "Provenance");
+            ValidationSupport.checkReferenceType(contract.legallyBinding, "legallyBinding", "Composition", "DocumentReference", "QuestionnaireResponse", "Contract");
         }
 
         protected Builder from(Contract contract) {
@@ -1940,7 +1973,7 @@ public class Contract extends DomainResource {
     public static class ContentDefinition extends BackboneElement {
         @Binding(
             bindingName = "ContractDefinitionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the definition of contracts.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-type"
         )
@@ -1948,7 +1981,7 @@ public class Contract extends DomainResource {
         private final CodeableConcept type;
         @Binding(
             bindingName = "ContractDefinitionSubtype",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the additional definition of contracts.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-definition-subtype"
         )
@@ -1958,7 +1991,7 @@ public class Contract extends DomainResource {
         private final DateTime publicationDate;
         @Binding(
             bindingName = "ContractPublicationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Status of the publication of contract content.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-publicationstatus|4.0.1"
         )
@@ -1966,18 +1999,14 @@ public class Contract extends DomainResource {
         private final ContractPublicationStatus publicationStatus;
         private final Markdown copyright;
 
-        private volatile int hashCode;
-
         private ContentDefinition(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             subType = builder.subType;
             publisher = builder.publisher;
             publicationDate = builder.publicationDate;
-            publicationStatus = ValidationSupport.requireNonNull(builder.publicationStatus, "publicationStatus");
+            publicationStatus = builder.publicationStatus;
             copyright = builder.copyright;
-            ValidationSupport.checkReferenceType(publisher, "publisher", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2357,7 +2386,19 @@ public class Contract extends DomainResource {
              */
             @Override
             public ContentDefinition build() {
-                return new ContentDefinition(this);
+                ContentDefinition contentDefinition = new ContentDefinition(this);
+                if (validating) {
+                    validate(contentDefinition);
+                }
+                return contentDefinition;
+            }
+
+            protected void validate(ContentDefinition contentDefinition) {
+                super.validate(contentDefinition);
+                ValidationSupport.requireNonNull(contentDefinition.type, "type");
+                ValidationSupport.requireNonNull(contentDefinition.publicationStatus, "publicationStatus");
+                ValidationSupport.checkReferenceType(contentDefinition.publisher, "publisher", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(contentDefinition);
             }
 
             protected Builder from(ContentDefinition contentDefinition) {
@@ -2387,14 +2428,14 @@ public class Contract extends DomainResource {
         private final Element topic;
         @Binding(
             bindingName = "ContractTermType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the types of contract provisions.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-term-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ContractTermSubType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the subtypes of contract provisions.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-term-subtype"
         )
@@ -2408,23 +2449,20 @@ public class Contract extends DomainResource {
         private final List<Action> action;
         private final List<Contract.Term> group;
 
-        private volatile int hashCode;
-
         private Term(Builder builder) {
             super(builder);
             identifier = builder.identifier;
             issued = builder.issued;
             applies = builder.applies;
-            topic = ValidationSupport.choiceElement(builder.topic, "topic", CodeableConcept.class, Reference.class);
+            topic = builder.topic;
             type = builder.type;
             subType = builder.subType;
             text = builder.text;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-            offer = ValidationSupport.requireNonNull(builder.offer, "offer");
-            asset = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.asset, "asset"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
-            ValidationSupport.requireValueOrChildren(this);
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            offer = builder.offer;
+            asset = Collections.unmodifiableList(builder.asset);
+            action = Collections.unmodifiableList(builder.action);
+            group = Collections.unmodifiableList(builder.group);
         }
 
         /**
@@ -3053,7 +3091,22 @@ public class Contract extends DomainResource {
              */
             @Override
             public Term build() {
-                return new Term(this);
+                Term term = new Term(this);
+                if (validating) {
+                    validate(term);
+                }
+                return term;
+            }
+
+            protected void validate(Term term) {
+                super.validate(term);
+                ValidationSupport.choiceElement(term.topic, "topic", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(term.securityLabel, "securityLabel", SecurityLabel.class);
+                ValidationSupport.requireNonNull(term.offer, "offer");
+                ValidationSupport.checkList(term.asset, "asset", Asset.class);
+                ValidationSupport.checkList(term.action, "action", Action.class);
+                ValidationSupport.checkList(term.group, "group", Contract.Term.class);
+                ValidationSupport.requireValueOrChildren(term);
             }
 
             protected Builder from(Term term) {
@@ -3082,7 +3135,7 @@ public class Contract extends DomainResource {
             private final List<UnsignedInt> number;
             @Binding(
                 bindingName = "ContractSecurityClassification",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for confidentiality protection.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-classification"
             )
@@ -3090,28 +3143,25 @@ public class Contract extends DomainResource {
             private final Coding classification;
             @Binding(
                 bindingName = "ContractSecurityCategory",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for policy category.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-category"
             )
             private final List<Coding> category;
             @Binding(
                 bindingName = "ContractSecurityControl",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for handling instructions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-security-control"
             )
             private final List<Coding> control;
 
-            private volatile int hashCode;
-
             private SecurityLabel(Builder builder) {
                 super(builder);
-                number = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.number, "number"));
-                classification = ValidationSupport.requireNonNull(builder.classification, "classification");
-                category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-                control = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.control, "control"));
-                ValidationSupport.requireValueOrChildren(this);
+                number = Collections.unmodifiableList(builder.number);
+                classification = builder.classification;
+                category = Collections.unmodifiableList(builder.category);
+                control = Collections.unmodifiableList(builder.control);
             }
 
             /**
@@ -3477,7 +3527,20 @@ public class Contract extends DomainResource {
                  */
                 @Override
                 public SecurityLabel build() {
-                    return new SecurityLabel(this);
+                    SecurityLabel securityLabel = new SecurityLabel(this);
+                    if (validating) {
+                        validate(securityLabel);
+                    }
+                    return securityLabel;
+                }
+
+                protected void validate(SecurityLabel securityLabel) {
+                    super.validate(securityLabel);
+                    ValidationSupport.checkList(securityLabel.number, "number", UnsignedInt.class);
+                    ValidationSupport.requireNonNull(securityLabel.classification, "classification");
+                    ValidationSupport.checkList(securityLabel.category, "category", Coding.class);
+                    ValidationSupport.checkList(securityLabel.control, "control", Coding.class);
+                    ValidationSupport.requireValueOrChildren(securityLabel);
                 }
 
                 protected Builder from(SecurityLabel securityLabel) {
@@ -3501,21 +3564,21 @@ public class Contract extends DomainResource {
             private final Reference topic;
             @Binding(
                 bindingName = "ContractTermType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the types of contract provisions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-term-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "ContractDecisionType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of decision made by a grantor with respect to an offer made by a grantee.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-ActConsentDirective"
             )
             private final CodeableConcept decision;
             @Binding(
                 bindingName = "ContractDecisionMode",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for conveying a decision.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-decision-mode"
             )
@@ -3525,21 +3588,18 @@ public class Contract extends DomainResource {
             private final List<String> linkId;
             private final List<UnsignedInt> securityLabelNumber;
 
-            private volatile int hashCode;
-
             private Offer(Builder builder) {
                 super(builder);
-                identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-                party = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.party, "party"));
+                identifier = Collections.unmodifiableList(builder.identifier);
+                party = Collections.unmodifiableList(builder.party);
                 topic = builder.topic;
                 type = builder.type;
                 decision = builder.decision;
-                decisionMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.decisionMode, "decisionMode"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
+                decisionMode = Collections.unmodifiableList(builder.decisionMode);
+                answer = Collections.unmodifiableList(builder.answer);
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                ValidationSupport.requireValueOrChildren(this);
+                linkId = Collections.unmodifiableList(builder.linkId);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
             }
 
             /**
@@ -4131,7 +4191,22 @@ public class Contract extends DomainResource {
                  */
                 @Override
                 public Offer build() {
-                    return new Offer(this);
+                    Offer offer = new Offer(this);
+                    if (validating) {
+                        validate(offer);
+                    }
+                    return offer;
+                }
+
+                protected void validate(Offer offer) {
+                    super.validate(offer);
+                    ValidationSupport.checkList(offer.identifier, "identifier", Identifier.class);
+                    ValidationSupport.checkList(offer.party, "party", Party.class);
+                    ValidationSupport.checkList(offer.decisionMode, "decisionMode", CodeableConcept.class);
+                    ValidationSupport.checkList(offer.answer, "answer", Answer.class);
+                    ValidationSupport.checkList(offer.linkId, "linkId", String.class);
+                    ValidationSupport.checkList(offer.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
+                    ValidationSupport.requireValueOrChildren(offer);
                 }
 
                 protected Builder from(Offer offer) {
@@ -4159,21 +4234,17 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 @Binding(
                     bindingName = "ContractPartyRole",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for offer participant roles.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-party-role"
                 )
                 @Required
                 private final CodeableConcept role;
 
-                private volatile int hashCode;
-
                 private Party(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
-                    role = ValidationSupport.requireNonNull(builder.role, "role");
-                    ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
-                    ValidationSupport.requireValueOrChildren(this);
+                    reference = Collections.unmodifiableList(builder.reference);
+                    role = builder.role;
                 }
 
                 /**
@@ -4463,7 +4534,19 @@ public class Contract extends DomainResource {
                      */
                     @Override
                     public Party build() {
-                        return new Party(this);
+                        Party party = new Party(this);
+                        if (validating) {
+                            validate(party);
+                        }
+                        return party;
+                    }
+
+                    protected void validate(Party party) {
+                        super.validate(party);
+                        ValidationSupport.checkNonEmptyList(party.reference, "reference", Reference.class);
+                        ValidationSupport.requireNonNull(party.role, "role");
+                        ValidationSupport.checkReferenceType(party.reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                        ValidationSupport.requireValueOrChildren(party);
                     }
 
                     protected Builder from(Party party) {
@@ -4483,12 +4566,9 @@ public class Contract extends DomainResource {
                 @Required
                 private final Element value;
 
-                private volatile int hashCode;
-
                 private Answer(Builder builder) {
                     super(builder);
-                    value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                    ValidationSupport.requireValueOrChildren(this);
+                    value = builder.value;
                 }
 
                 /**
@@ -4722,7 +4802,17 @@ public class Contract extends DomainResource {
                      */
                     @Override
                     public Answer build() {
-                        return new Answer(this);
+                        Answer answer = new Answer(this);
+                        if (validating) {
+                            validate(answer);
+                        }
+                        return answer;
+                    }
+
+                    protected void validate(Answer answer) {
+                        super.validate(answer);
+                        ValidationSupport.requireChoiceElement(answer.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                        ValidationSupport.requireValueOrChildren(answer);
                     }
 
                     protected Builder from(Answer answer) {
@@ -4740,14 +4830,14 @@ public class Contract extends DomainResource {
         public static class Asset extends BackboneElement {
             @Binding(
                 bindingName = "ContractAssetScope",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for scoping an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assetscope"
             )
             private final CodeableConcept scope;
             @Binding(
                 bindingName = "ContractAssetType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Condes for the type of an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assettype"
             )
@@ -4755,14 +4845,14 @@ public class Contract extends DomainResource {
             private final List<Reference> typeReference;
             @Binding(
                 bindingName = "ContractAssetSubtype",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Condes for the sub-type of an asset.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-assetsubtype"
             )
             private final List<CodeableConcept> subtype;
             @Binding(
                 bindingName = "ConsentContentClass",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The class (type) of information a consent rule covers.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
             )
@@ -4771,7 +4861,7 @@ public class Contract extends DomainResource {
             private final String condition;
             @Binding(
                 bindingName = "AssetAvailabilityType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for asset availability.",
                 valueSet = "http://hl7.org/fhir/ValueSet/asset-availability"
             )
@@ -4784,26 +4874,23 @@ public class Contract extends DomainResource {
             private final List<UnsignedInt> securityLabelNumber;
             private final List<ValuedItem> valuedItem;
 
-            private volatile int hashCode;
-
             private Asset(Builder builder) {
                 super(builder);
                 scope = builder.scope;
-                type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-                typeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.typeReference, "typeReference"));
-                subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+                type = Collections.unmodifiableList(builder.type);
+                typeReference = Collections.unmodifiableList(builder.typeReference);
+                subtype = Collections.unmodifiableList(builder.subtype);
                 relationship = builder.relationship;
-                context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
+                context = Collections.unmodifiableList(builder.context);
                 condition = builder.condition;
-                periodType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.periodType, "periodType"));
-                period = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.period, "period"));
-                usePeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usePeriod, "usePeriod"));
+                periodType = Collections.unmodifiableList(builder.periodType);
+                period = Collections.unmodifiableList(builder.period);
+                usePeriod = Collections.unmodifiableList(builder.usePeriod);
                 text = builder.text;
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                valuedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valuedItem, "valuedItem"));
-                ValidationSupport.requireValueOrChildren(this);
+                linkId = Collections.unmodifiableList(builder.linkId);
+                answer = Collections.unmodifiableList(builder.answer);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
+                valuedItem = Collections.unmodifiableList(builder.valuedItem);
             }
 
             /**
@@ -5640,7 +5727,27 @@ public class Contract extends DomainResource {
                  */
                 @Override
                 public Asset build() {
-                    return new Asset(this);
+                    Asset asset = new Asset(this);
+                    if (validating) {
+                        validate(asset);
+                    }
+                    return asset;
+                }
+
+                protected void validate(Asset asset) {
+                    super.validate(asset);
+                    ValidationSupport.checkList(asset.type, "type", CodeableConcept.class);
+                    ValidationSupport.checkList(asset.typeReference, "typeReference", Reference.class);
+                    ValidationSupport.checkList(asset.subtype, "subtype", CodeableConcept.class);
+                    ValidationSupport.checkList(asset.context, "context", Context.class);
+                    ValidationSupport.checkList(asset.periodType, "periodType", CodeableConcept.class);
+                    ValidationSupport.checkList(asset.period, "period", Period.class);
+                    ValidationSupport.checkList(asset.usePeriod, "usePeriod", Period.class);
+                    ValidationSupport.checkList(asset.linkId, "linkId", String.class);
+                    ValidationSupport.checkList(asset.answer, "answer", Contract.Term.Offer.Answer.class);
+                    ValidationSupport.checkList(asset.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
+                    ValidationSupport.checkList(asset.valuedItem, "valuedItem", ValuedItem.class);
+                    ValidationSupport.requireValueOrChildren(asset);
                 }
 
                 protected Builder from(Asset asset) {
@@ -5671,21 +5778,18 @@ public class Contract extends DomainResource {
                 private final Reference reference;
                 @Binding(
                     bindingName = "ContractAssetContext",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Codes for the context of the asset.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-assetcontext"
                 )
                 private final List<CodeableConcept> code;
                 private final String text;
 
-                private volatile int hashCode;
-
                 private Context(Builder builder) {
                     super(builder);
                     reference = builder.reference;
-                    code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+                    code = Collections.unmodifiableList(builder.code);
                     text = builder.text;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5972,7 +6076,17 @@ public class Contract extends DomainResource {
                      */
                     @Override
                     public Context build() {
-                        return new Context(this);
+                        Context context = new Context(this);
+                        if (validating) {
+                            validate(context);
+                        }
+                        return context;
+                    }
+
+                    protected void validate(Context context) {
+                        super.validate(context);
+                        ValidationSupport.checkList(context.code, "code", CodeableConcept.class);
+                        ValidationSupport.requireValueOrChildren(context);
                     }
 
                     protected Builder from(Context context) {
@@ -6007,11 +6121,9 @@ public class Contract extends DomainResource {
                 private final List<String> linkId;
                 private final List<UnsignedInt> securityLabelNumber;
 
-                private volatile int hashCode;
-
                 private ValuedItem(Builder builder) {
                     super(builder);
-                    entity = ValidationSupport.choiceElement(builder.entity, "entity", CodeableConcept.class, Reference.class);
+                    entity = builder.entity;
                     identifier = builder.identifier;
                     effectiveTime = builder.effectiveTime;
                     quantity = builder.quantity;
@@ -6023,11 +6135,8 @@ public class Contract extends DomainResource {
                     paymentDate = builder.paymentDate;
                     responsible = builder.responsible;
                     recipient = builder.recipient;
-                    linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                    securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                    ValidationSupport.checkReferenceType(responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-                    ValidationSupport.checkReferenceType(recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-                    ValidationSupport.requireValueOrChildren(this);
+                    linkId = Collections.unmodifiableList(builder.linkId);
+                    securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
                 }
 
                 /**
@@ -6690,7 +6799,21 @@ public class Contract extends DomainResource {
                      */
                     @Override
                     public ValuedItem build() {
-                        return new ValuedItem(this);
+                        ValuedItem valuedItem = new ValuedItem(this);
+                        if (validating) {
+                            validate(valuedItem);
+                        }
+                        return valuedItem;
+                    }
+
+                    protected void validate(ValuedItem valuedItem) {
+                        super.validate(valuedItem);
+                        ValidationSupport.choiceElement(valuedItem.entity, "entity", CodeableConcept.class, Reference.class);
+                        ValidationSupport.checkList(valuedItem.linkId, "linkId", String.class);
+                        ValidationSupport.checkList(valuedItem.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
+                        ValidationSupport.checkReferenceType(valuedItem.responsible, "responsible", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                        ValidationSupport.checkReferenceType(valuedItem.recipient, "recipient", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                        ValidationSupport.requireValueOrChildren(valuedItem);
                     }
 
                     protected Builder from(ValuedItem valuedItem) {
@@ -6723,7 +6846,7 @@ public class Contract extends DomainResource {
             private final Boolean doNotPerform;
             @Binding(
                 bindingName = "ContractAction",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-action"
             )
@@ -6732,7 +6855,7 @@ public class Contract extends DomainResource {
             private final List<Subject> subject;
             @Binding(
                 bindingName = "ContractActionReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action reason.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
@@ -6741,7 +6864,7 @@ public class Contract extends DomainResource {
             private final List<String> linkId;
             @Binding(
                 bindingName = "ContractActionStatus",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the status of an term action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/contract-actionstatus"
             )
@@ -6757,14 +6880,14 @@ public class Contract extends DomainResource {
             private final List<String> requesterLinkId;
             @Binding(
                 bindingName = "ContractActionPerformerType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the types of action perfomer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-type"
             )
             private final List<CodeableConcept> performerType;
             @Binding(
                 bindingName = "ContractActionPerformerRole",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the role of the action performer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/provenance-agent-role"
             )
@@ -6774,7 +6897,7 @@ public class Contract extends DomainResource {
             private final List<String> performerLinkId;
             @Binding(
                 bindingName = "ContractActionReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed codes for the contract action reason.",
                 valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
             )
@@ -6786,36 +6909,29 @@ public class Contract extends DomainResource {
             private final List<Annotation> note;
             private final List<UnsignedInt> securityLabelNumber;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 doNotPerform = builder.doNotPerform;
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
-                intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-                linkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkId, "linkId"));
-                status = ValidationSupport.requireNonNull(builder.status, "status");
+                type = builder.type;
+                subject = Collections.unmodifiableList(builder.subject);
+                intent = builder.intent;
+                linkId = Collections.unmodifiableList(builder.linkId);
+                status = builder.status;
                 context = builder.context;
-                contextLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextLinkId, "contextLinkId"));
-                occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-                requester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requester, "requester"));
-                requesterLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requesterLinkId, "requesterLinkId"));
-                performerType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerType, "performerType"));
+                contextLinkId = Collections.unmodifiableList(builder.contextLinkId);
+                occurrence = builder.occurrence;
+                requester = Collections.unmodifiableList(builder.requester);
+                requesterLinkId = Collections.unmodifiableList(builder.requesterLinkId);
+                performerType = Collections.unmodifiableList(builder.performerType);
                 performerRole = builder.performerRole;
                 performer = builder.performer;
-                performerLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performerLinkId, "performerLinkId"));
-                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-                reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-                reasonLinkId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonLinkId, "reasonLinkId"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-                securityLabelNumber = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabelNumber, "securityLabelNumber"));
-                ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-                ValidationSupport.checkReferenceType(requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
-                ValidationSupport.checkReferenceType(performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
-                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse");
-                ValidationSupport.requireValueOrChildren(this);
+                performerLinkId = Collections.unmodifiableList(builder.performerLinkId);
+                reasonCode = Collections.unmodifiableList(builder.reasonCode);
+                reasonReference = Collections.unmodifiableList(builder.reasonReference);
+                reason = Collections.unmodifiableList(builder.reason);
+                reasonLinkId = Collections.unmodifiableList(builder.reasonLinkId);
+                note = Collections.unmodifiableList(builder.note);
+                securityLabelNumber = Collections.unmodifiableList(builder.securityLabelNumber);
             }
 
             /**
@@ -7960,7 +8076,37 @@ public class Contract extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireNonNull(action.type, "type");
+                    ValidationSupport.checkList(action.subject, "subject", Subject.class);
+                    ValidationSupport.requireNonNull(action.intent, "intent");
+                    ValidationSupport.checkList(action.linkId, "linkId", String.class);
+                    ValidationSupport.requireNonNull(action.status, "status");
+                    ValidationSupport.checkList(action.contextLinkId, "contextLinkId", String.class);
+                    ValidationSupport.choiceElement(action.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+                    ValidationSupport.checkList(action.requester, "requester", Reference.class);
+                    ValidationSupport.checkList(action.requesterLinkId, "requesterLinkId", String.class);
+                    ValidationSupport.checkList(action.performerType, "performerType", CodeableConcept.class);
+                    ValidationSupport.checkList(action.performerLinkId, "performerLinkId", String.class);
+                    ValidationSupport.checkList(action.reasonCode, "reasonCode", CodeableConcept.class);
+                    ValidationSupport.checkList(action.reasonReference, "reasonReference", Reference.class);
+                    ValidationSupport.checkList(action.reason, "reason", String.class);
+                    ValidationSupport.checkList(action.reasonLinkId, "reasonLinkId", String.class);
+                    ValidationSupport.checkList(action.note, "note", Annotation.class);
+                    ValidationSupport.checkList(action.securityLabelNumber, "securityLabelNumber", UnsignedInt.class);
+                    ValidationSupport.checkReferenceType(action.context, "context", "Encounter", "EpisodeOfCare");
+                    ValidationSupport.checkReferenceType(action.requester, "requester", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                    ValidationSupport.checkReferenceType(action.performer, "performer", "RelatedPerson", "Patient", "Practitioner", "PractitionerRole", "CareTeam", "Device", "Substance", "Organization", "Location");
+                    ValidationSupport.checkReferenceType(action.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Questionnaire", "QuestionnaireResponse");
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -7999,20 +8145,16 @@ public class Contract extends DomainResource {
                 private final List<Reference> reference;
                 @Binding(
                     bindingName = "ContractActorRole",
-                    strength = BindingStrength.ValueSet.EXAMPLE,
+                    strength = BindingStrength.Value.EXAMPLE,
                     description = "Detailed codes for the contract actor role.",
                     valueSet = "http://hl7.org/fhir/ValueSet/contract-actorrole"
                 )
                 private final CodeableConcept role;
 
-                private volatile int hashCode;
-
                 private Subject(Builder builder) {
                     super(builder);
-                    reference = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.reference, "reference"));
+                    reference = Collections.unmodifiableList(builder.reference);
                     role = builder.role;
-                    ValidationSupport.checkReferenceType(reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -8299,7 +8441,18 @@ public class Contract extends DomainResource {
                      */
                     @Override
                     public Subject build() {
-                        return new Subject(this);
+                        Subject subject = new Subject(this);
+                        if (validating) {
+                            validate(subject);
+                        }
+                        return subject;
+                    }
+
+                    protected void validate(Subject subject) {
+                        super.validate(subject);
+                        ValidationSupport.checkNonEmptyList(subject.reference, "reference", Reference.class);
+                        ValidationSupport.checkReferenceType(subject.reference, "reference", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Device", "Group", "Organization");
+                        ValidationSupport.requireValueOrChildren(subject);
                     }
 
                     protected Builder from(Subject subject) {
@@ -8321,7 +8474,7 @@ public class Contract extends DomainResource {
     public static class Signer extends BackboneElement {
         @Binding(
             bindingName = "ContractSignerType",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "List of parties who may be signing.",
             valueSet = "http://hl7.org/fhir/ValueSet/contract-signer-type"
         )
@@ -8333,15 +8486,11 @@ public class Contract extends DomainResource {
         @Required
         private final List<Signature> signature;
 
-        private volatile int hashCode;
-
         private Signer(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            party = ValidationSupport.requireNonNull(builder.party, "party");
-            signature = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.signature, "signature"));
-            ValidationSupport.checkReferenceType(party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            party = builder.party;
+            signature = Collections.unmodifiableList(builder.signature);
         }
 
         /**
@@ -8650,7 +8799,20 @@ public class Contract extends DomainResource {
              */
             @Override
             public Signer build() {
-                return new Signer(this);
+                Signer signer = new Signer(this);
+                if (validating) {
+                    validate(signer);
+                }
+                return signer;
+            }
+
+            protected void validate(Signer signer) {
+                super.validate(signer);
+                ValidationSupport.requireNonNull(signer.type, "type");
+                ValidationSupport.requireNonNull(signer.party, "party");
+                ValidationSupport.checkNonEmptyList(signer.signature, "signature", Signature.class);
+                ValidationSupport.checkReferenceType(signer.party, "party", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(signer);
             }
 
             protected Builder from(Signer signer) {
@@ -8675,13 +8837,9 @@ public class Contract extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Friendly(Builder builder) {
             super(builder);
-            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
-            ValidationSupport.requireValueOrChildren(this);
+            content = builder.content;
         }
 
         /**
@@ -8910,7 +9068,18 @@ public class Contract extends DomainResource {
              */
             @Override
             public Friendly build() {
-                return new Friendly(this);
+                Friendly friendly = new Friendly(this);
+                if (validating) {
+                    validate(friendly);
+                }
+                return friendly;
+            }
+
+            protected void validate(Friendly friendly) {
+                super.validate(friendly);
+                ValidationSupport.requireChoiceElement(friendly.content, "content", Attachment.class, Reference.class);
+                ValidationSupport.checkReferenceType(friendly.content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
+                ValidationSupport.requireValueOrChildren(friendly);
             }
 
             protected Builder from(Friendly friendly) {
@@ -8930,13 +9099,9 @@ public class Contract extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Legal(Builder builder) {
             super(builder);
-            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            ValidationSupport.checkReferenceType(content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
-            ValidationSupport.requireValueOrChildren(this);
+            content = builder.content;
         }
 
         /**
@@ -9163,7 +9328,18 @@ public class Contract extends DomainResource {
              */
             @Override
             public Legal build() {
-                return new Legal(this);
+                Legal legal = new Legal(this);
+                if (validating) {
+                    validate(legal);
+                }
+                return legal;
+            }
+
+            protected void validate(Legal legal) {
+                super.validate(legal);
+                ValidationSupport.requireChoiceElement(legal.content, "content", Attachment.class, Reference.class);
+                ValidationSupport.checkReferenceType(legal.content, "content", "Composition", "DocumentReference", "QuestionnaireResponse");
+                ValidationSupport.requireValueOrChildren(legal);
             }
 
             protected Builder from(Legal legal) {
@@ -9183,13 +9359,9 @@ public class Contract extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Rule(Builder builder) {
             super(builder);
-            content = ValidationSupport.requireChoiceElement(builder.content, "content", Attachment.class, Reference.class);
-            ValidationSupport.checkReferenceType(content, "content", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            content = builder.content;
         }
 
         /**
@@ -9414,7 +9586,18 @@ public class Contract extends DomainResource {
              */
             @Override
             public Rule build() {
-                return new Rule(this);
+                Rule rule = new Rule(this);
+                if (validating) {
+                    validate(rule);
+                }
+                return rule;
+            }
+
+            protected void validate(Rule rule) {
+                super.validate(rule);
+                ValidationSupport.requireChoiceElement(rule.content, "content", Attachment.class, Reference.class);
+                ValidationSupport.checkReferenceType(rule.content, "content", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(rule);
             }
 
             protected Builder from(Rule rule) {

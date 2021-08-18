@@ -31,7 +31,6 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
 import com.ibm.fhir.path.exception.FHIRPathException;
 import com.ibm.fhir.server.test.FHIRServerTestBase;
-import com.ibm.fhir.server.test.SearchAllTest;
 
 /*
  * This class is not designed to run its own.  The class does the basic lift to check:
@@ -48,6 +47,8 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
     public static final String EXPRESSION_PROFILES = "rest.resource.supportedProfile";
     public static final String EXPRESSION_BUNDLE_IDS = "entry.resource.id";
 
+    private Collection<String> listOfProfiles = null;
+
     /*
      * Each Test asserts the required profiles, and subsequent BeforeClass checks if it's on the server.
      */
@@ -57,6 +58,11 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
      * set the check value, if true, it'll check the tests.
      */
     public abstract void setCheck(Boolean check);
+
+    public void assertBaseBundleNotEmpty(Bundle bundle) {
+        assertNotNull(bundle);
+        assertFalse(bundle.getEntry().isEmpty());
+    }
 
     /**
      * checks that the bundle contains resources with the given ids.
@@ -74,7 +80,7 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
             assertTrue(listOfIds.contains(id));
         }
     }
-    
+
     public static void assertDoesNotContainsIds(Bundle bundle, String... ids) throws FHIRPathException {
         FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         EvaluationContext evaluationContext = new EvaluationContext(bundle);
@@ -91,31 +97,36 @@ public abstract class ProfilesTestBase extends FHIRServerTestBase {
         assertNotNull(response);
         if (expectedStatusCode != response.getStatus()) {
             OperationOutcome operationOutcome = response.getResource(OperationOutcome.class);
-            SearchAllTest.generateOutput(operationOutcome);
+            printOutResource(true, operationOutcome);
         }
         assertEquals(expectedStatusCode, response.getStatus());
     }
-    
+
     public Bundle getEntityWithExtraWork(Response response, String method) throws Exception {
         Bundle responseBundle = response.readEntity(Bundle.class);
         commonWork(responseBundle,method);
         return responseBundle;
     }
-    
+
     public void commonWork(Bundle responseBundle, String method) throws Exception{
         assertNotNull(responseBundle);
         checkForIssuesWithValidation(responseBundle, true, false, false);
     }
 
+    public void grabProfilesFromServerOneTime() throws Exception {
+        if (listOfProfiles == null) {
+            CapabilityStatement conf = retrieveConformanceStatement();
+            FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+            EvaluationContext evaluationContext = new EvaluationContext(conf);
+            // All the possible required profiles
+            Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_PROFILES);
+            listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
+        }
+    }
+
     @BeforeClass
     public void checkProfileExistsOnServer() throws Exception {
-        CapabilityStatement conf = retrieveConformanceStatement();
-        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-        EvaluationContext evaluationContext = new EvaluationContext(conf);
-        // All the possible required profiles
-        Collection<FHIRPathNode> tmpResults = evaluator.evaluate(evaluationContext, EXPRESSION_PROFILES);
-        Collection<String> listOfProfiles = tmpResults.stream().map(x -> x.getValue().asStringValue().string()).collect(Collectors.toList());
-
+        grabProfilesFromServerOneTime();
         List<String> requiredProfiles = getRequiredProfiles();
         Map<String, Integer> checks = requiredProfiles.stream().collect(Collectors.toMap(x -> "" + x, x -> new Integer(0)));
         for (String requiredProfile : requiredProfiles) {

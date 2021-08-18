@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ResearchStudyStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,13 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * of healthcare-related knowledge. This includes studies of safety, efficacy, comparative effectiveness and other 
  * information about medications, devices, therapies and other interventional and investigative techniques. A 
  * ResearchStudy involves the gathering of information about human or animal subjects.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "researchStudy-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/research-study-prim-purp-type",
     expression = "primaryPurposeType.exists() implies (primaryPurposeType.memberOf('http://hl7.org/fhir/ValueSet/research-study-prim-purp-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchStudy",
     generated = true
 )
 @Constraint(
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "location.exists() implies (location.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchStudy",
     generated = true
 )
 @Constraint(
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "objective.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/research-study-objective-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/research-study-objective-type', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchStudy",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -84,7 +95,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes that convey the current status of the research study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-status|4.0.1"
     )
@@ -93,7 +104,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyPrimaryPurposeType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for the main intent of the study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-prim-purp-type"
     )
@@ -101,7 +112,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyPhase",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for the stage in the progression of a therapy from initial experimental use in humans in clinical trials to post-market evaluation.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-phase"
     )
@@ -109,21 +120,21 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes that describe the type of research study.  E.g. Study phase, Interventional/Observational, blinding type, etc."
     )
     private final List<CodeableConcept> category;
     @Summary
     @Binding(
         bindingName = "ResearchStudyFocus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for medications, devices and other interventions."
     )
     private final List<CodeableConcept> focus;
     @Summary
     @Binding(
         bindingName = "ConditionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identification of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -134,14 +145,14 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyKeyword",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Words associated with the study that may be useful in discovery."
     )
     private final List<CodeableConcept> keyword;
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -164,7 +175,7 @@ public class ResearchStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchStudyReasonStopped",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for why the study ended prematurely.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-study-reason-stopped"
     )
@@ -173,41 +184,32 @@ public class ResearchStudy extends DomainResource {
     private final List<Arm> arm;
     private final List<Objective> objective;
 
-    private volatile int hashCode;
-
     private ResearchStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         title = builder.title;
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        protocol = Collections.unmodifiableList(builder.protocol);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
         primaryPurposeType = builder.primaryPurposeType;
         phase = builder.phase;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        category = Collections.unmodifiableList(builder.category);
+        focus = Collections.unmodifiableList(builder.focus);
+        condition = Collections.unmodifiableList(builder.condition);
+        contact = Collections.unmodifiableList(builder.contact);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        keyword = Collections.unmodifiableList(builder.keyword);
+        location = Collections.unmodifiableList(builder.location);
         description = builder.description;
-        enrollment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enrollment, "enrollment"));
+        enrollment = Collections.unmodifiableList(builder.enrollment);
         period = builder.period;
         sponsor = builder.sponsor;
         principalInvestigator = builder.principalInvestigator;
-        site = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.site, "site"));
+        site = Collections.unmodifiableList(builder.site);
         reasonStopped = builder.reasonStopped;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        arm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.arm, "arm"));
-        objective = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.objective, "objective"));
-        ValidationSupport.checkReferenceType(protocol, "protocol", "PlanDefinition");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "ResearchStudy");
-        ValidationSupport.checkReferenceType(enrollment, "enrollment", "Group");
-        ValidationSupport.checkReferenceType(sponsor, "sponsor", "Organization");
-        ValidationSupport.checkReferenceType(principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(site, "site", "Location");
-        ValidationSupport.requireChildren(this);
+        note = Collections.unmodifiableList(builder.note);
+        arm = Collections.unmodifiableList(builder.arm);
+        objective = Collections.unmodifiableList(builder.objective);
     }
 
     /**
@@ -1575,7 +1577,37 @@ public class ResearchStudy extends DomainResource {
          */
         @Override
         public ResearchStudy build() {
-            return new ResearchStudy(this);
+            ResearchStudy researchStudy = new ResearchStudy(this);
+            if (validating) {
+                validate(researchStudy);
+            }
+            return researchStudy;
+        }
+
+        protected void validate(ResearchStudy researchStudy) {
+            super.validate(researchStudy);
+            ValidationSupport.checkList(researchStudy.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(researchStudy.protocol, "protocol", Reference.class);
+            ValidationSupport.checkList(researchStudy.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(researchStudy.status, "status");
+            ValidationSupport.checkList(researchStudy.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.focus, "focus", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.condition, "condition", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchStudy.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchStudy.keyword, "keyword", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.location, "location", CodeableConcept.class);
+            ValidationSupport.checkList(researchStudy.enrollment, "enrollment", Reference.class);
+            ValidationSupport.checkList(researchStudy.site, "site", Reference.class);
+            ValidationSupport.checkList(researchStudy.note, "note", Annotation.class);
+            ValidationSupport.checkList(researchStudy.arm, "arm", Arm.class);
+            ValidationSupport.checkList(researchStudy.objective, "objective", Objective.class);
+            ValidationSupport.checkReferenceType(researchStudy.protocol, "protocol", "PlanDefinition");
+            ValidationSupport.checkReferenceType(researchStudy.partOf, "partOf", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchStudy.enrollment, "enrollment", "Group");
+            ValidationSupport.checkReferenceType(researchStudy.sponsor, "sponsor", "Organization");
+            ValidationSupport.checkReferenceType(researchStudy.principalInvestigator, "principalInvestigator", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(researchStudy.site, "site", "Location");
         }
 
         protected Builder from(ResearchStudy researchStudy) {
@@ -1618,14 +1650,11 @@ public class ResearchStudy extends DomainResource {
         private final CodeableConcept type;
         private final String description;
 
-        private volatile int hashCode;
-
         private Arm(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             type = builder.type;
             description = builder.description;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1897,7 +1926,17 @@ public class ResearchStudy extends DomainResource {
              */
             @Override
             public Arm build() {
-                return new Arm(this);
+                Arm arm = new Arm(this);
+                if (validating) {
+                    validate(arm);
+                }
+                return arm;
+            }
+
+            protected void validate(Arm arm) {
+                super.validate(arm);
+                ValidationSupport.requireNonNull(arm.name, "name");
+                ValidationSupport.requireValueOrChildren(arm);
             }
 
             protected Builder from(Arm arm) {
@@ -1918,19 +1957,16 @@ public class ResearchStudy extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "ResearchStudyObjectiveType",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Codes for the kind of study objective.",
             valueSet = "http://hl7.org/fhir/ValueSet/research-study-objective-type"
         )
         private final CodeableConcept type;
 
-        private volatile int hashCode;
-
         private Objective(Builder builder) {
             super(builder);
             name = builder.name;
             type = builder.type;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2166,7 +2202,16 @@ public class ResearchStudy extends DomainResource {
              */
             @Override
             public Objective build() {
-                return new Objective(this);
+                Objective objective = new Objective(this);
+                if (validating) {
+                    validate(objective);
+                }
+                return objective;
+            }
+
+            protected void validate(Objective objective) {
+                super.validate(objective);
+                ValidationSupport.requireValueOrChildren(objective);
             }
 
             protected Builder from(Objective objective) {

@@ -7,20 +7,33 @@ services:
     volumes:
       - type: bind
         source: ./fhir-server/volumes/config
-        target: /opt/ol/wlp/usr/servers/fhir-server/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
         read_only: true
       - type: bind
         source: ./fhir-server/volumes/overrides
-        target: /opt/ol/wlp/usr/servers/fhir-server/configDropins/overrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
         read_only: true
       - type: bind
         source: ./fhir-server/volumes/userlib
-        target: /opt/ol/wlp/usr/servers/fhir-server/userlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
         read_only: true
+      - type: bind
+        source: ./fhir-server/volumes/bulkdata
+        target: /output/bulkdata
     command: bash -c "
-        dd if=/dev/urandom oflag=direct of=balloon.dat bs=1024k count=200
-        && rm -f balloon.dat && /opt/ol/wlp/bin/server run fhir-server
-      "
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/profile --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/reference --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+          --db-type derby --prop db.database=/output/derby/study1 --prop db.create=Y
+          --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource
+          --update-schema &&
+        /opt/ol/wlp/bin/server run"
     healthcheck:
       start_period: 60s
       interval: 10s
@@ -73,7 +86,7 @@ services:
       command: --config /nats/config-3.conf
       ports:
           - 4224:4222
-  
+
   minio:
     build:
       context: minio

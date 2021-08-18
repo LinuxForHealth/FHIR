@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,7 @@ public abstract class BackboneElement extends Element {
 
     protected BackboneElement(Builder builder) {
         super(builder);
-        modifierExtension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifierExtension, "modifierExtension"));
+        modifierExtension = Collections.unmodifiableList(builder.modifierExtension);
     }
 
     /**
@@ -168,6 +168,11 @@ public abstract class BackboneElement extends Element {
 
         @Override
         public abstract BackboneElement build();
+
+        protected void validate(BackboneElement backboneElement) {
+            super.validate(backboneElement);
+            ValidationSupport.checkList(backboneElement.modifierExtension, "modifierExtension", Extension.class);
+        }
 
         protected Builder from(BackboneElement backboneElement) {
             super.from(backboneElement);

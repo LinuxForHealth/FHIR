@@ -4,10 +4,14 @@
         "core": {
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
+            "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
             "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
+        },
+        "search": {
+            "useStoredCompartmentParam": true
         },
         "security": {
             "cors": true,
@@ -27,9 +31,9 @@
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
                         "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
+                        "launch-standalone",
+                        "client-public",
+                        "client-confidential-symmetric",
                         "permission-offline",
                         "context-standalone-patient",
                         "permission-patient"
@@ -101,9 +105,6 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": true,
-                "enableProxyDatasource": false,
-                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -116,6 +117,7 @@
                 },
                 "_db2sample": {
                     "type": "db2",
+                    "tenantKey": "<the-tenant-key>",
                     "currentSchema": "fhirdata",
                     "hints" : {
                       "search.reopt": "ONCE"
@@ -123,35 +125,84 @@
                 },
                 "_pgsample": {
                     "type": "postgresql",
-                    "currentSchema": "fhirdata"
+                    "currentSchema": "fhirdata",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit": 12,
+                        "join_collapse_limit": 12
+                    }
                 }
             }
         },
         "bulkdata": {
-            "bulkDataBatchJobIdEncryptionKey": "change-password",
-            "applicationName": "fhir-bulkimportexport-webapp",
-            "moduleName": "fhir-bulkimportexport.war",
-            "jobParameters": {
-                "cos.bucket.name": "fhir-r4-connectathon",
-                "cos.location": "us",
-                "cos.endpoint.internal": "fake",
-                "cos.endpoint.external": "fake",
-                "cos.credential.ibm": "N",
-                "cos.access.key": "fake",
-                "cos.secret.key": "fake"
+            "enabled": true,
+            "core": {
+                "api": {
+                    "url": "https://localhost:9443/ibm/api/batch",
+                    "user": "fhiradmin",
+                    "password": "change-password",
+                    "truststore": "resources/security/fhirTrustStore.p12",
+                    "truststorePassword": "change-password", 
+                    "trustAll": true
+                },
+                "cos" : { 
+                    "partUploadTriggerSizeMB": 10,
+                    "objectSizeThresholdMB": 200,
+                    "objectResourceCountThreshold": 200000,
+                    "useServerTruststore": true,
+                    "presignedExpiry": 86400
+                },
+                "file" : { 
+                    "writeTriggerSizeMB": 1,
+                    "sizeThresholdMB": 200,
+                    "resourceCountThreshold": 200000
+                },
+                "pageSize": 100,
+                "batchIdEncryptionKey": "change-password",
+                "maxPartitions": 3, 
+                "maxInputs": 5,
+                "maxChunkReadTime": "90000",
+                "systemExportImpl": "fast",
+                "defaultExportProvider": "default",
+                "defaultImportProvider": "default"
             },
-            "implementation_type": "cos",
-            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
-            "batch-user": "fhiradmin",
-            "batch-user-password": "change-password",
-            "batch-truststore": "resources/security/fhirTrustStore.p12",
-            "batch-truststore-password": "change-password",
-            "isExportPublic": true,
-            "cosFileMaxResources": 200000,
-            "cosFileMaxSize": 209715200,
-            "validBaseUrls": [],
-            "useFhirServerTrustStore": true,
-            "enableParquet": false
+            "storageProviders": {
+                "default" : {
+                    "type": "file",
+                    "_type": "ibm-cos|aws-s3|file|https|azure-blob",
+                    "validBaseUrls": [],
+                    "fileBase": "/output/bulkdata",
+                    "bucketName": "fhir-performance",
+                    "location": "us",
+                    "endpointInternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "endpointExternal": "https://s3.us-east.cloud-object-storage.appdomain.cloud",
+                    "auth" : {
+                        "type": "hmac",
+                        "accessKeyId": "key",
+                        "secretAccessKey": "secret"
+                    },
+                    "_iam_auth" : {
+                        "type": "iam",
+                        "iamApiKey": "apiKey",
+                        "iamResourceInstanceId": "resourceId"
+                    },
+                    "enableParquet": false,
+                    "disableBaseUrlValidation": true,
+                    "disableOperationOutcomes": true,
+                    "duplicationCheck": false, 
+                    "validateResources": false, 
+                    "create": false,
+                    "presigned": true
+                }
+            }
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin",
+                    "FHIRUsers"
+                ]
+            }
         }
     }
 }

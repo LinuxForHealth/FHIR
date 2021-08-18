@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class EligibilityResponsePurpose extends Code {
      * <p>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of 
      * service and/or specifed biling codes are requested.
      */
-    public static final EligibilityResponsePurpose AUTH_REQUIREMENTS = EligibilityResponsePurpose.builder().value(ValueSet.AUTH_REQUIREMENTS).build();
+    public static final EligibilityResponsePurpose AUTH_REQUIREMENTS = EligibilityResponsePurpose.builder().value(Value.AUTH_REQUIREMENTS).build();
 
     /**
      * Coverage benefits
@@ -33,21 +33,21 @@ public class EligibilityResponsePurpose extends Code {
      * <p>The plan benefits and optionally benefits consumed for the listed, or discovered if specified, converages are 
      * requested.
      */
-    public static final EligibilityResponsePurpose BENEFITS = EligibilityResponsePurpose.builder().value(ValueSet.BENEFITS).build();
+    public static final EligibilityResponsePurpose BENEFITS = EligibilityResponsePurpose.builder().value(Value.BENEFITS).build();
 
     /**
      * Coverage Discovery
      * 
      * <p>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.
      */
-    public static final EligibilityResponsePurpose DISCOVERY = EligibilityResponsePurpose.builder().value(ValueSet.DISCOVERY).build();
+    public static final EligibilityResponsePurpose DISCOVERY = EligibilityResponsePurpose.builder().value(Value.DISCOVERY).build();
 
     /**
      * Coverage Validation
      * 
      * <p>A check that the specified coverages are in-force is requested.
      */
-    public static final EligibilityResponsePurpose VALIDATION = EligibilityResponsePurpose.builder().value(ValueSet.VALIDATION).build();
+    public static final EligibilityResponsePurpose VALIDATION = EligibilityResponsePurpose.builder().value(Value.VALIDATION).build();
 
     private volatile int hashCode;
 
@@ -55,14 +55,46 @@ public class EligibilityResponsePurpose extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EligibilityResponsePurpose as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EligibilityResponsePurpose as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EligibilityResponsePurpose objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EligibilityResponsePurpose of(ValueSet value) {
+        switch (value) {
+        case AUTH_REQUIREMENTS:
+            return AUTH_REQUIREMENTS;
+        case BENEFITS:
+            return BENEFITS;
+        case DISCOVERY:
+            return DISCOVERY;
+        case VALIDATION:
+            return VALIDATION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EligibilityResponsePurpose objects from a passed enum value.
      */
-    public static EligibilityResponsePurpose of(ValueSet value) {
+    public static EligibilityResponsePurpose of(Value value) {
         switch (value) {
         case AUTH_REQUIREMENTS:
             return AUTH_REQUIREMENTS;
@@ -86,7 +118,7 @@ public class EligibilityResponsePurpose extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EligibilityResponsePurpose of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -98,7 +130,7 @@ public class EligibilityResponsePurpose extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +142,7 @@ public class EligibilityResponsePurpose extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -139,11 +171,7 @@ public class EligibilityResponsePurpose extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -172,19 +200,50 @@ public class EligibilityResponsePurpose extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EligibilityResponsePurpose
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public EligibilityResponsePurpose build() {
-            return new EligibilityResponsePurpose(this);
+            EligibilityResponsePurpose eligibilityResponsePurpose = new EligibilityResponsePurpose(this);
+            if (validating) {
+                validate(eligibilityResponsePurpose);
+            }
+            return eligibilityResponsePurpose;
+        }
+
+        protected void validate(EligibilityResponsePurpose eligibilityResponsePurpose) {
+            super.validate(eligibilityResponsePurpose);
+        }
+
+        protected Builder from(EligibilityResponsePurpose eligibilityResponsePurpose) {
+            super.from(eligibilityResponsePurpose);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Coverage auth-requirements
@@ -231,7 +290,7 @@ public class EligibilityResponsePurpose extends Code {
         }
 
         /**
-         * Factory method for creating EligibilityResponsePurpose.ValueSet values from a passed string value.
+         * Factory method for creating EligibilityResponsePurpose.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -245,6 +304,80 @@ public class EligibilityResponsePurpose extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Coverage auth-requirements
+         * 
+         * <p>The prior authorization requirements for the listed, or discovered if specified, converages for the categories of 
+         * service and/or specifed biling codes are requested.
+         */
+        AUTH_REQUIREMENTS("auth-requirements"),
+
+        /**
+         * Coverage benefits
+         * 
+         * <p>The plan benefits and optionally benefits consumed for the listed, or discovered if specified, converages are 
+         * requested.
+         */
+        BENEFITS("benefits"),
+
+        /**
+         * Coverage Discovery
+         * 
+         * <p>The insurer is requested to report on any coverages which they are aware of in addition to any specifed.
+         */
+        DISCOVERY("discovery"),
+
+        /**
+         * Coverage Validation
+         * 
+         * <p>A check that the specified coverages are in-force is requested.
+         */
+        VALIDATION("validation");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EligibilityResponsePurpose.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EligibilityResponsePurpose.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "auth-requirements":
+                return AUTH_REQUIREMENTS;
+            case "benefits":
+                return BENEFITS;
+            case "discovery":
+                return DISCOVERY;
+            case "validation":
+                return VALIDATION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

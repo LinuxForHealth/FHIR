@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Annotation;
@@ -33,19 +34,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CareTeamStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The Care Team includes all the people and organizations who plan to participate in the coordination and delivery of 
  * care for a patient.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ctm-1",
     level = "Rule",
     location = "CareTeam.participant",
     description = "CareTeam.participant.onBehalfOf can only be populated when CareTeam.participant.member is a Practitioner",
-    expression = "onBehalfOf.exists() implies (member.resolve().iif(empty(), true, ofType(Practitioner).exists()))"
+    expression = "onBehalfOf.exists() implies (member.resolve().iif(empty(), true, ofType(Practitioner).exists()))",
+    source = "http://hl7.org/fhir/StructureDefinition/CareTeam"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CareTeam extends DomainResource {
@@ -54,7 +63,7 @@ public class CareTeam extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CareTeamStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-status|4.0.1"
     )
@@ -62,7 +71,7 @@ public class CareTeam extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CareTeamCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the type of care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-team-category"
     )
@@ -80,7 +89,7 @@ public class CareTeam extends DomainResource {
     private final List<Participant> participant;
     @Binding(
         bindingName = "CareTeamReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the reason for the care team.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -93,28 +102,21 @@ public class CareTeam extends DomainResource {
     private final List<ContactPoint> telecom;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CareTeam(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         name = builder.name;
         subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        managingOrganization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.managingOrganization, "managingOrganization"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
+        participant = Collections.unmodifiableList(builder.participant);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        managingOrganization = Collections.unmodifiableList(builder.managingOrganization);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -976,7 +978,27 @@ public class CareTeam extends DomainResource {
          */
         @Override
         public CareTeam build() {
-            return new CareTeam(this);
+            CareTeam careTeam = new CareTeam(this);
+            if (validating) {
+                validate(careTeam);
+            }
+            return careTeam;
+        }
+
+        protected void validate(CareTeam careTeam) {
+            super.validate(careTeam);
+            ValidationSupport.checkList(careTeam.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(careTeam.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(careTeam.participant, "participant", Participant.class);
+            ValidationSupport.checkList(careTeam.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(careTeam.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(careTeam.managingOrganization, "managingOrganization", Reference.class);
+            ValidationSupport.checkList(careTeam.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(careTeam.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(careTeam.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(careTeam.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(careTeam.reasonReference, "reasonReference", "Condition");
+            ValidationSupport.checkReferenceType(careTeam.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(CareTeam careTeam) {
@@ -1005,7 +1027,7 @@ public class CareTeam extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CareTeamParticipantRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
         )
@@ -1018,17 +1040,12 @@ public class CareTeam extends DomainResource {
         private final Reference onBehalfOf;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
+            role = Collections.unmodifiableList(builder.role);
             member = builder.member;
             onBehalfOf = builder.onBehalfOf;
             period = builder.period;
-            ValidationSupport.checkReferenceType(member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1360,7 +1377,19 @@ public class CareTeam extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.role, "role", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(participant.member, "member", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Organization", "CareTeam");
+                ValidationSupport.checkReferenceType(participant.onBehalfOf, "onBehalfOf", "Organization");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {

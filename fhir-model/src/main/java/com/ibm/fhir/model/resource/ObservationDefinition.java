@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,19 +38,27 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ObservationDataType;
 import com.ibm.fhir.model.type.code.ObservationRangeCategory;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Set of definitional characteristics for a kind of observation or measurement produced or consumed by an orderable 
  * health care service.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "observationDefinition-0",
     level = "Warning",
     location = "quantitativeDetails.customaryUnit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Constraint(
@@ -58,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "quantitativeDetails.unit",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/ucum-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/ucum-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Constraint(
@@ -66,6 +76,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "qualifiedInterval.context",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ObservationDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -73,7 +84,7 @@ public class ObservationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ObservationCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for high level observation categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
@@ -81,7 +92,7 @@ public class ObservationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ObservationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -91,7 +102,7 @@ public class ObservationDefinition extends DomainResource {
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "ObservationDataType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Permitted data type for observation value.",
         valueSet = "http://hl7.org/fhir/ValueSet/permitted-data-type|4.0.1"
     )
@@ -99,7 +110,7 @@ public class ObservationDefinition extends DomainResource {
     private final Boolean multipleResultsAllowed;
     @Binding(
         bindingName = "ObservationMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Methods for simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
     )
@@ -116,28 +127,21 @@ public class ObservationDefinition extends DomainResource {
     @ReferenceTarget({ "ValueSet" })
     private final Reference criticalCodedValueSet;
 
-    private volatile int hashCode;
-
     private ObservationDefinition(Builder builder) {
         super(builder);
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        permittedDataType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.permittedDataType, "permittedDataType"));
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
+        identifier = Collections.unmodifiableList(builder.identifier);
+        permittedDataType = Collections.unmodifiableList(builder.permittedDataType);
         multipleResultsAllowed = builder.multipleResultsAllowed;
         method = builder.method;
         preferredReportName = builder.preferredReportName;
         quantitativeDetails = builder.quantitativeDetails;
-        qualifiedInterval = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualifiedInterval, "qualifiedInterval"));
+        qualifiedInterval = Collections.unmodifiableList(builder.qualifiedInterval);
         validCodedValueSet = builder.validCodedValueSet;
         normalCodedValueSet = builder.normalCodedValueSet;
         abnormalCodedValueSet = builder.abnormalCodedValueSet;
         criticalCodedValueSet = builder.criticalCodedValueSet;
-        ValidationSupport.checkReferenceType(validCodedValueSet, "validCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(normalCodedValueSet, "normalCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
-        ValidationSupport.checkReferenceType(criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -912,7 +916,24 @@ public class ObservationDefinition extends DomainResource {
          */
         @Override
         public ObservationDefinition build() {
-            return new ObservationDefinition(this);
+            ObservationDefinition observationDefinition = new ObservationDefinition(this);
+            if (validating) {
+                validate(observationDefinition);
+            }
+            return observationDefinition;
+        }
+
+        protected void validate(ObservationDefinition observationDefinition) {
+            super.validate(observationDefinition);
+            ValidationSupport.checkList(observationDefinition.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(observationDefinition.code, "code");
+            ValidationSupport.checkList(observationDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(observationDefinition.permittedDataType, "permittedDataType", ObservationDataType.class);
+            ValidationSupport.checkList(observationDefinition.qualifiedInterval, "qualifiedInterval", QualifiedInterval.class);
+            ValidationSupport.checkReferenceType(observationDefinition.validCodedValueSet, "validCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.normalCodedValueSet, "normalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.abnormalCodedValueSet, "abnormalCodedValueSet", "ValueSet");
+            ValidationSupport.checkReferenceType(observationDefinition.criticalCodedValueSet, "criticalCodedValueSet", "ValueSet");
         }
 
         protected Builder from(ObservationDefinition observationDefinition) {
@@ -940,14 +961,14 @@ public class ObservationDefinition extends DomainResource {
     public static class QuantitativeDetails extends BackboneElement {
         @Binding(
             bindingName = "ObservationUnit",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes identifying units of measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units"
         )
         private final CodeableConcept customaryUnit;
         @Binding(
             bindingName = "ObservationUnit",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes identifying units of measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units"
         )
@@ -955,15 +976,12 @@ public class ObservationDefinition extends DomainResource {
         private final Decimal conversionFactor;
         private final Integer decimalPrecision;
 
-        private volatile int hashCode;
-
         private QuantitativeDetails(Builder builder) {
             super(builder);
             customaryUnit = builder.customaryUnit;
             unit = builder.unit;
             conversionFactor = builder.conversionFactor;
             decimalPrecision = builder.decimalPrecision;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1257,7 +1275,16 @@ public class ObservationDefinition extends DomainResource {
              */
             @Override
             public QuantitativeDetails build() {
-                return new QuantitativeDetails(this);
+                QuantitativeDetails quantitativeDetails = new QuantitativeDetails(this);
+                if (validating) {
+                    validate(quantitativeDetails);
+                }
+                return quantitativeDetails;
+            }
+
+            protected void validate(QuantitativeDetails quantitativeDetails) {
+                super.validate(quantitativeDetails);
+                ValidationSupport.requireValueOrChildren(quantitativeDetails);
             }
 
             protected Builder from(QuantitativeDetails quantitativeDetails) {
@@ -1278,7 +1305,7 @@ public class ObservationDefinition extends DomainResource {
     public static class QualifiedInterval extends BackboneElement {
         @Binding(
             bindingName = "ObservationRangeCategory",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Codes identifying the category of observation range.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-range-category|4.0.1"
         )
@@ -1286,21 +1313,21 @@ public class ObservationDefinition extends DomainResource {
         private final Range range;
         @Binding(
             bindingName = "ObservationRangeMeaning",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code identifying the health context of a range.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-meaning"
         )
         private final CodeableConcept context;
         @Binding(
             bindingName = "ObservationRangeAppliesTo",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes identifying the population the reference range applies to.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
         )
         private final List<CodeableConcept> appliesTo;
         @Binding(
             bindingName = "AdministrativeGender",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
             valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
         )
@@ -1309,19 +1336,16 @@ public class ObservationDefinition extends DomainResource {
         private final Range gestationalAge;
         private final String condition;
 
-        private volatile int hashCode;
-
         private QualifiedInterval(Builder builder) {
             super(builder);
             category = builder.category;
             range = builder.range;
             context = builder.context;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
             gender = builder.gender;
             age = builder.age;
             gestationalAge = builder.gestationalAge;
             condition = builder.condition;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1753,7 +1777,17 @@ public class ObservationDefinition extends DomainResource {
              */
             @Override
             public QualifiedInterval build() {
-                return new QualifiedInterval(this);
+                QualifiedInterval qualifiedInterval = new QualifiedInterval(this);
+                if (validating) {
+                    validate(qualifiedInterval);
+                }
+                return qualifiedInterval;
+            }
+
+            protected void validate(QualifiedInterval qualifiedInterval) {
+                super.validate(qualifiedInterval);
+                ValidationSupport.checkList(qualifiedInterval.appliesTo, "appliesTo", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(qualifiedInterval);
             }
 
             protected Builder from(QualifiedInterval qualifiedInterval) {

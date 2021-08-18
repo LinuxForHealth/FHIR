@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,21 +24,21 @@ public class QualityType extends Code {
      * 
      * <p>INDEL Comparison.
      */
-    public static final QualityType INDEL = QualityType.builder().value(ValueSet.INDEL).build();
+    public static final QualityType INDEL = QualityType.builder().value(Value.INDEL).build();
 
     /**
      * SNP Comparison
      * 
      * <p>SNP Comparison.
      */
-    public static final QualityType SNP = QualityType.builder().value(ValueSet.SNP).build();
+    public static final QualityType SNP = QualityType.builder().value(Value.SNP).build();
 
     /**
      * UNKNOWN Comparison
      * 
      * <p>UNKNOWN Comparison.
      */
-    public static final QualityType UNKNOWN = QualityType.builder().value(ValueSet.UNKNOWN).build();
+    public static final QualityType UNKNOWN = QualityType.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class QualityType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this QualityType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this QualityType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating QualityType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static QualityType of(ValueSet value) {
+        switch (value) {
+        case INDEL:
+            return INDEL;
+        case SNP:
+            return SNP;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating QualityType objects from a passed enum value.
      */
-    public static QualityType of(ValueSet value) {
+    public static QualityType of(Value value) {
         switch (value) {
         case INDEL:
             return INDEL;
@@ -75,7 +105,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static QualityType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class QualityType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -128,11 +158,7 @@ public class QualityType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,19 +187,50 @@ public class QualityType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for QualityType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public QualityType build() {
-            return new QualityType(this);
+            QualityType qualityType = new QualityType(this);
+            if (validating) {
+                validate(qualityType);
+            }
+            return qualityType;
+        }
+
+        protected void validate(QualityType qualityType) {
+            super.validate(qualityType);
+        }
+
+        protected Builder from(QualityType qualityType) {
+            super.from(qualityType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * INDEL Comparison
@@ -211,7 +268,7 @@ public class QualityType extends Code {
         }
 
         /**
-         * Factory method for creating QualityType.ValueSet values from a passed string value.
+         * Factory method for creating QualityType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +282,69 @@ public class QualityType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * INDEL Comparison
+         * 
+         * <p>INDEL Comparison.
+         */
+        INDEL("indel"),
+
+        /**
+         * SNP Comparison
+         * 
+         * <p>SNP Comparison.
+         */
+        SNP("snp"),
+
+        /**
+         * UNKNOWN Comparison
+         * 
+         * <p>UNKNOWN Comparison.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating QualityType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding QualityType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "indel":
+                return INDEL;
+            case "snp":
+                return SNP;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

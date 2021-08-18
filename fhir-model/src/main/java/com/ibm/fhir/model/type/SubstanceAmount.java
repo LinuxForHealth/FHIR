@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,6 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -35,15 +34,12 @@ public class SubstanceAmount extends BackboneElement {
     @Summary
     private final ReferenceRange referenceRange;
 
-    private volatile int hashCode;
-
     private SubstanceAmount(Builder builder) {
         super(builder);
-        amount = ValidationSupport.choiceElement(builder.amount, "amount", Quantity.class, Range.class, String.class);
+        amount = builder.amount;
         amountType = builder.amountType;
         amountText = builder.amountText;
         referenceRange = builder.referenceRange;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -359,7 +355,17 @@ public class SubstanceAmount extends BackboneElement {
          */
         @Override
         public SubstanceAmount build() {
-            return new SubstanceAmount(this);
+            SubstanceAmount substanceAmount = new SubstanceAmount(this);
+            if (validating) {
+                validate(substanceAmount);
+            }
+            return substanceAmount;
+        }
+
+        protected void validate(SubstanceAmount substanceAmount) {
+            super.validate(substanceAmount);
+            ValidationSupport.choiceElement(substanceAmount.amount, "amount", Quantity.class, Range.class, String.class);
+            ValidationSupport.requireValueOrChildren(substanceAmount);
         }
 
         protected Builder from(SubstanceAmount substanceAmount) {
@@ -381,13 +387,10 @@ public class SubstanceAmount extends BackboneElement {
         @Summary
         private final Quantity highLimit;
 
-        private volatile int hashCode;
-
         private ReferenceRange(Builder builder) {
             super(builder);
             lowLimit = builder.lowLimit;
             highLimit = builder.highLimit;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -621,7 +624,16 @@ public class SubstanceAmount extends BackboneElement {
              */
             @Override
             public ReferenceRange build() {
-                return new ReferenceRange(this);
+                ReferenceRange referenceRange = new ReferenceRange(this);
+                if (validating) {
+                    validate(referenceRange);
+                }
+                return referenceRange;
+            }
+
+            protected void validate(ReferenceRange referenceRange) {
+                super.validate(referenceRange);
+                ValidationSupport.requireValueOrChildren(referenceRange);
             }
 
             protected Builder from(ReferenceRange referenceRange) {

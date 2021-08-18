@@ -26,9 +26,9 @@ pull request so it can be tracked.
 
 ### Merge approval
 
-The project maintainers use LGTM (Looks Good To Me) in comments on the code
-review to indicate acceptance. A change requires LGTMs from two of the
-maintainers of each component affected.
+The project maintainers use [GitHub reviews](https://github.com/features/code-review) to indicate acceptance.
+A change requires approval from two of the maintainers of each component affected.
+Sometimes, reviewers will leave a comment "LGTM" to indicate that the change "looks good to me".
 
 For a list of the maintainers, see the [MAINTAINERS.md](MAINTAINERS.md) page.
 
@@ -86,7 +86,7 @@ The IBM FHIR Server has been written by many individuals over many years. Format
 
 2. Use comments. Preferably javadoc.
 
-3. Keep the documentation up-to-date. Project documentation exists under the docs directory. We have a CHANGELOG for tracking user-visible changes, a Conformance page for documenting conformance to the specification, and a User Guide for FHIR Server administrators.
+3. Keep the documentation up-to-date. Project documentation exists under the docs directory. We have a Conformance page for documenting conformance to the specification, a User Guide for FHIR Server administrators, and other guides for select topics of interest. In addition to the project site, we also have README.md files for many of the modules.
 
 4. Use spaces (not tabs) in java source. For this we have a checkstyle rule which will fail the build if you're using tabs. We also prefer spaces over tabs in JSON and XML, but its not strictly enforced.
 

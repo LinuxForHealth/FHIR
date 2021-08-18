@@ -24,8 +24,8 @@ class MovingVisitor<T extends Visitable> extends CopyingVisitor<T> {
      * @param value
      */
     public MovingVisitor(String parentPath, String elementName, int sourceIndex, int targetIndex) {
-        this.parentPath = Objects.requireNonNull(parentPath);
-        this.elementName = Objects.requireNonNull(elementName);
+        this.parentPath = Objects.requireNonNull(parentPath, "parentPath");
+        this.elementName = Objects.requireNonNull(elementName, "elementName");
         this.sourceIndex = sourceIndex;
         this.targetIndex = targetIndex;
     }

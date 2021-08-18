@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -132,7 +132,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
     @Test
     public void testSearchNumber_decimal() throws Exception {
-        // Targeted Value is 99.99
+        // Targeted Value is 99.99, range is 99.985, 99.995
 
         // Range: 98.5, 99.5
         assertSearchDoesntReturnSavedResource("decimal", "99");
@@ -167,7 +167,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         // Range: Not in 99.984985, 99.984995
         assertSearchReturnsSavedResource("decimal", "ne99.98499");
 
-        // Range: 99.85, 99.95
+        // Range: Not in 99.85, 99.95
         assertSearchReturnsSavedResource("decimal", "ne99.9");
 
         // Range: 99.985, 99.995
@@ -214,7 +214,7 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
 
         assertSearchDoesntReturnSavedResource("decimal", "le99");
         assertSearchDoesntReturnSavedResource("decimal", "le99.98499");
-        assertSearchReturnsSavedResource("decimal", "le99.985");
+        assertSearchDoesntReturnSavedResource("decimal", "le99.985");
         assertSearchReturnsSavedResource("decimal", "le99.99");
         assertSearchReturnsSavedResource("decimal", "le9999e-2");
         assertSearchReturnsSavedResource("decimal", "le99.99499");
@@ -227,11 +227,9 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchReturnsSavedResource("decimal", "ge99.99");
         assertSearchReturnsSavedResource("decimal", "ge9999e-2");
         assertSearchReturnsSavedResource("decimal", "ge99.99499");
-        // We need to track whether the high is inclusive or not to get this right
-        // For decimals, the high is exclusive, but for Range the high is inclusive
-//        assertSearchDoesntReturnSavedResource("decimal", "ge99.995");
+        assertSearchDoesntReturnSavedResource("decimal", "ge99.995");
         assertSearchDoesntReturnSavedResource("decimal", "ge99.996");
-        assertSearchDoesntReturnSavedResource("decimal", "ge100");
+        assertSearchReturnsSavedResource("decimal", "ge100");
 
         assertSearchReturnsSavedResource("decimal", "sa99");
         assertSearchReturnsSavedResource("decimal", "sa99.98499");
@@ -248,11 +246,9 @@ public abstract class AbstractSearchNumberTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("decimal", "eb99.99");
         assertSearchDoesntReturnSavedResource("decimal", "eb9999e-2");
         assertSearchDoesntReturnSavedResource("decimal", "eb99.99499");
-        // We need to track whether the high is inclusive or not to get this right
-        // For decimals, the high is exclusive, but for Range the high is inclusive
-//        assertSearchReturnsSavedResource("decimal", "eb99.995");
+        assertSearchDoesntReturnSavedResource("decimal", "eb99.995");
         assertSearchReturnsSavedResource("decimal", "eb99.996");
-        assertSearchReturnsSavedResource("decimal", "eb100");
+        assertSearchDoesntReturnSavedResource("decimal", "eb100");
     }
 
     @Test(expectedExceptions = { FHIRSearchException.class })

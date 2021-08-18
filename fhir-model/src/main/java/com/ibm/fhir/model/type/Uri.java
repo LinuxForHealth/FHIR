@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,13 +21,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Uri extends Element {
     protected final java.lang.String value;
 
-    private volatile int hashCode;
-
     protected Uri(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkUri(value);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -50,11 +46,25 @@ public class Uri extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Uri objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Uri of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uri.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Uri objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Uri.builder().value(value).build();
     }
 
@@ -194,7 +204,17 @@ public class Uri extends Element {
          */
         @Override
         public Uri build() {
-            return new Uri(this);
+            Uri uri = new Uri(this);
+            if (validating) {
+                validate(uri);
+            }
+            return uri;
+        }
+
+        protected void validate(Uri uri) {
+            super.validate(uri);
+            ValidationSupport.checkUri(uri.value);
+            ValidationSupport.requireValueOrChildren(uri);
         }
 
         protected Builder from(Uri uri) {

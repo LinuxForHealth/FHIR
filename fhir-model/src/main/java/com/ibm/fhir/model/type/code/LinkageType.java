@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class LinkageType extends Code {
      * <p>The resource represents the "source of truth" (from the perspective of this Linkage resource) for the underlying 
      * event/condition/etc.
      */
-    public static final LinkageType SOURCE = LinkageType.builder().value(ValueSet.SOURCE).build();
+    public static final LinkageType SOURCE = LinkageType.builder().value(Value.SOURCE).build();
 
     /**
      * Alternate Record
@@ -33,7 +33,7 @@ public class LinkageType extends Code {
      * <p>The resource represents an alternative view of the underlying event/condition/etc. The resource may still be 
      * actively maintained, even though it is not considered to be the source of truth.
      */
-    public static final LinkageType ALTERNATE = LinkageType.builder().value(ValueSet.ALTERNATE).build();
+    public static final LinkageType ALTERNATE = LinkageType.builder().value(Value.ALTERNATE).build();
 
     /**
      * Historical/Obsolete Record
@@ -41,7 +41,7 @@ public class LinkageType extends Code {
      * <p>The resource represents an obsolete record of the underlying event/condition/etc. It is not expected to be actively 
      * maintained.
      */
-    public static final LinkageType HISTORICAL = LinkageType.builder().value(ValueSet.HISTORICAL).build();
+    public static final LinkageType HISTORICAL = LinkageType.builder().value(Value.HISTORICAL).build();
 
     private volatile int hashCode;
 
@@ -49,14 +49,44 @@ public class LinkageType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this LinkageType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this LinkageType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating LinkageType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static LinkageType of(ValueSet value) {
+        switch (value) {
+        case SOURCE:
+            return SOURCE;
+        case ALTERNATE:
+            return ALTERNATE;
+        case HISTORICAL:
+            return HISTORICAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating LinkageType objects from a passed enum value.
      */
-    public static LinkageType of(ValueSet value) {
+    public static LinkageType of(Value value) {
         switch (value) {
         case SOURCE:
             return SOURCE;
@@ -78,7 +108,7 @@ public class LinkageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static LinkageType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +120,7 @@ public class LinkageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -102,7 +132,7 @@ public class LinkageType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -131,11 +161,7 @@ public class LinkageType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -164,19 +190,50 @@ public class LinkageType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for LinkageType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public LinkageType build() {
-            return new LinkageType(this);
+            LinkageType linkageType = new LinkageType(this);
+            if (validating) {
+                validate(linkageType);
+            }
+            return linkageType;
+        }
+
+        protected void validate(LinkageType linkageType) {
+            super.validate(linkageType);
+        }
+
+        protected Builder from(LinkageType linkageType) {
+            super.from(linkageType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Source of Truth
@@ -217,7 +274,7 @@ public class LinkageType extends Code {
         }
 
         /**
-         * Factory method for creating LinkageType.ValueSet values from a passed string value.
+         * Factory method for creating LinkageType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -231,6 +288,72 @@ public class LinkageType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Source of Truth
+         * 
+         * <p>The resource represents the "source of truth" (from the perspective of this Linkage resource) for the underlying 
+         * event/condition/etc.
+         */
+        SOURCE("source"),
+
+        /**
+         * Alternate Record
+         * 
+         * <p>The resource represents an alternative view of the underlying event/condition/etc. The resource may still be 
+         * actively maintained, even though it is not considered to be the source of truth.
+         */
+        ALTERNATE("alternate"),
+
+        /**
+         * Historical/Obsolete Record
+         * 
+         * <p>The resource represents an obsolete record of the underlying event/condition/etc. It is not expected to be actively 
+         * maintained.
+         */
+        HISTORICAL("historical");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating LinkageType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding LinkageType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "source":
+                return SOURCE;
+            case "alternate":
+                return ALTERNATE;
+            case "historical":
+                return HISTORICAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

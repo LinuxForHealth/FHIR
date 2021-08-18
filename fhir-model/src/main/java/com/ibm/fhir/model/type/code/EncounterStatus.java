@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,56 +24,56 @@ public class EncounterStatus extends Code {
      * 
      * <p>The Encounter has not yet started.
      */
-    public static final EncounterStatus PLANNED = EncounterStatus.builder().value(ValueSet.PLANNED).build();
+    public static final EncounterStatus PLANNED = EncounterStatus.builder().value(Value.PLANNED).build();
 
     /**
      * Arrived
      * 
      * <p>The Patient is present for the encounter, however is not currently meeting with a practitioner.
      */
-    public static final EncounterStatus ARRIVED = EncounterStatus.builder().value(ValueSet.ARRIVED).build();
+    public static final EncounterStatus ARRIVED = EncounterStatus.builder().value(Value.ARRIVED).build();
 
     /**
      * Triaged
      * 
      * <p>The patient has been assessed for the priority of their treatment based on the severity of their condition.
      */
-    public static final EncounterStatus TRIAGED = EncounterStatus.builder().value(ValueSet.TRIAGED).build();
+    public static final EncounterStatus TRIAGED = EncounterStatus.builder().value(Value.TRIAGED).build();
 
     /**
      * In Progress
      * 
      * <p>The Encounter has begun and the patient is present / the practitioner and the patient are meeting.
      */
-    public static final EncounterStatus IN_PROGRESS = EncounterStatus.builder().value(ValueSet.IN_PROGRESS).build();
+    public static final EncounterStatus IN_PROGRESS = EncounterStatus.builder().value(Value.IN_PROGRESS).build();
 
     /**
      * On Leave
      * 
      * <p>The Encounter has begun, but the patient is temporarily on leave.
      */
-    public static final EncounterStatus ONLEAVE = EncounterStatus.builder().value(ValueSet.ONLEAVE).build();
+    public static final EncounterStatus ONLEAVE = EncounterStatus.builder().value(Value.ONLEAVE).build();
 
     /**
      * Finished
      * 
      * <p>The Encounter has ended.
      */
-    public static final EncounterStatus FINISHED = EncounterStatus.builder().value(ValueSet.FINISHED).build();
+    public static final EncounterStatus FINISHED = EncounterStatus.builder().value(Value.FINISHED).build();
 
     /**
      * Cancelled
      * 
      * <p>The Encounter has ended before it has begun.
      */
-    public static final EncounterStatus CANCELLED = EncounterStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final EncounterStatus CANCELLED = EncounterStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Entered in Error
      * 
      * <p>This instance should not have been part of this patient's medical record.
      */
-    public static final EncounterStatus ENTERED_IN_ERROR = EncounterStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final EncounterStatus ENTERED_IN_ERROR = EncounterStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
@@ -81,7 +81,7 @@ public class EncounterStatus extends Code {
      * <p>The encounter status is unknown. Note that "unknown" is a value of last resort and every attempt should be made to 
      * provide a meaningful value other than "unknown".
      */
-    public static final EncounterStatus UNKNOWN = EncounterStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final EncounterStatus UNKNOWN = EncounterStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -89,14 +89,56 @@ public class EncounterStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this EncounterStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this EncounterStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating EncounterStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static EncounterStatus of(ValueSet value) {
+        switch (value) {
+        case PLANNED:
+            return PLANNED;
+        case ARRIVED:
+            return ARRIVED;
+        case TRIAGED:
+            return TRIAGED;
+        case IN_PROGRESS:
+            return IN_PROGRESS;
+        case ONLEAVE:
+            return ONLEAVE;
+        case FINISHED:
+            return FINISHED;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating EncounterStatus objects from a passed enum value.
      */
-    public static EncounterStatus of(ValueSet value) {
+    public static EncounterStatus of(Value value) {
         switch (value) {
         case PLANNED:
             return PLANNED;
@@ -130,7 +172,7 @@ public class EncounterStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static EncounterStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -142,7 +184,7 @@ public class EncounterStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -154,7 +196,7 @@ public class EncounterStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -183,11 +225,7 @@ public class EncounterStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -216,19 +254,50 @@ public class EncounterStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for EncounterStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public EncounterStatus build() {
-            return new EncounterStatus(this);
+            EncounterStatus encounterStatus = new EncounterStatus(this);
+            if (validating) {
+                validate(encounterStatus);
+            }
+            return encounterStatus;
+        }
+
+        protected void validate(EncounterStatus encounterStatus) {
+            super.validate(encounterStatus);
+        }
+
+        protected Builder from(EncounterStatus encounterStatus) {
+            super.from(encounterStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Planned
@@ -309,7 +378,7 @@ public class EncounterStatus extends Code {
         }
 
         /**
-         * Factory method for creating EncounterStatus.ValueSet values from a passed string value.
+         * Factory method for creating EncounterStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -323,6 +392,124 @@ public class EncounterStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Planned
+         * 
+         * <p>The Encounter has not yet started.
+         */
+        PLANNED("planned"),
+
+        /**
+         * Arrived
+         * 
+         * <p>The Patient is present for the encounter, however is not currently meeting with a practitioner.
+         */
+        ARRIVED("arrived"),
+
+        /**
+         * Triaged
+         * 
+         * <p>The patient has been assessed for the priority of their treatment based on the severity of their condition.
+         */
+        TRIAGED("triaged"),
+
+        /**
+         * In Progress
+         * 
+         * <p>The Encounter has begun and the patient is present / the practitioner and the patient are meeting.
+         */
+        IN_PROGRESS("in-progress"),
+
+        /**
+         * On Leave
+         * 
+         * <p>The Encounter has begun, but the patient is temporarily on leave.
+         */
+        ONLEAVE("onleave"),
+
+        /**
+         * Finished
+         * 
+         * <p>The Encounter has ended.
+         */
+        FINISHED("finished"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The Encounter has ended before it has begun.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The encounter status is unknown. Note that "unknown" is a value of last resort and every attempt should be made to 
+         * provide a meaningful value other than "unknown".
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating EncounterStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding EncounterStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "planned":
+                return PLANNED;
+            case "arrived":
+                return ARRIVED;
+            case "triaged":
+                return TRIAGED;
+            case "in-progress":
+                return IN_PROGRESS;
+            case "onleave":
+                return ONLEAVE;
+            case "finished":
+                return FINISHED;
+            case "cancelled":
+                return CANCELLED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

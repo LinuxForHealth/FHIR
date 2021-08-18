@@ -1,5 +1,9 @@
 /*
- * (C) Copyright IBM Corp. 2020
+<<<<<<< HEAD
+ * (C) Copyright IBM Corp. 2021
+=======
+ * (C) Copyright IBM Corp. 2020, 2021
+>>>>>>> refs/remotes/origin/main
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,6 +26,9 @@ public class Schema {
 
     // The schema we will use for all the FHIR data tables
     private String schemaName = Main.DATA_SCHEMANAME;
+
+    // Set to true when a data schema name has been provided, overriding the default
+    private boolean overrideDataSchema = false;
 
     /**
      * @return the adminSchemaName
@@ -81,5 +88,23 @@ public class Schema {
      */
     public void setSchemaName(String schemaName) {
         this.schemaName = schemaName;
+        this.overrideDataSchema = true; // the data schema has been specified
+    }
+
+    /**
+     * @return the withDataSchema
+     */
+    public boolean isOverrideDataSchema() {
+        return overrideDataSchema;
+    }
+
+    /**
+     * Returns true if the given schemaName parameter matches the configured schemaName held
+     * by this.
+     * @param schemaSchema
+     * @return
+     */
+    public boolean matchesDataSchema(String schemaName) {
+        return this.schemaName.equalsIgnoreCase(schemaName);
     }
 }

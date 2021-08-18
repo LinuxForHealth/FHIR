@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,18 +44,26 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ServiceRequestIntent;
 import com.ibm.fhir.model.type.code.ServiceRequestPriority;
 import com.ibm.fhir.model.type.code.ServiceRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a request for service such as diagnostic investigations, treatments, or operations to be performed.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "prr-1",
     level = "Rule",
     location = "(base)",
     description = "orderDetail SHALL only be present if code is present",
-    expression = "orderDetail.empty() or code.exists()"
+    expression = "orderDetail.empty() or code.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ServiceRequest"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ServiceRequest extends DomainResource {
@@ -75,7 +84,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a service order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -84,7 +93,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The kind of service request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
@@ -93,7 +102,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Classification of the requested service.",
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-category"
     )
@@ -101,7 +110,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -111,7 +120,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for tests or services that can be carried out by a designated individual, organization or healthcare service.  For laboratory, LOINC is  (preferred)[http://build.fhir.org/terminologies.html#preferred] and a valueset using LOINC Order codes is available [here](valueset-diagnostic-requests.html).",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
@@ -119,7 +128,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrderDetail",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codified order entry details which are based on order context.",
         valueSet = "http://hl7.org/fhir/ValueSet/servicerequest-orderdetail"
     )
@@ -141,7 +150,7 @@ public class ServiceRequest extends DomainResource {
     @Choice({ Boolean.class, CodeableConcept.class })
     @Binding(
         bindingName = "ProcedureAsNeededReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying the pre-condition that should hold prior to performing a procedure.  For example \"pain\", \"on flare-up\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
     )
@@ -154,7 +163,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestParticipantRole",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
@@ -165,7 +174,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestLocation",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A location type where services are delivered.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ServiceDeliveryLocationRoleType"
     )
@@ -176,7 +185,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ServiceRequestReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Diagnosis or problem codes justifying the reason for requesting the service investigation.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -193,7 +202,7 @@ public class ServiceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -204,55 +213,41 @@ public class ServiceRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
-    private volatile int hashCode;
-
     private ServiceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
         requisition = builder.requisition;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        status = builder.status;
+        intent = builder.intent;
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
         code = builder.code;
-        orderDetail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.orderDetail, "orderDetail"));
-        quantity = ValidationSupport.choiceElement(builder.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        orderDetail = Collections.unmodifiableList(builder.orderDetail);
+        quantity = builder.quantity;
+        subject = builder.subject;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
-        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        occurrence = builder.occurrence;
+        asNeeded = builder.asNeeded;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performerType = builder.performerType;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        locationCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationCode, "locationCode"));
-        locationReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationReference, "locationReference"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        performer = Collections.unmodifiableList(builder.performer);
+        locationCode = Collections.unmodifiableList(builder.locationCode);
+        locationReference = Collections.unmodifiableList(builder.locationReference);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        note = Collections.unmodifiableList(builder.note);
         patientInstruction = builder.patientInstruction;
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
-        ValidationSupport.checkReferenceType(replaces, "replaces", "ServiceRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(locationReference, "locationReference", "Location");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
     }
 
     /**
@@ -2068,7 +2063,50 @@ public class ServiceRequest extends DomainResource {
          */
         @Override
         public ServiceRequest build() {
-            return new ServiceRequest(this);
+            ServiceRequest serviceRequest = new ServiceRequest(this);
+            if (validating) {
+                validate(serviceRequest);
+            }
+            return serviceRequest;
+        }
+
+        protected void validate(ServiceRequest serviceRequest) {
+            super.validate(serviceRequest);
+            ValidationSupport.checkList(serviceRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(serviceRequest.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(serviceRequest.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(serviceRequest.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(serviceRequest.replaces, "replaces", Reference.class);
+            ValidationSupport.requireNonNull(serviceRequest.status, "status");
+            ValidationSupport.requireNonNull(serviceRequest.intent, "intent");
+            ValidationSupport.checkList(serviceRequest.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.orderDetail, "orderDetail", CodeableConcept.class);
+            ValidationSupport.choiceElement(serviceRequest.quantity, "quantity", Quantity.class, Ratio.class, Range.class);
+            ValidationSupport.requireNonNull(serviceRequest.subject, "subject");
+            ValidationSupport.choiceElement(serviceRequest.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.choiceElement(serviceRequest.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.performer, "performer", Reference.class);
+            ValidationSupport.checkList(serviceRequest.locationCode, "locationCode", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.locationReference, "locationReference", Reference.class);
+            ValidationSupport.checkList(serviceRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(serviceRequest.insurance, "insurance", Reference.class);
+            ValidationSupport.checkList(serviceRequest.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(serviceRequest.specimen, "specimen", Reference.class);
+            ValidationSupport.checkList(serviceRequest.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.checkList(serviceRequest.note, "note", Annotation.class);
+            ValidationSupport.checkList(serviceRequest.relevantHistory, "relevantHistory", Reference.class);
+            ValidationSupport.checkReferenceType(serviceRequest.basedOn, "basedOn", "CarePlan", "ServiceRequest", "MedicationRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.replaces, "replaces", "ServiceRequest");
+            ValidationSupport.checkReferenceType(serviceRequest.subject, "subject", "Patient", "Group", "Location", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(serviceRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(serviceRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(serviceRequest.locationReference, "locationReference", "Location");
+            ValidationSupport.checkReferenceType(serviceRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(serviceRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(serviceRequest.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(serviceRequest.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(ServiceRequest serviceRequest) {

@@ -5,7 +5,7 @@ on:
     paths:
         - "docs/**"
     branches:
-        - master
+        - main
 
 jobs:
   build:
@@ -16,11 +16,11 @@ jobs:
             node-version: [12.x]
 
     steps:
-    - name: Grab the Master Branch
+    - name: Grab the main Branch
       uses: actions/checkout@v2.3.3
       with:
             path: fhir
-            ref: refs/heads/master
+            ref: refs/heads/main
             fetch-depth: 1
             token: ${{ secrets.GITHUB_TOKEN }}
       env:
@@ -50,7 +50,7 @@ jobs:
               exit -2
             fi
 
-            # Checks if the FHIR repo's master branch is checked out to fhir.
+            # Checks if the FHIR repo's main branch is checked out to fhir.
             if [ ! -d fhir ]
             then 
               echo "Branch not checked out to the correct folder - FHIR"

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,19 +43,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.LinkType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Demographics and other administrative information about an individual or animal receiving care or other health-related 
  * services.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "pat-1",
     level = "Rule",
     location = "Patient.contact",
     description = "SHALL at least contain a contact's details or a reference to an organization",
-    expression = "name.exists() or telecom.exists() or address.exists() or organization.exists()"
+    expression = "name.exists() or telecom.exists() or address.exists() or organization.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Patient"
 )
 @Constraint(
     id = "patient-2",
@@ -62,6 +71,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/marital-status",
     expression = "maritalStatus.exists() implies (maritalStatus.memberOf('http://hl7.org/fhir/ValueSet/marital-status', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Patient",
     generated = true
 )
 @Constraint(
@@ -70,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "contact.relationship",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/patient-contactrelationship",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/patient-contactrelationship', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Patient",
     generated = true
 )
 @Constraint(
@@ -78,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "communication.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Patient",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -93,7 +105,7 @@ public class Patient extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -107,7 +119,7 @@ public class Patient extends DomainResource {
     private final List<Address> address;
     @Binding(
         bindingName = "MaritalStatus",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The domestic partnership status of a person.",
         valueSet = "http://hl7.org/fhir/ValueSet/marital-status"
     )
@@ -125,29 +137,24 @@ public class Patient extends DomainResource {
     @Summary
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private Patient(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, DateTime.class);
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        deceased = builder.deceased;
+        address = Collections.unmodifiableList(builder.address);
         maritalStatus = builder.maritalStatus;
-        multipleBirth = ValidationSupport.choiceElement(builder.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        generalPractitioner = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.generalPractitioner, "generalPractitioner"));
+        multipleBirth = builder.multipleBirth;
+        photo = Collections.unmodifiableList(builder.photo);
+        contact = Collections.unmodifiableList(builder.contact);
+        communication = Collections.unmodifiableList(builder.communication);
+        generalPractitioner = Collections.unmodifiableList(builder.generalPractitioner);
         managingOrganization = builder.managingOrganization;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        ValidationSupport.checkReferenceType(generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -1124,7 +1131,28 @@ public class Patient extends DomainResource {
          */
         @Override
         public Patient build() {
-            return new Patient(this);
+            Patient patient = new Patient(this);
+            if (validating) {
+                validate(patient);
+            }
+            return patient;
+        }
+
+        protected void validate(Patient patient) {
+            super.validate(patient);
+            ValidationSupport.checkList(patient.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(patient.name, "name", HumanName.class);
+            ValidationSupport.checkList(patient.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.choiceElement(patient.deceased, "deceased", Boolean.class, DateTime.class);
+            ValidationSupport.checkList(patient.address, "address", Address.class);
+            ValidationSupport.choiceElement(patient.multipleBirth, "multipleBirth", Boolean.class, Integer.class);
+            ValidationSupport.checkList(patient.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(patient.contact, "contact", Contact.class);
+            ValidationSupport.checkList(patient.communication, "communication", Communication.class);
+            ValidationSupport.checkList(patient.generalPractitioner, "generalPractitioner", Reference.class);
+            ValidationSupport.checkList(patient.link, "link", Link.class);
+            ValidationSupport.checkReferenceType(patient.generalPractitioner, "generalPractitioner", "Organization", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(patient.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Patient patient) {
@@ -1155,7 +1183,7 @@ public class Patient extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactRelationship",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The nature of the relationship between a patient and a contact person for that patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/patient-contactrelationship"
         )
@@ -1165,7 +1193,7 @@ public class Patient extends DomainResource {
         private final Address address;
         @Binding(
             bindingName = "AdministrativeGender",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The gender of a person used for administrative purposes.",
             valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
         )
@@ -1174,19 +1202,15 @@ public class Patient extends DomainResource {
         private final Reference organization;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Contact(Builder builder) {
             super(builder);
-            relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
+            relationship = Collections.unmodifiableList(builder.relationship);
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
             gender = builder.gender;
             organization = builder.organization;
             period = builder.period;
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1614,7 +1638,19 @@ public class Patient extends DomainResource {
              */
             @Override
             public Contact build() {
-                return new Contact(this);
+                Contact contact = new Contact(this);
+                if (validating) {
+                    validate(contact);
+                }
+                return contact;
+            }
+
+            protected void validate(Contact contact) {
+                super.validate(contact);
+                ValidationSupport.checkList(contact.relationship, "relationship", CodeableConcept.class);
+                ValidationSupport.checkList(contact.telecom, "telecom", ContactPoint.class);
+                ValidationSupport.checkReferenceType(contact.organization, "organization", "Organization");
+                ValidationSupport.requireValueOrChildren(contact);
             }
 
             protected Builder from(Contact contact) {
@@ -1637,7 +1673,7 @@ public class Patient extends DomainResource {
     public static class Communication extends BackboneElement {
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -1646,14 +1682,10 @@ public class Patient extends DomainResource {
         private final CodeableConcept language;
         private final Boolean preferred;
 
-        private volatile int hashCode;
-
         private Communication(Builder builder) {
             super(builder);
-            language = ValidationSupport.requireNonNull(builder.language, "language");
+            language = builder.language;
             preferred = builder.preferred;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1900,7 +1932,18 @@ public class Patient extends DomainResource {
              */
             @Override
             public Communication build() {
-                return new Communication(this);
+                Communication communication = new Communication(this);
+                if (validating) {
+                    validate(communication);
+                }
+                return communication;
+            }
+
+            protected void validate(Communication communication) {
+                super.validate(communication);
+                ValidationSupport.requireNonNull(communication.language, "language");
+                ValidationSupport.checkValueSetBinding(communication.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(communication);
             }
 
             protected Builder from(Communication communication) {
@@ -1923,21 +1966,17 @@ public class Patient extends DomainResource {
         @Summary
         @Binding(
             bindingName = "LinkType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of link between this patient resource and another patient resource.",
             valueSet = "http://hl7.org/fhir/ValueSet/link-type|4.0.1"
         )
         @Required
         private final LinkType type;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
-            other = ValidationSupport.requireNonNull(builder.other, "other");
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.checkReferenceType(other, "other", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            other = builder.other;
+            type = builder.type;
         }
 
         /**
@@ -2189,7 +2228,19 @@ public class Patient extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.other, "other");
+                ValidationSupport.requireNonNull(link.type, "type");
+                ValidationSupport.checkReferenceType(link.other, "other", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {

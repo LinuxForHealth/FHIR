@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -251,9 +251,9 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                     else if (builder instanceof Reference.Builder && method.getName().equals("reference")) {
                         // References with specific target profiles
                         if (referenceTargetProfile != null) {
-                            argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class));
+                            argument = string(referenceTargetProfile + "/" + podam.manufacturePojo(String.class).replace("_", "-"));
                         } else {
-                            argument = string("Basic/" + podam.manufacturePojo(String.class));
+                            argument = string("Basic/" + podam.manufacturePojo(String.class).replace("_", "-"));
                         }
                     }
 
@@ -501,7 +501,7 @@ public class CompleteMockDataCreator extends DataCreatorBase {
         Class<?>[] classes = elementClass.getClasses();
         // If the element has a ValueSet, set one of the values randomly
         for (Class<?> clazz : classes) {
-            if ("ValueSet".equals(clazz.getSimpleName())) {
+            if ("Value".equals(clazz.getSimpleName())) {
                 Object[] enumConstants = clazz.getEnumConstants();
                 Object enumConstant = enumConstants[ThreadLocalRandom.current().nextInt(0, enumConstants.length)];
 
@@ -533,13 +533,13 @@ public class CompleteMockDataCreator extends DataCreatorBase {
                 // cpb-15: If kind = capability, implementation must be absent, software must be present
                 if (code instanceof CapabilityStatementKind.Builder) {
                     // use 'instance' to avoid the other special cases
-                    enumConstant = CapabilityStatementKind.ValueSet.INSTANCE;
+                    enumConstant = CapabilityStatementKind.Value.INSTANCE;
                 }
                 // trd-3:   A named event requires a name, a periodic event requires timing, and a data event requires data
                 if (code instanceof TriggerType.Builder) {
-                    if (enumConstant == TriggerType.ValueSet.PERIODIC) {
+                    if (enumConstant == TriggerType.Value.PERIODIC) {
                         // trd-1 has prevented us from including a timing element, but we're good with any other type
-                        enumConstant = TriggerType.ValueSet.DATA_MODIFIED;
+                        enumConstant = TriggerType.Value.DATA_MODIFIED;
                     }
                 }
 

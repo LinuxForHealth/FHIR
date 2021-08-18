@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,28 +34,31 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Either timing, or a data requirement, but not both",
-    expression = "data.empty() or timing.empty()"
+    expression = "data.empty() or timing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Constraint(
     id = "trd-2",
     level = "Rule",
     location = "(base)",
     description = "A condition only if there is a data requirement",
-    expression = "condition.exists() implies data.exists()"
+    expression = "condition.exists() implies data.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Constraint(
     id = "trd-3",
     level = "Rule",
     location = "(base)",
     description = "A named event requires a name, a periodic event requires timing, and a data event requires data",
-    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())"
+    expression = "(type = 'named-event' implies name.exists()) and (type = 'periodic' implies timing.exists()) and (type.startsWith('data-') implies data.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TriggerDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TriggerDefinition extends Element {
     @Summary
     @Binding(
         bindingName = "TriggerType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of trigger.",
         valueSet = "http://hl7.org/fhir/ValueSet/trigger-type|4.0.1"
     )
@@ -72,17 +75,13 @@ public class TriggerDefinition extends Element {
     @Summary
     private final Expression condition;
 
-    private volatile int hashCode;
-
     private TriggerDefinition(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         name = builder.name;
-        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
-        data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
+        timing = builder.timing;
+        data = Collections.unmodifiableList(builder.data);
         condition = builder.condition;
-        ValidationSupport.checkReferenceType(timing, "timing", "Schedule");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -401,7 +400,20 @@ public class TriggerDefinition extends Element {
          */
         @Override
         public TriggerDefinition build() {
-            return new TriggerDefinition(this);
+            TriggerDefinition triggerDefinition = new TriggerDefinition(this);
+            if (validating) {
+                validate(triggerDefinition);
+            }
+            return triggerDefinition;
+        }
+
+        protected void validate(TriggerDefinition triggerDefinition) {
+            super.validate(triggerDefinition);
+            ValidationSupport.requireNonNull(triggerDefinition.type, "type");
+            ValidationSupport.choiceElement(triggerDefinition.timing, "timing", Timing.class, Reference.class, Date.class, DateTime.class);
+            ValidationSupport.checkList(triggerDefinition.data, "data", DataRequirement.class);
+            ValidationSupport.checkReferenceType(triggerDefinition.timing, "timing", "Schedule");
+            ValidationSupport.requireValueOrChildren(triggerDefinition);
         }
 
         protected Builder from(TriggerDefinition triggerDefinition) {

@@ -21,6 +21,7 @@ then
     # Configuration
     sed -i -e"s/^max_connections = 100.*$/max_connections = 100/" /db/data/postgresql.conf
     sed -i -e"s/^max_prepared_transactions = 100.*$/max_prepared_transactions = 100/" /db/data/postgresql.conf
+    sed -i -e"s/^max_locks_per_transaction = .*$/max_locks_per_transaction = 128/" /db/data/postgresql.conf
     sed -i -e"s/^shared_buffers =.*$/shared_buffers = 4GB/" /db/data/postgresql.conf
     sed -i -e"s/^#effective_cache_size = 128MB.*$/effective_cache_size = 2GB/" /db/data/postgresql.conf
     sed -i -e"s/^#work_mem = 1MB.*$/work_mem = 1MB/" /db/data/postgresql.conf
@@ -43,6 +44,8 @@ EOF
     su - postgres -c "/usr/local/bin/psql -c \"CREATE DATABASE fhirdb OWNER 'fhiradmin';\""
 
     su - postgres -c '/usr/local/bin/psql --dbname=fhirdb -v ON_ERROR_STOP=1 < /docker-entrypoint-initdb.d/db.sql'
+else
+    su - postgres -c '/usr/local/bin/pg_ctl -D "/db/data" --wait --timeout=120 start'
 fi
 
 exec "$@"

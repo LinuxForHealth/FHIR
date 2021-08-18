@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Url extends Uri {
-    private volatile int hashCode;
-
     private Url(Builder builder) {
         super(builder);
     }
@@ -29,11 +27,25 @@ public class Url extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Url objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Url of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Url.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Url objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Url.builder().value(value).build();
     }
 
@@ -171,7 +183,15 @@ public class Url extends Uri {
          */
         @Override
         public Url build() {
-            return new Url(this);
+            Url url = new Url(this);
+            if (validating) {
+                validate(url);
+            }
+            return url;
+        }
+
+        protected void validate(Url url) {
+            super.validate(url);
         }
 
         protected Builder from(Url url) {

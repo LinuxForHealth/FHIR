@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -43,6 +43,24 @@ unzip ${WORKSPACE}/fhir-install/target/fhir-server-distribution.zip -d ${SIT}
 echo "Installing fhir server in ${SIT}"
 ${SIT}/fhir-server-dist/install.sh ${SIT}
 
+echo "Creating datastores for tenant1"
+DB_LOC=${SIT}/wlp/usr/servers/fhir-server/derby
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/fhirDB --prop db.create=Y \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/profile --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Person,RelatedPerson,Organization,Location,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/reference --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Medication,Observation,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
+  --db-type derby --prop db.database=${DB_LOC}/study1 --prop db.create=Y \
+  --prop resourceTypes=Patient,Group,Practitioner,PractitionerRole,Device,Organization,Location,Encounter,AllergyIntolerance,Observation,Condition,CarePlan,Provenance,Medication,MedicationAdministration,StructureDefinition,ElementDefinition,CodeSystem,ValueSet,Resource \
+  --update-schema
+
 echo "Copying configuration to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
 cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
@@ -56,6 +74,7 @@ cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-
 echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/fhir-operation-*-tests.jar
 cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
+cp -pr ${WORKSPACE}/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${SIT}/wlp/usr/servers/fhir-server/userlib/
 find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${SIT}/wlp/usr/servers/fhir-server/userlib/ \;
 
 # Start up the fhir server

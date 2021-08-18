@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.test;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.fail;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertFalse;
@@ -21,6 +22,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -30,11 +33,13 @@ import javax.websocket.ClientEndpointConfig.Configurator;
 import javax.websocket.ContainerProvider;
 import javax.websocket.Session;
 import javax.websocket.WebSocketContainer;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 import org.glassfish.tyrus.client.SslContextConfigurator;
 import org.glassfish.tyrus.client.SslEngineConfigurator;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import com.ibm.fhir.client.FHIRClient;
@@ -42,6 +47,10 @@ import com.ibm.fhir.client.FHIRClientFactory;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.core.FHIRUtilities;
+import com.ibm.fhir.model.format.Format;
+import com.ibm.fhir.model.generator.FHIRGenerator;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CapabilityStatement;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest;
 import com.ibm.fhir.model.resource.CapabilityStatement.Rest.Resource.Interaction;
@@ -51,9 +60,12 @@ import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Code;
+import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.ConditionalReadStatus;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -71,6 +83,7 @@ public abstract class FHIRServerTestBase {
     protected FHIRClient client = null;
 
     // Default values for test properties.
+    private static final String DEFAULT_REST_BASE_URL = "https://localhost:9443/fhir-server/api/v4";
     private static final String DEFAULT_WEBSOCKET_URL = "wss://localhost:9443/fhir-server/api/v4/notification";
     private static final String DEFAULT_KAFKA_CONNINFO = "localhost:9092";
     private static final String DEFAULT_KAFKA_TOPICNAME = "fhirNotifications";
@@ -84,6 +97,7 @@ public abstract class FHIRServerTestBase {
     private static final String DEFAULT_PASSWORD = "change-password";
 
     // Constants that define test property names.
+    private static final String PROPNAME_REST_BASE_URL = "fhirclient.rest.base.url";
     private static final String PROPNAME_WEBSOCKET_URL = "test.websocket.url";
     private static final String PROPNAME_KAFKA_CONNINFO = "test.kafka.connectionInfo";
     private static final String PROPNAME_KAFKA_TOPICNAME = "test.kafka.topicName";
@@ -91,7 +105,14 @@ public abstract class FHIRServerTestBase {
     // for secure WebSocket Client
     private static final String PROPNAME_SSL_ENGINE_CONFIGURATOR = "org.glassfish.tyrus.client.sslEngineConfigurator";
 
+    public static final Coding SUBSETTED_TAG =
+            Coding.builder().system(uri("http://terminology.hl7.org/CodeSystem/v3-ObservationValue"))
+            .code(Code.of("SUBSETTED"))
+            .display(string("subsetted"))
+            .build();
+
     // These are values of test-specific properties.
+    private String restBaseUrl = null;
     private String websocketUrl = null;
     private String kafkaConnectionInfo = null;
     private String kafkaTopicName = null;
@@ -111,6 +132,90 @@ public abstract class FHIRServerTestBase {
 
     private CapabilityStatement conformanceStmt = null;
 
+    private Map<String, HashSet<String>> resourceRegistry = new HashMap<String,HashSet<String>>();
+
+    /**
+     * creates the resource and returns the logical id
+     * it also registers the newly created resource in a registry, such that it is deleted at the end of the run.
+     * @param resourceType
+     * @param r
+     * @return
+     */
+    public String createResourceAndReturnTheLogicalId(String resourceType, Resource r) {
+        WebTarget target = getWebTarget();
+        Entity<? extends Resource> entity = Entity.entity(r, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path(resourceType).request().post(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+        String id = getLocationLogicalId(response);
+        response = target.path(resourceType).path(id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry(resourceType, id);
+        return id;
+    }
+
+    /**
+     * add to resource registry, which is used to cleanup at the end of a run.
+     * @param resourceType
+     * @param logicalId
+     */
+    public void addToResourceRegistry(String resourceType, String logicalId) {
+        HashSet<String> ids = resourceRegistry.getOrDefault(resourceType, new HashSet<>());
+        ids.add(logicalId);
+        resourceRegistry.put(resourceType, ids);
+    }
+
+    /**
+     * should skip the cleanup
+     * @return
+     */
+    public boolean shouldSkipCleanup() {
+        return Boolean.FALSE;
+    }
+
+    @AfterClass
+    public void cleanup() {
+        cleanupResourcesUsingResourceRegistry(shouldSkipCleanup());
+    }
+
+    /**
+     * run at the end of the integration tests so we reset to the original state.
+     * @param skip
+     */
+    public void cleanupResourcesUsingResourceRegistry(boolean skip) {
+        if (!skip) {
+            for (Map.Entry<String, HashSet<String>> entry : resourceRegistry.entrySet()) {
+                String resourceType = entry.getKey();
+                HashSet<String> resourceIds = entry.getValue();
+                for (String resourceId : resourceIds) {
+                    Response response = getWebTarget().path(resourceType + "/" + resourceId).request().delete();
+                    if (response.getStatus() != Response.Status.OK.getStatusCode() && response.getStatus() != Response.Status.NOT_FOUND.getStatusCode()) {
+                        System.out.println("Could not delete test resource " + resourceType + "/" + resourceId + ": " + response.getStatus());
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * prints out the resources
+     * @param debug
+     * @param res
+     */
+    public void printOutResource(boolean debug, Resource res) {
+        if (debug) {
+            try {
+                FHIRGenerator.generator(Format.JSON, false).generate(res, System.out);
+            } catch (FHIRGeneratorException e) {
+                e.printStackTrace();
+                fail("unable to generate the fhir resource to JSON");
+            }
+        }
+    }
+
+    protected String getRestBaseURL() {
+        return restBaseUrl;
+    }
+
     protected String getWebSocketURL() {
         return websocketUrl;
     }
@@ -123,19 +228,19 @@ public abstract class FHIRServerTestBase {
         return kafkaTopicName;
     }
 
-    private String getFhirUser() {
+    protected String getFhirUser() {
         return fhirUser;
     }
 
-    private String getFhirPassword() {
+    protected String getFhirPassword() {
         return fhirPassword;
     }
 
-    private String getTsLocation() {
+    protected String getTsLocation() {
         return tsLocation;
     }
 
-    private String getTsPassword() {
+    protected String getTsPassword() {
         return tsPassword;
     }
 
@@ -183,6 +288,7 @@ public abstract class FHIRServerTestBase {
         // Create our FHIRClient instance based on the properties we just read in.
         client = FHIRClientFactory.getClient(properties);
 
+        restBaseUrl = getProperty(properties, PROPNAME_REST_BASE_URL, DEFAULT_REST_BASE_URL);
         websocketUrl = getProperty(properties, PROPNAME_WEBSOCKET_URL, DEFAULT_WEBSOCKET_URL);
 
         // Retrieve the info needed by a Kafka consumer.
@@ -571,6 +677,30 @@ public abstract class FHIRServerTestBase {
     }
 
     /**
+     * For the specified response, this function will extract the version id value
+     * from the response's Location header. The format of a location header value
+     * should be: <code>[base]/<resource-type>/<id>/_history/<version></code>
+     *
+     * @param response the response object for a REST API invocation
+     * @return the version id value
+     */
+    public String getLocationVersionId(Response response) {
+        String location = response.getLocation().toString();
+        assertNotNull(location);
+        assertFalse(location.isEmpty());
+
+        String[] tokens = location.split("/");
+        assertNotNull(tokens);
+        assertTrue(tokens.length >= 4);
+
+        String versionId = tokens[tokens.length - 1];
+        assertNotNull(versionId);
+        assertFalse(versionId.isEmpty());
+
+        return versionId;
+    }
+
+    /**
      * Returns the absolute filename associated with 'filename'.
      */
     private String getAbsoluteFilename(String filename) {
@@ -691,5 +821,60 @@ public abstract class FHIRServerTestBase {
         condition = condition.toBuilder().subject(Reference.builder().reference(string("Patient/" + patientId)).build()).build();
 
         return condition;
+    }
+
+    /**
+     * Assert the the given {@link Bundle} is of the expected {@link BundleType} and has the expected entry count.
+     *
+     * @param bundle the bundle to tet
+     * @param expectedType
+     * @param expectedEntryCount
+     */
+    public static void assertResponseBundle(Bundle bundle, BundleType expectedType, int expectedEntryCount) {
+        assertNotNull(bundle);
+        assertNotNull(bundle.getType());
+        assertNotNull(bundle.getType().getValue());
+        assertEquals(expectedType.getValue(), bundle.getType().getValue());
+        if (expectedEntryCount > 0) {
+            assertNotNull(bundle.getEntry());
+            assertEquals(expectedEntryCount, bundle.getEntry().size());
+        }
+    }
+
+
+    /**
+     * Gets the self link of the bundle.
+     * @param bundle the bundle
+     * @return the self link, or null
+     */
+    protected String getSelfLink(Bundle bundle) {
+        return getLink(bundle, "self");
+    }
+
+
+    /**
+     * Gets the next link of the bundle.
+     * @param bundle the bundle
+     * @return the next link, or null
+     */
+    protected String getNextLink(Bundle bundle) {
+        return getLink(bundle, "next");
+    }
+
+    /**
+     * Gets the link with the specified relation type of the bundle.
+     * @param bundle the bundle
+     * @param relation the relation type
+     * @return the link, or null
+     */
+    private String getLink(Bundle bundle, String relation) {
+        for (Bundle.Link link : bundle.getLink()) {
+            String type = link.getRelation().getValue();
+            String uri = link.getUrl().getValue();
+            if (relation.equals(type)) {
+                return uri;
+            }
+        }
+        return null;
     }
 }

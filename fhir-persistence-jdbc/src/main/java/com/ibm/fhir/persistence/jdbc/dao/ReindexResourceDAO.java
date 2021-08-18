@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,6 +33,7 @@ import com.ibm.fhir.persistence.jdbc.dao.impl.ParameterVisitorBatchDAO;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceDAOImpl;
 import com.ibm.fhir.persistence.jdbc.dto.ExtractedParameterValue;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 
 /**
  * DAO used to contain the logic required to reindex a given resource
@@ -40,33 +41,44 @@ import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
 public class ReindexResourceDAO extends ResourceDAOImpl {
     private static final Logger logger = Logger.getLogger(ReindexResourceDAO.class.getName());
     private static final String CLASSNAME = ReindexResourceDAO.class.getSimpleName();
-    private static final SecureRandom random = new SecureRandom();
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     // The translator specific to the database type we're working with
     private final IDatabaseTranslator translator;
 
     private final ParameterDAO parameterDao;
 
+    private static final String PICK_SINGLE_LOGICAL_RESOURCE = ""
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
+            + "    FROM logical_resources lr "
+            + "   WHERE lr.logical_resource_id = ? "
+            + "     AND lr.is_deleted = 'N' "
+            + "     AND lr.reindex_tstamp < ? "
+            ;
+
     private static final String PICK_SINGLE_RESOURCE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
             + "     AND lr.logical_id = ? "
+            + "     AND lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
             ;
 
     private static final String PICK_SINGLE_RESOURCE_TYPE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
             + "   WHERE lr.resource_type_id = ? "
+            + "     AND lr.is_deleted = 'N' "
             + "     AND lr.reindex_tstamp < ? "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
             ;
 
     private static final String PICK_ANY_RESOURCE = ""
-            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid "
+            + "  SELECT lr.logical_resource_id, lr.resource_type_id, lr.logical_id, lr.reindex_txid, lr.parameter_hash "
             + "    FROM logical_resources lr "
-            + "   WHERE lr.reindex_tstamp < ? "
+            + "   WHERE lr.is_deleted = 'N' "
+            + "     AND lr.reindex_tstamp < ? "
             + "OFFSET ? ROWS FETCH FIRST 1 ROWS ONLY "
             ;
 
@@ -108,15 +120,56 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * Getter for the translator currently held by this DAO
      * @return
      */
+    @Override
     protected IDatabaseTranslator getTranslator() {
         return this.translator;
     }
 
     /**
-     * Pick the next resource to process resource and lock it. Specializations for different
-     * databases may use different techniques to optimize locking/concurrency control
-     * @param reindexTstamp
-     * @return
+     * Pick a specific resource to process by logicalResourceId (primary key).
+     * Since the logicalResourceId is specified, we avoid updating the record as the caller of $reindex operation
+     * is passing in an explicit list of resources, so no need to lock for the purpose of picking a random resource.
+     * This can improve performance (especially with PostgreSQL by avoiding the generation of tombstones).
+     * @param reindexTstamp only get resource with a reindex_tstamp less than this
+     * @param logicalResourceId the logical resource ID (primary key) of a specific resource
+     * @return the resource record, or null when the resource is not found
+     * @throws Exception
+     */
+    protected ResourceIndexRecord getResource(Instant reindexTstamp, Long logicalResourceId) throws Exception {
+        ResourceIndexRecord result = null;
+
+        // no need to close
+        Connection connection = getConnection();
+        IDatabaseTranslator translator = getTranslator();
+
+        final String select = PICK_SINGLE_LOGICAL_RESOURCE;
+
+        try (PreparedStatement stmt = connection.prepareStatement(select)) {
+            if (logicalResourceId != null) {
+                // specific resource by logical resource ID (primary key)
+                stmt.setLong(1, logicalResourceId);
+                stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+            }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
+            }
+        } catch (SQLException x) {
+            logger.log(Level.SEVERE, select, x);
+            throw translator.translate(x);
+        }
+
+        return result;
+    }
+
+    /**
+     * Pick the next resource to process, then also lock it. Specializations for different databases may use
+     * different techniques to optimize locking/concurrency control.
+     * @param random used to generate a random number
+     * @param reindexTstamp only get resource with a reindex_tstamp less than this
+     * @param resourceTypeId the resource type ID of a specific resource type, or null
+     * @param logicalId the resource ID of a specific resource, or null
+     * @return the resource record, or null when there is nothing left to do
      * @throws Exception
      */
     protected ResourceIndexRecord getNextResource(SecureRandom random, Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
@@ -166,7 +219,7 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 }
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4));
+                    result = new ResourceIndexRecord(rs.getLong(1), rs.getInt(2), rs.getString(3), rs.getLong(4), rs.getString(5));
                 }
             } catch (SQLException x) {
                 logger.log(Level.SEVERE, select, x);
@@ -214,19 +267,27 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
      * Get the resource record we want to reindex. This might take a few attempts, because
      * there could be hundreds of threads all trying to do the same thing, and we may see
      * collisions which will cause the FOR UPDATE to block, then return no rows.
-     * @param reindexTstamp
-     * @param resourceCount
-     * @return
+     * @param reindexTstamp only get resource with an index_tstamp less than this
+     * @param logicalResourceId logical resource ID (primary key) of resource to reindex, or null
+     * @param resourceTypeId the resource type ID of a specific resource type, or null;
+     * this parameter is ignored if the logicalResourceId parameter value is non-null
+     * @param logicalId the resource ID of a specific resource, or null;
+     * this parameter is ignored if the logicalResourceId parameter value is non-null
+     * @return the resource record, or null when there is nothing left to do
      * @throws Exception
      */
-    public ResourceIndexRecord getResourceToReindex(Instant reindexTstamp, Integer resourceTypeId, String logicalId) throws Exception {
+    public ResourceIndexRecord getResourceToReindex(Instant reindexTstamp, Long logicalResourceId, Integer resourceTypeId, String logicalId) throws Exception {
         ResourceIndexRecord result = null;
 
         // no need to close
         Connection connection = getConnection();
 
         // Get a resource which needs to be reindexed
-        result = getNextResource(this.random, reindexTstamp, resourceTypeId, logicalId);
+        if (logicalResourceId != null) {
+            result = getResource(reindexTstamp, logicalResourceId);
+        } else {
+            result = getNextResource(RANDOM, reindexTstamp, resourceTypeId, logicalId);
+        }
 
         if (result != null) {
 
@@ -245,6 +306,10 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
                     result.setResourceType(rs.getString(1));
+                } else if (logicalResourceId != null) {
+                    // When logicalResourceId is specified, the resource is not locked, so it could disappear
+                    logger.fine("Logical resource no longer exists: logical_resource_id=" + result.getLogicalResourceId());
+                    result = null;
                 } else {
                     // Can't really happen, because the resource is selected for update, so it can't disappear
                     logger.severe("Logical resource no longer exists: logical_resource_id=" + result.getLogicalResourceId());
@@ -260,41 +325,28 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
     }
 
     /**
-     * Reindex the resource by deleting existing parameters and replacing them with those passed in
-     * @param tablePrefix
-     * @param parameters
-     * @param p_logical_id
-     * @param p_payload
-     * @param p_last_updated
-     * @param p_is_deleted
-     * @param p_source_key
-     * @param p_version
-     *
-     * @return the resource_id for the entry we created
+     * Reindex the resource by deleting existing parameters and replacing them with those passed in.
+     * @param tablePrefix the table prefix
+     * @param parameters A collection of search parameters to be persisted along with the passed Resource
+     * @param parameterHashB64 the Base64 encoded SHA-256 hash of parameters
+     * @param logicalId the logical id
+     * @param logicalResourceId the logical resource id
      * @throws Exception
      */
-    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String logicalId, long logicalResourceId) throws Exception {
+    public void updateParameters(String tablePrefix, List<ExtractedParameterValue> parameters, String parameterHashB64, String logicalId, long logicalResourceId) throws Exception {
 
         final String METHODNAME = "updateParameters() for " + tablePrefix + "/" + logicalId;
         logger.entering(CLASSNAME, METHODNAME);
 
         // no need to close
         Connection connection = getConnection();
+        ParameterTableSupport.deleteFromParameterTables(connection, tablePrefix, logicalResourceId);
 
-        // existing resource, so need to delete all its parameters
-        // delete composites first, or else the foreign keys there restrict deletes on referenced tables
-        deleteFromParameterTable(connection, tablePrefix + "_composites", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_str_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_number_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_date_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_latlng_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_token_values", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_resource_token_refs", logicalResourceId);
-        deleteFromParameterTable(connection, tablePrefix + "_quantity_values", logicalResourceId);
-
-        if (parameters != null) {
-            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao);
-            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, null, tablePrefix, false, logicalResourceId, 100,
+        if (parameters != null && !parameters.isEmpty()) {
+            JDBCIdentityCache identityCache = new JDBCIdentityCacheImpl(getCache(), this, parameterDao, getResourceReferenceDAO());
+            // Check if this is multitenant
+            boolean isMultitenant = this.getFlavor().isMultitenant();
+            try (ParameterVisitorBatchDAO pvd = new ParameterVisitorBatchDAO(connection, "FHIR_ADMIN", tablePrefix, isMultitenant, logicalResourceId, 100,
                 identityCache, getResourceReferenceDAO(), getTransactionData())) {
                 for (ExtractedParameterValue p: parameters) {
                     p.accept(pvd);
@@ -304,24 +356,34 @@ public class ReindexResourceDAO extends ResourceDAOImpl {
                 throw translator.translate(x);
             }
         }
+
+        // Update the parameter hash in the LOGICAL_RESOURCES table
+        updateParameterHash(connection, logicalResourceId, parameterHashB64);
+
         logger.exiting(CLASSNAME, METHODNAME);
     }
 
     /**
-     * Delete all parameters for the given resourceId from the parameters table
-     * @param conn
-     * @param tableName
-     * @param logicalResourceId
+     * Updates the parameter hash in the LOGICAL_RESOURCES table.
+     * @param conn the connection
+     * @param logicalResourceId the logical resource ID
+     * @param parameterHashB64 the Base64 encoded SHA-256 hash of parameters
      * @throws SQLException
      */
-    protected void deleteFromParameterTable(Connection conn, String tableName, long logicalResourceId) throws SQLException {
-        final String DML = "DELETE FROM " + tableName + " WHERE logical_resource_id = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(DML)) {
+    protected void updateParameterHash(Connection conn, long logicalResourceId, String parameterHashB64) throws SQLException {
+        final String SQL = "UPDATE logical_resources SET parameter_hash = ? WHERE logical_resource_id = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(SQL)) {
             // bind parameters
-            stmt.setLong(1, logicalResourceId);
+            stmt.setString(1, parameterHashB64);
+            stmt.setLong(2, logicalResourceId);
+            long dbCallStartTime = System.nanoTime();
             stmt.executeUpdate();
+            double dbCallDuration = (System.nanoTime() - dbCallStartTime) / 1e6;
+            if (logger.isLoggable(Level.FINEST)) {
+                logger.finest("Update parameter_hash '" + parameterHashB64 + "' for logicalResourceId '" + logicalResourceId + "' [took " + dbCallDuration + " ms]");
+            }
         } catch (SQLException x) {
-            logger.log(Level.SEVERE, DML, x);
+            logger.log(Level.SEVERE, SQL, x);
             throw translator.translate(x);
         }
     }

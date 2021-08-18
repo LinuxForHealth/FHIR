@@ -13,11 +13,10 @@ import javax.ws.rs.core.MediaType;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.type.Instant;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
 import com.ibm.fhir.operation.bulkdata.model.type.Input;
 import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
-import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 
 /**
  * The interfaces for the Backend Implementation of:
@@ -39,16 +38,12 @@ public interface ExportImportBulkData {
      * @param since
      * @param types
      * @param typeFilters
-     * @param ctx
-     * @param operationContext
-     * @param resourceHelper
-     * @param systemExportImpl
+     * @param operationContext used to signal a non-standard response
      * @return
      * @throws FHIROperationException
      */
-    public Parameters export(String logicalId, BulkDataConstants.ExportType exportType, MediaType outputFormat,
-            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext,
-            FHIRResourceHelpers resourceHelper, String systemExportImpl) throws FHIROperationException;
+    public Parameters export(String logicalId, OperationConstants.ExportType exportType, MediaType outputFormat,
+            Instant since, List<String> types, List<String> typeFilters, FHIROperationContext operationContext) throws FHIROperationException;
 
     /**
      * Pattern: POST [Base]/$import
@@ -56,30 +51,28 @@ public interface ExportImportBulkData {
      * @param inputFormat
      * @param inputSource
      * @param inputs
-     * @param storageDetail
-     * @param operationContext
+     * @param storageDetails
+     * @param operationContext used to signal a non-standard response
      * @return
      * @throws FHIROperationException
      */
-    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs,
-            StorageDetail storageDetails, FHIROperationContext operationContext) throws FHIROperationException;
+    public Parameters importBulkData(String inputFormat, String inputSource, List<Input> inputs, StorageDetail storageDetails, FHIROperationContext operationContext) throws FHIROperationException;
 
     /**
      * deletes the export/import job
      *
      * @param job
-     * @param operationContext
+     * @param operationContext used to signal a non-standard response
      * @return
      * @throws FHIROperationException
      */
-    public Parameters delete(String job, FHIROperationContext operationContext)
-            throws FHIROperationException;
+    public Parameters delete(String job, FHIROperationContext operationContext) throws FHIROperationException;
 
     /**
      * checks the status of the export/import job
      *
      * @param job
-     * @param operationContext
+     * @param operationContext used to signal a non-standard response
      * @return
      * @throws FHIROperationException
      */

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,7 +19,6 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -44,12 +43,11 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 
 /**
- * Tests using http://hl7.org/fhir/us/C4BB/2020Feb/Examples.html And the given profile.
+ * Carin for BlueButton (C4BB) Profile Integration Tests
  */
 public class CarinBlueButtonTest extends ProfilesTestBase {
-
     private static final String CLASSNAME = CarinBlueButtonTest.class.getName();
-    private static final Logger logger = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private String coverageId = null;
     private String careTeamId = null;
@@ -86,9 +84,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     @Override
     public void setCheck(Boolean check) {
         this.skip = check;
-
         if (!skip) {
-            logger.info("Skipping Tests");
+            LOG.info("Skipping Tests");
         }
     }
 
@@ -146,8 +143,10 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         organizationId = getLocationLogicalId(response);
+
         response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Organization", organizationId);
     }
 
     public void loadOrganizationOrg1() throws Exception {
@@ -158,8 +157,10 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         Response response = target.path("Organization").request().post(entity, Response.class);
         assertResponse(response, Response.Status.CREATED.getStatusCode());
         organizationOrg1Id = getLocationLogicalId(response);
+
         response = target.path("Organization/" + organizationOrg1Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Organization", organizationOrg1Id);
     }
 
     public void loadOrganizationOrg45() throws Exception {
@@ -173,6 +174,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("Organization/" + organizationOrg45Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Organization", organizationOrg45Id);
     }
 
     // Load Coverage Resources
@@ -191,6 +193,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         // Next, call the 'read' API to retrieve the new Location and verify it.
         response = target.path("Coverage/" + coverageId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Coverage", coverageId);
     }
 
     // Load Patient Resources
@@ -206,6 +209,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         // Next, call the 'read' API to retrieve the new Location and verify it.
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Patient", patientId);
     }
 
     // Load Provider Resources
@@ -220,6 +224,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("Practitioner/" + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Practitioner", practitionerId);
     }
 
     // Load CareTeam Resources
@@ -234,6 +239,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("CareTeam", careTeamId);
     }
 
     // Load Location Resources
@@ -249,6 +255,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("Location", locationId);
     }
 
     // Load Explanation of Benefits Resources
@@ -264,6 +271,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("ExplanationOfBenefit/" + explanationOfBenefitInPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("ExplanationOfBenefit", explanationOfBenefitInPatientId);
     }
 
     public void loadExplanationOfBenefitsOutPatient() throws Exception {
@@ -278,6 +286,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsOutPatient).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("ExplanationOfBenefit", explanationOfBenefitsOutPatient);
     }
 
     public void loadExplanationOfBenefitsPharmacy() throws Exception {
@@ -292,6 +301,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsPharmacyId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("ExplanationOfBenefit", explanationOfBenefitsPharmacyId);
     }
 
     public void loadExplanationOfBenefitsProfessional() throws Exception {
@@ -306,6 +316,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsProfessionalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("ExplanationOfBenefit", explanationOfBenefitsProfessionalId);
     }
 
     // ExplanationOfBenefit-EOBInpatient1.json
@@ -321,132 +332,29 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
 
         response = target.path("ExplanationOfBenefit/" + eobInpatientInstitutionalEx1id).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
+        addToResourceRegistry("ExplanationOfBenefit", eobInpatientInstitutionalEx1id);
     }
+
     // Load Resources
     @BeforeClass
     public void loadResources() throws Exception {
-        if (!skip) {
-            loadLocation();
-            loadOrganization();
-            loadOrganizationOrg1();
-            loadOrganizationOrg45();
-            loadProvider();
-            loadCoverage();
-            loadPatient();
-            loadCareteam();
-            loadExplanationOfBenefitsInPatient();
-            loadExplanationOfBenefitsOutPatient();
-            loadExplanationOfBenefitsPharmacy();
-            loadExplanationOfBenefitsProfessional();
-            loadExplanationOfBenefitsInpatientInstitutionalEx1();
+        if (skip) {
+            return;
         }
-    }
 
-    // Delete Resources
-    public void deleteOrganization() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteOrganizationOrg1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Organization/" + organizationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteOrganizationOrg45() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Organization/" + organizationOrg45Id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Coverage Resources
-    public void deleteCoverage() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Coverage/" + coverageId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Patient Resources
-    public void deletePatient() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Provider Resources
-    public void deleteProvider() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Practitioner/" + practitionerId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete CareTeam Resources
-    public void deleteCareteam() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("CareTeam/" + careTeamId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Location Resources
-    public void deleteLocation() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Location/" + locationId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Explanation of Benefits Resources
-    public void deleteExplanationOfBenefits1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("ExplanationOfBenefit/" + explanationOfBenefitInPatientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Explanation of Benefits Resources
-    public void deleteExplanationOfBenefits2() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsOutPatient).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Explanation of Benefits Resources
-    public void deleteExplanationOfBenefits3() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsPharmacyId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    // Delete Explanation of Benefits Resources
-    public void deleteExplanationOfBenefits4() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("ExplanationOfBenefit/" + explanationOfBenefitsProfessionalId).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteExplanationOfBenefitsInpatientInstitutionalEx1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("ExplanationOfBenefit/" + eobInpatientInstitutionalEx1id).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteLocation();
-            deleteOrganization();
-            deleteOrganizationOrg1();
-            deleteOrganizationOrg45();
-            deleteCoverage();
-            deletePatient();
-            deleteProvider();
-            deleteCareteam();
-            deleteExplanationOfBenefits1();
-            deleteExplanationOfBenefits2();
-            deleteExplanationOfBenefits3();
-            deleteExplanationOfBenefits4();
-            deleteExplanationOfBenefitsInpatientInstitutionalEx1();
-        }
+        loadLocation();
+        loadOrganization();
+        loadOrganizationOrg1();
+        loadOrganizationOrg45();
+        loadProvider();
+        loadCoverage();
+        loadPatient();
+        loadCareteam();
+        loadExplanationOfBenefitsInPatient();
+        loadExplanationOfBenefitsOutPatient();
+        loadExplanationOfBenefitsPharmacy();
+        loadExplanationOfBenefitsProfessional();
+        loadExplanationOfBenefitsInpatientInstitutionalEx1();
     }
 
     @Test
@@ -547,7 +455,8 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
     public void testExplanationOfBenefitIdentifierNoSystem() throws Exception {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("identifier", "|AW123412341234123412341234123412");
+            parameters.searchParam("identifier", "AW123412341234123412341234123412");
+            parameters.searchParam("_id", explanationOfBenefitInPatientId);
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -562,6 +471,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("identifier", "https://www.xxxplan.com/fhir/EOBIdentifier|AW123412341234123412341234123412");
+            parameters.searchParam("_id", explanationOfBenefitInPatientId);
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -581,6 +491,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("service-date", "ge2019-10-01");
             parameters.searchParam("service-date", "le2019-11-01");
+            parameters.searchParam("_id", explanationOfBenefitsPharmacyId);
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -597,6 +508,7 @@ public class CarinBlueButtonTest extends ProfilesTestBase {
             // https://github.com/IBM/FHIR/issues/1157
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/Patient1");
+            parameters.searchParam("_id", explanationOfBenefitInPatientId);
             FHIRResponse response = client.search(ExplanationOfBenefit.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);

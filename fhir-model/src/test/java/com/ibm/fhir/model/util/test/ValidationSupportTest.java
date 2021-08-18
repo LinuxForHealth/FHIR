@@ -49,7 +49,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingCodeNotValid2() {
         try {
@@ -57,7 +57,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingCodesValid() {
         ValidationSupport.checkValueSetBinding(Arrays.asList(Code.of("code1"), Code.of("code2")), "elementName", "valueSetUrl", null, "code1", "code2");
@@ -93,7 +93,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingStringNotValid2() {
         try {
@@ -101,7 +101,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingStringsValid() {
         ValidationSupport.checkValueSetBinding(Arrays.asList(com.ibm.fhir.model.type.String.of("code1"), com.ibm.fhir.model.type.String.of("code2")), "elementName", "valueSetUrl", null, "code1", "code2");
@@ -137,7 +137,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingUriNotValid2() {
         try {
@@ -145,7 +145,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingUrisValid() {
         ValidationSupport.checkValueSetBinding(Arrays.asList(Uri.of("code1"), Uri.of("code2")), "elementName", "valueSetUrl", null, "code1", "code2");
@@ -385,7 +385,7 @@ public class ValidationSupportTest {
         } catch (IllegalStateException e) {
         }
     }
-    
+
     @Test
     public void testCheckValueSetBindingCodeableConceptLenientValid1() {
         FHIRModelConfig.setProperty(FHIRModelConfig.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, false);
@@ -458,7 +458,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodeNotValid2() {
         try {
@@ -466,7 +466,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodeNotValid3() {
         try {
@@ -474,7 +474,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodeNotValid4() {
         try {
@@ -482,7 +482,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodeNotValid5() {
         try {
@@ -498,12 +498,12 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodesValid() {
         ValidationSupport.checkValueSetBinding(Collections.singletonList(Code.of("ar")), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodesNotValid() {
         try {
@@ -535,15 +535,15 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid2() {
-        try { 
+        try {
             ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("")).build(), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid3() {
         try {
@@ -551,7 +551,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid4() {
         try {
@@ -559,7 +559,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid5() {
         try {
@@ -567,7 +567,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid6() {
         try {
@@ -575,7 +575,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid7() {
         try {
@@ -583,7 +583,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodingNotValid8() {
         try {
@@ -599,7 +599,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
    @Test
     public void testCheckValueSetBindingLanguageCodingsValid() {
         ValidationSupport.checkValueSetBinding(Collections.singletonList(Coding.builder().system(Uri.of(ValidationSupport.BCP_47_URN)).code(Code.of("ar")).build()), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
@@ -610,7 +610,7 @@ public class ValidationSupportTest {
         try {
             ValidationSupport.checkValueSetBinding(Arrays.asList(Coding.builder().code(Code.of("ar")).build(),
                 Coding.builder().system(Uri.of("invalidSystem")).code(Code.of("ar")).build()), "elementName", ValidationSupport.ALL_LANG_VALUE_SET_URL, null);
-            fail();    
+            fail();
         }
         catch (IllegalStateException e) {}
     }
@@ -669,7 +669,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingLanguageCodeableConceptsValid() {
         ValidationSupport.checkValueSetBinding(Collections.singletonList(CodeableConcept.builder().coding(
@@ -687,7 +687,7 @@ public class ValidationSupportTest {
             fail();
         } catch (IllegalStateException e) {}
     }
-    
+
     @Test
     public void testCheckValueSetBindingUcumCodeValid1() {
         ValidationSupport.checkValueSetBinding((Code)null, "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
@@ -716,7 +716,7 @@ public class ValidationSupportTest {
     @Test
     public void testCheckValueSetBindingUcumCodeNotValid1() {
         try {
-            ValidationSupport.checkValueSetBinding(Code.of(null), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
+            ValidationSupport.checkValueSetBinding(Code.builder().build(), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
             fail();
         } catch (IllegalStateException e) {
         }
@@ -832,7 +832,7 @@ public class ValidationSupportTest {
     @Test
     public void testCheckValueSetBindingUcumCodingNotValid4() {
         try {
-            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(null)).code(Code.of("mg/mmol")).build(), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
+            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.builder().build()).code(Code.of("mg/mmol")).build(), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
             fail();
         } catch (IllegalStateException e) {
         }
@@ -841,7 +841,7 @@ public class ValidationSupportTest {
     @Test
     public void testCheckValueSetBindingUcumCodingNotValid5() {
         try {
-            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.of(null)).build(), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
+            ValidationSupport.checkValueSetBinding(Coding.builder().system(Uri.of(ValidationSupport.UCUM_CODE_SYSTEM_URL)).code(Code.builder().build()).build(), "elementName", ValidationSupport.UCUM_UNITS_VALUE_SET_URL, null);
             fail();
         } catch (IllegalStateException e) {
         }
@@ -967,5 +967,5 @@ public class ValidationSupportTest {
         } catch (IllegalStateException e) {
         }
     }
-    
+
 }

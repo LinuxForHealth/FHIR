@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # ----------------------------------------------------------------------------
-# (C) Copyright IBM Corp. 2020
+# (C) Copyright IBM Corp. 2020, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 # ----------------------------------------------------------------------------
@@ -181,7 +181,7 @@ function _call_db2 {
 
     # since we are generating, we can debug this... with set +x
     set -x
-    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+    /opt/java/openjdk/bin/java -Dlog.dir=${SCHEMA_TOOL_LOCATION}/workarea -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
         --prop "db.host=${DB_HOSTNAME}" \
         --prop "db.port=${DB_PORT}" \
         --prop "db.database=${DB_NAME}" \
@@ -189,7 +189,7 @@ function _call_db2 {
         --prop "password=${DB_PASSWORD}" \
         ${SSL_STANZA} \
         --db-type db2 \
-        ${INPUT} 2>&1 | tee out.log
+        ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
     echo "$?" > response_code
     set +x
 }
@@ -215,7 +215,7 @@ function _call_postgres {
 
     # since we are generating, we can debug this... with set +x
     set -x
-    /opt/java/openjdk/bin/java -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
+    /opt/java/openjdk/bin/java -Dlog.dir=${SCHEMA_TOOL_LOCATION}/workarea -jar ${SCHEMA_TOOL_LOCATION}/fhir-persistence-schema-*-cli.jar \
         --prop "db.host=${DB_HOSTNAME}" \
         --prop "db.port=${DB_PORT}" \
         --prop "db.database=${DB_NAME}" \
@@ -223,7 +223,7 @@ function _call_postgres {
         --prop "password=${DB_PASSWORD}" \
         ${SSL_STANZA} \
         --db-type postgresql \
-        ${INPUT} 2>&1 | tee out.log
+        ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
     set +x
 }
 
@@ -242,49 +242,44 @@ function allocate_tenant {
 
         # Tenant Key
         TK_FILE_STANZA=""
+        TK_FILE='/opt/schematool/workarea/persistence.key'
         if [ ! -z "${TENANT_KEY}" ]
         then
-            TK_FILE='/opt/schematool/workarea/persistence.key'
             echo "${TENANT_KEY}" > ${TK_FILE}
-            TK_FILE_STANZA="--tenant-key-file ${TK_FILE}"
-
-            # Only in the case where we have a file we are loading we hit the issue
-            # where we need to override the default behavior or exiting on failure.
-            set +o errexit
-            set +o pipefail
+        else
+            # not specified by the client, so we're randomly generating and inlining it
+            TENANT_KEY=$(openssl rand -base64 32)
+            echo "TENANT_KEY: ${TENANT_KEY}"
+            echo "${TENANT_KEY}" > ${TK_FILE}
+            echo "tenant.key=${TENANT_KEY}" >> ${TOOL_INPUT_FILE}
         fi
+
+        # Only in the case where we have a file we are loading we hit the issue
+        # where we need to override the default behavior of exiting on failure.
+        set +o errexit
+        set +o pipefail
 
         SCHEMA_FHIR=$(get_property schema.name.fhir .persistence[0].schema.fhir)
         if [ -z "${SCHEMA_FHIR}" ] || [ "null" = "${SCHEMA_FHIR}" ]
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
-        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} ${TK_FILE_STANZA} --pool-size 1"
 
-        # Always reset
-        set -o errexit
-        set -o pipefail
+        _call_db2 "--schema-name ${SCHEMA_FHIR} --allocate-tenant ${TENANT_NAME} --tenant-key-file ${TK_FILE} --pool-size 5"
 
         # Tenant Key and Name already exist
-        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" out.log)
-        if [ ! -z "${ALREADY_EXISTS}" ] && [ "$(cat response_code)" != "0" ]
+        ALREADY_EXISTS=$(grep "tenantName and tenantKey already exists" ${SCHEMA_TOOL_LOCATION}/workarea/out.log)
+        if [ ! -z "${ALREADY_EXISTS}" ]
         then
             error_warn "Unexpected failure in allocate-tenant"
             exit 3;
         fi
 
-        # TenantKey File CHeck
-        if [ ! -z "${TK_FILE}" ]
-        then
-            # From File
-            TENANT_KEY_OUT="${TENANT_KEY}"
-        else
-            # Not from File
-            TENANT_KEY_OUT=`cat out.log | grep 'tenantKey"' | /opt/schematool/jq -r '.tenantKey'`
-        fi
-
-        echo "tenant.key=${TENANT_KEY_OUT}" >> ${TOOL_INPUT_FILE}
         TENANT_KEY=$(get_property tenant.key .persistence[0].tenant.key)
+
+        # Always reset
+        set -o errexit
+        set -o pipefail
     fi
 }
 
@@ -304,6 +299,9 @@ function test_tenant {
             SCHEMA_FHIR="FHIRDATA"
         fi
         _call_db2 "--test-tenant ${TENANT_NAME} --tenant-key ${TENANT_KEY} --schema-name ${SCHEMA_FHIR} --pool-size 1"
+        echo "Successful Setup of: "
+        echo "TENANT_NAME: ${TENANT_NAME}"
+        echo "TENANT_KEY: ${TENANT_KEY}"
     fi
 }
 
@@ -357,10 +355,10 @@ function grant_to_dbuser {
 
         if [ "${DB_TYPE}" = "db2" ]
         then
-            _call_db2 "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 2"
+            _call_db2 "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 5"
         elif [ "${DB_TYPE}" = "postgresql" ]
         then
-            _call_postgres "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 2"
+            _call_postgres "--grant-to ${TARGET_USER} --target BATCH ${SCHEMA_BATCH} --target OAUTH "${SCHEMA_OAUTH}" --target DATA ${SCHEMA_FHIR} --pool-size 5"
         fi
     fi
 }
@@ -375,7 +373,12 @@ function refresh_tenants {
         then
             SCHEMA_FHIR="FHIRDATA"
         fi
-        _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 1"
+
+        set +o errexit
+        set +o pipefail
+        _call_db2 "--refresh-tenants --schema-name ${SCHEMA_FHIR} --pool-size 5"
+        set -o errexit
+        set -o pipefail
     elif [ "${DB_TYPE}" = "postgresql" ]
     then
         echo "Skipping refresh-tenants as it's not needed on 'postgresql'"
@@ -673,8 +676,8 @@ function onboard_behavior {
 
         # Db2 only
         allocate_tenant
-        test_tenant
         refresh_tenants
+        test_tenant
     else
         info "The onboarding deployment flow is skipped"
     fi

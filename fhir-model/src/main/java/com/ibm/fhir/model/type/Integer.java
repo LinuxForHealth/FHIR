@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,12 +21,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Integer extends Element {
     protected final java.lang.Integer value;
 
-    private volatile int hashCode;
-
     protected Integer(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -49,15 +46,36 @@ public class Integer extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.Integer
+     * 
+     * @param value
+     *     A java.lang.Integer, not null
+     */
     public static Integer of(java.lang.Integer value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Integer objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer integer(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Integer.builder().value(value).build();
     }
 
@@ -202,7 +220,16 @@ public class Integer extends Element {
          */
         @Override
         public Integer build() {
-            return new Integer(this);
+            Integer integer = new Integer(this);
+            if (validating) {
+                validate(integer);
+            }
+            return integer;
+        }
+
+        protected void validate(Integer integer) {
+            super.validate(integer);
+            ValidationSupport.requireValueOrChildren(integer);
         }
 
         protected Builder from(Integer integer) {

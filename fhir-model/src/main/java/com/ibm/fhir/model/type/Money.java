@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,19 +27,16 @@ public class Money extends Element {
     @Summary
     @Binding(
         bindingName = "CurrencyCode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code indicating the currency, taken from ISO 4217.",
         valueSet = "http://hl7.org/fhir/ValueSet/currencies|4.0.1"
     )
     private final Code currency;
 
-    private volatile int hashCode;
-
     private Money(Builder builder) {
         super(builder);
         value = builder.value;
         currency = builder.currency;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -224,7 +221,16 @@ public class Money extends Element {
          */
         @Override
         public Money build() {
-            return new Money(this);
+            Money money = new Money(this);
+            if (validating) {
+                validate(money);
+            }
+            return money;
+        }
+
+        protected void validate(Money money) {
+            super.validate(money);
+            ValidationSupport.requireValueOrChildren(money);
         }
 
         protected Builder from(Money money) {

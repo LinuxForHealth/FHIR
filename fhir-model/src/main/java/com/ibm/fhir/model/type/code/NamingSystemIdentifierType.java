@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class NamingSystemIdentifierType extends Code {
      * 
      * <p>An ISO object identifier; e.g. 1.2.3.4.5.
      */
-    public static final NamingSystemIdentifierType OID = NamingSystemIdentifierType.builder().value(ValueSet.OID).build();
+    public static final NamingSystemIdentifierType OID = NamingSystemIdentifierType.builder().value(Value.OID).build();
 
     /**
      * UUID
      * 
      * <p>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
      */
-    public static final NamingSystemIdentifierType UUID = NamingSystemIdentifierType.builder().value(ValueSet.UUID).build();
+    public static final NamingSystemIdentifierType UUID = NamingSystemIdentifierType.builder().value(Value.UUID).build();
 
     /**
      * URI
      * 
      * <p>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
      */
-    public static final NamingSystemIdentifierType URI = NamingSystemIdentifierType.builder().value(ValueSet.URI).build();
+    public static final NamingSystemIdentifierType URI = NamingSystemIdentifierType.builder().value(Value.URI).build();
 
     /**
      * Other
      * 
      * <p>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
      */
-    public static final NamingSystemIdentifierType OTHER = NamingSystemIdentifierType.builder().value(ValueSet.OTHER).build();
+    public static final NamingSystemIdentifierType OTHER = NamingSystemIdentifierType.builder().value(Value.OTHER).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class NamingSystemIdentifierType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this NamingSystemIdentifierType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this NamingSystemIdentifierType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating NamingSystemIdentifierType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static NamingSystemIdentifierType of(ValueSet value) {
+        switch (value) {
+        case OID:
+            return OID;
+        case UUID:
+            return UUID;
+        case URI:
+            return URI;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating NamingSystemIdentifierType objects from a passed enum value.
      */
-    public static NamingSystemIdentifierType of(ValueSet value) {
+    public static NamingSystemIdentifierType of(Value value) {
         switch (value) {
         case OID:
             return OID;
@@ -84,7 +116,7 @@ public class NamingSystemIdentifierType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static NamingSystemIdentifierType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class NamingSystemIdentifierType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class NamingSystemIdentifierType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class NamingSystemIdentifierType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class NamingSystemIdentifierType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for NamingSystemIdentifierType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public NamingSystemIdentifierType build() {
-            return new NamingSystemIdentifierType(this);
+            NamingSystemIdentifierType namingSystemIdentifierType = new NamingSystemIdentifierType(this);
+            if (validating) {
+                validate(namingSystemIdentifierType);
+            }
+            return namingSystemIdentifierType;
+        }
+
+        protected void validate(NamingSystemIdentifierType namingSystemIdentifierType) {
+            super.validate(namingSystemIdentifierType);
+        }
+
+        protected Builder from(NamingSystemIdentifierType namingSystemIdentifierType) {
+            super.from(namingSystemIdentifierType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * OID
@@ -227,7 +286,7 @@ public class NamingSystemIdentifierType extends Code {
         }
 
         /**
-         * Factory method for creating NamingSystemIdentifierType.ValueSet values from a passed string value.
+         * Factory method for creating NamingSystemIdentifierType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class NamingSystemIdentifierType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * OID
+         * 
+         * <p>An ISO object identifier; e.g. 1.2.3.4.5.
+         */
+        OID("oid"),
+
+        /**
+         * UUID
+         * 
+         * <p>A universally unique identifier of the form a5afddf4-e880-459b-876e-e4591b0acc11.
+         */
+        UUID("uuid"),
+
+        /**
+         * URI
+         * 
+         * <p>A uniform resource identifier (ideally a URL - uniform resource locator); e.g. http://unitsofmeasure.org.
+         */
+        URI("uri"),
+
+        /**
+         * Other
+         * 
+         * <p>Some other type of unique identifier; e.g. HL7-assigned reserved string such as LN for LOINC.
+         */
+        OTHER("other");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating NamingSystemIdentifierType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding NamingSystemIdentifierType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "oid":
+                return OID;
+            case "uuid":
+                return UUID;
+            case "uri":
+                return URI;
+            case "other":
+                return OTHER;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,6 +7,7 @@
 package com.ibm.fhir.persistence.util;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -15,8 +16,12 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.Meta;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.context.FHIRSystemHistoryContext;
+import com.ibm.fhir.persistence.context.impl.FHIRSystemHistoryContextImpl;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 
 public class FHIRPersistenceUtil {
@@ -67,10 +72,75 @@ public class FHIRPersistenceUtil {
         return context;
     }
 
-    
+    // Parse history parameters into a FHIRHistoryContext
+
+    /**
+     *
+     * @param queryParameters
+     * @param lenient
+     * @return
+     * @throws FHIRPersistenceException
+     */
+    public static FHIRSystemHistoryContext parseSystemHistoryParameters(Map<String, List<String>> queryParameters, boolean lenient) throws FHIRPersistenceException {
+        log.entering(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
+        FHIRSystemHistoryContextImpl context = new FHIRSystemHistoryContextImpl();
+        context.setLenient(lenient);
+        try {
+            for (String name : queryParameters.keySet()) {
+                List<String> values = queryParameters.get(name);
+                String first = values.get(0);
+                if ("_afterHistoryId".equals(name)) {
+                    long id = Long.parseLong(first);
+                    context.setAfterHistoryId(id);
+                } else if ("_count".equals(name)) {
+                    int resourceCount = Integer.parseInt(first);
+                    if (resourceCount >= 0) {
+                        context.setCount(resourceCount);
+                    }
+                } else if ("_since".equals(name)) {
+                    DateTime dt = DateTime.of(first);
+                    if (!dt.isPartial()) {
+                        Instant since = Instant.of(ZonedDateTime.from(dt.getValue()));
+                        context.setSince(since);
+                    }
+                    else {
+                        String msg = "The '_since' parameter must be a fully specified ISO 8601 date/time";
+                        throw new FHIRPersistenceException(msg)
+                                .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                    }
+                } else if ("_format".equals(name)) {
+                    // safely ignore
+                    continue;
+                } else {
+                    String msg = "Unrecognized history parameter: '" + name + "'";
+                    throw new FHIRPersistenceException(msg)
+                            .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+                }
+            }
+
+            if (context.getAfterHistoryId() != null && context.getSince() != null) {
+                String msg = "_since and _afterHistoryId can only be used exclusively, not together";
+                throw new FHIRPersistenceException(msg)
+                        .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+            }
+        } catch (FHIRPersistenceException e) {
+            throw e;
+        } catch (NumberFormatException | DateTimeParseException e) {
+            String msg = "Error parsing history parameters";
+            throw new FHIRPersistenceException(msg, e)
+                    .withIssue(FHIRUtil.buildOperationOutcomeIssue(msg, IssueType.INVALID));
+        } catch (Exception e) {
+            throw new FHIRPersistenceException("Error parsing history parameters", e);
+        } finally {
+            log.exiting(FHIRPersistenceUtil.class.getName(), "parseSystemHistoryParameters");
+        }
+        return context;
+    }
+
+
     /**
      * Create a minimal deleted resource marker from the given resource
-     * 
+     *
      * @param deletedResource
      * @return deletedResourceMarker
      */

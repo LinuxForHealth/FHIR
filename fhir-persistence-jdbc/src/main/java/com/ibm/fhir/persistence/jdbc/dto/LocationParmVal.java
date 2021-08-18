@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,34 +11,16 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 /**
  * This class defines the Data Transfer Object representing a row in the X_LATLNG_VALUES tables.
  */
-public class LocationParmVal implements ExtractedParameterValue {
-    
-    private String resourceType;
-    private String name;
-    private Double valueLongitude;
+public class LocationParmVal extends ExtractedParameterValue {
+
     private Double valueLatitude;
-    
-    // The SearchParameter base type. If "Resource", then this is a Resource-level attribute
-    private String base;
-    
+    private Double valueLongitude;
+
+    /**
+     * Public constructor
+     */
     public LocationParmVal() {
         super();
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Double getValueLongitude() {
-        return valueLongitude;
-    }
-
-    public void setValueLongitude(Double valueLongitude) {
-        this.valueLongitude = valueLongitude;
     }
 
     public Double getValueLatitude() {
@@ -49,32 +31,55 @@ public class LocationParmVal implements ExtractedParameterValue {
         this.valueLatitude = valueLatitude;
     }
 
-    public String getResourceType() {
-        return resourceType;
+    public Double getValueLongitude() {
+        return valueLongitude;
     }
 
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
+    public void setValueLongitude(Double valueLongitude) {
+        this.valueLongitude = valueLongitude;
     }
 
     /**
      * We know our type, so we can call the correct method on the visitor
      */
+    @Override
     public void accept(ExtractedParameterValueVisitor visitor) throws FHIRPersistenceException {
         visitor.visit(this);
     }
 
-    /**
-     * @return the base
-     */
-    public String getBase() {
-        return base;
-    }
+    @Override
+    protected int compareToInner(ExtractedParameterValue o) {
+        LocationParmVal other = (LocationParmVal) o;
+        int retVal;
 
-    /**
-     * @param base the base to set
-     */
-    public void setBase(String base) {
-        this.base = base;
+        Double thisValueLatitude = this.getValueLatitude();
+        Double otherValueLatitude = other.getValueLatitude();
+        if (thisValueLatitude != null || otherValueLatitude != null) {
+            if (thisValueLatitude == null) {
+                return -1;
+            } else if (otherValueLatitude == null) {
+                return 1;
+            }
+            retVal = thisValueLatitude.compareTo(otherValueLatitude);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        Double thisValueLongitude = this.getValueLongitude();
+        Double otherValueLongitude = other.getValueLongitude();
+        if (thisValueLongitude != null || otherValueLongitude != null) {
+            if (thisValueLongitude == null) {
+                return -1;
+            } else if (otherValueLongitude == null) {
+                return 1;
+            }
+            retVal = thisValueLongitude.compareTo(otherValueLongitude);
+            if (retVal != 0) {
+                return retVal;
+            }
+        }
+
+        return 0;
     }
 }

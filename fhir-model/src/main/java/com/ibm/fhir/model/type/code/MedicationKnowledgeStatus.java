@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,21 +24,21 @@ public class MedicationKnowledgeStatus extends Code {
      * 
      * <p>The medication is available for use.
      */
-    public static final MedicationKnowledgeStatus ACTIVE = MedicationKnowledgeStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final MedicationKnowledgeStatus ACTIVE = MedicationKnowledgeStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Inactive
      * 
      * <p>The medication is not available for use.
      */
-    public static final MedicationKnowledgeStatus INACTIVE = MedicationKnowledgeStatus.builder().value(ValueSet.INACTIVE).build();
+    public static final MedicationKnowledgeStatus INACTIVE = MedicationKnowledgeStatus.builder().value(Value.INACTIVE).build();
 
     /**
      * Entered in Error
      * 
      * <p>The medication was entered in error.
      */
-    public static final MedicationKnowledgeStatus ENTERED_IN_ERROR = MedicationKnowledgeStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final MedicationKnowledgeStatus ENTERED_IN_ERROR = MedicationKnowledgeStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class MedicationKnowledgeStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this MedicationKnowledgeStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this MedicationKnowledgeStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating MedicationKnowledgeStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static MedicationKnowledgeStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating MedicationKnowledgeStatus objects from a passed enum value.
      */
-    public static MedicationKnowledgeStatus of(ValueSet value) {
+    public static MedicationKnowledgeStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -75,7 +105,7 @@ public class MedicationKnowledgeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static MedicationKnowledgeStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class MedicationKnowledgeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class MedicationKnowledgeStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -128,11 +158,7 @@ public class MedicationKnowledgeStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,19 +187,50 @@ public class MedicationKnowledgeStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for MedicationKnowledgeStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public MedicationKnowledgeStatus build() {
-            return new MedicationKnowledgeStatus(this);
+            MedicationKnowledgeStatus medicationKnowledgeStatus = new MedicationKnowledgeStatus(this);
+            if (validating) {
+                validate(medicationKnowledgeStatus);
+            }
+            return medicationKnowledgeStatus;
+        }
+
+        protected void validate(MedicationKnowledgeStatus medicationKnowledgeStatus) {
+            super.validate(medicationKnowledgeStatus);
+        }
+
+        protected Builder from(MedicationKnowledgeStatus medicationKnowledgeStatus) {
+            super.from(medicationKnowledgeStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -211,7 +268,7 @@ public class MedicationKnowledgeStatus extends Code {
         }
 
         /**
-         * Factory method for creating MedicationKnowledgeStatus.ValueSet values from a passed string value.
+         * Factory method for creating MedicationKnowledgeStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +282,69 @@ public class MedicationKnowledgeStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The medication is available for use.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The medication is not available for use.
+         */
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The medication was entered in error.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating MedicationKnowledgeStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding MedicationKnowledgeStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "inactive":
+                return INACTIVE;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

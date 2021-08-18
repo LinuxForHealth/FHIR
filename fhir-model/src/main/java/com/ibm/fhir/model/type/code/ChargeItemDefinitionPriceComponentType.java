@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,42 +24,42 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
      * 
      * <p>the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
      */
-    public static final ChargeItemDefinitionPriceComponentType BASE = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.BASE).build();
+    public static final ChargeItemDefinitionPriceComponentType BASE = ChargeItemDefinitionPriceComponentType.builder().value(Value.BASE).build();
 
     /**
      * surcharge
      * 
      * <p>the amount is a surcharge applied on the base price.
      */
-    public static final ChargeItemDefinitionPriceComponentType SURCHARGE = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.SURCHARGE).build();
+    public static final ChargeItemDefinitionPriceComponentType SURCHARGE = ChargeItemDefinitionPriceComponentType.builder().value(Value.SURCHARGE).build();
 
     /**
      * deduction
      * 
      * <p>the amount is a deduction applied on the base price.
      */
-    public static final ChargeItemDefinitionPriceComponentType DEDUCTION = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.DEDUCTION).build();
+    public static final ChargeItemDefinitionPriceComponentType DEDUCTION = ChargeItemDefinitionPriceComponentType.builder().value(Value.DEDUCTION).build();
 
     /**
      * discount
      * 
      * <p>the amount is a discount applied on the base price.
      */
-    public static final ChargeItemDefinitionPriceComponentType DISCOUNT = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.DISCOUNT).build();
+    public static final ChargeItemDefinitionPriceComponentType DISCOUNT = ChargeItemDefinitionPriceComponentType.builder().value(Value.DISCOUNT).build();
 
     /**
      * tax
      * 
      * <p>the amount is the tax component of the total price.
      */
-    public static final ChargeItemDefinitionPriceComponentType TAX = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.TAX).build();
+    public static final ChargeItemDefinitionPriceComponentType TAX = ChargeItemDefinitionPriceComponentType.builder().value(Value.TAX).build();
 
     /**
      * informational
      * 
      * <p>the amount is of informational character, it has not been applied in the calculation of the total price.
      */
-    public static final ChargeItemDefinitionPriceComponentType INFORMATIONAL = ChargeItemDefinitionPriceComponentType.builder().value(ValueSet.INFORMATIONAL).build();
+    public static final ChargeItemDefinitionPriceComponentType INFORMATIONAL = ChargeItemDefinitionPriceComponentType.builder().value(Value.INFORMATIONAL).build();
 
     private volatile int hashCode;
 
@@ -67,14 +67,50 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ChargeItemDefinitionPriceComponentType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ChargeItemDefinitionPriceComponentType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ChargeItemDefinitionPriceComponentType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ChargeItemDefinitionPriceComponentType of(ValueSet value) {
+        switch (value) {
+        case BASE:
+            return BASE;
+        case SURCHARGE:
+            return SURCHARGE;
+        case DEDUCTION:
+            return DEDUCTION;
+        case DISCOUNT:
+            return DISCOUNT;
+        case TAX:
+            return TAX;
+        case INFORMATIONAL:
+            return INFORMATIONAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ChargeItemDefinitionPriceComponentType objects from a passed enum value.
      */
-    public static ChargeItemDefinitionPriceComponentType of(ValueSet value) {
+    public static ChargeItemDefinitionPriceComponentType of(Value value) {
         switch (value) {
         case BASE:
             return BASE;
@@ -102,7 +138,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ChargeItemDefinitionPriceComponentType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -114,7 +150,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +162,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -155,11 +191,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -188,19 +220,50 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ChargeItemDefinitionPriceComponentType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ChargeItemDefinitionPriceComponentType build() {
-            return new ChargeItemDefinitionPriceComponentType(this);
+            ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType = new ChargeItemDefinitionPriceComponentType(this);
+            if (validating) {
+                validate(chargeItemDefinitionPriceComponentType);
+            }
+            return chargeItemDefinitionPriceComponentType;
+        }
+
+        protected void validate(ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType) {
+            super.validate(chargeItemDefinitionPriceComponentType);
+        }
+
+        protected Builder from(ChargeItemDefinitionPriceComponentType chargeItemDefinitionPriceComponentType) {
+            super.from(chargeItemDefinitionPriceComponentType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * base price
@@ -259,7 +322,7 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
         }
 
         /**
-         * Factory method for creating ChargeItemDefinitionPriceComponentType.ValueSet values from a passed string value.
+         * Factory method for creating ChargeItemDefinitionPriceComponentType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -273,6 +336,96 @@ public class ChargeItemDefinitionPriceComponentType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * base price
+         * 
+         * <p>the amount is the base price used for calculating the total price before applying surcharges, discount or taxes.
+         */
+        BASE("base"),
+
+        /**
+         * surcharge
+         * 
+         * <p>the amount is a surcharge applied on the base price.
+         */
+        SURCHARGE("surcharge"),
+
+        /**
+         * deduction
+         * 
+         * <p>the amount is a deduction applied on the base price.
+         */
+        DEDUCTION("deduction"),
+
+        /**
+         * discount
+         * 
+         * <p>the amount is a discount applied on the base price.
+         */
+        DISCOUNT("discount"),
+
+        /**
+         * tax
+         * 
+         * <p>the amount is the tax component of the total price.
+         */
+        TAX("tax"),
+
+        /**
+         * informational
+         * 
+         * <p>the amount is of informational character, it has not been applied in the calculation of the total price.
+         */
+        INFORMATIONAL("informational");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ChargeItemDefinitionPriceComponentType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ChargeItemDefinitionPriceComponentType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "base":
+                return BASE;
+            case "surcharge":
+                return SURCHARGE;
+            case "deduction":
+                return DEDUCTION;
+            case "discount":
+                return DISCOUNT;
+            case "tax":
+                return TAX;
+            case "informational":
+                return INFORMATIONAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

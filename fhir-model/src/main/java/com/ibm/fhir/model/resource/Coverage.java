@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,19 +39,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CoverageStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Financial instrument which may be used to reimburse or pay for health care products and services. Includes both 
  * insurance and self-payment.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "coverage-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/coverage-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/coverage-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subscriber-relationship",
     expression = "relationship.exists() implies (relationship.memberOf('http://hl7.org/fhir/ValueSet/subscriber-relationship', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "class.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-class",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-class', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Constraint(
@@ -75,6 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "costToBeneficiary.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/coverage-copay-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/coverage-copay-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Coverage",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -84,7 +96,7 @@ public class Coverage extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CoverageStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -93,7 +105,7 @@ public class Coverage extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CoverageType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The type of insurance: public health, worker compensation; private accident, auto, private health, etc.) or a direct payment by an individual or organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/coverage-type"
     )
@@ -114,7 +126,7 @@ public class Coverage extends DomainResource {
     private final String dependent;
     @Binding(
         bindingName = "Relationship",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The relationship between the Subscriber and the Beneficiary (insured/covered party/patient).",
         valueSet = "http://hl7.org/fhir/ValueSet/subscriber-relationship"
     )
@@ -135,33 +147,25 @@ public class Coverage extends DomainResource {
     @ReferenceTarget({ "Contract" })
     private final List<Reference> contract;
 
-    private volatile int hashCode;
-
     private Coverage(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         type = builder.type;
         policyHolder = builder.policyHolder;
         subscriber = builder.subscriber;
         subscriberId = builder.subscriberId;
-        beneficiary = ValidationSupport.requireNonNull(builder.beneficiary, "beneficiary");
+        beneficiary = builder.beneficiary;
         dependent = builder.dependent;
         relationship = builder.relationship;
         period = builder.period;
-        payor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payor, "payor"));
-        clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
+        payor = Collections.unmodifiableList(builder.payor);
+        clazz = Collections.unmodifiableList(builder.clazz);
         order = builder.order;
         network = builder.network;
-        costToBeneficiary = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.costToBeneficiary, "costToBeneficiary"));
+        costToBeneficiary = Collections.unmodifiableList(builder.costToBeneficiary);
         subrogation = builder.subrogation;
-        contract = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contract, "contract"));
-        ValidationSupport.checkReferenceType(policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(subscriber, "subscriber", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(beneficiary, "beneficiary", "Patient");
-        ValidationSupport.checkReferenceType(payor, "payor", "Organization", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(contract, "contract", "Contract");
-        ValidationSupport.requireChildren(this);
+        contract = Collections.unmodifiableList(builder.contract);
     }
 
     /**
@@ -1119,7 +1123,27 @@ public class Coverage extends DomainResource {
          */
         @Override
         public Coverage build() {
-            return new Coverage(this);
+            Coverage coverage = new Coverage(this);
+            if (validating) {
+                validate(coverage);
+            }
+            return coverage;
+        }
+
+        protected void validate(Coverage coverage) {
+            super.validate(coverage);
+            ValidationSupport.checkList(coverage.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(coverage.status, "status");
+            ValidationSupport.requireNonNull(coverage.beneficiary, "beneficiary");
+            ValidationSupport.checkNonEmptyList(coverage.payor, "payor", Reference.class);
+            ValidationSupport.checkList(coverage.clazz, "class", Class.class);
+            ValidationSupport.checkList(coverage.costToBeneficiary, "costToBeneficiary", CostToBeneficiary.class);
+            ValidationSupport.checkList(coverage.contract, "contract", Reference.class);
+            ValidationSupport.checkReferenceType(coverage.policyHolder, "policyHolder", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(coverage.subscriber, "subscriber", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(coverage.beneficiary, "beneficiary", "Patient");
+            ValidationSupport.checkReferenceType(coverage.payor, "payor", "Organization", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(coverage.contract, "contract", "Contract");
         }
 
         protected Builder from(Coverage coverage) {
@@ -1152,7 +1176,7 @@ public class Coverage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CoverageClass",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The policy classifications, eg. Group, Plan, Class, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-class"
         )
@@ -1164,14 +1188,11 @@ public class Coverage extends DomainResource {
         @Summary
         private final String name;
 
-        private volatile int hashCode;
-
         private Class(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            value = ValidationSupport.requireNonNull(builder.value, "value");
+            type = builder.type;
+            value = builder.value;
             name = builder.name;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1448,7 +1469,18 @@ public class Coverage extends DomainResource {
              */
             @Override
             public Class build() {
-                return new Class(this);
+                Class _class = new Class(this);
+                if (validating) {
+                    validate(_class);
+                }
+                return _class;
+            }
+
+            protected void validate(Class _class) {
+                super.validate(_class);
+                ValidationSupport.requireNonNull(_class.type, "type");
+                ValidationSupport.requireNonNull(_class.value, "value");
+                ValidationSupport.requireValueOrChildren(_class);
             }
 
             protected Builder from(Class _class) {
@@ -1469,7 +1501,7 @@ public class Coverage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "CopayTypes",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The types of services to which patient copayments are specified.",
             valueSet = "http://hl7.org/fhir/ValueSet/coverage-copay-type"
         )
@@ -1480,14 +1512,11 @@ public class Coverage extends DomainResource {
         private final Element value;
         private final List<Exception> exception;
 
-        private volatile int hashCode;
-
         private CostToBeneficiary(Builder builder) {
             super(builder);
             type = builder.type;
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", SimpleQuantity.class, Money.class);
-            exception = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exception, "exception"));
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
+            exception = Collections.unmodifiableList(builder.exception);
         }
 
         /**
@@ -1785,7 +1814,18 @@ public class Coverage extends DomainResource {
              */
             @Override
             public CostToBeneficiary build() {
-                return new CostToBeneficiary(this);
+                CostToBeneficiary costToBeneficiary = new CostToBeneficiary(this);
+                if (validating) {
+                    validate(costToBeneficiary);
+                }
+                return costToBeneficiary;
+            }
+
+            protected void validate(CostToBeneficiary costToBeneficiary) {
+                super.validate(costToBeneficiary);
+                ValidationSupport.requireChoiceElement(costToBeneficiary.value, "value", SimpleQuantity.class, Money.class);
+                ValidationSupport.checkList(costToBeneficiary.exception, "exception", Exception.class);
+                ValidationSupport.requireValueOrChildren(costToBeneficiary);
             }
 
             protected Builder from(CostToBeneficiary costToBeneficiary) {
@@ -1804,7 +1844,7 @@ public class Coverage extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "CoverageFinancialException",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "The types of exceptions from the part or full value of financial obligations such as copays.",
                 valueSet = "http://hl7.org/fhir/ValueSet/coverage-financial-exception"
             )
@@ -1813,13 +1853,10 @@ public class Coverage extends DomainResource {
             @Summary
             private final Period period;
 
-            private volatile int hashCode;
-
             private Exception(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 period = builder.period;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2062,7 +2099,17 @@ public class Coverage extends DomainResource {
                  */
                 @Override
                 public Exception build() {
-                    return new Exception(this);
+                    Exception exception = new Exception(this);
+                    if (validating) {
+                        validate(exception);
+                    }
+                    return exception;
+                }
+
+                protected void validate(Exception exception) {
+                    super.validate(exception);
+                    ValidationSupport.requireNonNull(exception.type, "type");
+                    ValidationSupport.requireValueOrChildren(exception);
                 }
 
                 protected Builder from(Exception exception) {

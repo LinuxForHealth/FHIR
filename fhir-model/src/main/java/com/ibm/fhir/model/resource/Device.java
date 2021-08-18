@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DeviceNameType;
 import com.ibm.fhir.model.type.code.FHIRDeviceStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.UDIEntryType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -44,13 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A type of a manufactured item that is used in the provision of healthcare without being substantially changed through 
  * that activity. The device may be a medical or non-medical device.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "device-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/device-status-reason",
     expression = "statusReason.exists() implies (statusReason.all(memberOf('http://hl7.org/fhir/ValueSet/device-status-reason', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Device",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -63,14 +72,14 @@ public class Device extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRDeviceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The availability status of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status|4.0.1"
     )
     private final FHIRDeviceStatus status;
     @Binding(
         bindingName = "FHIRDeviceStatusReason",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The availability status reason of the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-status-reason"
     )
@@ -86,7 +95,7 @@ public class Device extends DomainResource {
     private final String partNumber;
     @Binding(
         bindingName = "DeviceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes to identify medical devices.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-type"
     )
@@ -108,42 +117,34 @@ public class Device extends DomainResource {
     @ReferenceTarget({ "Device" })
     private final Reference parent;
 
-    private volatile int hashCode;
-
     private Device(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         definition = builder.definition;
-        udiCarrier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.udiCarrier, "udiCarrier"));
+        udiCarrier = Collections.unmodifiableList(builder.udiCarrier);
         status = builder.status;
-        statusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusReason, "statusReason"));
+        statusReason = Collections.unmodifiableList(builder.statusReason);
         distinctIdentifier = builder.distinctIdentifier;
         manufacturer = builder.manufacturer;
         manufactureDate = builder.manufactureDate;
         expirationDate = builder.expirationDate;
         lotNumber = builder.lotNumber;
         serialNumber = builder.serialNumber;
-        deviceName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.deviceName, "deviceName"));
+        deviceName = Collections.unmodifiableList(builder.deviceName);
         modelNumber = builder.modelNumber;
         partNumber = builder.partNumber;
         type = builder.type;
-        specialization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialization, "specialization"));
-        version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
+        specialization = Collections.unmodifiableList(builder.specialization);
+        version = Collections.unmodifiableList(builder.version);
+        property = Collections.unmodifiableList(builder.property);
         patient = builder.patient;
         owner = builder.owner;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         location = builder.location;
         url = builder.url;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        safety = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.safety, "safety"));
+        note = Collections.unmodifiableList(builder.note);
+        safety = Collections.unmodifiableList(builder.safety);
         parent = builder.parent;
-        ValidationSupport.checkReferenceType(definition, "definition", "DeviceDefinition");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(owner, "owner", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(parent, "parent", "Device");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1429,7 +1430,30 @@ public class Device extends DomainResource {
          */
         @Override
         public Device build() {
-            return new Device(this);
+            Device device = new Device(this);
+            if (validating) {
+                validate(device);
+            }
+            return device;
+        }
+
+        protected void validate(Device device) {
+            super.validate(device);
+            ValidationSupport.checkList(device.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(device.udiCarrier, "udiCarrier", UdiCarrier.class);
+            ValidationSupport.checkList(device.statusReason, "statusReason", CodeableConcept.class);
+            ValidationSupport.checkList(device.deviceName, "deviceName", DeviceName.class);
+            ValidationSupport.checkList(device.specialization, "specialization", Specialization.class);
+            ValidationSupport.checkList(device.version, "version", Version.class);
+            ValidationSupport.checkList(device.property, "property", Property.class);
+            ValidationSupport.checkList(device.contact, "contact", ContactPoint.class);
+            ValidationSupport.checkList(device.note, "note", Annotation.class);
+            ValidationSupport.checkList(device.safety, "safety", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(device.definition, "definition", "DeviceDefinition");
+            ValidationSupport.checkReferenceType(device.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(device.owner, "owner", "Organization");
+            ValidationSupport.checkReferenceType(device.location, "location", "Location");
+            ValidationSupport.checkReferenceType(device.parent, "parent", "Device");
         }
 
         protected Builder from(Device device) {
@@ -1480,13 +1504,11 @@ public class Device extends DomainResource {
         private final String carrierHRF;
         @Binding(
             bindingName = "UDIEntryType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Codes to identify how UDI data was entered.",
             valueSet = "http://hl7.org/fhir/ValueSet/udi-entry-type|4.0.1"
         )
         private final UDIEntryType entryType;
-
-        private volatile int hashCode;
 
         private UdiCarrier(Builder builder) {
             super(builder);
@@ -1496,7 +1518,6 @@ public class Device extends DomainResource {
             carrierAIDC = builder.carrierAIDC;
             carrierHRF = builder.carrierHRF;
             entryType = builder.entryType;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1876,7 +1897,16 @@ public class Device extends DomainResource {
              */
             @Override
             public UdiCarrier build() {
-                return new UdiCarrier(this);
+                UdiCarrier udiCarrier = new UdiCarrier(this);
+                if (validating) {
+                    validate(udiCarrier);
+                }
+                return udiCarrier;
+            }
+
+            protected void validate(UdiCarrier udiCarrier) {
+                super.validate(udiCarrier);
+                ValidationSupport.requireValueOrChildren(udiCarrier);
             }
 
             protected Builder from(UdiCarrier udiCarrier) {
@@ -1902,20 +1932,17 @@ public class Device extends DomainResource {
         private final String name;
         @Binding(
             bindingName = "DeviceNameType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of name the device is referred by.",
             valueSet = "http://hl7.org/fhir/ValueSet/device-nametype|4.0.1"
         )
         @Required
         private final DeviceNameType type;
 
-        private volatile int hashCode;
-
         private DeviceName(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.requireValueOrChildren(this);
+            name = builder.name;
+            type = builder.type;
         }
 
         /**
@@ -2163,7 +2190,18 @@ public class Device extends DomainResource {
              */
             @Override
             public DeviceName build() {
-                return new DeviceName(this);
+                DeviceName deviceName = new DeviceName(this);
+                if (validating) {
+                    validate(deviceName);
+                }
+                return deviceName;
+            }
+
+            protected void validate(DeviceName deviceName) {
+                super.validate(deviceName);
+                ValidationSupport.requireNonNull(deviceName.name, "name");
+                ValidationSupport.requireNonNull(deviceName.type, "type");
+                ValidationSupport.requireValueOrChildren(deviceName);
             }
 
             protected Builder from(DeviceName deviceName) {
@@ -2184,13 +2222,10 @@ public class Device extends DomainResource {
         private final CodeableConcept systemType;
         private final String version;
 
-        private volatile int hashCode;
-
         private Specialization(Builder builder) {
             super(builder);
-            systemType = ValidationSupport.requireNonNull(builder.systemType, "systemType");
+            systemType = builder.systemType;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2433,7 +2468,17 @@ public class Device extends DomainResource {
              */
             @Override
             public Specialization build() {
-                return new Specialization(this);
+                Specialization specialization = new Specialization(this);
+                if (validating) {
+                    validate(specialization);
+                }
+                return specialization;
+            }
+
+            protected void validate(Specialization specialization) {
+                super.validate(specialization);
+                ValidationSupport.requireNonNull(specialization.systemType, "systemType");
+                ValidationSupport.requireValueOrChildren(specialization);
             }
 
             protected Builder from(Specialization specialization) {
@@ -2454,14 +2499,11 @@ public class Device extends DomainResource {
         @Required
         private final String value;
 
-        private volatile int hashCode;
-
         private Version(Builder builder) {
             super(builder);
             type = builder.type;
             component = builder.component;
-            value = ValidationSupport.requireNonNull(builder.value, "value");
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -2733,7 +2775,17 @@ public class Device extends DomainResource {
              */
             @Override
             public Version build() {
-                return new Version(this);
+                Version version = new Version(this);
+                if (validating) {
+                    validate(version);
+                }
+                return version;
+            }
+
+            protected void validate(Version version) {
+                super.validate(version);
+                ValidationSupport.requireNonNull(version.value, "value");
+                ValidationSupport.requireValueOrChildren(version);
             }
 
             protected Builder from(Version version) {
@@ -2755,14 +2807,11 @@ public class Device extends DomainResource {
         private final List<Quantity> valueQuantity;
         private final List<CodeableConcept> valueCode;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            valueQuantity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueQuantity, "valueQuantity"));
-            valueCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueCode, "valueCode"));
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            valueQuantity = Collections.unmodifiableList(builder.valueQuantity);
+            valueCode = Collections.unmodifiableList(builder.valueCode);
         }
 
         /**
@@ -3074,7 +3123,19 @@ public class Device extends DomainResource {
              */
             @Override
             public Property build() {
-                return new Property(this);
+                Property property = new Property(this);
+                if (validating) {
+                    validate(property);
+                }
+                return property;
+            }
+
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.requireNonNull(property.type, "type");
+                ValidationSupport.checkList(property.valueQuantity, "valueQuantity", Quantity.class);
+                ValidationSupport.checkList(property.valueCode, "valueCode", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(property);
             }
 
             protected Builder from(Property property) {

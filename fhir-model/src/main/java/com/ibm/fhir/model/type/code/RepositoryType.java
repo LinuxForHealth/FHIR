@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class RepositoryType extends Code {
      * 
      * <p>When URL is clicked, the resource can be seen directly (by webpage or by download link format).
      */
-    public static final RepositoryType DIRECTLINK = RepositoryType.builder().value(ValueSet.DIRECTLINK).build();
+    public static final RepositoryType DIRECTLINK = RepositoryType.builder().value(Value.DIRECTLINK).build();
 
     /**
      * The URL is the RESTful or other kind of API that can access to the result.
@@ -32,28 +32,28 @@ public class RepositoryType extends Code {
      * <p>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can 
      * be seen directly (usually in JSON or XML format).
      */
-    public static final RepositoryType OPENAPI = RepositoryType.builder().value(ValueSet.OPENAPI).build();
+    public static final RepositoryType OPENAPI = RepositoryType.builder().value(Value.OPENAPI).build();
 
     /**
      * Result cannot be access unless an account is logged in
      * 
      * <p>When logged into the website, the resource can be seen.
      */
-    public static final RepositoryType LOGIN = RepositoryType.builder().value(ValueSet.LOGIN).build();
+    public static final RepositoryType LOGIN = RepositoryType.builder().value(Value.LOGIN).build();
 
     /**
      * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
      * 
      * <p>When logged in and follow the API in the website related with URL, the resource can be seen.
      */
-    public static final RepositoryType OAUTH = RepositoryType.builder().value(ValueSet.OAUTH).build();
+    public static final RepositoryType OAUTH = RepositoryType.builder().value(Value.OAUTH).build();
 
     /**
      * Some other complicated or particular way to get resource from URL.
      * 
      * <p>Some other complicated or particular way to get resource from URL.
      */
-    public static final RepositoryType OTHER = RepositoryType.builder().value(ValueSet.OTHER).build();
+    public static final RepositoryType OTHER = RepositoryType.builder().value(Value.OTHER).build();
 
     private volatile int hashCode;
 
@@ -61,14 +61,48 @@ public class RepositoryType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this RepositoryType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this RepositoryType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating RepositoryType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static RepositoryType of(ValueSet value) {
+        switch (value) {
+        case DIRECTLINK:
+            return DIRECTLINK;
+        case OPENAPI:
+            return OPENAPI;
+        case LOGIN:
+            return LOGIN;
+        case OAUTH:
+            return OAUTH;
+        case OTHER:
+            return OTHER;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating RepositoryType objects from a passed enum value.
      */
-    public static RepositoryType of(ValueSet value) {
+    public static RepositoryType of(Value value) {
         switch (value) {
         case DIRECTLINK:
             return DIRECTLINK;
@@ -94,7 +128,7 @@ public class RepositoryType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static RepositoryType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +140,7 @@ public class RepositoryType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -118,7 +152,7 @@ public class RepositoryType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -147,11 +181,7 @@ public class RepositoryType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -180,19 +210,50 @@ public class RepositoryType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for RepositoryType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public RepositoryType build() {
-            return new RepositoryType(this);
+            RepositoryType repositoryType = new RepositoryType(this);
+            if (validating) {
+                validate(repositoryType);
+            }
+            return repositoryType;
+        }
+
+        protected void validate(RepositoryType repositoryType) {
+            super.validate(repositoryType);
+        }
+
+        protected Builder from(RepositoryType repositoryType) {
+            super.from(repositoryType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Click and see
@@ -245,7 +306,7 @@ public class RepositoryType extends Code {
         }
 
         /**
-         * Factory method for creating RepositoryType.ValueSet values from a passed string value.
+         * Factory method for creating RepositoryType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -259,6 +320,88 @@ public class RepositoryType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Click and see
+         * 
+         * <p>When URL is clicked, the resource can be seen directly (by webpage or by download link format).
+         */
+        DIRECTLINK("directlink"),
+
+        /**
+         * The URL is the RESTful or other kind of API that can access to the result.
+         * 
+         * <p>When the API method (e.g. [base_url]/[parameter]) related with the URL of the website is executed, the resource can 
+         * be seen directly (usually in JSON or XML format).
+         */
+        OPENAPI("openapi"),
+
+        /**
+         * Result cannot be access unless an account is logged in
+         * 
+         * <p>When logged into the website, the resource can be seen.
+         */
+        LOGIN("login"),
+
+        /**
+         * Result need to be fetched with API and need LOGIN( or cookies are required when visiting the link of resource)
+         * 
+         * <p>When logged in and follow the API in the website related with URL, the resource can be seen.
+         */
+        OAUTH("oauth"),
+
+        /**
+         * Some other complicated or particular way to get resource from URL.
+         * 
+         * <p>Some other complicated or particular way to get resource from URL.
+         */
+        OTHER("other");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating RepositoryType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding RepositoryType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "directlink":
+                return DIRECTLINK;
+            case "openapi":
+                return OPENAPI;
+            case "login":
+                return LOGIN;
+            case "oauth":
+                return OAUTH;
+            case "other":
+                return OTHER;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

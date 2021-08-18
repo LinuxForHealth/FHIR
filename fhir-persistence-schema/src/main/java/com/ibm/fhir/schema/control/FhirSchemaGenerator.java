@@ -1,14 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.schema.control;
 
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CANONICAL_URL_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TSTAMP;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.CHANGE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEMS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.CODE_SYSTEM_NAME;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_CANONICAL_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMMON_TOKEN_VALUE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.COMPARTMENT_LOGICAL_RESOURCE_ID;
@@ -20,22 +25,32 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.DATE_VALUE_DROPPED
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_REF_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FHIR_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.FK;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.FRAGMENT_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.IDX;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.IS_DELETED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LAST_UPDATED;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_ID_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_COMPARTMENTS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_PROFILES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_SECURITY;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.LOGICAL_RESOURCE_TAGS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_SEARCH_STRING_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MAX_TOKEN_VALUE_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.MT_ID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_HASH;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_HASH_BYTES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAMES;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.PARAMETER_NAME_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REF_VERSION_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TSTAMP;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.REINDEX_TXID;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_CHANGE_LOG;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_ID;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TOKEN_REFS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.RESOURCE_TYPES;
@@ -52,13 +67,17 @@ import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SALT;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_SEQUENCE;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TENANT_STATUS;
 import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUE;
-import static com.ibm.fhir.schema.control.FhirSchemaConstants.TOKEN_VALUES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.URL;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_BYTES;
+import static com.ibm.fhir.schema.control.FhirSchemaConstants.VERSION_ID;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
@@ -66,6 +85,7 @@ import com.ibm.fhir.database.utils.common.AddColumn;
 import com.ibm.fhir.database.utils.common.CreateIndexStatement;
 import com.ibm.fhir.database.utils.common.DropColumn;
 import com.ibm.fhir.database.utils.common.DropIndex;
+import com.ibm.fhir.database.utils.common.DropTable;
 import com.ibm.fhir.database.utils.model.AlterSequenceStartWith;
 import com.ibm.fhir.database.utils.model.BaseObject;
 import com.ibm.fhir.database.utils.model.ColumnBase;
@@ -84,25 +104,35 @@ import com.ibm.fhir.database.utils.model.Sequence;
 import com.ibm.fhir.database.utils.model.SessionVariableDef;
 import com.ibm.fhir.database.utils.model.Table;
 import com.ibm.fhir.database.utils.model.Tablespace;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.database.utils.model.With;
+import com.ibm.fhir.database.utils.postgres.PostgresVacuumSettingDAO;
+import com.ibm.fhir.model.util.ModelSupport;
 
 /**
  * Encapsulates the generation of the FHIR schema artifacts
  */
 public class FhirSchemaGenerator {
+    private static final Logger logger = Logger.getLogger(FhirSchemaGenerator.class.getName());
+
     // The schema holding all the data-bearing tables
     private final String schemaName;
 
     // The schema used for administration objects like the tenants table, variable etc
     private final String adminSchemaName;
 
-    /// Build the multitenant variant of the schema
+    // Build the multitenant variant of the schema
     private final boolean multitenant;
+
+    // TODO pass 'false' to getResourceTypes to avoid building tables for abstract resource types
+    private static final Set<String> ALL_RESOURCE_TYPES = ModelSupport.getResourceTypes(true).stream()
+            .map(t -> ModelSupport.getTypeName(t).toUpperCase())
+            .collect(Collectors.toSet());
 
     private static final String ADD_CODE_SYSTEM = "ADD_CODE_SYSTEM";
     private static final String ADD_PARAMETER_NAME = "ADD_PARAMETER_NAME";
     private static final String ADD_RESOURCE_TYPE = "ADD_RESOURCE_TYPE";
     private static final String ADD_ANY_RESOURCE = "ADD_ANY_RESOURCE";
+    private static final String ERASE_RESOURCE = "ERASE_RESOURCE";
 
     // The tags we use to separate the schemas
     public static final String SCHEMA_GROUP_TAG = "SCHEMA_GROUP";
@@ -175,9 +205,7 @@ public class FhirSchemaGenerator {
      * @param schemaName
      */
     public FhirSchemaGenerator(String adminSchemaName, String schemaName, boolean multitenant) {
-        this(adminSchemaName, schemaName, multitenant, Arrays.stream(FHIRResourceType.ValueSet.values())
-                .map(FHIRResourceType.ValueSet::value)
-                .collect(Collectors.toSet()));
+        this(adminSchemaName, schemaName, multitenant, ALL_RESOURCE_TYPES);
     }
 
     /**
@@ -357,8 +385,12 @@ public class FhirSchemaGenerator {
         addLogicalResources(model); // for system-level parameter search
         addReferencesSequence(model);
         addLogicalResourceCompartments(model);
+        addResourceChangeLog(model); // track changes for easier export
+        addCommonCanonicalValues(model);   // V0014
+        addLogicalResourceProfiles(model); // V0014
+        addLogicalResourceTags(model);     // V0014
+        addLogicalResourceSecurity(model); // V0016
 
-        Table globalTokenValues = addResourceTokenValues(model); // for system-level _tag and _security parameters
         Table globalStrValues = addResourceStrValues(model); // for system-level _profile parameters
         Table globalDateValues = addResourceDateValues(model); // for system-level date parameters
 
@@ -367,7 +399,7 @@ public class FhirSchemaGenerator {
 
         // The three "global" tables aren't true dependencies, but this was the easiest way to force sequential processing
         // and avoid a pesky deadlock issue we were hitting while adding foreign key constraints on the global tables
-        addResourceTables(model, globalTokenValues, globalStrValues, globalDateValues, globalResourceTokenRefs);
+        addResourceTables(model, globalStrValues, globalDateValues, globalResourceTokenRefs);
 
         // All the table objects and types should be ready now, so create our NOP
         // which is used as a single dependency for all procedures. This means
@@ -415,6 +447,14 @@ public class FhirSchemaGenerator {
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
                 procedurePrivileges);
         pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        pd = model.addProcedure(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete),
+            procedurePrivileges);
+        pd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
     public void buildDatabaseSpecificArtifactsPostgres(PhysicalDataModel model) {
@@ -452,6 +492,13 @@ public class FhirSchemaGenerator {
                         + ".sql", null),
                 Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
         fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+
+        fd = model.addFunction(this.schemaName,
+            ERASE_RESOURCE,
+            FhirSchemaVersion.V0013.vid(),
+            () -> SchemaGeneratorUtil.readTemplate(adminSchemaName, schemaName, ROOT_DIR + ERASE_RESOURCE.toLowerCase() + ".sql", null),
+            Arrays.asList(fhirSequence, resourceTypesTable, allTablesComplete), procedurePrivileges);
+        fd.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
     }
 
     /**
@@ -463,24 +510,31 @@ public class FhirSchemaGenerator {
      */
     public void addLogicalResources(PhysicalDataModel pdm) {
         final String tableName = LOGICAL_RESOURCES;
+        final String mtId = this.multitenant ? MT_ID : null;
 
         final String IDX_LOGICAL_RESOURCES_RITS = "IDX_" + LOGICAL_RESOURCES + "_RITS";
+        final String IDX_LOGICAL_RESOURCES_LUPD = "IDX_" + LOGICAL_RESOURCES + "_LUPD";
 
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
                 .addIntColumn(RESOURCE_TYPE_ID, false)
                 .addVarcharColumn(LOGICAL_ID, LOGICAL_ID_BYTES, false)
                 .addTimestampColumn(REINDEX_TSTAMP, false, "CURRENT_TIMESTAMP") // new column for V0006
                 .addBigIntColumn(REINDEX_TXID, false, "0")                      // new column for V0006
+                .addTimestampColumn(LAST_UPDATED, true)                         // new column for V0014
+                .addCharColumn(IS_DELETED, 1, false, "'X'")
+                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)           // new column for V0015
                 .addPrimaryKey(tableName + "_PK", LOGICAL_RESOURCE_ID)
                 .addUniqueIndex("UNQ_" + LOGICAL_RESOURCES, RESOURCE_TYPE_ID, LOGICAL_ID)
                 .addIndex(IDX_LOGICAL_RESOURCES_RITS, new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null))
+                .addIndex(IDX_LOGICAL_RESOURCES_LUPD, new OrderedColumnDef(LAST_UPDATED, OrderedColumnDef.Direction.ASC, null))
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .addForeignKeyConstraint(FK + tableName + "_RTID", schemaName, RESOURCE_TYPES, RESOURCE_TYPE_ID)
                 .enableAccessControl(this.sessionVariable)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == FhirSchemaVersion.V0001.vid()) {
@@ -495,9 +549,43 @@ public class FhirSchemaGenerator {
 
                         // Add the new index on REINDEX_TSTAMP. This index is special because it's the
                         // first index in our schema to use DESC.
-                        final String mtId = this.multitenant ? MT_ID : null;
                         List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(REINDEX_TSTAMP, OrderedColumnDef.Direction.DESC, null));
                         statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_RITS, tableName, mtId, indexCols));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0009.vid()) {
+                        // Get rid of the old global token values parameter table which no longer
+                        // used
+                        statements.add(new DropTable(schemaName, "TOKEN_VALUES"));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0014.vid()) {
+                        // Add LAST_UPDATED and IS_DELETED to whole-system logical_resources
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addTimestampColumn(LAST_UPDATED, true)
+                                .addCharColumn(IS_DELETED, 1, false, "'X'")
+                                .buildColumns();
+
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(1)));
+
+                        // New index on the LAST_UPDATED. We don't need to include resource-type. If
+                        // you know the resource type, you'll be querying the resource-specific
+                        // xx_logical_resources table instead
+                        List<OrderedColumnDef> indexCols = Arrays.asList(new OrderedColumnDef(LAST_UPDATED, OrderedColumnDef.Direction.ASC, null));
+                        statements.add(new CreateIndexStatement(schemaName, IDX_LOGICAL_RESOURCES_LUPD, tableName, mtId, indexCols));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0015.vid()) {
+                        // Add PARAM_HASH logical_resources
+                        List<ColumnBase> cols = ColumnDefBuilder.builder()
+                                .addVarcharColumn(PARAMETER_HASH, PARAMETER_HASH_BYTES, true)
+                                .buildColumns();
+                        statements.add(new AddColumn(schemaName, tableName, cols.get(0)));
+                    }
+
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
                     return statements;
                 })
@@ -511,31 +599,34 @@ public class FhirSchemaGenerator {
     }
 
     /**
-     * Add the system-wide TOKEN_VALUES table which is used for
-     * _tag and _security search properties in R4
+     * Create the COMMON_CANONICAL_VALUES table. Used from schema V0014 to normalize
+     * meta.profile search parameters (similar to common_token_values). Only the url
+     * is included by design. The (optional) version and fragment values are stored
+     * in the parameter mapping table (logical_resource_profiles) in order to support
+     * inequalities on version while still using a literal CANONICAL_ID = x predicate.
+     * These canonical ids are cached in the server, so search queries won't need to
+     * join to this table. The URL is typically a long string, so by normalizing and
+     * storing/indexing it once, we reduce space consumption.
      * @param pdm
-     * @return Table the table that was added to the PhysicalDataModel
      */
-    public Table addResourceTokenValues(PhysicalDataModel pdm) {
-
-        final String tableName = TOKEN_VALUES;
-        final int tvb = MAX_TOKEN_VALUE_BYTES;
-
-        // logical_resources (0|1) ---- (*) token_values
+    public void addCommonCanonicalValues(PhysicalDataModel pdm) {
+        final String tableName = COMMON_CANONICAL_VALUES;
+        final String unqCanonicalUrl = "UNQ_" + tableName + "_URL";
         Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0014.vid())
                 .setTenantColumnName(MT_ID)
-                .addIntColumn(     PARAMETER_NAME_ID,      false)
-                .addIntColumn(        CODE_SYSTEM_ID,      false)
-                .addVarcharColumn(       TOKEN_VALUE, tvb,  true)
-                .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
-                .addIndex(IDX + tableName + "_PNCSCV", PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_RPS", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, CODE_SYSTEM_ID, TOKEN_VALUE)
-                .addForeignKeyConstraint(FK + tableName + "_CS", schemaName, CODE_SYSTEMS, CODE_SYSTEM_ID)
-                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
-                .addForeignKeyConstraint(FK + tableName + "_PN", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
+                .addBigIntColumn(CANONICAL_ID, false)
+                .addVarcharColumn(URL, CANONICAL_URL_BYTES, false)
+                .addPrimaryKey(tableName + "_PK", CANONICAL_ID)
+                .addUniqueIndex(unqCanonicalUrl, URL)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally NOP
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -543,8 +634,170 @@ public class FhirSchemaGenerator {
         this.procedureDependencies.add(tbl);
         pdm.addTable(tbl);
         pdm.addObject(tbl);
+    }
+
+    /**
+     * A single-parameter table supporting _profile search parameter values
+     * Add the LOGICAL_RESOURCE_PROFILES table to the given {@link PhysicalDataModel}.
+     * This table maps logical resources to meta.profile values stored as canonical URIs
+     * in COMMON_CANONICAL_VALUES. Canonical values can include optional version and fragment
+     * values as described here: https://www.hl7.org/fhir/datatypes.html#canonical
+     * @param pdm
+     * @return
+     */
+    public Table addLogicalResourceProfiles(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_PROFILES;
+
+        // logical_resources (1) ---- (*) logical_resource_profiles (*) ---- (1) common_canonical_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes (Original Table at V0014)
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(         CANONICAL_ID,     false) // FK referencing COMMON_CANONICAL_VALUES
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,     false) // FK referencing LOGICAL_RESOURCES
+                .addVarcharColumn(             VERSION,  VERSION_BYTES, true)
+                .addVarcharColumn(            FRAGMENT, FRAGMENT_BYTES, true)
+                .addIndex(IDX + tableName + "_CCVLR", CANONICAL_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRCCV", LOGICAL_RESOURCE_ID, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CCV", schemaName, COMMON_CANONICAL_VALUES, CANONICAL_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
+                .build(pdm);
+
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
 
         return tbl;
+    }
+
+    /**
+     * A single-parameter table supporting _tag search parameter values.
+     * Tags are tokens, but because they may not be very selective we use a
+     * separate table in order to avoid messing up cardinality estimates
+     * in the query optimizer.
+     * @param pdm
+     * @return
+     */
+    public Table addLogicalResourceTags(PhysicalDataModel pdm) {
+
+        final String tableName = LOGICAL_RESOURCE_TAGS;
+
+        // logical_resources (1) ---- (*) logical_resource_tags (*) ---- (1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0014
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
+                .addIndex(IDX + tableName + "_CCVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRCCV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
+                .build(pdm);
+
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * Add the dedicated common_token_values mapping table for security search parameters
+     * @param pdm
+     * @return
+     */
+    public Table addLogicalResourceSecurity(PhysicalDataModel pdm) {
+        final String tableName = LOGICAL_RESOURCE_SECURITY;
+
+        // logical_resources (1) ---- (*) logical_resource_security (*) ---- (1) common_token_values
+        Table tbl = Table.builder(schemaName, tableName)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes, original table created at version V0016
+                .setTenantColumnName(MT_ID)
+                .addBigIntColumn(COMMON_TOKEN_VALUE_ID,    false) // FK referencing COMMON_CANONICAL_VALUES
+                .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false) // FK referencing LOGICAL_RESOURCES
+                .addIndex(IDX + tableName + "_CCVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
+                .addIndex(IDX + tableName + "_LRCCV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
+                .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
+                .build(pdm);
+
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
+
+        return tbl;
+    }
+
+    /**
+     * Add the resource_change_log table. This table supports tracking of every change made
+     * to a resource at the global level, making it much easier to stream a list of changes
+     * from a known point.
+     * @param pdm
+     */
+    public void addResourceChangeLog(PhysicalDataModel pdm) {
+        final String tableName = RESOURCE_CHANGE_LOG;
+
+        Table tbl = Table.builder(schemaName, tableName)
+                .setTenantColumnName(MT_ID)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
+                .addBigIntColumn(RESOURCE_ID, false)
+                .addIntColumn(RESOURCE_TYPE_ID, false)
+                .addBigIntColumn(LOGICAL_RESOURCE_ID, false)
+                .addTimestampColumn(CHANGE_TSTAMP, false)
+                .addIntColumn(VERSION_ID, false)
+                .addCharColumn(CHANGE_TYPE, 1, false)
+                .addPrimaryKey(tableName + "_PK", RESOURCE_ID)
+                .addUniqueIndex("UNQ_" + RESOURCE_CHANGE_LOG + "_CTRTRI", CHANGE_TSTAMP, RESOURCE_TYPE_ID, RESOURCE_ID)
+                .setTablespace(fhirTablespace)
+                .addPrivileges(resourceTablePrivileges)
+                .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
+                .build(pdm);
+
+        // TODO should not need to add as a table and an object. Get the table to add itself?
+        tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
+        this.procedureDependencies.add(tbl);
+        pdm.addTable(tbl);
+        pdm.addObject(tbl);
     }
 
     /**
@@ -555,7 +808,6 @@ public class FhirSchemaGenerator {
      * @return Table the table that was added to the PhysicalDataModel
      */
     public Table addLogicalResourceCompartments(PhysicalDataModel pdm) {
-
         final String tableName = LOGICAL_RESOURCE_COMPARTMENTS;
 
         // note COMPARTMENT_LOGICAL_RESOURCE_ID represents the compartment (e.g. the Patient)
@@ -565,7 +817,7 @@ public class FhirSchemaGenerator {
         // because it makes it very easy to find the most recent changes to resources associated with
         // a given patient (for example).
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     COMPARTMENT_NAME_ID,      false)
                 .addBigIntColumn(LOGICAL_RESOURCE_ID,      false)
@@ -578,6 +830,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -600,6 +860,7 @@ public class FhirSchemaGenerator {
         final int msb = MAX_SEARCH_STRING_BYTES;
 
         Table tbl = Table.builder(schemaName, STR_VALUES)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addVarcharColumn(         STR_VALUE, msb,  true)
@@ -614,6 +875,14 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, STR_VALUES, 2000, null, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         tbl.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -634,7 +903,7 @@ public class FhirSchemaGenerator {
         final String logicalResourcesTable = LOGICAL_RESOURCES;
 
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(2)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(     PARAMETER_NAME_ID,      false)
                 .addTimestampColumn(      DATE_START,6,    true)
@@ -648,12 +917,16 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
                 .addMigration(priorVersion -> {
                     List<IDatabaseStatement> statements = new ArrayList<>();
                     if (priorVersion == 1) {
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_PVR"));
                         statements.add(new DropIndex(schemaName, IDX + tableName + "_RPV"));
                         statements.add(new DropColumn(schemaName, tableName, DATE_VALUE_DROPPED_COLUMN));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
                     }
                     return statements;
                 })
@@ -666,7 +939,6 @@ public class FhirSchemaGenerator {
 
         return tbl;
     }
-
 
     /**
      * <pre>
@@ -683,7 +955,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addResourceTypes(PhysicalDataModel model) {
-
         resourceTypesTable = Table.builder(schemaName, RESOURCE_TYPES)
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(    RESOURCE_TYPE_ID,      false)
@@ -693,6 +964,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(model);
 
         // TODO Table should be immutable, so add support to the Builder for this
@@ -714,8 +990,15 @@ public class FhirSchemaGenerator {
 
         // The sessionVariable is used to enable access control on every table, so we
         // provide it as a dependency
-        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable, this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges);
+        FhirResourceTableGroup frg = new FhirResourceTableGroup(model, this.schemaName, this.multitenant, sessionVariable,
+                this.procedureDependencies, this.fhirTablespace, this.resourceTablePrivileges, addWiths());
         for (String resourceType: this.resourceTypes) {
+
+            resourceType = resourceType.toUpperCase().trim();
+            if (!ALL_RESOURCE_TYPES.contains(resourceType.toUpperCase())) {
+                logger.warning("Passed resource type '" + resourceType + "' does not match any known FHIR resource types; creating anyway");
+            }
+
             ObjectGroup group = frg.addResourceType(resourceType);
             group.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
 
@@ -745,7 +1028,6 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addParameterNames(PhysicalDataModel model) {
-
         // The index which also used by the database to support the primary key constraint
         String[] prfIndexCols = {PARAMETER_NAME};
         String[] prfIncludeCols = {PARAMETER_NAME_ID};
@@ -759,6 +1041,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(model);
 
         this.parameterNamesTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
@@ -781,8 +1068,8 @@ public class FhirSchemaGenerator {
      * @param model
      */
     protected void addCodeSystems(PhysicalDataModel model) {
-
         codeSystemsTable = Table.builder(schemaName, CODE_SYSTEMS)
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(      CODE_SYSTEM_ID,         false)
                 .addVarcharColumn(CODE_SYSTEM_NAME,    255, false)
@@ -791,13 +1078,19 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, CODE_SYSTEMS, 2000, null, 1000));
+                    }
+                    return statements;
+                })
                 .build(model);
 
         this.codeSystemsTable.addTag(SCHEMA_GROUP_TAG, FHIRDATA_GROUP);
         this.procedureDependencies.add(codeSystemsTable);
         model.addTable(codeSystemsTable);
         model.addObject(codeSystemsTable);
-
     }
 
     /**
@@ -840,6 +1133,11 @@ public class FhirSchemaGenerator {
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addMigration(priorVersion -> {
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    // Intentionally a NOP
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -853,7 +1151,9 @@ public class FhirSchemaGenerator {
      * _tag and _security search properties in R4 (new table
      * for issue #1366 V0006 schema change). Replaces the
      * previous TOKEN_VALUES table. All token values are now
-     * normalized in the COMMON_TOKEN_VALUES table
+     * normalized in the COMMON_TOKEN_VALUES table. Because this
+     * is for system-level params, there's no need to support
+     * composite params
      * @param pdm
      * @return Table the table that was added to the PhysicalDataModel
      */
@@ -863,20 +1163,53 @@ public class FhirSchemaGenerator {
 
         // logical_resources (0|1) ---- (*) resource_token_refs
         Table tbl = Table.builder(schemaName, tableName)
-                .setVersion(FhirSchemaVersion.V0006.vid())
+                .setVersion(FhirSchemaVersion.V0019.vid()) // V0019: Updated to support Postgres vacuum changes
                 .setTenantColumnName(MT_ID)
                 .addIntColumn(       PARAMETER_NAME_ID,    false)
                 .addBigIntColumn(COMMON_TOKEN_VALUE_ID,     true) // support for null token value entries
                 .addBigIntColumn(  LOGICAL_RESOURCE_ID,    false)
                 .addIntColumn(          REF_VERSION_ID,     true) // for when the referenced value is a logical resource with a version
-                .addIndex(IDX + tableName + "_TVLR", COMMON_TOKEN_VALUE_ID, LOGICAL_RESOURCE_ID)
-                .addIndex(IDX + tableName + "_LRTV", LOGICAL_RESOURCE_ID, COMMON_TOKEN_VALUE_ID)
+                .addIndex(IDX + tableName + "_TPLR", COMMON_TOKEN_VALUE_ID, PARAMETER_NAME_ID, LOGICAL_RESOURCE_ID) // V0009 change
+                .addIndex(IDX + tableName + "_LRPT", LOGICAL_RESOURCE_ID, PARAMETER_NAME_ID, COMMON_TOKEN_VALUE_ID) // V0009 change
                 .addForeignKeyConstraint(FK + tableName + "_CTV", schemaName, COMMON_TOKEN_VALUES, COMMON_TOKEN_VALUE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_LR", schemaName, LOGICAL_RESOURCES, LOGICAL_RESOURCE_ID)
                 .addForeignKeyConstraint(FK + tableName + "_PNID", schemaName, PARAMETER_NAMES, PARAMETER_NAME_ID)
                 .setTablespace(fhirTablespace)
                 .addPrivileges(resourceTablePrivileges)
                 .enableAccessControl(this.sessionVariable)
+                .addWiths(addWiths()) // New Column for V0017
+                .addMigration(priorVersion -> {
+                    // Replace the indexes initially defined in the V0006 version with better ones
+                    List<IDatabaseStatement> statements = new ArrayList<>();
+                    if (priorVersion == FhirSchemaVersion.V0006.vid()) {
+                        // Migrate the index definitions as part of the V0008 version of the schema
+                        // This table was originally introduced as part of the V0006 schema, which
+                        // is what we use as the match for the priorVersion
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_TVLR"));
+                        statements.add(new DropIndex(schemaName, IDX + tableName + "_LRTV"));
+
+                        final String mtId = multitenant ? MT_ID : null;
+                        // Replace the original TVLR index on (common_token_value_id, parameter_name_id, logical_resource_id)
+                        List<OrderedColumnDef> tplr = Arrays.asList(
+                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null)
+                            );
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_TPLR", tableName, mtId, tplr));
+
+                        // Replace the original LRTV index with a new index on (logical_resource_id, parameter_name_id, common_token_value_id)
+                        List<OrderedColumnDef> lrpt = Arrays.asList(
+                            new OrderedColumnDef(LOGICAL_RESOURCE_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(PARAMETER_NAME_ID, OrderedColumnDef.Direction.ASC, null),
+                            new OrderedColumnDef(COMMON_TOKEN_VALUE_ID, OrderedColumnDef.Direction.ASC, null)
+                            );
+                        statements.add(new CreateIndexStatement(schemaName, IDX + tableName + "_LRPT", tableName, mtId, lrpt));
+                    }
+                    if (priorVersion < FhirSchemaVersion.V0019.vid()) {
+                        statements.add(new PostgresVacuumSettingDAO(schemaName, tableName, 2000, null, 1000));
+                    }
+                    return statements;
+                })
                 .build(pdm);
 
         // TODO should not need to add as a table and an object. Get the table to add itself?
@@ -931,7 +1264,6 @@ public class FhirSchemaGenerator {
         pdm.addObject(alter);
     }
 
-
     /**
      * Add the sequence used by the new local/external references data model
      * @param pdm
@@ -942,5 +1274,16 @@ public class FhirSchemaGenerator {
         procedureDependencies.add(seq);
         sequencePrivileges.forEach(p -> p.addToObject(seq));
         pdm.addObject(seq);
+    }
+
+    /**
+     * The defaults with addWiths
+     * @return
+     */
+    protected List<With> addWiths() {
+        return Arrays.asList(
+                With.with("autovacuum_vacuum_scale_factor", "0.01"),
+                With.with("autovacuum_vacuum_threshold", "1000"),
+                With.with("autovacuum_vacuum_cost_limit", "2000"));
     }
 }

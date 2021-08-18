@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,14 +29,15 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "A system is required if a value is provided.",
-    expression = "value.empty() or system.exists()"
+    expression = "value.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ContactPoint"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ContactPoint extends Element {
     @Summary
     @Binding(
         bindingName = "ContactPointSystem",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Telecommunications form for contact point.",
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-system|4.0.1"
     )
@@ -46,7 +47,7 @@ public class ContactPoint extends Element {
     @Summary
     @Binding(
         bindingName = "ContactPointUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Use of contact point.",
         valueSet = "http://hl7.org/fhir/ValueSet/contact-point-use|4.0.1"
     )
@@ -56,8 +57,6 @@ public class ContactPoint extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private ContactPoint(Builder builder) {
         super(builder);
         system = builder.system;
@@ -65,7 +64,6 @@ public class ContactPoint extends Element {
         use = builder.use;
         rank = builder.rank;
         period = builder.period;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -341,7 +339,16 @@ public class ContactPoint extends Element {
          */
         @Override
         public ContactPoint build() {
-            return new ContactPoint(this);
+            ContactPoint contactPoint = new ContactPoint(this);
+            if (validating) {
+                validate(contactPoint);
+            }
+            return contactPoint;
+        }
+
+        protected void validate(ContactPoint contactPoint) {
+            super.validate(contactPoint);
+            ValidationSupport.requireValueOrChildren(contactPoint);
         }
 
         protected Builder from(ContactPoint contactPoint) {

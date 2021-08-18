@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,18 +33,26 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.SlotStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A slot of time on a schedule that may be available for booking appointments.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "slot-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Slot",
     generated = true
 )
 @Constraint(
@@ -52,6 +61,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0276",
     expression = "appointmentType.exists() implies (appointmentType.memberOf('http://terminology.hl7.org/ValueSet/v2-0276', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Slot",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -61,21 +71,21 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Summary
     @Binding(
         bindingName = "specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -83,7 +93,7 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "appointment-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
@@ -94,7 +104,7 @@ public class Slot extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SlotStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of the slot.",
         valueSet = "http://hl7.org/fhir/ValueSet/slotstatus|4.0.1"
     )
@@ -109,23 +119,19 @@ public class Slot extends DomainResource {
     private final Boolean overbooked;
     private final String comment;
 
-    private volatile int hashCode;
-
     private Slot(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
         appointmentType = builder.appointmentType;
-        schedule = ValidationSupport.requireNonNull(builder.schedule, "schedule");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        start = ValidationSupport.requireNonNull(builder.start, "start");
-        end = ValidationSupport.requireNonNull(builder.end, "end");
+        schedule = builder.schedule;
+        status = builder.status;
+        start = builder.start;
+        end = builder.end;
         overbooked = builder.overbooked;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(schedule, "schedule", "Schedule");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -843,7 +849,24 @@ public class Slot extends DomainResource {
          */
         @Override
         public Slot build() {
-            return new Slot(this);
+            Slot slot = new Slot(this);
+            if (validating) {
+                validate(slot);
+            }
+            return slot;
+        }
+
+        protected void validate(Slot slot) {
+            super.validate(slot);
+            ValidationSupport.checkList(slot.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(slot.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(slot.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(slot.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.requireNonNull(slot.schedule, "schedule");
+            ValidationSupport.requireNonNull(slot.status, "status");
+            ValidationSupport.requireNonNull(slot.start, "start");
+            ValidationSupport.requireNonNull(slot.end, "end");
+            ValidationSupport.checkReferenceType(slot.schedule, "schedule", "Schedule");
         }
 
         protected Builder from(Slot slot) {

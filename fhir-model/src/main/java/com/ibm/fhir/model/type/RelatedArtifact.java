@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,7 +27,7 @@ public class RelatedArtifact extends Element {
     @Summary
     @Binding(
         bindingName = "RelatedArtifactType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of relationship to the related artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/related-artifact-type|4.0.1"
     )
@@ -46,18 +46,15 @@ public class RelatedArtifact extends Element {
     @Summary
     private final Canonical resource;
 
-    private volatile int hashCode;
-
     private RelatedArtifact(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         label = builder.label;
         display = builder.display;
         citation = builder.citation;
         url = builder.url;
         document = builder.document;
         resource = builder.resource;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -398,7 +395,17 @@ public class RelatedArtifact extends Element {
          */
         @Override
         public RelatedArtifact build() {
-            return new RelatedArtifact(this);
+            RelatedArtifact relatedArtifact = new RelatedArtifact(this);
+            if (validating) {
+                validate(relatedArtifact);
+            }
+            return relatedArtifact;
+        }
+
+        protected void validate(RelatedArtifact relatedArtifact) {
+            super.validate(relatedArtifact);
+            ValidationSupport.requireNonNull(relatedArtifact.type, "type");
+            ValidationSupport.requireValueOrChildren(relatedArtifact);
         }
 
         protected Builder from(RelatedArtifact relatedArtifact) {

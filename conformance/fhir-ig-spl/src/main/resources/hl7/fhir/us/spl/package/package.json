@@ -1,0 +1,31 @@
+{
+  "name": "hl7.fhir.us.spl",
+  "tools-version": 3,
+  "type": "fhir.ig",
+  "date": "20210706091012",
+  "license": "CC0-1.0",
+  "canonical": "http://hl7.org/fhir/us/spl",
+  "notForPublication": true,
+  "url": "file:///Users/jeanduteau/Documents/DDIWork/Samvit/SPL/fhir-spl/output",
+  "title": "SPL Mapping FHIR Implementation Guide",
+  "description": "A guide that provides mapping from the FDA SPL Documents to FHIR Resources and operations. (built Tue, Jul 6, 2021 09:10-0600-06:00)",
+  "fhirVersions": [
+    "4.0.1"
+  ],
+  "dependencies": {
+    "hl7.fhir.r4.core": "4.0.1"
+  },
+  "author": "Biomedical Research and Regulatory WG",
+  "maintainers": [
+    {
+      "name": "Biomedical Research and Regulatory WG",
+      "url": "http://www.hl7.org/Special/committees/rcrim/index.cfm"
+    }
+  ],
+  "directories": {
+    "lib": "package",
+    "example": "example"
+  },
+  "original-version": "0.1.0",
+  "version": "dev"
+}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -88,7 +88,6 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                 return SINGLETON_TRUE;
             }
 
-
             if (!ProfileSupport.isApplicable(structureDefinition, modelClass)) {
                 // the profile (or base definition) is not applicable to type: modelClass
                 generateIssue(evaluationContext, IssueSeverity.INFORMATION, IssueType.INVALID, "Conformance check failed: profile (or base definition) '" + url + "' is not applicable to type: " + ModelSupport.getTypeName(modelClass), node.path());
@@ -98,6 +97,37 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             if (node.isResourceNode() && node.asResourceNode().resource() == null) {
                 // the node was created by the 'resolve' function and is not backed by a FHIR resource
                 return SINGLETON_TRUE;
+            }
+
+            if (hasCachedFunctionResult(evaluationContext, context, arguments)) {
+                Collection<FHIRPathNode> result = getCachedFunctionResult(evaluationContext, context, arguments);
+
+                if (result.isEmpty()) {
+                    log.finest("Non-empty (boolean) function result computation is in progress");
+
+                    // non-empty (boolean) function result computation is in progress
+                    return SINGLETON_TRUE;
+                }
+
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("Cached non-empty (boolean) function result: " + result);
+                }
+
+                // return cached non-empty (boolean) function result
+                return result;
+            }
+
+            // cache empty function result to indicate that non-empty (boolean) function result computation is in progress
+            cacheFunctionResult(evaluationContext, context, arguments, empty());
+
+            if (node.isResourceNode() && evaluationContext.hasConstraint() && ProfileSupport.hasResourceAssertedProfile(node.asResourceNode().resource(), structureDefinition)) {
+                // optimization
+                if (log.isLoggable(Level.FINEST)) {
+                    log.finest("Skipping constraint evaluation for profile '" + url + "'");
+                }
+
+                // cache and return non-empty (boolean) function result
+                return cacheFunctionResult(evaluationContext, context, arguments, SINGLETON_TRUE);
             }
 
             // save parent constraint reference
@@ -121,10 +151,11 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
                         // restore parent constraint reference
                         evaluationContext.setConstraint(parentConstraint);
 
-                        return SINGLETON_FALSE;
+                        // cache and return non-empty (boolean) function result
+                        return cacheFunctionResult(evaluationContext, context, arguments, SINGLETON_FALSE);
                     }
                 } catch (FHIRPathException e) {
-                    log.log(Level.WARNING, "An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
+                    throw new RuntimeException("An unexpected error occurred while evaluating the following expression: " + constraint.expression(), e);
                 }
                 evaluationContext.unsetConstraint();
             }
@@ -135,6 +166,7 @@ public class ConformsToFunction extends FHIRPathAbstractFunction {
             generateIssue(evaluationContext, IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Conformance check was not performed: profile (or base definition) '" + url + "' is not supported", node.path());
         }
 
-        return SINGLETON_TRUE;
+        // cache and return non-empty (boolean) function result
+        return cacheFunctionResult(evaluationContext, context, arguments, SINGLETON_TRUE);
     }
 }

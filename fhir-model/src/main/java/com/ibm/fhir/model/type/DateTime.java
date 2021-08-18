@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -40,13 +40,9 @@ public class DateTime extends Element {
 
     private final TemporalAccessor value;
 
-    private volatile int hashCode;
-
     private DateTime(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.checkValueType(value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -73,19 +69,43 @@ public class DateTime extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating DateTime objects from a TemporalAccessor
+     * 
+     * @param value
+     *     A TemporalAccessor, not null
+     */
     public static DateTime of(TemporalAccessor value) {
+        Objects.requireNonNull(value, "value");
         return DateTime.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating DateTime objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static DateTime of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return DateTime.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating a DateTime that represents the current DateTime
+     */
     public static DateTime now() {
         return DateTime.builder().value(ZonedDateTime.now()).build();
     }
 
+    /**
+     * Factory method for creating a DateTime that represents the current DateTime in the passed time zone
+     * 
+     * @param offset
+     *     The ZoneOffset for the desired time zone, not null
+     */
     public static DateTime now(ZoneOffset offset) {
+        Objects.requireNonNull(offset, "offset");
         return DateTime.builder().value(ZonedDateTime.now(offset)).build();
     }
 
@@ -230,7 +250,17 @@ public class DateTime extends Element {
          */
         @Override
         public DateTime build() {
-            return new DateTime(this);
+            DateTime dateTime = new DateTime(this);
+            if (validating) {
+                validate(dateTime);
+            }
+            return dateTime;
+        }
+
+        protected void validate(DateTime dateTime) {
+            super.validate(dateTime);
+            ValidationSupport.checkValueType(dateTime.value, ZonedDateTime.class, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.requireValueOrChildren(dateTime);
         }
 
         protected Builder from(DateTime dateTime) {

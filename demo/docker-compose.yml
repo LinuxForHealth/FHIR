@@ -1,0 +1,81 @@
+version: '3.7'
+services:
+  postgres:
+    build:
+      context: postgres
+      dockerfile: Dockerfile
+    shm_size: 256MB
+    volumes:
+      - type: bind
+        source: ./postgres/db
+        target: /db
+    sysctls:
+      net.core.somaxconn: 256
+      net.ipv4.tcp_syncookies: 0
+      # To use all of 2 gigabytes
+      kernel.shmmax: 1055092736
+      kernel.shmall: 257591
+    privileged: true
+    environment:
+      PG_TRUST_LOCALNET: 'true'
+    command: tail -f /dev/null
+    healthcheck:
+      start_period: 21s
+      test: ["CMD-SHELL", "pg_isready -d fhirdb -U fhiradmin"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - fhir
+    ports:
+      - 5432:5432
+  fhir-server:
+    image: ibmcom/ibm-fhir-server:latest
+    hostname: fhir
+    volumes:
+      - type: bind
+        source: ./fhir/config
+        target: /opt/ol/wlp/usr/servers/defaultServer/config
+        read_only: true
+      - type: bind
+        source: ./fhir/configDropins/overrides
+        target: /opt/ol/wlp/usr/servers/defaultServer/configDropins/overrides
+        read_only: true
+      - type: bind
+        source: ./fhir/userlib
+        target: /opt/ol/wlp/usr/servers/defaultServer/userlib
+        read_only: true
+      - type: bind
+        source: ./fhir/openapi.json
+        target: /opt/ol/wlp/usr/servers/defaultServer/apps/expanded/fhir-openapi.war/META-INF/openapi.json
+        read_only: true
+      - type: bind
+        source: ./bulkdata
+        target: /output/bulkdata
+    environment:
+        TRACE_SPEC: "com.ibm.fhir.*=FINE"
+        TRACE_FILE: "stdout"
+    command: bash -c "
+      java -jar /opt/ibm-fhir-server/tools/fhir-persistence-schema-*-cli.jar
+        --db-type postgresql --prop db.host=postgres --prop db.port=5432 --prop db.database=fhirdb --prop user=fhiradmin --prop password=change-password
+        --prop resourceTypes=AllergyIntolerance,CarePlan,CareTeam,CodeSystem,Condition,Consent,Coverage,Device,DiagnosticReport,DocumentReference,Encounter,ExplanationOfBenefit,Goal,Group,Immunization,List,Location,Medication,MedicationAdministration,MedicationDispense,MedicationRequest,MedicationStatement,Observation,Organization,Patient,Practitioner,PractitionerRole,Procedure,Provenance,StructureDefinition,ValueSet
+        --update-schema --grant-to fhirserver &&
+      /opt/ol/wlp/bin/server run"
+    healthcheck:
+      start_period: 32s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      # https://docs.docker.com/compose/compose-file/#variable-substitution
+      test: curl -k -u 'fhiruser:change-password' 'https://localhost:9443/fhir-server/api/v4/$$healthcheck'
+    ports:
+      - 9080:9080
+      - 9443:9443
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - fhir
+networks:
+  fhir:
+    driver: bridge

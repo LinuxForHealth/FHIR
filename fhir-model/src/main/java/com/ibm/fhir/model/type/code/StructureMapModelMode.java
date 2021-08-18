@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class StructureMapModelMode extends Code {
      * 
      * <p>This structure describes an instance passed to the mapping engine that is used a source of data.
      */
-    public static final StructureMapModelMode SOURCE = StructureMapModelMode.builder().value(ValueSet.SOURCE).build();
+    public static final StructureMapModelMode SOURCE = StructureMapModelMode.builder().value(Value.SOURCE).build();
 
     /**
      * Queried Structure Definition
      * 
      * <p>This structure describes an instance that the mapping engine may ask for that is used a source of data.
      */
-    public static final StructureMapModelMode QUERIED = StructureMapModelMode.builder().value(ValueSet.QUERIED).build();
+    public static final StructureMapModelMode QUERIED = StructureMapModelMode.builder().value(Value.QUERIED).build();
 
     /**
      * Target Structure Definition
      * 
      * <p>This structure describes an instance passed to the mapping engine that is used a target of data.
      */
-    public static final StructureMapModelMode TARGET = StructureMapModelMode.builder().value(ValueSet.TARGET).build();
+    public static final StructureMapModelMode TARGET = StructureMapModelMode.builder().value(Value.TARGET).build();
 
     /**
      * Produced Structure Definition
      * 
      * <p>This structure describes an instance that the mapping engine may ask to create that is used a target of data.
      */
-    public static final StructureMapModelMode PRODUCED = StructureMapModelMode.builder().value(ValueSet.PRODUCED).build();
+    public static final StructureMapModelMode PRODUCED = StructureMapModelMode.builder().value(Value.PRODUCED).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class StructureMapModelMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this StructureMapModelMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this StructureMapModelMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating StructureMapModelMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static StructureMapModelMode of(ValueSet value) {
+        switch (value) {
+        case SOURCE:
+            return SOURCE;
+        case QUERIED:
+            return QUERIED;
+        case TARGET:
+            return TARGET;
+        case PRODUCED:
+            return PRODUCED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating StructureMapModelMode objects from a passed enum value.
      */
-    public static StructureMapModelMode of(ValueSet value) {
+    public static StructureMapModelMode of(Value value) {
         switch (value) {
         case SOURCE:
             return SOURCE;
@@ -84,7 +116,7 @@ public class StructureMapModelMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static StructureMapModelMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class StructureMapModelMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class StructureMapModelMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class StructureMapModelMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class StructureMapModelMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for StructureMapModelMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public StructureMapModelMode build() {
-            return new StructureMapModelMode(this);
+            StructureMapModelMode structureMapModelMode = new StructureMapModelMode(this);
+            if (validating) {
+                validate(structureMapModelMode);
+            }
+            return structureMapModelMode;
+        }
+
+        protected void validate(StructureMapModelMode structureMapModelMode) {
+            super.validate(structureMapModelMode);
+        }
+
+        protected Builder from(StructureMapModelMode structureMapModelMode) {
+            super.from(structureMapModelMode);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Source Structure Definition
@@ -227,7 +286,7 @@ public class StructureMapModelMode extends Code {
         }
 
         /**
-         * Factory method for creating StructureMapModelMode.ValueSet values from a passed string value.
+         * Factory method for creating StructureMapModelMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class StructureMapModelMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Source Structure Definition
+         * 
+         * <p>This structure describes an instance passed to the mapping engine that is used a source of data.
+         */
+        SOURCE("source"),
+
+        /**
+         * Queried Structure Definition
+         * 
+         * <p>This structure describes an instance that the mapping engine may ask for that is used a source of data.
+         */
+        QUERIED("queried"),
+
+        /**
+         * Target Structure Definition
+         * 
+         * <p>This structure describes an instance passed to the mapping engine that is used a target of data.
+         */
+        TARGET("target"),
+
+        /**
+         * Produced Structure Definition
+         * 
+         * <p>This structure describes an instance that the mapping engine may ask to create that is used a target of data.
+         */
+        PRODUCED("produced");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating StructureMapModelMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding StructureMapModelMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "source":
+                return SOURCE;
+            case "queried":
+                return QUERIED;
+            case "target":
+                return TARGET;
+            case "produced":
+                return PRODUCED;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

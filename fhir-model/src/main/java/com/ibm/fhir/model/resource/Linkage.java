@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,18 +30,26 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.LinkageType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Identifies two or more records (resource instances) that refer to the same real-world "occurrence".
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "lnk-1",
     level = "Rule",
     location = "(base)",
     description = "Must have at least two items",
-    expression = "item.count()>1"
+    expression = "item.count()>1",
+    source = "http://hl7.org/fhir/StructureDefinition/Linkage"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Linkage extends DomainResource {
@@ -53,15 +62,11 @@ public class Linkage extends DomainResource {
     @Required
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private Linkage(Builder builder) {
         super(builder);
         active = builder.active;
         author = builder.author;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.item, "item"));
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -477,7 +482,17 @@ public class Linkage extends DomainResource {
          */
         @Override
         public Linkage build() {
-            return new Linkage(this);
+            Linkage linkage = new Linkage(this);
+            if (validating) {
+                validate(linkage);
+            }
+            return linkage;
+        }
+
+        protected void validate(Linkage linkage) {
+            super.validate(linkage);
+            ValidationSupport.checkNonEmptyList(linkage.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(linkage.author, "author", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(Linkage linkage) {
@@ -497,7 +512,7 @@ public class Linkage extends DomainResource {
         @Summary
         @Binding(
             bindingName = "LinkageType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Used to distinguish different roles a resource can play within a set of linked resources.",
             valueSet = "http://hl7.org/fhir/ValueSet/linkage-type|4.0.1"
         )
@@ -507,13 +522,10 @@ public class Linkage extends DomainResource {
         @Required
         private final Reference resource;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            resource = ValidationSupport.requireNonNull(builder.resource, "resource");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            resource = builder.resource;
         }
 
         /**
@@ -761,7 +773,18 @@ public class Linkage extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.type, "type");
+                ValidationSupport.requireNonNull(item.resource, "resource");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {

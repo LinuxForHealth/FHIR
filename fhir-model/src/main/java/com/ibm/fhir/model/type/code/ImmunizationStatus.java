@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,11 +19,11 @@ import javax.annotation.Generated;
 @System("http://hl7.org/fhir/event-status")
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationStatus extends Code {
-    public static final ImmunizationStatus COMPLETED = ImmunizationStatus.builder().value(ValueSet.COMPLETED).build();
+    public static final ImmunizationStatus COMPLETED = ImmunizationStatus.builder().value(Value.COMPLETED).build();
 
-    public static final ImmunizationStatus ENTERED_IN_ERROR = ImmunizationStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ImmunizationStatus ENTERED_IN_ERROR = ImmunizationStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
-    public static final ImmunizationStatus NOT_DONE = ImmunizationStatus.builder().value(ValueSet.NOT_DONE).build();
+    public static final ImmunizationStatus NOT_DONE = ImmunizationStatus.builder().value(Value.NOT_DONE).build();
 
     private volatile int hashCode;
 
@@ -31,14 +31,44 @@ public class ImmunizationStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ImmunizationStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ImmunizationStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ImmunizationStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ImmunizationStatus of(ValueSet value) {
+        switch (value) {
+        case COMPLETED:
+            return COMPLETED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case NOT_DONE:
+            return NOT_DONE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ImmunizationStatus objects from a passed enum value.
      */
-    public static ImmunizationStatus of(ValueSet value) {
+    public static ImmunizationStatus of(Value value) {
         switch (value) {
         case COMPLETED:
             return COMPLETED;
@@ -60,7 +90,7 @@ public class ImmunizationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ImmunizationStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -72,7 +102,7 @@ public class ImmunizationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -84,7 +114,7 @@ public class ImmunizationStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -113,11 +143,7 @@ public class ImmunizationStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -146,19 +172,50 @@ public class ImmunizationStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ImmunizationStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ImmunizationStatus build() {
-            return new ImmunizationStatus(this);
+            ImmunizationStatus immunizationStatus = new ImmunizationStatus(this);
+            if (validating) {
+                validate(immunizationStatus);
+            }
+            return immunizationStatus;
+        }
+
+        protected void validate(ImmunizationStatus immunizationStatus) {
+            super.validate(immunizationStatus);
+        }
+
+        protected Builder from(ImmunizationStatus immunizationStatus) {
+            super.from(immunizationStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         COMPLETED("completed"),
 
@@ -181,7 +238,7 @@ public class ImmunizationStatus extends Code {
         }
 
         /**
-         * Factory method for creating ImmunizationStatus.ValueSet values from a passed string value.
+         * Factory method for creating ImmunizationStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -195,6 +252,54 @@ public class ImmunizationStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        COMPLETED("completed"),
+
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        NOT_DONE("not-done");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ImmunizationStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ImmunizationStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "completed":
+                return COMPLETED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "not-done":
+                return NOT_DONE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

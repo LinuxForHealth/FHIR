@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,19 +42,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The ResearchDefinition resource describes the conditional state (population and any exposures being compared within 
  * the population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "rsd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchDefinition"
 )
 @Constraint(
     id = "researchDefinition-1",
@@ -61,6 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchDefinition",
     generated = true
 )
 @Constraint(
@@ -69,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -88,7 +99,7 @@ public class ResearchDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -100,7 +111,7 @@ public class ResearchDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for the research (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -119,7 +130,7 @@ public class ResearchDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -133,7 +144,7 @@ public class ResearchDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -158,50 +169,42 @@ public class ResearchDefinition extends DomainResource {
     @ReferenceTarget({ "ResearchElementDefinition" })
     private final Reference outcome;
 
-    private volatile int hashCode;
-
     private ResearchDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        comment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comment, "comment"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        comment = Collections.unmodifiableList(builder.comment);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
-        population = ValidationSupport.requireNonNull(builder.population, "population");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        population = builder.population;
         exposure = builder.exposure;
         exposureAlternative = builder.exposureAlternative;
         outcome = builder.outcome;
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.checkReferenceType(population, "population", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(exposure, "exposure", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "ResearchElementDefinition");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1806,7 +1809,35 @@ public class ResearchDefinition extends DomainResource {
          */
         @Override
         public ResearchDefinition build() {
-            return new ResearchDefinition(this);
+            ResearchDefinition researchDefinition = new ResearchDefinition(this);
+            if (validating) {
+                validate(researchDefinition);
+            }
+            return researchDefinition;
+        }
+
+        protected void validate(ResearchDefinition researchDefinition) {
+            super.validate(researchDefinition);
+            ValidationSupport.checkList(researchDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchDefinition.status, "status");
+            ValidationSupport.choiceElement(researchDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(researchDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.comment, "comment", String.class);
+            ValidationSupport.checkList(researchDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(researchDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(researchDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(researchDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(researchDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchDefinition.library, "library", Canonical.class);
+            ValidationSupport.requireNonNull(researchDefinition.population, "population");
+            ValidationSupport.checkReferenceType(researchDefinition.subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(researchDefinition.population, "population", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.exposure, "exposure", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.exposureAlternative, "exposureAlternative", "ResearchElementDefinition");
+            ValidationSupport.checkReferenceType(researchDefinition.outcome, "outcome", "ResearchElementDefinition");
         }
 
         protected Builder from(ResearchDefinition researchDefinition) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class CodeSearchSupport extends Code {
      * 
      * <p>The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
      */
-    public static final CodeSearchSupport EXPLICIT = CodeSearchSupport.builder().value(ValueSet.EXPLICIT).build();
+    public static final CodeSearchSupport EXPLICIT = CodeSearchSupport.builder().value(Value.EXPLICIT).build();
 
     /**
      * Implicit Codes
      * 
      * <p>The search for code on ValueSet only includes all codes based on the expansion of the value set.
      */
-    public static final CodeSearchSupport ALL = CodeSearchSupport.builder().value(ValueSet.ALL).build();
+    public static final CodeSearchSupport ALL = CodeSearchSupport.builder().value(Value.ALL).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class CodeSearchSupport extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CodeSearchSupport as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CodeSearchSupport as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CodeSearchSupport objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CodeSearchSupport of(ValueSet value) {
+        switch (value) {
+        case EXPLICIT:
+            return EXPLICIT;
+        case ALL:
+            return ALL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CodeSearchSupport objects from a passed enum value.
      */
-    public static CodeSearchSupport of(ValueSet value) {
+    public static CodeSearchSupport of(Value value) {
         switch (value) {
         case EXPLICIT:
             return EXPLICIT;
@@ -66,7 +94,7 @@ public class CodeSearchSupport extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CodeSearchSupport of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class CodeSearchSupport extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class CodeSearchSupport extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class CodeSearchSupport extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class CodeSearchSupport extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CodeSearchSupport
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public CodeSearchSupport build() {
-            return new CodeSearchSupport(this);
+            CodeSearchSupport codeSearchSupport = new CodeSearchSupport(this);
+            if (validating) {
+                validate(codeSearchSupport);
+            }
+            return codeSearchSupport;
+        }
+
+        protected void validate(CodeSearchSupport codeSearchSupport) {
+            super.validate(codeSearchSupport);
+        }
+
+        protected Builder from(CodeSearchSupport codeSearchSupport) {
+            super.from(codeSearchSupport);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Explicit Codes
@@ -195,7 +250,7 @@ public class CodeSearchSupport extends Code {
         }
 
         /**
-         * Factory method for creating CodeSearchSupport.ValueSet values from a passed string value.
+         * Factory method for creating CodeSearchSupport.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class CodeSearchSupport extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Explicit Codes
+         * 
+         * <p>The search for code on ValueSet only includes codes explicitly detailed on includes or expansions.
+         */
+        EXPLICIT("explicit"),
+
+        /**
+         * Implicit Codes
+         * 
+         * <p>The search for code on ValueSet only includes all codes based on the expansion of the value set.
+         */
+        ALL("all");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CodeSearchSupport.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CodeSearchSupport.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "explicit":
+                return EXPLICIT;
+            case "all":
+                return ALL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

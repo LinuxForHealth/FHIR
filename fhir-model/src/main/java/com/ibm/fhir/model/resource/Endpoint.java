@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,19 +35,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EndpointStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The technical details of an endpoint that can be used for electronic services, such as for web services providing XDS.
  * b or a REST endpoint for another FHIR server. This may include any security context information.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "endpoint-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/endpoint-connection-type",
     expression = "connectionType.exists() and connectionType.memberOf('http://hl7.org/fhir/ValueSet/endpoint-connection-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Endpoint",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -56,7 +65,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EndpointStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the endpoint.",
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-status|4.0.1"
     )
@@ -65,7 +74,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "endpoint-contype",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-connection-type"
     )
     @Required
@@ -81,7 +90,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PayloadType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/endpoint-payload-type"
     )
     @Required
@@ -89,7 +98,7 @@ public class Endpoint extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
@@ -99,23 +108,19 @@ public class Endpoint extends DomainResource {
     private final Url address;
     private final List<String> header;
 
-    private volatile int hashCode;
-
     private Endpoint(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        connectionType = ValidationSupport.requireNonNull(builder.connectionType, "connectionType");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        connectionType = builder.connectionType;
         name = builder.name;
         managingOrganization = builder.managingOrganization;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         period = builder.period;
-        payloadType = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.payloadType, "payloadType"));
-        payloadMimeType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payloadMimeType, "payloadMimeType"));
-        address = ValidationSupport.requireNonNull(builder.address, "address");
-        header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
+        payloadType = Collections.unmodifiableList(builder.payloadType);
+        payloadMimeType = Collections.unmodifiableList(builder.payloadMimeType);
+        address = builder.address;
+        header = Collections.unmodifiableList(builder.header);
     }
 
     /**
@@ -857,7 +862,24 @@ public class Endpoint extends DomainResource {
          */
         @Override
         public Endpoint build() {
-            return new Endpoint(this);
+            Endpoint endpoint = new Endpoint(this);
+            if (validating) {
+                validate(endpoint);
+            }
+            return endpoint;
+        }
+
+        protected void validate(Endpoint endpoint) {
+            super.validate(endpoint);
+            ValidationSupport.checkList(endpoint.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(endpoint.status, "status");
+            ValidationSupport.requireNonNull(endpoint.connectionType, "connectionType");
+            ValidationSupport.checkList(endpoint.contact, "contact", ContactPoint.class);
+            ValidationSupport.checkNonEmptyList(endpoint.payloadType, "payloadType", CodeableConcept.class);
+            ValidationSupport.checkList(endpoint.payloadMimeType, "payloadMimeType", Code.class);
+            ValidationSupport.requireNonNull(endpoint.address, "address");
+            ValidationSupport.checkList(endpoint.header, "header", String.class);
+            ValidationSupport.checkReferenceType(endpoint.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Endpoint endpoint) {

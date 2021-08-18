@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,6 +27,7 @@ import com.ibm.fhir.model.visitor.AbstractVisitable;
     location = "(base)",
     description = "All FHIR elements must have a @value or children",
     expression = "hasValue() or (children().count() > id.count())",
+    source = "http://hl7.org/fhir/StructureDefinition/Element",
     modelChecked = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -34,10 +35,11 @@ public abstract class Element extends AbstractVisitable {
     protected final java.lang.String id;
     protected final List<Extension> extension;
 
+    protected volatile int hashCode;
+
     protected Element(Builder builder) {
         id = builder.id;
-        extension = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.extension, "extension"));
-        ValidationSupport.checkString(id);
+        extension = Collections.unmodifiableList(builder.extension);
     }
 
     /**
@@ -163,6 +165,11 @@ public abstract class Element extends AbstractVisitable {
 
         @Override
         public abstract Element build();
+
+        protected void validate(Element element) {
+            ValidationSupport.checkList(element.extension, "extension", Extension.class);
+            ValidationSupport.checkString(element.id);
+        }
 
         protected Builder from(Element element) {
             id = element.id;

@@ -53,9 +53,10 @@ copy_server_config(){
     # Note the overrides folder is specifically mounted to the docker image under configDropins/overrides
     echo "Creating an overrides folder in $DIST"
     mkdir -p $DIST/overrides
-    
-    # Copy and rename the postgres override
-    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/datasource.xml
+
+    # Copy over both the postgres (default_default) and derby (tenant1_*) datasource definitions
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml $DIST/overrides/
+    cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml $DIST/overrides/
 
     USERLIB="${DIST}/userlib"
     mkdir -p $USERLIB
@@ -63,6 +64,7 @@ copy_server_config(){
     echo "Copying test artifacts to install location..."
     find ${WORKSPACE}/conformance -iname 'fhir-ig*.jar' -not -iname 'fhir*-tests.jar' -not -iname 'fhir*-test-*.jar' -exec cp -f {} ${USERLIB} \;
     cp -pr ${WORKSPACE}/operation/fhir-operation-test/target/fhir-operation-*-tests.jar ${USERLIB}
+    cp -pr ${WORKSPACE}/operation/fhir-operation-term-cache/target/fhir-operation-*.jar ${USERLIB}
     echo "Finished copying fhir-server dependencies..."
 }
 
@@ -164,7 +166,7 @@ bringup_fhir(){
         docker logs $containerId  >& ${pre_it_logs}/docker-console.txt
 
         echo "Gathering pre-test server logs from docker container: $containerId"
-        docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
+        docker cp -L $containerId:/logs ${pre_it_logs}
 
         echo "Zipping up pre-test server logs"
         zip -r ${zip_file} ${pre_it_logs}

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,18 +32,26 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ParticipantStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A reply to an appointment request for a patient and/or practitioner(s), such as a confirmation or rejection.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "apr-1",
     level = "Rule",
     location = "(base)",
     description = "Either the participantType or actor must be specified",
-    expression = "participantType.exists() or actor.exists()"
+    expression = "participantType.exists() or actor.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/AppointmentResponse"
 )
 @Constraint(
     id = "appointmentResponse-2",
@@ -50,6 +59,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "participantType.exists() implies (participantType.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AppointmentResponse",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -65,7 +75,7 @@ public class AppointmentResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ParticipantType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Role of participant in encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
     )
@@ -76,7 +86,7 @@ public class AppointmentResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ParticipantStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The Participation status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
     )
@@ -84,21 +94,16 @@ public class AppointmentResponse extends DomainResource {
     private final ParticipantStatus participantStatus;
     private final String comment;
 
-    private volatile int hashCode;
-
     private AppointmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        appointment = ValidationSupport.requireNonNull(builder.appointment, "appointment");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        appointment = builder.appointment;
         start = builder.start;
         end = builder.end;
-        participantType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participantType, "participantType"));
+        participantType = Collections.unmodifiableList(builder.participantType);
         actor = builder.actor;
-        participantStatus = ValidationSupport.requireNonNull(builder.participantStatus, "participantStatus");
+        participantStatus = builder.participantStatus;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -693,7 +698,21 @@ public class AppointmentResponse extends DomainResource {
          */
         @Override
         public AppointmentResponse build() {
-            return new AppointmentResponse(this);
+            AppointmentResponse appointmentResponse = new AppointmentResponse(this);
+            if (validating) {
+                validate(appointmentResponse);
+            }
+            return appointmentResponse;
+        }
+
+        protected void validate(AppointmentResponse appointmentResponse) {
+            super.validate(appointmentResponse);
+            ValidationSupport.checkList(appointmentResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(appointmentResponse.appointment, "appointment");
+            ValidationSupport.checkList(appointmentResponse.participantType, "participantType", CodeableConcept.class);
+            ValidationSupport.requireNonNull(appointmentResponse.participantStatus, "participantStatus");
+            ValidationSupport.checkReferenceType(appointmentResponse.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(appointmentResponse.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(AppointmentResponse appointmentResponse) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ResearchSubjectStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A physical entity which is the primary unit of operational and/or administrative interest in a study.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ResearchSubject extends DomainResource {
     @Summary
@@ -42,7 +50,7 @@ public class ResearchSubject extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchSubjectStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the progression of a study subject through a study.",
         valueSet = "http://hl7.org/fhir/ValueSet/research-subject-status|4.0.1"
     )
@@ -63,22 +71,16 @@ public class ResearchSubject extends DomainResource {
     @ReferenceTarget({ "Consent" })
     private final Reference consent;
 
-    private volatile int hashCode;
-
     private ResearchSubject(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         period = builder.period;
-        study = ValidationSupport.requireNonNull(builder.study, "study");
-        individual = ValidationSupport.requireNonNull(builder.individual, "individual");
+        study = builder.study;
+        individual = builder.individual;
         assignedArm = builder.assignedArm;
         actualArm = builder.actualArm;
         consent = builder.consent;
-        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-        ValidationSupport.checkReferenceType(individual, "individual", "Patient");
-        ValidationSupport.checkReferenceType(consent, "consent", "Consent");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -647,7 +649,22 @@ public class ResearchSubject extends DomainResource {
          */
         @Override
         public ResearchSubject build() {
-            return new ResearchSubject(this);
+            ResearchSubject researchSubject = new ResearchSubject(this);
+            if (validating) {
+                validate(researchSubject);
+            }
+            return researchSubject;
+        }
+
+        protected void validate(ResearchSubject researchSubject) {
+            super.validate(researchSubject);
+            ValidationSupport.checkList(researchSubject.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchSubject.status, "status");
+            ValidationSupport.requireNonNull(researchSubject.study, "study");
+            ValidationSupport.requireNonNull(researchSubject.individual, "individual");
+            ValidationSupport.checkReferenceType(researchSubject.study, "study", "ResearchStudy");
+            ValidationSupport.checkReferenceType(researchSubject.individual, "individual", "Patient");
+            ValidationSupport.checkReferenceType(researchSubject.consent, "consent", "Consent");
         }
 
         protected Builder from(ResearchSubject researchSubject) {

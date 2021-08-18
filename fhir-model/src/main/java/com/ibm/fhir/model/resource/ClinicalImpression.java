@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,6 +36,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ClinicalImpressionStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,7 +46,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a clinical consultation / encounter, but this varies greatly depending on the clinical workflow. This resource is 
  * called "ClinicalImpression" rather than "ClinicalAssessment" to avoid confusion with the recording of assessment tools 
  * such as Apgar score.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ClinicalImpression extends DomainResource {
     @Summary
@@ -52,7 +60,7 @@ public class ClinicalImpression extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ClinicalImpressionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The workflow state of a clinical impression.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-status|4.0.1"
     )
@@ -60,14 +68,14 @@ public class ClinicalImpression extends DomainResource {
     private final ClinicalImpressionStatus status;
     @Binding(
         bindingName = "ClinicalImpressionStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying the reason for the current state of a clinical impression."
     )
     private final CodeableConcept statusReason;
     @Summary
     @Binding(
         bindingName = "ClinicalImpressionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identifies categories of clinical impressions.  This is a place-holder only.  It may be removed."
     )
     private final CodeableConcept code;
@@ -99,7 +107,7 @@ public class ClinicalImpression extends DomainResource {
     private final List<Finding> finding;
     @Binding(
         bindingName = "ClinicalImpressionPrognosis",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Prognosis or outlook findings.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinicalimpression-prognosis"
     )
@@ -109,37 +117,28 @@ public class ClinicalImpression extends DomainResource {
     private final List<Reference> supportingInfo;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private ClinicalImpression(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         statusReason = builder.statusReason;
         code = builder.code;
         description = builder.description;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         date = builder.date;
         assessor = builder.assessor;
         previous = builder.previous;
-        problem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.problem, "problem"));
-        investigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.investigation, "investigation"));
-        protocol = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocol, "protocol"));
+        problem = Collections.unmodifiableList(builder.problem);
+        investigation = Collections.unmodifiableList(builder.investigation);
+        protocol = Collections.unmodifiableList(builder.protocol);
         summary = builder.summary;
-        finding = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.finding, "finding"));
-        prognosisCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisCodeableConcept, "prognosisCodeableConcept"));
-        prognosisReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prognosisReference, "prognosisReference"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(assessor, "assessor", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(previous, "previous", "ClinicalImpression");
-        ValidationSupport.checkReferenceType(problem, "problem", "Condition", "AllergyIntolerance");
-        ValidationSupport.checkReferenceType(prognosisReference, "prognosisReference", "RiskAssessment");
-        ValidationSupport.requireChildren(this);
+        finding = Collections.unmodifiableList(builder.finding);
+        prognosisCodeableConcept = Collections.unmodifiableList(builder.prognosisCodeableConcept);
+        prognosisReference = Collections.unmodifiableList(builder.prognosisReference);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1270,7 +1269,33 @@ public class ClinicalImpression extends DomainResource {
          */
         @Override
         public ClinicalImpression build() {
-            return new ClinicalImpression(this);
+            ClinicalImpression clinicalImpression = new ClinicalImpression(this);
+            if (validating) {
+                validate(clinicalImpression);
+            }
+            return clinicalImpression;
+        }
+
+        protected void validate(ClinicalImpression clinicalImpression) {
+            super.validate(clinicalImpression);
+            ValidationSupport.checkList(clinicalImpression.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(clinicalImpression.status, "status");
+            ValidationSupport.requireNonNull(clinicalImpression.subject, "subject");
+            ValidationSupport.choiceElement(clinicalImpression.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(clinicalImpression.problem, "problem", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.investigation, "investigation", Investigation.class);
+            ValidationSupport.checkList(clinicalImpression.protocol, "protocol", Uri.class);
+            ValidationSupport.checkList(clinicalImpression.finding, "finding", Finding.class);
+            ValidationSupport.checkList(clinicalImpression.prognosisCodeableConcept, "prognosisCodeableConcept", CodeableConcept.class);
+            ValidationSupport.checkList(clinicalImpression.prognosisReference, "prognosisReference", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(clinicalImpression.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(clinicalImpression.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(clinicalImpression.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(clinicalImpression.assessor, "assessor", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(clinicalImpression.previous, "previous", "ClinicalImpression");
+            ValidationSupport.checkReferenceType(clinicalImpression.problem, "problem", "Condition", "AllergyIntolerance");
+            ValidationSupport.checkReferenceType(clinicalImpression.prognosisReference, "prognosisReference", "RiskAssessment");
         }
 
         protected Builder from(ClinicalImpression clinicalImpression) {
@@ -1307,7 +1332,7 @@ public class ClinicalImpression extends DomainResource {
     public static class Investigation extends BackboneElement {
         @Binding(
             bindingName = "InvestigationGroupType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A name/code for a set of investigations.",
             valueSet = "http://hl7.org/fhir/ValueSet/investigation-sets"
         )
@@ -1316,14 +1341,10 @@ public class ClinicalImpression extends DomainResource {
         @ReferenceTarget({ "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media" })
         private final List<Reference> item;
 
-        private volatile int hashCode;
-
         private Investigation(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-            ValidationSupport.checkReferenceType(item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1612,7 +1633,19 @@ public class ClinicalImpression extends DomainResource {
              */
             @Override
             public Investigation build() {
-                return new Investigation(this);
+                Investigation investigation = new Investigation(this);
+                if (validating) {
+                    validate(investigation);
+                }
+                return investigation;
+            }
+
+            protected void validate(Investigation investigation) {
+                super.validate(investigation);
+                ValidationSupport.requireNonNull(investigation.code, "code");
+                ValidationSupport.checkList(investigation.item, "item", Reference.class);
+                ValidationSupport.checkReferenceType(investigation.item, "item", "Observation", "QuestionnaireResponse", "FamilyMemberHistory", "DiagnosticReport", "RiskAssessment", "ImagingStudy", "Media");
+                ValidationSupport.requireValueOrChildren(investigation);
             }
 
             protected Builder from(Investigation investigation) {
@@ -1630,7 +1663,7 @@ public class ClinicalImpression extends DomainResource {
     public static class Finding extends BackboneElement {
         @Binding(
             bindingName = "ConditionKind",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
@@ -1639,15 +1672,11 @@ public class ClinicalImpression extends DomainResource {
         private final Reference itemReference;
         private final String basis;
 
-        private volatile int hashCode;
-
         private Finding(Builder builder) {
             super(builder);
             itemCodeableConcept = builder.itemCodeableConcept;
             itemReference = builder.itemReference;
             basis = builder.basis;
-            ValidationSupport.checkReferenceType(itemReference, "itemReference", "Condition", "Observation", "Media");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1919,7 +1948,17 @@ public class ClinicalImpression extends DomainResource {
              */
             @Override
             public Finding build() {
-                return new Finding(this);
+                Finding finding = new Finding(this);
+                if (validating) {
+                    validate(finding);
+                }
+                return finding;
+            }
+
+            protected void validate(Finding finding) {
+                super.validate(finding);
+                ValidationSupport.checkReferenceType(finding.itemReference, "itemReference", "Condition", "Observation", "Media");
+                ValidationSupport.requireValueOrChildren(finding);
             }
 
             protected Builder from(Finding finding) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 
 /**
  * Updates the LOAD_COMPLETED timestamp of the resource_bundles record
@@ -21,19 +22,26 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 public class MarkBundleDone implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(MarkBundleDone.class.getName());
 
+    // The schema holding the FHIRBUCKET tables
+    private final String schemaName;
+
     // PK of the resource_bundle_loads to update
     private final long resourceBundleLoadId;
-    
+
     // How many records failed when processing this file/bundle
     private final int failureCount;
-    
+
     private final int rowsProcessed;
-    
+
     /**
      * Public constructor
-     * @param loaderInstanceId
+     * @param schemaName
+     * @param resourceBundleLoadId
+     * @param failureCount
+     * @param rowsProcessed
      */
-    public MarkBundleDone(long resourceBundleLoadId, int failureCount, int rowsProcessed) {
+    public MarkBundleDone(String schemaName, long resourceBundleLoadId, int failureCount, int rowsProcessed) {
+        this.schemaName = schemaName;
         this.resourceBundleLoadId = resourceBundleLoadId;
         this.failureCount = failureCount;
         this.rowsProcessed = rowsProcessed;
@@ -41,10 +49,11 @@ public class MarkBundleDone implements IDatabaseStatement {
 
     @Override
     public void run(IDatabaseTranslator translator, Connection c) {
-        
+
+        final String resourceBundleLoads = DataDefinitionUtil.getQualifiedName(schemaName, "resource_bundle_loads");
         final String currentTimestamp = translator.currentTimestampString();
         final String DML = ""
-                + "UPDATE resource_bundle_loads "
+                + "UPDATE " + resourceBundleLoads
                 + "   SET load_completed = " + currentTimestamp + ", "
                 + "       failure_count      = ?, "
                 + "       rows_processed     = ? "

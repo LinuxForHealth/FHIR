@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'demo/**'
       - '.github/workflows/site.yml'
 
 jobs:
@@ -24,8 +25,8 @@ jobs:
       run: mvn -B install --file fhir-examples --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: Build parent without tests
       run: |
-        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
-        mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
+        mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true -Dmaven.wagon.http.retryHandler.count=3
         mvn -B install --file fhir-parent -DskipTests -P include-fhir-igs,integration --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
         mvn -B dockerfile:build -f fhir-install --no-transfer-progress -Dmaven.wagon.http.retryHandler.count=3
     - name: free disk space

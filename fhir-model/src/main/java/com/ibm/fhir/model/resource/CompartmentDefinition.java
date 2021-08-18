@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -34,18 +35,26 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CompartmentType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A compartment definition that defines how resources are accessed on a server.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "cpd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/CompartmentDefinition"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CompartmentDefinition extends DomainResource {
@@ -60,7 +69,7 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -81,7 +90,7 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CompartmentType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Which type a compartment definition describes.",
         valueSet = "http://hl7.org/fhir/ValueSet/compartment-type|4.0.1"
     )
@@ -93,25 +102,22 @@ public class CompartmentDefinition extends DomainResource {
     @Summary
     private final List<Resource> resource;
 
-    private volatile int hashCode;
-
     private CompartmentDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        name = builder.name;
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
+        useContext = Collections.unmodifiableList(builder.useContext);
         purpose = builder.purpose;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        search = ValidationSupport.requireNonNull(builder.search, "search");
-        resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
-        ValidationSupport.requireChildren(this);
+        code = builder.code;
+        search = builder.search;
+        resource = Collections.unmodifiableList(builder.resource);
     }
 
     /**
@@ -912,7 +918,23 @@ public class CompartmentDefinition extends DomainResource {
          */
         @Override
         public CompartmentDefinition build() {
-            return new CompartmentDefinition(this);
+            CompartmentDefinition compartmentDefinition = new CompartmentDefinition(this);
+            if (validating) {
+                validate(compartmentDefinition);
+            }
+            return compartmentDefinition;
+        }
+
+        protected void validate(CompartmentDefinition compartmentDefinition) {
+            super.validate(compartmentDefinition);
+            ValidationSupport.requireNonNull(compartmentDefinition.url, "url");
+            ValidationSupport.requireNonNull(compartmentDefinition.name, "name");
+            ValidationSupport.requireNonNull(compartmentDefinition.status, "status");
+            ValidationSupport.checkList(compartmentDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(compartmentDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.requireNonNull(compartmentDefinition.code, "code");
+            ValidationSupport.requireNonNull(compartmentDefinition.search, "search");
+            ValidationSupport.checkList(compartmentDefinition.resource, "resource", Resource.class);
         }
 
         protected Builder from(CompartmentDefinition compartmentDefinition) {
@@ -942,7 +964,7 @@ public class CompartmentDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
@@ -952,14 +974,11 @@ public class CompartmentDefinition extends DomainResource {
         private final List<String> param;
         private final String documentation;
 
-        private volatile int hashCode;
-
         private Resource(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            param = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.param, "param"));
+            code = builder.code;
+            param = Collections.unmodifiableList(builder.param);
             documentation = builder.documentation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1254,7 +1273,18 @@ public class CompartmentDefinition extends DomainResource {
              */
             @Override
             public Resource build() {
-                return new Resource(this);
+                Resource resource = new Resource(this);
+                if (validating) {
+                    validate(resource);
+                }
+                return resource;
+            }
+
+            protected void validate(Resource resource) {
+                super.validate(resource);
+                ValidationSupport.requireNonNull(resource.code, "code");
+                ValidationSupport.checkList(resource.param, "param", String.class);
+                ValidationSupport.requireValueOrChildren(resource);
             }
 
             protected Builder from(Resource resource) {

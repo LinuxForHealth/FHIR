@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,37 +22,37 @@ public class UnitsOfTime extends Code {
     /**
      * second
      */
-    public static final UnitsOfTime S = UnitsOfTime.builder().value(ValueSet.S).build();
+    public static final UnitsOfTime S = UnitsOfTime.builder().value(Value.S).build();
 
     /**
      * minute
      */
-    public static final UnitsOfTime MIN = UnitsOfTime.builder().value(ValueSet.MIN).build();
+    public static final UnitsOfTime MIN = UnitsOfTime.builder().value(Value.MIN).build();
 
     /**
      * hour
      */
-    public static final UnitsOfTime H = UnitsOfTime.builder().value(ValueSet.H).build();
+    public static final UnitsOfTime H = UnitsOfTime.builder().value(Value.H).build();
 
     /**
      * day
      */
-    public static final UnitsOfTime D = UnitsOfTime.builder().value(ValueSet.D).build();
+    public static final UnitsOfTime D = UnitsOfTime.builder().value(Value.D).build();
 
     /**
      * week
      */
-    public static final UnitsOfTime WK = UnitsOfTime.builder().value(ValueSet.WK).build();
+    public static final UnitsOfTime WK = UnitsOfTime.builder().value(Value.WK).build();
 
     /**
      * month
      */
-    public static final UnitsOfTime MO = UnitsOfTime.builder().value(ValueSet.MO).build();
+    public static final UnitsOfTime MO = UnitsOfTime.builder().value(Value.MO).build();
 
     /**
      * year
      */
-    public static final UnitsOfTime A = UnitsOfTime.builder().value(ValueSet.A).build();
+    public static final UnitsOfTime A = UnitsOfTime.builder().value(Value.A).build();
 
     private volatile int hashCode;
 
@@ -60,14 +60,52 @@ public class UnitsOfTime extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this UnitsOfTime as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this UnitsOfTime as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating UnitsOfTime objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static UnitsOfTime of(ValueSet value) {
+        switch (value) {
+        case S:
+            return S;
+        case MIN:
+            return MIN;
+        case H:
+            return H;
+        case D:
+            return D;
+        case WK:
+            return WK;
+        case MO:
+            return MO;
+        case A:
+            return A;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating UnitsOfTime objects from a passed enum value.
      */
-    public static UnitsOfTime of(ValueSet value) {
+    public static UnitsOfTime of(Value value) {
         switch (value) {
         case S:
             return S;
@@ -97,7 +135,7 @@ public class UnitsOfTime extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static UnitsOfTime of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -109,7 +147,7 @@ public class UnitsOfTime extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -121,7 +159,7 @@ public class UnitsOfTime extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -150,11 +188,7 @@ public class UnitsOfTime extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -183,19 +217,50 @@ public class UnitsOfTime extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for UnitsOfTime
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public UnitsOfTime build() {
-            return new UnitsOfTime(this);
+            UnitsOfTime unitsOfTime = new UnitsOfTime(this);
+            if (validating) {
+                validate(unitsOfTime);
+            }
+            return unitsOfTime;
+        }
+
+        protected void validate(UnitsOfTime unitsOfTime) {
+            super.validate(unitsOfTime);
+        }
+
+        protected Builder from(UnitsOfTime unitsOfTime) {
+            super.from(unitsOfTime);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * second
@@ -247,7 +312,7 @@ public class UnitsOfTime extends Code {
         }
 
         /**
-         * Factory method for creating UnitsOfTime.ValueSet values from a passed string value.
+         * Factory method for creating UnitsOfTime.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -261,6 +326,91 @@ public class UnitsOfTime extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * second
+         */
+        S("s"),
+
+        /**
+         * minute
+         */
+        MIN("min"),
+
+        /**
+         * hour
+         */
+        H("h"),
+
+        /**
+         * day
+         */
+        D("d"),
+
+        /**
+         * week
+         */
+        WK("wk"),
+
+        /**
+         * month
+         */
+        MO("mo"),
+
+        /**
+         * year
+         */
+        A("a");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating UnitsOfTime.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding UnitsOfTime.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "s":
+                return S;
+            case "min":
+                return MIN;
+            case "h":
+                return H;
+            case "d":
+                return D;
+            case "wk":
+                return WK;
+            case "mo":
+                return MO;
+            case "a":
+                return A;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

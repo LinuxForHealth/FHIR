@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -38,33 +39,43 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchComparator;
 import com.ibm.fhir.model.type.code.SearchModifierCode;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.XPathUsageType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A search parameter that defines a named search item that can be used to search/filter on a resource.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "spd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "spd-1",
     level = "Rule",
     location = "(base)",
     description = "If an xpath is present, there SHALL be an xpathUsage",
-    expression = "xpath.empty() or xpathUsage.exists()"
+    expression = "xpath.empty() or xpathUsage.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "spd-2",
     level = "Rule",
     location = "(base)",
     description = "Search parameters can only have chain names when the search parameter type is 'reference'",
-    expression = "chain.empty() or type = 'reference'"
+    expression = "chain.empty() or type = 'reference'",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter"
 )
 @Constraint(
     id = "searchParameter-3",
@@ -72,6 +83,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/SearchParameter",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -88,7 +100,7 @@ public class SearchParameter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -110,7 +122,7 @@ public class SearchParameter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -122,7 +134,7 @@ public class SearchParameter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -131,7 +143,7 @@ public class SearchParameter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SearchParamType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Data types allowed to be used for search parameters.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
     )
@@ -141,14 +153,14 @@ public class SearchParameter extends DomainResource {
     private final String xpath;
     @Binding(
         bindingName = "XPathUsageType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a search parameter relates to the set of elements returned by evaluating its xpath query.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-xpath-usage|4.0.1"
     )
     private final XPathUsageType xpathUsage;
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -157,14 +169,14 @@ public class SearchParameter extends DomainResource {
     private final Boolean multipleAnd;
     @Binding(
         bindingName = "SearchComparator",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "What Search Comparator Codes are supported in search.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-comparator|4.0.1"
     )
     private final List<SearchComparator> comparator;
     @Binding(
         bindingName = "SearchModifierCode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A supported modifier for a search parameter.",
         valueSet = "http://hl7.org/fhir/ValueSet/search-modifier-code|4.0.1"
     )
@@ -172,37 +184,34 @@ public class SearchParameter extends DomainResource {
     private final List<String> chain;
     private final List<Component> component;
 
-    private volatile int hashCode;
-
     private SearchParameter(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         derivedFrom = builder.derivedFrom;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        description = ValidationSupport.requireNonNull(builder.description, "description");
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        contact = Collections.unmodifiableList(builder.contact);
+        description = builder.description;
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        base = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.base, "base"));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        code = builder.code;
+        base = Collections.unmodifiableList(builder.base);
+        type = builder.type;
         expression = builder.expression;
         xpath = builder.xpath;
         xpathUsage = builder.xpathUsage;
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        target = Collections.unmodifiableList(builder.target);
         multipleOr = builder.multipleOr;
         multipleAnd = builder.multipleAnd;
-        comparator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comparator, "comparator"));
-        modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
-        chain = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.chain, "chain"));
-        component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
-        ValidationSupport.requireChildren(this);
+        comparator = Collections.unmodifiableList(builder.comparator);
+        modifier = Collections.unmodifiableList(builder.modifier);
+        chain = Collections.unmodifiableList(builder.chain);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -1494,7 +1503,30 @@ public class SearchParameter extends DomainResource {
          */
         @Override
         public SearchParameter build() {
-            return new SearchParameter(this);
+            SearchParameter searchParameter = new SearchParameter(this);
+            if (validating) {
+                validate(searchParameter);
+            }
+            return searchParameter;
+        }
+
+        protected void validate(SearchParameter searchParameter) {
+            super.validate(searchParameter);
+            ValidationSupport.requireNonNull(searchParameter.url, "url");
+            ValidationSupport.requireNonNull(searchParameter.name, "name");
+            ValidationSupport.requireNonNull(searchParameter.status, "status");
+            ValidationSupport.checkList(searchParameter.contact, "contact", ContactDetail.class);
+            ValidationSupport.requireNonNull(searchParameter.description, "description");
+            ValidationSupport.checkList(searchParameter.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(searchParameter.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(searchParameter.code, "code");
+            ValidationSupport.checkNonEmptyList(searchParameter.base, "base", ResourceType.class);
+            ValidationSupport.requireNonNull(searchParameter.type, "type");
+            ValidationSupport.checkList(searchParameter.target, "target", ResourceType.class);
+            ValidationSupport.checkList(searchParameter.comparator, "comparator", SearchComparator.class);
+            ValidationSupport.checkList(searchParameter.modifier, "modifier", SearchModifierCode.class);
+            ValidationSupport.checkList(searchParameter.chain, "chain", String.class);
+            ValidationSupport.checkList(searchParameter.component, "component", Component.class);
         }
 
         protected Builder from(SearchParameter searchParameter) {
@@ -1538,13 +1570,10 @@ public class SearchParameter extends DomainResource {
         @Required
         private final String expression;
 
-        private volatile int hashCode;
-
         private Component(Builder builder) {
             super(builder);
-            definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            definition = builder.definition;
+            expression = builder.expression;
         }
 
         /**
@@ -1792,7 +1821,18 @@ public class SearchParameter extends DomainResource {
              */
             @Override
             public Component build() {
-                return new Component(this);
+                Component component = new Component(this);
+                if (validating) {
+                    validate(component);
+                }
+                return component;
+            }
+
+            protected void validate(Component component) {
+                super.validate(component);
+                ValidationSupport.requireNonNull(component.definition, "definition");
+                ValidationSupport.requireNonNull(component.expression, "expression");
+                ValidationSupport.requireValueOrChildren(component);
             }
 
             protected Builder from(Component component) {

@@ -13,33 +13,33 @@ Note: The Docker image [ibmcom/ibm-fhir-schematool](https://hub.docker.com/r/ibm
 More information on installing and running the server is available in the User Guide at https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide.
 
 ### Building on top of the IBM FHIR Server Modules
-Each of the IBM FHIR Server modules are published to a public Maven repository on [JFrog Bintray](https://bintray.com/ibm-watson-health/ibm-fhir-server-releases).
+Each of the IBM FHIR Server modules are published to Maven Central under [com.ibm.fhir](https://repo1.maven.org/maven2/com/ibm/fhir/).
 
-To use the artifacts from a Maven project:
-1. Add the repository to your pom.xml:
+To use the artifacts from a Maven project, declare the dependencies. For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
 
-    ```
-    <repositories>
-        <repository>
-            <id>ibm-fhir</id>
-            <url>https://dl.bintray.com/ibm-watson-health/ibm-fhir-server-releases</url>
-        </repository>
-        ...
-    ```
-
-2. Declare the dependencies:
-
-    For example, to use our visitable, thread-safe FHIR R4 object model (including our high-performance parsers and generators), declare a dependency on the `fhir-model` module:
-    ```
+```
+...
+<dependencies>
+    <dependency>
+      <groupId>com.ibm.fhir</groupId>
+      <artifactId>fhir-model</artifactId>
+      <version>${fhir.version}</version>
+    </dependency>
     ...
-    <dependencies>
-        <dependency>
-          <groupId>com.ibm.fhir</groupId>
-          <artifactId>fhir-model</artifactId>
-          <version>${fhir.version}</version>
-        </dependency>
-        ...
-    ```
+```
+
+Note, if you are using a local repository or private host, you must add the repository to your pom.xml:
+
+```
+<repositories>
+    <repository>
+        <id>ibm-fhir</id>
+        <url>https://myhost.com/ibm-fhir-server-releases</url>
+    </repository>
+    ...
+```
+
+For versions prior to 4.7.0, the IBM FHIR Server modules are only available from the [Releases tab](https://github.com/IBM/FHIR/releases) in an archived Maven repository format.
 
 ### IBM FHIR Server Module Catalog
 The IBM FHIR Server is modular and extensible. The following tables provide an overview of all the IBM FHIR modules, along with an indicator of the stability of the Java APIs defined in each module. This indicator is only applicable to the direct usage of the modules, not for usage of the IBM FHIR Server as a whole.
@@ -56,6 +56,8 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-model|An object model generated from the FHIR R4 specification and corresponding parsers and generators for XML and JSON|true|
 |fhir-registry|A resource registry, registry provider interfaces, and pre-registered resources shipped with the FHIR specification|false|
 |fhir-term|A terminology service provider interface with a default implementation that implements terminology services from fully-defined CodeSystems in the registry|false|
+|fhir-term-graph|A terminology service provider that implements terminology services using JanusGraph|false|
+|fhir-term-remote|A terminology service provider that connects to an external service using a REST client to access code system content|false|
 |fhir-profile|Helper methods for validating ValueSet membership and Profile conformance|false|
 |fhir-path|An implementation of version 2.0.0 of the FHIRPath specification assumed by FHIR R4|false|
 |fhir-validation|Validation utility for validating resource instances against the base specification and/or configured profiles|false|
@@ -77,7 +79,6 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-persistence-schema|Classes for deploying and updating the IBM FHIR Server relational database schema|false|
 |fhir-persistence-jdbc|A relational FHIRPersistence implementation that uses JDBC to store and query FHIR resources|false|
 |fhir-persistence-scout|A scale out persistence layer to store and query FHIR resources *experimental* |false|
-|fhir-persistence-proxy|A custom XADataSource implementation for managing distributed transactions across multiple backends|false|
 |fhir-provider|JAX-RS Providers for FHIR XML and JSON and related patch formats|false|
 |fhir-notification|[Subscription](https://www.hl7.org/fhir/R4/subscription.html) and notification interfaces and helpers|false|
 |fhir-notification-websocket|A fhir-notification implementation that uses WebSockets as described at https://www.hl7.org/fhir/R4/subscription.html#2.46.7.2 |false|
@@ -93,18 +94,20 @@ The IBM FHIR Server is modular and extensible. The following tables provide an o
 |fhir-operation-test|Sample operations for testing Extended Operations as describe at https://www.hl7.org/fhir/R4/operations.html |false|
 |fhir-operation-apply|A naive implementation of the `$apply` operation defined at https://www.hl7.org/fhir/operation-activitydefinition-apply.html |false|
 |fhir-operation-bulkdata|`$import` and `$export` implementations which translate bulk data requests into JSR352 Java Batch jobs|false|
-|fhir-bulkimportexport-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
+|fhir-bulkdata-webapp|Standalone web application for serving bulk import and export requests via JSR352 Java Batch jobs|false|
 |fhir-operation-convert|A limited implementation of the FHIR [$convert operation](https://www.hl7.org/fhir/R4/resource-operation-convert.html), able to convert between JSON and XML but *not* between FHIR versions|false|
 |fhir-operation-document|Basic support for the Composition `$document` operation defined at https://www.hl7.org/fhir/operation-composition-document.html |false|
 |fhir-operation-healthcheck|The `$healthcheck` operation checks for a valid connection to the database and returns the server status|false|
 |fhir-operation-term|[Terminology service](https://www.hl7.org/fhir/terminology-service.html) operations which use the default fhir-term TerminologyServiceProvider to implement $expand, $lookup, $subsumes, $closure, $validate and $translate|false|
+|fhir-operation-term-cache|Add-on module that provides operations for clearing the terminology subsystem caches for non-production scenarios|false|
 |fhir-operation-validate|An implementation of the FHIR resource [$validate operation](https://www.hl7.org/fhir/R4/operation-resource-validate.html)|false|
+|fhir-operation-everything|An implementation of the FHIR patient [`$everything`](https://www.hl7.org/fhir/operation-patient-everything.html) operation|false|
+|fhir-operation-erase|A hard delete operation for resource instances referred to as the `$erase` operation. See the [README.md](operation/fhir-operation-erase/README.md)|false|
 
 #### Client
 |Module|Description|Java API-stable|
 |------|-----------|----------|
 |fhir-client|A FHIR Client that re-uses the IBM FHIR Server model and its JAX-RS Providers|false|
-|fhir-cli|Experimental command line interface utility for working with the IBM FHIR Server client from the command line|false|
 
 #### Tools and Utilities
 |Module|Description|Java API-stable|
@@ -132,4 +135,4 @@ The IBM FHIR Server is licensed under the Apache 2.0 license. Full license text 
 available at [LICENSE](LICENSE).
 
 FHIR® is the registered trademark of HL7 and is used with the permission of HL7. Use of the FHIR trademark does not constitute endorsement of this product by HL7.
-IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark). 
+IBM and the IBM logo are trademarks of International Business Machines Corporation, registered in many jurisdictions worldwide. Other product and service names might be trademarks of IBM or other companies. A current list of IBM trademarks is available on [https://ibm.com/trademark](https://ibm.com/trademark).

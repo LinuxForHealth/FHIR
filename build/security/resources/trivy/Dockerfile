@@ -9,7 +9,7 @@ FROM ibmcom/ibm-fhir-server:latest as trivy
 USER root
 
 # Set the working directory to the fhir-server liberty server
-ENV FHIR /opt/ol/wlp/usr/servers/fhir-server
+ENV FHIR /opt/ol/wlp/usr/servers/defaultServer
 WORKDIR ${FHIR}
 
 RUN yum install curl \

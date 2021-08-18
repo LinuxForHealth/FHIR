@@ -2,7 +2,7 @@
 <web-app id="WebApp_ID" version="3.1"
     xmlns="http://xmlns.jcp.org/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
+    xsi:schemaLocation="https://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <display-name>IBM FHIR Server</display-name>
     <servlet>
         <servlet-name>FHIRRestServlet</servlet-name>
@@ -22,14 +22,6 @@
         <auth-method>CLIENT-CERT</auth-method>
     </login-config>
 
-    <filter>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <filter-class>com.ibm.fhir.server.filter.rest.FHIRRestAuthorizationServletFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>FHIRAuthFilter</filter-name>
-        <servlet-name>FHIRRestServlet</servlet-name>
-    </filter-mapping>
 
     <filter>
         <filter-name>FHIRRestFilter</filter-name>

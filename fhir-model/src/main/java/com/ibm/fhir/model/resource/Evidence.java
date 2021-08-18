@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,19 +39,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The Evidence resource describes the conditional state (population and any exposures being compared within the 
  * population) and outcome (if specified) that the knowledge (evidence, assertion, recommendation) is about.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "evi-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Evidence"
 )
 @Constraint(
     id = "evidence-1",
@@ -58,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Evidence",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -77,7 +87,7 @@ public class Evidence extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -97,7 +107,7 @@ public class Evidence extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -109,7 +119,7 @@ public class Evidence extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -130,42 +140,36 @@ public class Evidence extends DomainResource {
     @ReferenceTarget({ "EvidenceVariable" })
     private final List<Reference> outcome;
 
-    private volatile int hashCode;
-
     private Evidence(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        exposureBackground = ValidationSupport.requireNonNull(builder.exposureBackground, "exposureBackground");
-        exposureVariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exposureVariant, "exposureVariant"));
-        outcome = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcome, "outcome"));
-        ValidationSupport.checkReferenceType(exposureBackground, "exposureBackground", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposureVariant, "exposureVariant", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
-        ValidationSupport.requireChildren(this);
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        exposureBackground = builder.exposureBackground;
+        exposureVariant = Collections.unmodifiableList(builder.exposureVariant);
+        outcome = Collections.unmodifiableList(builder.outcome);
     }
 
     /**
@@ -1604,7 +1608,33 @@ public class Evidence extends DomainResource {
          */
         @Override
         public Evidence build() {
-            return new Evidence(this);
+            Evidence evidence = new Evidence(this);
+            if (validating) {
+                validate(evidence);
+            }
+            return evidence;
+        }
+
+        protected void validate(Evidence evidence) {
+            super.validate(evidence);
+            ValidationSupport.checkList(evidence.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(evidence.status, "status");
+            ValidationSupport.checkList(evidence.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(evidence.note, "note", Annotation.class);
+            ValidationSupport.checkList(evidence.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(evidence.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(evidence.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(evidence.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(evidence.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(evidence.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(evidence.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(evidence.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.requireNonNull(evidence.exposureBackground, "exposureBackground");
+            ValidationSupport.checkList(evidence.exposureVariant, "exposureVariant", Reference.class);
+            ValidationSupport.checkList(evidence.outcome, "outcome", Reference.class);
+            ValidationSupport.checkReferenceType(evidence.exposureBackground, "exposureBackground", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.exposureVariant, "exposureVariant", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(evidence.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(Evidence evidence) {

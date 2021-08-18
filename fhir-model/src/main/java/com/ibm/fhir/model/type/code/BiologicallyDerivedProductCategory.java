@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class BiologicallyDerivedProductCategory extends Code {
      * 
      * <p>A collection of tissues joined in a structural unit to serve a common function.
      */
-    public static final BiologicallyDerivedProductCategory ORGAN = BiologicallyDerivedProductCategory.builder().value(ValueSet.ORGAN).build();
+    public static final BiologicallyDerivedProductCategory ORGAN = BiologicallyDerivedProductCategory.builder().value(Value.ORGAN).build();
 
     /**
      * Tissue
@@ -32,28 +32,28 @@ public class BiologicallyDerivedProductCategory extends Code {
      * <p>An ensemble of similar cells and their extracellular matrix from the same origin that together carry out a specific 
      * function.
      */
-    public static final BiologicallyDerivedProductCategory TISSUE = BiologicallyDerivedProductCategory.builder().value(ValueSet.TISSUE).build();
+    public static final BiologicallyDerivedProductCategory TISSUE = BiologicallyDerivedProductCategory.builder().value(Value.TISSUE).build();
 
     /**
      * Fluid
      * 
      * <p>Body fluid.
      */
-    public static final BiologicallyDerivedProductCategory FLUID = BiologicallyDerivedProductCategory.builder().value(ValueSet.FLUID).build();
+    public static final BiologicallyDerivedProductCategory FLUID = BiologicallyDerivedProductCategory.builder().value(Value.FLUID).build();
 
     /**
      * Cells
      * 
      * <p>Collection of cells.
      */
-    public static final BiologicallyDerivedProductCategory CELLS = BiologicallyDerivedProductCategory.builder().value(ValueSet.CELLS).build();
+    public static final BiologicallyDerivedProductCategory CELLS = BiologicallyDerivedProductCategory.builder().value(Value.CELLS).build();
 
     /**
      * BiologicalAgent
      * 
      * <p>Biological agent of unspecified type.
      */
-    public static final BiologicallyDerivedProductCategory BIOLOGICAL_AGENT = BiologicallyDerivedProductCategory.builder().value(ValueSet.BIOLOGICAL_AGENT).build();
+    public static final BiologicallyDerivedProductCategory BIOLOGICAL_AGENT = BiologicallyDerivedProductCategory.builder().value(Value.BIOLOGICAL_AGENT).build();
 
     private volatile int hashCode;
 
@@ -61,14 +61,48 @@ public class BiologicallyDerivedProductCategory extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this BiologicallyDerivedProductCategory as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this BiologicallyDerivedProductCategory as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating BiologicallyDerivedProductCategory objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static BiologicallyDerivedProductCategory of(ValueSet value) {
+        switch (value) {
+        case ORGAN:
+            return ORGAN;
+        case TISSUE:
+            return TISSUE;
+        case FLUID:
+            return FLUID;
+        case CELLS:
+            return CELLS;
+        case BIOLOGICAL_AGENT:
+            return BIOLOGICAL_AGENT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating BiologicallyDerivedProductCategory objects from a passed enum value.
      */
-    public static BiologicallyDerivedProductCategory of(ValueSet value) {
+    public static BiologicallyDerivedProductCategory of(Value value) {
         switch (value) {
         case ORGAN:
             return ORGAN;
@@ -94,7 +128,7 @@ public class BiologicallyDerivedProductCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static BiologicallyDerivedProductCategory of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +140,7 @@ public class BiologicallyDerivedProductCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -118,7 +152,7 @@ public class BiologicallyDerivedProductCategory extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -147,11 +181,7 @@ public class BiologicallyDerivedProductCategory extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -180,19 +210,50 @@ public class BiologicallyDerivedProductCategory extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for BiologicallyDerivedProductCategory
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public BiologicallyDerivedProductCategory build() {
-            return new BiologicallyDerivedProductCategory(this);
+            BiologicallyDerivedProductCategory biologicallyDerivedProductCategory = new BiologicallyDerivedProductCategory(this);
+            if (validating) {
+                validate(biologicallyDerivedProductCategory);
+            }
+            return biologicallyDerivedProductCategory;
+        }
+
+        protected void validate(BiologicallyDerivedProductCategory biologicallyDerivedProductCategory) {
+            super.validate(biologicallyDerivedProductCategory);
+        }
+
+        protected Builder from(BiologicallyDerivedProductCategory biologicallyDerivedProductCategory) {
+            super.from(biologicallyDerivedProductCategory);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Organ
@@ -245,7 +306,7 @@ public class BiologicallyDerivedProductCategory extends Code {
         }
 
         /**
-         * Factory method for creating BiologicallyDerivedProductCategory.ValueSet values from a passed string value.
+         * Factory method for creating BiologicallyDerivedProductCategory.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -259,6 +320,88 @@ public class BiologicallyDerivedProductCategory extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Organ
+         * 
+         * <p>A collection of tissues joined in a structural unit to serve a common function.
+         */
+        ORGAN("organ"),
+
+        /**
+         * Tissue
+         * 
+         * <p>An ensemble of similar cells and their extracellular matrix from the same origin that together carry out a specific 
+         * function.
+         */
+        TISSUE("tissue"),
+
+        /**
+         * Fluid
+         * 
+         * <p>Body fluid.
+         */
+        FLUID("fluid"),
+
+        /**
+         * Cells
+         * 
+         * <p>Collection of cells.
+         */
+        CELLS("cells"),
+
+        /**
+         * BiologicalAgent
+         * 
+         * <p>Biological agent of unspecified type.
+         */
+        BIOLOGICAL_AGENT("biologicalAgent");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating BiologicallyDerivedProductCategory.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding BiologicallyDerivedProductCategory.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "organ":
+                return ORGAN;
+            case "tissue":
+                return TISSUE;
+            case "fluid":
+                return FLUID;
+            case "cells":
+                return CELLS;
+            case "biologicalAgent":
+                return BIOLOGICAL_AGENT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

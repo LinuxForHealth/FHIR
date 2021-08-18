@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,19 +43,27 @@ import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.QuestionnaireResponseStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A structured set of questions and their answers. The questions are ordered and grouped into coherent subsets, 
  * corresponding to the structure of the grouping of the questionnaire being responded to.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "qrs-1",
     level = "Rule",
     location = "QuestionnaireResponse.item",
     description = "Nested item can't be beneath both item and answer",
-    expression = "(answer.exists() and item.exists()).not()"
+    expression = "(answer.exists() and item.exists()).not()",
+    source = "http://hl7.org/fhir/StructureDefinition/QuestionnaireResponse"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class QuestionnaireResponse extends DomainResource {
@@ -71,7 +80,7 @@ public class QuestionnaireResponse extends DomainResource {
     @Summary
     @Binding(
         bindingName = "QuestionnaireResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Lifecycle status of the questionnaire response.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers-status|4.0.1"
     )
@@ -92,27 +101,19 @@ public class QuestionnaireResponse extends DomainResource {
     private final Reference source;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private QuestionnaireResponse(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
         questionnaire = builder.questionnaire;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         subject = builder.subject;
         encounter = builder.encounter;
         authored = builder.authored;
         author = builder.author;
         source = builder.source;
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Observation", "Procedure");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.requireChildren(this);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -843,7 +844,24 @@ public class QuestionnaireResponse extends DomainResource {
          */
         @Override
         public QuestionnaireResponse build() {
-            return new QuestionnaireResponse(this);
+            QuestionnaireResponse questionnaireResponse = new QuestionnaireResponse(this);
+            if (validating) {
+                validate(questionnaireResponse);
+            }
+            return questionnaireResponse;
+        }
+
+        protected void validate(QuestionnaireResponse questionnaireResponse) {
+            super.validate(questionnaireResponse);
+            ValidationSupport.checkList(questionnaireResponse.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(questionnaireResponse.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(questionnaireResponse.status, "status");
+            ValidationSupport.checkList(questionnaireResponse.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(questionnaireResponse.basedOn, "basedOn", "CarePlan", "ServiceRequest");
+            ValidationSupport.checkReferenceType(questionnaireResponse.partOf, "partOf", "Observation", "Procedure");
+            ValidationSupport.checkReferenceType(questionnaireResponse.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(questionnaireResponse.author, "author", "Device", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(questionnaireResponse.source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
         }
 
         protected Builder from(QuestionnaireResponse questionnaireResponse) {
@@ -874,16 +892,13 @@ public class QuestionnaireResponse extends DomainResource {
         private final List<Answer> answer;
         private final List<QuestionnaireResponse.Item> item;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
+            linkId = builder.linkId;
             definition = builder.definition;
             text = builder.text;
-            answer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answer, "answer"));
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-            ValidationSupport.requireValueOrChildren(this);
+            answer = Collections.unmodifiableList(builder.answer);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -1253,7 +1268,19 @@ public class QuestionnaireResponse extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.linkId, "linkId");
+                ValidationSupport.checkList(item.answer, "answer", Answer.class);
+                ValidationSupport.checkList(item.item, "item", QuestionnaireResponse.Item.class);
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -1274,20 +1301,17 @@ public class QuestionnaireResponse extends DomainResource {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireAnswer",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Code indicating the response provided for a question.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
             private final Element value;
             private final List<QuestionnaireResponse.Item> item;
 
-            private volatile int hashCode;
-
             private Answer(Builder builder) {
                 super(builder);
-                value = ValidationSupport.choiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-                ValidationSupport.requireValueOrChildren(this);
+                value = builder.value;
+                item = Collections.unmodifiableList(builder.item);
             }
 
             /**
@@ -1559,7 +1583,18 @@ public class QuestionnaireResponse extends DomainResource {
                  */
                 @Override
                 public Answer build() {
-                    return new Answer(this);
+                    Answer answer = new Answer(this);
+                    if (validating) {
+                        validate(answer);
+                    }
+                    return answer;
+                }
+
+                protected void validate(Answer answer) {
+                    super.validate(answer);
+                    ValidationSupport.choiceElement(answer.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                    ValidationSupport.checkList(answer.item, "item", QuestionnaireResponse.Item.class);
+                    ValidationSupport.requireValueOrChildren(answer);
                 }
 
                 protected Builder from(Answer answer) {

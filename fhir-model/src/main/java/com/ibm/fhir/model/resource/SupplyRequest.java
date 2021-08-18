@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,13 +38,20 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SupplyRequestStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a request for a medication, substance or device used in the healthcare setting.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SupplyRequest extends DomainResource {
     @Summary
@@ -51,7 +59,7 @@ public class SupplyRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SupplyRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Status of the supply request.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-status|4.0.1"
     )
@@ -59,7 +67,7 @@ public class SupplyRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SupplyRequestKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Category of supply request.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-kind"
     )
@@ -67,7 +75,7 @@ public class SupplyRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -77,7 +85,7 @@ public class SupplyRequest extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SupplyRequestItem",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The item that was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supply-item"
     )
@@ -100,7 +108,7 @@ public class SupplyRequest extends DomainResource {
     private final List<Reference> supplier;
     @Binding(
         bindingName = "SupplyRequestReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why the supply item was requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/supplyrequest-reason"
     )
@@ -112,32 +120,23 @@ public class SupplyRequest extends DomainResource {
     @ReferenceTarget({ "Organization", "Location", "Patient" })
     private final Reference deliverTo;
 
-    private volatile int hashCode;
-
     private SupplyRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         category = builder.category;
         priority = builder.priority;
-        item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
-        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        item = builder.item;
+        quantity = builder.quantity;
+        parameter = Collections.unmodifiableList(builder.parameter);
+        occurrence = builder.occurrence;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        supplier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplier, "supplier"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        supplier = Collections.unmodifiableList(builder.supplier);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         deliverFrom = builder.deliverFrom;
         deliverTo = builder.deliverTo;
-        ValidationSupport.checkReferenceType(item, "item", "Medication", "Substance", "Device");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(supplier, "supplier", "Organization", "HealthcareService");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(deliverFrom, "deliverFrom", "Organization", "Location");
-        ValidationSupport.checkReferenceType(deliverTo, "deliverTo", "Organization", "Location", "Patient");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1048,7 +1047,29 @@ public class SupplyRequest extends DomainResource {
          */
         @Override
         public SupplyRequest build() {
-            return new SupplyRequest(this);
+            SupplyRequest supplyRequest = new SupplyRequest(this);
+            if (validating) {
+                validate(supplyRequest);
+            }
+            return supplyRequest;
+        }
+
+        protected void validate(SupplyRequest supplyRequest) {
+            super.validate(supplyRequest);
+            ValidationSupport.checkList(supplyRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireChoiceElement(supplyRequest.item, "item", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireNonNull(supplyRequest.quantity, "quantity");
+            ValidationSupport.checkList(supplyRequest.parameter, "parameter", Parameter.class);
+            ValidationSupport.choiceElement(supplyRequest.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(supplyRequest.supplier, "supplier", Reference.class);
+            ValidationSupport.checkList(supplyRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(supplyRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkReferenceType(supplyRequest.item, "item", "Medication", "Substance", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(supplyRequest.supplier, "supplier", "Organization", "HealthcareService");
+            ValidationSupport.checkReferenceType(supplyRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverFrom, "deliverFrom", "Organization", "Location");
+            ValidationSupport.checkReferenceType(supplyRequest.deliverTo, "deliverTo", "Organization", "Location", "Patient");
         }
 
         protected Builder from(SupplyRequest supplyRequest) {
@@ -1078,20 +1099,17 @@ public class SupplyRequest extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Binding(
             bindingName = "ParameterCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that identifies the device detail."
         )
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
 
-        private volatile int hashCode;
-
         private Parameter(Builder builder) {
             super(builder);
             code = builder.code;
-            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -1335,7 +1353,17 @@ public class SupplyRequest extends DomainResource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.choiceElement(parameter.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {

@@ -1,0 +1,210 @@
+{
+    "resourceType": "Bundle",
+    "id": "ExampleEstablishmentRegistration",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationBundle"
+        ]
+    },
+    "type": "message",
+    "timestamp": "2021-08-11T01:01:01.111+06:00",
+    "entry": [
+        {
+            "fullUrl": "http://example.org/MessageHeader/EstablishmentRegistrationMessage",
+            "resource": {
+                "resourceType": "MessageHeader",
+                "id": "SampleEstablishmentRegistrationMessage",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrationMessage"
+                    ]
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>event</b>: <span title=\"{http://loinc.org 51725-0}\">Establishment registration</span></p><h3>Sources</h3><table class=\"grid\"><tr><td>-</td><td><b>Endpoint</b></td></tr><tr><td>*</td><td><a href=\"http://example.org/\">http://example.org/</a></td></tr></table><p><b>focus</b>: </p><ul><li><a href=\"#Organization_ExampleEstablishmentRegistrant\">See above (Organization/ExampleEstablishmentRegistrant)</a></li><li><a href=\"#Organization_ExampleEstablishment\">See above (Organization/ExampleEstablishment)</a></li></ul></div>"
+                },
+                "eventCoding": {
+                    "system": "http://loinc.org",
+                    "code": "51725-0",
+                    "display": "Establishment registration"
+                },
+                "source": {
+                    "endpoint": "http://example.org/"
+                },
+                "focus": [
+                    {
+                        "reference": "Organization/ExampleEstablishmentRegistrant"
+                    },
+                    {
+                        "reference": "Organization/ExampleEstablishment"
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://example.org/Organization/ExampleEstablishmentRegistrant",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "ExampleEstablishmentRegistrant",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrantOrganization"
+                    ]
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 111111111</p><p><b>type</b>: <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes EstablishmentRegistrant}\">An organization that registers establishment organizations.</span></p><p><b>name</b>: REGISTRANT SERVICES INC</p><h3>Contacts</h3><table class=\"grid\"><tr><td>-</td><td><b>Name</b></td><td><b>Telecom</b></td><td><b>Address</b></td></tr><tr><td>*</td><td>Charles Smith</td><td><a href=\"tel:+1-703-362-1280;ext=1234\">+1-703-362-1280;ext=1234</a>, <a href=\"mailto:charles@anywhere.com\">charles@anywhere.com</a></td><td>123 IVY LANE ROAD SMITH FALLS MD 12345 USA </td></tr></table></div>"
+                },
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.3.6.1.4.1.519.1",
+                        "value": "111111111"
+                    }
+                ],
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes",
+                                "code": "EstablishmentRegistrant"
+                            }
+                        ]
+                    }
+                ],
+                "name": "REGISTRANT SERVICES INC",
+                "contact": [
+                    {
+                        "name": {
+                            "text": "Charles Smith"
+                        },
+                        "telecom": [
+                            {
+                                "system": "phone",
+                                "value": "+1-703-362-1280;ext=1234"
+                            },
+                            {
+                                "system": "email",
+                                "value": "charles@anywhere.com"
+                            }
+                        ],
+                        "address": {
+                            "line": [
+                                "123 IVY LANE ROAD"
+                            ],
+                            "city": "SMITH FALLS",
+                            "state": "MD",
+                            "postalCode": "12345",
+                            "country": "USA"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "fullUrl": "http://example.org/Organization/ExampleEstablishment",
+            "resource": {
+                "resourceType": "Organization",
+                "id": "ExampleEstablishment",
+                "meta": {
+                    "profile": [
+                        "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentOrganization"
+                    ]
+                },
+                "text": {
+                    "status": "generated",
+                    "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 222222222</p><p><b>type</b>: <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes Establishment}\">An organization that provides operations in the manufacturing of a product.</span></p><p><b>name</b>: EXAMPLE ESTABLISHMENT INC.</p><p><b>address</b>: 111 SOUTH PARK STREET YAKIMA WA 23456 USA </p><h3>Contacts</h3><table class=\"grid\"><tr><td>-</td><td><b>Name</b></td><td><b>Telecom</b></td><td><b>Address</b></td></tr><tr><td>*</td><td>Charles Smith</td><td><a href=\"tel:+011-703-362-1280\">+011-703-362-1280</a>, <a href=\"mailto:charles@anywhere.com\">charles@anywhere.com</a></td><td>123 IVY LANE ROAD SMITH FALLS MD 12345 USA </td></tr></table></div>"
+                },
+                "contained": [
+                    {
+                        "resourceType": "HealthcareService",
+                        "id": "ExampleEstablishmentOperation",
+                        "meta": {
+                            "profile": [
+                                "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentBusinessOperation"
+                            ]
+                        },
+                        "providedBy": {
+                            "reference": "#"
+                        },
+                        "type": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                                        "code": "C43360",
+                                        "display": "manufacture"
+                                    }
+                                ]
+                            }
+                        ],
+                        "serviceProvisionCode": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://ncicb.nci.nih.gov/xml/owl/EVS/Thesaurus.owl",
+                                        "code": "C131708",
+                                        "display": "manufactures human over-the-counter drug products produced under a monograph"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "urn:oid:1.3.6.1.4.1.519.1",
+                        "value": "222222222"
+                    }
+                ],
+                "type": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes",
+                                "code": "Establishment"
+                            }
+                        ]
+                    }
+                ],
+                "name": "EXAMPLE ESTABLISHMENT INC.",
+                "address": [
+                    {
+                        "line": [
+                            "111 SOUTH PARK STREET"
+                        ],
+                        "city": "YAKIMA",
+                        "state": "WA",
+                        "postalCode": "23456",
+                        "country": "USA"
+                    }
+                ],
+                "contact": [
+                    {
+                        "name": {
+                            "text": "Charles Smith"
+                        },
+                        "telecom": [
+                            {
+                                "system": "phone",
+                                "value": "+011-703-362-1280"
+                            },
+                            {
+                                "system": "email",
+                                "value": "charles@anywhere.com"
+                            }
+                        ],
+                        "address": {
+                            "line": [
+                                "123 IVY LANE ROAD"
+                            ],
+                            "city": "SMITH FALLS",
+                            "state": "MD",
+                            "postalCode": "12345",
+                            "country": "USA"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}

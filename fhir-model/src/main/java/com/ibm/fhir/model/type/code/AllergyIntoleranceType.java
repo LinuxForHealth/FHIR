@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class AllergyIntoleranceType extends Code {
      * <p>A propensity for hypersensitive reaction(s) to a substance. These reactions are most typically type I 
      * hypersensitivity, plus other "allergy-like" reactions, including pseudoallergy.
      */
-    public static final AllergyIntoleranceType ALLERGY = AllergyIntoleranceType.builder().value(ValueSet.ALLERGY).build();
+    public static final AllergyIntoleranceType ALLERGY = AllergyIntoleranceType.builder().value(Value.ALLERGY).build();
 
     /**
      * Intolerance
@@ -34,7 +34,7 @@ public class AllergyIntoleranceType extends Code {
      * reactions are typically (but not necessarily) non-immune. They are to some degree idiosyncratic and/or patient-
      * specific (i.e. are not a reaction that is expected to occur with most or all patients given similar circumstances).
      */
-    public static final AllergyIntoleranceType INTOLERANCE = AllergyIntoleranceType.builder().value(ValueSet.INTOLERANCE).build();
+    public static final AllergyIntoleranceType INTOLERANCE = AllergyIntoleranceType.builder().value(Value.INTOLERANCE).build();
 
     private volatile int hashCode;
 
@@ -42,14 +42,42 @@ public class AllergyIntoleranceType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AllergyIntoleranceType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AllergyIntoleranceType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AllergyIntoleranceType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AllergyIntoleranceType of(ValueSet value) {
+        switch (value) {
+        case ALLERGY:
+            return ALLERGY;
+        case INTOLERANCE:
+            return INTOLERANCE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AllergyIntoleranceType objects from a passed enum value.
      */
-    public static AllergyIntoleranceType of(ValueSet value) {
+    public static AllergyIntoleranceType of(Value value) {
         switch (value) {
         case ALLERGY:
             return ALLERGY;
@@ -69,7 +97,7 @@ public class AllergyIntoleranceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AllergyIntoleranceType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -81,7 +109,7 @@ public class AllergyIntoleranceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -93,7 +121,7 @@ public class AllergyIntoleranceType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -122,11 +150,7 @@ public class AllergyIntoleranceType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -155,19 +179,50 @@ public class AllergyIntoleranceType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AllergyIntoleranceType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public AllergyIntoleranceType build() {
-            return new AllergyIntoleranceType(this);
+            AllergyIntoleranceType allergyIntoleranceType = new AllergyIntoleranceType(this);
+            if (validating) {
+                validate(allergyIntoleranceType);
+            }
+            return allergyIntoleranceType;
+        }
+
+        protected void validate(AllergyIntoleranceType allergyIntoleranceType) {
+            super.validate(allergyIntoleranceType);
+        }
+
+        protected Builder from(AllergyIntoleranceType allergyIntoleranceType) {
+            super.from(allergyIntoleranceType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Allergy
@@ -201,7 +256,7 @@ public class AllergyIntoleranceType extends Code {
         }
 
         /**
-         * Factory method for creating AllergyIntoleranceType.ValueSet values from a passed string value.
+         * Factory method for creating AllergyIntoleranceType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -215,6 +270,63 @@ public class AllergyIntoleranceType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Allergy
+         * 
+         * <p>A propensity for hypersensitive reaction(s) to a substance. These reactions are most typically type I 
+         * hypersensitivity, plus other "allergy-like" reactions, including pseudoallergy.
+         */
+        ALLERGY("allergy"),
+
+        /**
+         * Intolerance
+         * 
+         * <p>A propensity for adverse reactions to a substance that is not judged to be allergic or "allergy-like". These 
+         * reactions are typically (but not necessarily) non-immune. They are to some degree idiosyncratic and/or patient-
+         * specific (i.e. are not a reaction that is expected to occur with most or all patients given similar circumstances).
+         */
+        INTOLERANCE("intolerance");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AllergyIntoleranceType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AllergyIntoleranceType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "allergy":
+                return ALLERGY;
+            case "intolerance":
+                return INTOLERANCE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

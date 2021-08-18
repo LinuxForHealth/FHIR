@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,9 +11,11 @@ import static com.ibm.fhir.model.type.String.string;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Uri;
@@ -58,10 +60,10 @@ public class SearchConstants {
     public static final String COMPONENT_PATH_REGEX = "\\.";
     public static final char START_WHERE = '(';
 
-    // This constant represents the maximum _count parameter value.
-    // If the user specifies a value greater than this, we'll just use this value instead.
+    // This constant represents the maximum number of iterations to perform
+    // for iterative _include and _revinclude parameters.
     // In the future, we might want to make this value configurable.
-    public static final int MAX_PAGE_SIZE = 1000;
+    public static final int MAX_INCLUSION_ITERATIONS = 1;
 
     // _sort
     public static final String SORT = "_sort";
@@ -84,19 +86,60 @@ public class SearchConstants {
     // _summary
     public static final String SUMMARY = "_summary";
 
+    // _total
+    public static final String TOTAL = "_total";
+
     // _type
     public static final String RESOURCE_TYPE = "_type";
 
     // _has
     public static final String HAS = "_has";
 
-    // set as unmodifiable
-    public static final List<String> SEARCH_RESULT_PARAMETER_NAMES =
-            Collections.unmodifiableList(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY));
+    // _profile
+    public static final String PROFILE = "_profile";
+
+    // _tag
+    public static final String TAG = "_tag";
+
+    // _security
+    public static final String SECURITY = "_security";
+    
+    // _source
+    public static final String SOURCE = "_source";
+    
+    public static final String IMPLICIT_SYSTEM_EXT_URL = FHIRConstants.EXT_BASE + "implicit-system";
+
+    // Extracted search parameter suffix for :identifier modifier
+    public static final String IDENTIFIER_MODIFIER_SUFFIX = ":identifier";
+
+    // Extracted search parameter suffixes for :of-type modifier
+    public static final String OF_TYPE_MODIFIER_SUFFIX = ":of-type";
+    public static final String OF_TYPE_MODIFIER_COMPONENT_TYPE = "type";
+    public static final String OF_TYPE_MODIFIER_COMPONENT_VALUE = "value";
+
+    // Extracted search parameter suffix for :text modifier
+    public static final String TEXT_MODIFIER_SUFFIX = ":text";
 
     // set as unmodifiable
-    public static final List<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableList(Arrays.asList("_id", "_lastUpdated"));
+    public static final Set<String> SEARCH_RESULT_PARAMETER_NAMES =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, INCLUDE, REVINCLUDE, ELEMENTS, SUMMARY, TOTAL)));
 
+    /**
+     * https://www.hl7.org/fhir/search.html#lastUpdated
+     */
+    public static final String LAST_UPDATED = "_lastUpdated";
+
+    public static final String ID = "_id";
+    public static final Set<String> SYSTEM_LEVEL_SORT_PARAMETER_NAMES = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ID, LAST_UPDATED)));
+
+    // set as unmodifiable
+    public static final Set<String> SEARCH_SINGLETON_PARAMETER_NAMES =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(SORT, COUNT, PAGE, SUMMARY, TOTAL, ELEMENTS, RESOURCE_TYPE)));
+
+    // Set of whole-system search parameters indexed in global parameter tables
+    public static final Set<String> SYSTEM_LEVEL_GLOBAL_PARAMETER_NAMES =
+            Collections.unmodifiableSet(new HashSet<>(Arrays.asList(ID, LAST_UPDATED, PROFILE, SECURITY, SOURCE, TAG)));
+    
     // Empty Query String
     public static final String EMPTY_QUERY_STRING = "";
 
@@ -106,6 +149,8 @@ public class SearchConstants {
     public static final String CHAINED_PARAMETER_CHARACTER = ".";
 
     public static final String PARAMETER_DELIMITER = "|";
+
+    public static final String COMPOSITE_DELIMITER = "$";
 
     public static final char COLON_DELIMITER = ':';
 
@@ -131,27 +176,28 @@ public class SearchConstants {
 
     // The resourceTypeModifierMap is set one time on startup and is a final value.
     // Set as unmodifiable.
-    public static final Map<Type, List<Modifier>> RESOURCE_TYPE_MODIFIER_MAP =
-            Collections.unmodifiableMap(new HashMap<SearchConstants.Type, List<SearchConstants.Modifier>>() {
+    public static final Map<Type, Set<Modifier>> RESOURCE_TYPE_MODIFIER_MAP =
+            Collections.unmodifiableMap(new HashMap<SearchConstants.Type, Set<SearchConstants.Modifier>>() {
 
                 private static final long serialVersionUID = -7809685447880880523L;
 
                 {
-                    put(SearchConstants.Type.STRING, Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING));
-                    put(SearchConstants.Type.REFERENCE, Arrays.asList(Modifier.TYPE, Modifier.IDENTIFIER, Modifier.MISSING));
-                    put(SearchConstants.Type.URI, Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING));
-                    put(SearchConstants.Type.TOKEN, Arrays.asList(Modifier.TEXT, Modifier.NOT,
-                            Modifier.ABOVE, Modifier.BELOW, Modifier.IN, Modifier.NOT_IN, Modifier.OF_TYPE, Modifier.MISSING));
-                    put(SearchConstants.Type.NUMBER, Arrays.asList(Modifier.MISSING));
-                    put(SearchConstants.Type.DATE, Arrays.asList(Modifier.MISSING));
-                    put(SearchConstants.Type.QUANTITY, Arrays.asList(Modifier.MISSING));
-                    put(SearchConstants.Type.COMPOSITE, Arrays.asList(Modifier.MISSING));
-                    put(SearchConstants.Type.SPECIAL, Arrays.asList(Modifier.MISSING));
+                    put(SearchConstants.Type.STRING, new HashSet<>(Arrays.asList(Modifier.EXACT, Modifier.CONTAINS, Modifier.MISSING)));
+                    put(SearchConstants.Type.REFERENCE, new HashSet<>(Arrays.asList(Modifier.TYPE, Modifier.IDENTIFIER, Modifier.MISSING)));
+                    put(SearchConstants.Type.URI, new HashSet<>(Arrays.asList(Modifier.BELOW, Modifier.ABOVE, Modifier.MISSING)));
+                    put(SearchConstants.Type.TOKEN, new HashSet<>(Arrays.asList(Modifier.TEXT, Modifier.NOT,
+                            Modifier.ABOVE, Modifier.BELOW, Modifier.IN, Modifier.NOT_IN, Modifier.OF_TYPE, Modifier.MISSING)));
+                    put(SearchConstants.Type.NUMBER, new HashSet<>(Arrays.asList(Modifier.MISSING)));
+                    put(SearchConstants.Type.DATE, new HashSet<>(Arrays.asList(Modifier.MISSING)));
+                    put(SearchConstants.Type.QUANTITY, new HashSet<>(Arrays.asList(Modifier.MISSING)));
+                    put(SearchConstants.Type.COMPOSITE, new HashSet<>(Arrays.asList(Modifier.MISSING)));
+                    put(SearchConstants.Type.SPECIAL, new HashSet<>(Arrays.asList(Modifier.MISSING)));
                 }
             });
 
     /**
      * Prefixes for Search parameters
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.ValuePrefix}
      */
     public enum Prefix {
         EQ("eq"),
@@ -223,6 +269,7 @@ public class SearchConstants {
 
     /**
      * Search Modifiers
+     * @implNote please keep in sync with {@link com.ibm.fhir.client.FHIRParameters.Modifier}
      */
     public enum Modifier {
         MISSING("missing"),
@@ -236,7 +283,8 @@ public class SearchConstants {
         NOT_IN("not-in"),
         TYPE("[type]"),
         OF_TYPE("of-type"),
-        IDENTIFIER("identifier");
+        IDENTIFIER("identifier"),
+        ITERATE("iterate");
 
         private String value = null;
 

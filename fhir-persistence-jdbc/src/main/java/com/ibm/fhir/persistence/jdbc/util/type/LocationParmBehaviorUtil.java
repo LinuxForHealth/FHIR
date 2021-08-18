@@ -32,6 +32,7 @@ import com.ibm.fhir.search.location.bounding.BoundingType;
  * Location Behavior Util generates SQL and loads the variables into bind
  * variables.
  */
+@Deprecated
 public class LocationParmBehaviorUtil {
 
     public LocationParmBehaviorUtil() {
@@ -40,7 +41,7 @@ public class LocationParmBehaviorUtil {
 
     /**
      * build location search query based on the bounding areas.
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param boundingAreas
@@ -51,7 +52,7 @@ public class LocationParmBehaviorUtil {
 
         boolean first = true;
         int processed = 0;
-        // Strips out the MISSING bounds. 
+        // Strips out the MISSING bounds.
         for (Bounding area : boundingAreas.stream()
                 .filter(area -> !BoundingType.MISSING.equals(area.getType())).collect(Collectors.toList())) {
             if (instance == area.instance()) {
@@ -108,7 +109,7 @@ public class LocationParmBehaviorUtil {
 
     /**
      * build query for bounding box.
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param boundingBox
@@ -136,7 +137,7 @@ public class LocationParmBehaviorUtil {
                 .append(BIND_VAR)
                 .append(RIGHT_PAREN);
 
-        // The following order is important. 
+        // The following order is important.
         bindVariables.add(boundingBox.getMinLatitude());
         bindVariables.add(boundingBox.getMaxLatitude());
         bindVariables.add(boundingBox.getMinLongitude());
@@ -145,7 +146,7 @@ public class LocationParmBehaviorUtil {
 
     /**
      * build query for bounding radius.
-     * 
+     *
      * @param whereClauseSegment
      * @param bindVariables
      * @param boundingBox

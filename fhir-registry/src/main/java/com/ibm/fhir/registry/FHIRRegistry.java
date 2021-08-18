@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -21,7 +22,6 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.resource.Resource;
@@ -47,19 +47,6 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Get the singleton instance of this class
-     *
-     * <p>This first time that this method is called, all registry resource providers made available through the
-     * service loader are added to the registry
-     *
-     * @return
-     *     the singleton instance of this class
-     */
-    public static FHIRRegistry getInstance() {
-        return INSTANCE;
-    }
-
-    /**
      * Add a registry resource provider to the registry
      *
      * @implNote
@@ -68,55 +55,22 @@ public final class FHIRRegistry {
      * @param provider
      *     the registry resource provider to be added
      */
-    public void register(FHIRRegistryResourceProvider provider) {
+    public void addProvider(FHIRRegistryResourceProvider provider) {
         Objects.requireNonNull(provider);
         providers.add(provider);
     }
 
     /**
-     * Indicates whether a resource for the given canonical url and resource type exists in the registry
-     *
-     * @param url
-     *     the canonical url
-     * @param resourceType
-     *     the resource type
-     * @return
-     *     true if a resource for the given canonical url and resource type exists in the registry, false otherwise
-     */
-    public boolean hasResource(String url, Class<? extends Resource> resourceType) {
-        if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
-            return false;
-        }
-
-        String id = null;
-        int index = url.indexOf("#");
-        if (index != -1) {
-            id = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-
-        String version = null;
-        index = url.indexOf("|");
-        if (index != -1) {
-            version = url.substring(index + 1);
-            url = url.substring(0, index);
-        }
-
-        FHIRRegistryResource registryResource = findRegistryResource(resourceType, url, version);
-        return (id != null) ? (getResource(registryResource, url, id) != null) : (registryResource != null);
-    }
-
-    /**
-     * Get the latest version of a resource for the given url and resource type
+     * Get the default (or latest) version of a resource with the given url and resource type
      *
      * @param url
      *     the url
      * @param resourceType
      *     the resource type
      * @return
-     *     the latest version of a resource for the given url and resource type if exists, null otherwise
+     *     the default (or latest) version of a resource with the given url and resource type if exists, null otherwise
      */
-    public String getLatestVersion(String url, Class<? extends Resource> resourceType) {
+    public String getDefaultVersion(String url, Class<? extends Resource> resourceType) {
         if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
             return null;
         }
@@ -128,6 +82,48 @@ public final class FHIRRegistry {
 
         FHIRRegistryResource resource = findRegistryResource(resourceType, url, null);
         return (resource != null) ? resource.getVersion().toString() : null;
+    }
+
+    /**
+     * Get a map containing sets of type specific canonical URLs for all profile resources across all providers.
+     *
+     * @return
+     *     the map of sets
+     */
+    public Map<String, Set<Canonical>> getProfiles() {
+        Map<String, Set<Canonical>> map = new HashMap<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource r : provider.getProfileResources()) {
+                map.computeIfAbsent(r.getType(), k -> new LinkedHashSet<>())
+                    .add(Canonical.of(r.getUrl(), r.getVersion().toString()));
+            }
+        }
+        return map;
+    }
+
+    /**
+     * Get the profiles that constrain the given resource type as a collection of {@link Canonical} URLs
+     *
+     * @param type
+     *     the constrained resource type
+     * @return
+     *     the profiles that constrain the given type as a collection of {@link Canonical} URLs
+     */
+    public Collection<Canonical> getProfiles(String type) {
+        Objects.requireNonNull(type);
+        if (!ModelSupport.isResourceType(type)) {
+            throw new IllegalArgumentException("The type argument must be a valid FHIR resource type name");
+        }
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getProfileResources(type));
+        }
+        Collections.sort(registryResources);
+        List<Canonical> profiles = new ArrayList<>();
+        for (FHIRRegistryResource registryResource : registryResources) {
+            profiles.add(Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()));
+        }
+        return Collections.unmodifiableList(profiles);
     }
 
     /**
@@ -169,6 +165,8 @@ public final class FHIRRegistry {
     /**
      * Get the resources for the given resource type
      *
+     * <p>Use this method to get actual FHIR resources and not FHIR registry resources (metadata)
+     *
      * @param resourceType
      *     the resource type
      * @return
@@ -179,31 +177,35 @@ public final class FHIRRegistry {
     public <T extends Resource> Collection<T> getResources(Class<T> resourceType) {
         Objects.requireNonNull(resourceType);
         requireDefinitionalResourceType(resourceType);
-        return providers.stream()
-                .map(provider -> provider.getRegistryResources(resourceType))
-                .flatMap(Collection::stream)
-                .map(registryResource -> resourceType.cast(registryResource.getResource()))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        List<T> resources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource registryResource : provider.getRegistryResources(resourceType)) {
+                resources.add(resourceType.cast(registryResource.getResource()));
+            }
+        }
+        return Collections.unmodifiableList(resources);
     }
 
     /**
-     * Get the profiles that constrain the given resource type as a collection of {@link Canonical} URLs
+     * Get the registry resources for the given resource type
      *
-     * @param type
-     *     the constrained resource type
+     * <p>Use this method to get FHIR registry resources (metadata) and not actual FHIR resources
+     *
+     * @param resourceType
+     *     the resource type
      * @return
-     *     the profiles that constrain the given type as a collection of {@link Canonical} URLs
+     *     the registry resources for the given resource type
+     * @throws IllegalArgumentException
+     *     if the resource type is not a definitional resource type
      */
-    public Collection<Canonical> getProfiles(String type) {
-        Objects.requireNonNull(type);
-        if (!ModelSupport.isResourceType(type)) {
-            throw new IllegalArgumentException("The type argument must be a valid FHIR resource type name");
+    public Collection<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType) {
+        Objects.requireNonNull(resourceType);
+        requireDefinitionalResourceType(resourceType);
+        List<FHIRRegistryResource> registryResources = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            registryResources.addAll(provider.getRegistryResources(resourceType));
         }
-        return providers.stream().map(provider -> provider.getProfileResources(type))
-                .flatMap(Collection::stream)
-                .sorted()
-                .map(registryResource -> Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString()))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        return registryResources;
     }
 
     /**
@@ -218,32 +220,81 @@ public final class FHIRRegistry {
      */
     public Collection<SearchParameter> getSearchParameters(String type) {
         Objects.requireNonNull(type);
-        SearchParamType.ValueSet.from(type);
-        return providers.stream()
-                .map(provider -> provider.getSearchParameterResources(type))
-                .flatMap(Collection::stream)
-                .map(registryResource -> registryResource.getResource().as(SearchParameter.class))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+        SearchParamType.Value.from(type);
+        List<SearchParameter> searchParameters = new ArrayList<>();
+        for (FHIRRegistryResourceProvider provider : providers) {
+            for (FHIRRegistryResource registryResource : provider.getSearchParameterResources(type)) {
+                searchParameters.add(registryResource.getResource().as(SearchParameter.class));
+            }
+        }
+        return Collections.unmodifiableList(searchParameters);
+    }
+
+    /**
+     * Indicates whether a resource for the given canonical url and resource type exists in the registry
+     *
+     * @param url
+     *     the canonical url
+     * @param resourceType
+     *     the resource type
+     * @return
+     *     true if a resource for the given canonical url and resource type exists in the registry, false otherwise
+     */
+    public boolean hasResource(String url, Class<? extends Resource> resourceType) {
+        if (url == null || resourceType == null || !isDefinitionalResourceType(resourceType)) {
+            return false;
+        }
+
+        String id = null;
+        int index = url.indexOf("#");
+        if (index != -1) {
+            id = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+
+        String version = null;
+        index = url.indexOf("|");
+        if (index != -1) {
+            version = url.substring(index + 1);
+            url = url.substring(0, index);
+        }
+
+        FHIRRegistryResource registryResource = findRegistryResource(resourceType, url, version);
+        return (id != null) ? (getResource(registryResource, url, id) != null) : (registryResource != null);
     }
 
     private FHIRRegistryResource findRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        if (version == null) {
-            // find the latest version of the registry resource with the specified resourceType and url (across all providers)
-            List<FHIRRegistryResource> registryResources = providers.stream()
-                    .map(provider -> provider.getRegistryResource(resourceType, url, version))
-                    .filter(Objects::nonNull)
-                    .distinct()
-                    .sorted()
-                    .collect(Collectors.toList());
-            return !registryResources.isEmpty() ? registryResources.get(registryResources.size() - 1) : null;
+        if (version != null) {
+            // find the first registry resource with the specified resourceType, url, and version (across all providers)
+            for (FHIRRegistryResourceProvider provider : providers) {
+                FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+                if (registryResource != null) {
+                    return registryResource;
+                }
+            }
+        } else {
+            // find the default (or latest) version of the registry resource with the specified resourceType and url (across all providers)
+            Set<FHIRRegistryResource> distinct = new HashSet<>();
+            for (FHIRRegistryResourceProvider provider : providers) {
+                FHIRRegistryResource registryResource = provider.getRegistryResource(resourceType, url, version);
+                if (registryResource != null) {
+                    distinct.add(registryResource);
+                }
+            }
+            List<FHIRRegistryResource> registryResources = new ArrayList<>(distinct);
+            Collections.sort(registryResources);
+            if (!registryResources.isEmpty()) {
+                for (FHIRRegistryResource registryResource : registryResources) {
+                    if (registryResource.isDefaultVersion()) {
+                        // default version
+                        return registryResource;
+                    }
+                }
+                // latest version
+                return registryResources.get(registryResources.size() - 1);
+            }
         }
-
-        // find the first registry resource with the specified resourceType, url, and version
-        return providers.stream()
-                .map(provider -> provider.getRegistryResource(resourceType, url, version))
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElse(null);
+        return null;
     }
 
     private Resource getResource(FHIRRegistryResource registryResource, String url, String id) {
@@ -276,29 +327,15 @@ public final class FHIRRegistry {
     }
 
     /**
-     * Given the list of providers, the method scans through the list to find all profile resource, and merge them together
-     * in order to develop a list of resource specific canonical URLs.
+     * Get the singleton instance of this class
+     *
+     * <p>This first time that this method is called, all registry resource providers made available through the
+     * service loader are added to the registry
+     *
      * @return
+     *     the singleton instance of this class
      */
-    public Map<String,Set<Canonical>> getProfiles() {
-        Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls = new HashMap<>();
-        providers.stream().map(provider -> provider.getProfileResources())
-                .flatMap(Collection::stream)
-                .forEach(r -> processResource(r, resourceTypeWithCanonicalUrls));
-        return resourceTypeWithCanonicalUrls;
-    }
-
-    private void processResource(FHIRRegistryResource registryResource, Map<String,Set<Canonical>> resourceTypeWithCanonicalUrls) {
-        String type = registryResource.getType();
-        resourceTypeWithCanonicalUrls.compute(type, (k,v) -> checkOrCreateSet(k,v,registryResource));
-    }
-
-    private Set<Canonical> checkOrCreateSet(String k, Set<Canonical> v, FHIRRegistryResource registryResource) {
-        Canonical canonicalUrl = Canonical.of(registryResource.getUrl(), registryResource.getVersion().toString());
-        if (v == null) {
-            v = new HashSet<>();
-        }
-        v.add(canonicalUrl);
-        return v;
+    public static FHIRRegistry getInstance() {
+        return INSTANCE;
     }
 }

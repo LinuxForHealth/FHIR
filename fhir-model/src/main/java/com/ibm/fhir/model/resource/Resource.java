@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -10,24 +10,33 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.builder.AbstractBuilder;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.AbstractVisitable;
 
 /**
  * This is the base resource type for everything.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "resource-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Resource",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -40,20 +49,20 @@ public abstract class Resource extends AbstractVisitable {
     protected final Uri implicitRules;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
     )
     protected final Code language;
 
+    protected volatile int hashCode;
+
     protected Resource(Builder builder) {
         id = builder.id;
         meta = builder.meta;
         implicitRules = builder.implicitRules;
         language = builder.language;
-        ValidationSupport.checkId(id);
-        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
     }
 
     /**
@@ -198,6 +207,11 @@ public abstract class Resource extends AbstractVisitable {
 
         @Override
         public abstract Resource build();
+
+        protected void validate(Resource resource) {
+            ValidationSupport.checkId(resource.id);
+            ValidationSupport.checkValueSetBinding(resource.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+        }
 
         protected Builder from(Resource resource) {
             id = resource.id;

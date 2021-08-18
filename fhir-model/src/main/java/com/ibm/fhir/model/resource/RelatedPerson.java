@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,19 +38,27 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Information about a person that is involved in the care for a patient, but who is not the target of healthcare, nor 
  * has a formal responsibility in the care process.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "relatedPerson-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype",
     expression = "relationship.exists() implies (relationship.all(memberOf('http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
     generated = true
 )
 @Constraint(
@@ -58,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "communication.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/RelatedPerson",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -73,7 +83,7 @@ public class RelatedPerson extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PatientRelationshipType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The nature of the relationship between a patient and the related person.",
         valueSet = "http://hl7.org/fhir/ValueSet/relatedperson-relationshiptype"
     )
@@ -85,7 +95,7 @@ public class RelatedPerson extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -98,24 +108,20 @@ public class RelatedPerson extends DomainResource {
     private final Period period;
     private final List<Communication> communication;
 
-    private volatile int hashCode;
-
     private RelatedPerson(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        relationship = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relationship, "relationship"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        patient = builder.patient;
+        relationship = Collections.unmodifiableList(builder.relationship);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
+        address = Collections.unmodifiableList(builder.address);
+        photo = Collections.unmodifiableList(builder.photo);
         period = builder.period;
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.requireChildren(this);
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -907,7 +913,24 @@ public class RelatedPerson extends DomainResource {
          */
         @Override
         public RelatedPerson build() {
-            return new RelatedPerson(this);
+            RelatedPerson relatedPerson = new RelatedPerson(this);
+            if (validating) {
+                validate(relatedPerson);
+            }
+            return relatedPerson;
+        }
+
+        protected void validate(RelatedPerson relatedPerson) {
+            super.validate(relatedPerson);
+            ValidationSupport.checkList(relatedPerson.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(relatedPerson.patient, "patient");
+            ValidationSupport.checkList(relatedPerson.relationship, "relationship", CodeableConcept.class);
+            ValidationSupport.checkList(relatedPerson.name, "name", HumanName.class);
+            ValidationSupport.checkList(relatedPerson.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(relatedPerson.address, "address", Address.class);
+            ValidationSupport.checkList(relatedPerson.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(relatedPerson.communication, "communication", Communication.class);
+            ValidationSupport.checkReferenceType(relatedPerson.patient, "patient", "Patient");
         }
 
         protected Builder from(RelatedPerson relatedPerson) {
@@ -934,7 +957,7 @@ public class RelatedPerson extends DomainResource {
     public static class Communication extends BackboneElement {
         @Binding(
             bindingName = "Language",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "A human language.",
             valueSet = "http://hl7.org/fhir/ValueSet/languages",
             maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -943,14 +966,10 @@ public class RelatedPerson extends DomainResource {
         private final CodeableConcept language;
         private final Boolean preferred;
 
-        private volatile int hashCode;
-
         private Communication(Builder builder) {
             super(builder);
-            language = ValidationSupport.requireNonNull(builder.language, "language");
+            language = builder.language;
             preferred = builder.preferred;
-            ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1197,7 +1216,18 @@ public class RelatedPerson extends DomainResource {
              */
             @Override
             public Communication build() {
-                return new Communication(this);
+                Communication communication = new Communication(this);
+                if (validating) {
+                    validate(communication);
+                }
+                return communication;
+            }
+
+            protected void validate(Communication communication) {
+                super.validate(communication);
+                ValidationSupport.requireNonNull(communication.language, "language");
+                ValidationSupport.checkValueSetBinding(communication.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                ValidationSupport.requireValueOrChildren(communication);
             }
 
             protected Builder from(Communication communication) {

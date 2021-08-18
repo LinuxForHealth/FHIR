@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,25 +44,34 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The Measure resource provides the definition of a quality measure.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "mea-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure"
 )
 @Constraint(
     id = "mea-1",
     level = "Rule",
     location = "(base)",
     description = "Stratifier SHALL be either a single criteria or a set of criteria components",
-    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())"
+    expression = "group.stratifier.all((code | description | criteria).exists() xor component.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure"
 )
 @Constraint(
     id = "measure-2",
@@ -69,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -77,6 +88,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -85,6 +97,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-scoring",
     expression = "scoring.exists() implies (scoring.memberOf('http://hl7.org/fhir/ValueSet/measure-scoring', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -93,6 +106,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/composite-measure-scoring",
     expression = "compositeScoring.exists() implies (compositeScoring.memberOf('http://hl7.org/fhir/ValueSet/composite-measure-scoring', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -101,6 +115,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-type",
     expression = "type.exists() implies (type.all(memberOf('http://hl7.org/fhir/ValueSet/measure-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -109,6 +124,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "group.population.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-population",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-population', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Constraint(
@@ -117,6 +133,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "supplementalData.usage",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/measure-data-usage",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/measure-data-usage', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Measure",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -135,7 +152,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -147,7 +164,7 @@ public class Measure extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a measure (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -165,7 +182,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -179,7 +196,7 @@ public class Measure extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -195,7 +212,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureScoring",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The scoring type of the measure.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-scoring"
     )
@@ -203,7 +220,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CompositeMeasureScoring",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The composite scoring method of the measure.",
         valueSet = "http://hl7.org/fhir/ValueSet/composite-measure-scoring"
     )
@@ -211,7 +228,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type of measure (includes codes from 2.16.840.1.113883.1.11.20368).",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-type"
     )
@@ -227,7 +244,7 @@ public class Measure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MeasureImprovementNotation",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Observation values that indicate what change in a measurement value or score is indicative of an improvement in the measured item or scored issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/measure-improvement-notation|4.0.1"
     )
@@ -239,54 +256,49 @@ public class Measure extends DomainResource {
     private final List<Group> group;
     private final List<SupplementalData> supplementalData;
 
-    private volatile int hashCode;
-
     private Measure(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
         disclaimer = builder.disclaimer;
         scoring = builder.scoring;
         compositeScoring = builder.compositeScoring;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        type = Collections.unmodifiableList(builder.type);
         riskAdjustment = builder.riskAdjustment;
         rateAggregation = builder.rateAggregation;
         rationale = builder.rationale;
         clinicalRecommendationStatement = builder.clinicalRecommendationStatement;
         improvementNotation = builder.improvementNotation;
-        definition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.definition, "definition"));
+        definition = Collections.unmodifiableList(builder.definition);
         guidance = builder.guidance;
-        group = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.group, "group"));
-        supplementalData = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplementalData, "supplementalData"));
-        ValidationSupport.checkValueSetBinding(improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
+        group = Collections.unmodifiableList(builder.group);
+        supplementalData = Collections.unmodifiableList(builder.supplementalData);
     }
 
     /**
@@ -2147,7 +2159,34 @@ public class Measure extends DomainResource {
          */
         @Override
         public Measure build() {
-            return new Measure(this);
+            Measure measure = new Measure(this);
+            if (validating) {
+                validate(measure);
+            }
+            return measure;
+        }
+
+        protected void validate(Measure measure) {
+            super.validate(measure);
+            ValidationSupport.checkList(measure.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(measure.status, "status");
+            ValidationSupport.choiceElement(measure.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(measure.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(measure.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(measure.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(measure.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(measure.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(measure.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(measure.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(measure.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(measure.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(measure.library, "library", Canonical.class);
+            ValidationSupport.checkList(measure.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(measure.definition, "definition", Markdown.class);
+            ValidationSupport.checkList(measure.group, "group", Group.class);
+            ValidationSupport.checkList(measure.supplementalData, "supplementalData", SupplementalData.class);
+            ValidationSupport.checkValueSetBinding(measure.improvementNotation, "improvementNotation", "http://hl7.org/fhir/ValueSet/measure-improvement-notation", "http://terminology.hl7.org/CodeSystem/measure-improvement-notation", "increase", "decrease");
+            ValidationSupport.checkReferenceType(measure.subject, "subject", "Group");
         }
 
         protected Builder from(Measure measure) {
@@ -2206,15 +2245,12 @@ public class Measure extends DomainResource {
         private final List<Population> population;
         private final List<Stratifier> stratifier;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
             code = builder.code;
             description = builder.description;
-            population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
-            stratifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stratifier, "stratifier"));
-            ValidationSupport.requireValueOrChildren(this);
+            population = Collections.unmodifiableList(builder.population);
+            stratifier = Collections.unmodifiableList(builder.stratifier);
         }
 
         /**
@@ -2553,7 +2589,18 @@ public class Measure extends DomainResource {
              */
             @Override
             public Group build() {
-                return new Group(this);
+                Group group = new Group(this);
+                if (validating) {
+                    validate(group);
+                }
+                return group;
+            }
+
+            protected void validate(Group group) {
+                super.validate(group);
+                ValidationSupport.checkList(group.population, "population", Population.class);
+                ValidationSupport.checkList(group.stratifier, "stratifier", Stratifier.class);
+                ValidationSupport.requireValueOrChildren(group);
             }
 
             protected Builder from(Group group) {
@@ -2572,7 +2619,7 @@ public class Measure extends DomainResource {
         public static class Population extends BackboneElement {
             @Binding(
                 bindingName = "MeasurePopulationType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of population.",
                 valueSet = "http://hl7.org/fhir/ValueSet/measure-population"
             )
@@ -2581,14 +2628,11 @@ public class Measure extends DomainResource {
             @Required
             private final Expression criteria;
 
-            private volatile int hashCode;
-
             private Population(Builder builder) {
                 super(builder);
                 code = builder.code;
                 description = builder.description;
-                criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-                ValidationSupport.requireValueOrChildren(this);
+                criteria = builder.criteria;
             }
 
             /**
@@ -2861,7 +2905,17 @@ public class Measure extends DomainResource {
                  */
                 @Override
                 public Population build() {
-                    return new Population(this);
+                    Population population = new Population(this);
+                    if (validating) {
+                        validate(population);
+                    }
+                    return population;
+                }
+
+                protected void validate(Population population) {
+                    super.validate(population);
+                    ValidationSupport.requireNonNull(population.criteria, "criteria");
+                    ValidationSupport.requireValueOrChildren(population);
                 }
 
                 protected Builder from(Population population) {
@@ -2884,15 +2938,12 @@ public class Measure extends DomainResource {
             private final Expression criteria;
             private final List<Component> component;
 
-            private volatile int hashCode;
-
             private Stratifier(Builder builder) {
                 super(builder);
                 code = builder.code;
                 description = builder.description;
                 criteria = builder.criteria;
-                component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
-                ValidationSupport.requireValueOrChildren(this);
+                component = Collections.unmodifiableList(builder.component);
             }
 
             /**
@@ -3213,7 +3264,17 @@ public class Measure extends DomainResource {
                  */
                 @Override
                 public Stratifier build() {
-                    return new Stratifier(this);
+                    Stratifier stratifier = new Stratifier(this);
+                    if (validating) {
+                        validate(stratifier);
+                    }
+                    return stratifier;
+                }
+
+                protected void validate(Stratifier stratifier) {
+                    super.validate(stratifier);
+                    ValidationSupport.checkList(stratifier.component, "component", Component.class);
+                    ValidationSupport.requireValueOrChildren(stratifier);
                 }
 
                 protected Builder from(Stratifier stratifier) {
@@ -3236,14 +3297,11 @@ public class Measure extends DomainResource {
                 @Required
                 private final Expression criteria;
 
-                private volatile int hashCode;
-
                 private Component(Builder builder) {
                     super(builder);
                     code = builder.code;
                     description = builder.description;
-                    criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-                    ValidationSupport.requireValueOrChildren(this);
+                    criteria = builder.criteria;
                 }
 
                 /**
@@ -3519,7 +3577,17 @@ public class Measure extends DomainResource {
                      */
                     @Override
                     public Component build() {
-                        return new Component(this);
+                        Component component = new Component(this);
+                        if (validating) {
+                            validate(component);
+                        }
+                        return component;
+                    }
+
+                    protected void validate(Component component) {
+                        super.validate(component);
+                        ValidationSupport.requireNonNull(component.criteria, "criteria");
+                        ValidationSupport.requireValueOrChildren(component);
                     }
 
                     protected Builder from(Component component) {
@@ -3542,7 +3610,7 @@ public class Measure extends DomainResource {
         private final CodeableConcept code;
         @Binding(
             bindingName = "MeasureDataUsage",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The intended usage for supplemental data elements in the measure.",
             valueSet = "http://hl7.org/fhir/ValueSet/measure-data-usage"
         )
@@ -3551,15 +3619,12 @@ public class Measure extends DomainResource {
         @Required
         private final Expression criteria;
 
-        private volatile int hashCode;
-
         private SupplementalData(Builder builder) {
             super(builder);
             code = builder.code;
-            usage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usage, "usage"));
+            usage = Collections.unmodifiableList(builder.usage);
             description = builder.description;
-            criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
-            ValidationSupport.requireValueOrChildren(this);
+            criteria = builder.criteria;
         }
 
         /**
@@ -3894,7 +3959,18 @@ public class Measure extends DomainResource {
              */
             @Override
             public SupplementalData build() {
-                return new SupplementalData(this);
+                SupplementalData supplementalData = new SupplementalData(this);
+                if (validating) {
+                    validate(supplementalData);
+                }
+                return supplementalData;
+            }
+
+            protected void validate(SupplementalData supplementalData) {
+                super.validate(supplementalData);
+                ValidationSupport.checkList(supplementalData.usage, "usage", CodeableConcept.class);
+                ValidationSupport.requireNonNull(supplementalData.criteria, "criteria");
+                ValidationSupport.requireValueOrChildren(supplementalData);
             }
 
             protected Builder from(SupplementalData supplementalData) {

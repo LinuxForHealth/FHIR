@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "Numerator and denominator SHALL both be present, or both are absent. If both are absent, there SHALL be some extension present",
-    expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())"
+    expression = "(numerator.empty() xor denominator.exists()) and (numerator.exists() or extension.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Ratio"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Ratio extends Element {
@@ -33,13 +34,10 @@ public class Ratio extends Element {
     @Summary
     private final Quantity denominator;
 
-    private volatile int hashCode;
-
     private Ratio(Builder builder) {
         super(builder);
         numerator = builder.numerator;
         denominator = builder.denominator;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -224,7 +222,16 @@ public class Ratio extends Element {
          */
         @Override
         public Ratio build() {
-            return new Ratio(this);
+            Ratio ratio = new Ratio(this);
+            if (validating) {
+                validate(ratio);
+            }
+            return ratio;
+        }
+
+        protected void validate(Ratio ratio) {
+            super.validate(ratio);
+            ValidationSupport.requireValueOrChildren(ratio);
         }
 
         protected Builder from(Ratio ratio) {

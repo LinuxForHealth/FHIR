@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,28 +8,20 @@ package com.ibm.fhir.server.test.profiles;
 
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
-import static org.testng.Assert.fail;
 
-import java.io.IOException;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
-import com.ibm.fhir.model.generator.FHIRGenerator;
-import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Condition;
 import com.ibm.fhir.model.test.TestUtil;
@@ -62,6 +54,13 @@ public class USCoreConditionTest extends ProfilesTestBase {
         }
     }
 
+    @BeforeMethod
+    protected void checkProfile() {
+      if (skip) {
+        throw new SkipException("Skipping tests profile - fhir-ig-us-core/Condition not loaded");
+      }
+    }
+
     @BeforeClass
     public void loadResources() throws Exception {
         if (!skip) {
@@ -70,52 +69,18 @@ public class USCoreConditionTest extends ProfilesTestBase {
         }
     }
 
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteCondition1();
-            deleteCondition2();
-        }
-    }
-
     public void loadCondition1() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/Condition-example.json";
-        WebTarget target = getWebTarget();
 
         Condition condition = TestUtil.readExampleResource(resource);
-
-        Entity<Condition> entity = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Condition").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        conditionId1 = getLocationLogicalId(response);
-        response = target.path("Condition/" + conditionId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        conditionId1 = createResourceAndReturnTheLogicalId("Condition", condition);
     }
 
     public void loadCondition2() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/Condition-hc1.json";
-        WebTarget target = getWebTarget();
 
         Condition condition = TestUtil.readExampleResource(resource);
-
-        Entity<Condition> entity = Entity.entity(condition, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("Condition").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        conditionId2 = getLocationLogicalId(response);
-        response = target.path("Condition/" + conditionId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCondition1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Condition/" + conditionId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteCondition2() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("Condition/" + conditionId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        conditionId2 = createResourceAndReturnTheLogicalId("Condition", condition);
     }
 
     @Test
@@ -124,17 +89,14 @@ public class USCoreConditionTest extends ProfilesTestBase {
         // patient using the patient search parameter:
         // GET [base]/Condition?patient=[reference]
         // http://hl7.org/fhir/us/core/StructureDefinition-us-core-condition.html
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, conditionId1);
-            assertContainsIds(bundle, conditionId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, conditionId1);
+        assertContainsIds(bundle, conditionId2);
     }
 
     @Test
@@ -143,18 +105,15 @@ public class USCoreConditionTest extends ProfilesTestBase {
         // GET
         // [base]/Condition?patient=[reference]&clinical-status=http://terminology.hl7.org/CodeSystem/condition-clinical|active,http://terminology.hl7.org/CodeSystem/condition-clinical|recurrance,http://terminology.hl7.org/CodeSystem/condition-clinical|remission
         // http://hl7.org/fhir/us/core/StructureDefinition-us-core-condition.html
-        if (!skip) {
-            FHIRParameters parameters = new FHIRParameters();
-            parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/condition-clinical|active,http://terminology.hl7.org/CodeSystem/condition-clinical|recurrance,http://terminology.hl7.org/CodeSystem/condition-clinical|remission");
-            FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
-            assertSearchResponse(response, Response.Status.OK.getStatusCode());
-            Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, conditionId1);
-            assertContainsIds(bundle, conditionId2);
-        }
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("patient", "Patient/example");
+        parameters.searchParam("clinical-status", "http://terminology.hl7.org/CodeSystem/condition-clinical|active,http://terminology.hl7.org/CodeSystem/condition-clinical|recurrance,http://terminology.hl7.org/CodeSystem/condition-clinical|remission");
+        FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
+        assertSearchResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        assertBaseBundleNotEmpty(bundle);
+        assertContainsIds(bundle, conditionId1);
+        assertContainsIds(bundle, conditionId2);
     }
 
     @Test
@@ -186,8 +145,7 @@ public class USCoreConditionTest extends ProfilesTestBase {
             FHIRResponse response = client.search(Condition.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, conditionId2);
         }
     }
@@ -205,22 +163,7 @@ public class USCoreConditionTest extends ProfilesTestBase {
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
-
-            try (StringWriter writer = new StringWriter();) {
-                FHIRGenerator.generator(Format.JSON, true).generate(bundle, System.out);
-                if (DEBUG) {
-                    System.out.println(writer.toString());
-                }
-                assertTrue(bundle.getEntry().size() == 0);
-            } catch (FHIRGeneratorException e) {
-
-                e.printStackTrace();
-                fail("unable to generate the fhir resource to JSON");
-
-            } catch (IOException e1) {
-                e1.printStackTrace();
-                fail("unable to generate the fhir resource to JSON (io problem) ");
-            }
+            assertTrue(bundle.getEntry().isEmpty());
         }
     }
 

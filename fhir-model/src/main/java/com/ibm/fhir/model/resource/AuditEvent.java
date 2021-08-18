@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,19 +40,27 @@ import com.ibm.fhir.model.type.code.AuditEventAction;
 import com.ibm.fhir.model.type.code.AuditEventAgentNetworkType;
 import com.ibm.fhir.model.type.code.AuditEventOutcome;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of an event made for purposes of maintaining a security log. Typical uses include detection of intrusion 
  * attempts and monitoring for inappropriate usage.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "sev-1",
     level = "Rule",
     location = "AuditEvent.entity",
     description = "Either a name or a query (NOT both)",
-    expression = "name.empty() or query.empty()"
+    expression = "name.empty() or query.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent"
 )
 @Constraint(
     id = "auditEvent-2",
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/audit-event-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-event-sub-type",
     expression = "subtype.exists() implies (subtype.all(memberOf('http://hl7.org/fhir/ValueSet/audit-event-sub-type', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -75,6 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "purposeOfEvent.exists() implies (purposeOfEvent.all(memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -83,6 +95,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/participation-role-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/participation-role-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -91,6 +104,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.media",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/dicm-405-mediatype",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/dicm-405-mediatype', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -99,6 +113,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "agent.purposeOfUse",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -107,6 +122,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "source.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-source-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-source-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -115,6 +131,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/audit-entity-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/audit-entity-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -123,6 +140,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.role",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-role', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -131,6 +149,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.lifecycle",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/object-lifecycle-events",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/object-lifecycle-events', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Constraint(
@@ -139,6 +158,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "entity.securityLabel",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/AuditEvent",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -146,7 +166,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-type"
     )
@@ -155,7 +175,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventSubType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Sub-type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-sub-type"
     )
@@ -163,7 +183,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventAction",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicator for type of action performed during the event that generated the event.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-action|4.0.1"
     )
@@ -175,7 +195,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditEventOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the event succeeded or failed.",
         valueSet = "http://hl7.org/fhir/ValueSet/audit-event-outcome|4.0.1"
     )
@@ -185,7 +205,7 @@ public class AuditEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AuditPurposeOfUse",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The reason the activity took place.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
     )
@@ -196,22 +216,19 @@ public class AuditEvent extends DomainResource {
     private final Source source;
     private final List<Entity> entity;
 
-    private volatile int hashCode;
-
     private AuditEvent(Builder builder) {
         super(builder);
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        subtype = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subtype, "subtype"));
+        type = builder.type;
+        subtype = Collections.unmodifiableList(builder.subtype);
         action = builder.action;
         period = builder.period;
-        recorded = ValidationSupport.requireNonNull(builder.recorded, "recorded");
+        recorded = builder.recorded;
         outcome = builder.outcome;
         outcomeDesc = builder.outcomeDesc;
-        purposeOfEvent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfEvent, "purposeOfEvent"));
-        agent = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.agent, "agent"));
-        source = ValidationSupport.requireNonNull(builder.source, "source");
-        entity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entity, "entity"));
-        ValidationSupport.requireChildren(this);
+        purposeOfEvent = Collections.unmodifiableList(builder.purposeOfEvent);
+        agent = Collections.unmodifiableList(builder.agent);
+        source = builder.source;
+        entity = Collections.unmodifiableList(builder.entity);
     }
 
     /**
@@ -918,7 +935,22 @@ public class AuditEvent extends DomainResource {
          */
         @Override
         public AuditEvent build() {
-            return new AuditEvent(this);
+            AuditEvent auditEvent = new AuditEvent(this);
+            if (validating) {
+                validate(auditEvent);
+            }
+            return auditEvent;
+        }
+
+        protected void validate(AuditEvent auditEvent) {
+            super.validate(auditEvent);
+            ValidationSupport.requireNonNull(auditEvent.type, "type");
+            ValidationSupport.checkList(auditEvent.subtype, "subtype", Coding.class);
+            ValidationSupport.requireNonNull(auditEvent.recorded, "recorded");
+            ValidationSupport.checkList(auditEvent.purposeOfEvent, "purposeOfEvent", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(auditEvent.agent, "agent", Agent.class);
+            ValidationSupport.requireNonNull(auditEvent.source, "source");
+            ValidationSupport.checkList(auditEvent.entity, "entity", Entity.class);
         }
 
         protected Builder from(AuditEvent auditEvent) {
@@ -944,14 +976,14 @@ public class AuditEvent extends DomainResource {
     public static class Agent extends BackboneElement {
         @Binding(
             bindingName = "AuditAgentType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The Participation type of the agent to the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/participation-role-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "AuditAgentRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "What security role enabled the agent to participate in the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
         )
@@ -969,7 +1001,7 @@ public class AuditEvent extends DomainResource {
         private final List<Uri> policy;
         @Binding(
             bindingName = "DICOMMediaType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Used when the event is about exporting/importing onto media.",
             valueSet = "http://hl7.org/fhir/ValueSet/dicm-405-mediatype"
         )
@@ -977,30 +1009,25 @@ public class AuditEvent extends DomainResource {
         private final Network network;
         @Binding(
             bindingName = "AuditPurposeOfUse",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The reason the activity took place.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
         )
         private final List<CodeableConcept> purposeOfUse;
 
-        private volatile int hashCode;
-
         private Agent(Builder builder) {
             super(builder);
             type = builder.type;
-            role = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.role, "role"));
+            role = Collections.unmodifiableList(builder.role);
             who = builder.who;
             altId = builder.altId;
             name = builder.name;
-            requestor = ValidationSupport.requireNonNull(builder.requestor, "requestor");
+            requestor = builder.requestor;
             location = builder.location;
-            policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+            policy = Collections.unmodifiableList(builder.policy);
             media = builder.media;
             network = builder.network;
-            purposeOfUse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purposeOfUse, "purposeOfUse"));
-            ValidationSupport.checkReferenceType(who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
+            purposeOfUse = Collections.unmodifiableList(builder.purposeOfUse);
         }
 
         /**
@@ -1590,7 +1617,22 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Agent build() {
-                return new Agent(this);
+                Agent agent = new Agent(this);
+                if (validating) {
+                    validate(agent);
+                }
+                return agent;
+            }
+
+            protected void validate(Agent agent) {
+                super.validate(agent);
+                ValidationSupport.checkList(agent.role, "role", CodeableConcept.class);
+                ValidationSupport.requireNonNull(agent.requestor, "requestor");
+                ValidationSupport.checkList(agent.policy, "policy", Uri.class);
+                ValidationSupport.checkList(agent.purposeOfUse, "purposeOfUse", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(agent.who, "who", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.checkReferenceType(agent.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(agent);
             }
 
             protected Builder from(Agent agent) {
@@ -1617,19 +1659,16 @@ public class AuditEvent extends DomainResource {
             private final String address;
             @Binding(
                 bindingName = "AuditEventAgentNetworkType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The type of network access point of this agent in the audit event.",
                 valueSet = "http://hl7.org/fhir/ValueSet/network-type|4.0.1"
             )
             private final AuditEventAgentNetworkType type;
 
-            private volatile int hashCode;
-
             private Network(Builder builder) {
                 super(builder);
                 address = builder.address;
                 type = builder.type;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1865,7 +1904,16 @@ public class AuditEvent extends DomainResource {
                  */
                 @Override
                 public Network build() {
-                    return new Network(this);
+                    Network network = new Network(this);
+                    if (validating) {
+                        validate(network);
+                    }
+                    return network;
+                }
+
+                protected void validate(Network network) {
+                    super.validate(network);
+                    ValidationSupport.requireValueOrChildren(network);
                 }
 
                 protected Builder from(Network network) {
@@ -1889,21 +1937,17 @@ public class AuditEvent extends DomainResource {
         private final Reference observer;
         @Binding(
             bindingName = "AuditEventSourceType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code specifying the type of system that detected and recorded the event.",
             valueSet = "http://hl7.org/fhir/ValueSet/audit-source-type"
         )
         private final List<Coding> type;
 
-        private volatile int hashCode;
-
         private Source(Builder builder) {
             super(builder);
             site = builder.site;
-            observer = ValidationSupport.requireNonNull(builder.observer, "observer");
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            ValidationSupport.checkReferenceType(observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            observer = builder.observer;
+            type = Collections.unmodifiableList(builder.type);
         }
 
         /**
@@ -2207,7 +2251,19 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Source build() {
-                return new Source(this);
+                Source source = new Source(this);
+                if (validating) {
+                    validate(source);
+                }
+                return source;
+            }
+
+            protected void validate(Source source) {
+                super.validate(source);
+                ValidationSupport.requireNonNull(source.observer, "observer");
+                ValidationSupport.checkList(source.type, "type", Coding.class);
+                ValidationSupport.checkReferenceType(source.observer, "observer", "PractitionerRole", "Practitioner", "Organization", "Device", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(source);
             }
 
             protected Builder from(Source source) {
@@ -2228,28 +2284,28 @@ public class AuditEvent extends DomainResource {
         private final Reference what;
         @Binding(
             bindingName = "AuditEventEntityType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code for the entity type involved in the audit event.",
             valueSet = "http://hl7.org/fhir/ValueSet/audit-entity-type"
         )
         private final Coding type;
         @Binding(
             bindingName = "AuditEventEntityRole",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Code representing the role the entity played in the audit event.",
             valueSet = "http://hl7.org/fhir/ValueSet/object-role"
         )
         private final Coding role;
         @Binding(
             bindingName = "AuditEventEntityLifecycle",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Identifier for the data life-cycle stage for the entity.",
             valueSet = "http://hl7.org/fhir/ValueSet/object-lifecycle-events"
         )
         private final Coding lifecycle;
         @Binding(
             bindingName = "SecurityLabels",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Security Labels from the Healthcare Privacy and Security Classification System.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
@@ -2261,20 +2317,17 @@ public class AuditEvent extends DomainResource {
         private final Base64Binary query;
         private final List<Detail> detail;
 
-        private volatile int hashCode;
-
         private Entity(Builder builder) {
             super(builder);
             what = builder.what;
             type = builder.type;
             role = builder.role;
             lifecycle = builder.lifecycle;
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
             name = builder.name;
             description = builder.description;
             query = builder.query;
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.requireValueOrChildren(this);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2753,7 +2806,18 @@ public class AuditEvent extends DomainResource {
              */
             @Override
             public Entity build() {
-                return new Entity(this);
+                Entity entity = new Entity(this);
+                if (validating) {
+                    validate(entity);
+                }
+                return entity;
+            }
+
+            protected void validate(Entity entity) {
+                super.validate(entity);
+                ValidationSupport.checkList(entity.securityLabel, "securityLabel", Coding.class);
+                ValidationSupport.checkList(entity.detail, "detail", Detail.class);
+                ValidationSupport.requireValueOrChildren(entity);
             }
 
             protected Builder from(Entity entity) {
@@ -2781,13 +2845,10 @@ public class AuditEvent extends DomainResource {
             @Required
             private final Element value;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", String.class, Base64Binary.class);
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                value = builder.value;
             }
 
             /**
@@ -3039,7 +3100,18 @@ public class AuditEvent extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.requireNonNull(detail.type, "type");
+                    ValidationSupport.requireChoiceElement(detail.value, "value", String.class, Base64Binary.class);
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {

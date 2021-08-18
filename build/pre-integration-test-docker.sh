@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# (C) Copyright IBM Corp. 2016, 2020
+# (C) Copyright IBM Corp. 2016, 2021
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################################
@@ -21,8 +21,9 @@ cd ${DIR}/docker
 # Enable bulkdata export/import tests
 sed -i -e 's/test.bulkdata.export.enabled = false/test.bulkdata.export.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
 sed -i -e 's/test.bulkdata.import.enabled = false/test.bulkdata.import.enabled = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
-sed -i -e 's/test.bulkdata.useminio = false/test.bulkdata.useminio = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
-sed -i -e 's/test.bulkdata.useminio.inbuildpipeline = false/test.bulkdata.useminio.inbuildpipeline = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+
+#sed -i -e 's/test.bulkdata.useminio = false/test.bulkdata.useminio = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
+#sed -i -e 's/test.bulkdata.useminio.inbuildpipeline = false/test.bulkdata.useminio.inbuildpipeline = true/g' ${WORKSPACE}/fhir-server-test/src/test/resources/test.properties
 
 # Stand up a docker container running the fhir server configured for integration tests
 echo "Bringing down any containers that might already be running as a precaution"
@@ -49,6 +50,7 @@ docker-compose exec -T --user db2inst1 db2 bash -c 'source ./database/config/db2
 
 mkdir -p minio/miniodata/fhirbulkdata
 cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import.ndjson ./minio/miniodata/fhirbulkdata
+cp ${WORKSPACE}/fhir-server-test/src/test/resources/testdata/import-operation/test-import-neg.ndjson ./minio/miniodata/fhirbulkdata
 
 echo "Bringing up minio ..."
 docker-compose build --pull minio
@@ -60,7 +62,6 @@ echo "Bringing up the FHIR server... be patient, this will take a minute"
 docker-compose up -d fhir-server
 echo ">>> Current time: " $(date)
 
-# TODO wait for it to be healthy instead of just Sleeping
 (docker-compose logs --timestamps --follow fhir-server & P=$! && sleep 60 && kill $P)
 
 # Gather up all the server logs so we can trouble-shoot any problems during startup
@@ -85,7 +86,7 @@ else
     docker logs $containerId  >& ${pre_it_logs}/docker-console.txt
 
     echo "Gathering pre-test server logs from docker container: $containerId"
-    docker cp -L $containerId:/opt/ol/wlp/usr/servers/fhir-server/logs ${pre_it_logs}
+    docker cp -L $containerId:/logs ${pre_it_logs}
 
     echo "Zipping up pre-test server logs"
     zip -r ${zip_file} ${pre_it_logs}

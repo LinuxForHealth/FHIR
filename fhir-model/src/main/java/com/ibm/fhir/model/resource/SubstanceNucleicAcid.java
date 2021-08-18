@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -26,13 +27,20 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Nucleic acids are defined by three distinct elements: the base, sugar and linkage. Individual substance/moiety IDs 
  * will be created for each of these elements. The nucleotide sequence will be always entered in the 5’-3’ direction.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceNucleicAcid extends DomainResource {
     @Summary
@@ -46,16 +54,13 @@ public class SubstanceNucleicAcid extends DomainResource {
     @Summary
     private final List<Subunit> subunit;
 
-    private volatile int hashCode;
-
     private SubstanceNucleicAcid(Builder builder) {
         super(builder);
         sequenceType = builder.sequenceType;
         numberOfSubunits = builder.numberOfSubunits;
         areaOfHybridisation = builder.areaOfHybridisation;
         oligoNucleotideType = builder.oligoNucleotideType;
-        subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
-        ValidationSupport.requireChildren(this);
+        subunit = Collections.unmodifiableList(builder.subunit);
     }
 
     /**
@@ -525,7 +530,16 @@ public class SubstanceNucleicAcid extends DomainResource {
          */
         @Override
         public SubstanceNucleicAcid build() {
-            return new SubstanceNucleicAcid(this);
+            SubstanceNucleicAcid substanceNucleicAcid = new SubstanceNucleicAcid(this);
+            if (validating) {
+                validate(substanceNucleicAcid);
+            }
+            return substanceNucleicAcid;
+        }
+
+        protected void validate(SubstanceNucleicAcid substanceNucleicAcid) {
+            super.validate(substanceNucleicAcid);
+            ValidationSupport.checkList(substanceNucleicAcid.subunit, "subunit", Subunit.class);
         }
 
         protected Builder from(SubstanceNucleicAcid substanceNucleicAcid) {
@@ -561,8 +575,6 @@ public class SubstanceNucleicAcid extends DomainResource {
         @Summary
         private final List<Sugar> sugar;
 
-        private volatile int hashCode;
-
         private Subunit(Builder builder) {
             super(builder);
             subunit = builder.subunit;
@@ -571,9 +583,8 @@ public class SubstanceNucleicAcid extends DomainResource {
             sequenceAttachment = builder.sequenceAttachment;
             fivePrime = builder.fivePrime;
             threePrime = builder.threePrime;
-            linkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.linkage, "linkage"));
-            sugar = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.sugar, "sugar"));
-            ValidationSupport.requireValueOrChildren(this);
+            linkage = Collections.unmodifiableList(builder.linkage);
+            sugar = Collections.unmodifiableList(builder.sugar);
         }
 
         /**
@@ -1041,7 +1052,18 @@ public class SubstanceNucleicAcid extends DomainResource {
              */
             @Override
             public Subunit build() {
-                return new Subunit(this);
+                Subunit subunit = new Subunit(this);
+                if (validating) {
+                    validate(subunit);
+                }
+                return subunit;
+            }
+
+            protected void validate(Subunit subunit) {
+                super.validate(subunit);
+                ValidationSupport.checkList(subunit.linkage, "linkage", Linkage.class);
+                ValidationSupport.checkList(subunit.sugar, "sugar", Sugar.class);
+                ValidationSupport.requireValueOrChildren(subunit);
             }
 
             protected Builder from(Subunit subunit) {
@@ -1071,15 +1093,12 @@ public class SubstanceNucleicAcid extends DomainResource {
             @Summary
             private final String residueSite;
 
-            private volatile int hashCode;
-
             private Linkage(Builder builder) {
                 super(builder);
                 connectivity = builder.connectivity;
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1382,7 +1401,16 @@ public class SubstanceNucleicAcid extends DomainResource {
                  */
                 @Override
                 public Linkage build() {
-                    return new Linkage(this);
+                    Linkage linkage = new Linkage(this);
+                    if (validating) {
+                        validate(linkage);
+                    }
+                    return linkage;
+                }
+
+                protected void validate(Linkage linkage) {
+                    super.validate(linkage);
+                    ValidationSupport.requireValueOrChildren(linkage);
                 }
 
                 protected Builder from(Linkage linkage) {
@@ -1407,14 +1435,11 @@ public class SubstanceNucleicAcid extends DomainResource {
             @Summary
             private final String residueSite;
 
-            private volatile int hashCode;
-
             private Sugar(Builder builder) {
                 super(builder);
                 identifier = builder.identifier;
                 name = builder.name;
                 residueSite = builder.residueSite;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1682,7 +1707,16 @@ public class SubstanceNucleicAcid extends DomainResource {
                  */
                 @Override
                 public Sugar build() {
-                    return new Sugar(this);
+                    Sugar sugar = new Sugar(this);
+                    if (validating) {
+                        validate(sugar);
+                    }
+                    return sugar;
+                }
+
+                protected void validate(Sugar sugar) {
+                    super.validate(sugar);
+                    ValidationSupport.requireValueOrChildren(sugar);
                 }
 
                 protected Builder from(Sugar sugar) {

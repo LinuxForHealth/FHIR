@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -48,6 +49,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GroupMeasure;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResearchElementType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.VariableType;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -55,13 +57,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * The ResearchElementDefinition resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) 
  * is about.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "red-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition"
 )
 @Constraint(
     id = "researchElementDefinition-1",
@@ -69,6 +78,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition",
     generated = true
 )
 @Constraint(
@@ -77,6 +87,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ResearchElementDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -97,7 +108,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -109,7 +120,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a measure (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -128,7 +139,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -142,7 +153,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -156,7 +167,7 @@ public class ResearchElementDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResearchElementType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of research elements (E.g. Population, Exposure, Outcome).",
         valueSet = "http://hl7.org/fhir/ValueSet/research-element-type|4.0.1"
     )
@@ -164,7 +175,7 @@ public class ResearchElementDefinition extends DomainResource {
     private final ResearchElementType type;
     @Binding(
         bindingName = "VariableType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.1"
     )
@@ -173,45 +184,41 @@ public class ResearchElementDefinition extends DomainResource {
     @Required
     private final List<Characteristic> characteristic;
 
-    private volatile int hashCode;
-
     private ResearchElementDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        comment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comment, "comment"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        comment = Collections.unmodifiableList(builder.comment);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        type = builder.type;
         variableType = builder.variableType;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
     }
 
     /**
@@ -1795,7 +1802,32 @@ public class ResearchElementDefinition extends DomainResource {
          */
         @Override
         public ResearchElementDefinition build() {
-            return new ResearchElementDefinition(this);
+            ResearchElementDefinition researchElementDefinition = new ResearchElementDefinition(this);
+            if (validating) {
+                validate(researchElementDefinition);
+            }
+            return researchElementDefinition;
+        }
+
+        protected void validate(ResearchElementDefinition researchElementDefinition) {
+            super.validate(researchElementDefinition);
+            ValidationSupport.checkList(researchElementDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(researchElementDefinition.status, "status");
+            ValidationSupport.choiceElement(researchElementDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(researchElementDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.comment, "comment", String.class);
+            ValidationSupport.checkList(researchElementDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(researchElementDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(researchElementDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(researchElementDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(researchElementDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(researchElementDefinition.library, "library", Canonical.class);
+            ValidationSupport.requireNonNull(researchElementDefinition.type, "type");
+            ValidationSupport.checkNonEmptyList(researchElementDefinition.characteristic, "characteristic", Characteristic.class);
+            ValidationSupport.checkReferenceType(researchElementDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(ResearchElementDefinition researchElementDefinition) {
@@ -1850,7 +1882,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Boolean exclude;
         @Binding(
             bindingName = "UCUMUnits",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.1"
         )
@@ -1861,7 +1893,7 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration studyEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
@@ -1872,30 +1904,26 @@ public class ResearchElementDefinition extends DomainResource {
         private final Duration participantEffectiveTimeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
         private final GroupMeasure participantEffectiveGroupMeasure;
 
-        private volatile int hashCode;
-
         private Characteristic(Builder builder) {
             super(builder);
-            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usageContext, "usageContext"));
+            definition = builder.definition;
+            usageContext = Collections.unmodifiableList(builder.usageContext);
             exclude = builder.exclude;
             unitOfMeasure = builder.unitOfMeasure;
             studyEffectiveDescription = builder.studyEffectiveDescription;
-            studyEffective = ValidationSupport.choiceElement(builder.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            studyEffective = builder.studyEffective;
             studyEffectiveTimeFromStart = builder.studyEffectiveTimeFromStart;
             studyEffectiveGroupMeasure = builder.studyEffectiveGroupMeasure;
             participantEffectiveDescription = builder.participantEffectiveDescription;
-            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            participantEffective = builder.participantEffective;
             participantEffectiveTimeFromStart = builder.participantEffectiveTimeFromStart;
             participantEffectiveGroupMeasure = builder.participantEffectiveGroupMeasure;
-            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2476,7 +2504,21 @@ public class ResearchElementDefinition extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireChoiceElement(characteristic.definition, "definition", CodeableConcept.class, Canonical.class, Expression.class, DataRequirement.class);
+                ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
+                ValidationSupport.choiceElement(characteristic.studyEffective, "studyEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.checkValueSetBinding(characteristic.unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {

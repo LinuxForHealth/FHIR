@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2019
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,6 +47,7 @@ public class LargeResourceTest extends FHIRServerTestBase {
 
         // Get the patient's logical id value.
         String patientId = getLocationLogicalId(response);
+        addToResourceRegistry("Patient", patientId);
 
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patientId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
@@ -86,7 +87,7 @@ public class LargeResourceTest extends FHIRServerTestBase {
         String targetPath = "Patient/" + patient.getId();
         Response response = target.path(targetPath).request().put(entity, Response.class);
         assertResponse(response, Response.Status.OK.getStatusCode());
-
+        addToResourceRegistry("Patient", patient.getId());
         // Next, call the 'read' API to retrieve the new patient and verify it.
         response = target.path("Patient/" + patient.getId()).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());

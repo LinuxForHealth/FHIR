@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,4 +25,6 @@ public class SqlConstants {
     public static final String THEN = "THEN";
     public static final String END = "END";
     public static final String ORDER_BY = "ORDER BY";
+    public static final String UNION = "UNION";
+    public static final String UNION_ALL = "UNION ALL";
 }

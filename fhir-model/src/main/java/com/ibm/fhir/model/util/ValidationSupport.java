@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -55,6 +55,9 @@ public final class ValidationSupport {
     private static final int RESOURCE_TYPE_GROUP = 4;
     private static final int MIN_STRING_LENGTH = 1;
     private static final int MAX_STRING_LENGTH = 1048576; // 1024 * 1024 = 1MB
+    private static final String LOCAL_REF_PREFIX = "urn:";
+    private static final String HTTP_PREFIX = "http:";
+    private static final String HTTPS_PREFIX = "https:";
     private static final String FHIR_XHTML_XSD = "fhir-xhtml.xsd";
     private static final String FHIR_XML_XSD = "xml.xsd";
     private static final String FHIR_XMLDSIG_CORE_SCHEMA_XSD = "xmldsig-core-schema.xsd";
@@ -333,17 +336,6 @@ public final class ValidationSupport {
     }
 
     /**
-     * @throws IllegalStateException if the passed list is empty or contains any null objects
-     */
-    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
-        requireNonNull(elements, elementName);
-        if (elements.isEmpty()) {
-            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
-        }
-        return elements;
-    }
-
-    /**
      * @throws IllegalStateException if the passed element is null
      */
     public static <T> T requireNonNull(T element, String elementName) {
@@ -354,8 +346,23 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated replaced by {@link #checkNonEmptyList(List, String, Class)}
+     * @throws IllegalStateException if the passed list is empty or contains any null objects
+     */
+    @Deprecated
+    public static <T> List<T> requireNonEmpty(List<T> elements, String elementName) {
+        requireNonNull(elements, elementName);
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return elements;
+    }
+
+    /**
+     * @deprecated replaced by {@link #checkList(List, String, Class)}
      * @throws IllegalStateException if the passed list contains any null objects
      */
+    @Deprecated
     public static <T> List<T> requireNonNull(List<T> elements, String elementName) {
         boolean anyMatch = false;
         for (T element : elements) {
@@ -371,6 +378,34 @@ public final class ValidationSupport {
     }
 
     /**
+     * @return the same list that was passed
+     * @throws IllegalStateException if the passed list is empty or contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkNonEmptyList(List<T> elements, String elementName, Class<T> type) {
+        if (elements.isEmpty()) {
+            throw new IllegalStateException(String.format("Missing required element: '%s'", elementName));
+        }
+        return checkList(elements, elementName, type);
+    }
+
+    /**
+     * @return the same list that was passed
+     * @throws IllegalStateException if the passed list contains any null objects or objects of an incompatible type
+     */
+    public static <T> List<T> checkList(List<T> elements, String elementName, Class<T> type) {
+        for (T element : elements) {
+            if (Objects.isNull(element)) {
+                throw new IllegalStateException(String.format("Repeating element: '%s' does not permit null elements", elementName));
+            }
+            if (!type.isInstance(element)) {
+                throw new IllegalStateException(String.format("Invalid type: %s for repeating element: '%s' must be: %s",
+                        element.getClass().getSimpleName(), elementName, type.getSimpleName()));
+            }
+        }
+        return elements;
+    }
+
+    /**
      * @throws IllegalStateException if the passed element has no value and no children
      */
     public static void requireValueOrChildren(Element element) {
@@ -380,8 +415,10 @@ public final class ValidationSupport {
     }
 
     /**
+     * @deprecated https://jira.hl7.org/browse/FHIR-26565 has clarified that empty resources are allowed
      * @throws IllegalStateException if the passed element has no children
      */
+    @Deprecated
     public static void requireChildren(Resource resource) {
         if (!resource.hasChildren()) {
             throw new IllegalStateException("global-1: All FHIR elements must have a @value or children");
@@ -465,15 +502,15 @@ public final class ValidationSupport {
      */
     public static void checkValueSetBinding(Element element, String elementName, String valueSet, String system, String... codes) {
         if (element != null) {
-            boolean advancedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
+            boolean extendedCodeableConceptValidation = FHIRModelConfig.getExtendedCodeableConceptValidation();
             List<String> codeList = Arrays.asList(codes);
 
             if (element instanceof CodeableConcept) {
-                checkCodeableConcept((CodeableConcept)element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+                checkCodeableConcept((CodeableConcept)element, elementName, valueSet, system, codeList, extendedCodeableConceptValidation);
             } else if (element instanceof Coding || element instanceof Quantity) {
-                checkCoding(element, elementName, valueSet, system, codeList, advancedCodeableConceptValidation);
+                checkCoding(element, elementName, valueSet, system, codeList, extendedCodeableConceptValidation);
             } else if (element instanceof Code || element instanceof Uri || element instanceof com.ibm.fhir.model.type.String) {
-                checkCode(element, elementName, valueSet, codeList, advancedCodeableConceptValidation);
+                checkCode(element, elementName, valueSet, codeList, extendedCodeableConceptValidation);
             }
         }
     }
@@ -481,12 +518,12 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the CodeableConcept element does not include a code from the required binding
      */
-    private static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCodeableConcept(CodeableConcept codeableConcept, String elementName, String valueSet, String system, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (codeableConcept.getCoding() != null) {
                 for (Coding coding : codeableConcept.getCoding()) {
                     try {
-                        checkCoding(coding, elementName, valueSet, system, codes, advancedCodeableConceptValidation);
+                        checkCoding(coding, elementName, valueSet, system, codes, extendedCodeableConceptValidation);
                         return;
                     } catch (IllegalStateException e) {}
                 }
@@ -507,8 +544,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the Coding element does not include a code from the required binding
      */
-    private static void checkCoding(Element element, String elementName, String valueSet, String system, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCoding(Element element, String elementName, String valueSet, String system, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (!hasOnlyDataAbsentReasonExtension(element)) {
                 if (hasSystemAndCodeValues(element)) {
                     String codingSystem = null;
@@ -521,12 +558,12 @@ public final class ValidationSupport {
                         codingCode = element.as(Quantity.class).getCode();
                     }
                     if (isSyntaxValidatedValueSet(valueSet)) {
-                        checkSyntaxValidatedCode(codingCode.getValue(), codingSystem, elementName, valueSet, advancedCodeableConceptValidation);
+                        checkSyntaxValidatedCode(codingCode.getValue(), codingSystem, elementName, valueSet, extendedCodeableConceptValidation);
                     } else {
                         if (!codingSystem.equals(system)) {
                             throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, codingSystem, valueSet));
                         } else {
-                            checkCode(codingCode, elementName, valueSet, codes, advancedCodeableConceptValidation);
+                            checkCode(codingCode, elementName, valueSet, codes, extendedCodeableConceptValidation);
                         }
                     }
                 } else {
@@ -539,8 +576,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the code element is not from the required binding
      */
-    private static void checkCode(Element element, String elementName, String valueSet, List<String> codes, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkCode(Element element, String elementName, String valueSet, List<String> codes, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (!hasOnlyDataAbsentReasonExtension(element)) {
                 String codeValue = null;
                 if (element instanceof Code) {
@@ -552,7 +589,7 @@ public final class ValidationSupport {
                 }
                 if (codeValue != null) {
                     if (isSyntaxValidatedValueSet(valueSet)) {
-                        checkSyntaxValidatedCode(codeValue, null, elementName, valueSet, advancedCodeableConceptValidation);
+                        checkSyntaxValidatedCode(codeValue, null, elementName, valueSet, extendedCodeableConceptValidation);
                     } else if (!codes.contains(codeValue)) {
                         throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid code for value set '%s'", elementName, codeValue, valueSet));
                     }
@@ -566,8 +603,8 @@ public final class ValidationSupport {
     /**
      * @throws IllegalStateExeption if the code element is not from the required binding
      */
-    private static void checkSyntaxValidatedCode(String code, String system, String elementName, String valueSet, boolean advancedCodeableConceptValidation) {
-        if (advancedCodeableConceptValidation) {
+    private static void checkSyntaxValidatedCode(String code, String system, String elementName, String valueSet, boolean extendedCodeableConceptValidation) {
+        if (extendedCodeableConceptValidation) {
             if (ALL_LANG_VALUE_SET_URL.contentEquals(valueSet)) {
                 if (system != null && !BCP_47_URN.equals(system)) {
                     throw new IllegalStateException(String.format("Element '%s': '%s' is not a valid system for value set '%s'", elementName, system, valueSet));
@@ -638,54 +675,64 @@ public final class ValidationSupport {
     }
 
     /**
+     * Checks that the reference contains valid resource type values.
+     * @param reference the reference
+     * @param elementName the element name
+     * @param referenceTypes the valid resource types for the reference
      * @throws IllegalStateException if the resource type found in the reference value does not match the specified Reference.type value
      *                               or is not one of the allowed reference types for that element
      */
     public static void checkReferenceType(Reference reference, String elementName, String... referenceTypes) {
-        boolean checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
-        if (reference != null && checkReferenceTypes) {
-            String referenceType = getReferenceType(reference);
-            if (referenceType != null && !ModelSupport.isResourceType(referenceType)) {
-                throw new IllegalStateException(
-                    String.format("Resource type found in Reference.type: '%s' for element: '%s' must be a valid resource type name",
-                        referenceType, elementName));
-            }
-            List<String> referenceTypeList = Arrays.asList(referenceTypes);
+        if (reference == null || !FHIRModelConfig.getCheckReferenceTypes()) {
+            return;
+        }
 
-            // If there is an explicit Reference.type, ensure its an allowed type
-            if (referenceType != null && !referenceTypeList.contains(referenceType)) {
-                throw new IllegalStateException(
-                        String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s",
-                            referenceType, elementName, referenceTypeList.toString()));
-            }
+        String resourceType = null;
+        String referenceReference = getReferenceReference(reference);
+        List<String> referenceTypeList = Arrays.asList(referenceTypes);
 
-            String referenceReference = getReferenceReference(reference);
-            String resourceType = null;
-
-            if (referenceReference != null && !referenceReference.startsWith("#")) {
+        if (referenceReference != null && !referenceReference.startsWith("#") && !referenceReference.startsWith(LOCAL_REF_PREFIX)
+                && !referenceReference.startsWith(HTTP_PREFIX) && !referenceReference.startsWith(HTTPS_PREFIX)) {
+            int index = referenceReference.indexOf("?");
+            if (index != -1) {
+                // conditional reference
+                resourceType = referenceReference.substring(0, index);
+            } else {
                 Matcher matcher = REFERENCE_PATTERN.matcher(referenceReference);
                 if (matcher.matches()) {
                     resourceType = matcher.group(RESOURCE_TYPE_GROUP);
-                    // If there is an explicit Reference.type, check that the resourceType pattern matches it
-                    if (referenceType != null && !resourceType.equals(referenceType)) {
-                        throw new IllegalStateException(
-                                String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s",
-                                    referenceReference, elementName, referenceType));
-                    }
                 }
             }
 
+            // resourceType is required in the reference value
             if (resourceType == null) {
-                resourceType = referenceType;
+                throw new IllegalStateException(String.format("Invalid reference value or resource type not found in reference value: '%s' for element: '%s'", referenceReference, elementName));
             }
 
-            // If we've successfully inferred a type, check that its an allowed value
-            if (resourceType != null) {
-                if (!referenceTypeList.contains(resourceType)) {
-                    throw new IllegalStateException(
-                            String.format("Resource type found in reference value: '%s' for element: '%s' must be one of: %s",
-                                referenceReference, elementName, referenceTypeList.toString()));
-                }
+            if (!ModelSupport.isResourceType(resourceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' must be a valid resource type name", referenceReference, elementName));
+            }
+
+            // If there is a resourceType in the reference value, check that it's an allowed value
+            if (!referenceTypeList.contains(resourceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' must be one of: %s", referenceReference, elementName, referenceTypeList.toString()));
+            }
+        }
+
+        String referenceType = getReferenceType(reference);
+        if (referenceType != null) {
+            if (!ModelSupport.isResourceType(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in Reference.type: '%s' for element: '%s' must be a valid resource type name", referenceType, elementName));
+            }
+
+            // If there is an explicit Reference.type, ensure it's an allowed type
+            if (!referenceTypeList.contains(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in Reference.type: '%s' for element: '%s' must be one of: %s", referenceType, elementName, referenceTypeList.toString()));
+            }
+
+            // If there is an explicit Reference.type, check that the resourceType pattern matches it
+            if (resourceType != null && !resourceType.equals(referenceType)) {
+                throw new IllegalStateException(String.format("Resource type found in reference value: '%s' for element: '%s' does not match Reference.type: %s", referenceReference, elementName, referenceType));
             }
         }
     }

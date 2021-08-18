@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,19 +40,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MediaStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A photo, video, or audio recording acquired or used in healthcare. The actual content may be inline or provided by 
  * direct reference.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "media-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/media-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/media-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Media",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -66,7 +75,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of an event.",
         valueSet = "http://hl7.org/fhir/ValueSet/event-status|4.0.1"
     )
@@ -75,7 +84,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for high level media categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-type"
     )
@@ -83,7 +92,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaModality",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed information about the type of the image - its kind, purpose, or the kind of equipment used to generate it.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-modality"
     )
@@ -91,7 +100,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaView",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Imaging view (projection) used when collecting an image.",
         valueSet = "http://hl7.org/fhir/ValueSet/media-view"
     )
@@ -113,7 +122,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MediaReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason for the media.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -121,7 +130,7 @@ public class Media extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -144,23 +153,21 @@ public class Media extends DomainResource {
     private final Attachment content;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Media(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
         type = builder.type;
         modality = builder.modality;
         view = builder.view;
         subject = builder.subject;
         encounter = builder.encounter;
-        created = ValidationSupport.choiceElement(builder.created, "created", DateTime.class, Period.class);
+        created = builder.created;
         issued = builder.issued;
         operator = builder.operator;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
         bodySite = builder.bodySite;
         deviceName = builder.deviceName;
         device = builder.device;
@@ -168,14 +175,8 @@ public class Media extends DomainResource {
         width = builder.width;
         frames = builder.frames;
         duration = builder.duration;
-        content = ValidationSupport.requireNonNull(builder.content, "content");
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest", "CarePlan");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric", "Device");
-        ValidationSupport.requireChildren(this);
+        content = builder.content;
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1272,7 +1273,28 @@ public class Media extends DomainResource {
          */
         @Override
         public Media build() {
-            return new Media(this);
+            Media media = new Media(this);
+            if (validating) {
+                validate(media);
+            }
+            return media;
+        }
+
+        protected void validate(Media media) {
+            super.validate(media);
+            ValidationSupport.checkList(media.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(media.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(media.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(media.status, "status");
+            ValidationSupport.choiceElement(media.created, "created", DateTime.class, Period.class);
+            ValidationSupport.checkList(media.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.requireNonNull(media.content, "content");
+            ValidationSupport.checkList(media.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(media.basedOn, "basedOn", "ServiceRequest", "CarePlan");
+            ValidationSupport.checkReferenceType(media.subject, "subject", "Patient", "Practitioner", "PractitionerRole", "Group", "Device", "Specimen", "Location");
+            ValidationSupport.checkReferenceType(media.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(media.operator, "operator", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(media.device, "device", "Device", "DeviceMetric", "Device");
         }
 
         protected Builder from(Media media) {

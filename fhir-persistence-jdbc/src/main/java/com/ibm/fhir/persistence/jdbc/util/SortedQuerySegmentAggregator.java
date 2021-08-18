@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,8 +24,14 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.SPACE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.STR_VALUE;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.TOKEN_VALUE;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,6 +49,7 @@ import com.ibm.fhir.search.sort.Sort;
  * QuerySegmentAggregator to build a FHIR Resource query
  * that produces sorted search results.
  */
+@Deprecated
 public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
     private static final String CLASSNAME = SortedQuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
@@ -137,7 +144,6 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             // Build LEFT OUTER JOIN clause
             sqlSortQuery.append(this.buildSortJoinClause());
 
-
             // Build GROUP BY clause
             sqlSortQuery.append(GROUP_BY);
 
@@ -205,7 +211,12 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         StringBuilder expression = new StringBuilder();
         List<String> valueAttributeNames;
 
-        valueAttributeNames = this.getValueAttributeNames(sortParm);
+        if (!this.legacyWholeSystemSearchParamsEnabled &&
+                (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode()))) {
+            valueAttributeNames = Collections.singletonList(TOKEN_VALUE);
+        } else {
+            valueAttributeNames = this.getValueAttributeNames(sortParm);
+        }
         boolean nameProcessed = false;
         for (String attributeName : valueAttributeNames) {
             if (nameProcessed) {
@@ -217,8 +228,13 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
                 expression.append(MAX);
             }
             expression.append(LEFT_PAREN);
-            expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
-            expression.append(attributeName);
+
+            if (LAST_UPDATED.equals(sortParm.getCode())) {
+                expression.append("R.LAST_UPDATED");
+            } else {
+                expression.append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(DOT_CHAR);
+                expression.append(attributeName);
+            }
             expression.append(RIGHT_PAREN);
             if (useInOrderByClause) {
                 expression.append(SPACE);
@@ -300,31 +316,50 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         // Build the LEFT OUTER JOINs needed to access the required sort parameters.
         int sortParmIndex = 1;
         for (SortParameter sortParm : this.sortParameters) {
-            sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
-            if (sortParameterNameId == null) {
-                // Only read...don't try and create the parameter name if it doesn't exist
-                sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
-                if (sortParameterNameId != null) {
-                    this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
+            if (!LAST_UPDATED.equals(sortParm.getCode())) {
+                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                        (PROFILE.equals(sortParm.getCode()) || SECURITY.equals(sortParm.getCode()) || TAG.equals(sortParm.getCode()))) {
+                    // For a sort by _tag or _profile or _security, we need to join the parameter-specific token
+                    // table with the common token values table.
+                    joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append("_P")
+                        .append(ON)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append("_P")
+                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
+                        .append(" INNER JOIN ").append("COMMON_TOKEN_VALUES").append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(ON)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(".COMMON_TOKEN_VALUE_ID = ").append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append("_P.COMMON_TOKEN_VALUE_ID").append(SPACE);
                 } else {
-                    sortParameterNameId = -1; // so we don't break the query syntax
+                    sortParameterNameId = ParameterNamesCache.getParameterNameId(sortParm.getCode());
+                    if (sortParameterNameId == null) {
+                        // Only read...don't try and create the parameter name if it doesn't exist
+                        sortParameterNameId = this.parameterDao.readParameterNameId(sortParm.getCode());
+                        if (sortParameterNameId != null) {
+                            this.parameterDao.addParameterNamesCacheCandidate(sortParm.getCode(), sortParameterNameId);
+                        } else {
+                            sortParameterNameId = -1; // so we don't break the query syntax
+                        }
+                    }
+
+                    // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
+                    // the query optimizer significantly with index range scan cardinality estimation
+                    joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(ON)
+                        .append(LEFT_PAREN)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=")
+                        .append(sortParameterNameId)
+                        .append(AND)
+                        .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
+                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
+                        .append(RIGHT_PAREN).append(SPACE);
                 }
+
+                sortParmIndex++;
             }
-
-            // Note...the PARAMETER_NAME_ID=xxx is provided as a literal because this helps
-            // the query optimizer significantly with index range scan cardinality estimation
-            joinBuffer.append(" LEFT OUTER JOIN ").append(this.getSortParameterTableName(sortParm)).append(SPACE)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
-                    .append(ON)
-                    .append(LEFT_PAREN)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex).append(".PARAMETER_NAME_ID=")
-                    .append(sortParameterNameId)
-                    .append(AND)
-                    .append(SORT_PARAMETER_ALIAS).append(sortParmIndex)
-                    .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID")
-                    .append(RIGHT_PAREN).append(SPACE);
-
-            sortParmIndex++;
         }
 
         log.exiting(CLASSNAME, METHODNAME);
@@ -349,14 +384,24 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
         switch (sortParm.getType()) {
         case URI:
         case STRING:
-            sortParameterTableName.append("STR_VALUES");
+            if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(sortParm.getCode())) {
+                sortParameterTableName.append("PROFILES");
+            } else {
+                sortParameterTableName.append("STR_VALUES");
+            }
             break;
         case DATE:
             sortParameterTableName.append("DATE_VALUES");
             break;
         case REFERENCE:
         case TOKEN:
-            sortParameterTableName.append("TOKEN_VALUES_V");
+            if (!this.legacyWholeSystemSearchParamsEnabled && TAG.equals(sortParm.getCode())) {
+                sortParameterTableName.append("TAGS");
+            } else if (!this.legacyWholeSystemSearchParamsEnabled && SECURITY.equals(sortParm.getCode())) {
+                sortParameterTableName.append("SECURITY");
+            } else {
+                sortParameterTableName.append("TOKEN_VALUES_V");
+            }
             break;
         case NUMBER:
             sortParameterTableName.append("NUMBER_VALUES");
@@ -394,6 +439,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             if (i > 0) {
                 orderByBuffer.append(COMMA_CHAR);
             }
+
             orderByBuffer.append(this.buildAggregateExpression(this.sortParameters.get(i), i + 1, true));
         }
 
@@ -429,7 +475,7 @@ public class SortedQuerySegmentAggregator extends QuerySegmentAggregator {
             String code = sortParm.getCode();
             if (ID.equals(code)) {
                 orderByBuffer.append(ID_COLUMN_NAME);
-            } else if (LastUpdatedParmBehaviorUtil.LAST_UPDATED.equals(code)) {
+            } else if (LAST_UPDATED.equals(code)) {
                 orderByBuffer.append(LastUpdatedParmBehaviorUtil.LAST_UPDATED_COLUMN_NAME).append(SPACE);
             } else {
                 throw new FHIRPersistenceNotSupportedException(

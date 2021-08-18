@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,17 +20,17 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
     private FHIRPersistenceEvent persistenceEvent;
     private FHIRHistoryContext historyContext;
     private FHIRSearchContext searchContext;
-    private boolean includeDeleted;
-    
+    private boolean includeDeleted = false;
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe) {
         this.persistenceEvent = pe;
     }
-    
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, boolean includeDeleted) {
         this.persistenceEvent = pe;
         setIncludeDeleted(includeDeleted);
     }
-    
+
     public FHIRPersistenceContextImpl(FHIRPersistenceEvent pe, FHIRHistoryContext hc) {
         this.persistenceEvent = pe;
         this.historyContext = hc;
@@ -46,38 +46,26 @@ public class FHIRPersistenceContextImpl implements FHIRPersistenceContext {
         this.searchContext = sc;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#getPersistenceEvent()
-     */
     @Override
     public FHIRPersistenceEvent getPersistenceEvent() {
         return this.persistenceEvent;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#getHistoryContext()
-     */
     @Override
     public FHIRHistoryContext getHistoryContext() {
         return this.historyContext;
     }
 
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#getSearchContext()
-     */
     @Override
     public FHIRSearchContext getSearchContext() {
         return this.searchContext;
     }
-    
-    /* (non-Javadoc)
-     * @see com.ibm.fhir.persistence.context.FHIRPersistenceContext#includeDeleted()
-     */
+
     @Override
     public boolean includeDeleted() {
         return includeDeleted;
     }
-    
+
     public void setIncludeDeleted(boolean includeDeleted) {
         this.includeDeleted = includeDeleted;
     }

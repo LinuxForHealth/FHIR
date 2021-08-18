@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -256,15 +256,22 @@ public abstract class BaseObject implements IDatabaseObject {
     @Override
     public void applyVersion(IDatabaseAdapter target, IVersionHistoryService vhs) {
         // Only for Procedures do we skip the Version History Service check, and apply.
-        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version) || getObjectType().equals(DatabaseObjectType.PROCEDURE)) {
+        if (vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)
+                    || getObjectType() == DatabaseObjectType.PROCEDURE) {
             logger.fine("Applying change [v" + version + "]: " + this.getTypeNameVersion());
 
             // Apply this change to the target database
             apply(vhs.getVersion(getSchemaName(), getObjectType().name(), getObjectName()), target);
 
-            // call back to the version history service to add the new version to the table
-            // being used to track the change history
-            vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
+            // Check if the PROCEDURE is this exact version (Applies to FunctionDef and ProcedureDef)
+            if (DatabaseObjectType.PROCEDURE.equals(getObjectType())
+                    && !vhs.applies(getSchemaName(), getObjectType().name(), getObjectName(), version)) {
+                logger.info("Version History is already current, refreshing the definition " + getVersion() + " " + vhs.getVersion(schemaName, objectName, objectName));
+            } else {
+                // call back to the version history service to add the new version to the table
+                // being used to track the change history
+                vhs.addVersion(getSchemaName(), getObjectType().name(), getObjectName(), getVersion());
+            }
         }
     }
 

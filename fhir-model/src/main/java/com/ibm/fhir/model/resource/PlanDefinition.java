@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -60,6 +61,7 @@ import com.ibm.fhir.model.type.code.ActionSelectionBehavior;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -67,13 +69,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * This resource allows for the definition of various types of plans as a sharable, consumable, and executable artifact. 
  * The resource is general enough to support the description of a broad range of clinical artifacts such as clinical 
  * decision support rules, order sets and protocols.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "pdf-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition"
 )
 @Constraint(
     id = "planDefinition-1",
@@ -81,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/plan-definition-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/plan-definition-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Constraint(
@@ -89,6 +99,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Constraint(
@@ -97,6 +108,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Constraint(
@@ -105,6 +117,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "goal.priority",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Constraint(
@@ -113,6 +126,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "action.subject",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "$this.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Constraint(
@@ -121,6 +135,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "action.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/action-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/PlanDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -139,7 +154,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PlanDefinitionType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type of PlanDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/plan-definition-type"
     )
@@ -147,7 +162,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -159,7 +174,7 @@ public class PlanDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a plan definition (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -177,7 +192,7 @@ public class PlanDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -191,7 +206,7 @@ public class PlanDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -205,43 +220,39 @@ public class PlanDefinition extends DomainResource {
     private final List<Goal> goal;
     private final List<Action> action;
 
-    private volatile int hashCode;
-
     private PlanDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
         type = builder.type;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
-        goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
-        action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
+        goal = Collections.unmodifiableList(builder.goal);
+        action = Collections.unmodifiableList(builder.action);
     }
 
     /**
@@ -1755,7 +1766,31 @@ public class PlanDefinition extends DomainResource {
          */
         @Override
         public PlanDefinition build() {
-            return new PlanDefinition(this);
+            PlanDefinition planDefinition = new PlanDefinition(this);
+            if (validating) {
+                validate(planDefinition);
+            }
+            return planDefinition;
+        }
+
+        protected void validate(PlanDefinition planDefinition) {
+            super.validate(planDefinition);
+            ValidationSupport.checkList(planDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(planDefinition.status, "status");
+            ValidationSupport.choiceElement(planDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(planDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(planDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(planDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(planDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(planDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(planDefinition.library, "library", Canonical.class);
+            ValidationSupport.checkList(planDefinition.goal, "goal", Goal.class);
+            ValidationSupport.checkList(planDefinition.action, "action", Action.class);
+            ValidationSupport.checkReferenceType(planDefinition.subject, "subject", "Group");
         }
 
         protected Builder from(PlanDefinition planDefinition) {
@@ -1802,14 +1837,14 @@ public class PlanDefinition extends DomainResource {
     public static class Goal extends BackboneElement {
         @Binding(
             bindingName = "GoalCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Example codes for grouping goals for filtering or presentation.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "GoalDescription",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Describes goals that can be achieved.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
@@ -1817,21 +1852,21 @@ public class PlanDefinition extends DomainResource {
         private final CodeableConcept description;
         @Binding(
             bindingName = "GoalPriority",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Indicates the level of importance associated with reaching or sustaining a goal.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
         )
         private final CodeableConcept priority;
         @Binding(
             bindingName = "GoalStartEvent",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies the types of events that might trigger the start of a goal.",
             valueSet = "http://hl7.org/fhir/ValueSet/goal-start-event"
         )
         private final CodeableConcept start;
         @Binding(
             bindingName = "GoalAddresses",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies problems, conditions, issues, or concerns that goals may address.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
@@ -1839,18 +1874,15 @@ public class PlanDefinition extends DomainResource {
         private final List<RelatedArtifact> documentation;
         private final List<Target> target;
 
-        private volatile int hashCode;
-
         private Goal(Builder builder) {
             super(builder);
             category = builder.category;
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             priority = builder.priority;
             start = builder.start;
-            addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-            documentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.documentation, "documentation"));
-            target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-            ValidationSupport.requireValueOrChildren(this);
+            addresses = Collections.unmodifiableList(builder.addresses);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            target = Collections.unmodifiableList(builder.target);
         }
 
         /**
@@ -2303,7 +2335,20 @@ public class PlanDefinition extends DomainResource {
              */
             @Override
             public Goal build() {
-                return new Goal(this);
+                Goal goal = new Goal(this);
+                if (validating) {
+                    validate(goal);
+                }
+                return goal;
+            }
+
+            protected void validate(Goal goal) {
+                super.validate(goal);
+                ValidationSupport.requireNonNull(goal.description, "description");
+                ValidationSupport.checkList(goal.addresses, "addresses", CodeableConcept.class);
+                ValidationSupport.checkList(goal.documentation, "documentation", RelatedArtifact.class);
+                ValidationSupport.checkList(goal.target, "target", Target.class);
+                ValidationSupport.requireValueOrChildren(goal);
             }
 
             protected Builder from(Goal goal) {
@@ -2325,7 +2370,7 @@ public class PlanDefinition extends DomainResource {
         public static class Target extends BackboneElement {
             @Binding(
                 bindingName = "GoalTargetMeasure",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Identifies types of parameters that can be tracked to determine goal achievement.",
                 valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
             )
@@ -2334,14 +2379,11 @@ public class PlanDefinition extends DomainResource {
             private final Element detail;
             private final Duration due;
 
-            private volatile int hashCode;
-
             private Target(Builder builder) {
                 super(builder);
                 measure = builder.measure;
-                detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
+                detail = builder.detail;
                 due = builder.due;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2619,7 +2661,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Target build() {
-                    return new Target(this);
+                    Target target = new Target(this);
+                    if (validating) {
+                        validate(target);
+                    }
+                    return target;
+                }
+
+                protected void validate(Target target) {
+                    super.validate(target);
+                    ValidationSupport.choiceElement(target.detail, "detail", Quantity.class, Range.class, CodeableConcept.class);
+                    ValidationSupport.requireValueOrChildren(target);
                 }
 
                 protected Builder from(Target target) {
@@ -2643,7 +2695,7 @@ public class PlanDefinition extends DomainResource {
         private final String textEquivalent;
         @Binding(
             bindingName = "RequestPriority",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the level of importance to be assigned to actioning the request.",
             valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
         )
@@ -2656,7 +2708,7 @@ public class PlanDefinition extends DomainResource {
         @Choice({ CodeableConcept.class, Reference.class })
         @Binding(
             bindingName = "SubjectType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The possible types of subjects for a plan definition (E.g. Patient, Practitioner, Organization, Location, etc.).",
             valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
         )
@@ -2671,42 +2723,42 @@ public class PlanDefinition extends DomainResource {
         private final List<Participant> participant;
         @Binding(
             bindingName = "ActionType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of action to be performed.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ActionGroupingBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines organization behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.1"
         )
         private final ActionGroupingBehavior groupingBehavior;
         @Binding(
             bindingName = "ActionSelectionBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.1"
         )
         private final ActionSelectionBehavior selectionBehavior;
         @Binding(
             bindingName = "ActionRequiredBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines expectations around whether an action or action group is required.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.1"
         )
         private final ActionRequiredBehavior requiredBehavior;
         @Binding(
             bindingName = "ActionPrecheckBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection frequency behavior for an action or group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.1"
         )
         private final ActionPrecheckBehavior precheckBehavior;
         @Binding(
             bindingName = "ActionCardinalityBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines behavior for an action or a group for how many times that item may be repeated.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.1"
         )
@@ -2717,8 +2769,6 @@ public class PlanDefinition extends DomainResource {
         private final List<DynamicValue> dynamicValue;
         private final List<PlanDefinition.Action> action;
 
-        private volatile int hashCode;
-
         private Action(Builder builder) {
             super(builder);
             prefix = builder.prefix;
@@ -2726,30 +2776,28 @@ public class PlanDefinition extends DomainResource {
             description = builder.description;
             textEquivalent = builder.textEquivalent;
             priority = builder.priority;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-            documentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.documentation, "documentation"));
-            goalId = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goalId, "goalId"));
-            subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
-            trigger = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.trigger, "trigger"));
-            condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-            input = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.input, "input"));
-            output = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.output, "output"));
-            relatedAction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedAction, "relatedAction"));
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+            code = Collections.unmodifiableList(builder.code);
+            reason = Collections.unmodifiableList(builder.reason);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            goalId = Collections.unmodifiableList(builder.goalId);
+            subject = builder.subject;
+            trigger = Collections.unmodifiableList(builder.trigger);
+            condition = Collections.unmodifiableList(builder.condition);
+            input = Collections.unmodifiableList(builder.input);
+            output = Collections.unmodifiableList(builder.output);
+            relatedAction = Collections.unmodifiableList(builder.relatedAction);
+            timing = builder.timing;
+            participant = Collections.unmodifiableList(builder.participant);
             type = builder.type;
             groupingBehavior = builder.groupingBehavior;
             selectionBehavior = builder.selectionBehavior;
             requiredBehavior = builder.requiredBehavior;
             precheckBehavior = builder.precheckBehavior;
             cardinalityBehavior = builder.cardinalityBehavior;
-            definition = ValidationSupport.choiceElement(builder.definition, "definition", Canonical.class, Uri.class);
+            definition = builder.definition;
             transform = builder.transform;
-            dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            ValidationSupport.checkReferenceType(subject, "subject", "Group");
-            ValidationSupport.requireValueOrChildren(this);
+            dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -4004,7 +4052,32 @@ public class PlanDefinition extends DomainResource {
              */
             @Override
             public Action build() {
-                return new Action(this);
+                Action action = new Action(this);
+                if (validating) {
+                    validate(action);
+                }
+                return action;
+            }
+
+            protected void validate(Action action) {
+                super.validate(action);
+                ValidationSupport.checkList(action.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(action.reason, "reason", CodeableConcept.class);
+                ValidationSupport.checkList(action.documentation, "documentation", RelatedArtifact.class);
+                ValidationSupport.checkList(action.goalId, "goalId", Id.class);
+                ValidationSupport.choiceElement(action.subject, "subject", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkList(action.trigger, "trigger", TriggerDefinition.class);
+                ValidationSupport.checkList(action.condition, "condition", Condition.class);
+                ValidationSupport.checkList(action.input, "input", DataRequirement.class);
+                ValidationSupport.checkList(action.output, "output", DataRequirement.class);
+                ValidationSupport.checkList(action.relatedAction, "relatedAction", RelatedAction.class);
+                ValidationSupport.choiceElement(action.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
+                ValidationSupport.checkList(action.participant, "participant", Participant.class);
+                ValidationSupport.choiceElement(action.definition, "definition", Canonical.class, Uri.class);
+                ValidationSupport.checkList(action.dynamicValue, "dynamicValue", DynamicValue.class);
+                ValidationSupport.checkList(action.action, "action", PlanDefinition.Action.class);
+                ValidationSupport.checkReferenceType(action.subject, "subject", "Group");
+                ValidationSupport.requireValueOrChildren(action);
             }
 
             protected Builder from(Action action) {
@@ -4046,7 +4119,7 @@ public class PlanDefinition extends DomainResource {
         public static class Condition extends BackboneElement {
             @Binding(
                 bindingName = "ActionConditionKind",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines the kinds of conditions that can appear on actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.1"
             )
@@ -4054,13 +4127,10 @@ public class PlanDefinition extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private Condition(Builder builder) {
                 super(builder);
-                kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+                kind = builder.kind;
                 expression = builder.expression;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4303,7 +4373,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Condition build() {
-                    return new Condition(this);
+                    Condition condition = new Condition(this);
+                    if (validating) {
+                        validate(condition);
+                    }
+                    return condition;
+                }
+
+                protected void validate(Condition condition) {
+                    super.validate(condition);
+                    ValidationSupport.requireNonNull(condition.kind, "kind");
+                    ValidationSupport.requireValueOrChildren(condition);
                 }
 
                 protected Builder from(Condition condition) {
@@ -4323,7 +4403,7 @@ public class PlanDefinition extends DomainResource {
             private final Id actionId;
             @Binding(
                 bindingName = "ActionRelationshipType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.1"
             )
@@ -4332,14 +4412,11 @@ public class PlanDefinition extends DomainResource {
             @Choice({ Duration.class, Range.class })
             private final Element offset;
 
-            private volatile int hashCode;
-
             private RelatedAction(Builder builder) {
                 super(builder);
-                actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
-                relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-                offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
-                ValidationSupport.requireValueOrChildren(this);
+                actionId = builder.actionId;
+                relationship = builder.relationship;
+                offset = builder.offset;
             }
 
             /**
@@ -4621,7 +4698,19 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public RelatedAction build() {
-                    return new RelatedAction(this);
+                    RelatedAction relatedAction = new RelatedAction(this);
+                    if (validating) {
+                        validate(relatedAction);
+                    }
+                    return relatedAction;
+                }
+
+                protected void validate(RelatedAction relatedAction) {
+                    super.validate(relatedAction);
+                    ValidationSupport.requireNonNull(relatedAction.actionId, "actionId");
+                    ValidationSupport.requireNonNull(relatedAction.relationship, "relationship");
+                    ValidationSupport.choiceElement(relatedAction.offset, "offset", Duration.class, Range.class);
+                    ValidationSupport.requireValueOrChildren(relatedAction);
                 }
 
                 protected Builder from(RelatedAction relatedAction) {
@@ -4640,7 +4729,7 @@ public class PlanDefinition extends DomainResource {
         public static class Participant extends BackboneElement {
             @Binding(
                 bindingName = "ActionParticipantType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The type of participant for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
             )
@@ -4648,19 +4737,16 @@ public class PlanDefinition extends DomainResource {
             private final ActionParticipantType type;
             @Binding(
                 bindingName = "ActionParticipantRole",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Defines roles played by participants for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
             )
             private final CodeableConcept role;
 
-            private volatile int hashCode;
-
             private Participant(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 role = builder.role;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4903,7 +4989,17 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public Participant build() {
-                    return new Participant(this);
+                    Participant participant = new Participant(this);
+                    if (validating) {
+                        validate(participant);
+                    }
+                    return participant;
+                }
+
+                protected void validate(Participant participant) {
+                    super.validate(participant);
+                    ValidationSupport.requireNonNull(participant.type, "type");
+                    ValidationSupport.requireValueOrChildren(participant);
                 }
 
                 protected Builder from(Participant participant) {
@@ -4924,13 +5020,10 @@ public class PlanDefinition extends DomainResource {
             private final String path;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private DynamicValue(Builder builder) {
                 super(builder);
                 path = builder.path;
                 expression = builder.expression;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5174,7 +5267,16 @@ public class PlanDefinition extends DomainResource {
                  */
                 @Override
                 public DynamicValue build() {
-                    return new DynamicValue(this);
+                    DynamicValue dynamicValue = new DynamicValue(this);
+                    if (validating) {
+                        validate(dynamicValue);
+                    }
+                    return dynamicValue;
+                }
+
+                protected void validate(DynamicValue dynamicValue) {
+                    super.validate(dynamicValue);
+                    ValidationSupport.requireValueOrChildren(dynamicValue);
                 }
 
                 protected Builder from(DynamicValue dynamicValue) {

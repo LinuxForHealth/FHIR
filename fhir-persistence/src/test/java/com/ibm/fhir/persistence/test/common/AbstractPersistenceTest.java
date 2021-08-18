@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
@@ -25,13 +26,16 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.FHIRPersistence;
 import com.ibm.fhir.persistence.MultiResourceResult;
 import com.ibm.fhir.persistence.context.FHIRHistoryContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.search.context.FHIRSearchContext;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.util.SearchUtil;
 
 /**
@@ -51,6 +55,9 @@ import com.ibm.fhir.search.util.SearchUtil;
 public abstract class AbstractPersistenceTest {
     // common logger to make things a little easier on subclass implementations
     protected static final Logger logger = Logger.getLogger(AbstractPersistenceTest.class.getName());
+
+    // The common base URI used for all the search/persistence tests
+    public static final String BASE = "https://example.com/";
 
     // The persistence layer instance to be used by the tests.
     protected static FHIRPersistence persistence = null;
@@ -100,6 +107,14 @@ public abstract class AbstractPersistenceTest {
 
     @BeforeMethod(alwaysRun = true)
     public void startTrx() throws Exception{
+        // Configure the request context for our search tests
+        FHIRRequestContext context = FHIRRequestContext.get();
+        if (context == null) {
+            context = new FHIRRequestContext();
+        }
+        context.setOriginalRequestUri(BASE);
+
+        FHIRRequestContext.set(context);
         if (persistence != null && persistence.isTransactional()) {
             persistence.getTransaction().begin();
         }
@@ -161,8 +176,13 @@ public abstract class AbstractPersistenceTest {
                     // ignore the chained part and just verify the reference param is there
                     paramName = key.split("\\.")[0];
                 }
-                // strip any modifiers
-                final String finalParamName = paramName.split(":")[0];
+                // strip any modifiers, unless :of-type
+                final String finalParamName;
+                if (key.endsWith(":of-type")) {
+                    finalParamName = key;
+                } else {
+                    finalParamName = paramName.split(":")[0];
+                }
 
                 assertTrue(searchContext.getSearchParameters().stream().anyMatch(t -> t.getCode().equals(finalParamName)),
                     "Search parameter '" + key + "' was not successfully parsed into a search parameter");
@@ -184,16 +204,32 @@ public abstract class AbstractPersistenceTest {
         }
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
-        return runQueryTest(compartmentName, compartmentLogicalId, resourceType, parmName, parmValue, null);
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue) throws Exception {
+        return runCompartmentQueryTest(compartmentName, compartmentLogicalId, resourceType, parmName, parmValue, null);
     }
 
-    protected List<Resource> runQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, String compartmentLogicalId, Class<? extends Resource> resourceType, String parmName, String parmValue, Integer maxPageSize) throws Exception {
         Map<String, List<String>> queryParms = new HashMap<>(1);
         if (parmName != null && parmValue != null) {
             queryParms.put(parmName, Collections.singletonList(parmValue));
         }
-        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms, null);
+        FHIRSearchContext searchContext = SearchUtil.parseCompartmentQueryParameters(compartmentName, compartmentLogicalId, resourceType, queryParms);
+
+        return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
+    }
+
+    protected List<Resource> runCompartmentQueryTest(String compartmentName, Set<String> compartmentLogicalIds, Class<? extends Resource> resourceType, Map<String, List<String>> queryParms, Integer maxPageSize) throws Exception {
+        FHIRSearchContext searchContext = SearchUtil.parseQueryParameters(resourceType, queryParms);
+        QueryParameter inclusionCriteria = SearchUtil.buildInclusionCriteria(compartmentName, compartmentLogicalIds, resourceType.getSimpleName());
+        if (inclusionCriteria != null) {
+            searchContext.getSearchParameters().add(0, inclusionCriteria);
+        }
+
+        return executeCompartmentQuery(resourceType, maxPageSize, searchContext);
+    }
+
+    private List<Resource> executeCompartmentQuery(Class<? extends Resource> resourceType, Integer maxPageSize, FHIRSearchContext searchContext)
+            throws FHIRPersistenceException {
         if (maxPageSize != null) {
             searchContext.setPageSize(maxPageSize);
         }

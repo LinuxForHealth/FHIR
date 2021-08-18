@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,25 +42,34 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FamilyHistoryStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Significant health conditions for a person related to the patient relevant in the context of care for the patient.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "fhs-1",
     level = "Rule",
     location = "(base)",
     description = "Can have age[x] or born[x], but not both",
-    expression = "age.empty() or born.empty()"
+    expression = "age.empty() or born.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory"
 )
 @Constraint(
     id = "fhs-2",
     level = "Rule",
     location = "(base)",
     description = "Can only have estimatedAge if age[x] is present",
-    expression = "age.exists() or estimatedAge.empty()"
+    expression = "age.exists() or estimatedAge.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory"
 )
 @Constraint(
     id = "familyMemberHistory-3",
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/administrative-gender",
     expression = "sex.exists() implies (sex.memberOf('http://hl7.org/fhir/ValueSet/administrative-gender', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/FamilyMemberHistory",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -80,7 +91,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code that identifies the status of the family history record.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-status|4.0.1"
     )
@@ -89,7 +100,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryAbsentReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing the reason why a family member's history is not available.",
         valueSet = "http://hl7.org/fhir/ValueSet/history-absent-reason"
     )
@@ -105,7 +116,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilialRelationship",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The nature of the relationship between the patient and the related person being described in the family member history.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-FamilyMember"
     )
@@ -114,7 +125,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Sex",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes describing the sex assigned at birth as documented on the birth registration.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender"
     )
@@ -132,7 +143,7 @@ public class FamilyMemberHistory extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FamilyHistoryReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes indicating why the family member history was done.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -143,31 +154,26 @@ public class FamilyMemberHistory extends DomainResource {
     private final List<Annotation> note;
     private final List<Condition> condition;
 
-    private volatile int hashCode;
-
     private FamilyMemberHistory(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        status = builder.status;
         dataAbsentReason = builder.dataAbsentReason;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        patient = builder.patient;
         date = builder.date;
         name = builder.name;
-        relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
+        relationship = builder.relationship;
         sex = builder.sex;
-        born = ValidationSupport.choiceElement(builder.born, "born", Period.class, Date.class, String.class);
-        age = ValidationSupport.choiceElement(builder.age, "age", Age.class, Range.class, String.class);
+        born = builder.born;
+        age = builder.age;
         estimatedAge = builder.estimatedAge;
-        deceased = ValidationSupport.choiceElement(builder.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
+        deceased = builder.deceased;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        condition = Collections.unmodifiableList(builder.condition);
     }
 
     /**
@@ -1201,7 +1207,30 @@ public class FamilyMemberHistory extends DomainResource {
          */
         @Override
         public FamilyMemberHistory build() {
-            return new FamilyMemberHistory(this);
+            FamilyMemberHistory familyMemberHistory = new FamilyMemberHistory(this);
+            if (validating) {
+                validate(familyMemberHistory);
+            }
+            return familyMemberHistory;
+        }
+
+        protected void validate(FamilyMemberHistory familyMemberHistory) {
+            super.validate(familyMemberHistory);
+            ValidationSupport.checkList(familyMemberHistory.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(familyMemberHistory.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(familyMemberHistory.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.requireNonNull(familyMemberHistory.status, "status");
+            ValidationSupport.requireNonNull(familyMemberHistory.patient, "patient");
+            ValidationSupport.requireNonNull(familyMemberHistory.relationship, "relationship");
+            ValidationSupport.choiceElement(familyMemberHistory.born, "born", Period.class, Date.class, String.class);
+            ValidationSupport.choiceElement(familyMemberHistory.age, "age", Age.class, Range.class, String.class);
+            ValidationSupport.choiceElement(familyMemberHistory.deceased, "deceased", Boolean.class, Age.class, Range.class, Date.class, String.class);
+            ValidationSupport.checkList(familyMemberHistory.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(familyMemberHistory.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(familyMemberHistory.note, "note", Annotation.class);
+            ValidationSupport.checkList(familyMemberHistory.condition, "condition", Condition.class);
+            ValidationSupport.checkReferenceType(familyMemberHistory.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(familyMemberHistory.reasonReference, "reasonReference", "Condition", "Observation", "AllergyIntolerance", "QuestionnaireResponse", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(FamilyMemberHistory familyMemberHistory) {
@@ -1236,7 +1265,7 @@ public class FamilyMemberHistory extends DomainResource {
     public static class Condition extends BackboneElement {
         @Binding(
             bindingName = "ConditionCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identification of the Condition or diagnosis.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
         )
@@ -1244,7 +1273,7 @@ public class FamilyMemberHistory extends DomainResource {
         private final CodeableConcept code;
         @Binding(
             bindingName = "ConditionOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The result of the condition for the patient; e.g. death, permanent disability, temporary disability, etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-outcome"
         )
@@ -1254,16 +1283,13 @@ public class FamilyMemberHistory extends DomainResource {
         private final Element onset;
         private final List<Annotation> note;
 
-        private volatile int hashCode;
-
         private Condition(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             outcome = builder.outcome;
             contributedToDeath = builder.contributedToDeath;
-            onset = ValidationSupport.choiceElement(builder.onset, "onset", Age.class, Range.class, Period.class, String.class);
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            ValidationSupport.requireValueOrChildren(this);
+            onset = builder.onset;
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1629,7 +1655,19 @@ public class FamilyMemberHistory extends DomainResource {
              */
             @Override
             public Condition build() {
-                return new Condition(this);
+                Condition condition = new Condition(this);
+                if (validating) {
+                    validate(condition);
+                }
+                return condition;
+            }
+
+            protected void validate(Condition condition) {
+                super.validate(condition);
+                ValidationSupport.requireNonNull(condition.code, "code");
+                ValidationSupport.choiceElement(condition.onset, "onset", Age.class, Range.class, Period.class, String.class);
+                ValidationSupport.checkList(condition.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(condition);
             }
 
             protected Builder from(Condition condition) {

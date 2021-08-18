@@ -16,7 +16,7 @@
     "coding": [
       {
         "system": "http://terminology.hl7.org/CodeSystem/condition-ver-status",
-        "code": "confirmed"
+        "code": "provisional"
       }
     ]
   },
@@ -71,6 +71,30 @@
     "reference": "Patient/example"
   },
   "onsetDateTime": "2012-05-24",
+  "evidence": [
+    {
+      "code": [
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0080",
+              "code": "ST",
+              "display": "Strain"
+            }
+          ]
+        },
+        {
+          "coding": [
+            {
+              "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+              "code": "A4",
+              "display": "severe reaction"
+            }
+          ]
+        }
+      ]
+    }
+  ],
   "meta": {
     "tag": [
       {

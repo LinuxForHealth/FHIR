@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -33,88 +34,106 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.SearchEntryMode;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A container for a collection of resources.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "bdl-1",
     level = "Rule",
     location = "(base)",
     description = "total only when a search or history",
-    expression = "total.empty() or (type = 'searchset') or (type = 'history')"
+    expression = "total.empty() or (type = 'searchset') or (type = 'history')",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-2",
     level = "Rule",
     location = "(base)",
     description = "entry.search only when a search",
-    expression = "entry.search.empty() or (type = 'searchset')"
+    expression = "entry.search.empty() or (type = 'searchset')",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-3",
     level = "Rule",
     location = "(base)",
     description = "entry.request mandatory for batch/transaction/history, otherwise prohibited",
-    expression = "entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))"
+    expression = "entry.all(request.exists() = (%resource.type = 'batch' or %resource.type = 'transaction' or %resource.type = 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-4",
     level = "Rule",
     location = "(base)",
     description = "entry.response mandatory for batch-response/transaction-response/history, otherwise prohibited",
-    expression = "entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))"
+    expression = "entry.all(response.exists() = (%resource.type = 'batch-response' or %resource.type = 'transaction-response' or %resource.type = 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-5",
     level = "Rule",
     location = "Bundle.entry",
     description = "must be a resource unless there's a request or response",
-    expression = "resource.exists() or request.exists() or response.exists()"
+    expression = "resource.exists() or request.exists() or response.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-7",
     level = "Rule",
     location = "(base)",
     description = "FullUrl must be unique in a bundle, or else entries with the same fullUrl must have different meta.versionId (except in history bundles)",
-    expression = "(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&resource.meta.versionId).isDistinct()"
+    expression = "(type = 'history') or entry.where(fullUrl.exists()).select(fullUrl&resource.meta.versionId).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-8",
     level = "Rule",
     location = "Bundle.entry",
     description = "fullUrl cannot be a version specific reference",
-    expression = "fullUrl.contains('/_history/').not()"
+    expression = "fullUrl.contains('/_history/').not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-9",
     level = "Rule",
     location = "(base)",
     description = "A document must have an identifier with a system and a value",
-    expression = "type = 'document' implies (identifier.system.exists() and identifier.value.exists())"
+    expression = "type = 'document' implies (identifier.system.exists() and identifier.value.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-10",
     level = "Rule",
     location = "(base)",
     description = "A document must have a date",
-    expression = "type = 'document' implies (timestamp.hasValue())"
+    expression = "type = 'document' implies (timestamp.hasValue())",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-11",
     level = "Rule",
     location = "(base)",
     description = "A document must have a Composition as the first resource",
-    expression = "type = 'document' implies entry.first().resource.is(Composition)"
+    expression = "type = 'document' implies entry.first().resource.is(Composition)",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Constraint(
     id = "bdl-12",
     level = "Rule",
     location = "(base)",
     description = "A message must have a MessageHeader as the first resource",
-    expression = "type = 'message' implies entry.first().resource.is(MessageHeader)"
+    expression = "type = 'message' implies entry.first().resource.is(MessageHeader)",
+    source = "http://hl7.org/fhir/StructureDefinition/Bundle"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Bundle extends Resource {
@@ -123,7 +142,7 @@ public class Bundle extends Resource {
     @Summary
     @Binding(
         bindingName = "BundleType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the purpose of a bundle - how it is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/bundle-type|4.0.1"
     )
@@ -140,18 +159,15 @@ public class Bundle extends Resource {
     @Summary
     private final Signature signature;
 
-    private volatile int hashCode;
-
     private Bundle(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         timestamp = builder.timestamp;
         total = builder.total;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+        link = Collections.unmodifiableList(builder.link);
+        entry = Collections.unmodifiableList(builder.entry);
         signature = builder.signature;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -547,7 +563,18 @@ public class Bundle extends Resource {
          */
         @Override
         public Bundle build() {
-            return new Bundle(this);
+            Bundle bundle = new Bundle(this);
+            if (validating) {
+                validate(bundle);
+            }
+            return bundle;
+        }
+
+        protected void validate(Bundle bundle) {
+            super.validate(bundle);
+            ValidationSupport.requireNonNull(bundle.type, "type");
+            ValidationSupport.checkList(bundle.link, "link", Link.class);
+            ValidationSupport.checkList(bundle.entry, "entry", Entry.class);
         }
 
         protected Builder from(Bundle bundle) {
@@ -574,13 +601,10 @@ public class Bundle extends Resource {
         @Required
         private final Uri url;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
-            relation = ValidationSupport.requireNonNull(builder.relation, "relation");
-            url = ValidationSupport.requireNonNull(builder.url, "url");
-            ValidationSupport.requireValueOrChildren(this);
+            relation = builder.relation;
+            url = builder.url;
         }
 
         /**
@@ -830,7 +854,18 @@ public class Bundle extends Resource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.relation, "relation");
+                ValidationSupport.requireNonNull(link.url, "url");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {
@@ -860,17 +895,14 @@ public class Bundle extends Resource {
         @Summary
         private final Response response;
 
-        private volatile int hashCode;
-
         private Entry(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
+            link = Collections.unmodifiableList(builder.link);
             fullUrl = builder.fullUrl;
             resource = builder.resource;
             search = builder.search;
             request = builder.request;
             response = builder.response;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1256,7 +1288,17 @@ public class Bundle extends Resource {
              */
             @Override
             public Entry build() {
-                return new Entry(this);
+                Entry entry = new Entry(this);
+                if (validating) {
+                    validate(entry);
+                }
+                return entry;
+            }
+
+            protected void validate(Entry entry) {
+                super.validate(entry);
+                ValidationSupport.checkList(entry.link, "link", Bundle.Link.class);
+                ValidationSupport.requireValueOrChildren(entry);
             }
 
             protected Builder from(Entry entry) {
@@ -1278,7 +1320,7 @@ public class Bundle extends Resource {
             @Summary
             @Binding(
                 bindingName = "SearchEntryMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Why an entry is in the result set - whether it's included as a match or because of an _include requirement, or to convey information or warning information about the search process.",
                 valueSet = "http://hl7.org/fhir/ValueSet/search-entry-mode|4.0.1"
             )
@@ -1286,13 +1328,10 @@ public class Bundle extends Resource {
             @Summary
             private final Decimal score;
 
-            private volatile int hashCode;
-
             private Search(Builder builder) {
                 super(builder);
                 mode = builder.mode;
                 score = builder.score;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1530,7 +1569,16 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Search build() {
-                    return new Search(this);
+                    Search search = new Search(this);
+                    if (validating) {
+                        validate(search);
+                    }
+                    return search;
+                }
+
+                protected void validate(Search search) {
+                    super.validate(search);
+                    ValidationSupport.requireValueOrChildren(search);
                 }
 
                 protected Builder from(Search search) {
@@ -1550,7 +1598,7 @@ public class Bundle extends Resource {
             @Summary
             @Binding(
                 bindingName = "HTTPVerb",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "HTTP verbs (in the HTTP command line). See [HTTP rfc](https://tools.ietf.org/html/rfc7231) for details.",
                 valueSet = "http://hl7.org/fhir/ValueSet/http-verb|4.0.1"
             )
@@ -1568,17 +1616,14 @@ public class Bundle extends Resource {
             @Summary
             private final String ifNoneExist;
 
-            private volatile int hashCode;
-
             private Request(Builder builder) {
                 super(builder);
-                method = ValidationSupport.requireNonNull(builder.method, "method");
-                url = ValidationSupport.requireNonNull(builder.url, "url");
+                method = builder.method;
+                url = builder.url;
                 ifNoneMatch = builder.ifNoneMatch;
                 ifModifiedSince = builder.ifModifiedSince;
                 ifMatch = builder.ifMatch;
                 ifNoneExist = builder.ifNoneExist;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1952,7 +1997,18 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Request build() {
-                    return new Request(this);
+                    Request request = new Request(this);
+                    if (validating) {
+                        validate(request);
+                    }
+                    return request;
+                }
+
+                protected void validate(Request request) {
+                    super.validate(request);
+                    ValidationSupport.requireNonNull(request.method, "method");
+                    ValidationSupport.requireNonNull(request.url, "url");
+                    ValidationSupport.requireValueOrChildren(request);
                 }
 
                 protected Builder from(Request request) {
@@ -1985,16 +2041,13 @@ public class Bundle extends Resource {
             @Summary
             private final Resource outcome;
 
-            private volatile int hashCode;
-
             private Response(Builder builder) {
                 super(builder);
-                status = ValidationSupport.requireNonNull(builder.status, "status");
+                status = builder.status;
                 location = builder.location;
                 etag = builder.etag;
                 lastModified = builder.lastModified;
                 outcome = builder.outcome;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2328,7 +2381,17 @@ public class Bundle extends Resource {
                  */
                 @Override
                 public Response build() {
-                    return new Response(this);
+                    Response response = new Response(this);
+                    if (validating) {
+                        validate(response);
+                    }
+                    return response;
+                }
+
+                protected void validate(Response response) {
+                    super.validate(response);
+                    ValidationSupport.requireNonNull(response.status, "status");
+                    ValidationSupport.requireValueOrChildren(response);
                 }
 
                 protected Builder from(Response response) {

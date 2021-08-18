@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017,2020
+ * (C) Copyright IBM Corp. 2017,2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.transaction.TransactionSynchronizationRegistry;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.JDBCConstants;
 import com.ibm.fhir.persistence.jdbc.connection.FHIRDbFlavor;
 import com.ibm.fhir.persistence.jdbc.dao.api.CodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
@@ -23,8 +24,8 @@ import com.ibm.fhir.persistence.jdbc.derby.DerbyCodeSystemDAO;
 import com.ibm.fhir.persistence.jdbc.derby.DerbyParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlCodeSystemDAO;
-import com.ibm.fhir.persistence.jdbc.postgresql.PostgreSqlParameterNamesDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresCodeSystemDAO;
+import com.ibm.fhir.persistence.jdbc.postgres.PostgresParameterNamesDAO;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCache;
 import com.ibm.fhir.persistence.jdbc.util.CodeSystemsCacheUpdater;
 import com.ibm.fhir.persistence.jdbc.util.ParameterNamesCache;
@@ -38,8 +39,6 @@ import com.ibm.fhir.persistence.jdbc.util.SqlParameterEncoder;
 public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
     private static final Logger log = Logger.getLogger(ParameterDAOImpl.class.getName());
     private static final String CLASSNAME = ParameterDAOImpl.class.getName();
-
-    public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     private Map<String, Integer> newParameterNameIds = new HashMap<>();
     private Map<String, Integer> newCodeSystemIds = new HashMap<>();
@@ -131,7 +130,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 pnd = new DerbyParameterNamesDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
-                pnd = new PostgreSqlParameterNamesDAO(connection, getSchemaName());
+                pnd = new PostgresParameterNamesDAO(connection, getSchemaName());
                 break;
             default:
                 pnd = new ParameterNameDAOImpl(connection, getSchemaName());
@@ -168,7 +167,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
                 csd = new DerbyCodeSystemDAO(connection, getSchemaName());
                 break;
             case POSTGRESQL:
-                csd = new PostgreSqlCodeSystemDAO(connection, getSchemaName());
+                csd = new PostgresCodeSystemDAO(connection, getSchemaName());
                 break;
             default:
                 csd = new CodeSystemDAOImpl(connection, getSchemaName());
@@ -319,7 +318,7 @@ public class ParameterDAOImpl extends FHIRDbDAOImpl implements ParameterDAO {
 
         try {
             if (myCodeSystemName == null || myCodeSystemName.isEmpty()) {
-                myCodeSystemName = DEFAULT_TOKEN_SYSTEM;
+                myCodeSystemName = JDBCConstants.DEFAULT_TOKEN_SYSTEM;
             }
             codeSystemId = getCodeSystemIdFromCaches(myCodeSystemName);
 

@@ -17,6 +17,7 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.TotalValueSet;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.context.FHIRSearchContextFactory;
 import com.ibm.fhir.search.parameters.QueryParameter;
@@ -32,10 +33,41 @@ import com.ibm.fhir.search.util.SearchUtil;
 public class UriTest {
 
     @Test
-    public void testUriBadSecurity() throws URISyntaxException {
+    public void testUriTrimmedUrl() throws URISyntaxException {
         String incoming =
                 "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/fhir/security&_fudge=tag&_page=1";
         String requestUriString = incoming.split("\\?")[0];
+
+        QueryParameterValue value = new QueryParameterValue();
+        value.setValueString("http://ibm.com/fhir/security");
+        List<QueryParameterValue> values = Arrays.asList(value);
+        QueryParameter parameter = new QueryParameter(Type.TOKEN, "_security", null, null, values);
+
+        List<QueryParameter> searchParameters = new ArrayList<>();
+
+        searchParameters.add(parameter);
+
+        QueryParameterValue value2 = new QueryParameterValue();
+        value2.setValueString("tag");
+        List<QueryParameterValue> values2 = Arrays.asList(value2);
+        QueryParameter parameter2 = new QueryParameter(Type.TOKEN, "_fudge", null, null, values2);
+        searchParameters.add(parameter2);
+
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        ctx.setSearchParameters(searchParameters);
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx),
+            incoming);
+    }
+
+    @Test
+    public void testUriBadSecurity() throws URISyntaxException {
+        String incoming =
+                "https://localhost:9443/fhir-server/api/v4/_search?_count=10&_security=http://ibm.com/fhir/security&_fudge=tag&_page=1";
+        String requestUriString = incoming;
 
         QueryParameterValue value = new QueryParameterValue();
         value.setValueString("http://ibm.com/fhir/security");
@@ -75,6 +107,52 @@ public class UriTest {
         value.setValueString("Patient/1234");
         inclusionParameter.getValues().add(value);
         ctx.setSearchParameters(Collections.singletonList(inclusionParameter));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
+    @Test
+    public void testUriWithUnencodedPipe() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&param=system%7Cvalue&_page=1";
+        String requestUriString = "https://test?param=system|value";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        QueryParameterValue paramVal = new QueryParameterValue();
+        paramVal.setValueSystem("system");
+        paramVal.setValueCode("value");
+        QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
+        ctx.setSearchParameters(Collections.singletonList(queryParameter));
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
+    @Test
+    public void testUriWithTotalParameter() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&_total=none&_page=1";
+        String requestUriString = "https://test?_total=none";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        ctx.setTotalParameter(TotalValueSet.NONE);
+
+        assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
+    }
+
+    @Test
+    public void testUriWithSystemOnly() throws URISyntaxException {
+        String expectedUri = "https://test?_count=10&param=system%7C&_page=1";
+        String requestUriString = "https://test?param=system|";
+
+        FHIRSearchContext ctx = FHIRSearchContextFactory.createSearchContext();
+        ctx.setPageNumber(1);
+        ctx.setPageSize(10);
+        QueryParameterValue paramVal = new QueryParameterValue();
+        paramVal.setValueSystem("system");
+        QueryParameter queryParameter = new QueryParameter(Type.TOKEN, "param", null, null, Collections.singletonList(paramVal));
+        ctx.setSearchParameters(Collections.singletonList(queryParameter));
 
         assertEquals(SearchUtil.buildSearchSelfUri(requestUriString, ctx), expectedUri);
     }

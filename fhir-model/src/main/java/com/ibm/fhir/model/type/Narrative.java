@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -27,20 +27,24 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Narrative.`div`",
     description = "The narrative SHALL contain only the basic html formatting elements and attributes described in chapters 7-11 (except section 4 of chapter 9) and 15 of the HTML 4.0 standard, <a> elements (either name or href), images and internally contained style attributes",
-    expression = "htmlChecks()"
+    expression = "htmlChecks()",
+    source = "http://hl7.org/fhir/StructureDefinition/Narrative"
 )
 @Constraint(
     id = "txt-2",
     level = "Rule",
     location = "Narrative.`div`",
     description = "The narrative SHALL have some non-whitespace content",
-    expression = "htmlChecks()"
+    expression = "htmlChecks()",
+    source = "http://hl7.org/fhir/StructureDefinition/Narrative"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Narrative extends Element {
+    public static final Narrative EMPTY = builder().status(NarrativeStatus.EMPTY).div(Xhtml.from("Narrative text intentionally left empty")).build();
+
     @Binding(
         bindingName = "NarrativeStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a resource narrative.",
         valueSet = "http://hl7.org/fhir/ValueSet/narrative-status|4.0.1"
     )
@@ -49,13 +53,10 @@ public class Narrative extends Element {
     @Required
     private final Xhtml div;
 
-    private volatile int hashCode;
-
     private Narrative(Builder builder) {
         super(builder);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        div = ValidationSupport.requireNonNull(builder.div, "div");
-        ValidationSupport.requireValueOrChildren(this);
+        status = builder.status;
+        div = builder.div;
     }
 
     /**
@@ -252,7 +253,18 @@ public class Narrative extends Element {
          */
         @Override
         public Narrative build() {
-            return new Narrative(this);
+            Narrative narrative = new Narrative(this);
+            if (validating) {
+                validate(narrative);
+            }
+            return narrative;
+        }
+
+        protected void validate(Narrative narrative) {
+            super.validate(narrative);
+            ValidationSupport.requireNonNull(narrative.status, "status");
+            ValidationSupport.requireNonNull(narrative.div, "div");
+            ValidationSupport.requireValueOrChildren(narrative);
         }
 
         protected Builder from(Narrative narrative) {

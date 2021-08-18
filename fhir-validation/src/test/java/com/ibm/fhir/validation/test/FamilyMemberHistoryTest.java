@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,7 +34,7 @@ public class FamilyMemberHistoryTest {
         constraints.forEach(System.out::println);
 
         assertEquals(constraints.size(), 4);
-        assertEquals(constraints.get(3).expression(), "condition.exists() and condition.all(code.exists() and code.memberOf('http://ibm.com/fhir/ValueSet/condition-value-set', 'extensible') and (outcome.exists() implies (outcome.memberOf('http://ibm.com/fhir/ValueSet/outcome-value-set', 'extensible'))))");
+        assertEquals(constraints.get(3).expression(), "condition.count() >= 1 and condition.all(code.exists() and code.all(memberOf('http://ibm.com/fhir/ValueSet/condition-value-set', 'extensible')) and (outcome.exists() implies (outcome.exists() and outcome.all(memberOf('http://ibm.com/fhir/ValueSet/outcome-value-set', 'extensible')))))");
 
         InputStream in = FamilyMemberHistoryTest.class.getClassLoader().getResourceAsStream("JSON/familymemberhistory.json");
         FamilyMemberHistory familyMemberHistory = FHIRParser.parser(Format.JSON).parse(in);

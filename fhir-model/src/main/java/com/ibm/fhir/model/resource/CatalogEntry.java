@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,12 +34,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CatalogEntryRelationType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Catalog entries are wrappers that contextualize items included in a catalog.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CatalogEntry extends DomainResource {
     @Summary
@@ -55,7 +63,7 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> classification;
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -67,25 +75,21 @@ public class CatalogEntry extends DomainResource {
     private final List<CodeableConcept> additionalClassification;
     private final List<RelatedEntry> relatedEntry;
 
-    private volatile int hashCode;
-
     private CatalogEntry(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         type = builder.type;
-        orderable = ValidationSupport.requireNonNull(builder.orderable, "orderable");
-        referencedItem = ValidationSupport.requireNonNull(builder.referencedItem, "referencedItem");
-        additionalIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalIdentifier, "additionalIdentifier"));
-        classification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classification, "classification"));
+        orderable = builder.orderable;
+        referencedItem = builder.referencedItem;
+        additionalIdentifier = Collections.unmodifiableList(builder.additionalIdentifier);
+        classification = Collections.unmodifiableList(builder.classification);
         status = builder.status;
         validityPeriod = builder.validityPeriod;
         validTo = builder.validTo;
         lastUpdated = builder.lastUpdated;
-        additionalCharacteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalCharacteristic, "additionalCharacteristic"));
-        additionalClassification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalClassification, "additionalClassification"));
-        relatedEntry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedEntry, "relatedEntry"));
-        ValidationSupport.checkReferenceType(referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
-        ValidationSupport.requireChildren(this);
+        additionalCharacteristic = Collections.unmodifiableList(builder.additionalCharacteristic);
+        additionalClassification = Collections.unmodifiableList(builder.additionalClassification);
+        relatedEntry = Collections.unmodifiableList(builder.relatedEntry);
     }
 
     /**
@@ -899,7 +903,24 @@ public class CatalogEntry extends DomainResource {
          */
         @Override
         public CatalogEntry build() {
-            return new CatalogEntry(this);
+            CatalogEntry catalogEntry = new CatalogEntry(this);
+            if (validating) {
+                validate(catalogEntry);
+            }
+            return catalogEntry;
+        }
+
+        protected void validate(CatalogEntry catalogEntry) {
+            super.validate(catalogEntry);
+            ValidationSupport.checkList(catalogEntry.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(catalogEntry.orderable, "orderable");
+            ValidationSupport.requireNonNull(catalogEntry.referencedItem, "referencedItem");
+            ValidationSupport.checkList(catalogEntry.additionalIdentifier, "additionalIdentifier", Identifier.class);
+            ValidationSupport.checkList(catalogEntry.classification, "classification", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.additionalCharacteristic, "additionalCharacteristic", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.additionalClassification, "additionalClassification", CodeableConcept.class);
+            ValidationSupport.checkList(catalogEntry.relatedEntry, "relatedEntry", RelatedEntry.class);
+            ValidationSupport.checkReferenceType(catalogEntry.referencedItem, "referencedItem", "Medication", "Device", "Organization", "Practitioner", "PractitionerRole", "HealthcareService", "ActivityDefinition", "PlanDefinition", "SpecimenDefinition", "ObservationDefinition", "Binary");
         }
 
         protected Builder from(CatalogEntry catalogEntry) {
@@ -927,7 +948,7 @@ public class CatalogEntry extends DomainResource {
     public static class RelatedEntry extends BackboneElement {
         @Binding(
             bindingName = "CatalogEntryRelationType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of relations between entries.",
             valueSet = "http://hl7.org/fhir/ValueSet/relation-type|4.0.1"
         )
@@ -937,14 +958,10 @@ public class CatalogEntry extends DomainResource {
         @Required
         private final Reference item;
 
-        private volatile int hashCode;
-
         private RelatedEntry(Builder builder) {
             super(builder);
-            relationtype = ValidationSupport.requireNonNull(builder.relationtype, "relationtype");
-            item = ValidationSupport.requireNonNull(builder.item, "item");
-            ValidationSupport.checkReferenceType(item, "item", "CatalogEntry");
-            ValidationSupport.requireValueOrChildren(this);
+            relationtype = builder.relationtype;
+            item = builder.item;
         }
 
         /**
@@ -1195,7 +1212,19 @@ public class CatalogEntry extends DomainResource {
              */
             @Override
             public RelatedEntry build() {
-                return new RelatedEntry(this);
+                RelatedEntry relatedEntry = new RelatedEntry(this);
+                if (validating) {
+                    validate(relatedEntry);
+                }
+                return relatedEntry;
+            }
+
+            protected void validate(RelatedEntry relatedEntry) {
+                super.validate(relatedEntry);
+                ValidationSupport.requireNonNull(relatedEntry.relationtype, "relationtype");
+                ValidationSupport.requireNonNull(relatedEntry.item, "item");
+                ValidationSupport.checkReferenceType(relatedEntry.item, "item", "CatalogEntry");
+                ValidationSupport.requireValueOrChildren(relatedEntry);
             }
 
             protected Builder from(RelatedEntry relatedEntry) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DocumentReferenceStatus;
 import com.ibm.fhir.model.type.code.DocumentRelationshipType;
 import com.ibm.fhir.model.type.code.ReferredDocumentStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,13 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A reference to a document of any kind for any purpose. Provides metadata about the document so that the document can 
  * be discovered and managed. The scope of a document is any seralized object with a mime-type, so includes formal 
  * patient centric documents (CDA), cliical notes, scanned paper, and non-patient specific documents like policy text.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "documentReference-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-doc-typecodes",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/c80-doc-typecodes', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DocumentReference",
     generated = true
 )
 @Constraint(
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "securityLabel.exists() implies (securityLabel.all(memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/DocumentReference",
     generated = true
 )
 @Constraint(
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "content.format",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/formatcodes",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/formatcodes', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DocumentReference",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -78,7 +89,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentReferenceStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the document reference.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-reference-status|4.0.1"
     )
@@ -87,7 +98,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ReferredDocumentStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Status of the underlying document.",
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
     )
@@ -95,7 +106,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentC80Type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Precise type of clinical document.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-doc-typecodes"
     )
@@ -103,7 +114,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentC80Class",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level kind of a clinical document at a macro level.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
@@ -127,7 +138,7 @@ public class DocumentReference extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SecurityLabels",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Security Labels from the Healthcare Privacy and Security Classification System.",
         valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
     )
@@ -138,31 +149,24 @@ public class DocumentReference extends DomainResource {
     @Summary
     private final Context context;
 
-    private volatile int hashCode;
-
     private DocumentReference(Builder builder) {
         super(builder);
         masterIdentifier = builder.masterIdentifier;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         docStatus = builder.docStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         subject = builder.subject;
         date = builder.date;
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+        author = Collections.unmodifiableList(builder.author);
         authenticator = builder.authenticator;
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
         description = builder.description;
-        securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-        content = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.content, "content"));
+        securityLabel = Collections.unmodifiableList(builder.securityLabel);
+        content = Collections.unmodifiableList(builder.content);
         context = builder.context;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Practitioner", "Group", "Device");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1103,7 +1107,26 @@ public class DocumentReference extends DomainResource {
          */
         @Override
         public DocumentReference build() {
-            return new DocumentReference(this);
+            DocumentReference documentReference = new DocumentReference(this);
+            if (validating) {
+                validate(documentReference);
+            }
+            return documentReference;
+        }
+
+        protected void validate(DocumentReference documentReference) {
+            super.validate(documentReference);
+            ValidationSupport.checkList(documentReference.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(documentReference.status, "status");
+            ValidationSupport.checkList(documentReference.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(documentReference.author, "author", Reference.class);
+            ValidationSupport.checkList(documentReference.relatesTo, "relatesTo", RelatesTo.class);
+            ValidationSupport.checkList(documentReference.securityLabel, "securityLabel", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(documentReference.content, "content", Content.class);
+            ValidationSupport.checkReferenceType(documentReference.subject, "subject", "Patient", "Practitioner", "Group", "Device");
+            ValidationSupport.checkReferenceType(documentReference.author, "author", "Practitioner", "PractitionerRole", "Organization", "Device", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(documentReference.authenticator, "authenticator", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(documentReference.custodian, "custodian", "Organization");
         }
 
         protected Builder from(DocumentReference documentReference) {
@@ -1135,7 +1158,7 @@ public class DocumentReference extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DocumentRelationshipType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
         )
@@ -1146,14 +1169,10 @@ public class DocumentReference extends DomainResource {
         @Required
         private final Reference target;
 
-        private volatile int hashCode;
-
         private RelatesTo(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            target = ValidationSupport.requireNonNull(builder.target, "target");
-            ValidationSupport.checkReferenceType(target, "target", "DocumentReference");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            target = builder.target;
         }
 
         /**
@@ -1404,7 +1423,19 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public RelatesTo build() {
-                return new RelatesTo(this);
+                RelatesTo relatesTo = new RelatesTo(this);
+                if (validating) {
+                    validate(relatesTo);
+                }
+                return relatesTo;
+            }
+
+            protected void validate(RelatesTo relatesTo) {
+                super.validate(relatesTo);
+                ValidationSupport.requireNonNull(relatesTo.code, "code");
+                ValidationSupport.requireNonNull(relatesTo.target, "target");
+                ValidationSupport.checkReferenceType(relatesTo.target, "target", "DocumentReference");
+                ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
             protected Builder from(RelatesTo relatesTo) {
@@ -1426,19 +1457,16 @@ public class DocumentReference extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DocumentFormat",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Document Format Codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/formatcodes"
         )
         private final Coding format;
 
-        private volatile int hashCode;
-
         private Content(Builder builder) {
             super(builder);
-            attachment = ValidationSupport.requireNonNull(builder.attachment, "attachment");
+            attachment = builder.attachment;
             format = builder.format;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1683,7 +1711,17 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public Content build() {
-                return new Content(this);
+                Content content = new Content(this);
+                if (validating) {
+                    validate(content);
+                }
+                return content;
+            }
+
+            protected void validate(Content content) {
+                super.validate(content);
+                ValidationSupport.requireNonNull(content.attachment, "attachment");
+                ValidationSupport.requireValueOrChildren(content);
             }
 
             protected Builder from(Content content) {
@@ -1703,7 +1741,7 @@ public class DocumentReference extends DomainResource {
         private final List<Reference> encounter;
         @Binding(
             bindingName = "DocumentEventType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "This list of codes represents the main clinical acts being documented.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
@@ -1712,14 +1750,14 @@ public class DocumentReference extends DomainResource {
         private final Period period;
         @Binding(
             bindingName = "DocumentC80FacilityType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "XDS Facility Type.",
             valueSet = "http://hl7.org/fhir/ValueSet/c80-facilitycodes"
         )
         private final CodeableConcept facilityType;
         @Binding(
             bindingName = "DocumentC80PracticeSetting",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Additional details about where the content was created (e.g. clinical specialty).",
             valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
         )
@@ -1728,20 +1766,15 @@ public class DocumentReference extends DomainResource {
         private final Reference sourcePatientInfo;
         private final List<Reference> related;
 
-        private volatile int hashCode;
-
         private Context(Builder builder) {
             super(builder);
-            encounter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.encounter, "encounter"));
-            event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
+            encounter = Collections.unmodifiableList(builder.encounter);
+            event = Collections.unmodifiableList(builder.event);
             period = builder.period;
             facilityType = builder.facilityType;
             practiceSetting = builder.practiceSetting;
             sourcePatientInfo = builder.sourcePatientInfo;
-            related = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.related, "related"));
-            ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter", "EpisodeOfCare");
-            ValidationSupport.checkReferenceType(sourcePatientInfo, "sourcePatientInfo", "Patient");
-            ValidationSupport.requireValueOrChildren(this);
+            related = Collections.unmodifiableList(builder.related);
         }
 
         /**
@@ -2209,7 +2242,21 @@ public class DocumentReference extends DomainResource {
              */
             @Override
             public Context build() {
-                return new Context(this);
+                Context context = new Context(this);
+                if (validating) {
+                    validate(context);
+                }
+                return context;
+            }
+
+            protected void validate(Context context) {
+                super.validate(context);
+                ValidationSupport.checkList(context.encounter, "encounter", Reference.class);
+                ValidationSupport.checkList(context.event, "event", CodeableConcept.class);
+                ValidationSupport.checkList(context.related, "related", Reference.class);
+                ValidationSupport.checkReferenceType(context.encounter, "encounter", "Encounter", "EpisodeOfCare");
+                ValidationSupport.checkReferenceType(context.sourcePatientInfo, "sourcePatientInfo", "Patient");
+                ValidationSupport.requireValueOrChildren(context);
             }
 
             protected Builder from(Context context) {

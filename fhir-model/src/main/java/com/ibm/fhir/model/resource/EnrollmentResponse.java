@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -29,19 +30,26 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EnrollmentResponseStatus;
 import com.ibm.fhir.model.type.code.RemittanceOutcome;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides enrollment and plan details from the processing of an EnrollmentRequest resource.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EnrollmentResponse extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "EnrollmentResponseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -50,7 +58,7 @@ public class EnrollmentResponse extends DomainResource {
     private final Reference request;
     @Binding(
         bindingName = "RemittanceOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The outcome of the processing.",
         valueSet = "http://hl7.org/fhir/ValueSet/remittance-outcome|4.0.1"
     )
@@ -62,11 +70,9 @@ public class EnrollmentResponse extends DomainResource {
     @ReferenceTarget({ "Practitioner", "PractitionerRole", "Organization" })
     private final Reference requestProvider;
 
-    private volatile int hashCode;
-
     private EnrollmentResponse(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         request = builder.request;
         outcome = builder.outcome;
@@ -74,10 +80,6 @@ public class EnrollmentResponse extends DomainResource {
         created = builder.created;
         organization = builder.organization;
         requestProvider = builder.requestProvider;
-        ValidationSupport.checkReferenceType(request, "request", "EnrollmentRequest");
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -634,7 +636,19 @@ public class EnrollmentResponse extends DomainResource {
          */
         @Override
         public EnrollmentResponse build() {
-            return new EnrollmentResponse(this);
+            EnrollmentResponse enrollmentResponse = new EnrollmentResponse(this);
+            if (validating) {
+                validate(enrollmentResponse);
+            }
+            return enrollmentResponse;
+        }
+
+        protected void validate(EnrollmentResponse enrollmentResponse) {
+            super.validate(enrollmentResponse);
+            ValidationSupport.checkList(enrollmentResponse.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkReferenceType(enrollmentResponse.request, "request", "EnrollmentRequest");
+            ValidationSupport.checkReferenceType(enrollmentResponse.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentResponse.requestProvider, "requestProvider", "Practitioner", "PractitionerRole", "Organization");
         }
 
         protected Builder from(EnrollmentResponse enrollmentResponse) {

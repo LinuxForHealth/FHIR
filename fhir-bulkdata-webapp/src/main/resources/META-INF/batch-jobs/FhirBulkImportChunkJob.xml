@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<job xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/jobXML_1_0.xsd" id="bulkimportchunkjob" restartable="true" version="1.0">
+    <properties>
+        <property name="fhir.cosreadsperdbbatch" value="#{jobParameters['fhir.cosreadsperdbbatch']}?:1;" />
+    </properties>
+    <listeners>
+        <listener ref="com.ibm.fhir.bulkdata.jbatch.load.ImportJobListener">
+            <properties>
+                <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
+                <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
+                <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
+            </properties>
+        </listener>
+    </listeners>
+    <step id="step1">
+        <listeners>
+            <listener ref="com.ibm.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
+        </listeners>
+        <chunk checkpoint-policy="item" item-count="#{jobProperties['fhir.cosreadsperdbbatch']}">
+            <reader ref="com.ibm.fhir.bulkdata.jbatch.load.ChunkReader">
+                <properties>
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                    <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
+                    <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
+                    <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                    
+                    <property name="import.fhir.storagetype" value="#{jobParameters['import.fhir.storagetype']}"/>
+                    
+                    <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>
+                    <property name="partition.matrix" value="#{partitionPlan['partition.matrix']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
+                </properties>
+            </reader>
+            <writer ref="com.ibm.fhir.bulkdata.jbatch.load.ChunkWriter">
+                <properties >
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                    <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
+                    <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
+                    <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                    
+                    <property name="partition.workitem" value="#{partitionPlan['partition.workitem']}"/>
+                    <property name="partition.matrix" value="#{partitionPlan['partition.matrix']}"/>
+                    <property name="partition.resourcetype" value="#{partitionPlan['partition.resourcetype']}"/>
+                </properties>
+            </writer>
+        </chunk>
+        <partition>
+            <mapper ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionMapper">
+                <properties>
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                    <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
+                    <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
+                    <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                    <property name="fhir.dataSourcesInfo" value="#{jobParameters['fhir.dataSourcesInfo']}"/>
+                </properties>
+            </mapper>
+            <collector ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionCollector">
+                <properties>
+                    <property name="fhir.tenant" value="#{jobParameters['fhir.tenant']}"/>
+                    <property name="fhir.datastoreid" value="#{jobParameters['fhir.datastoreid']}"/>
+                    <property name="fhir.incomingUrl" value="#{jobParameters['fhir.incomingUrl']}"/>
+                    <property name="fhir.bulkdata.source" value="#{jobParameters['fhir.bulkdata.source']}"/>
+                    <property name="fhir.bulkdata.outcome" value="#{jobParameters['fhir.bulkdata.outcome']}"/>
+                </properties>
+            </collector>
+            <analyzer ref="com.ibm.fhir.bulkdata.jbatch.load.ImportPartitionAnalyzer"/>
+        </partition>
+    </step>
+</job>

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If a code for the unit is present, the system SHALL also be present",
-    expression = "code.empty() or system.exists()"
+    expression = "code.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Quantity"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Quantity extends Element {
@@ -37,7 +38,7 @@ public class Quantity extends Element {
     @Summary
     @Binding(
         bindingName = "QuantityComparator",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How the Quantity should be understood and represented.",
         valueSet = "http://hl7.org/fhir/ValueSet/quantity-comparator|4.0.1"
     )
@@ -49,8 +50,6 @@ public class Quantity extends Element {
     @Summary
     protected final Code code;
 
-    private volatile int hashCode;
-
     protected Quantity(Builder builder) {
         super(builder);
         value = builder.value;
@@ -58,7 +57,6 @@ public class Quantity extends Element {
         unit = builder.unit;
         system = builder.system;
         code = builder.code;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -332,7 +330,16 @@ public class Quantity extends Element {
          */
         @Override
         public Quantity build() {
-            return new Quantity(this);
+            Quantity quantity = new Quantity(this);
+            if (validating) {
+                validate(quantity);
+            }
+            return quantity;
+        }
+
+        protected void validate(Quantity quantity) {
+            super.validate(quantity);
+            ValidationSupport.requireValueOrChildren(quantity);
         }
 
         protected Builder from(Quantity quantity) {

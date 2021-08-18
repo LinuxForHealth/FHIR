@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class ImagingStudyStatus extends Code {
      * 
      * <p>The existence of the imaging study is registered, but there is nothing yet available.
      */
-    public static final ImagingStudyStatus REGISTERED = ImagingStudyStatus.builder().value(ValueSet.REGISTERED).build();
+    public static final ImagingStudyStatus REGISTERED = ImagingStudyStatus.builder().value(Value.REGISTERED).build();
 
     /**
      * Available
      * 
      * <p>At least one instance has been associated with this imaging study.
      */
-    public static final ImagingStudyStatus AVAILABLE = ImagingStudyStatus.builder().value(ValueSet.AVAILABLE).build();
+    public static final ImagingStudyStatus AVAILABLE = ImagingStudyStatus.builder().value(Value.AVAILABLE).build();
 
     /**
      * Cancelled
@@ -39,7 +39,7 @@ public class ImagingStudyStatus extends Code {
      * <p>The imaging study is unavailable because the imaging study was not started or not completed (also sometimes called 
      * "aborted").
      */
-    public static final ImagingStudyStatus CANCELLED = ImagingStudyStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final ImagingStudyStatus CANCELLED = ImagingStudyStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Entered in Error
@@ -48,7 +48,7 @@ public class ImagingStudyStatus extends Code {
      * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
      * status should be "cancelled" rather than "entered-in-error".).
      */
-    public static final ImagingStudyStatus ENTERED_IN_ERROR = ImagingStudyStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ImagingStudyStatus ENTERED_IN_ERROR = ImagingStudyStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
@@ -56,7 +56,7 @@ public class ImagingStudyStatus extends Code {
      * <p>The system does not know which of the status values currently applies for this request. Note: This concept is not 
      * to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
      */
-    public static final ImagingStudyStatus UNKNOWN = ImagingStudyStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final ImagingStudyStatus UNKNOWN = ImagingStudyStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -64,14 +64,48 @@ public class ImagingStudyStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ImagingStudyStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ImagingStudyStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ImagingStudyStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ImagingStudyStatus of(ValueSet value) {
+        switch (value) {
+        case REGISTERED:
+            return REGISTERED;
+        case AVAILABLE:
+            return AVAILABLE;
+        case CANCELLED:
+            return CANCELLED;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ImagingStudyStatus objects from a passed enum value.
      */
-    public static ImagingStudyStatus of(ValueSet value) {
+    public static ImagingStudyStatus of(Value value) {
         switch (value) {
         case REGISTERED:
             return REGISTERED;
@@ -97,7 +131,7 @@ public class ImagingStudyStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ImagingStudyStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -109,7 +143,7 @@ public class ImagingStudyStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -121,7 +155,7 @@ public class ImagingStudyStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -150,11 +184,7 @@ public class ImagingStudyStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -183,19 +213,50 @@ public class ImagingStudyStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ImagingStudyStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ImagingStudyStatus build() {
-            return new ImagingStudyStatus(this);
+            ImagingStudyStatus imagingStudyStatus = new ImagingStudyStatus(this);
+            if (validating) {
+                validate(imagingStudyStatus);
+            }
+            return imagingStudyStatus;
+        }
+
+        protected void validate(ImagingStudyStatus imagingStudyStatus) {
+            super.validate(imagingStudyStatus);
+        }
+
+        protected Builder from(ImagingStudyStatus imagingStudyStatus) {
+            super.from(imagingStudyStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Registered
@@ -251,7 +312,7 @@ public class ImagingStudyStatus extends Code {
         }
 
         /**
-         * Factory method for creating ImagingStudyStatus.ValueSet values from a passed string value.
+         * Factory method for creating ImagingStudyStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -265,6 +326,91 @@ public class ImagingStudyStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Registered
+         * 
+         * <p>The existence of the imaging study is registered, but there is nothing yet available.
+         */
+        REGISTERED("registered"),
+
+        /**
+         * Available
+         * 
+         * <p>At least one instance has been associated with this imaging study.
+         */
+        AVAILABLE("available"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The imaging study is unavailable because the imaging study was not started or not completed (also sometimes called 
+         * "aborted").
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The imaging study has been withdrawn following a previous final release. This electronic record should never have 
+         * existed, though it is possible that real-world decisions were based on it. (If real-world activity has occurred, the 
+         * status should be "cancelled" rather than "entered-in-error".).
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The system does not know which of the status values currently applies for this request. Note: This concept is not 
+         * to be used for "other" - one of the listed statuses is presumed to apply, it's just not known which one.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ImagingStudyStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ImagingStudyStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "registered":
+                return REGISTERED;
+            case "available":
+                return AVAILABLE;
+            case "cancelled":
+                return CANCELLED;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,21 +24,21 @@ public class AllergyIntoleranceSeverity extends Code {
      * 
      * <p>Causes mild physiological effects.
      */
-    public static final AllergyIntoleranceSeverity MILD = AllergyIntoleranceSeverity.builder().value(ValueSet.MILD).build();
+    public static final AllergyIntoleranceSeverity MILD = AllergyIntoleranceSeverity.builder().value(Value.MILD).build();
 
     /**
      * Moderate
      * 
      * <p>Causes moderate physiological effects.
      */
-    public static final AllergyIntoleranceSeverity MODERATE = AllergyIntoleranceSeverity.builder().value(ValueSet.MODERATE).build();
+    public static final AllergyIntoleranceSeverity MODERATE = AllergyIntoleranceSeverity.builder().value(Value.MODERATE).build();
 
     /**
      * Severe
      * 
      * <p>Causes severe physiological effects.
      */
-    public static final AllergyIntoleranceSeverity SEVERE = AllergyIntoleranceSeverity.builder().value(ValueSet.SEVERE).build();
+    public static final AllergyIntoleranceSeverity SEVERE = AllergyIntoleranceSeverity.builder().value(Value.SEVERE).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class AllergyIntoleranceSeverity extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this AllergyIntoleranceSeverity as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this AllergyIntoleranceSeverity as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating AllergyIntoleranceSeverity objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static AllergyIntoleranceSeverity of(ValueSet value) {
+        switch (value) {
+        case MILD:
+            return MILD;
+        case MODERATE:
+            return MODERATE;
+        case SEVERE:
+            return SEVERE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating AllergyIntoleranceSeverity objects from a passed enum value.
      */
-    public static AllergyIntoleranceSeverity of(ValueSet value) {
+    public static AllergyIntoleranceSeverity of(Value value) {
         switch (value) {
         case MILD:
             return MILD;
@@ -75,7 +105,7 @@ public class AllergyIntoleranceSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static AllergyIntoleranceSeverity of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class AllergyIntoleranceSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class AllergyIntoleranceSeverity extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -128,11 +158,7 @@ public class AllergyIntoleranceSeverity extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,19 +187,50 @@ public class AllergyIntoleranceSeverity extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for AllergyIntoleranceSeverity
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public AllergyIntoleranceSeverity build() {
-            return new AllergyIntoleranceSeverity(this);
+            AllergyIntoleranceSeverity allergyIntoleranceSeverity = new AllergyIntoleranceSeverity(this);
+            if (validating) {
+                validate(allergyIntoleranceSeverity);
+            }
+            return allergyIntoleranceSeverity;
+        }
+
+        protected void validate(AllergyIntoleranceSeverity allergyIntoleranceSeverity) {
+            super.validate(allergyIntoleranceSeverity);
+        }
+
+        protected Builder from(AllergyIntoleranceSeverity allergyIntoleranceSeverity) {
+            super.from(allergyIntoleranceSeverity);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Mild
@@ -211,7 +268,7 @@ public class AllergyIntoleranceSeverity extends Code {
         }
 
         /**
-         * Factory method for creating AllergyIntoleranceSeverity.ValueSet values from a passed string value.
+         * Factory method for creating AllergyIntoleranceSeverity.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +282,69 @@ public class AllergyIntoleranceSeverity extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Mild
+         * 
+         * <p>Causes mild physiological effects.
+         */
+        MILD("mild"),
+
+        /**
+         * Moderate
+         * 
+         * <p>Causes moderate physiological effects.
+         */
+        MODERATE("moderate"),
+
+        /**
+         * Severe
+         * 
+         * <p>Causes severe physiological effects.
+         */
+        SEVERE("severe");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating AllergyIntoleranceSeverity.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding AllergyIntoleranceSeverity.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "mild":
+                return MILD;
+            case "moderate":
+                return MODERATE;
+            case "severe":
+                return SEVERE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

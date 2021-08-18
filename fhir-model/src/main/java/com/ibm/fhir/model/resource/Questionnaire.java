@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
@@ -50,110 +51,131 @@ import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.QuestionnaireItemOperator;
 import com.ibm.fhir.model.type.code.QuestionnaireItemType;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A structured set of questions intended to guide the collection of answers from end-users. Questionnaires provide 
  * detailed control over order, presentation, phraseology and grouping to allow coherent, consistent data collection.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "que-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-1",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Group items must have nested items, display items cannot have nested items",
-    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())"
+    expression = "(type='group' implies item.empty().not()) and (type.trace('type')='display' implies item.trace('item').empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-2",
     level = "Rule",
     location = "(base)",
     description = "The link ids for groups and questions must be unique within the questionnaire",
-    expression = "descendants().linkId.isDistinct()"
+    expression = "descendants().linkId.isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-3",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Display items cannot have a \"code\" asserted",
-    expression = "type!='display' or code.empty()"
+    expression = "type!='display' or code.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-4",
     level = "Rule",
     location = "Questionnaire.item",
     description = "A question cannot have both answerOption and answerValueSet",
-    expression = "answerOption.empty() or answerValueSet.empty()"
+    expression = "answerOption.empty() or answerValueSet.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-5",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Only 'choice' and 'open-choice' items can have answerValueSet",
-    expression = "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())"
+    expression = "(type ='choice' or type = 'open-choice' or type = 'decimal' or type = 'integer' or type = 'date' or type = 'dateTime' or type = 'time' or type = 'string' or type = 'quantity') or (answerValueSet.empty() and answerOption.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-6",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Required and repeat aren't permitted for display items",
-    expression = "type!='display' or (required.empty() and repeats.empty())"
+    expression = "type!='display' or (required.empty() and repeats.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-7",
     level = "Rule",
     location = "Questionnaire.item.enableWhen",
     description = "If the operator is 'exists', the value must be a boolean",
-    expression = "operator = 'exists' implies (answer is Boolean)"
+    expression = "operator = 'exists' implies (answer is Boolean)",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-8",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Initial values can't be specified for groups or display items",
-    expression = "(type!='group' and type!='display') or initial.empty()"
+    expression = "(type!='group' and type!='display') or initial.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-9",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Read-only can't be specified for \"display\" items",
-    expression = "type!='display' or readOnly.empty()"
+    expression = "type!='display' or readOnly.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-10",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Maximum length can only be declared for simple question types",
-    expression = "(type in ('boolean' | 'decimal' | 'integer' | 'string' | 'text' | 'url' | 'open-choice')) or maxLength.empty()"
+    expression = "(type in ('boolean' | 'decimal' | 'integer' | 'string' | 'text' | 'url' | 'open-choice')) or maxLength.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-11",
     level = "Rule",
     location = "Questionnaire.item",
     description = "If one or more answerOption is present, initial[x] must be missing",
-    expression = "answerOption.empty() or initial.empty()"
+    expression = "answerOption.empty() or initial.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-12",
     level = "Rule",
     location = "Questionnaire.item",
     description = "If there are more than one enableWhen, enableBehavior must be specified",
-    expression = "enableWhen.count() > 2 implies enableBehavior.exists()"
+    expression = "enableWhen.count() > 2 implies enableBehavior.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "que-13",
     level = "Rule",
     location = "Questionnaire.item",
     description = "Can only have multiple initial values for repeating items",
-    expression = "repeats=true or initial.count() <= 1"
+    expression = "repeats=true or initial.count() <= 1",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire"
 )
 @Constraint(
     id = "questionnaire-14",
@@ -161,6 +183,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Questionnaire",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -179,7 +202,7 @@ public class Questionnaire extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -190,7 +213,7 @@ public class Questionnaire extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -207,7 +230,7 @@ public class Questionnaire extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -221,40 +244,37 @@ public class Questionnaire extends DomainResource {
     @Summary
     @Binding(
         bindingName = "QuestionnaireConcept",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for questionnaires, groups and individual questions.",
         valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-questions"
     )
     private final List<Coding> code;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private Questionnaire(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        status = builder.status;
         experimental = builder.experimental;
-        subjectType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectType, "subjectType"));
+        subjectType = Collections.unmodifiableList(builder.subjectType);
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        ValidationSupport.requireChildren(this);
+        code = Collections.unmodifiableList(builder.code);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -1382,7 +1402,24 @@ public class Questionnaire extends DomainResource {
          */
         @Override
         public Questionnaire build() {
-            return new Questionnaire(this);
+            Questionnaire questionnaire = new Questionnaire(this);
+            if (validating) {
+                validate(questionnaire);
+            }
+            return questionnaire;
+        }
+
+        protected void validate(Questionnaire questionnaire) {
+            super.validate(questionnaire);
+            ValidationSupport.checkList(questionnaire.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(questionnaire.derivedFrom, "derivedFrom", Canonical.class);
+            ValidationSupport.requireNonNull(questionnaire.status, "status");
+            ValidationSupport.checkList(questionnaire.subjectType, "subjectType", ResourceType.class);
+            ValidationSupport.checkList(questionnaire.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(questionnaire.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(questionnaire.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(questionnaire.code, "code", Coding.class);
+            ValidationSupport.checkList(questionnaire.item, "item", Item.class);
         }
 
         protected Builder from(Questionnaire questionnaire) {
@@ -1422,7 +1459,7 @@ public class Questionnaire extends DomainResource {
         private final Uri definition;
         @Binding(
             bindingName = "QuestionnaireConcept",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for questionnaires, groups and individual questions.",
             valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-questions"
         )
@@ -1431,7 +1468,7 @@ public class Questionnaire extends DomainResource {
         private final String text;
         @Binding(
             bindingName = "QuestionnaireItemType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Distinguishes groups from questions and display text and indicates data type for questions.",
             valueSet = "http://hl7.org/fhir/ValueSet/item-type|4.0.1"
         )
@@ -1440,7 +1477,7 @@ public class Questionnaire extends DomainResource {
         private final List<EnableWhen> enableWhen;
         @Binding(
             bindingName = "EnableWhenBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Controls how multiple enableWhen values are interpreted -  whether all or any must be true.",
             valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-behavior|4.0.1"
         )
@@ -1454,27 +1491,24 @@ public class Questionnaire extends DomainResource {
         private final List<Initial> initial;
         private final List<Questionnaire.Item> item;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            linkId = ValidationSupport.requireNonNull(builder.linkId, "linkId");
+            linkId = builder.linkId;
             definition = builder.definition;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            code = Collections.unmodifiableList(builder.code);
             prefix = builder.prefix;
             text = builder.text;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            enableWhen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.enableWhen, "enableWhen"));
+            type = builder.type;
+            enableWhen = Collections.unmodifiableList(builder.enableWhen);
             enableBehavior = builder.enableBehavior;
             required = builder.required;
             repeats = builder.repeats;
             readOnly = builder.readOnly;
             maxLength = builder.maxLength;
             answerValueSet = builder.answerValueSet;
-            answerOption = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.answerOption, "answerOption"));
-            initial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.initial, "initial"));
-            item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-            ValidationSupport.requireValueOrChildren(this);
+            answerOption = Collections.unmodifiableList(builder.answerOption);
+            initial = Collections.unmodifiableList(builder.initial);
+            item = Collections.unmodifiableList(builder.item);
         }
 
         /**
@@ -2271,7 +2305,23 @@ public class Questionnaire extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.requireNonNull(item.linkId, "linkId");
+                ValidationSupport.checkList(item.code, "code", Coding.class);
+                ValidationSupport.requireNonNull(item.type, "type");
+                ValidationSupport.checkList(item.enableWhen, "enableWhen", EnableWhen.class);
+                ValidationSupport.checkList(item.answerOption, "answerOption", AnswerOption.class);
+                ValidationSupport.checkList(item.initial, "initial", Initial.class);
+                ValidationSupport.checkList(item.item, "item", Questionnaire.Item.class);
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -2305,7 +2355,7 @@ public class Questionnaire extends DomainResource {
             private final String question;
             @Binding(
                 bindingName = "QuestionnaireItemOperator",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The criteria by which a question is enabled.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-enable-operator|4.0.1"
             )
@@ -2314,21 +2364,18 @@ public class Questionnaire extends DomainResource {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption3",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
             @Required
             private final Element answer;
 
-            private volatile int hashCode;
-
             private EnableWhen(Builder builder) {
                 super(builder);
-                question = ValidationSupport.requireNonNull(builder.question, "question");
-                operator = ValidationSupport.requireNonNull(builder.operator, "operator");
-                answer = ValidationSupport.requireChoiceElement(builder.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
-                ValidationSupport.requireValueOrChildren(this);
+                question = builder.question;
+                operator = builder.operator;
+                answer = builder.answer;
             }
 
             /**
@@ -2620,7 +2667,19 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public EnableWhen build() {
-                    return new EnableWhen(this);
+                    EnableWhen enableWhen = new EnableWhen(this);
+                    if (validating) {
+                        validate(enableWhen);
+                    }
+                    return enableWhen;
+                }
+
+                protected void validate(EnableWhen enableWhen) {
+                    super.validate(enableWhen);
+                    ValidationSupport.requireNonNull(enableWhen.question, "question");
+                    ValidationSupport.requireNonNull(enableWhen.operator, "operator");
+                    ValidationSupport.requireChoiceElement(enableWhen.answer, "answer", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Coding.class, Quantity.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(enableWhen);
                 }
 
                 protected Builder from(EnableWhen enableWhen) {
@@ -2640,7 +2699,7 @@ public class Questionnaire extends DomainResource {
             @Choice({ Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
@@ -2648,13 +2707,10 @@ public class Questionnaire extends DomainResource {
             private final Element value;
             private final Boolean initialSelected;
 
-            private volatile int hashCode;
-
             private AnswerOption(Builder builder) {
                 super(builder);
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
+                value = builder.value;
                 initialSelected = builder.initialSelected;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2907,7 +2963,17 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public AnswerOption build() {
-                    return new AnswerOption(this);
+                    AnswerOption answerOption = new AnswerOption(this);
+                    if (validating) {
+                        validate(answerOption);
+                    }
+                    return answerOption;
+                }
+
+                protected void validate(AnswerOption answerOption) {
+                    super.validate(answerOption);
+                    ValidationSupport.requireChoiceElement(answerOption.value, "value", Integer.class, Date.class, Time.class, String.class, Coding.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(answerOption);
                 }
 
                 protected Builder from(AnswerOption answerOption) {
@@ -2927,19 +2993,16 @@ public class Questionnaire extends DomainResource {
             @Choice({ Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class })
             @Binding(
                 bindingName = "QuestionnaireQuestionOption2",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Allowed values to answer questions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/questionnaire-answers"
             )
             @Required
             private final Element value;
 
-            private volatile int hashCode;
-
             private Initial(Builder builder) {
                 super(builder);
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
-                ValidationSupport.requireValueOrChildren(this);
+                value = builder.value;
             }
 
             /**
@@ -3169,7 +3232,17 @@ public class Questionnaire extends DomainResource {
                  */
                 @Override
                 public Initial build() {
-                    return new Initial(this);
+                    Initial initial = new Initial(this);
+                    if (validating) {
+                        validate(initial);
+                    }
+                    return initial;
+                }
+
+                protected void validate(Initial initial) {
+                    super.validate(initial);
+                    ValidationSupport.requireChoiceElement(initial.value, "value", Boolean.class, Decimal.class, Integer.class, Date.class, DateTime.class, Time.class, String.class, Uri.class, Attachment.class, Coding.class, Quantity.class, Reference.class);
+                    ValidationSupport.requireValueOrChildren(initial);
                 }
 
                 protected Builder from(Initial initial) {

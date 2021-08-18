@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.profile;
 
-import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,19 +16,28 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Predicate;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
+import com.ibm.fhir.model.resource.StructureDefinition.Differential;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.ElementDefinition;
 import com.ibm.fhir.model.type.ElementDefinition.Binding;
+import com.ibm.fhir.model.type.ElementDefinition.Type;
 import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.profile.constraint.spi.ProfileConstraintProvider;
 import com.ibm.fhir.registry.FHIRRegistry;
 
 public final class ProfileSupport {
+    private static final Logger log = Logger.getLogger(ProfileSupport.class.getName());
+
     public static final String HL7_STRUCTURE_DEFINITION_URL_PREFIX = "http://hl7.org/fhir/StructureDefinition/";
     public static final String HL7_VALUE_SET_URL_PREFIX = "http://hl7.org/fhir/ValueSet/";
 
@@ -42,6 +50,7 @@ public final class ProfileSupport {
             return first.id().compareTo(second.id());
         }
     };
+    private static final List<ProfileConstraintProvider> PROFILE_CONSTRAINT_PROVIDERS = ConstraintProvider.providers(ProfileConstraintProvider.class);
 
     private ProfileSupport() { }
 
@@ -65,23 +74,102 @@ public final class ProfileSupport {
     private static List<Constraint> computeConstraints(StructureDefinition profile, Class<?> type) {
         Objects.requireNonNull(profile.getSnapshot(), "StructureDefinition.snapshot element is required");
         List<Constraint> constraints = new ArrayList<>();
-        Set<String> difference = new HashSet<>(getKeys(profile));
-        difference.removeAll(getKeys(getStructureDefinition(type)));
+        Set<String> diffKeys = getConstraintKeys(profile.getDifferential());
         for (ElementDefinition elementDefinition : profile.getSnapshot().getElement()) {
-            if (elementDefinition.getConstraint().isEmpty()) {
+            if (elementDefinition.getConstraint().isEmpty() || isSlice(elementDefinition)) {
+                continue;
+            }
+            if (elementDefinition.getId().contains(":") && hasConstraintDifferential(elementDefinition)) {
+                log.warning("Slice-specific constraints: " + getConstraintKeyDifferential(elementDefinition) + " found on element: " + elementDefinition.getId() + " are not supported");
                 continue;
             }
             String path = elementDefinition.getPath().getValue();
-            for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                if (difference.contains(constraint.getKey().getValue())) {
-                    constraints.add(createConstraint(path, constraint));
-                }
+            for (ElementDefinition.Constraint constraint : getConstraintDifferential(elementDefinition)) {
+                constraints.add(createConstraint(path, constraint, diffKeys, profile.getUrl().getValue()));
             }
         }
         Collections.sort(constraints, CONSTRAINT_COMPARATOR);
         ConstraintGenerator generator = new ConstraintGenerator(profile);
         constraints.addAll(generator.generate());
+        for (ProfileConstraintProvider provider : PROFILE_CONSTRAINT_PROVIDERS) {
+            if (provider.appliesTo(getUrl(profile), getVersion(profile))) {
+                for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
+                    constraints.removeIf(removalPredicate);
+                }
+                constraints.addAll(provider.getConstraints());
+            }
+        }
         return constraints;
+    }
+
+    public static String getUrl(StructureDefinition profile) {
+        return (profile.getUrl() != null) ? profile.getUrl().getValue() : null;
+    }
+
+    public static String getVersion(StructureDefinition profile) {
+        return (profile.getVersion() != null) ? profile.getVersion().getValue() : null;
+    }
+
+    public static boolean isSlice(ElementDefinition elementDefinition) {
+        return elementDefinition.getSliceName() != null;
+    }
+
+    public static boolean isSliceDefinition(ElementDefinition elementDefinition) {
+        return elementDefinition.getSlicing() != null;
+    }
+
+    public static Set<String> getReferencedProfileConstraintKeys(ElementDefinition elementDefinition) {
+        Set<String> profileKeys = new HashSet<>();
+        for (Type type : elementDefinition.getType()) {
+            for (Canonical canonical : type.getProfile()) {
+                String url = canonical.getValue();
+                if (url == null) {
+                    continue;
+                }
+                StructureDefinition profile = getProfile(url);
+                if (profile == null || profile.getSnapshot() == null) {
+                    continue;
+                }
+                profileKeys.addAll(getConstraintKeys(profile.getSnapshot().getElement().get(0)));
+            }
+        }
+        return profileKeys;
+    }
+
+    public static boolean hasConstraintDifferential(ElementDefinition elementDefinition) {
+        return !getConstraintKeyDifferential(elementDefinition).isEmpty();
+    }
+
+    public static List<ElementDefinition.Constraint> getConstraintDifferential(ElementDefinition elementDefinition) {
+        return getConstraints(elementDefinition, getConstraintKeyDifferential(elementDefinition));
+    }
+
+    private static Set<String> getConstraintKeyDifferential(ElementDefinition elementDefinition) {
+        if (elementDefinition.getConstraint().isEmpty()) {
+            return Collections.emptySet();
+        }
+        Set<String> keys = new HashSet<>(getConstraintKeys(elementDefinition));
+        keys.removeAll(getConstraintKeys(getBaseDefinition(elementDefinition)));
+        keys.removeAll(getReferencedProfileConstraintKeys(elementDefinition));
+        return keys;
+    }
+
+    private static List<ElementDefinition.Constraint> getConstraints(ElementDefinition elementDefinition, Set<String> keys) {
+        if (keys.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<ElementDefinition.Constraint> constraints = new ArrayList<>();
+        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+            if (keys.contains(constraint.getKey().getValue())) {
+                constraints.add(constraint);
+            }
+        }
+        return constraints;
+    }
+
+    private static ElementDefinition getBaseDefinition(ElementDefinition elementDefinition) {
+        String basePath = elementDefinition.getBase().getPath().getValue();
+        return getElementDefinition(basePath);
     }
 
     private static Map<String, ElementDefinition> computeElementDefinitionMap(String url) {
@@ -98,72 +186,14 @@ public final class ProfileSupport {
         return Collections.emptyMap();
     }
 
-    private static Constraint createConstraint(String path, ElementDefinition.Constraint constraint) {
+    private static Constraint createConstraint(String path, ElementDefinition.Constraint constraint, Set<String> diffKeys, String url) {
         String id = constraint.getKey().getValue();
         String level = "error".equals(constraint.getSeverity().getValue()) ? Constraint.LEVEL_RULE : Constraint.LEVEL_WARNING;
         String location = path.contains(".") ? path.replace(".div", ".`div`").replace("[x]", "") : Constraint.LOCATION_BASE;
         String description = constraint.getHuman().getValue();
         String expression = constraint.getExpression().getValue();
-        return createConstraint(id, level, location, description, expression, false, false);
-    }
-
-    public static Constraint createConstraint(String id, String level, String location, String description, String expression, boolean modelChecked, boolean generated) {
-        return new Constraint() {
-            @Override
-            public Class<? extends Annotation> annotationType() {
-                return Constraint.class;
-            }
-
-            @Override
-            public String description() {
-                return description;
-            }
-
-            @Override
-            public String expression() {
-                return expression;
-            }
-
-            @Override
-            public String id() {
-                return id;
-            }
-
-            @Override
-            public String level() {
-                return level;
-            }
-
-            @Override
-            public String location() {
-                return location;
-            }
-
-            @Override
-            public boolean modelChecked() {
-                return modelChecked;
-            }
-
-            @Override
-            public boolean generated() {
-                return generated;
-            }
-
-            @Override
-            public String toString() {
-                return new StringBuilder()
-                    .append("Constraint [")
-                    .append("id=").append(id).append(", ")
-                    .append("level=").append(level).append(", ")
-                    .append("location=").append(location).append(", ")
-                    .append("description=").append(description).append(", ")
-                    .append("expression=").append(expression).append(", ")
-                    .append("modelChecked=").append(modelChecked).append(", ")
-                    .append("generated=").append(generated)
-                    .append("]")
-                    .toString();
-            }
-        };
+        String source = (constraint.getSource() != null) ? constraint.getSource().getValue() : (diffKeys.contains(constraint.getKey().getValue()) ? url : Constraint.SOURCE_UNKNOWN);
+        return Constraint.Factory.createConstraint(id, level, location, description, expression, source, false, false);
     }
 
     public static Binding getBinding(String path) {
@@ -183,10 +213,7 @@ public final class ProfileSupport {
     public static List<Constraint> getConstraints(List<String> urls, Class<?> type) {
         List<Constraint> constraints = new ArrayList<>();
         for (String url : urls) {
-            StructureDefinition profile = getProfile(url, type);
-            if (profile != null) {
-                constraints.addAll(getConstraints(profile, type));
-            }
+            constraints.addAll(getConstraints(url, type));
         }
         return constraints;
     }
@@ -206,8 +233,40 @@ public final class ProfileSupport {
         return Collections.emptyList();
     }
 
+    public static boolean hasResourceAssertedProfile(Resource resource, StructureDefinition profile) {
+        Meta meta = resource.getMeta();
+        if (meta != null) {
+            for (Canonical canonical : meta.getProfile()) {
+                String value = canonical.getValue();
+
+                if (value == null) {
+                    continue;
+                }
+
+                String uri = value;
+                String version = null;
+
+                int index = value.indexOf("|");
+                if (index != -1) {
+                    uri = value.substring(0, index);
+                    version = value.substring(index + 1);
+                }
+
+                if (uri.equals(profile.getUrl().getValue()) &&
+                        (version == null || profile.getVersion() == null || version.equals(profile.getVersion().getValue()))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static List<Constraint> getConstraints(String url, Class<?> type) {
-        return getConstraints(Collections.singletonList(url), type);
+        StructureDefinition profile = getProfile(url, type);
+        if (profile != null) {
+            return getConstraints(profile, type);
+        }
+        return Collections.emptyList();
     }
 
     private static List<Constraint> getConstraints(StructureDefinition profile, Class<?> type) {
@@ -239,13 +298,32 @@ public final class ProfileSupport {
         return elementDefinitionMap;
     }
 
-    private static Set<String> getKeys(StructureDefinition structureDefinition) {
+    public static Set<String> getConstraintKeys(StructureDefinition structureDefinition) {
         Set<String> keys = new HashSet<>();
         Objects.requireNonNull(structureDefinition.getSnapshot(), "StructureDefinition.snapshot element is required");
         for (ElementDefinition elementDefinition : structureDefinition.getSnapshot().getElement()) {
+            keys.addAll(getConstraintKeys(elementDefinition));
+        }
+        return keys;
+    }
+
+    public static Set<String> getConstraintKeys(Differential differential) {
+        if (differential == null) {
+            return Collections.emptySet();
+        }
+        Set<String> constraintKeys = new HashSet<>();
+        for (ElementDefinition elementDefinition : differential.getElement()) {
             for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
-                keys.add(constraint.getKey().getValue());
+                constraintKeys.add(constraint.getKey().getValue());
             }
+        }
+        return constraintKeys;
+    }
+
+    public static Set<String> getConstraintKeys(ElementDefinition elementDefinition) {
+        Set<String> keys = new HashSet<>();
+        for (ElementDefinition.Constraint constraint : elementDefinition.getConstraint()) {
+            keys.add(constraint.getKey().getValue());
         }
         return keys;
     }
@@ -260,7 +338,7 @@ public final class ProfileSupport {
         return (profile != null && isApplicable(profile, type)) ? profile : null;
     }
 
-    private static StructureDefinition getStructureDefinition(Class<?> modelClass) {
+    public static StructureDefinition getStructureDefinition(Class<?> modelClass) {
         return getStructureDefinition(HL7_STRUCTURE_DEFINITION_URL_PREFIX + ModelSupport.getTypeName(modelClass));
     }
 

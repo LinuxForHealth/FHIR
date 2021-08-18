@@ -6,6 +6,7 @@ on:
       - '*.*'
     paths-ignore:
     - 'docs/**'
+    - 'demo/**'
     - '.github/workflows/site.yml'
     - '.github/workflows/javadocs.yml'
 
@@ -17,59 +18,45 @@ jobs:
         java: [ 'openjdk11' ]
       fail-fast: false
     steps:
-    - name: Setup Graphviz environment
-      uses: ts-graphviz/setup-graphviz@v1
-    - name: Grab the Master Branch
+    - name: Checkout the Main Branch
       uses: actions/checkout@v2.3.3
       with:
-        ref: refs/heads/master
+        ref: refs/heads/main
         fetch-depth: 1
     - name: Setup OpenJDK
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
-    - name: Build and Release for Git Tag
+    - name: Build and Release
       env:
         BASE: origin/${{ github['base_ref'] }}
         GITHUB_TOKEN: ${{ secrets.DOCS_SITE_TOKEN }}
         GITHUB_REPOSITORY: ${{ secrets.GITHUB_REPOSITORY }}
         GITHUB_ACTOR: ${{ secrets.GITHUB_ACTOR }}
-        BINTRAY_USERNAME: ${{ secrets.BINTRAY_USERNAME }}
-        BINTRAY_PASSWORD: ${{ secrets.BINTRAY_PASSWORD }}
-        CODECOV_RUNME: ${{ secrets.CODECOV_RUNME }}
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-        CI: true
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        GPG_KEYNAME: ${{ secrets.GPG_KEYNAME }}
+        GPG_KEY_FILE: ${{ secrets.GPG_KEY_FILE }}
+        OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+        OSSRH_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
         JAVA_HOME: /opt/hostedtoolcache/AdoptOpenJDK/1.0.0-ga-11-jdk-hotspot-linux-x64-normal-latest/x64/
       run: |
-        bash build/release/bootstrap-env.sh
-        . ./build/release/bootstrap.env
-        bash build/release/version.sh
-        bash build/release/clean.sh
-        bash build/release/build.sh
-        bash build/release/code-coverage.sh
-        # only covers unit tests (not server integration tests)
-        # bash build/release/ibm-java-regression.sh
-        bash build/release/release.sh
-        bash build/release/docker-push.sh
-        bash build/release/sync-maven-central.sh
-        bash build/release/release-commit-details.sh
-        bash build/release/diagnostics.sh
-    - name: Gather error logs
-      if: failure()
-      run: |
-        . ./build/release/bootstrap.env
-        bash build/release/diagnostics.sh
-    - name: Upload logs
+        . build/release/global.sh
+        bash build/release/00_prep.sh
+        bash build/release/10_build.sh
+        bash build/release/20_test.sh
+        bash build/release/30_release.sh
+        bash build/release/40_drop.sh
+    - name: Gather artifacts and materials
       if: always()
-      uses: actions/upload-artifact@v2.2.0
+      run: |
+        bash build/release/50_gather.sh
+    - name: Upload Artifacts
+      if: always()
+      uses: actions/upload-artifact@v2.2.3
       with:
-        name: release-tag-${{ matrix.java }}
-        path: release-test-coverage-and-logs.tgz
-    - name: Upload Artifacts - Distribution
-      if: success()
-      uses: actions/upload-artifact@v2.2.0
-      with:
-        name: fhir-server-distribution
-        path: fhir-install/target/fhir-server-distribution.zip
+        name: release-tag
+        path: |
+          build/release/workarea/release_files
+        if-no-files-found: ignore

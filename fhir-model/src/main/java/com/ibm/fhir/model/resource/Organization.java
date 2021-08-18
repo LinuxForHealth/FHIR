@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -33,6 +34,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -40,27 +42,36 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A formally or informally recognized grouping of people or organizations formed for the purpose of achieving some form 
  * of collective action. Includes companies, institutions, corporations, departments, community groups, healthcare 
  * practice groups, payer/insurer, etc.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "org-1",
     level = "Rule",
     location = "(base)",
     description = "The organization SHALL at least have a name or an identifier, and possibly more than one",
-    expression = "(identifier.count() + name.count()) > 0"
+    expression = "(identifier.count() + name.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "org-2",
     level = "Rule",
     location = "Organization.address",
     description = "An address of an organization can never be of use 'home'",
-    expression = "where(use = 'home').empty()"
+    expression = "where(use = 'home').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "org-3",
     level = "Rule",
     location = "Organization.telecom",
     description = "The telecom of an organization can never be of use 'home'",
-    expression = "where(use = 'home').empty()"
+    expression = "where(use = 'home').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization"
 )
 @Constraint(
     id = "organization-4",
@@ -68,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "contact.purpose",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/contactentity-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/contactentity-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Organization",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -79,7 +91,7 @@ public class Organization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Used to categorize the organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-type"
     )
@@ -96,23 +108,18 @@ public class Organization extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private Organization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        type = Collections.unmodifiableList(builder.type);
         name = builder.name;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        alias = Collections.unmodifiableList(builder.alias);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
         partOf = builder.partOf;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Organization");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
+        contact = Collections.unmodifiableList(builder.contact);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -845,7 +852,24 @@ public class Organization extends DomainResource {
          */
         @Override
         public Organization build() {
-            return new Organization(this);
+            Organization organization = new Organization(this);
+            if (validating) {
+                validate(organization);
+            }
+            return organization;
+        }
+
+        protected void validate(Organization organization) {
+            super.validate(organization);
+            ValidationSupport.checkList(organization.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(organization.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(organization.alias, "alias", String.class);
+            ValidationSupport.checkList(organization.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(organization.address, "address", Address.class);
+            ValidationSupport.checkList(organization.contact, "contact", Contact.class);
+            ValidationSupport.checkList(organization.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(organization.partOf, "partOf", "Organization");
+            ValidationSupport.checkReferenceType(organization.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(Organization organization) {
@@ -870,7 +894,7 @@ public class Organization extends DomainResource {
     public static class Contact extends BackboneElement {
         @Binding(
             bindingName = "ContactPartyType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The purpose for which you would contact a contact party.",
             valueSet = "http://hl7.org/fhir/ValueSet/contactentity-type"
         )
@@ -879,15 +903,12 @@ public class Organization extends DomainResource {
         private final List<ContactPoint> telecom;
         private final Address address;
 
-        private volatile int hashCode;
-
         private Contact(Builder builder) {
             super(builder);
             purpose = builder.purpose;
             name = builder.name;
-            telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+            telecom = Collections.unmodifiableList(builder.telecom);
             address = builder.address;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1201,7 +1222,17 @@ public class Organization extends DomainResource {
              */
             @Override
             public Contact build() {
-                return new Contact(this);
+                Contact contact = new Contact(this);
+                if (validating) {
+                    validate(contact);
+                }
+                return contact;
+            }
+
+            protected void validate(Contact contact) {
+                super.validate(contact);
+                ValidationSupport.checkList(contact.telecom, "telecom", ContactPoint.class);
+                ValidationSupport.requireValueOrChildren(contact);
             }
 
             protected Builder from(Contact contact) {

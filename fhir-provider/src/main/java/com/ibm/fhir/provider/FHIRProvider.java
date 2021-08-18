@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -50,6 +50,9 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 
+/**
+ * Maps entity streams to/from fhir-model objects
+ */
 @Consumes({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
         MediaType.APPLICATION_XML })
 @Produces({ FHIRMediaType.APPLICATION_FHIR_JSON, MediaType.APPLICATION_JSON, FHIRMediaType.APPLICATION_FHIR_XML,
@@ -82,19 +85,17 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
             FHIRRequestContext requestContext = FHIRRequestContext.get();
             Format format = getFormat(mediaType);
             FHIRParser parser = FHIRParser.parser(format);
-            if (parser.isPropertySupported(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS)) {
-                parser.setProperty(FHIRParser.PROPERTY_IGNORE_UNRECOGNIZED_ELEMENTS,
-                        HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
-            }
+            parser.setIgnoringUnrecognizedElements(HTTPHandlingPreference.LENIENT.equals(requestContext.getHandlingPreference()));
             return parser.parse(entityStream);
         } catch (FHIRParserException e) {
             if (RuntimeType.SERVER.equals(runtimeType)) {
                 String acceptHeader = httpHeaders.getFirst(HttpHeaders.ACCEPT);
+                String encMsg = Encode.forHtml(e.getMessage());
                 Response response =
                         buildResponse(
                                 buildOperationOutcome(Collections.singletonList(
                                         buildOperationOutcomeIssue(IssueSeverity.FATAL, IssueType.INVALID,
-                                                "FHIRProvider: " + e.getMessage(), e.getPath()))),
+                                                "FHIRProvider: " + encMsg, e.getPath()))),
                                 getMediaType(acceptHeader));
                 throw new WebApplicationException(response);
             } else {
@@ -134,23 +135,25 @@ public class FHIRProvider implements MessageBodyReader<Resource>, MessageBodyWri
         }
     }
 
-    protected static boolean isPretty(HttpHeaders httpHeaders, UriInfo uriInfo) {
-        // Header evaluation
-        String value = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
+    protected boolean isPretty(HttpHeaders httpHeaders, UriInfo uriInfo) {
+        if (RuntimeType.SERVER.equals(runtimeType)) {
+            // Header evaluation
+            String value = httpHeaders.getHeaderString(FHIRConfiguration.DEFAULT_PRETTY_RESPONSE_HEADER_NAME);
 
-        // IFF not Header set, then grab the Query Parameter.
-        // and use the FIRST value for _pretty.
-        if (value == null) {
-            value = uriInfo.getQueryParameters().getFirst("_pretty");
-        }
+            // IFF not Header set, then grab the Query Parameter.
+            // and use the FIRST value for _pretty.
+            if (value == null) {
+                value = uriInfo.getQueryParameters().getFirst("_pretty");
+            }
 
-        if (value != null) {
-            if (Boolean.parseBoolean(value)) {
-                //explicitly on in the header
-                return true;
-            } else if ("false".equalsIgnoreCase(value)) {
-                //explicitly off in the header.  ignore header value if it doesn't specify "true" or false"
-                return false;
+            if (value != null) {
+                if (Boolean.parseBoolean(value)) {
+                    //explicitly on in the header
+                    return true;
+                } else if ("false".equalsIgnoreCase(value)) {
+                    //explicitly off in the header.  ignore header value if it doesn't specify "true" or false"
+                    return false;
+                }
             }
         }
 

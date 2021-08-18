@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,18 +41,26 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.NutritionOrderIntent;
 import com.ibm.fhir.model.type.code.NutritionOrderStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A request to supply a diet, formula feeding (enteral) or oral nutritional supplement to a patient/resident.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "nor-1",
     level = "Warning",
     location = "(base)",
     description = "Nutrition Order SHALL contain either Oral Diet , Supplement, or Enteral Formula class",
-    expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()"
+    expression = "oralDiet.exists() or supplement.exists() or enteralFormula.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/NutritionOrder"
 )
 @Constraint(
     id = "nutritionOrder-2",
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "enteralFormula.routeofAdministration",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/enteral-route",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/enteral-route', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/NutritionOrder",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -72,7 +82,7 @@ public class NutritionOrder extends DomainResource {
     @Summary
     @Binding(
         bindingName = "NutritionOrderStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of the nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -81,7 +91,7 @@ public class NutritionOrder extends DomainResource {
     @Summary
     @Binding(
         bindingName = "NutritiionOrderIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a nutrition order.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
@@ -103,14 +113,14 @@ public class NutritionOrder extends DomainResource {
     private final List<Reference> allergyIntolerance;
     @Binding(
         bindingName = "PatientDiet",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Medical, cultural or ethical food preferences to help with catering requirements.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
     )
     private final List<CodeableConcept> foodPreferenceModifier;
     @Binding(
         bindingName = "FoodType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes used to indicate the type of food that should NOT be given to the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/food-type"
     )
@@ -120,32 +130,25 @@ public class NutritionOrder extends DomainResource {
     private final EnteralFormula enteralFormula;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private NutritionOrder(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        status = builder.status;
+        intent = builder.intent;
+        patient = builder.patient;
         encounter = builder.encounter;
-        dateTime = ValidationSupport.requireNonNull(builder.dateTime, "dateTime");
+        dateTime = builder.dateTime;
         orderer = builder.orderer;
-        allergyIntolerance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allergyIntolerance, "allergyIntolerance"));
-        foodPreferenceModifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.foodPreferenceModifier, "foodPreferenceModifier"));
-        excludeFoodModifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.excludeFoodModifier, "excludeFoodModifier"));
+        allergyIntolerance = Collections.unmodifiableList(builder.allergyIntolerance);
+        foodPreferenceModifier = Collections.unmodifiableList(builder.foodPreferenceModifier);
+        excludeFoodModifier = Collections.unmodifiableList(builder.excludeFoodModifier);
         oralDiet = builder.oralDiet;
-        supplement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supplement, "supplement"));
+        supplement = Collections.unmodifiableList(builder.supplement);
         enteralFormula = builder.enteralFormula;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(orderer, "orderer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
-        ValidationSupport.requireChildren(this);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1184,7 +1187,32 @@ public class NutritionOrder extends DomainResource {
          */
         @Override
         public NutritionOrder build() {
-            return new NutritionOrder(this);
+            NutritionOrder nutritionOrder = new NutritionOrder(this);
+            if (validating) {
+                validate(nutritionOrder);
+            }
+            return nutritionOrder;
+        }
+
+        protected void validate(NutritionOrder nutritionOrder) {
+            super.validate(nutritionOrder);
+            ValidationSupport.checkList(nutritionOrder.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(nutritionOrder.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(nutritionOrder.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(nutritionOrder.instantiates, "instantiates", Uri.class);
+            ValidationSupport.requireNonNull(nutritionOrder.status, "status");
+            ValidationSupport.requireNonNull(nutritionOrder.intent, "intent");
+            ValidationSupport.requireNonNull(nutritionOrder.patient, "patient");
+            ValidationSupport.requireNonNull(nutritionOrder.dateTime, "dateTime");
+            ValidationSupport.checkList(nutritionOrder.allergyIntolerance, "allergyIntolerance", Reference.class);
+            ValidationSupport.checkList(nutritionOrder.foodPreferenceModifier, "foodPreferenceModifier", CodeableConcept.class);
+            ValidationSupport.checkList(nutritionOrder.excludeFoodModifier, "excludeFoodModifier", CodeableConcept.class);
+            ValidationSupport.checkList(nutritionOrder.supplement, "supplement", Supplement.class);
+            ValidationSupport.checkList(nutritionOrder.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(nutritionOrder.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(nutritionOrder.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(nutritionOrder.orderer, "orderer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(nutritionOrder.allergyIntolerance, "allergyIntolerance", "AllergyIntolerance");
         }
 
         protected Builder from(NutritionOrder nutritionOrder) {
@@ -1217,7 +1245,7 @@ public class NutritionOrder extends DomainResource {
         @Summary
         @Binding(
             bindingName = "OralDiet",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes used to indicate the type of diet being ordered for a patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/diet-type"
         )
@@ -1227,7 +1255,7 @@ public class NutritionOrder extends DomainResource {
         private final List<Texture> texture;
         @Binding(
             bindingName = "FluidConsistencyType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes used to represent the consistency of fluids and liquids provided to the patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/consistency-type"
         )
@@ -1235,17 +1263,14 @@ public class NutritionOrder extends DomainResource {
         @Summary
         private final String instruction;
 
-        private volatile int hashCode;
-
         private OralDiet(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
-            nutrient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.nutrient, "nutrient"));
-            texture = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.texture, "texture"));
-            fluidConsistencyType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fluidConsistencyType, "fluidConsistencyType"));
+            type = Collections.unmodifiableList(builder.type);
+            schedule = Collections.unmodifiableList(builder.schedule);
+            nutrient = Collections.unmodifiableList(builder.nutrient);
+            texture = Collections.unmodifiableList(builder.texture);
+            fluidConsistencyType = Collections.unmodifiableList(builder.fluidConsistencyType);
             instruction = builder.instruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1703,7 +1728,21 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public OralDiet build() {
-                return new OralDiet(this);
+                OralDiet oralDiet = new OralDiet(this);
+                if (validating) {
+                    validate(oralDiet);
+                }
+                return oralDiet;
+            }
+
+            protected void validate(OralDiet oralDiet) {
+                super.validate(oralDiet);
+                ValidationSupport.checkList(oralDiet.type, "type", CodeableConcept.class);
+                ValidationSupport.checkList(oralDiet.schedule, "schedule", Timing.class);
+                ValidationSupport.checkList(oralDiet.nutrient, "nutrient", Nutrient.class);
+                ValidationSupport.checkList(oralDiet.texture, "texture", Texture.class);
+                ValidationSupport.checkList(oralDiet.fluidConsistencyType, "fluidConsistencyType", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(oralDiet);
             }
 
             protected Builder from(OralDiet oralDiet) {
@@ -1725,20 +1764,17 @@ public class NutritionOrder extends DomainResource {
         public static class Nutrient extends BackboneElement {
             @Binding(
                 bindingName = "NutrientModifier",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for types of nutrients that are being modified such as carbohydrate or sodium.",
                 valueSet = "http://hl7.org/fhir/ValueSet/nutrient-code"
             )
             private final CodeableConcept modifier;
             private final SimpleQuantity amount;
 
-            private volatile int hashCode;
-
             private Nutrient(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
                 amount = builder.amount;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1974,7 +2010,16 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Nutrient build() {
-                    return new Nutrient(this);
+                    Nutrient nutrient = new Nutrient(this);
+                    if (validating) {
+                        validate(nutrient);
+                    }
+                    return nutrient;
+                }
+
+                protected void validate(Nutrient nutrient) {
+                    super.validate(nutrient);
+                    ValidationSupport.requireValueOrChildren(nutrient);
                 }
 
                 protected Builder from(Nutrient nutrient) {
@@ -1992,26 +2037,23 @@ public class NutritionOrder extends DomainResource {
         public static class Texture extends BackboneElement {
             @Binding(
                 bindingName = "TextureModifier",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for food consistency types or texture modifications to apply to foods.",
                 valueSet = "http://hl7.org/fhir/ValueSet/texture-code"
             )
             private final CodeableConcept modifier;
             @Binding(
                 bindingName = "TextureModifiedFoodType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for types of foods that are texture-modified.",
                 valueSet = "http://hl7.org/fhir/ValueSet/modified-foodtype"
             )
             private final CodeableConcept foodType;
 
-            private volatile int hashCode;
-
             private Texture(Builder builder) {
                 super(builder);
                 modifier = builder.modifier;
                 foodType = builder.foodType;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2247,7 +2289,16 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Texture build() {
-                    return new Texture(this);
+                    Texture texture = new Texture(this);
+                    if (validating) {
+                        validate(texture);
+                    }
+                    return texture;
+                }
+
+                protected void validate(Texture texture) {
+                    super.validate(texture);
+                    ValidationSupport.requireValueOrChildren(texture);
                 }
 
                 protected Builder from(Texture texture) {
@@ -2267,7 +2318,7 @@ public class NutritionOrder extends DomainResource {
         @Summary
         @Binding(
             bindingName = "SupplementType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for nutritional supplements to be provided to the patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/supplement-type"
         )
@@ -2278,16 +2329,13 @@ public class NutritionOrder extends DomainResource {
         @Summary
         private final String instruction;
 
-        private volatile int hashCode;
-
         private Supplement(Builder builder) {
             super(builder);
             type = builder.type;
             productName = builder.productName;
-            schedule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.schedule, "schedule"));
+            schedule = Collections.unmodifiableList(builder.schedule);
             quantity = builder.quantity;
             instruction = builder.instruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2633,7 +2681,17 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public Supplement build() {
-                return new Supplement(this);
+                Supplement supplement = new Supplement(this);
+                if (validating) {
+                    validate(supplement);
+                }
+                return supplement;
+            }
+
+            protected void validate(Supplement supplement) {
+                super.validate(supplement);
+                ValidationSupport.checkList(supplement.schedule, "schedule", Timing.class);
+                ValidationSupport.requireValueOrChildren(supplement);
             }
 
             protected Builder from(Supplement supplement) {
@@ -2656,7 +2714,7 @@ public class NutritionOrder extends DomainResource {
         @Summary
         @Binding(
             bindingName = "EnteralFormulaType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for type of enteral formula to be administered to patient.",
             valueSet = "http://hl7.org/fhir/ValueSet/entformula-type"
         )
@@ -2664,7 +2722,7 @@ public class NutritionOrder extends DomainResource {
         private final String baseFormulaProductName;
         @Binding(
             bindingName = "EnteralFormulaAdditiveType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes for the type of modular component such as protein, carbohydrate or fiber to be provided in addition to or mixed with the base formula.",
             valueSet = "http://hl7.org/fhir/ValueSet/entformula-additive"
         )
@@ -2673,7 +2731,7 @@ public class NutritionOrder extends DomainResource {
         private final SimpleQuantity caloricDensity;
         @Binding(
             bindingName = "EnteralRouteOfAdministration",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes specifying the route of administration of enteral formula.",
             valueSet = "http://hl7.org/fhir/ValueSet/enteral-route"
         )
@@ -2683,8 +2741,6 @@ public class NutritionOrder extends DomainResource {
         @Summary
         private final String administrationInstruction;
 
-        private volatile int hashCode;
-
         private EnteralFormula(Builder builder) {
             super(builder);
             baseFormulaType = builder.baseFormulaType;
@@ -2693,10 +2749,9 @@ public class NutritionOrder extends DomainResource {
             additiveProductName = builder.additiveProductName;
             caloricDensity = builder.caloricDensity;
             routeofAdministration = builder.routeofAdministration;
-            administration = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.administration, "administration"));
+            administration = Collections.unmodifiableList(builder.administration);
             maxVolumeToDeliver = builder.maxVolumeToDeliver;
             administrationInstruction = builder.administrationInstruction;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3171,7 +3226,17 @@ public class NutritionOrder extends DomainResource {
              */
             @Override
             public EnteralFormula build() {
-                return new EnteralFormula(this);
+                EnteralFormula enteralFormula = new EnteralFormula(this);
+                if (validating) {
+                    validate(enteralFormula);
+                }
+                return enteralFormula;
+            }
+
+            protected void validate(EnteralFormula enteralFormula) {
+                super.validate(enteralFormula);
+                ValidationSupport.checkList(enteralFormula.administration, "administration", Administration.class);
+                ValidationSupport.requireValueOrChildren(enteralFormula);
             }
 
             protected Builder from(EnteralFormula enteralFormula) {
@@ -3200,14 +3265,11 @@ public class NutritionOrder extends DomainResource {
             @Choice({ SimpleQuantity.class, Ratio.class })
             private final Element rate;
 
-            private volatile int hashCode;
-
             private Administration(Builder builder) {
                 super(builder);
                 schedule = builder.schedule;
                 quantity = builder.quantity;
-                rate = ValidationSupport.choiceElement(builder.rate, "rate", SimpleQuantity.class, Ratio.class);
-                ValidationSupport.requireValueOrChildren(this);
+                rate = builder.rate;
             }
 
             /**
@@ -3478,7 +3540,17 @@ public class NutritionOrder extends DomainResource {
                  */
                 @Override
                 public Administration build() {
-                    return new Administration(this);
+                    Administration administration = new Administration(this);
+                    if (validating) {
+                        validate(administration);
+                    }
+                    return administration;
+                }
+
+                protected void validate(Administration administration) {
+                    super.validate(administration);
+                    ValidationSupport.choiceElement(administration.rate, "rate", SimpleQuantity.class, Ratio.class);
+                    ValidationSupport.requireValueOrChildren(administration);
                 }
 
                 protected Builder from(Administration administration) {

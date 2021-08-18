@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -48,7 +48,7 @@ public class GetTenantList implements IDatabaseSupplier<List<TenantInfo>> {
                 + "             ON (dp.tabname = 'LOGICAL_RESOURCES' "
                 + "            AND dp.datapartitionname = CONCAT('TENANT', t.mt_id))"
                 + " ORDER BY t.mt_id";
-        
+
 
         try (Statement s = c.createStatement()) {
             ResultSet rs = s.executeQuery(SQL);
@@ -57,7 +57,11 @@ public class GetTenantList implements IDatabaseSupplier<List<TenantInfo>> {
                 dto.setTenantId(rs.getInt(1));
                 dto.setTenantName(rs.getString(2));
                 dto.setTenantStatus(TenantStatus.valueOf(rs.getString(3)));
-                dto.setTenantSchema(rs.getString(4));
+                // DB2 pads SYSCAT.DATAPARTITIONS.TABSCHEMA with spaces if less than 8 characters
+                String tenantSchema = rs.getString(4);
+                if (tenantSchema != null) {
+                    dto.setTenantSchema(tenantSchema.trim());
+                }
                 result.add(dto);
             }
         } catch (SQLException x) {

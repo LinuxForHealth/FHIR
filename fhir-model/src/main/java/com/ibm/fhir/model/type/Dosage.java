@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,7 +17,6 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -34,7 +33,7 @@ public class Dosage extends BackboneElement {
     @Summary
     @Binding(
         bindingName = "AdditionalInstruction",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying additional instructions such as \"take with water\" or \"avoid operating heavy machinery\".",
         valueSet = "http://hl7.org/fhir/ValueSet/additional-instruction-codes"
     )
@@ -47,7 +46,7 @@ public class Dosage extends BackboneElement {
     @Choice({ Boolean.class, CodeableConcept.class })
     @Binding(
         bindingName = "MedicationAsNeededReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying the precondition that should be met or evaluated prior to consuming or administering a medication dose.  For example \"pain\", \"30 minutes prior to sexual intercourse\", \"on flare-up\" etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-as-needed-reason"
     )
@@ -55,7 +54,7 @@ public class Dosage extends BackboneElement {
     @Summary
     @Binding(
         bindingName = "MedicationAdministrationSite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept describing the site location the medicine enters into or onto the body.",
         valueSet = "http://hl7.org/fhir/ValueSet/approach-site-codes"
     )
@@ -63,7 +62,7 @@ public class Dosage extends BackboneElement {
     @Summary
     @Binding(
         bindingName = "RouteOfAdministration",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
         valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
     )
@@ -71,7 +70,7 @@ public class Dosage extends BackboneElement {
     @Summary
     @Binding(
         bindingName = "MedicationAdministrationMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept describing the technique by which the medicine is administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/administration-method-codes"
     )
@@ -85,24 +84,21 @@ public class Dosage extends BackboneElement {
     @Summary
     private final SimpleQuantity maxDosePerLifetime;
 
-    private volatile int hashCode;
-
     private Dosage(Builder builder) {
         super(builder);
         sequence = builder.sequence;
         text = builder.text;
-        additionalInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.additionalInstruction, "additionalInstruction"));
+        additionalInstruction = Collections.unmodifiableList(builder.additionalInstruction);
         patientInstruction = builder.patientInstruction;
         timing = builder.timing;
-        asNeeded = ValidationSupport.choiceElement(builder.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+        asNeeded = builder.asNeeded;
         site = builder.site;
         route = builder.route;
         method = builder.method;
-        doseAndRate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseAndRate, "doseAndRate"));
+        doseAndRate = Collections.unmodifiableList(builder.doseAndRate);
         maxDosePerPeriod = builder.maxDosePerPeriod;
         maxDosePerAdministration = builder.maxDosePerAdministration;
         maxDosePerLifetime = builder.maxDosePerLifetime;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -711,7 +707,19 @@ public class Dosage extends BackboneElement {
          */
         @Override
         public Dosage build() {
-            return new Dosage(this);
+            Dosage dosage = new Dosage(this);
+            if (validating) {
+                validate(dosage);
+            }
+            return dosage;
+        }
+
+        protected void validate(Dosage dosage) {
+            super.validate(dosage);
+            ValidationSupport.checkList(dosage.additionalInstruction, "additionalInstruction", CodeableConcept.class);
+            ValidationSupport.choiceElement(dosage.asNeeded, "asNeeded", Boolean.class, CodeableConcept.class);
+            ValidationSupport.checkList(dosage.doseAndRate, "doseAndRate", DoseAndRate.class);
+            ValidationSupport.requireValueOrChildren(dosage);
         }
 
         protected Builder from(Dosage dosage) {
@@ -740,7 +748,7 @@ public class Dosage extends BackboneElement {
         @Summary
         @Binding(
             bindingName = "DoseAndRateType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The kind of dose or rate specified.",
             valueSet = "http://hl7.org/fhir/ValueSet/dose-rate-type"
         )
@@ -752,14 +760,11 @@ public class Dosage extends BackboneElement {
         @Choice({ Ratio.class, Range.class, SimpleQuantity.class })
         private final Element rate;
 
-        private volatile int hashCode;
-
         private DoseAndRate(Builder builder) {
             super(builder);
             type = builder.type;
-            dose = ValidationSupport.choiceElement(builder.dose, "dose", Range.class, SimpleQuantity.class);
-            rate = ValidationSupport.choiceElement(builder.rate, "rate", Ratio.class, Range.class, SimpleQuantity.class);
-            ValidationSupport.requireValueOrChildren(this);
+            dose = builder.dose;
+            rate = builder.rate;
         }
 
         /**
@@ -1035,7 +1040,18 @@ public class Dosage extends BackboneElement {
              */
             @Override
             public DoseAndRate build() {
-                return new DoseAndRate(this);
+                DoseAndRate doseAndRate = new DoseAndRate(this);
+                if (validating) {
+                    validate(doseAndRate);
+                }
+                return doseAndRate;
+            }
+
+            protected void validate(DoseAndRate doseAndRate) {
+                super.validate(doseAndRate);
+                ValidationSupport.choiceElement(doseAndRate.dose, "dose", Range.class, SimpleQuantity.class);
+                ValidationSupport.choiceElement(doseAndRate.rate, "rate", Ratio.class, Range.class, SimpleQuantity.class);
+                ValidationSupport.requireValueOrChildren(doseAndRate);
             }
 
             protected Builder from(DoseAndRate doseAndRate) {

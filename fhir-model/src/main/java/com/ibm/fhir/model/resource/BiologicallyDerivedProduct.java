@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -36,33 +37,40 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductCategory;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStatus;
 import com.ibm.fhir.model.type.code.BiologicallyDerivedProductStorageScale;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A material substance originating from a biological entity intended to be transplanted or infused
  * into another (possibly the same) biological entity.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BiologicallyDerivedProduct extends DomainResource {
     @Summary
     private final List<Identifier> identifier;
     @Binding(
         bindingName = "BiologicallyDerivedProductCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Category.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-category|4.0.1"
     )
     private final BiologicallyDerivedProductCategory productCategory;
     @Binding(
         bindingName = "BiologicallyDerivedProductCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Biologically Derived Product Code."
     )
     private final CodeableConcept productCode;
     @Binding(
         bindingName = "BiologicallyDerivedProductStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Biologically Derived Product Status.",
         valueSet = "http://hl7.org/fhir/ValueSet/product-status|4.0.1"
     )
@@ -77,24 +85,19 @@ public class BiologicallyDerivedProduct extends DomainResource {
     private final Manipulation manipulation;
     private final List<Storage> storage;
 
-    private volatile int hashCode;
-
     private BiologicallyDerivedProduct(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         productCategory = builder.productCategory;
         productCode = builder.productCode;
         status = builder.status;
-        request = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.request, "request"));
+        request = Collections.unmodifiableList(builder.request);
         quantity = builder.quantity;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
+        parent = Collections.unmodifiableList(builder.parent);
         collection = builder.collection;
-        processing = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.processing, "processing"));
+        processing = Collections.unmodifiableList(builder.processing);
         manipulation = builder.manipulation;
-        storage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.storage, "storage"));
-        ValidationSupport.checkReferenceType(request, "request", "ServiceRequest");
-        ValidationSupport.checkReferenceType(parent, "parent", "BiologicallyDerivedProduct");
-        ValidationSupport.requireChildren(this);
+        storage = Collections.unmodifiableList(builder.storage);
     }
 
     /**
@@ -832,7 +835,22 @@ public class BiologicallyDerivedProduct extends DomainResource {
          */
         @Override
         public BiologicallyDerivedProduct build() {
-            return new BiologicallyDerivedProduct(this);
+            BiologicallyDerivedProduct biologicallyDerivedProduct = new BiologicallyDerivedProduct(this);
+            if (validating) {
+                validate(biologicallyDerivedProduct);
+            }
+            return biologicallyDerivedProduct;
+        }
+
+        protected void validate(BiologicallyDerivedProduct biologicallyDerivedProduct) {
+            super.validate(biologicallyDerivedProduct);
+            ValidationSupport.checkList(biologicallyDerivedProduct.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.request, "request", Reference.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.parent, "parent", Reference.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.processing, "processing", Processing.class);
+            ValidationSupport.checkList(biologicallyDerivedProduct.storage, "storage", Storage.class);
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.request, "request", "ServiceRequest");
+            ValidationSupport.checkReferenceType(biologicallyDerivedProduct.parent, "parent", "BiologicallyDerivedProduct");
         }
 
         protected Builder from(BiologicallyDerivedProduct biologicallyDerivedProduct) {
@@ -863,16 +881,11 @@ public class BiologicallyDerivedProduct extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element collected;
 
-        private volatile int hashCode;
-
         private Collection(Builder builder) {
             super(builder);
             collector = builder.collector;
             source = builder.source;
-            collected = ValidationSupport.choiceElement(builder.collected, "collected", DateTime.class, Period.class);
-            ValidationSupport.checkReferenceType(collector, "collector", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(source, "source", "Patient", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            collected = builder.collected;
         }
 
         /**
@@ -1157,7 +1170,19 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Collection build() {
-                return new Collection(this);
+                Collection collection = new Collection(this);
+                if (validating) {
+                    validate(collection);
+                }
+                return collection;
+            }
+
+            protected void validate(Collection collection) {
+                super.validate(collection);
+                ValidationSupport.choiceElement(collection.collected, "collected", DateTime.class, Period.class);
+                ValidationSupport.checkReferenceType(collection.collector, "collector", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(collection.source, "source", "Patient", "Organization");
+                ValidationSupport.requireValueOrChildren(collection);
             }
 
             protected Builder from(Collection collection) {
@@ -1178,7 +1203,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "BiologicallyDerivedProductProcedure",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Biologically Derived Product Procedure.",
             valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
         )
@@ -1188,16 +1213,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element time;
 
-        private volatile int hashCode;
-
         private Processing(Builder builder) {
             super(builder);
             description = builder.description;
             procedure = builder.procedure;
             additive = builder.additive;
-            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            ValidationSupport.checkReferenceType(additive, "additive", "Substance");
-            ValidationSupport.requireValueOrChildren(this);
+            time = builder.time;
         }
 
         /**
@@ -1502,7 +1523,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Processing build() {
-                return new Processing(this);
+                Processing processing = new Processing(this);
+                if (validating) {
+                    validate(processing);
+                }
+                return processing;
+            }
+
+            protected void validate(Processing processing) {
+                super.validate(processing);
+                ValidationSupport.choiceElement(processing.time, "time", DateTime.class, Period.class);
+                ValidationSupport.checkReferenceType(processing.additive, "additive", "Substance");
+                ValidationSupport.requireValueOrChildren(processing);
             }
 
             protected Builder from(Processing processing) {
@@ -1525,13 +1557,10 @@ public class BiologicallyDerivedProduct extends DomainResource {
         @Choice({ DateTime.class, Period.class })
         private final Element time;
 
-        private volatile int hashCode;
-
         private Manipulation(Builder builder) {
             super(builder);
             description = builder.description;
-            time = ValidationSupport.choiceElement(builder.time, "time", DateTime.class, Period.class);
-            ValidationSupport.requireValueOrChildren(this);
+            time = builder.time;
         }
 
         /**
@@ -1773,7 +1802,17 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Manipulation build() {
-                return new Manipulation(this);
+                Manipulation manipulation = new Manipulation(this);
+                if (validating) {
+                    validate(manipulation);
+                }
+                return manipulation;
+            }
+
+            protected void validate(Manipulation manipulation) {
+                super.validate(manipulation);
+                ValidationSupport.choiceElement(manipulation.time, "time", DateTime.class, Period.class);
+                ValidationSupport.requireValueOrChildren(manipulation);
             }
 
             protected Builder from(Manipulation manipulation) {
@@ -1793,14 +1832,12 @@ public class BiologicallyDerivedProduct extends DomainResource {
         private final Decimal temperature;
         @Binding(
             bindingName = "BiologicallyDerivedProductStorageScale",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "BiologicallyDerived Product Storage Scale.",
             valueSet = "http://hl7.org/fhir/ValueSet/product-storage-scale|4.0.1"
         )
         private final BiologicallyDerivedProductStorageScale scale;
         private final Period duration;
-
-        private volatile int hashCode;
 
         private Storage(Builder builder) {
             super(builder);
@@ -1808,7 +1845,6 @@ public class BiologicallyDerivedProduct extends DomainResource {
             temperature = builder.temperature;
             scale = builder.scale;
             duration = builder.duration;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2102,7 +2138,16 @@ public class BiologicallyDerivedProduct extends DomainResource {
              */
             @Override
             public Storage build() {
-                return new Storage(this);
+                Storage storage = new Storage(this);
+                if (validating) {
+                    validate(storage);
+                }
+                return storage;
+            }
+
+            protected void validate(Storage storage) {
+                super.validate(storage);
+                ValidationSupport.requireValueOrChildren(storage);
             }
 
             protected Builder from(Storage storage) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,15 +9,18 @@ package com.ibm.fhir.operation.term;
 import static com.ibm.fhir.model.type.String.string;
 
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.resource.CodeSystem;
 import com.ibm.fhir.model.resource.OperationDefinition;
 import com.ibm.fhir.model.resource.Parameters;
 import com.ibm.fhir.model.resource.Parameters.Parameter;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.code.ConceptSubsumptionOutcome;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class SubsumesOperation extends AbstractTermOperation {
     @Override
@@ -34,11 +37,17 @@ public class SubsumesOperation extends AbstractTermOperation {
             Parameters parameters,
             FHIRResourceHelpers resourceHelper) throws FHIROperationException {
         try {
-            Coding codingA = getCoding(parameters, "codingA", "codeA");
-            Coding codingB = getCoding(parameters, "codingB", "codeB");
+            CodeSystem codeSystem = FHIROperationContext.Type.INSTANCE.equals(operationContext.getType()) ?
+                    getResource(operationContext, logicalId, parameters, resourceHelper, CodeSystem.class) : null;
+            Coding codingA = getCoding(parameters, "codingA", "codeA", (codeSystem == null));
+            Coding codingB = getCoding(parameters, "codingB", "codeB", (codeSystem == null));
+            if (codeSystem != null) {
+                codingA = codingA.toBuilder().system(codeSystem.getUrl()).build();
+                codingB = codingB.toBuilder().system(codeSystem.getUrl()).build();
+            }
             ConceptSubsumptionOutcome outcome = service.subsumes(codingA, codingB);
             if (outcome == null) {
-                throw new FHIROperationException("Subsumption cannot be tested");
+                throw buildExceptionWithIssue("Subsumption cannot be tested", IssueType.NOT_SUPPORTED);
             }
             return Parameters.builder()
                     .parameter(Parameter.builder()
@@ -48,6 +57,10 @@ public class SubsumesOperation extends AbstractTermOperation {
                     .build();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the CodeSystem subsumes operation", e);
         }

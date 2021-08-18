@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,14 +25,14 @@ public class ActionRequiredBehavior extends Code {
      * <p>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT 
      * choose not to include this action.
      */
-    public static final ActionRequiredBehavior MUST = ActionRequiredBehavior.builder().value(ValueSet.MUST).build();
+    public static final ActionRequiredBehavior MUST = ActionRequiredBehavior.builder().value(Value.MUST).build();
 
     /**
      * Could
      * 
      * <p>An action with this behavior may be included in the set of actions processed by the end user.
      */
-    public static final ActionRequiredBehavior COULD = ActionRequiredBehavior.builder().value(ValueSet.COULD).build();
+    public static final ActionRequiredBehavior COULD = ActionRequiredBehavior.builder().value(Value.COULD).build();
 
     /**
      * Must Unless Documented
@@ -40,7 +40,7 @@ public class ActionRequiredBehavior extends Code {
      * <p>An action with this behavior must be included in the set of actions processed by the end user, unless the end user 
      * provides documentation as to why the action was not included.
      */
-    public static final ActionRequiredBehavior MUST_UNLESS_DOCUMENTED = ActionRequiredBehavior.builder().value(ValueSet.MUST_UNLESS_DOCUMENTED).build();
+    public static final ActionRequiredBehavior MUST_UNLESS_DOCUMENTED = ActionRequiredBehavior.builder().value(Value.MUST_UNLESS_DOCUMENTED).build();
 
     private volatile int hashCode;
 
@@ -48,14 +48,44 @@ public class ActionRequiredBehavior extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ActionRequiredBehavior as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ActionRequiredBehavior as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ActionRequiredBehavior objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ActionRequiredBehavior of(ValueSet value) {
+        switch (value) {
+        case MUST:
+            return MUST;
+        case COULD:
+            return COULD;
+        case MUST_UNLESS_DOCUMENTED:
+            return MUST_UNLESS_DOCUMENTED;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ActionRequiredBehavior objects from a passed enum value.
      */
-    public static ActionRequiredBehavior of(ValueSet value) {
+    public static ActionRequiredBehavior of(Value value) {
         switch (value) {
         case MUST:
             return MUST;
@@ -77,7 +107,7 @@ public class ActionRequiredBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ActionRequiredBehavior of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -89,7 +119,7 @@ public class ActionRequiredBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -101,7 +131,7 @@ public class ActionRequiredBehavior extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -130,11 +160,7 @@ public class ActionRequiredBehavior extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -163,19 +189,50 @@ public class ActionRequiredBehavior extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ActionRequiredBehavior
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ActionRequiredBehavior build() {
-            return new ActionRequiredBehavior(this);
+            ActionRequiredBehavior actionRequiredBehavior = new ActionRequiredBehavior(this);
+            if (validating) {
+                validate(actionRequiredBehavior);
+            }
+            return actionRequiredBehavior;
+        }
+
+        protected void validate(ActionRequiredBehavior actionRequiredBehavior) {
+            super.validate(actionRequiredBehavior);
+        }
+
+        protected Builder from(ActionRequiredBehavior actionRequiredBehavior) {
+            super.from(actionRequiredBehavior);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Must
@@ -215,7 +272,7 @@ public class ActionRequiredBehavior extends Code {
         }
 
         /**
-         * Factory method for creating ActionRequiredBehavior.ValueSet values from a passed string value.
+         * Factory method for creating ActionRequiredBehavior.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -229,6 +286,71 @@ public class ActionRequiredBehavior extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Must
+         * 
+         * <p>An action with this behavior must be included in the actions processed by the end user; the end user SHALL NOT 
+         * choose not to include this action.
+         */
+        MUST("must"),
+
+        /**
+         * Could
+         * 
+         * <p>An action with this behavior may be included in the set of actions processed by the end user.
+         */
+        COULD("could"),
+
+        /**
+         * Must Unless Documented
+         * 
+         * <p>An action with this behavior must be included in the set of actions processed by the end user, unless the end user 
+         * provides documentation as to why the action was not included.
+         */
+        MUST_UNLESS_DOCUMENTED("must-unless-documented");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ActionRequiredBehavior.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActionRequiredBehavior.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "must":
+                return MUST;
+            case "could":
+                return COULD;
+            case "must-unless-documented":
+                return MUST_UNLESS_DOCUMENTED;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

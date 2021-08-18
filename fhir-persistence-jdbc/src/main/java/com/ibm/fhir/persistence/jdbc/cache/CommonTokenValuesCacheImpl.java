@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,11 +8,14 @@ package com.ibm.fhir.persistence.jdbc.cache;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 
@@ -26,51 +29,70 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     // We use LinkedHashMap for the local map because we also need to maintain order
     // of insertion to make sure we have correct LRU behavior when updating the shared cache
     private final ThreadLocal<LinkedHashMap<String, Integer>> codeSystems = new ThreadLocal<>();
-    
+
     private final ThreadLocal<LinkedHashMap<CommonTokenValue, Long>> commonTokenValues = new ThreadLocal<>();
-    
-    // The lru cache shared at the server level
+
+    // thread-local cache of canonicals
+    private final ThreadLocal<LinkedHashMap<String, Integer>> canonicalValues = new ThreadLocal<>();
+
+    // The lru code systems cache shared at the server level
     private final LRUCache<String, Integer> codeSystemsCache;
-    
-    // The lru cache shared at the server level
+
+    // The lru token values cache shared at the server level
     private final LRUCache<CommonTokenValue, Long> tokenValuesCache;
-    
-    
+
+    // The lru canonical values cache shared at the server level
+    private final LRUCache<String, Integer> canonicalValuesCache;
+
     /**
      * Public constructor
-     * @param sharedExternalSystemNameCacheSize
+     * @param codeSystemCacheSize
+     * @param tokenValueCacheSize
+     * @param canonicalCacheSize
      */
-    public CommonTokenValuesCacheImpl(int codeSystemCacheSize, int tokenValueCacheSize) {
-        
+    public CommonTokenValuesCacheImpl(int codeSystemCacheSize, int tokenValueCacheSize, int canonicalCacheSize) {
+
         // LRU cache for quick lookup of code-systems and token-values
         codeSystemsCache = new LRUCache<>(codeSystemCacheSize);
         tokenValuesCache = new LRUCache<>(tokenValueCacheSize);
+        canonicalValuesCache = new LRUCache<>(canonicalCacheSize);
     }
 
     /**
      * Called after a transaction commit() to transfer all the staged (thread-local) data
      * over to the shared LRU cache.
      */
+    @Override
     public void updateSharedMaps() {
-        
+
         LinkedHashMap<String,Integer> sysMap = codeSystems.get();
         if (sysMap != null) {
             synchronized(this.codeSystemsCache) {
                 codeSystemsCache.update(sysMap);
             }
-            
+
             // clear the thread-local cache
             sysMap.clear();
         }
-        
+
         LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
         if (valMap != null) {
             synchronized(this.tokenValuesCache) {
                 tokenValuesCache.update(valMap);
             }
-            
+
             // clear the thread-local cache
             valMap.clear();
+        }
+
+        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+        if (canMap != null) {
+            synchronized(this.canonicalValuesCache) {
+                canonicalValuesCache.update(canMap);
+            }
+
+            // clear the thread-local cache
+            canMap.clear();
         }
 
     }
@@ -82,29 +104,29 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
         if (codeSystems.get() != null) {
             result = codeSystems.get().get(codeSystem);
-            
+
             if (result != null) {
                 return result;
             }
         }
-        
+
         // See if it's in the shared cache
         synchronized (this.codeSystemsCache) {
             result = codeSystemsCache.get(codeSystem);
         }
-        
+
         if (result != null) {
             // We found it in the shared cache, so update our thread-local
             // cache.
             addCodeSystem(codeSystem, result);
         }
-        
+
         return result;
     }
 
     @Override
-    public void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues, 
-        List<ResourceTokenValueRec> misses) {
+    public void resolveCodeSystems(Collection<ResourceTokenValueRec> tokenValues,
+            List<ResourceTokenValueRec> misses) {
         // Make one pass over the collection and resolve as much as we can in one go. Anything
         // we can't resolve gets put into the corresponding missing lists. Worst case is two passes, when
         // there's nothing in the local cache and we have to then look up everything in the shared cache
@@ -137,7 +159,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
                     Integer id = codeSystemsCache.get(xr.getCodeSystemValue());
                     if (id != null) {
                         xr.setCodeSystemValueId(id);
-                        
+
                         // Update the local cache with this value
                         addCodeSystem(xr.getCodeSystemValue(), id);
                     } else {
@@ -149,9 +171,9 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         }
     }
 
-    
+
     @Override
-    public void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues, 
+    public void resolveTokenValues(Collection<ResourceTokenValueRec> tokenValues,
         List<ResourceTokenValueRec> misses) {
         // Make one pass over the collection and resolve as much as we can in one go. Anything
         // we can't resolve gets put into the corresponding missing lists. Worst case is two passes, when
@@ -186,7 +208,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
                     Long id = tokenValuesCache.get(key);
                     if (id != null) {
                         tv.setCommonTokenValueId(id);
-                        
+
                         // Update the local cache with this value
                         addTokenValue(key, id);
                     } else {
@@ -198,11 +220,58 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         }
     }
 
+    @Override
+    public void resolveCanonicalValues(Collection<ResourceProfileRec> profileValues,
+        List<ResourceProfileRec> misses) {
+        // Make one pass over the collection and resolve as much as we can in one go. Anything
+        // we can't resolve gets put into the corresponding missing lists. Worst case is two passes, when
+        // there's nothing in the local cache and we have to then look up everything in the shared cache
+
+        // See what we have currently in our thread-local cache
+        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+
+        List<String> foundKeys = new ArrayList<>(profileValues.size()); // for updating LRU
+        List<ResourceProfileRec> needToFind = new ArrayList<>(profileValues.size()); // for the canonical values we haven't yet found
+        for (ResourceProfileRec tv: profileValues) {
+            if (canMap != null) {
+                Integer id = canMap.get(tv.getCanonicalValue());
+                if (id != null) {
+                    foundKeys.add(tv.getCanonicalValue());
+                    tv.setCanonicalValueId(id);
+                } else {
+                    // not found, so add to the cache miss list
+                    needToFind.add(tv);
+                }
+            } else {
+                // no thread-local cache yet, so need to find them all
+                needToFind.add(tv);
+            }
+        }
+
+        // If we still have keys to find, look them up in the shared cache (which we need to lock first)
+        if (needToFind.size() > 0) {
+            synchronized (this.canonicalValuesCache) {
+                for (ResourceProfileRec xr: needToFind) {
+                    Integer id = canonicalValuesCache.get(xr.getCanonicalValue());
+                    if (id != null) {
+                        xr.setCanonicalValueId(id);
+
+                        // Update the local cache with this value
+                        addCanonicalValue(xr.getCanonicalValue(), id);
+                    } else {
+                        // cache miss so add this record to the miss list for further processing
+                        misses.add(xr);
+                    }
+                }
+            }
+        }
+    }
+
 
     @Override
     public void addCodeSystem(String codeSystem, int id) {
         LinkedHashMap<String,Integer> map = codeSystems.get();
-        
+
         if (map == null) {
             map = new LinkedHashMap<>();
             codeSystems.set(map);
@@ -216,7 +285,7 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     @Override
     public void addTokenValue(CommonTokenValue key, long id) {
         LinkedHashMap<CommonTokenValue,Long> map = commonTokenValues.get();
-        
+
         if (map == null) {
             map = new LinkedHashMap<>();
             commonTokenValues.set(map);
@@ -228,9 +297,24 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
     }
 
     @Override
+    public void addCanonicalValue(String url, int id) {
+        LinkedHashMap<String,Integer> map = canonicalValues.get();
+
+        if (map == null) {
+            map = new LinkedHashMap<>();
+            canonicalValues.set(map);
+        }
+
+        // add the id to the thread-local cache. The shared cache is updated
+        // only if a call is made to #updateSharedMaps()
+        map.put(url, id);
+    }
+
+    @Override
     public void reset() {
         codeSystems.remove();
         commonTokenValues.remove();
+        canonicalValues.remove();
 
         // clear the shared caches too
         synchronized (this.codeSystemsCache) {
@@ -239,6 +323,10 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
 
         synchronized (this.tokenValuesCache) {
             this.tokenValuesCache.clear();
+        }
+
+        synchronized (this.canonicalValuesCache) {
+            this.canonicalValuesCache.clear();
         }
     }
 
@@ -251,11 +339,17 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         if (sysMap != null) {
             sysMap.clear();
         }
-        
+
         LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
-        
+
         if (valMap != null) {
             valMap.clear();
+        }
+
+        LinkedHashMap<String,Integer> canMap = canonicalValues.get();
+
+        if (canMap != null) {
+            canMap.clear();
         }
     }
 
@@ -264,5 +358,90 @@ public class CommonTokenValuesCacheImpl implements ICommonTokenValuesCache {
         synchronized(codeSystemsCache) {
             codeSystemsCache.putAll(codeSystems);
         }
+    }
+
+    @Override
+    public Long getCommonTokenValueId(String codeSystem, String tokenValue) {
+        Long result;
+
+        // Find the code-system first
+        Integer codeSystemId = getCodeSystemId(codeSystem);
+
+        if (codeSystemId != null) {
+            CommonTokenValue key = new CommonTokenValue(codeSystemId, tokenValue);
+            LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
+            result = valMap != null ? valMap.get(key) : null;
+            if (result == null) {
+                // not found in the local cache, try the shared cache
+                synchronized (tokenValuesCache) {
+                    result = tokenValuesCache.get(key);
+                }
+
+                if (result != null) {
+                    // add to the local cache so we can find it again without locking
+                    addTokenValue(key, result);
+                }
+            }
+        } else {
+            // The code-system isn't cached, so we don't know the id and therefore
+            // can't look up the token value. This isn't a big deal, because we
+            // always cache the code-system whenever we cache the token-value, so
+            // if the code-system isn't found, it is unlikely the token value would
+            // be available anyway (so a database read is inevitable).
+            result = null;
+        }
+
+        return result;
+    }
+
+    @Override
+    public Set<Long> resolveCommonTokenValueIds(Collection<CommonTokenValue> tokenValues, Set<CommonTokenValue> misses) {
+        Set<Long> result = new HashSet<>();
+
+        LinkedHashMap<CommonTokenValue,Long> valMap = commonTokenValues.get();
+
+        for (CommonTokenValue token : tokenValues) {
+            Long tokenValueId = valMap != null ? valMap.get(token) : null;
+            if (tokenValueId == null) {
+                // not found in the local cache, try the shared cache
+                synchronized (tokenValuesCache) {
+                    tokenValueId = tokenValuesCache.get(token);
+                }
+
+                if (tokenValueId != null) {
+                    // add to the local cache so we can find it again without locking
+                    addTokenValue(token, tokenValueId);
+                }
+            }
+
+            if (tokenValueId != null) {
+                result.add(tokenValueId);
+            } else {
+                misses.add(token);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public Integer getCanonicalId(String canonicalValue) {
+        Integer result;
+
+        LinkedHashMap<String,Integer> valMap = canonicalValues.get();
+        result = valMap != null ? valMap.get(canonicalValue) : null;
+        if (result == null) {
+            // not found in the local cache, try the shared cache
+            synchronized (canonicalValuesCache) {
+                result = canonicalValuesCache.get(canonicalValue);
+            }
+
+            if (result != null) {
+                // add to the local cache so we can find it again without locking
+                addCanonicalValue(canonicalValue, result);
+            }
+        }
+
+        return result;
     }
 }

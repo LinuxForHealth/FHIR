@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -192,10 +192,53 @@ public class PhysicalDataModel implements IDataModel {
     }
 
     /**
-     * Visit all objects in creation order
+     * Drop all foreign key constraints on tables in this model. Typically done prior to dropping
+     * the actual tables when removing a schema
+     * @param target
+     * @param tagGroup
+     * @param tag
+     */
+    public void dropForeignKeyConstraints(IDatabaseAdapter target, String tagGroup, String tag) {
+        // The simplest way to reverse the list is add everything into an array list
+        // which we then simply traverse end to start
+        ArrayList<IDatabaseObject> copy = new ArrayList<>();
+        copy.addAll(allObjects);
+
+        int total = allObjects.size();
+        int count = 1;
+        for (int i=total-1; i>=0; i--) {
+            IDatabaseObject obj = copy.get(i);
+
+            if (tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup))) {
+                logger.fine(String.format("Dropping [%d/%d] %s", count++, total, obj.toString()));
+                obj.drop(target);
+            }
+            else {
+                logger.fine(String.format("Skipping [%d/%d] %s", count++, total, obj.toString()));
+            }
+        }
+
+    }
+
+    /**
+     * Visit all objects which have the given tagGroup and tag
+     * @param v
+     * @param tagGroup
+     * @param tag
+     */
+    public void visit(DataModelVisitor v, final String tagGroup, final String tag) {
+        // visit just the matching subset of objects
+        this.allObjects.stream()
+            .filter(obj -> tag == null || obj.getTags().get(tagGroup) != null && tag.equals(obj.getTags().get(tagGroup)))
+            .forEach(obj -> obj.visit(v));
+    }
+
+    /**
+     * Visits all objects in the data model
      * @param v
      */
     public void visit(DataModelVisitor v) {
+        // visit every object
         this.allObjects.forEach(obj -> obj.visit(v));
     }
 

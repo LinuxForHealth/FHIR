@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,26 +42,35 @@ import com.ibm.fhir.model.type.code.AllergyIntoleranceCriticality;
 import com.ibm.fhir.model.type.code.AllergyIntoleranceSeverity;
 import com.ibm.fhir.model.type.code.AllergyIntoleranceType;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Risk of harmful or undesirable, physiological response which is unique to an individual and associated with exposure 
  * to a substance.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ait-1",
     level = "Rule",
     location = "(base)",
     description = "AllergyIntolerance.clinicalStatus SHALL be present if verificationStatus is not entered-in-error.",
-    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').exists() or clinicalStatus.exists()"
+    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').exists() or clinicalStatus.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
 )
 @Constraint(
     id = "ait-2",
     level = "Rule",
     location = "(base)",
     description = "AllergyIntolerance.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
-    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').empty() or clinicalStatus.empty()"
+    expression = "verificationStatus.coding.where(system = 'http://terminology.hl7.org/CodeSystem/allergyintolerance-verification' and code = 'entered-in-error').empty() or clinicalStatus.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/AllergyIntolerance"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class AllergyIntolerance extends DomainResource {
@@ -69,7 +79,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceClinicalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the allergy or intolerance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical|4.0.1"
     )
@@ -77,7 +87,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceVerificationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Assertion about certainty associated with a propensity, or potential risk, of a reaction to the identified substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-verification|4.0.1"
     )
@@ -85,7 +95,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identification of the underlying physiological mechanism for a Reaction Risk.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-type|4.0.1"
     )
@@ -93,7 +103,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Category of an identified substance associated with allergies or intolerances.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-category|4.0.1"
     )
@@ -101,7 +111,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCriticality",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Estimate of the potential clinical harm, or seriousness, of a reaction to an identified substance.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergy-intolerance-criticality|4.0.1"
     )
@@ -109,7 +119,7 @@ public class AllergyIntolerance extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AllergyIntoleranceCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Type of the substance/product, allergy or intolerance condition, or negation/exclusion codes for reporting no known allergies.",
         valueSet = "http://hl7.org/fhir/ValueSet/allergyintolerance-code"
     )
@@ -132,33 +142,24 @@ public class AllergyIntolerance extends DomainResource {
     private final List<Annotation> note;
     private final List<Reaction> reaction;
 
-    private volatile int hashCode;
-
     private AllergyIntolerance(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
         type = builder.type;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         criticality = builder.criticality;
         code = builder.code;
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        patient = builder.patient;
         encounter = builder.encounter;
-        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        onset = builder.onset;
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
         lastOccurrence = builder.lastOccurrence;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
-        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
-        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
+        note = Collections.unmodifiableList(builder.note);
+        reaction = Collections.unmodifiableList(builder.reaction);
     }
 
     /**
@@ -1057,7 +1058,27 @@ public class AllergyIntolerance extends DomainResource {
          */
         @Override
         public AllergyIntolerance build() {
-            return new AllergyIntolerance(this);
+            AllergyIntolerance allergyIntolerance = new AllergyIntolerance(this);
+            if (validating) {
+                validate(allergyIntolerance);
+            }
+            return allergyIntolerance;
+        }
+
+        protected void validate(AllergyIntolerance allergyIntolerance) {
+            super.validate(allergyIntolerance);
+            ValidationSupport.checkList(allergyIntolerance.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(allergyIntolerance.category, "category", AllergyIntoleranceCategory.class);
+            ValidationSupport.requireNonNull(allergyIntolerance.patient, "patient");
+            ValidationSupport.choiceElement(allergyIntolerance.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.checkList(allergyIntolerance.note, "note", Annotation.class);
+            ValidationSupport.checkList(allergyIntolerance.reaction, "reaction", Reaction.class);
+            ValidationSupport.checkValueSetBinding(allergyIntolerance.clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-clinical", "http://terminology.hl7.org/CodeSystem/allergyintolerance-clinical", "active", "inactive", "resolved");
+            ValidationSupport.checkValueSetBinding(allergyIntolerance.verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/allergyintolerance-verification", "http://terminology.hl7.org/CodeSystem/allergyintolerance-verification", "unconfirmed", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(allergyIntolerance.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(allergyIntolerance.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(allergyIntolerance.recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(allergyIntolerance.asserter, "asserter", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(AllergyIntolerance allergyIntolerance) {
@@ -1088,14 +1109,14 @@ public class AllergyIntolerance extends DomainResource {
     public static class Reaction extends BackboneElement {
         @Binding(
             bindingName = "SubstanceCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes defining the type of the substance (including pharmaceutical products).",
             valueSet = "http://hl7.org/fhir/ValueSet/substance-code"
         )
         private final CodeableConcept substance;
         @Binding(
             bindingName = "Manifestation",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Clinical symptoms and/or signs that are observed or associated with an Adverse Reaction Event.",
             valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
         )
@@ -1105,32 +1126,29 @@ public class AllergyIntolerance extends DomainResource {
         private final DateTime onset;
         @Binding(
             bindingName = "AllergyIntoleranceSeverity",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Clinical assessment of the severity of a reaction event as a whole, potentially considering multiple different manifestations.",
             valueSet = "http://hl7.org/fhir/ValueSet/reaction-event-severity|4.0.1"
         )
         private final AllergyIntoleranceSeverity severity;
         @Binding(
             bindingName = "RouteOfAdministration",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the route or physiological path of administration of a therapeutic agent into or onto the body of a subject.",
             valueSet = "http://hl7.org/fhir/ValueSet/route-codes"
         )
         private final CodeableConcept exposureRoute;
         private final List<Annotation> note;
 
-        private volatile int hashCode;
-
         private Reaction(Builder builder) {
             super(builder);
             substance = builder.substance;
-            manifestation = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.manifestation, "manifestation"));
+            manifestation = Collections.unmodifiableList(builder.manifestation);
             description = builder.description;
             onset = builder.onset;
             severity = builder.severity;
             exposureRoute = builder.exposureRoute;
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            ValidationSupport.requireValueOrChildren(this);
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1574,7 +1592,18 @@ public class AllergyIntolerance extends DomainResource {
              */
             @Override
             public Reaction build() {
-                return new Reaction(this);
+                Reaction reaction = new Reaction(this);
+                if (validating) {
+                    validate(reaction);
+                }
+                return reaction;
+            }
+
+            protected void validate(Reaction reaction) {
+                super.validate(reaction);
+                ValidationSupport.checkNonEmptyList(reaction.manifestation, "manifestation", CodeableConcept.class);
+                ValidationSupport.checkList(reaction.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(reaction);
             }
 
             protected Builder from(Reaction reaction) {

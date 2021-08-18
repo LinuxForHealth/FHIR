@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -181,6 +181,24 @@ public class RevChainParameterParseTest extends BaseSearchTest {
         Class<Patient> resourceType = Patient.class;
 
         queryParameters.put("_has:Procedure:subject:part-of.status", Collections.singletonList("xxx"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testReverseChainReferenceLogicalIdException() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        queryParameters.put("_has:Procedure:subject:performer", Collections.singletonList("xxx"));
+        SearchUtil.parseQueryParameters(resourceType, queryParameters);
+    }
+
+    @Test(expectedExceptions = FHIRSearchException.class)
+    public void testReverseChainChainedReferenceLogicalIdException() throws Exception {
+        Map<String, List<String>> queryParameters = new HashMap<>();
+        Class<Patient> resourceType = Patient.class;
+
+        queryParameters.put("_has:Procedure:subject:encounter:Encounter.diagnosis", Collections.singletonList("xxx"));
         SearchUtil.parseQueryParameters(resourceType, queryParameters);
     }
 

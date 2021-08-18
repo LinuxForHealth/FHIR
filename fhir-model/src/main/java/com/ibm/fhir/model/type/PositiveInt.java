@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -21,12 +21,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class PositiveInt extends Integer {
     private static final int MIN_VALUE = 1;
 
-    private volatile int hashCode;
-
     private PositiveInt(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, MIN_VALUE);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     @Override
@@ -39,15 +35,36 @@ public class PositiveInt extends Integer {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.Integer
+     * 
+     * @param value
+     *     A java.lang.Integer, not null
+     */
     public static PositiveInt of(java.lang.Integer value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a java.lang.Integer, not null
+     */
     public static PositiveInt of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating PositiveInt objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a java.lang.Integer, not null
+     */
     public static Integer integer(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return PositiveInt.builder().value(value).build();
     }
 
@@ -189,7 +206,17 @@ public class PositiveInt extends Integer {
          */
         @Override
         public PositiveInt build() {
-            return new PositiveInt(this);
+            PositiveInt positiveInt = new PositiveInt(this);
+            if (validating) {
+                validate(positiveInt);
+            }
+            return positiveInt;
+        }
+
+        protected void validate(PositiveInt positiveInt) {
+            super.validate(positiveInt);
+            ValidationSupport.checkValue(positiveInt.value, MIN_VALUE);
+            ValidationSupport.requireValueOrChildren(positiveInt);
         }
 
         protected Builder from(PositiveInt positiveInt) {

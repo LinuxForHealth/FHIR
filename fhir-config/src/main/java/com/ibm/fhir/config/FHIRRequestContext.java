@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.config;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,11 +42,16 @@ public class FHIRRequestContext {
     // Set to true if the REST layer determines the entire request only needs to read from a persistence layer, not write to it
     private boolean readOnly;
 
+    // Set to false automatically, and override when appropriate.
+    private boolean bulk = false;
+
     // Default to the "strict" handling which means the server will reject unrecognized search parameters and elements
     private HTTPHandlingPreference handlingPreference = HTTPHandlingPreference.STRICT;
 
     // Default to the "minimal" representation which means create/update responses won't return the resource body
     private HTTPReturnPreference returnPreference = HTTPReturnPreference.MINIMAL;
+
+    private Map<String, Object> operationProperties = new HashMap<>();
 
     private Pattern validChars = Pattern.compile("[a-zA-Z0-9_\\-]+");
     private String errorMsg = "Only [a-z], [A-Z], [0-9], '_', and '-' characters are allowed.";
@@ -96,6 +102,22 @@ public class FHIRRequestContext {
         this.readOnly = flag;
     }
 
+    /**
+     * the status of the FHIR request
+     * @return the status of the FHIRRequest indicating bulk
+     */
+    public boolean isBulk() {
+        return this.bulk;
+    }
+
+    /**
+     * set the bulk status
+     * @param bulk
+     */
+    public void setBulk(boolean bulk) {
+        this.bulk = bulk;
+    }
+
     public void setTenantId(String tenantId) throws FHIRException {
         Matcher matcher = validChars.matcher(tenantId);
         if (matcher.matches()) {
@@ -116,6 +138,24 @@ public class FHIRRequestContext {
         } else {
             throw new FHIRException("Invalid dataStoreId. " + errorMsg);
         }
+    }
+
+    /**
+     * set an Operation Context property
+     * @param name
+     * @param value
+     */
+    public void setExtendedOperationProperties(String name, Object value) {
+        operationProperties.put(name, value);
+    }
+
+    /**
+     * get an extended Operation Context property
+     * @param name
+     * @return
+     */
+    public Object getExtendedOperationProperties(String name) {
+        return operationProperties.get(name);
     }
 
     /**

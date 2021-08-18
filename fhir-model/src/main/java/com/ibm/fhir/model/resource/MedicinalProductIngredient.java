@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.Ratio;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An ingredient of a manufactured item or pharmaceutical product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductIngredient extends DomainResource {
     @Summary
@@ -52,18 +60,14 @@ public class MedicinalProductIngredient extends DomainResource {
     @Summary
     private final Substance substance;
 
-    private volatile int hashCode;
-
     private MedicinalProductIngredient(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        role = ValidationSupport.requireNonNull(builder.role, "role");
+        role = builder.role;
         allergenicIndicator = builder.allergenicIndicator;
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        specifiedSubstance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specifiedSubstance, "specifiedSubstance"));
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        specifiedSubstance = Collections.unmodifiableList(builder.specifiedSubstance);
         substance = builder.substance;
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -584,7 +588,19 @@ public class MedicinalProductIngredient extends DomainResource {
          */
         @Override
         public MedicinalProductIngredient build() {
-            return new MedicinalProductIngredient(this);
+            MedicinalProductIngredient medicinalProductIngredient = new MedicinalProductIngredient(this);
+            if (validating) {
+                validate(medicinalProductIngredient);
+            }
+            return medicinalProductIngredient;
+        }
+
+        protected void validate(MedicinalProductIngredient medicinalProductIngredient) {
+            super.validate(medicinalProductIngredient);
+            ValidationSupport.requireNonNull(medicinalProductIngredient.role, "role");
+            ValidationSupport.checkList(medicinalProductIngredient.manufacturer, "manufacturer", Reference.class);
+            ValidationSupport.checkList(medicinalProductIngredient.specifiedSubstance, "specifiedSubstance", SpecifiedSubstance.class);
+            ValidationSupport.checkReferenceType(medicinalProductIngredient.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(MedicinalProductIngredient medicinalProductIngredient) {
@@ -614,15 +630,12 @@ public class MedicinalProductIngredient extends DomainResource {
         @Summary
         private final List<Strength> strength;
 
-        private volatile int hashCode;
-
         private SpecifiedSubstance(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            group = ValidationSupport.requireNonNull(builder.group, "group");
+            code = builder.code;
+            group = builder.group;
             confidentiality = builder.confidentiality;
-            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
-            ValidationSupport.requireValueOrChildren(this);
+            strength = Collections.unmodifiableList(builder.strength);
         }
 
         /**
@@ -946,7 +959,19 @@ public class MedicinalProductIngredient extends DomainResource {
              */
             @Override
             public SpecifiedSubstance build() {
-                return new SpecifiedSubstance(this);
+                SpecifiedSubstance specifiedSubstance = new SpecifiedSubstance(this);
+                if (validating) {
+                    validate(specifiedSubstance);
+                }
+                return specifiedSubstance;
+            }
+
+            protected void validate(SpecifiedSubstance specifiedSubstance) {
+                super.validate(specifiedSubstance);
+                ValidationSupport.requireNonNull(specifiedSubstance.code, "code");
+                ValidationSupport.requireNonNull(specifiedSubstance.group, "group");
+                ValidationSupport.checkList(specifiedSubstance.strength, "strength", Strength.class);
+                ValidationSupport.requireValueOrChildren(specifiedSubstance);
             }
 
             protected Builder from(SpecifiedSubstance specifiedSubstance) {
@@ -979,18 +1004,15 @@ public class MedicinalProductIngredient extends DomainResource {
             @Summary
             private final List<ReferenceStrength> referenceStrength;
 
-            private volatile int hashCode;
-
             private Strength(Builder builder) {
                 super(builder);
-                presentation = ValidationSupport.requireNonNull(builder.presentation, "presentation");
+                presentation = builder.presentation;
                 presentationLowLimit = builder.presentationLowLimit;
                 concentration = builder.concentration;
                 concentrationLowLimit = builder.concentrationLowLimit;
                 measurementPoint = builder.measurementPoint;
-                country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
-                referenceStrength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceStrength, "referenceStrength"));
-                ValidationSupport.requireValueOrChildren(this);
+                country = Collections.unmodifiableList(builder.country);
+                referenceStrength = Collections.unmodifiableList(builder.referenceStrength);
             }
 
             /**
@@ -1427,7 +1449,19 @@ public class MedicinalProductIngredient extends DomainResource {
                  */
                 @Override
                 public Strength build() {
-                    return new Strength(this);
+                    Strength strength = new Strength(this);
+                    if (validating) {
+                        validate(strength);
+                    }
+                    return strength;
+                }
+
+                protected void validate(Strength strength) {
+                    super.validate(strength);
+                    ValidationSupport.requireNonNull(strength.presentation, "presentation");
+                    ValidationSupport.checkList(strength.country, "country", CodeableConcept.class);
+                    ValidationSupport.checkList(strength.referenceStrength, "referenceStrength", ReferenceStrength.class);
+                    ValidationSupport.requireValueOrChildren(strength);
                 }
 
                 protected Builder from(Strength strength) {
@@ -1459,16 +1493,13 @@ public class MedicinalProductIngredient extends DomainResource {
                 @Summary
                 private final List<CodeableConcept> country;
 
-                private volatile int hashCode;
-
                 private ReferenceStrength(Builder builder) {
                     super(builder);
                     substance = builder.substance;
-                    strength = ValidationSupport.requireNonNull(builder.strength, "strength");
+                    strength = builder.strength;
                     strengthLowLimit = builder.strengthLowLimit;
                     measurementPoint = builder.measurementPoint;
-                    country = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.country, "country"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    country = Collections.unmodifiableList(builder.country);
                 }
 
                 /**
@@ -1818,7 +1849,18 @@ public class MedicinalProductIngredient extends DomainResource {
                      */
                     @Override
                     public ReferenceStrength build() {
-                        return new ReferenceStrength(this);
+                        ReferenceStrength referenceStrength = new ReferenceStrength(this);
+                        if (validating) {
+                            validate(referenceStrength);
+                        }
+                        return referenceStrength;
+                    }
+
+                    protected void validate(ReferenceStrength referenceStrength) {
+                        super.validate(referenceStrength);
+                        ValidationSupport.requireNonNull(referenceStrength.strength, "strength");
+                        ValidationSupport.checkList(referenceStrength.country, "country", CodeableConcept.class);
+                        ValidationSupport.requireValueOrChildren(referenceStrength);
                     }
 
                     protected Builder from(ReferenceStrength referenceStrength) {
@@ -1845,13 +1887,10 @@ public class MedicinalProductIngredient extends DomainResource {
         @Summary
         private final List<MedicinalProductIngredient.SpecifiedSubstance.Strength> strength;
 
-        private volatile int hashCode;
-
         private Substance(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            strength = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.strength, "strength"));
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            strength = Collections.unmodifiableList(builder.strength);
         }
 
         /**
@@ -2114,7 +2153,18 @@ public class MedicinalProductIngredient extends DomainResource {
              */
             @Override
             public Substance build() {
-                return new Substance(this);
+                Substance substance = new Substance(this);
+                if (validating) {
+                    validate(substance);
+                }
+                return substance;
+            }
+
+            protected void validate(Substance substance) {
+                super.validate(substance);
+                ValidationSupport.requireNonNull(substance.code, "code");
+                ValidationSupport.checkList(substance.strength, "strength", MedicinalProductIngredient.SpecifiedSubstance.Strength.class);
+                ValidationSupport.requireValueOrChildren(substance);
             }
 
             protected Builder from(Substance substance) {

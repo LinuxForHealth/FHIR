@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,20 +32,27 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PaymentNoticeStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides the status of the payment for goods and services rendered, and the request and response 
  * resource references.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class PaymentNotice extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "PaymentNoticeStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -73,33 +81,26 @@ public class PaymentNotice extends DomainResource {
     private final Money amount;
     @Binding(
         bindingName = "PaymentStatus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The payment conveyance status codes.",
         valueSet = "http://hl7.org/fhir/ValueSet/payment-status"
     )
     private final CodeableConcept paymentStatus;
 
-    private volatile int hashCode;
-
     private PaymentNotice(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         request = builder.request;
         response = builder.response;
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        created = builder.created;
         provider = builder.provider;
-        payment = ValidationSupport.requireNonNull(builder.payment, "payment");
+        payment = builder.payment;
         paymentDate = builder.paymentDate;
         payee = builder.payee;
-        recipient = ValidationSupport.requireNonNull(builder.recipient, "recipient");
-        amount = ValidationSupport.requireNonNull(builder.amount, "amount");
+        recipient = builder.recipient;
+        amount = builder.amount;
         paymentStatus = builder.paymentStatus;
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(payment, "payment", "PaymentReconciliation");
-        ValidationSupport.checkReferenceType(payee, "payee", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(recipient, "recipient", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -798,7 +799,25 @@ public class PaymentNotice extends DomainResource {
          */
         @Override
         public PaymentNotice build() {
-            return new PaymentNotice(this);
+            PaymentNotice paymentNotice = new PaymentNotice(this);
+            if (validating) {
+                validate(paymentNotice);
+            }
+            return paymentNotice;
+        }
+
+        protected void validate(PaymentNotice paymentNotice) {
+            super.validate(paymentNotice);
+            ValidationSupport.checkList(paymentNotice.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(paymentNotice.status, "status");
+            ValidationSupport.requireNonNull(paymentNotice.created, "created");
+            ValidationSupport.requireNonNull(paymentNotice.payment, "payment");
+            ValidationSupport.requireNonNull(paymentNotice.recipient, "recipient");
+            ValidationSupport.requireNonNull(paymentNotice.amount, "amount");
+            ValidationSupport.checkReferenceType(paymentNotice.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.payment, "payment", "PaymentReconciliation");
+            ValidationSupport.checkReferenceType(paymentNotice.payee, "payee", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(paymentNotice.recipient, "recipient", "Organization");
         }
 
         protected Builder from(PaymentNotice paymentNotice) {

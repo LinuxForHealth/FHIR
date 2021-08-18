@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.Population;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Indication for the Medicinal Product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductIndication extends DomainResource {
     @Summary
@@ -58,22 +66,17 @@ public class MedicinalProductIndication extends DomainResource {
     @Summary
     private final List<Population> population;
 
-    private volatile int hashCode;
-
     private MedicinalProductIndication(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(builder.subject);
         diseaseSymptomProcedure = builder.diseaseSymptomProcedure;
         diseaseStatus = builder.diseaseStatus;
-        comorbidity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.comorbidity, "comorbidity"));
+        comorbidity = Collections.unmodifiableList(builder.comorbidity);
         intendedEffect = builder.intendedEffect;
         duration = builder.duration;
-        otherTherapy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherTherapy, "otherTherapy"));
-        undesirableEffect = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.undesirableEffect, "undesirableEffect"));
-        population = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.population, "population"));
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication");
-        ValidationSupport.checkReferenceType(undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
-        ValidationSupport.requireChildren(this);
+        otherTherapy = Collections.unmodifiableList(builder.otherTherapy);
+        undesirableEffect = Collections.unmodifiableList(builder.undesirableEffect);
+        population = Collections.unmodifiableList(builder.population);
     }
 
     /**
@@ -744,7 +747,22 @@ public class MedicinalProductIndication extends DomainResource {
          */
         @Override
         public MedicinalProductIndication build() {
-            return new MedicinalProductIndication(this);
+            MedicinalProductIndication medicinalProductIndication = new MedicinalProductIndication(this);
+            if (validating) {
+                validate(medicinalProductIndication);
+            }
+            return medicinalProductIndication;
+        }
+
+        protected void validate(MedicinalProductIndication medicinalProductIndication) {
+            super.validate(medicinalProductIndication);
+            ValidationSupport.checkList(medicinalProductIndication.subject, "subject", Reference.class);
+            ValidationSupport.checkList(medicinalProductIndication.comorbidity, "comorbidity", CodeableConcept.class);
+            ValidationSupport.checkList(medicinalProductIndication.otherTherapy, "otherTherapy", OtherTherapy.class);
+            ValidationSupport.checkList(medicinalProductIndication.undesirableEffect, "undesirableEffect", Reference.class);
+            ValidationSupport.checkList(medicinalProductIndication.population, "population", Population.class);
+            ValidationSupport.checkReferenceType(medicinalProductIndication.subject, "subject", "MedicinalProduct", "Medication");
+            ValidationSupport.checkReferenceType(medicinalProductIndication.undesirableEffect, "undesirableEffect", "MedicinalProductUndesirableEffect");
         }
 
         protected Builder from(MedicinalProductIndication medicinalProductIndication) {
@@ -775,14 +793,10 @@ public class MedicinalProductIndication extends DomainResource {
         @Required
         private final Element medication;
 
-        private volatile int hashCode;
-
         private OtherTherapy(Builder builder) {
             super(builder);
-            therapyRelationshipType = ValidationSupport.requireNonNull(builder.therapyRelationshipType, "therapyRelationshipType");
-            medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
-            ValidationSupport.checkReferenceType(medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
-            ValidationSupport.requireValueOrChildren(this);
+            therapyRelationshipType = builder.therapyRelationshipType;
+            medication = builder.medication;
         }
 
         /**
@@ -1045,7 +1059,19 @@ public class MedicinalProductIndication extends DomainResource {
              */
             @Override
             public OtherTherapy build() {
-                return new OtherTherapy(this);
+                OtherTherapy otherTherapy = new OtherTherapy(this);
+                if (validating) {
+                    validate(otherTherapy);
+                }
+                return otherTherapy;
+            }
+
+            protected void validate(OtherTherapy otherTherapy) {
+                super.validate(otherTherapy);
+                ValidationSupport.requireNonNull(otherTherapy.therapyRelationshipType, "therapyRelationshipType");
+                ValidationSupport.requireChoiceElement(otherTherapy.medication, "medication", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(otherTherapy.medication, "medication", "MedicinalProduct", "Medication", "Substance", "SubstanceSpecification");
+                ValidationSupport.requireValueOrChildren(otherTherapy);
             }
 
             protected Builder from(OtherTherapy otherTherapy) {

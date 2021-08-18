@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/usage-context-type",
     expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/usage-context-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/UsageContext",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -39,7 +40,7 @@ public class UsageContext extends Element {
     @Summary
     @Binding(
         bindingName = "UsageContextType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A code that specifies a type of context being specified by a usage context.",
         valueSet = "http://hl7.org/fhir/ValueSet/usage-context-type"
     )
@@ -50,21 +51,17 @@ public class UsageContext extends Element {
     @Choice({ CodeableConcept.class, Quantity.class, Range.class, Reference.class })
     @Binding(
         bindingName = "UsageContextValue",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that defines the specific value for the context being specified.",
         valueSet = "http://hl7.org/fhir/ValueSet/use-context"
     )
     @Required
     private final Element value;
 
-    private volatile int hashCode;
-
     private UsageContext(Builder builder) {
         super(builder);
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
-        ValidationSupport.checkReferenceType(value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
+        code = builder.code;
+        value = builder.value;
     }
 
     /**
@@ -280,7 +277,19 @@ public class UsageContext extends Element {
          */
         @Override
         public UsageContext build() {
-            return new UsageContext(this);
+            UsageContext usageContext = new UsageContext(this);
+            if (validating) {
+                validate(usageContext);
+            }
+            return usageContext;
+        }
+
+        protected void validate(UsageContext usageContext) {
+            super.validate(usageContext);
+            ValidationSupport.requireNonNull(usageContext.code, "code");
+            ValidationSupport.requireChoiceElement(usageContext.value, "value", CodeableConcept.class, Quantity.class, Range.class, Reference.class);
+            ValidationSupport.checkReferenceType(usageContext.value, "value", "PlanDefinition", "ResearchStudy", "InsurancePlan", "HealthcareService", "Group", "Location", "Organization");
+            ValidationSupport.requireValueOrChildren(usageContext);
         }
 
         protected Builder from(UsageContext usageContext) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If present, start SHALL have a lower value than end",
-    expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)"
+    expression = "start.hasValue().not() or end.hasValue().not() or (start <= end)",
+    source = "http://hl7.org/fhir/StructureDefinition/Period"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Period extends Element {
@@ -33,13 +34,10 @@ public class Period extends Element {
     @Summary
     private final DateTime end;
 
-    private volatile int hashCode;
-
     private Period(Builder builder) {
         super(builder);
         start = builder.start;
         end = builder.end;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -228,7 +226,16 @@ public class Period extends Element {
          */
         @Override
         public Period build() {
-            return new Period(this);
+            Period period = new Period(this);
+            if (validating) {
+                validate(period);
+            }
+            return period;
+        }
+
+        protected void validate(Period period) {
+            super.validate(period);
+            ValidationSupport.requireValueOrChildren(period);
         }
 
         protected Builder from(Period period) {

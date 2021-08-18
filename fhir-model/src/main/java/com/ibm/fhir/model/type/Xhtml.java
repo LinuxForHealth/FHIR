@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,13 +28,9 @@ public class Xhtml extends Element {
     @Required
     private final java.lang.String value;
 
-    private volatile int hashCode;
-
     private Xhtml(Builder builder) {
         super(builder);
-        value = ValidationSupport.requireNonNull(builder.value, "value");
-        ValidationSupport.prohibited(extension, "extension");
-        ValidationSupport.checkXHTMLContent(value);
+        value = builder.value;
     }
 
     /**
@@ -61,9 +57,10 @@ public class Xhtml extends Element {
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
      * 
      * @param value
-     *     A java.lang.String with valid XHTML content
+     *     A java.lang.String with valid XHTML content, not null
      */
     public static Xhtml of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Xhtml.builder().value(value).build();
     }
 
@@ -71,9 +68,10 @@ public class Xhtml extends Element {
      * Factory method for creating Xhtml objects from an XHTML java.lang.String
      * 
      * @param value
-     *     A java.lang.String with valid XHTML content
+     *     A java.lang.String with valid XHTML content, not null
      */
     public static Xhtml xhtml(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Xhtml.builder().value(value).build();
     }
 
@@ -84,9 +82,10 @@ public class Xhtml extends Element {
      * then wrap it in an XHTML {@code <div>} element with a namespace of {@code http://www.w3.org/1999/xhtml}
      * 
      * @param plainText
-     *     The text to encode and wrap for use within a Narrative
+     *     The text to encode and wrap for use within a Narrative, not null
      */
     public static Xhtml from(java.lang.String plainText) {
+        Objects.requireNonNull(plainText, "plainText");
         return Xhtml.builder().value(DIV_OPEN + Encode.forHtmlContent(plainText) + DIV_CLOSE).build();
     }
 
@@ -237,7 +236,18 @@ public class Xhtml extends Element {
          */
         @Override
         public Xhtml build() {
-            return new Xhtml(this);
+            Xhtml xhtml = new Xhtml(this);
+            if (validating) {
+                validate(xhtml);
+            }
+            return xhtml;
+        }
+
+        protected void validate(Xhtml xhtml) {
+            super.validate(xhtml);
+            ValidationSupport.requireNonNull(xhtml.value, "value");
+            ValidationSupport.prohibited(xhtml.extension, "extension");
+            ValidationSupport.checkXHTMLContent(xhtml.value);
         }
 
         protected Builder from(Xhtml xhtml) {

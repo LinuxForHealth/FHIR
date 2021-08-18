@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,21 +24,21 @@ public class ActionConditionKind extends Code {
      * 
      * <p>The condition describes whether or not a given action is applicable.
      */
-    public static final ActionConditionKind APPLICABILITY = ActionConditionKind.builder().value(ValueSet.APPLICABILITY).build();
+    public static final ActionConditionKind APPLICABILITY = ActionConditionKind.builder().value(Value.APPLICABILITY).build();
 
     /**
      * Start
      * 
      * <p>The condition is a starting condition for the action.
      */
-    public static final ActionConditionKind START = ActionConditionKind.builder().value(ValueSet.START).build();
+    public static final ActionConditionKind START = ActionConditionKind.builder().value(Value.START).build();
 
     /**
      * Stop
      * 
      * <p>The condition is a stop, or exit condition for the action.
      */
-    public static final ActionConditionKind STOP = ActionConditionKind.builder().value(ValueSet.STOP).build();
+    public static final ActionConditionKind STOP = ActionConditionKind.builder().value(Value.STOP).build();
 
     private volatile int hashCode;
 
@@ -46,14 +46,44 @@ public class ActionConditionKind extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ActionConditionKind as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ActionConditionKind as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ActionConditionKind objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ActionConditionKind of(ValueSet value) {
+        switch (value) {
+        case APPLICABILITY:
+            return APPLICABILITY;
+        case START:
+            return START;
+        case STOP:
+            return STOP;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ActionConditionKind objects from a passed enum value.
      */
-    public static ActionConditionKind of(ValueSet value) {
+    public static ActionConditionKind of(Value value) {
         switch (value) {
         case APPLICABILITY:
             return APPLICABILITY;
@@ -75,7 +105,7 @@ public class ActionConditionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ActionConditionKind of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -87,7 +117,7 @@ public class ActionConditionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -99,7 +129,7 @@ public class ActionConditionKind extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -128,11 +158,7 @@ public class ActionConditionKind extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -161,19 +187,50 @@ public class ActionConditionKind extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ActionConditionKind
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ActionConditionKind build() {
-            return new ActionConditionKind(this);
+            ActionConditionKind actionConditionKind = new ActionConditionKind(this);
+            if (validating) {
+                validate(actionConditionKind);
+            }
+            return actionConditionKind;
+        }
+
+        protected void validate(ActionConditionKind actionConditionKind) {
+            super.validate(actionConditionKind);
+        }
+
+        protected Builder from(ActionConditionKind actionConditionKind) {
+            super.from(actionConditionKind);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Applicability
@@ -211,7 +268,7 @@ public class ActionConditionKind extends Code {
         }
 
         /**
-         * Factory method for creating ActionConditionKind.ValueSet values from a passed string value.
+         * Factory method for creating ActionConditionKind.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -225,6 +282,69 @@ public class ActionConditionKind extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Applicability
+         * 
+         * <p>The condition describes whether or not a given action is applicable.
+         */
+        APPLICABILITY("applicability"),
+
+        /**
+         * Start
+         * 
+         * <p>The condition is a starting condition for the action.
+         */
+        START("start"),
+
+        /**
+         * Stop
+         * 
+         * <p>The condition is a stop, or exit condition for the action.
+         */
+        STOP("stop");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ActionConditionKind.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActionConditionKind.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "applicability":
+                return APPLICABILITY;
+            case "start":
+                return START;
+            case "stop":
+                return STOP;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

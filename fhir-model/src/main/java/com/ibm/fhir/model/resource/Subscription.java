@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -28,6 +29,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.Url;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SubscriptionChannelType;
 import com.ibm.fhir.model.type.code.SubscriptionStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -38,13 +40,19 @@ import com.ibm.fhir.model.visitor.Visitor;
  * subscription is registered with the server, the server checks every resource that is created or updated, and if the 
  * resource matches the given criteria, it sends a message on the defined "channel" so that another system can take an 
  * appropriate action.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Subscription extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SubscriptionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of a subscription.",
         valueSet = "http://hl7.org/fhir/ValueSet/subscription-status|4.0.1"
     )
@@ -66,18 +74,15 @@ public class Subscription extends DomainResource {
     @Required
     private final Channel channel;
 
-    private volatile int hashCode;
-
     private Subscription(Builder builder) {
         super(builder);
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        status = builder.status;
+        contact = Collections.unmodifiableList(builder.contact);
         end = builder.end;
-        reason = ValidationSupport.requireNonNull(builder.reason, "reason");
-        criteria = ValidationSupport.requireNonNull(builder.criteria, "criteria");
+        reason = builder.reason;
+        criteria = builder.criteria;
         error = builder.error;
-        channel = ValidationSupport.requireNonNull(builder.channel, "channel");
-        ValidationSupport.requireChildren(this);
+        channel = builder.channel;
     }
 
     /**
@@ -607,7 +612,20 @@ public class Subscription extends DomainResource {
          */
         @Override
         public Subscription build() {
-            return new Subscription(this);
+            Subscription subscription = new Subscription(this);
+            if (validating) {
+                validate(subscription);
+            }
+            return subscription;
+        }
+
+        protected void validate(Subscription subscription) {
+            super.validate(subscription);
+            ValidationSupport.requireNonNull(subscription.status, "status");
+            ValidationSupport.checkList(subscription.contact, "contact", ContactPoint.class);
+            ValidationSupport.requireNonNull(subscription.reason, "reason");
+            ValidationSupport.requireNonNull(subscription.criteria, "criteria");
+            ValidationSupport.requireNonNull(subscription.channel, "channel");
         }
 
         protected Builder from(Subscription subscription) {
@@ -630,7 +648,7 @@ public class Subscription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "SubscriptionChannelType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of method used to execute a subscription.",
             valueSet = "http://hl7.org/fhir/ValueSet/subscription-channel-type|4.0.1"
         )
@@ -641,7 +659,7 @@ public class Subscription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "MimeType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
         )
@@ -649,15 +667,12 @@ public class Subscription extends DomainResource {
         @Summary
         private final List<String> header;
 
-        private volatile int hashCode;
-
         private Channel(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             endpoint = builder.endpoint;
             payload = builder.payload;
-            header = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.header, "header"));
-            ValidationSupport.requireValueOrChildren(this);
+            header = Collections.unmodifiableList(builder.header);
         }
 
         /**
@@ -982,7 +997,18 @@ public class Subscription extends DomainResource {
              */
             @Override
             public Channel build() {
-                return new Channel(this);
+                Channel channel = new Channel(this);
+                if (validating) {
+                    validate(channel);
+                }
+                return channel;
+            }
+
+            protected void validate(Channel channel) {
+                super.validate(channel);
+                ValidationSupport.requireNonNull(channel.type, "type");
+                ValidationSupport.checkList(channel.header, "header", String.class);
+                ValidationSupport.requireValueOrChildren(channel);
             }
 
             protected Builder from(Channel channel) {

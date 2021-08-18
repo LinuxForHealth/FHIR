@@ -1,0 +1,12 @@
+{
+	"fhirServer": {
+		"core": {
+			"defaultPageSize": 5000,
+			"maxPageSize": 4000,
+			"maxPageIncludeCount": 2500
+		},
+		"persistence": {
+			"factoryClassname": "com.ibm.fhir.persistence.test.MockPersistenceFactory"
+		}
+	}
+}

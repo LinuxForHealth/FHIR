@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -50,6 +51,7 @@ import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.ResourceVersionPolicy;
 import com.ibm.fhir.model.type.code.RestfulCapabilityMode;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.SystemRestfulInteraction;
 import com.ibm.fhir.model.type.code.TypeRestfulInteraction;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -59,76 +61,92 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A Capability Statement documents a set of capabilities (behaviors) of a FHIR Server for a particular version of FHIR 
  * that may be used as a statement of actual server functionality or a statement of required or desired server 
  * implementation.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "cpb-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-1",
     level = "Rule",
     location = "(base)",
     description = "A Capability Statement SHALL have at least one of REST, messaging or document element.",
-    expression = "rest.exists() or messaging.exists() or document.exists()"
+    expression = "rest.exists() or messaging.exists() or document.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-2",
     level = "Rule",
     location = "(base)",
     description = "A Capability Statement SHALL have at least one of description, software, or implementation element.",
-    expression = "(description.count() + software.count() + implementation.count()) > 0"
+    expression = "(description.count() + software.count() + implementation.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-3",
     level = "Rule",
     location = "(base)",
     description = "Messaging end-point is required (and is only permitted) when a statement is for an implementation.",
-    expression = "messaging.endpoint.empty() or kind = 'instance'"
+    expression = "messaging.endpoint.empty() or kind = 'instance'",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-7",
     level = "Rule",
     location = "(base)",
     description = "The set of documents must be unique by the combination of profile and mode.",
-    expression = "document.select(profile&mode).isDistinct()"
+    expression = "document.select(profile&mode).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-9",
     level = "Rule",
     location = "CapabilityStatement.rest",
     description = "A given resource can only be described once per RESTful mode.",
-    expression = "resource.select(type).isDistinct()"
+    expression = "resource.select(type).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-12",
     level = "Rule",
     location = "CapabilityStatement.rest.resource",
     description = "Search parameter names must be unique in the context of a resource.",
-    expression = "searchParam.select(name).isDistinct()"
+    expression = "searchParam.select(name).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-14",
     level = "Rule",
     location = "(base)",
     description = "If kind = instance, implementation must be present and software may be present",
-    expression = "(kind != 'instance') or implementation.exists()"
+    expression = "(kind != 'instance') or implementation.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-15",
     level = "Rule",
     location = "(base)",
     description = "If kind = capability, implementation must be absent, software must be present",
-    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())"
+    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "cpb-16",
     level = "Rule",
     location = "(base)",
     description = "If kind = requirements, implementation and software must be absent",
-    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
+    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement"
 )
 @Constraint(
     id = "capabilityStatement-17",
@@ -136,6 +154,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement",
     generated = true
 )
 @Constraint(
@@ -144,6 +163,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "rest.security.service",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/restful-security-service",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/restful-security-service', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement",
     generated = true
 )
 @Constraint(
@@ -152,6 +172,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "messaging.endpoint.protocol",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/message-transport",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/message-transport', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/CapabilityStatement",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -167,7 +188,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -188,7 +209,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -198,7 +219,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.1"
     )
@@ -215,7 +236,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRVersion",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
@@ -224,7 +245,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
@@ -233,7 +254,7 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
@@ -247,37 +268,34 @@ public class CapabilityStatement extends DomainResource {
     @Summary
     private final List<Document> document;
 
-    private volatile int hashCode;
-
     private CapabilityStatement(Builder builder) {
         super(builder);
         url = builder.url;
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        instantiates = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiates, "instantiates"));
-        imports = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imports, "imports"));
+        kind = builder.kind;
+        instantiates = Collections.unmodifiableList(builder.instantiates);
+        imports = Collections.unmodifiableList(builder.imports);
         software = builder.software;
         implementation = builder.implementation;
-        fhirVersion = ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion");
-        format = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.format, "format"));
-        patchFormat = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.patchFormat, "patchFormat"));
-        implementationGuide = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.implementationGuide, "implementationGuide"));
-        rest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rest, "rest"));
-        messaging = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.messaging, "messaging"));
-        document = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.document, "document"));
-        ValidationSupport.requireChildren(this);
+        fhirVersion = builder.fhirVersion;
+        format = Collections.unmodifiableList(builder.format);
+        patchFormat = Collections.unmodifiableList(builder.patchFormat);
+        implementationGuide = Collections.unmodifiableList(builder.implementationGuide);
+        rest = Collections.unmodifiableList(builder.rest);
+        messaging = Collections.unmodifiableList(builder.messaging);
+        document = Collections.unmodifiableList(builder.document);
     }
 
     /**
@@ -1614,7 +1632,30 @@ public class CapabilityStatement extends DomainResource {
          */
         @Override
         public CapabilityStatement build() {
-            return new CapabilityStatement(this);
+            CapabilityStatement capabilityStatement = new CapabilityStatement(this);
+            if (validating) {
+                validate(capabilityStatement);
+            }
+            return capabilityStatement;
+        }
+
+        protected void validate(CapabilityStatement capabilityStatement) {
+            super.validate(capabilityStatement);
+            ValidationSupport.requireNonNull(capabilityStatement.status, "status");
+            ValidationSupport.requireNonNull(capabilityStatement.date, "date");
+            ValidationSupport.checkList(capabilityStatement.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(capabilityStatement.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(capabilityStatement.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(capabilityStatement.kind, "kind");
+            ValidationSupport.checkList(capabilityStatement.instantiates, "instantiates", Canonical.class);
+            ValidationSupport.checkList(capabilityStatement.imports, "imports", Canonical.class);
+            ValidationSupport.requireNonNull(capabilityStatement.fhirVersion, "fhirVersion");
+            ValidationSupport.checkNonEmptyList(capabilityStatement.format, "format", Code.class);
+            ValidationSupport.checkList(capabilityStatement.patchFormat, "patchFormat", Code.class);
+            ValidationSupport.checkList(capabilityStatement.implementationGuide, "implementationGuide", Canonical.class);
+            ValidationSupport.checkList(capabilityStatement.rest, "rest", Rest.class);
+            ValidationSupport.checkList(capabilityStatement.messaging, "messaging", Messaging.class);
+            ValidationSupport.checkList(capabilityStatement.document, "document", Document.class);
         }
 
         protected Builder from(CapabilityStatement capabilityStatement) {
@@ -1662,14 +1703,11 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         private final DateTime releaseDate;
 
-        private volatile int hashCode;
-
         private Software(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             version = builder.version;
             releaseDate = builder.releaseDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1941,7 +1979,17 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Software build() {
-                return new Software(this);
+                Software software = new Software(this);
+                if (validating) {
+                    validate(software);
+                }
+                return software;
+            }
+
+            protected void validate(Software software) {
+                super.validate(software);
+                ValidationSupport.requireNonNull(software.name, "name");
+                ValidationSupport.requireValueOrChildren(software);
             }
 
             protected Builder from(Software software) {
@@ -1968,15 +2016,11 @@ public class CapabilityStatement extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference custodian;
 
-        private volatile int hashCode;
-
         private Implementation(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             url = builder.url;
             custodian = builder.custodian;
-            ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2257,7 +2301,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Implementation build() {
-                return new Implementation(this);
+                Implementation implementation = new Implementation(this);
+                if (validating) {
+                    validate(implementation);
+                }
+                return implementation;
+            }
+
+            protected void validate(Implementation implementation) {
+                super.validate(implementation);
+                ValidationSupport.requireNonNull(implementation.description, "description");
+                ValidationSupport.checkReferenceType(implementation.custodian, "custodian", "Organization");
+                ValidationSupport.requireValueOrChildren(implementation);
             }
 
             protected Builder from(Implementation implementation) {
@@ -2277,7 +2332,7 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         @Binding(
             bindingName = "RestfulCapabilityMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The mode of a RESTful capability statement.",
             valueSet = "http://hl7.org/fhir/ValueSet/restful-capability-mode|4.0.1"
         )
@@ -2294,19 +2349,16 @@ public class CapabilityStatement extends DomainResource {
         private final List<CapabilityStatement.Rest.Resource.Operation> operation;
         private final List<Canonical> compartment;
 
-        private volatile int hashCode;
-
         private Rest(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             documentation = builder.documentation;
             security = builder.security;
-            resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
-            interaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interaction, "interaction"));
-            searchParam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.searchParam, "searchParam"));
-            operation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.operation, "operation"));
-            compartment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.compartment, "compartment"));
-            ValidationSupport.requireValueOrChildren(this);
+            resource = Collections.unmodifiableList(builder.resource);
+            interaction = Collections.unmodifiableList(builder.interaction);
+            searchParam = Collections.unmodifiableList(builder.searchParam);
+            operation = Collections.unmodifiableList(builder.operation);
+            compartment = Collections.unmodifiableList(builder.compartment);
         }
 
         /**
@@ -2829,7 +2881,22 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Rest build() {
-                return new Rest(this);
+                Rest rest = new Rest(this);
+                if (validating) {
+                    validate(rest);
+                }
+                return rest;
+            }
+
+            protected void validate(Rest rest) {
+                super.validate(rest);
+                ValidationSupport.requireNonNull(rest.mode, "mode");
+                ValidationSupport.checkList(rest.resource, "resource", Resource.class);
+                ValidationSupport.checkList(rest.interaction, "interaction", Interaction.class);
+                ValidationSupport.checkList(rest.searchParam, "searchParam", CapabilityStatement.Rest.Resource.SearchParam.class);
+                ValidationSupport.checkList(rest.operation, "operation", CapabilityStatement.Rest.Resource.Operation.class);
+                ValidationSupport.checkList(rest.compartment, "compartment", Canonical.class);
+                ValidationSupport.requireValueOrChildren(rest);
             }
 
             protected Builder from(Rest rest) {
@@ -2855,21 +2922,18 @@ public class CapabilityStatement extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "RestfulSecurityService",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "Types of security services used with FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/restful-security-service"
             )
             private final List<CodeableConcept> service;
             private final Markdown description;
 
-            private volatile int hashCode;
-
             private Security(Builder builder) {
                 super(builder);
                 cors = builder.cors;
-                service = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.service, "service"));
+                service = Collections.unmodifiableList(builder.service);
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3154,7 +3218,17 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Security build() {
-                    return new Security(this);
+                    Security security = new Security(this);
+                    if (validating) {
+                        validate(security);
+                    }
+                    return security;
+                }
+
+                protected void validate(Security security) {
+                    super.validate(security);
+                    ValidationSupport.checkList(security.service, "service", CodeableConcept.class);
+                    ValidationSupport.requireValueOrChildren(security);
                 }
 
                 protected Builder from(Security security) {
@@ -3174,7 +3248,7 @@ public class CapabilityStatement extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "ResourceType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "One of the resource types defined as part of this version of FHIR.",
                 valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
             )
@@ -3188,7 +3262,7 @@ public class CapabilityStatement extends DomainResource {
             private final List<Interaction> interaction;
             @Binding(
                 bindingName = "ResourceVersionPolicy",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "How the system supports versioning for a resource.",
                 valueSet = "http://hl7.org/fhir/ValueSet/versioning-policy|4.0.1"
             )
@@ -3198,7 +3272,7 @@ public class CapabilityStatement extends DomainResource {
             private final Boolean conditionalCreate;
             @Binding(
                 bindingName = "ConditionalReadStatus",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the server supports conditional read.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conditional-read-status|4.0.1"
             )
@@ -3206,14 +3280,14 @@ public class CapabilityStatement extends DomainResource {
             private final Boolean conditionalUpdate;
             @Binding(
                 bindingName = "ConditionalDeleteStatus",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the server supports conditional delete.",
                 valueSet = "http://hl7.org/fhir/ValueSet/conditional-delete-status|4.0.1"
             )
             private final ConditionalDeleteStatus conditionalDelete;
             @Binding(
                 bindingName = "ReferenceHandlingPolicy",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A set of flags that defines how references are supported.",
                 valueSet = "http://hl7.org/fhir/ValueSet/reference-handling-policy|4.0.1"
             )
@@ -3224,15 +3298,13 @@ public class CapabilityStatement extends DomainResource {
             @Summary
             private final List<Operation> operation;
 
-            private volatile int hashCode;
-
             private Resource(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
+                type = builder.type;
                 profile = builder.profile;
-                supportedProfile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportedProfile, "supportedProfile"));
+                supportedProfile = Collections.unmodifiableList(builder.supportedProfile);
                 documentation = builder.documentation;
-                interaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interaction, "interaction"));
+                interaction = Collections.unmodifiableList(builder.interaction);
                 versioning = builder.versioning;
                 readHistory = builder.readHistory;
                 updateCreate = builder.updateCreate;
@@ -3240,12 +3312,11 @@ public class CapabilityStatement extends DomainResource {
                 conditionalRead = builder.conditionalRead;
                 conditionalUpdate = builder.conditionalUpdate;
                 conditionalDelete = builder.conditionalDelete;
-                referencePolicy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referencePolicy, "referencePolicy"));
-                searchInclude = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.searchInclude, "searchInclude"));
-                searchRevInclude = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.searchRevInclude, "searchRevInclude"));
-                searchParam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.searchParam, "searchParam"));
-                operation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.operation, "operation"));
-                ValidationSupport.requireValueOrChildren(this);
+                referencePolicy = Collections.unmodifiableList(builder.referencePolicy);
+                searchInclude = Collections.unmodifiableList(builder.searchInclude);
+                searchRevInclude = Collections.unmodifiableList(builder.searchRevInclude);
+                searchParam = Collections.unmodifiableList(builder.searchParam);
+                operation = Collections.unmodifiableList(builder.operation);
             }
 
             /**
@@ -4095,7 +4166,24 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.type, "type");
+                    ValidationSupport.checkList(resource.supportedProfile, "supportedProfile", Canonical.class);
+                    ValidationSupport.checkList(resource.interaction, "interaction", Interaction.class);
+                    ValidationSupport.checkList(resource.referencePolicy, "referencePolicy", ReferenceHandlingPolicy.class);
+                    ValidationSupport.checkList(resource.searchInclude, "searchInclude", String.class);
+                    ValidationSupport.checkList(resource.searchRevInclude, "searchRevInclude", String.class);
+                    ValidationSupport.checkList(resource.searchParam, "searchParam", SearchParam.class);
+                    ValidationSupport.checkList(resource.operation, "operation", Operation.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -4127,7 +4215,7 @@ public class CapabilityStatement extends DomainResource {
             public static class Interaction extends BackboneElement {
                 @Binding(
                     bindingName = "TypeRestfulInteraction",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Operations supported by REST at the type or instance level.",
                     valueSet = "http://hl7.org/fhir/ValueSet/type-restful-interaction|4.0.1"
                 )
@@ -4135,13 +4223,10 @@ public class CapabilityStatement extends DomainResource {
                 private final TypeRestfulInteraction code;
                 private final Markdown documentation;
 
-                private volatile int hashCode;
-
                 private Interaction(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    code = builder.code;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4386,7 +4471,17 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public Interaction build() {
-                        return new Interaction(this);
+                        Interaction interaction = new Interaction(this);
+                        if (validating) {
+                            validate(interaction);
+                        }
+                        return interaction;
+                    }
+
+                    protected void validate(Interaction interaction) {
+                        super.validate(interaction);
+                        ValidationSupport.requireNonNull(interaction.code, "code");
+                        ValidationSupport.requireValueOrChildren(interaction);
                     }
 
                     protected Builder from(Interaction interaction) {
@@ -4408,7 +4503,7 @@ public class CapabilityStatement extends DomainResource {
                 private final Canonical definition;
                 @Binding(
                     bindingName = "SearchParamType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "Data types allowed to be used for search parameters.",
                     valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
                 )
@@ -4416,15 +4511,12 @@ public class CapabilityStatement extends DomainResource {
                 private final SearchParamType type;
                 private final Markdown documentation;
 
-                private volatile int hashCode;
-
                 private SearchParam(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
+                    name = builder.name;
                     definition = builder.definition;
-                    type = ValidationSupport.requireNonNull(builder.type, "type");
+                    type = builder.type;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -4736,7 +4828,18 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public SearchParam build() {
-                        return new SearchParam(this);
+                        SearchParam searchParam = new SearchParam(this);
+                        if (validating) {
+                            validate(searchParam);
+                        }
+                        return searchParam;
+                    }
+
+                    protected void validate(SearchParam searchParam) {
+                        super.validate(searchParam);
+                        ValidationSupport.requireNonNull(searchParam.name, "name");
+                        ValidationSupport.requireNonNull(searchParam.type, "type");
+                        ValidationSupport.requireValueOrChildren(searchParam);
                     }
 
                     protected Builder from(SearchParam searchParam) {
@@ -4763,14 +4866,11 @@ public class CapabilityStatement extends DomainResource {
                 private final Canonical definition;
                 private final Markdown documentation;
 
-                private volatile int hashCode;
-
                 private Operation(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
-                    definition = ValidationSupport.requireNonNull(builder.definition, "definition");
+                    name = builder.name;
+                    definition = builder.definition;
                     documentation = builder.documentation;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5057,7 +5157,18 @@ public class CapabilityStatement extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.name, "name");
+                        ValidationSupport.requireNonNull(operation.definition, "definition");
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -5077,7 +5188,7 @@ public class CapabilityStatement extends DomainResource {
         public static class Interaction extends BackboneElement {
             @Binding(
                 bindingName = "SystemRestfulInteraction",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Operations supported by REST at the system level.",
                 valueSet = "http://hl7.org/fhir/ValueSet/system-restful-interaction|4.0.1"
             )
@@ -5085,13 +5196,10 @@ public class CapabilityStatement extends DomainResource {
             private final SystemRestfulInteraction code;
             private final Markdown documentation;
 
-            private volatile int hashCode;
-
             private Interaction(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
+                code = builder.code;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -5336,7 +5444,17 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Interaction build() {
-                    return new Interaction(this);
+                    Interaction interaction = new Interaction(this);
+                    if (validating) {
+                        validate(interaction);
+                    }
+                    return interaction;
+                }
+
+                protected void validate(Interaction interaction) {
+                    super.validate(interaction);
+                    ValidationSupport.requireNonNull(interaction.code, "code");
+                    ValidationSupport.requireValueOrChildren(interaction);
                 }
 
                 protected Builder from(Interaction interaction) {
@@ -5359,15 +5477,12 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         private final List<SupportedMessage> supportedMessage;
 
-        private volatile int hashCode;
-
         private Messaging(Builder builder) {
             super(builder);
-            endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+            endpoint = Collections.unmodifiableList(builder.endpoint);
             reliableCache = builder.reliableCache;
             documentation = builder.documentation;
-            supportedMessage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportedMessage, "supportedMessage"));
-            ValidationSupport.requireValueOrChildren(this);
+            supportedMessage = Collections.unmodifiableList(builder.supportedMessage);
         }
 
         /**
@@ -5705,7 +5820,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Messaging build() {
-                return new Messaging(this);
+                Messaging messaging = new Messaging(this);
+                if (validating) {
+                    validate(messaging);
+                }
+                return messaging;
+            }
+
+            protected void validate(Messaging messaging) {
+                super.validate(messaging);
+                ValidationSupport.checkList(messaging.endpoint, "endpoint", Endpoint.class);
+                ValidationSupport.checkList(messaging.supportedMessage, "supportedMessage", SupportedMessage.class);
+                ValidationSupport.requireValueOrChildren(messaging);
             }
 
             protected Builder from(Messaging messaging) {
@@ -5724,7 +5850,7 @@ public class CapabilityStatement extends DomainResource {
         public static class Endpoint extends BackboneElement {
             @Binding(
                 bindingName = "MessageTransport",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The protocol used for message transport.",
                 valueSet = "http://hl7.org/fhir/ValueSet/message-transport"
             )
@@ -5733,13 +5859,10 @@ public class CapabilityStatement extends DomainResource {
             @Required
             private final Url address;
 
-            private volatile int hashCode;
-
             private Endpoint(Builder builder) {
                 super(builder);
-                protocol = ValidationSupport.requireNonNull(builder.protocol, "protocol");
-                address = ValidationSupport.requireNonNull(builder.address, "address");
-                ValidationSupport.requireValueOrChildren(this);
+                protocol = builder.protocol;
+                address = builder.address;
             }
 
             /**
@@ -5987,7 +6110,18 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public Endpoint build() {
-                    return new Endpoint(this);
+                    Endpoint endpoint = new Endpoint(this);
+                    if (validating) {
+                        validate(endpoint);
+                    }
+                    return endpoint;
+                }
+
+                protected void validate(Endpoint endpoint) {
+                    super.validate(endpoint);
+                    ValidationSupport.requireNonNull(endpoint.protocol, "protocol");
+                    ValidationSupport.requireNonNull(endpoint.address, "address");
+                    ValidationSupport.requireValueOrChildren(endpoint);
                 }
 
                 protected Builder from(Endpoint endpoint) {
@@ -6006,7 +6140,7 @@ public class CapabilityStatement extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "EventCapabilityMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The mode of a message capability statement.",
                 valueSet = "http://hl7.org/fhir/ValueSet/event-capability-mode|4.0.1"
             )
@@ -6016,13 +6150,10 @@ public class CapabilityStatement extends DomainResource {
             @Required
             private final Canonical definition;
 
-            private volatile int hashCode;
-
             private SupportedMessage(Builder builder) {
                 super(builder);
-                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
-                definition = ValidationSupport.requireNonNull(builder.definition, "definition");
-                ValidationSupport.requireValueOrChildren(this);
+                mode = builder.mode;
+                definition = builder.definition;
             }
 
             /**
@@ -6268,7 +6399,18 @@ public class CapabilityStatement extends DomainResource {
                  */
                 @Override
                 public SupportedMessage build() {
-                    return new SupportedMessage(this);
+                    SupportedMessage supportedMessage = new SupportedMessage(this);
+                    if (validating) {
+                        validate(supportedMessage);
+                    }
+                    return supportedMessage;
+                }
+
+                protected void validate(SupportedMessage supportedMessage) {
+                    super.validate(supportedMessage);
+                    ValidationSupport.requireNonNull(supportedMessage.mode, "mode");
+                    ValidationSupport.requireNonNull(supportedMessage.definition, "definition");
+                    ValidationSupport.requireValueOrChildren(supportedMessage);
                 }
 
                 protected Builder from(SupportedMessage supportedMessage) {
@@ -6288,7 +6430,7 @@ public class CapabilityStatement extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DocumentMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Whether the application produces or consumes documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-mode|4.0.1"
         )
@@ -6299,14 +6441,11 @@ public class CapabilityStatement extends DomainResource {
         @Required
         private final Canonical profile;
 
-        private volatile int hashCode;
-
         private Document(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             documentation = builder.documentation;
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            profile = builder.profile;
         }
 
         /**
@@ -6583,7 +6722,18 @@ public class CapabilityStatement extends DomainResource {
              */
             @Override
             public Document build() {
-                return new Document(this);
+                Document document = new Document(this);
+                if (validating) {
+                    validate(document);
+                }
+                return document;
+            }
+
+            protected void validate(Document document) {
+                super.validate(document);
+                ValidationSupport.requireNonNull(document.mode, "mode");
+                ValidationSupport.requireNonNull(document.profile, "profile");
+                ValidationSupport.requireValueOrChildren(document);
             }
 
             protected Builder from(Document document) {

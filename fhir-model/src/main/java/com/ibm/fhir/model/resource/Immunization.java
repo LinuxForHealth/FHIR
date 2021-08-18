@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,19 +40,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImmunizationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes the event of a patient being administered a vaccine or a record of an immunization as reported by a patient, 
  * a clinician or another party.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "imm-1",
     level = "Rule",
     location = "Immunization.education",
     description = "One of documentType or reference SHALL be present",
-    expression = "documentType.exists() or reference.exists()"
+    expression = "documentType.exists() or reference.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Immunization"
 )
 @Constraint(
     id = "immunization-2",
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "performer.function",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/immunization-function",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/immunization-function', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Immunization",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -67,7 +77,7 @@ public class Immunization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImmunizationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A set of codes indicating the current status of an Immunization.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status|4.0.1"
     )
@@ -75,7 +85,7 @@ public class Immunization extends DomainResource {
     private final ImmunizationStatus status;
     @Binding(
         bindingName = "ImmunizationStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a vaccine was not administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-status-reason"
     )
@@ -83,7 +93,7 @@ public class Immunization extends DomainResource {
     @Summary
     @Binding(
         bindingName = "VaccineCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The code for vaccine product administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/vaccine-code"
     )
@@ -104,7 +114,7 @@ public class Immunization extends DomainResource {
     private final Boolean primarySource;
     @Binding(
         bindingName = "ImmunizationReportOrigin",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The source of the data for a record which is not from a primary source.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-origin"
     )
@@ -117,14 +127,14 @@ public class Immunization extends DomainResource {
     private final Date expirationDate;
     @Binding(
         bindingName = "ImmunizationSite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The site at which the vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-site"
     )
     private final CodeableConcept site;
     @Binding(
         bindingName = "ImmunizationRoute",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The route by which the vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-route"
     )
@@ -136,7 +146,7 @@ public class Immunization extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "ImmunizationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a vaccine was administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-reason"
     )
@@ -147,7 +157,7 @@ public class Immunization extends DomainResource {
     private final Boolean isSubpotent;
     @Binding(
         bindingName = "SubpotentReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason why a dose is considered to be subpotent.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-subpotent-reason"
     )
@@ -155,14 +165,14 @@ public class Immunization extends DomainResource {
     private final List<Education> education;
     @Binding(
         bindingName = "ProgramEligibility",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The patient's eligibility for a vaccation program.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-program-eligibility"
     )
     private final List<CodeableConcept> programEligibility;
     @Binding(
         bindingName = "FundingSource",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The source of funding used to purchase the vaccine administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-funding-source"
     )
@@ -170,17 +180,15 @@ public class Immunization extends DomainResource {
     private final List<Reaction> reaction;
     private final List<ProtocolApplied> protocolApplied;
 
-    private volatile int hashCode;
-
     private Immunization(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         statusReason = builder.statusReason;
-        vaccineCode = ValidationSupport.requireNonNull(builder.vaccineCode, "vaccineCode");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        vaccineCode = builder.vaccineCode;
+        patient = builder.patient;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.requireChoiceElement(builder.occurrence, "occurrence", DateTime.class, String.class);
+        occurrence = builder.occurrence;
         recorded = builder.recorded;
         primarySource = builder.primarySource;
         reportOrigin = builder.reportOrigin;
@@ -191,23 +199,17 @@ public class Immunization extends DomainResource {
         site = builder.site;
         route = builder.route;
         doseQuantity = builder.doseQuantity;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        performer = Collections.unmodifiableList(builder.performer);
+        note = Collections.unmodifiableList(builder.note);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         isSubpotent = builder.isSubpotent;
-        subpotentReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subpotentReason, "subpotentReason"));
-        education = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.education, "education"));
-        programEligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.programEligibility, "programEligibility"));
+        subpotentReason = Collections.unmodifiableList(builder.subpotentReason);
+        education = Collections.unmodifiableList(builder.education);
+        programEligibility = Collections.unmodifiableList(builder.programEligibility);
         fundingSource = builder.fundingSource;
-        reaction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reaction, "reaction"));
-        protocolApplied = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.protocolApplied, "protocolApplied"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
-        ValidationSupport.requireChildren(this);
+        reaction = Collections.unmodifiableList(builder.reaction);
+        protocolApplied = Collections.unmodifiableList(builder.protocolApplied);
     }
 
     /**
@@ -1575,7 +1577,34 @@ public class Immunization extends DomainResource {
          */
         @Override
         public Immunization build() {
-            return new Immunization(this);
+            Immunization immunization = new Immunization(this);
+            if (validating) {
+                validate(immunization);
+            }
+            return immunization;
+        }
+
+        protected void validate(Immunization immunization) {
+            super.validate(immunization);
+            ValidationSupport.checkList(immunization.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunization.status, "status");
+            ValidationSupport.requireNonNull(immunization.vaccineCode, "vaccineCode");
+            ValidationSupport.requireNonNull(immunization.patient, "patient");
+            ValidationSupport.requireChoiceElement(immunization.occurrence, "occurrence", DateTime.class, String.class);
+            ValidationSupport.checkList(immunization.performer, "performer", Performer.class);
+            ValidationSupport.checkList(immunization.note, "note", Annotation.class);
+            ValidationSupport.checkList(immunization.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(immunization.subpotentReason, "subpotentReason", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.education, "education", Education.class);
+            ValidationSupport.checkList(immunization.programEligibility, "programEligibility", CodeableConcept.class);
+            ValidationSupport.checkList(immunization.reaction, "reaction", Reaction.class);
+            ValidationSupport.checkList(immunization.protocolApplied, "protocolApplied", ProtocolApplied.class);
+            ValidationSupport.checkReferenceType(immunization.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunization.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(immunization.location, "location", "Location");
+            ValidationSupport.checkReferenceType(immunization.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(immunization.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport");
         }
 
         protected Builder from(Immunization immunization) {
@@ -1619,7 +1648,7 @@ public class Immunization extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImmunizationFunction",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The role a practitioner or organization plays in the immunization event.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-function"
         )
@@ -1629,14 +1658,10 @@ public class Immunization extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1886,7 +1911,18 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -1907,15 +1943,12 @@ public class Immunization extends DomainResource {
         private final DateTime publicationDate;
         private final DateTime presentationDate;
 
-        private volatile int hashCode;
-
         private Education(Builder builder) {
             super(builder);
             documentType = builder.documentType;
             reference = builder.reference;
             publicationDate = builder.publicationDate;
             presentationDate = builder.presentationDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2209,7 +2242,16 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Education build() {
-                return new Education(this);
+                Education education = new Education(this);
+                if (validating) {
+                    validate(education);
+                }
+                return education;
+            }
+
+            protected void validate(Education education) {
+                super.validate(education);
+                ValidationSupport.requireValueOrChildren(education);
             }
 
             protected Builder from(Education education) {
@@ -2232,15 +2274,11 @@ public class Immunization extends DomainResource {
         private final Reference detail;
         private final Boolean reported;
 
-        private volatile int hashCode;
-
         private Reaction(Builder builder) {
             super(builder);
             date = builder.date;
             detail = builder.detail;
             reported = builder.reported;
-            ValidationSupport.checkReferenceType(detail, "detail", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2510,7 +2548,17 @@ public class Immunization extends DomainResource {
              */
             @Override
             public Reaction build() {
-                return new Reaction(this);
+                Reaction reaction = new Reaction(this);
+                if (validating) {
+                    validate(reaction);
+                }
+                return reaction;
+            }
+
+            protected void validate(Reaction reaction) {
+                super.validate(reaction);
+                ValidationSupport.checkReferenceType(reaction.detail, "detail", "Observation");
+                ValidationSupport.requireValueOrChildren(reaction);
             }
 
             protected Builder from(Reaction reaction) {
@@ -2532,7 +2580,7 @@ public class Immunization extends DomainResource {
         private final Reference authority;
         @Binding(
             bindingName = "TargetDisease",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The vaccine preventable disease the dose is being administered for.",
             valueSet = "http://hl7.org/fhir/ValueSet/immunization-target-disease"
         )
@@ -2543,17 +2591,13 @@ public class Immunization extends DomainResource {
         @Choice({ PositiveInt.class, String.class })
         private final Element seriesDoses;
 
-        private volatile int hashCode;
-
         private ProtocolApplied(Builder builder) {
             super(builder);
             series = builder.series;
             authority = builder.authority;
-            targetDisease = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease"));
-            doseNumber = ValidationSupport.requireChoiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-            seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-            ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            targetDisease = Collections.unmodifiableList(builder.targetDisease);
+            doseNumber = builder.doseNumber;
+            seriesDoses = builder.seriesDoses;
         }
 
         /**
@@ -2920,7 +2964,20 @@ public class Immunization extends DomainResource {
              */
             @Override
             public ProtocolApplied build() {
-                return new ProtocolApplied(this);
+                ProtocolApplied protocolApplied = new ProtocolApplied(this);
+                if (validating) {
+                    validate(protocolApplied);
+                }
+                return protocolApplied;
+            }
+
+            protected void validate(ProtocolApplied protocolApplied) {
+                super.validate(protocolApplied);
+                ValidationSupport.checkList(protocolApplied.targetDisease, "targetDisease", CodeableConcept.class);
+                ValidationSupport.requireChoiceElement(protocolApplied.doseNumber, "doseNumber", PositiveInt.class, String.class);
+                ValidationSupport.choiceElement(protocolApplied.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+                ValidationSupport.checkReferenceType(protocolApplied.authority, "authority", "Organization");
+                ValidationSupport.requireValueOrChildren(protocolApplied);
             }
 
             protected Builder from(ProtocolApplied protocolApplied) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,42 +24,42 @@ public class HTTPVerb extends Code {
      * 
      * <p>HTTP GET Command.
      */
-    public static final HTTPVerb GET = HTTPVerb.builder().value(ValueSet.GET).build();
+    public static final HTTPVerb GET = HTTPVerb.builder().value(Value.GET).build();
 
     /**
      * HEAD
      * 
      * <p>HTTP HEAD Command.
      */
-    public static final HTTPVerb HEAD = HTTPVerb.builder().value(ValueSet.HEAD).build();
+    public static final HTTPVerb HEAD = HTTPVerb.builder().value(Value.HEAD).build();
 
     /**
      * POST
      * 
      * <p>HTTP POST Command.
      */
-    public static final HTTPVerb POST = HTTPVerb.builder().value(ValueSet.POST).build();
+    public static final HTTPVerb POST = HTTPVerb.builder().value(Value.POST).build();
 
     /**
      * PUT
      * 
      * <p>HTTP PUT Command.
      */
-    public static final HTTPVerb PUT = HTTPVerb.builder().value(ValueSet.PUT).build();
+    public static final HTTPVerb PUT = HTTPVerb.builder().value(Value.PUT).build();
 
     /**
      * DELETE
      * 
      * <p>HTTP DELETE Command.
      */
-    public static final HTTPVerb DELETE = HTTPVerb.builder().value(ValueSet.DELETE).build();
+    public static final HTTPVerb DELETE = HTTPVerb.builder().value(Value.DELETE).build();
 
     /**
      * PATCH
      * 
      * <p>HTTP PATCH Command.
      */
-    public static final HTTPVerb PATCH = HTTPVerb.builder().value(ValueSet.PATCH).build();
+    public static final HTTPVerb PATCH = HTTPVerb.builder().value(Value.PATCH).build();
 
     private volatile int hashCode;
 
@@ -67,14 +67,50 @@ public class HTTPVerb extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this HTTPVerb as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this HTTPVerb as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating HTTPVerb objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static HTTPVerb of(ValueSet value) {
+        switch (value) {
+        case GET:
+            return GET;
+        case HEAD:
+            return HEAD;
+        case POST:
+            return POST;
+        case PUT:
+            return PUT;
+        case DELETE:
+            return DELETE;
+        case PATCH:
+            return PATCH;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating HTTPVerb objects from a passed enum value.
      */
-    public static HTTPVerb of(ValueSet value) {
+    public static HTTPVerb of(Value value) {
         switch (value) {
         case GET:
             return GET;
@@ -102,7 +138,7 @@ public class HTTPVerb extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static HTTPVerb of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -114,7 +150,7 @@ public class HTTPVerb extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -126,7 +162,7 @@ public class HTTPVerb extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -155,11 +191,7 @@ public class HTTPVerb extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -188,19 +220,50 @@ public class HTTPVerb extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for HTTPVerb
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public HTTPVerb build() {
-            return new HTTPVerb(this);
+            HTTPVerb hTTPVerb = new HTTPVerb(this);
+            if (validating) {
+                validate(hTTPVerb);
+            }
+            return hTTPVerb;
+        }
+
+        protected void validate(HTTPVerb hTTPVerb) {
+            super.validate(hTTPVerb);
+        }
+
+        protected Builder from(HTTPVerb hTTPVerb) {
+            super.from(hTTPVerb);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * GET
@@ -259,7 +322,7 @@ public class HTTPVerb extends Code {
         }
 
         /**
-         * Factory method for creating HTTPVerb.ValueSet values from a passed string value.
+         * Factory method for creating HTTPVerb.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -273,6 +336,96 @@ public class HTTPVerb extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * GET
+         * 
+         * <p>HTTP GET Command.
+         */
+        GET("GET"),
+
+        /**
+         * HEAD
+         * 
+         * <p>HTTP HEAD Command.
+         */
+        HEAD("HEAD"),
+
+        /**
+         * POST
+         * 
+         * <p>HTTP POST Command.
+         */
+        POST("POST"),
+
+        /**
+         * PUT
+         * 
+         * <p>HTTP PUT Command.
+         */
+        PUT("PUT"),
+
+        /**
+         * DELETE
+         * 
+         * <p>HTTP DELETE Command.
+         */
+        DELETE("DELETE"),
+
+        /**
+         * PATCH
+         * 
+         * <p>HTTP PATCH Command.
+         */
+        PATCH("PATCH");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating HTTPVerb.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding HTTPVerb.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "GET":
+                return GET;
+            case "HEAD":
+                return HEAD;
+            case "POST":
+                return POST;
+            case "PUT":
+                return PUT;
+            case "DELETE":
+                return DELETE;
+            case "PATCH":
+                return PATCH;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

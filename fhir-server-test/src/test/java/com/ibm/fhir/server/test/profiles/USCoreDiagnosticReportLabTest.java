@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,17 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.DiagnosticReport;
 import com.ibm.fhir.model.test.TestUtil;
@@ -46,9 +42,8 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
 
     @Override
     public List<String> getRequiredProfiles() {
-        //@formatter:off
-        return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab|3.1.1");
-        //@formatter:on
+        return Arrays.asList(
+            "http://hl7.org/fhir/us/core/StructureDefinition/us-core-diagnosticreport-lab|3.1.1");
     }
 
     @Override
@@ -68,73 +63,24 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         }
     }
 
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteDiagnosticReport1();
-            deleteDiagnosticReport2();
-            deleteDiagnosticReport3();
-        }
-    }
-
     public void loadDiagnosticReport1() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-urinalysis.json";
-        WebTarget target = getWebTarget();
 
-        DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
-
-        Entity<DiagnosticReport> entity = Entity.entity(DiagnosticReport, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("DiagnosticReport").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        diagnosticReportId1 = getLocationLogicalId(response);
-        response = target.path("DiagnosticReport/" + diagnosticReportId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        DiagnosticReport diagnosticReport = TestUtil.readExampleResource(resource);
+        diagnosticReportId1 = createResourceAndReturnTheLogicalId("DiagnosticReport", diagnosticReport);
     }
 
     public void loadDiagnosticReport2() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-metabolic-panel.json";
-        WebTarget target = getWebTarget();
-
-        DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
-
-        Entity<DiagnosticReport> entity = Entity.entity(DiagnosticReport, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("DiagnosticReport").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        diagnosticReportId2 = getLocationLogicalId(response);
-        response = target.path("DiagnosticReport/" + diagnosticReportId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        DiagnosticReport diagnosticReport = TestUtil.readExampleResource(resource);
+        diagnosticReportId2 = createResourceAndReturnTheLogicalId("DiagnosticReport", diagnosticReport);
     }
 
     public void loadDiagnosticReport3() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/DiagnosticReport-cbc.json";
-        WebTarget target = getWebTarget();
 
-        DiagnosticReport DiagnosticReport = TestUtil.readExampleResource(resource);
-
-        Entity<DiagnosticReport> entity = Entity.entity(DiagnosticReport, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("DiagnosticReport").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-        diagnosticReportId3 = getLocationLogicalId(response);
-        response = target.path("DiagnosticReport/" + diagnosticReportId3).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteDiagnosticReport1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("DiagnosticReport/" + diagnosticReportId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteDiagnosticReport2() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("DiagnosticReport/" + diagnosticReportId2).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteDiagnosticReport3() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("DiagnosticReport/" + diagnosticReportId3).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        DiagnosticReport diagnosticReport = TestUtil.readExampleResource(resource);
+        diagnosticReportId3 = createResourceAndReturnTheLogicalId("DiagnosticReport", diagnosticReport);
     }
 
     @Test
@@ -202,7 +148,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8");
+            parameters.searchParam("code", "http://loinc.org|24356-8");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -222,7 +168,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
+            parameters.searchParam("code", "http://loinc.org|24356-8,http://loinc.org|24323-8");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
@@ -245,7 +191,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
+            parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
             parameters.searchParam("date", "2005-07-05");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
@@ -254,7 +200,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, diagnosticReportId1);
             assertDoesNotContainsIds(bundle, diagnosticReportId2);
-            assertDoesNotContainsIds(bundle, diagnosticReportId3);
+            assertContainsIds(bundle, diagnosticReportId3);
         }
     }
 
@@ -269,16 +215,15 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
-            parameters.searchParam("code", "|24356-8,|24323-8");
             parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
             parameters.searchParam("date", "ge2005-01");
-            parameters.searchParam("date", "lt2006-01");
+            parameters.searchParam("date", "lt2005-07-05");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
             assertNotNull(bundle);
             assertTrue(bundle.getEntry().size() >= 1);
-            assertContainsIds(bundle, diagnosticReportId1);
+            assertDoesNotContainsIds(bundle, diagnosticReportId1);
             assertContainsIds(bundle, diagnosticReportId2);
             assertDoesNotContainsIds(bundle, diagnosticReportId3);
         }
@@ -294,7 +239,6 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
             parameters.searchParam("category", "http://terminology.hl7.org/CodeSystem/v2-0074|LAB");
-            parameters.searchParam("code", "|24356-8,|24323-8");
             parameters.searchParam("date", "ge2005-01");
             parameters.searchParam("status", "final");
             FHIRResponse response = client.search(DiagnosticReport.class.getSimpleName(), parameters);
@@ -304,7 +248,7 @@ public class USCoreDiagnosticReportLabTest extends ProfilesTestBase {
             assertTrue(bundle.getEntry().size() >= 1);
             assertContainsIds(bundle, diagnosticReportId1);
             assertContainsIds(bundle, diagnosticReportId2);
-            assertDoesNotContainsIds(bundle, diagnosticReportId3);
+            assertContainsIds(bundle, diagnosticReportId3);
         }
     }
 }

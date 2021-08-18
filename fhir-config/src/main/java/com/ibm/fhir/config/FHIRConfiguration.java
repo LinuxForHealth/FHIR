@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,9 +33,23 @@ public class FHIRConfiguration {
     public static final String PROPERTY_CHECK_REFERENCE_TYPES = "fhirServer/core/checkReferenceTypes";
     public static final String PROPERTY_CONDITIONAL_DELETE_MAX_NUMBER = "fhirServer/core/conditionalDeleteMaxNumber";
     public static final String PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED = "fhirServer/core/serverRegistryResourceProviderEnabled";
+    public static final String PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED = "fhirServer/core/serverResolveFunctionEnabled";
     public static final String PROPERTY_CAPABILITY_STATEMENT_CACHE = "fhirServer/core/capabilityStatementCacheTimeout";
     public static final String PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION = "fhirServer/core/extendedCodeableConceptValidation";
     public static final String PROPERTY_DISABLED_OPERATIONS = "fhirServer/core/disabledOperations";
+    public static final String PROPERTY_DEFAULT_PAGE_SIZE = "fhirServer/core/defaultPageSize";
+    public static final String PROPERTY_MAX_PAGE_SIZE = "fhirServer/core/maxPageSize";
+    public static final String PROPERTY_MAX_PAGE_INCLUDE_COUNT = "fhirServer/core/maxPageIncludeCount";
+    public static final String PROPERTY_CAPABILITIES_URL = "fhirServer/core/capabilitiesUrl";
+
+    // Validation properties
+    public static final String PROPERTY_VALIDATION_FAIL_FAST = "fhirServer/validation/failFast";
+
+    // Terminology service properties
+    public static final String PROPERTY_TERM_SERVICE_CAPABILITIES_URL = "fhirServer/term/capabilitiesUrl";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_ENABLED = "fhirServer/term/graphTermServiceProvider/enabled";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_TIME_LIMIT = "fhirServer/term/graphTermServiceProvider/timeLimit";
+    public static final String PROPERTY_GRAPH_TERM_SERVICE_PROVIDER_CONFIGURATION = "fhirServer/term/graphTermServiceProvider/configuration";
 
     // Resources properties
     public static final String PROPERTY_RESOURCES = "fhirServer/resources";
@@ -47,7 +61,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_FIELD_RESOURCES_SEARCH_PARAMETER_COMBINATIONS = "searchParameterCombinations";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES = "profiles";
     public static final String PROPERTY_FIELD_RESOURCES_PROFILES_AT_LEAST_ONE = "atLeastOne";
-    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
 
     // Auth and security properties
     public static final String PROPERTY_SECURITY_CORS = "fhirServer/security/cors";
@@ -64,21 +77,22 @@ public class FHIRConfiguration {
     public static final String PROPERTY_SECURITY_OAUTH_SMART_SCOPES = "fhirServer/security/oauth/smart/scopes";
     public static final String PROPERTY_SECURITY_OAUTH_SMART_CAPABILITIES = "fhirServer/security/oauth/smart/capabilities";
 
-    public static final String PROPERTY_AUTHFILTER_ENABLED = "fhirServer/security/cert/authFilter/enabled";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_CLIENT_CN = "fhirServer/security/cert/authFilter/authorizedClientCertClientCN";
-    public static final String PROPERTY_AUTHORIZED_CLIENT_CERT_ISSUER_OU = "fhirServer/security/cert/authFilter/authorizedClientCertIssuerOU";
-
     // Audit config properties
     public static final String PROPERTY_AUDIT_SERVICE_CLASS_NAME = "fhirServer/audit/serviceClassName";
     public static final String PROPERTY_AUDIT_SERVICE_PROPERTIES = "fhirServer/audit/serviceProperties";
     public static final String PROPERTY_AUDIT_PATIENT_ID_EXTURL = "fhirServer/audit/patientIdExtensionUrl";
+    public static final String PROPERTY_AUDIT_HOSTNAME = "fhirServer/audit/hostname";
+    public static final String PROPERTY_AUDIT_IP = "fhirServer/audit/ip";
 
     // Notification config properties
     public static final String PROPERTY_NOTIFICATION_RESOURCE_TYPES = "fhirServer/notifications/common/includeResourceTypes";
+    public static final String PROPERTY_NOTIFICATION_NOTIFICATION_SIZE_BEHAVIOR = "fhirServer/notifications/common/maxNotificationSizeBehavior";
+    public static final String PROPERTY_NOTIFICATION_MAX_SIZE = "fhirServer/notifications/common/maxNotificationSizeBytes";
     public static final String PROPERTY_WEBSOCKET_ENABLED = "fhirServer/notifications/websocket/enabled";
     public static final String PROPERTY_KAFKA_ENABLED = "fhirServer/notifications/kafka/enabled";
     public static final String PROPERTY_KAFKA_TOPICNAME = "fhirServer/notifications/kafka/topicName";
     public static final String PROPERTY_KAFKA_CONNECTIONPROPS = "fhirServer/notifications/kafka/connectionProperties";
+    public static final String PROPERTY_KAFKA_SYNC = "fhirServer/notifications/kafka/sync";
     public static final String PROPERTY_NATS_ENABLED = "fhirServer/notifications/nats/enabled";
     public static final String PROPERTY_NATS_CLUSTER = "fhirServer/notifications/nats/cluster";
     public static final String PROPERTY_NATS_CHANNEL = "fhirServer/notifications/nats/channel";
@@ -94,10 +108,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_UPDATE_CREATE_ENABLED = "fhirServer/persistence/common/updateCreateEnabled";
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
-    public static final String PROPERTY_JDBC_BOOTSTRAP_DB = "fhirServer/persistence/jdbc/bootstrapDb";
-    public static final String PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE = "fhirServer/persistence/jdbc/bootstrapDataSourceBase";
-    public static final String PROPERTY_JDBC_DATASOURCE_JNDINAME = "fhirServer/persistence/jdbc/dataSourceJndiName";
-    public static final String PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE = "fhirServer/persistence/jdbc/enableProxyDatasource";
     public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
@@ -106,8 +116,16 @@ public class FHIRConfiguration {
     public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
     public static final String PROPERTY_PERSISTENCE_PAYLOAD = "fhirServer/persistence/payload";
 
-    // fhir-search - Bounding area
+    // Optimizer options within a datasource definition
+    public static final String PROPERTY_JDBC_SEARCH_OPTIMIZER_OPTIONS = "searchOptimizerOptions";
+
+    // Search config properties
     public static final String PROPERTY_SEARCH_BOUNDING_AREA_RADIUS_TYPE = "fhirServer/search/useBoundingRadius";
+    public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
+    @Deprecated
+    public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
+    
+    public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
     // bulkdata
     // JavaBatch Job id encryption key
@@ -123,7 +141,6 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHUSERPWD = "fhirServer/bulkdata/batch-user-password";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTORE = "fhirServer/bulkdata/batch-truststore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_BATCHTRUSTSTOREPWD = "fhirServer/bulkdata/batch-truststore-password";
-    public static final String PROPERTY_BULKDATA_BATCHJOB_ISEXPORTPUBLIC = "fhirServer/bulkdata/isExportPublic";
     public static final String PROPERTY_BULKDATA_BATCHJOB_USEFHIRSERVERTRUSTSTORE = "fhirServer/bulkdata/useFhirServerTrustStore";
     public static final String PROPERTY_BULKDATA_BATCHJOB_ENABLEPARQUET = "fhirServer/bulkdata/enableParquet";
     public static final String PROPERTY_BULKDATA_BATCHJOB_SYSTEMEXPIMPL = "fhirServer/bulkdata/systemExportImpl";
@@ -135,6 +152,8 @@ public class FHIRConfiguration {
     public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXSIZE = "fhirServer/bulkdata/cosFileMaxSize";
     public static final String PROPERTY_BULKDATA_BATCHJOB_COSFILEMAXRESOURCES = "fhirServer/bulkdata/cosFileMaxResources";
     public static final String PROPERTY_BULKDATA_PATIENTEXPORT_PAGESIZE = "fhirServer/bulkdata/patientExportPageSize";
+    // Control if push OperationOutcomes to COS/S3.
+    public static final String PROPERTY_BULKDATA_IGNORE_IMPORT_OPERATION_OUTCOMES = "fhirServer/bulkdata/ignoreImportOutcomes";
 
     // Custom header names
     public static final String DEFAULT_TENANT_ID_HEADER_NAME = "X-FHIR-TENANT-ID";
@@ -182,7 +201,7 @@ public class FHIRConfiguration {
      * Returns the "home" directory for FHIR Server configuration information (this directory will contain
      * the "config" directory, etc.).
      * <p>
-     * The default value of this property is "" which is interpretted to mean the current working directory
+     * The default value of this property is "" which is interpreted to mean the current working directory
      * (which for a running FHIR Server will be $WLP_HOME/wlp/usr/servers/fhir-server).
      */
     public static String getConfigHome() {

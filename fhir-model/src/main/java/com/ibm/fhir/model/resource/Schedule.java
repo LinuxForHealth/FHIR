@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,18 +32,26 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A container for slots of time that may be available for booking appointments.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "schedule-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Schedule",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -54,21 +63,21 @@ public class Schedule extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Summary
     @Binding(
         bindingName = "specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -81,20 +90,16 @@ public class Schedule extends DomainResource {
     private final Period planningHorizon;
     private final String comment;
 
-    private volatile int hashCode;
-
     private Schedule(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        actor = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.actor, "actor"));
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        actor = Collections.unmodifiableList(builder.actor);
         planningHorizon = builder.planningHorizon;
         comment = builder.comment;
-        ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -751,7 +756,21 @@ public class Schedule extends DomainResource {
          */
         @Override
         public Schedule build() {
-            return new Schedule(this);
+            Schedule schedule = new Schedule(this);
+            if (validating) {
+                validate(schedule);
+            }
+            return schedule;
+        }
+
+        protected void validate(Schedule schedule) {
+            super.validate(schedule);
+            ValidationSupport.checkList(schedule.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(schedule.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(schedule.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(schedule.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(schedule.actor, "actor", Reference.class);
+            ValidationSupport.checkReferenceType(schedule.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
         }
 
         protected Builder from(Schedule schedule) {

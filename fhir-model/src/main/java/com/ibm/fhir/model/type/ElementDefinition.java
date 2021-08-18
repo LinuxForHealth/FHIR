@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,7 +18,6 @@ import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
-import com.ibm.fhir.model.type.BackboneElement;
 import com.ibm.fhir.model.type.code.AggregationMode;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConstraintSeverity;
@@ -37,140 +36,160 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "ElementDefinition.slicing",
     description = "If there are no discriminators, there must be a definition",
-    expression = "discriminator.exists() or description.exists()"
+    expression = "discriminator.exists() or description.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-2",
     level = "Rule",
     location = "(base)",
     description = "Min <= Max",
-    expression = "min.empty() or max.empty() or (max = '*') or iif(max != '*', min <= max.toInteger())"
+    expression = "min.empty() or max.empty() or (max = '*') or iif(max != '*', min <= max.toInteger())",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-3",
     level = "Rule",
     location = "ElementDefinition.max",
     description = "Max SHALL be a number or \"*\"",
-    expression = "empty() or ($this = '*') or (toInteger() >= 0)"
+    expression = "empty() or ($this = '*') or (toInteger() >= 0)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-4",
     level = "Rule",
     location = "ElementDefinition.type",
     description = "Aggregation may only be specified if one of the allowed types for the element is a reference",
-    expression = "aggregation.empty() or (code = 'Reference') or (code = 'canonical')"
+    expression = "aggregation.empty() or (code = 'Reference') or (code = 'canonical')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-5",
     level = "Rule",
     location = "(base)",
     description = "if the element definition has a contentReference, it cannot have type, defaultValue, fixed, pattern, example, minValue, maxValue, maxLength, or binding",
-    expression = "contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())"
+    expression = "contentReference.empty() or (type.empty() and defaultValue.empty() and fixed.empty() and pattern.empty() and example.empty() and minValue.empty() and maxValue.empty() and maxLength.empty() and binding.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-6",
     level = "Rule",
     location = "(base)",
     description = "Fixed value may only be specified if there is one type",
-    expression = "fixed.empty() or (type.count()  <= 1)"
+    expression = "fixed.empty() or (type.count()  <= 1)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-7",
     level = "Rule",
     location = "(base)",
     description = "Pattern may only be specified if there is one type",
-    expression = "pattern.empty() or (type.count() <= 1)"
+    expression = "pattern.empty() or (type.count() <= 1)",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-8",
     level = "Rule",
     location = "(base)",
     description = "Pattern and fixed are mutually exclusive",
-    expression = "pattern.empty() or fixed.empty()"
+    expression = "pattern.empty() or fixed.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-11",
     level = "Rule",
     location = "(base)",
     description = "Binding can only be present for coded elements, string, and uri",
-    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()"
+    expression = "binding.empty() or type.code.empty() or type.select((code = 'code') or (code = 'Coding') or (code='CodeableConcept') or (code = 'Quantity') or (code = 'string') or (code = 'uri')).exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-12",
     level = "Rule",
     location = "ElementDefinition.binding",
     description = "ValueSet SHALL start with http:// or https:// or urn:",
-    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))"
+    expression = "valueSet.exists() implies (valueSet.startsWith('http:') or valueSet.startsWith('https') or valueSet.startsWith('urn:'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-13",
     level = "Rule",
     location = "(base)",
     description = "Types must be unique by code",
-    expression = "type.select(code).isDistinct()"
+    expression = "type.select(code).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-14",
     level = "Rule",
     location = "(base)",
     description = "Constraints must be unique by key",
-    expression = "constraint.select(key).isDistinct()"
+    expression = "constraint.select(key).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-15",
     level = "Rule",
     location = "(base)",
     description = "default value and meaningWhenMissing are mutually exclusive",
-    expression = "defaultValue.empty() or meaningWhenMissing.empty()"
+    expression = "defaultValue.empty() or meaningWhenMissing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-16",
     level = "Rule",
     location = "(base)",
     description = "sliceName must be composed of proper tokens separated by \"/\"",
-    expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')"
+    expression = "sliceName.empty() or sliceName.matches('^[a-zA-Z0-9\\/\\-_\\[\\]\\@]+$')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-17",
     level = "Rule",
     location = "ElementDefinition.type",
     description = "targetProfile is only allowed if the type is Reference or canonical",
-    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()"
+    expression = "(code='Reference' or code = 'canonical') or targetProfile.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-18",
     level = "Rule",
     location = "(base)",
     description = "Must have a modifier reason if isModifier = true",
-    expression = "(isModifier.exists() and isModifier) implies isModifierReason.exists()"
+    expression = "(isModifier.exists() and isModifier) implies isModifierReason.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-19",
     level = "Rule",
     location = "(base)",
     description = "Element names cannot include some special characters",
-    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')"
+    expression = "path.matches('[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\.[^\\s\\.,:;\\\'\"\\/|?!@#$%&*()\\[\\]{}]{1,64}(\\[x\\])?(\\:[^\\s\\.]+)?)*')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-20",
     level = "Warning",
     location = "(base)",
     description = "Element names should be simple alphanumerics with a max of 64 characters, or code generation tools may be broken",
-    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')"
+    expression = "path.matches('[A-Za-z][A-Za-z0-9]*(\\.[a-z][A-Za-z0-9]*(\\[x])?)*')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-21",
     level = "Warning",
     location = "ElementDefinition.constraint",
     description = "Constraints should have an expression or else validators will not be able to enforce them",
-    expression = "expression.exists()"
+    expression = "expression.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "eld-22",
     level = "Rule",
     location = "(base)",
     description = "sliceIsConstraining can only appear if slicename is present",
-    expression = "sliceIsConstraining.exists() implies sliceName.exists()"
+    expression = "sliceIsConstraining.exists() implies sliceName.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition"
 )
 @Constraint(
     id = "elementDefinition-23",
@@ -178,6 +197,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "type.code",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ElementDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -188,7 +208,7 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     @com.ibm.fhir.model.annotation.Binding(
         bindingName = "PropertyRepresentation",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a property is represented when serialized.",
         valueSet = "http://hl7.org/fhir/ValueSet/property-representation|4.0.1"
     )
@@ -202,7 +222,7 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     @com.ibm.fhir.model.annotation.Binding(
         bindingName = "ElementDefinitionCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes that indicate the meaning of a data element.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -269,45 +289,42 @@ public class ElementDefinition extends BackboneElement {
     @Summary
     private final List<Mapping> mapping;
 
-    private volatile int hashCode;
-
     private ElementDefinition(Builder builder) {
         super(builder);
-        path = ValidationSupport.requireNonNull(builder.path, "path");
-        representation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.representation, "representation"));
+        path = builder.path;
+        representation = Collections.unmodifiableList(builder.representation);
         sliceName = builder.sliceName;
         sliceIsConstraining = builder.sliceIsConstraining;
         label = builder.label;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+        code = Collections.unmodifiableList(builder.code);
         slicing = builder.slicing;
         _short = builder._short;
         definition = builder.definition;
         comment = builder.comment;
         requirements = builder.requirements;
-        alias = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alias, "alias"));
+        alias = Collections.unmodifiableList(builder.alias);
         min = builder.min;
         max = builder.max;
         base = builder.base;
         contentReference = builder.contentReference;
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+        type = Collections.unmodifiableList(builder.type);
+        defaultValue = builder.defaultValue;
         meaningWhenMissing = builder.meaningWhenMissing;
         orderMeaning = builder.orderMeaning;
-        fixed = ValidationSupport.choiceElement(builder.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        pattern = ValidationSupport.choiceElement(builder.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-        example = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.example, "example"));
-        minValue = ValidationSupport.choiceElement(builder.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
-        maxValue = ValidationSupport.choiceElement(builder.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+        fixed = builder.fixed;
+        pattern = builder.pattern;
+        example = Collections.unmodifiableList(builder.example);
+        minValue = builder.minValue;
+        maxValue = builder.maxValue;
         maxLength = builder.maxLength;
-        condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-        constraint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.constraint, "constraint"));
+        condition = Collections.unmodifiableList(builder.condition);
+        constraint = Collections.unmodifiableList(builder.constraint);
         mustSupport = builder.mustSupport;
         isModifier = builder.isModifier;
         isModifierReason = builder.isModifierReason;
         isSummary = builder.isSummary;
         binding = builder.binding;
-        mapping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mapping, "mapping"));
-        ValidationSupport.requireValueOrChildren(this);
+        mapping = Collections.unmodifiableList(builder.mapping);
     }
 
     /**
@@ -1927,7 +1944,30 @@ public class ElementDefinition extends BackboneElement {
          */
         @Override
         public ElementDefinition build() {
-            return new ElementDefinition(this);
+            ElementDefinition elementDefinition = new ElementDefinition(this);
+            if (validating) {
+                validate(elementDefinition);
+            }
+            return elementDefinition;
+        }
+
+        protected void validate(ElementDefinition elementDefinition) {
+            super.validate(elementDefinition);
+            ValidationSupport.requireNonNull(elementDefinition.path, "path");
+            ValidationSupport.checkList(elementDefinition.representation, "representation", PropertyRepresentation.class);
+            ValidationSupport.checkList(elementDefinition.code, "code", Coding.class);
+            ValidationSupport.checkList(elementDefinition.alias, "alias", String.class);
+            ValidationSupport.checkList(elementDefinition.type, "type", Type.class);
+            ValidationSupport.choiceElement(elementDefinition.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.choiceElement(elementDefinition.fixed, "fixed", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.choiceElement(elementDefinition.pattern, "pattern", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+            ValidationSupport.checkList(elementDefinition.example, "example", Example.class);
+            ValidationSupport.choiceElement(elementDefinition.minValue, "minValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+            ValidationSupport.choiceElement(elementDefinition.maxValue, "maxValue", Date.class, DateTime.class, Instant.class, Time.class, Decimal.class, Integer.class, PositiveInt.class, UnsignedInt.class, Quantity.class);
+            ValidationSupport.checkList(elementDefinition.condition, "condition", Id.class);
+            ValidationSupport.checkList(elementDefinition.constraint, "constraint", Constraint.class);
+            ValidationSupport.checkList(elementDefinition.mapping, "mapping", Mapping.class);
+            ValidationSupport.requireValueOrChildren(elementDefinition);
         }
 
         protected Builder from(ElementDefinition elementDefinition) {
@@ -1987,22 +2027,19 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SlicingRules",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How slices are interpreted when evaluating an instance.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-slicing-rules|4.0.1"
         )
         @Required
         private final SlicingRules rules;
 
-        private volatile int hashCode;
-
         private Slicing(Builder builder) {
             super(builder);
-            discriminator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.discriminator, "discriminator"));
+            discriminator = Collections.unmodifiableList(builder.discriminator);
             description = builder.description;
             ordered = builder.ordered;
-            rules = ValidationSupport.requireNonNull(builder.rules, "rules");
-            ValidationSupport.requireValueOrChildren(this);
+            rules = builder.rules;
         }
 
         /**
@@ -2331,7 +2368,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Slicing build() {
-                return new Slicing(this);
+                Slicing slicing = new Slicing(this);
+                if (validating) {
+                    validate(slicing);
+                }
+                return slicing;
+            }
+
+            protected void validate(Slicing slicing) {
+                super.validate(slicing);
+                ValidationSupport.checkList(slicing.discriminator, "discriminator", Discriminator.class);
+                ValidationSupport.requireNonNull(slicing.rules, "rules");
+                ValidationSupport.requireValueOrChildren(slicing);
             }
 
             protected Builder from(Slicing slicing) {
@@ -2353,7 +2401,7 @@ public class ElementDefinition extends BackboneElement {
             @Summary
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "DiscriminatorType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "How an element value is interpreted when discrimination is evaluated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/discriminator-type|4.0.1"
             )
@@ -2363,13 +2411,10 @@ public class ElementDefinition extends BackboneElement {
             @Required
             private final String path;
 
-            private volatile int hashCode;
-
             private Discriminator(Builder builder) {
                 super(builder);
-                type = ValidationSupport.requireNonNull(builder.type, "type");
-                path = ValidationSupport.requireNonNull(builder.path, "path");
-                ValidationSupport.requireValueOrChildren(this);
+                type = builder.type;
+                path = builder.path;
             }
 
             /**
@@ -2615,7 +2660,18 @@ public class ElementDefinition extends BackboneElement {
                  */
                 @Override
                 public Discriminator build() {
-                    return new Discriminator(this);
+                    Discriminator discriminator = new Discriminator(this);
+                    if (validating) {
+                        validate(discriminator);
+                    }
+                    return discriminator;
+                }
+
+                protected void validate(Discriminator discriminator) {
+                    super.validate(discriminator);
+                    ValidationSupport.requireNonNull(discriminator.type, "type");
+                    ValidationSupport.requireNonNull(discriminator.path, "path");
+                    ValidationSupport.requireValueOrChildren(discriminator);
                 }
 
                 protected Builder from(Discriminator discriminator) {
@@ -2646,14 +2702,11 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final String max;
 
-        private volatile int hashCode;
-
         private Base(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            min = ValidationSupport.requireNonNull(builder.min, "min");
-            max = ValidationSupport.requireNonNull(builder.max, "max");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            min = builder.min;
+            max = builder.max;
         }
 
         /**
@@ -2933,7 +2986,19 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Base build() {
-                return new Base(this);
+                Base base = new Base(this);
+                if (validating) {
+                    validate(base);
+                }
+                return base;
+            }
+
+            protected void validate(Base base) {
+                super.validate(base);
+                ValidationSupport.requireNonNull(base.path, "path");
+                ValidationSupport.requireNonNull(base.min, "min");
+                ValidationSupport.requireNonNull(base.max, "max");
+                ValidationSupport.requireValueOrChildren(base);
             }
 
             protected Builder from(Base base) {
@@ -2953,7 +3018,7 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "FHIRDefinedTypeExt",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Either a resource or a data type, including logical model types.",
             valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
         )
@@ -2966,7 +3031,7 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "AggregationMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How resource references can be aggregated.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-aggregation-mode|4.0.1"
         )
@@ -2974,22 +3039,19 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ReferenceVersionRules",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Whether a reference needs to be version specific or version independent, or whether either can be used.",
             valueSet = "http://hl7.org/fhir/ValueSet/reference-version-rules|4.0.1"
         )
         private final ReferenceVersionRules versioning;
 
-        private volatile int hashCode;
-
         private Type(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-            targetProfile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetProfile, "targetProfile"));
-            aggregation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.aggregation, "aggregation"));
+            code = builder.code;
+            profile = Collections.unmodifiableList(builder.profile);
+            targetProfile = Collections.unmodifiableList(builder.targetProfile);
+            aggregation = Collections.unmodifiableList(builder.aggregation);
             versioning = builder.versioning;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3408,7 +3470,20 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Type build() {
-                return new Type(this);
+                Type type = new Type(this);
+                if (validating) {
+                    validate(type);
+                }
+                return type;
+            }
+
+            protected void validate(Type type) {
+                super.validate(type);
+                ValidationSupport.requireNonNull(type.code, "code");
+                ValidationSupport.checkList(type.profile, "profile", Canonical.class);
+                ValidationSupport.checkList(type.targetProfile, "targetProfile", Canonical.class);
+                ValidationSupport.checkList(type.aggregation, "aggregation", AggregationMode.class);
+                ValidationSupport.requireValueOrChildren(type);
             }
 
             protected Builder from(Type type) {
@@ -3435,13 +3510,10 @@ public class ElementDefinition extends BackboneElement {
         @Required
         private final Element value;
 
-        private volatile int hashCode;
-
         private Example(Builder builder) {
             super(builder);
-            label = ValidationSupport.requireNonNull(builder.label, "label");
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
-            ValidationSupport.requireValueOrChildren(this);
+            label = builder.label;
+            value = builder.value;
         }
 
         /**
@@ -3739,7 +3811,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Example build() {
-                return new Example(this);
+                Example example = new Example(this);
+                if (validating) {
+                    validate(example);
+                }
+                return example;
+            }
+
+            protected void validate(Example example) {
+                super.validate(example);
+                ValidationSupport.requireNonNull(example.label, "label");
+                ValidationSupport.requireChoiceElement(example.value, "value", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                ValidationSupport.requireValueOrChildren(example);
             }
 
             protected Builder from(Example example) {
@@ -3764,7 +3847,7 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "ConstraintSeverity",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "SHALL applications comply with this constraint?",
             valueSet = "http://hl7.org/fhir/ValueSet/constraint-severity|4.0.1"
         )
@@ -3780,18 +3863,15 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final Canonical source;
 
-        private volatile int hashCode;
-
         private Constraint(Builder builder) {
             super(builder);
-            key = ValidationSupport.requireNonNull(builder.key, "key");
+            key = builder.key;
             requirements = builder.requirements;
-            severity = ValidationSupport.requireNonNull(builder.severity, "severity");
-            human = ValidationSupport.requireNonNull(builder.human, "human");
+            severity = builder.severity;
+            human = builder.human;
             expression = builder.expression;
             xpath = builder.xpath;
             source = builder.source;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4185,7 +4265,19 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Constraint build() {
-                return new Constraint(this);
+                Constraint constraint = new Constraint(this);
+                if (validating) {
+                    validate(constraint);
+                }
+                return constraint;
+            }
+
+            protected void validate(Constraint constraint) {
+                super.validate(constraint);
+                ValidationSupport.requireNonNull(constraint.key, "key");
+                ValidationSupport.requireNonNull(constraint.severity, "severity");
+                ValidationSupport.requireNonNull(constraint.human, "human");
+                ValidationSupport.requireValueOrChildren(constraint);
             }
 
             protected Builder from(Constraint constraint) {
@@ -4210,7 +4302,7 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "BindingStrength",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Indication of the degree of conformance expectations associated with a binding.",
             valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
         )
@@ -4221,14 +4313,11 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final Canonical valueSet;
 
-        private volatile int hashCode;
-
         private Binding(Builder builder) {
             super(builder);
-            strength = ValidationSupport.requireNonNull(builder.strength, "strength");
+            strength = builder.strength;
             description = builder.description;
             valueSet = builder.valueSet;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4500,7 +4589,17 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Binding build() {
-                return new Binding(this);
+                Binding binding = new Binding(this);
+                if (validating) {
+                    validate(binding);
+                }
+                return binding;
+            }
+
+            protected void validate(Binding binding) {
+                super.validate(binding);
+                ValidationSupport.requireNonNull(binding.strength, "strength");
+                ValidationSupport.requireValueOrChildren(binding);
             }
 
             protected Builder from(Binding binding) {
@@ -4523,7 +4622,7 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "MimeType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The mime type of an attachment. Any valid mime type is allowed.",
             valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
         )
@@ -4534,15 +4633,12 @@ public class ElementDefinition extends BackboneElement {
         @Summary
         private final String comment;
 
-        private volatile int hashCode;
-
         private Mapping(Builder builder) {
             super(builder);
-            identity = ValidationSupport.requireNonNull(builder.identity, "identity");
+            identity = builder.identity;
             language = builder.language;
-            map = ValidationSupport.requireNonNull(builder.map, "map");
+            map = builder.map;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4844,7 +4940,18 @@ public class ElementDefinition extends BackboneElement {
              */
             @Override
             public Mapping build() {
-                return new Mapping(this);
+                Mapping mapping = new Mapping(this);
+                if (validating) {
+                    validate(mapping);
+                }
+                return mapping;
+            }
+
+            protected void validate(Mapping mapping) {
+                super.validate(mapping);
+                ValidationSupport.requireNonNull(mapping.identity, "identity");
+                ValidationSupport.requireNonNull(mapping.map, "map");
+                ValidationSupport.requireValueOrChildren(mapping);
             }
 
             protected Builder from(Mapping mapping) {

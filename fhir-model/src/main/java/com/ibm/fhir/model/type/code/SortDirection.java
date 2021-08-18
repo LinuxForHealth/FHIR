@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class SortDirection extends Code {
      * 
      * <p>Sort by the value ascending, so that lower values appear first.
      */
-    public static final SortDirection ASCENDING = SortDirection.builder().value(ValueSet.ASCENDING).build();
+    public static final SortDirection ASCENDING = SortDirection.builder().value(Value.ASCENDING).build();
 
     /**
      * Descending
      * 
      * <p>Sort by the value descending, so that lower values appear last.
      */
-    public static final SortDirection DESCENDING = SortDirection.builder().value(ValueSet.DESCENDING).build();
+    public static final SortDirection DESCENDING = SortDirection.builder().value(Value.DESCENDING).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class SortDirection extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SortDirection as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SortDirection as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SortDirection objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SortDirection of(ValueSet value) {
+        switch (value) {
+        case ASCENDING:
+            return ASCENDING;
+        case DESCENDING:
+            return DESCENDING;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SortDirection objects from a passed enum value.
      */
-    public static SortDirection of(ValueSet value) {
+    public static SortDirection of(Value value) {
         switch (value) {
         case ASCENDING:
             return ASCENDING;
@@ -66,7 +94,7 @@ public class SortDirection extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SortDirection of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class SortDirection extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class SortDirection extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class SortDirection extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class SortDirection extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SortDirection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public SortDirection build() {
-            return new SortDirection(this);
+            SortDirection sortDirection = new SortDirection(this);
+            if (validating) {
+                validate(sortDirection);
+            }
+            return sortDirection;
+        }
+
+        protected void validate(SortDirection sortDirection) {
+            super.validate(sortDirection);
+        }
+
+        protected Builder from(SortDirection sortDirection) {
+            super.from(sortDirection);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Ascending
@@ -195,7 +250,7 @@ public class SortDirection extends Code {
         }
 
         /**
-         * Factory method for creating SortDirection.ValueSet values from a passed string value.
+         * Factory method for creating SortDirection.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class SortDirection extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Ascending
+         * 
+         * <p>Sort by the value ascending, so that lower values appear first.
+         */
+        ASCENDING("ascending"),
+
+        /**
+         * Descending
+         * 
+         * <p>Sort by the value descending, so that lower values appear last.
+         */
+        DESCENDING("descending");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SortDirection.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding SortDirection.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "ascending":
+                return ASCENDING;
+            case "descending":
+                return DESCENDING;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

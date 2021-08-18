@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -18,8 +18,6 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Markdown extends String {
-    private volatile int hashCode;
-
     private Markdown(Builder builder) {
         super(builder);
     }
@@ -29,11 +27,25 @@ public class Markdown extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Markdown objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Markdown of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Markdown.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Markdown objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Markdown.builder().value(value).build();
     }
 
@@ -171,7 +183,15 @@ public class Markdown extends String {
          */
         @Override
         public Markdown build() {
-            return new Markdown(this);
+            Markdown markdown = new Markdown(this);
+            if (validating) {
+                validate(markdown);
+            }
+            return markdown;
+        }
+
+        protected void validate(Markdown markdown) {
+            super.validate(markdown);
         }
 
         protected Builder from(Markdown markdown) {

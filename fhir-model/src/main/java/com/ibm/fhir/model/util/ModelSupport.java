@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,6 +31,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import com.ibm.fhir.model.annotation.Binding;
@@ -40,6 +41,8 @@ import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.annotation.System;
+import com.ibm.fhir.model.constraint.spi.ConstraintProvider;
+import com.ibm.fhir.model.constraint.spi.ModelConstraintProvider;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Address;
 import com.ibm.fhir.model.type.Age;
@@ -108,6 +111,8 @@ public final class ModelSupport {
     public static final Class<com.ibm.fhir.model.type.Boolean> FHIR_BOOLEAN = com.ibm.fhir.model.type.Boolean.class;
     public static final Class<com.ibm.fhir.model.type.Integer> FHIR_INTEGER = com.ibm.fhir.model.type.Integer.class;
     public static final Class<com.ibm.fhir.model.type.String> FHIR_STRING = com.ibm.fhir.model.type.String.class;
+    public static final Class<com.ibm.fhir.model.type.Date> FHIR_DATE = com.ibm.fhir.model.type.Date.class;
+    public static final Class<com.ibm.fhir.model.type.Instant> FHIR_INSTANT = com.ibm.fhir.model.type.Instant.class;
 
     private static final Map<Class<?>, Class<?>> CONCRETE_TYPE_MAP = buildConcreteTypeMap();
     private static final Map<Class<?>, Map<String, ElementInfo>> MODEL_CLASS_ELEMENT_INFO_MAP = buildModelClassElementInfoMap();
@@ -115,7 +120,7 @@ public final class ModelSupport {
     private static final Set<Class<? extends Resource>> CONCRETE_RESOURCE_TYPES = getResourceTypes().stream()
             .filter(rt -> !isAbstract(rt))
             .collect(Collectors.toSet());
-    private static final Map<Class<?>, Set<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
+    private static final Map<Class<?>, List<Constraint>> MODEL_CLASS_CONSTRAINT_MAP = buildModelClassConstraintMap();
     // LinkedHashSet is used just to preserve the order, for convenience only
     private static final Set<Class<? extends Element>> CHOICE_ELEMENT_TYPES = new LinkedHashSet<>(Arrays.asList(
             Base64Binary.class,
@@ -345,16 +350,33 @@ public final class ModelSupport {
         return Collections.unmodifiableMap(concreteTypeMap);
     }
 
-    private static Map<Class<?>, Set<Constraint>> buildModelClassConstraintMap() {
-        Map<Class<?>, Set<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
+    private static Map<Class<?>, List<Constraint>> buildModelClassConstraintMap() {
+        Map<Class<?>, List<Constraint>> modelClassConstraintMap = new LinkedHashMap<>(1024);
+        List<ModelConstraintProvider> providers = ConstraintProvider.providers(ModelConstraintProvider.class);
         for (Class<?> modelClass : getModelClasses()) {
-            Set<Constraint> constraints = new LinkedHashSet<>();
+            List<Constraint> constraints = new ArrayList<>();
             for (Class<?> clazz : getClosure(modelClass)) {
                 for (Constraint constraint : clazz.getDeclaredAnnotationsByType(Constraint.class)) {
-                    constraints.add(constraint);
+                    constraints.add(Constraint.Factory.createConstraint(
+                        constraint.id(),
+                        constraint.level(),
+                        constraint.location(),
+                        constraint.description(),
+                        constraint.expression(),
+                        constraint.source(),
+                        constraint.modelChecked(),
+                        constraint.generated()));
                 }
             }
-            modelClassConstraintMap.put(modelClass, Collections.unmodifiableSet(constraints));
+            for (ModelConstraintProvider provider : providers) {
+                if (provider.appliesTo(modelClass)) {
+                    for (Predicate<Constraint> removalPredicate : provider.getRemovalPredicates()) {
+                        constraints.removeIf(removalPredicate);
+                    }
+                    constraints.addAll(provider.getConstraints());
+                }
+            }
+            modelClassConstraintMap.put(modelClass, Collections.unmodifiableList(constraints));
         }
         return Collections.unmodifiableMap(modelClassConstraintMap);
     }
@@ -503,10 +525,10 @@ public final class ModelSupport {
     }
 
     /**
-     * @return the set of constraints for the modelClass or empty if there are none
+     * @return the list of constraints for the modelClass or empty if there are none
      */
-    public static Set<Constraint> getConstraints(Class<?> modelClass) {
-        return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptySet());
+    public static List<Constraint> getConstraints(Class<?> modelClass) {
+        return MODEL_CLASS_CONSTRAINT_MAP.getOrDefault(modelClass, Collections.emptyList());
     }
 
     /**
@@ -896,6 +918,17 @@ public final class ModelSupport {
      */
     public static boolean isResourceType(String name) {
         return RESOURCE_TYPE_MAP.containsKey(name);
+    }
+
+    /**
+     * @param name
+     *            the resource type name in titlecase to match the corresponding model class name
+     * @return true if {@code name} is a valid FHIR resource name; otherwise false
+     * @implSpec this method returns false for abstract types like {@code Resource} and {@code DomainResource}
+     */
+    public static boolean isConcreteResourceType(String name) {
+        Class<?> modelClass = RESOURCE_TYPE_MAP.get(name);
+        return modelClass != null && !isAbstract(modelClass);
     }
 
     /**

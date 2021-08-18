@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,18 +38,26 @@ import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DaysOfWeek;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The details of a healthcare service available at a location.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "healthcareService-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/HealthcareService",
     generated = true
 )
 @Constraint(
@@ -57,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "communication.exists() implies (communication.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/HealthcareService",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -71,7 +81,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A category of the service(s) that could be provided.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
@@ -79,7 +89,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Additional details about where the content was created (e.g. clinical specialty).",
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
@@ -87,7 +97,7 @@ public class HealthcareService extends DomainResource {
     @Summary
     @Binding(
         bindingName = "service-specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A specialty that a healthcare service may provide.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -107,7 +117,7 @@ public class HealthcareService extends DomainResource {
     private final List<Reference> coverageArea;
     @Binding(
         bindingName = "ServiceProvisionConditions",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The code(s) that detail the conditions under which the healthcare service is available/offered.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-provision-conditions"
     )
@@ -115,20 +125,20 @@ public class HealthcareService extends DomainResource {
     private final List<Eligibility> eligibility;
     @Binding(
         bindingName = "Program",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Government or local programs that this service applies to.",
         valueSet = "http://hl7.org/fhir/ValueSet/program"
     )
     private final List<CodeableConcept> program;
     @Binding(
         bindingName = "ServiceCharacteristic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A custom attribute that could be provided at a service (e.g. Wheelchair accessibiliy)."
     )
     private final List<CodeableConcept> characteristic;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -136,7 +146,7 @@ public class HealthcareService extends DomainResource {
     private final List<CodeableConcept> communication;
     @Binding(
         bindingName = "ReferralMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The methods of referral can be used when referring to a specific HealthCareService resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-referral-method"
     )
@@ -148,40 +158,32 @@ public class HealthcareService extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private HealthcareService(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         providedBy = builder.providedBy;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        category = Collections.unmodifiableList(builder.category);
+        type = Collections.unmodifiableList(builder.type);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
         name = builder.name;
         comment = builder.comment;
         extraDetails = builder.extraDetails;
         photo = builder.photo;
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        coverageArea = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.coverageArea, "coverageArea"));
-        serviceProvisionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceProvisionCode, "serviceProvisionCode"));
-        eligibility = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eligibility, "eligibility"));
-        program = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.program, "program"));
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        referralMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralMethod, "referralMethod"));
+        telecom = Collections.unmodifiableList(builder.telecom);
+        coverageArea = Collections.unmodifiableList(builder.coverageArea);
+        serviceProvisionCode = Collections.unmodifiableList(builder.serviceProvisionCode);
+        eligibility = Collections.unmodifiableList(builder.eligibility);
+        program = Collections.unmodifiableList(builder.program);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        communication = Collections.unmodifiableList(builder.communication);
+        referralMethod = Collections.unmodifiableList(builder.referralMethod);
         appointmentRequired = builder.appointmentRequired;
-        availableTime = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.availableTime, "availableTime"));
-        notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
+        availableTime = Collections.unmodifiableList(builder.availableTime);
+        notAvailable = Collections.unmodifiableList(builder.notAvailable);
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.checkReferenceType(providedBy, "providedBy", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(coverageArea, "coverageArea", "Location");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1539,7 +1541,36 @@ public class HealthcareService extends DomainResource {
          */
         @Override
         public HealthcareService build() {
-            return new HealthcareService(this);
+            HealthcareService healthcareService = new HealthcareService(this);
+            if (validating) {
+                validate(healthcareService);
+            }
+            return healthcareService;
+        }
+
+        protected void validate(HealthcareService healthcareService) {
+            super.validate(healthcareService);
+            ValidationSupport.checkList(healthcareService.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(healthcareService.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.location, "location", Reference.class);
+            ValidationSupport.checkList(healthcareService.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(healthcareService.coverageArea, "coverageArea", Reference.class);
+            ValidationSupport.checkList(healthcareService.serviceProvisionCode, "serviceProvisionCode", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.eligibility, "eligibility", Eligibility.class);
+            ValidationSupport.checkList(healthcareService.program, "program", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.characteristic, "characteristic", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.communication, "communication", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.referralMethod, "referralMethod", CodeableConcept.class);
+            ValidationSupport.checkList(healthcareService.availableTime, "availableTime", AvailableTime.class);
+            ValidationSupport.checkList(healthcareService.notAvailable, "notAvailable", NotAvailable.class);
+            ValidationSupport.checkList(healthcareService.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkValueSetBinding(healthcareService.communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.checkReferenceType(healthcareService.providedBy, "providedBy", "Organization");
+            ValidationSupport.checkReferenceType(healthcareService.location, "location", "Location");
+            ValidationSupport.checkReferenceType(healthcareService.coverageArea, "coverageArea", "Location");
+            ValidationSupport.checkReferenceType(healthcareService.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(HealthcareService healthcareService) {
@@ -1578,19 +1609,16 @@ public class HealthcareService extends DomainResource {
     public static class Eligibility extends BackboneElement {
         @Binding(
             bindingName = "ServiceEligibility",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Coded values underwhich a specific service is made available."
         )
         private final CodeableConcept code;
         private final Markdown comment;
 
-        private volatile int hashCode;
-
         private Eligibility(Builder builder) {
             super(builder);
             code = builder.code;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1826,7 +1854,16 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public Eligibility build() {
-                return new Eligibility(this);
+                Eligibility eligibility = new Eligibility(this);
+                if (validating) {
+                    validate(eligibility);
+                }
+                return eligibility;
+            }
+
+            protected void validate(Eligibility eligibility) {
+                super.validate(eligibility);
+                ValidationSupport.requireValueOrChildren(eligibility);
             }
 
             protected Builder from(Eligibility eligibility) {
@@ -1844,7 +1881,7 @@ public class HealthcareService extends DomainResource {
     public static class AvailableTime extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )
@@ -1853,15 +1890,12 @@ public class HealthcareService extends DomainResource {
         private final Time availableStartTime;
         private final Time availableEndTime;
 
-        private volatile int hashCode;
-
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2175,7 +2209,17 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public AvailableTime build() {
-                return new AvailableTime(this);
+                AvailableTime availableTime = new AvailableTime(this);
+                if (validating) {
+                    validate(availableTime);
+                }
+                return availableTime;
+            }
+
+            protected void validate(AvailableTime availableTime) {
+                super.validate(availableTime);
+                ValidationSupport.checkList(availableTime.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+                ValidationSupport.requireValueOrChildren(availableTime);
             }
 
             protected Builder from(AvailableTime availableTime) {
@@ -2197,13 +2241,10 @@ public class HealthcareService extends DomainResource {
         private final String description;
         private final Period during;
 
-        private volatile int hashCode;
-
         private NotAvailable(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             during = builder.during;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2446,7 +2487,17 @@ public class HealthcareService extends DomainResource {
              */
             @Override
             public NotAvailable build() {
-                return new NotAvailable(this);
+                NotAvailable notAvailable = new NotAvailable(this);
+                if (validating) {
+                    validate(notAvailable);
+                }
+                return notAvailable;
+            }
+
+            protected void validate(NotAvailable notAvailable) {
+                super.validate(notAvailable);
+                ValidationSupport.requireNonNull(notAvailable.description, "description");
+                ValidationSupport.requireValueOrChildren(notAvailable);
             }
 
             protected Builder from(NotAvailable notAvailable) {

@@ -1,0 +1,10 @@
+{
+	"fhirServer": {
+		"core": {
+		  "defaultPageSize": 500
+		},
+		"persistence": {
+			"factoryClassname": "com.ibm.fhir.persistence.test.MockPersistenceFactory"
+		}
+	}
+}

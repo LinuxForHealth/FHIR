@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,19 +33,27 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EpisodeOfCareStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An association between a patient and an organization / healthcare provider(s) during which time encounters may occur. 
  * The managing organization assumes a level of responsibility for the patient during this time.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "episodeOfCare-0",
     level = "Warning",
     location = "diagnosis.role",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/EpisodeOfCare",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -53,7 +62,7 @@ public class EpisodeOfCare extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EpisodeOfCareStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
     )
@@ -63,7 +72,7 @@ public class EpisodeOfCare extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EpisodeOfCareType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of the episode of care.",
         valueSet = "http://hl7.org/fhir/ValueSet/episodeofcare-type"
     )
@@ -88,29 +97,20 @@ public class EpisodeOfCare extends DomainResource {
     @ReferenceTarget({ "Account" })
     private final List<Reference> account;
 
-    private volatile int hashCode;
-
     private EpisodeOfCare(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        type = Collections.unmodifiableList(builder.type);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        patient = builder.patient;
         managingOrganization = builder.managingOrganization;
         period = builder.period;
-        referralRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referralRequest, "referralRequest"));
+        referralRequest = Collections.unmodifiableList(builder.referralRequest);
         careManager = builder.careManager;
-        team = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.team, "team"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(referralRequest, "referralRequest", "ServiceRequest");
-        ValidationSupport.checkReferenceType(careManager, "careManager", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(team, "team", "CareTeam");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.requireChildren(this);
+        team = Collections.unmodifiableList(builder.team);
+        account = Collections.unmodifiableList(builder.account);
     }
 
     /**
@@ -948,7 +948,30 @@ public class EpisodeOfCare extends DomainResource {
          */
         @Override
         public EpisodeOfCare build() {
-            return new EpisodeOfCare(this);
+            EpisodeOfCare episodeOfCare = new EpisodeOfCare(this);
+            if (validating) {
+                validate(episodeOfCare);
+            }
+            return episodeOfCare;
+        }
+
+        protected void validate(EpisodeOfCare episodeOfCare) {
+            super.validate(episodeOfCare);
+            ValidationSupport.checkList(episodeOfCare.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(episodeOfCare.status, "status");
+            ValidationSupport.checkList(episodeOfCare.statusHistory, "statusHistory", StatusHistory.class);
+            ValidationSupport.checkList(episodeOfCare.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(episodeOfCare.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.requireNonNull(episodeOfCare.patient, "patient");
+            ValidationSupport.checkList(episodeOfCare.referralRequest, "referralRequest", Reference.class);
+            ValidationSupport.checkList(episodeOfCare.team, "team", Reference.class);
+            ValidationSupport.checkList(episodeOfCare.account, "account", Reference.class);
+            ValidationSupport.checkReferenceType(episodeOfCare.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(episodeOfCare.managingOrganization, "managingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(episodeOfCare.referralRequest, "referralRequest", "ServiceRequest");
+            ValidationSupport.checkReferenceType(episodeOfCare.careManager, "careManager", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(episodeOfCare.team, "team", "CareTeam");
+            ValidationSupport.checkReferenceType(episodeOfCare.account, "account", "Account");
         }
 
         protected Builder from(EpisodeOfCare episodeOfCare) {
@@ -976,7 +999,7 @@ public class EpisodeOfCare extends DomainResource {
     public static class StatusHistory extends BackboneElement {
         @Binding(
             bindingName = "EpisodeOfCareStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The status of the episode of care.",
             valueSet = "http://hl7.org/fhir/ValueSet/episode-of-care-status|4.0.1"
         )
@@ -985,13 +1008,10 @@ public class EpisodeOfCare extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private StatusHistory(Builder builder) {
             super(builder);
-            status = ValidationSupport.requireNonNull(builder.status, "status");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            status = builder.status;
+            period = builder.period;
         }
 
         /**
@@ -1237,7 +1257,18 @@ public class EpisodeOfCare extends DomainResource {
              */
             @Override
             public StatusHistory build() {
-                return new StatusHistory(this);
+                StatusHistory statusHistory = new StatusHistory(this);
+                if (validating) {
+                    validate(statusHistory);
+                }
+                return statusHistory;
+            }
+
+            protected void validate(StatusHistory statusHistory) {
+                super.validate(statusHistory);
+                ValidationSupport.requireNonNull(statusHistory.status, "status");
+                ValidationSupport.requireNonNull(statusHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(statusHistory);
             }
 
             protected Builder from(StatusHistory statusHistory) {
@@ -1260,7 +1291,7 @@ public class EpisodeOfCare extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DiagnosisRole",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "The type of diagnosis this condition represents.",
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )
@@ -1268,15 +1299,11 @@ public class EpisodeOfCare extends DomainResource {
         @Summary
         private final PositiveInt rank;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
-            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            condition = builder.condition;
             role = builder.role;
             rank = builder.rank;
-            ValidationSupport.checkReferenceType(condition, "condition", "Condition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1553,7 +1580,18 @@ public class EpisodeOfCare extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.condition, "condition");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {

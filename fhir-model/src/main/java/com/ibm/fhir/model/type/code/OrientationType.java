@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class OrientationType extends Code {
      * 
      * <p>Sense orientation of reference sequence.
      */
-    public static final OrientationType SENSE = OrientationType.builder().value(ValueSet.SENSE).build();
+    public static final OrientationType SENSE = OrientationType.builder().value(Value.SENSE).build();
 
     /**
      * Antisense orientation of referenceSeq
      * 
      * <p>Antisense orientation of reference sequence.
      */
-    public static final OrientationType ANTISENSE = OrientationType.builder().value(ValueSet.ANTISENSE).build();
+    public static final OrientationType ANTISENSE = OrientationType.builder().value(Value.ANTISENSE).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class OrientationType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this OrientationType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this OrientationType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating OrientationType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static OrientationType of(ValueSet value) {
+        switch (value) {
+        case SENSE:
+            return SENSE;
+        case ANTISENSE:
+            return ANTISENSE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating OrientationType objects from a passed enum value.
      */
-    public static OrientationType of(ValueSet value) {
+    public static OrientationType of(Value value) {
         switch (value) {
         case SENSE:
             return SENSE;
@@ -66,7 +94,7 @@ public class OrientationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static OrientationType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class OrientationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class OrientationType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class OrientationType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class OrientationType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for OrientationType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public OrientationType build() {
-            return new OrientationType(this);
+            OrientationType orientationType = new OrientationType(this);
+            if (validating) {
+                validate(orientationType);
+            }
+            return orientationType;
+        }
+
+        protected void validate(OrientationType orientationType) {
+            super.validate(orientationType);
+        }
+
+        protected Builder from(OrientationType orientationType) {
+            super.from(orientationType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Sense orientation of referenceSeq
@@ -195,7 +250,7 @@ public class OrientationType extends Code {
         }
 
         /**
-         * Factory method for creating OrientationType.ValueSet values from a passed string value.
+         * Factory method for creating OrientationType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class OrientationType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Sense orientation of referenceSeq
+         * 
+         * <p>Sense orientation of reference sequence.
+         */
+        SENSE("sense"),
+
+        /**
+         * Antisense orientation of referenceSeq
+         * 
+         * <p>Antisense orientation of reference sequence.
+         */
+        ANTISENSE("antisense");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating OrientationType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding OrientationType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "sense":
+                return SENSE;
+            case "antisense":
+                return ANTISENSE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

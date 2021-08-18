@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,13 +29,9 @@ public class Date extends Element {
 
     private final TemporalAccessor value;
 
-    private volatile int hashCode;
-
     private Date(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.checkValueType(value, LocalDate.class, YearMonth.class, Year.class);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -62,11 +58,25 @@ public class Date extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Date objects from a TemporalAccessor
+     * 
+     * @param value
+     *     A TemporalAccessor, not null
+     */
     public static Date of(TemporalAccessor value) {
+        Objects.requireNonNull(value, "value");
         return Date.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Date objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static Date of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Date.builder().value(value).build();
     }
 
@@ -211,7 +221,17 @@ public class Date extends Element {
          */
         @Override
         public Date build() {
-            return new Date(this);
+            Date date = new Date(this);
+            if (validating) {
+                validate(date);
+            }
+            return date;
+        }
+
+        protected void validate(Date date) {
+            super.validate(date);
+            ValidationSupport.checkValueType(date.value, LocalDate.class, YearMonth.class, Year.class);
+            ValidationSupport.requireValueOrChildren(date);
         }
 
         protected Builder from(Date date) {

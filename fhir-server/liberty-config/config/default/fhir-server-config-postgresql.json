@@ -4,8 +4,10 @@
         "core": {
             "tenantIdHeaderName": "X-FHIR-TENANT-ID",
             "datastoreIdHeaderName": "X-FHIR-DSID",
+            "originalRequestUriHeaderName": "X-FHIR-FORWARDED-URL",
             "checkReferenceTypes": true,
             "conditionalDeleteMaxNumber": 10,
+            "serverRegistryResourceProviderEnabled": true,
             "disabledOperations": ""
         },
         "security": {
@@ -26,9 +28,9 @@
                     "scopes": ["openid", "profile", "fhirUser", "launch/patient", "patient/*.*", "offline_access"],
                     "capabilities": [
                         "sso-openid-connect",
-                        "launch-standalone", 
-                        "client-public", 
-                        "client-confidential-symmetric", 
+                        "launch-standalone",
+                        "client-public",
+                        "client-confidential-symmetric",
                         "permission-offline",
                         "context-standalone-patient",
                         "permission-patient"
@@ -49,9 +51,6 @@
             },
             "jdbc": {
                 "__comment": "Configuration properties for the JDBC persistence implementation",
-                "bootstrapDb": true,
-                "enableProxyDatasource": false,
-                "bootstrapDataSourceBase": "jdbc/bootstrap",
                 "enableCodeSystemsCache": true,
                 "enableParameterNamesCache": true,
                 "enableResourceTypesCache": true
@@ -59,35 +58,25 @@
             "datasources": {
                 "default": {
                     "type": "postgresql",
-                    "currentSchema": "fhirdata"
+                    "currentSchema": "fhirdata",
+                    "searchOptimizerOptions": {
+                        "from_collapse_limit": 12,
+                        "join_collapse_limit": 12
+                    }
                 }
             }
         },
         "bulkdata": {
-            "bulkDataBatchJobIdEncryptionKey": "change-password",
-            "applicationName": "fhir-bulkimportexport-webapp",
-            "moduleName": "fhir-bulkimportexport.war",
-            "jobParameters": {
-                "cos.bucket.name": "fhir-r4-connectathon",
-                "cos.location": "us",
-                "cos.endpoint.internal": "fake",
-                "cos.endpoint.external": "fake",
-                "cos.credential.ibm": "Y",
-                "cos.api.key": "fake",
-                "cos.srvinst.id": "fake"
-            },
-            "implementation_type": "cos",
-            "batch-uri": "https://localhost:9443/ibm/api/batch/jobinstances",
-            "batch-user": "fhiradmin",
-            "batch-user-password": "change-password",
-            "batch-truststore": "resources/security/fhirTrustStore.p12",
-            "batch-truststore-password": "change-password",
-            "isExportPublic": true,
-            "cosFileMaxResources": 200000,
-            "cosFileMaxSize": 209715200,
-            "validBaseUrls": [],
-            "useFhirServerTrustStore": true,
-            "enableParquet": false
+            "enabled": false
+        },
+        "operations": {
+            "erase": {
+                "enabled": true,
+                "allowedRoles": [
+                    "FHIROperationAdmin",
+                    "FHIRUsers"
+                ]
+            }
         }
     }
 }

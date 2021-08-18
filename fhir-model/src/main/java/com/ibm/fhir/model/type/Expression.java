@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -28,7 +28,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "An expression or a reference must be provided",
-    expression = "expression.exists() or reference.exists()"
+    expression = "expression.exists() or reference.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Expression"
 )
 @Constraint(
     id = "expression-2",
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/expression-language",
     expression = "language.exists() and language.memberOf('http://hl7.org/fhir/ValueSet/expression-language', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Expression",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -47,7 +49,7 @@ public class Expression extends Element {
     @Summary
     @Binding(
         bindingName = "ExpressionLanguage",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The media type of the expression language.",
         valueSet = "http://hl7.org/fhir/ValueSet/expression-language",
         maxValueSet = "http://www.rfc-editor.org/bcp/bcp13.txt"
@@ -59,16 +61,13 @@ public class Expression extends Element {
     @Summary
     private final Uri reference;
 
-    private volatile int hashCode;
-
     private Expression(Builder builder) {
         super(builder);
         description = builder.description;
         name = builder.name;
-        language = ValidationSupport.requireNonNull(builder.language, "language");
+        language = builder.language;
         expression = builder.expression;
         reference = builder.reference;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -349,7 +348,17 @@ public class Expression extends Element {
          */
         @Override
         public Expression build() {
-            return new Expression(this);
+            Expression expression = new Expression(this);
+            if (validating) {
+                validate(expression);
+            }
+            return expression;
+        }
+
+        protected void validate(Expression expression) {
+            super.validate(expression);
+            ValidationSupport.requireNonNull(expression.language, "language");
+            ValidationSupport.requireValueOrChildren(expression);
         }
 
         protected Builder from(Expression expression) {

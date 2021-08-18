@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Code;
@@ -27,19 +28,26 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EnrollmentRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource provides the insurance enrollment details to the insurer regarding a specified coverage.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class EnrollmentRequest extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "EnrollmentRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -54,22 +62,15 @@ public class EnrollmentRequest extends DomainResource {
     @ReferenceTarget({ "Coverage" })
     private final Reference coverage;
 
-    private volatile int hashCode;
-
     private EnrollmentRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         status = builder.status;
         created = builder.created;
         insurer = builder.insurer;
         provider = builder.provider;
         candidate = builder.candidate;
         coverage = builder.coverage;
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(candidate, "candidate", "Patient");
-        ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -602,7 +603,20 @@ public class EnrollmentRequest extends DomainResource {
          */
         @Override
         public EnrollmentRequest build() {
-            return new EnrollmentRequest(this);
+            EnrollmentRequest enrollmentRequest = new EnrollmentRequest(this);
+            if (validating) {
+                validate(enrollmentRequest);
+            }
+            return enrollmentRequest;
+        }
+
+        protected void validate(EnrollmentRequest enrollmentRequest) {
+            super.validate(enrollmentRequest);
+            ValidationSupport.checkList(enrollmentRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkReferenceType(enrollmentRequest.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(enrollmentRequest.candidate, "candidate", "Patient");
+            ValidationSupport.checkReferenceType(enrollmentRequest.coverage, "coverage", "Coverage");
         }
 
         protected Builder from(EnrollmentRequest enrollmentRequest) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class ParameterUse extends Code {
      * 
      * <p>This is an input parameter.
      */
-    public static final ParameterUse IN = ParameterUse.builder().value(ValueSet.IN).build();
+    public static final ParameterUse IN = ParameterUse.builder().value(Value.IN).build();
 
     /**
      * Out
      * 
      * <p>This is an output parameter.
      */
-    public static final ParameterUse OUT = ParameterUse.builder().value(ValueSet.OUT).build();
+    public static final ParameterUse OUT = ParameterUse.builder().value(Value.OUT).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class ParameterUse extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ParameterUse as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ParameterUse as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ParameterUse objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ParameterUse of(ValueSet value) {
+        switch (value) {
+        case IN:
+            return IN;
+        case OUT:
+            return OUT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ParameterUse objects from a passed enum value.
      */
-    public static ParameterUse of(ValueSet value) {
+    public static ParameterUse of(Value value) {
         switch (value) {
         case IN:
             return IN;
@@ -66,7 +94,7 @@ public class ParameterUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ParameterUse of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class ParameterUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class ParameterUse extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class ParameterUse extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class ParameterUse extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ParameterUse
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ParameterUse build() {
-            return new ParameterUse(this);
+            ParameterUse parameterUse = new ParameterUse(this);
+            if (validating) {
+                validate(parameterUse);
+            }
+            return parameterUse;
+        }
+
+        protected void validate(ParameterUse parameterUse) {
+            super.validate(parameterUse);
+        }
+
+        protected Builder from(ParameterUse parameterUse) {
+            super.from(parameterUse);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * In
@@ -195,7 +250,7 @@ public class ParameterUse extends Code {
         }
 
         /**
-         * Factory method for creating ParameterUse.ValueSet values from a passed string value.
+         * Factory method for creating ParameterUse.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class ParameterUse extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * In
+         * 
+         * <p>This is an input parameter.
+         */
+        IN("in"),
+
+        /**
+         * Out
+         * 
+         * <p>This is an output parameter.
+         */
+        OUT("out");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ParameterUse.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ParameterUse.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "in":
+                return IN;
+            case "out":
+                return OUT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

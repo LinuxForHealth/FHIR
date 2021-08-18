@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -37,54 +38,67 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CapabilityStatementKind;
 import com.ibm.fhir.model.type.code.CodeSearchSupport;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A TerminologyCapabilities resource documents a set of capabilities (behaviors) of a FHIR Terminology Server that may 
  * be used as a statement of actual server functionality or a statement of required or desired server implementation.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "tcp-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-1",
     level = "Rule",
     location = "TerminologyCapabilities.codeSystem",
     description = "If there is more than one version, a version code must be defined",
-    expression = "version.count() > 1 implies version.all(code.exists())"
+    expression = "version.count() > 1 implies version.all(code.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-2",
     level = "Rule",
     location = "(base)",
     description = "A Capability Statement SHALL have at least one of description, software, or implementation element.",
-    expression = "(description.count() + software.count() + implementation.count()) > 0"
+    expression = "(description.count() + software.count() + implementation.count()) > 0",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-3",
     level = "Rule",
     location = "(base)",
     description = "If kind = instance, implementation must be present and software may be present",
-    expression = "(kind != 'instance') or implementation.exists()"
+    expression = "(kind != 'instance') or implementation.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-4",
     level = "Rule",
     location = "(base)",
     description = "If kind = capability, implementation must be absent, software must be present",
-    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())"
+    expression = "(kind != 'capability') or (implementation.exists().not() and software.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "tcp-5",
     level = "Rule",
     location = "(base)",
     description = "If kind = requirements, implementation and software must be absent",
-    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())"
+    expression = "(kind!='requirements') or (implementation.exists().not() and software.exists().not())",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities"
 )
 @Constraint(
     id = "terminologyCapabilities-6",
@@ -92,6 +106,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/TerminologyCapabilities",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -107,7 +122,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -128,7 +143,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -139,7 +154,7 @@ public class TerminologyCapabilities extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CapabilityStatementKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a capability statement is intended to be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/capability-statement-kind|4.0.1"
     )
@@ -155,7 +170,7 @@ public class TerminologyCapabilities extends DomainResource {
     private final Expansion expansion;
     @Binding(
         bindingName = "CodeSearchSupport",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The degree to which the server supports the code search parameter on ValueSet, if it is supported.",
         valueSet = "http://hl7.org/fhir/ValueSet/code-search-support|4.0.1"
     )
@@ -164,35 +179,32 @@ public class TerminologyCapabilities extends DomainResource {
     private final Translation translation;
     private final Closure closure;
 
-    private volatile int hashCode;
-
     private TerminologyCapabilities(Builder builder) {
         super(builder);
         url = builder.url;
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        kind = builder.kind;
         software = builder.software;
         implementation = builder.implementation;
         lockedDate = builder.lockedDate;
-        codeSystem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.codeSystem, "codeSystem"));
+        codeSystem = Collections.unmodifiableList(builder.codeSystem);
         expansion = builder.expansion;
         codeSearch = builder.codeSearch;
         validateCode = builder.validateCode;
         translation = builder.translation;
         closure = builder.closure;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1312,7 +1324,22 @@ public class TerminologyCapabilities extends DomainResource {
          */
         @Override
         public TerminologyCapabilities build() {
-            return new TerminologyCapabilities(this);
+            TerminologyCapabilities terminologyCapabilities = new TerminologyCapabilities(this);
+            if (validating) {
+                validate(terminologyCapabilities);
+            }
+            return terminologyCapabilities;
+        }
+
+        protected void validate(TerminologyCapabilities terminologyCapabilities) {
+            super.validate(terminologyCapabilities);
+            ValidationSupport.requireNonNull(terminologyCapabilities.status, "status");
+            ValidationSupport.requireNonNull(terminologyCapabilities.date, "date");
+            ValidationSupport.checkList(terminologyCapabilities.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(terminologyCapabilities.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(terminologyCapabilities.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(terminologyCapabilities.kind, "kind");
+            ValidationSupport.checkList(terminologyCapabilities.codeSystem, "codeSystem", CodeSystem.class);
         }
 
         protected Builder from(TerminologyCapabilities terminologyCapabilities) {
@@ -1356,13 +1383,10 @@ public class TerminologyCapabilities extends DomainResource {
         @Summary
         private final String version;
 
-        private volatile int hashCode;
-
         private Software(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1605,7 +1629,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Software build() {
-                return new Software(this);
+                Software software = new Software(this);
+                if (validating) {
+                    validate(software);
+                }
+                return software;
+            }
+
+            protected void validate(Software software) {
+                super.validate(software);
+                ValidationSupport.requireNonNull(software.name, "name");
+                ValidationSupport.requireValueOrChildren(software);
             }
 
             protected Builder from(Software software) {
@@ -1628,13 +1662,10 @@ public class TerminologyCapabilities extends DomainResource {
         @Summary
         private final Url url;
 
-        private volatile int hashCode;
-
         private Implementation(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             url = builder.url;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1877,7 +1908,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Implementation build() {
-                return new Implementation(this);
+                Implementation implementation = new Implementation(this);
+                if (validating) {
+                    validate(implementation);
+                }
+                return implementation;
+            }
+
+            protected void validate(Implementation implementation) {
+                super.validate(implementation);
+                ValidationSupport.requireNonNull(implementation.description, "description");
+                ValidationSupport.requireValueOrChildren(implementation);
             }
 
             protected Builder from(Implementation implementation) {
@@ -1898,14 +1939,11 @@ public class TerminologyCapabilities extends DomainResource {
         private final List<Version> version;
         private final Boolean subsumption;
 
-        private volatile int hashCode;
-
         private CodeSystem(Builder builder) {
             super(builder);
             uri = builder.uri;
-            version = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.version, "version"));
+            version = Collections.unmodifiableList(builder.version);
             subsumption = builder.subsumption;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2190,7 +2228,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public CodeSystem build() {
-                return new CodeSystem(this);
+                CodeSystem codeSystem = new CodeSystem(this);
+                if (validating) {
+                    validate(codeSystem);
+                }
+                return codeSystem;
+            }
+
+            protected void validate(CodeSystem codeSystem) {
+                super.validate(codeSystem);
+                ValidationSupport.checkList(codeSystem.version, "version", Version.class);
+                ValidationSupport.requireValueOrChildren(codeSystem);
             }
 
             protected Builder from(CodeSystem codeSystem) {
@@ -2215,17 +2263,14 @@ public class TerminologyCapabilities extends DomainResource {
             private final List<Filter> filter;
             private final List<Code> property;
 
-            private volatile int hashCode;
-
             private Version(Builder builder) {
                 super(builder);
                 code = builder.code;
                 isDefault = builder.isDefault;
                 compositional = builder.compositional;
-                language = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.language, "language"));
-                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-                property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-                ValidationSupport.requireValueOrChildren(this);
+                language = Collections.unmodifiableList(builder.language);
+                filter = Collections.unmodifiableList(builder.filter);
+                property = Collections.unmodifiableList(builder.property);
             }
 
             /**
@@ -2637,7 +2682,19 @@ public class TerminologyCapabilities extends DomainResource {
                  */
                 @Override
                 public Version build() {
-                    return new Version(this);
+                    Version version = new Version(this);
+                    if (validating) {
+                        validate(version);
+                    }
+                    return version;
+                }
+
+                protected void validate(Version version) {
+                    super.validate(version);
+                    ValidationSupport.checkList(version.language, "language", Code.class);
+                    ValidationSupport.checkList(version.filter, "filter", Filter.class);
+                    ValidationSupport.checkList(version.property, "property", Code.class);
+                    ValidationSupport.requireValueOrChildren(version);
                 }
 
                 protected Builder from(Version version) {
@@ -2661,13 +2718,10 @@ public class TerminologyCapabilities extends DomainResource {
                 @Required
                 private final List<Code> op;
 
-                private volatile int hashCode;
-
                 private Filter(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
-                    op = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.op, "op"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    code = builder.code;
+                    op = Collections.unmodifiableList(builder.op);
                 }
 
                 /**
@@ -2935,7 +2989,18 @@ public class TerminologyCapabilities extends DomainResource {
                      */
                     @Override
                     public Filter build() {
-                        return new Filter(this);
+                        Filter filter = new Filter(this);
+                        if (validating) {
+                            validate(filter);
+                        }
+                        return filter;
+                    }
+
+                    protected void validate(Filter filter) {
+                        super.validate(filter);
+                        ValidationSupport.requireNonNull(filter.code, "code");
+                        ValidationSupport.checkNonEmptyList(filter.op, "op", Code.class);
+                        ValidationSupport.requireValueOrChildren(filter);
                     }
 
                     protected Builder from(Filter filter) {
@@ -2959,16 +3024,13 @@ public class TerminologyCapabilities extends DomainResource {
         private final List<Parameter> parameter;
         private final Markdown textFilter;
 
-        private volatile int hashCode;
-
         private Expansion(Builder builder) {
             super(builder);
             hierarchical = builder.hierarchical;
             paging = builder.paging;
             incomplete = builder.incomplete;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
+            parameter = Collections.unmodifiableList(builder.parameter);
             textFilter = builder.textFilter;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3311,7 +3373,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Expansion build() {
-                return new Expansion(this);
+                Expansion expansion = new Expansion(this);
+                if (validating) {
+                    validate(expansion);
+                }
+                return expansion;
+            }
+
+            protected void validate(Expansion expansion) {
+                super.validate(expansion);
+                ValidationSupport.checkList(expansion.parameter, "parameter", Parameter.class);
+                ValidationSupport.requireValueOrChildren(expansion);
             }
 
             protected Builder from(Expansion expansion) {
@@ -3333,13 +3405,10 @@ public class TerminologyCapabilities extends DomainResource {
             private final Code name;
             private final String documentation;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3582,7 +3651,17 @@ public class TerminologyCapabilities extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.name, "name");
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3602,12 +3681,9 @@ public class TerminologyCapabilities extends DomainResource {
         @Required
         private final Boolean translations;
 
-        private volatile int hashCode;
-
         private ValidateCode(Builder builder) {
             super(builder);
-            translations = ValidationSupport.requireNonNull(builder.translations, "translations");
-            ValidationSupport.requireValueOrChildren(this);
+            translations = builder.translations;
         }
 
         /**
@@ -3821,7 +3897,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public ValidateCode build() {
-                return new ValidateCode(this);
+                ValidateCode validateCode = new ValidateCode(this);
+                if (validating) {
+                    validate(validateCode);
+                }
+                return validateCode;
+            }
+
+            protected void validate(ValidateCode validateCode) {
+                super.validate(validateCode);
+                ValidationSupport.requireNonNull(validateCode.translations, "translations");
+                ValidationSupport.requireValueOrChildren(validateCode);
             }
 
             protected Builder from(ValidateCode validateCode) {
@@ -3839,12 +3925,9 @@ public class TerminologyCapabilities extends DomainResource {
         @Required
         private final Boolean needsMap;
 
-        private volatile int hashCode;
-
         private Translation(Builder builder) {
             super(builder);
-            needsMap = ValidationSupport.requireNonNull(builder.needsMap, "needsMap");
-            ValidationSupport.requireValueOrChildren(this);
+            needsMap = builder.needsMap;
         }
 
         /**
@@ -4058,7 +4141,17 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Translation build() {
-                return new Translation(this);
+                Translation translation = new Translation(this);
+                if (validating) {
+                    validate(translation);
+                }
+                return translation;
+            }
+
+            protected void validate(Translation translation) {
+                super.validate(translation);
+                ValidationSupport.requireNonNull(translation.needsMap, "needsMap");
+                ValidationSupport.requireValueOrChildren(translation);
             }
 
             protected Builder from(Translation translation) {
@@ -4075,12 +4168,9 @@ public class TerminologyCapabilities extends DomainResource {
     public static class Closure extends BackboneElement {
         private final Boolean translation;
 
-        private volatile int hashCode;
-
         private Closure(Builder builder) {
             super(builder);
             translation = builder.translation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -4287,7 +4377,16 @@ public class TerminologyCapabilities extends DomainResource {
              */
             @Override
             public Closure build() {
-                return new Closure(this);
+                Closure closure = new Closure(this);
+                if (validating) {
+                    validate(closure);
+                }
+                return closure;
+            }
+
+            protected void validate(Closure closure) {
+                super.validate(closure);
+                ValidationSupport.requireValueOrChildren(closure);
             }
 
             protected Builder from(Closure closure) {

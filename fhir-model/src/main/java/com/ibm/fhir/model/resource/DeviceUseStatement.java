@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,13 +35,20 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DeviceUseStatementStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a device being used by a patient where the record is the result of a report from the patient or another 
  * clinician.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceUseStatement extends DomainResource {
     @Summary
@@ -51,7 +59,7 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceUseStatementStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept indicating the current status of the Device Usage.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-statement-status|4.0.1"
     )
@@ -84,37 +92,28 @@ public class DeviceUseStatement extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private DeviceUseStatement(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
-        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, Period.class, DateTime.class);
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        status = builder.status;
+        subject = builder.subject;
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        timing = builder.timing;
         recordedOn = builder.recordedOn;
         source = builder.source;
-        device = ValidationSupport.requireNonNull(builder.device, "device");
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        device = builder.device;
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         bodySite = builder.bodySite;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
-        ValidationSupport.checkReferenceType(source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.checkReferenceType(device, "device", "Device");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
-        ValidationSupport.requireChildren(this);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -994,7 +993,31 @@ public class DeviceUseStatement extends DomainResource {
          */
         @Override
         public DeviceUseStatement build() {
-            return new DeviceUseStatement(this);
+            DeviceUseStatement deviceUseStatement = new DeviceUseStatement(this);
+            if (validating) {
+                validate(deviceUseStatement);
+            }
+            return deviceUseStatement;
+        }
+
+        protected void validate(DeviceUseStatement deviceUseStatement) {
+            super.validate(deviceUseStatement);
+            ValidationSupport.checkList(deviceUseStatement.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(deviceUseStatement.basedOn, "basedOn", Reference.class);
+            ValidationSupport.requireNonNull(deviceUseStatement.status, "status");
+            ValidationSupport.requireNonNull(deviceUseStatement.subject, "subject");
+            ValidationSupport.checkList(deviceUseStatement.derivedFrom, "derivedFrom", Reference.class);
+            ValidationSupport.choiceElement(deviceUseStatement.timing, "timing", Timing.class, Period.class, DateTime.class);
+            ValidationSupport.requireNonNull(deviceUseStatement.device, "device");
+            ValidationSupport.checkList(deviceUseStatement.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(deviceUseStatement.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(deviceUseStatement.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(deviceUseStatement.basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(deviceUseStatement.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(deviceUseStatement.derivedFrom, "derivedFrom", "ServiceRequest", "Procedure", "Claim", "Observation", "QuestionnaireResponse", "DocumentReference");
+            ValidationSupport.checkReferenceType(deviceUseStatement.source, "source", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(deviceUseStatement.device, "device", "Device");
+            ValidationSupport.checkReferenceType(deviceUseStatement.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference", "Media");
         }
 
         protected Builder from(DeviceUseStatement deviceUseStatement) {

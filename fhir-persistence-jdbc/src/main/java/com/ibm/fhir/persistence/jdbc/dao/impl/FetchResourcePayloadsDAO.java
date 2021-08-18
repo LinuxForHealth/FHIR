@@ -84,7 +84,11 @@ public class FetchResourcePayloadsDAO {
         query.append(" WHERE r.is_deleted = 'N' ");
         query.append("   AND lr.current_resource_id = r.resource_id ");
 
-        query.append("   AND r.last_updated >= ? ");
+        // Add the predicate for the optional start
+        // this aligns with the Bulk Data Specification.
+        if (this.fromLastUpdated != null) {
+            query.append("   AND r.last_updated >= ? ");
+        }
 
         // Add the predicate for the optional end-stop
         if (this.toLastUpdated != null) {
@@ -113,7 +117,9 @@ public class FetchResourcePayloadsDAO {
             int a = 1;
 
             // Set the variables marking the start point of the scan
-            ps.setTimestamp(a++, Timestamp.from(this.fromLastUpdated), UTC_CALENDAR);
+            if (this.fromLastUpdated != null) {
+                ps.setTimestamp(a++, Timestamp.from(this.fromLastUpdated), UTC_CALENDAR);
+            }
 
             // And where we want the scan to stop (e.g. exporting a limited time range)
             if (this.toLastUpdated != null) {
@@ -165,9 +171,12 @@ public class FetchResourcePayloadsDAO {
         query.append(" WHERE r.is_deleted = 'N' ");
         query.append("   AND lr.current_resource_id = r.resource_id ");
 
-        query.append("   AND r.last_updated >= ? ");
+        // Add the predicate for the optional start
+        if (this.fromLastUpdated != null) {
+            query.append("   AND r.last_updated >= ? ");
+        }
 
-        // Add the predicate for the optional end-stop
+        // Add the predicate for the optional end
         if (this.toLastUpdated != null) {
             query.append(" AND r.last_updated <= ? ");
         }
@@ -175,16 +184,16 @@ public class FetchResourcePayloadsDAO {
         final String select = query.toString();
 
         if (logger.isLoggable(Level.FINE)) {
-            Timestamp from = Timestamp.from(fromLastUpdated);
             logger.fine("Resource count query: " + select + "; [" + fromLastUpdated + "]");
         }
 
         try (PreparedStatement ps = c.prepareStatement(select)) {
             int a = 1;
 
-
             // Set the variables marking the start point of the scan
-            ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), UTC_CALENDAR);
+            if (this.fromLastUpdated != null) {
+                ps.setTimestamp(a++, Timestamp.from(fromLastUpdated), UTC_CALENDAR);
+            }
 
             // And where we want the scan to stop (e.g. exporting a limited time range)
             if (this.toLastUpdated != null) {

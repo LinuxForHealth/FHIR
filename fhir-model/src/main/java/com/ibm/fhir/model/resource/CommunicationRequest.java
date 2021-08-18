@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,13 +39,20 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.CommunicationPriority;
 import com.ibm.fhir.model.type.code.CommunicationRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A request to convey information; e.g. the CDS system proposes that an alert be sent to a responsible provider, the CDS 
  * system proposes that the public health agency be notified about a reportable condition.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CommunicationRequest extends DomainResource {
     @Summary
@@ -59,7 +67,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the communication request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -67,13 +75,13 @@ public class CommunicationRequest extends DomainResource {
     private final CommunicationRequestStatus status;
     @Binding(
         bindingName = "CommunicationRequestStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying the reason for the current state of a request."
     )
     private final CodeableConcept statusReason;
     @Binding(
         bindingName = "CommunicationCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for general categories of communications such as alerts, instruction, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/communication-category"
     )
@@ -81,7 +89,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the relative importance of a communication request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -90,7 +98,7 @@ public class CommunicationRequest extends DomainResource {
     private final Boolean doNotPerform;
     @Binding(
         bindingName = "CommunicationMedium",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for communication mediums such as phone, fax, email, in person, etc.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ParticipationMode"
     )
@@ -118,7 +126,7 @@ public class CommunicationRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CommunicationReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for describing reasons for the occurrence of a communication.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActReason"
     )
@@ -128,40 +136,30 @@ public class CommunicationRequest extends DomainResource {
     private final List<Reference> reasonReference;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CommunicationRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
         groupIdentifier = builder.groupIdentifier;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         statusReason = builder.statusReason;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        medium = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.medium, "medium"));
+        medium = Collections.unmodifiableList(builder.medium);
         subject = builder.subject;
-        about = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.about, "about"));
+        about = Collections.unmodifiableList(builder.about);
         encounter = builder.encounter;
-        payload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.payload, "payload"));
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class);
+        payload = Collections.unmodifiableList(builder.payload);
+        occurrence = builder.occurrence;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
-        recipient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.recipient, "recipient"));
+        recipient = Collections.unmodifiableList(builder.recipient);
         sender = builder.sender;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(replaces, "replaces", "CommunicationRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
-        ValidationSupport.checkReferenceType(recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
-        ValidationSupport.checkReferenceType(sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1421,7 +1419,35 @@ public class CommunicationRequest extends DomainResource {
          */
         @Override
         public CommunicationRequest build() {
-            return new CommunicationRequest(this);
+            CommunicationRequest communicationRequest = new CommunicationRequest(this);
+            if (validating) {
+                validate(communicationRequest);
+            }
+            return communicationRequest;
+        }
+
+        protected void validate(CommunicationRequest communicationRequest) {
+            super.validate(communicationRequest);
+            ValidationSupport.checkList(communicationRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(communicationRequest.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(communicationRequest.replaces, "replaces", Reference.class);
+            ValidationSupport.requireNonNull(communicationRequest.status, "status");
+            ValidationSupport.checkList(communicationRequest.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(communicationRequest.medium, "medium", CodeableConcept.class);
+            ValidationSupport.checkList(communicationRequest.about, "about", Reference.class);
+            ValidationSupport.checkList(communicationRequest.payload, "payload", Payload.class);
+            ValidationSupport.choiceElement(communicationRequest.occurrence, "occurrence", DateTime.class, Period.class);
+            ValidationSupport.checkList(communicationRequest.recipient, "recipient", Reference.class);
+            ValidationSupport.checkList(communicationRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(communicationRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(communicationRequest.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(communicationRequest.replaces, "replaces", "CommunicationRequest");
+            ValidationSupport.checkReferenceType(communicationRequest.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(communicationRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(communicationRequest.requester, "requester", "Practitioner", "PractitionerRole", "Organization", "Patient", "RelatedPerson", "Device");
+            ValidationSupport.checkReferenceType(communicationRequest.recipient, "recipient", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Group", "CareTeam", "HealthcareService");
+            ValidationSupport.checkReferenceType(communicationRequest.sender, "sender", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "HealthcareService");
+            ValidationSupport.checkReferenceType(communicationRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(CommunicationRequest communicationRequest) {
@@ -1460,12 +1486,9 @@ public class CommunicationRequest extends DomainResource {
         @Required
         private final Element content;
 
-        private volatile int hashCode;
-
         private Payload(Builder builder) {
             super(builder);
-            content = ValidationSupport.requireChoiceElement(builder.content, "content", String.class, Attachment.class, Reference.class);
-            ValidationSupport.requireValueOrChildren(this);
+            content = builder.content;
         }
 
         /**
@@ -1686,7 +1709,17 @@ public class CommunicationRequest extends DomainResource {
              */
             @Override
             public Payload build() {
-                return new Payload(this);
+                Payload payload = new Payload(this);
+                if (validating) {
+                    validate(payload);
+                }
+                return payload;
+            }
+
+            protected void validate(Payload payload) {
+                super.validate(payload);
+                ValidationSupport.requireChoiceElement(payload.content, "content", String.class, Attachment.class, Reference.class);
+                ValidationSupport.requireValueOrChildren(payload);
             }
 
             protected Builder from(Payload payload) {

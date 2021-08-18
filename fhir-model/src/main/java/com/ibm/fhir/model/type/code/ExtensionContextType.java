@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class ExtensionContextType extends Code {
      * 
      * <p>The context is all elements that match the FHIRPath query found in the expression.
      */
-    public static final ExtensionContextType FHIRPATH = ExtensionContextType.builder().value(ValueSet.FHIRPATH).build();
+    public static final ExtensionContextType FHIRPATH = ExtensionContextType.builder().value(Value.FHIRPATH).build();
 
     /**
      * Element ID
@@ -33,7 +33,7 @@ public class ExtensionContextType extends Code {
      * includes ElementDefinition Ids that have slicing identifiers. The full path for the element is [url]#[elementid]. If 
      * there is no #, the Element id is one defined in the base specification.
      */
-    public static final ExtensionContextType ELEMENT = ExtensionContextType.builder().value(ValueSet.ELEMENT).build();
+    public static final ExtensionContextType ELEMENT = ExtensionContextType.builder().value(Value.ELEMENT).build();
 
     /**
      * Extension URL
@@ -41,7 +41,7 @@ public class ExtensionContextType extends Code {
      * <p>The context is a particular extension from a particular StructureDefinition, and the expression is just a uri that 
      * identifies the extension.
      */
-    public static final ExtensionContextType EXTENSION = ExtensionContextType.builder().value(ValueSet.EXTENSION).build();
+    public static final ExtensionContextType EXTENSION = ExtensionContextType.builder().value(Value.EXTENSION).build();
 
     private volatile int hashCode;
 
@@ -49,14 +49,44 @@ public class ExtensionContextType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ExtensionContextType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ExtensionContextType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ExtensionContextType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ExtensionContextType of(ValueSet value) {
+        switch (value) {
+        case FHIRPATH:
+            return FHIRPATH;
+        case ELEMENT:
+            return ELEMENT;
+        case EXTENSION:
+            return EXTENSION;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ExtensionContextType objects from a passed enum value.
      */
-    public static ExtensionContextType of(ValueSet value) {
+    public static ExtensionContextType of(Value value) {
         switch (value) {
         case FHIRPATH:
             return FHIRPATH;
@@ -78,7 +108,7 @@ public class ExtensionContextType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ExtensionContextType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +120,7 @@ public class ExtensionContextType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -102,7 +132,7 @@ public class ExtensionContextType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -131,11 +161,7 @@ public class ExtensionContextType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -164,19 +190,50 @@ public class ExtensionContextType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ExtensionContextType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ExtensionContextType build() {
-            return new ExtensionContextType(this);
+            ExtensionContextType extensionContextType = new ExtensionContextType(this);
+            if (validating) {
+                validate(extensionContextType);
+            }
+            return extensionContextType;
+        }
+
+        protected void validate(ExtensionContextType extensionContextType) {
+            super.validate(extensionContextType);
+        }
+
+        protected Builder from(ExtensionContextType extensionContextType) {
+            super.from(extensionContextType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * FHIRPath
@@ -217,7 +274,7 @@ public class ExtensionContextType extends Code {
         }
 
         /**
-         * Factory method for creating ExtensionContextType.ValueSet values from a passed string value.
+         * Factory method for creating ExtensionContextType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -231,6 +288,72 @@ public class ExtensionContextType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * FHIRPath
+         * 
+         * <p>The context is all elements that match the FHIRPath query found in the expression.
+         */
+        FHIRPATH("fhirpath"),
+
+        /**
+         * Element ID
+         * 
+         * <p>The context is any element that has an ElementDefinition.id that matches that found in the expression. This 
+         * includes ElementDefinition Ids that have slicing identifiers. The full path for the element is [url]#[elementid]. If 
+         * there is no #, the Element id is one defined in the base specification.
+         */
+        ELEMENT("element"),
+
+        /**
+         * Extension URL
+         * 
+         * <p>The context is a particular extension from a particular StructureDefinition, and the expression is just a uri that 
+         * identifies the extension.
+         */
+        EXTENSION("extension");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ExtensionContextType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ExtensionContextType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "fhirpath":
+                return FHIRPATH;
+            case "element":
+                return ELEMENT;
+            case "extension":
+                return EXTENSION;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,11 +14,13 @@ import com.ibm.fhir.model.resource.ValueSet;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.Element;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
-import com.ibm.fhir.term.spi.ValidationOutcome;
-import com.ibm.fhir.term.spi.ValidationParameters;
+import com.ibm.fhir.term.service.ValidationOutcome;
+import com.ibm.fhir.term.service.ValidationParameters;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 public class ValueSetValidateCodeOperation extends AbstractTermOperation {
     @Override
@@ -43,6 +45,10 @@ public class ValueSetValidateCodeOperation extends AbstractTermOperation {
             return outcome.toParameters();
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ValueSet validate code operation", e);
         }

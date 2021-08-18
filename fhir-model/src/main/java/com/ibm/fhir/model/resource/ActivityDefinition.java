@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -53,19 +54,27 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.RequestIntent;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource allows for the definition of some activity to be performed, independent of a particular patient, 
  * practitioner, or other performance context.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "adf-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ActivityDefinition"
 )
 @Constraint(
     id = "activityDefinition-1",
@@ -73,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
     generated = true
 )
 @Constraint(
@@ -81,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ActivityDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -99,7 +110,7 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -111,7 +122,7 @@ public class ActivityDefinition extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for an activity (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -129,7 +140,7 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -143,7 +154,7 @@ public class ActivityDefinition extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -157,7 +168,7 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ActivityDefinitionKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The kind of activity the definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-resource-types|4.0.1"
     )
@@ -166,21 +177,21 @@ public class ActivityDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ActivityDefinitionType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed type of the activity; e.g. CBC.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
     )
     private final CodeableConcept code;
     @Binding(
         bindingName = "RequestIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
     private final RequestIntent intent;
     @Binding(
         bindingName = "RequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -196,7 +207,7 @@ public class ActivityDefinition extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "ActivityProduct",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Code describing the type of substance or medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -205,7 +216,7 @@ public class ActivityDefinition extends DomainResource {
     private final List<Dosage> dosage;
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code that identifies the anatomical location.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -219,63 +230,54 @@ public class ActivityDefinition extends DomainResource {
     private final Canonical transform;
     private final List<DynamicValue> dynamicValue;
 
-    private volatile int hashCode;
-
     private ActivityDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        library = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.library, "library"));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        library = Collections.unmodifiableList(builder.library);
         kind = builder.kind;
         profile = builder.profile;
         code = builder.code;
         intent = builder.intent;
         priority = builder.priority;
         doNotPerform = builder.doNotPerform;
-        timing = ValidationSupport.choiceElement(builder.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
+        timing = builder.timing;
         location = builder.location;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
-        product = ValidationSupport.choiceElement(builder.product, "product", Reference.class, CodeableConcept.class);
+        participant = Collections.unmodifiableList(builder.participant);
+        product = builder.product;
         quantity = builder.quantity;
-        dosage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosage, "dosage"));
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
-        specimenRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimenRequirement, "specimenRequirement"));
-        observationRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationRequirement, "observationRequirement"));
-        observationResultRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.observationResultRequirement, "observationResultRequirement"));
+        dosage = Collections.unmodifiableList(builder.dosage);
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        specimenRequirement = Collections.unmodifiableList(builder.specimenRequirement);
+        observationRequirement = Collections.unmodifiableList(builder.observationRequirement);
+        observationResultRequirement = Collections.unmodifiableList(builder.observationResultRequirement);
         transform = builder.transform;
-        dynamicValue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dynamicValue, "dynamicValue"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
-        ValidationSupport.checkReferenceType(specimenRequirement, "specimenRequirement", "SpecimenDefinition");
-        ValidationSupport.checkReferenceType(observationRequirement, "observationRequirement", "ObservationDefinition");
-        ValidationSupport.checkReferenceType(observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
-        ValidationSupport.requireChildren(this);
+        dynamicValue = Collections.unmodifiableList(builder.dynamicValue);
     }
 
     /**
@@ -2394,7 +2396,43 @@ public class ActivityDefinition extends DomainResource {
          */
         @Override
         public ActivityDefinition build() {
-            return new ActivityDefinition(this);
+            ActivityDefinition activityDefinition = new ActivityDefinition(this);
+            if (validating) {
+                validate(activityDefinition);
+            }
+            return activityDefinition;
+        }
+
+        protected void validate(ActivityDefinition activityDefinition) {
+            super.validate(activityDefinition);
+            ValidationSupport.checkList(activityDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(activityDefinition.status, "status");
+            ValidationSupport.choiceElement(activityDefinition.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(activityDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(activityDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(activityDefinition.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(activityDefinition.library, "library", Canonical.class);
+            ValidationSupport.choiceElement(activityDefinition.timing, "timing", Timing.class, DateTime.class, Age.class, Period.class, Range.class, Duration.class);
+            ValidationSupport.checkList(activityDefinition.participant, "participant", Participant.class);
+            ValidationSupport.choiceElement(activityDefinition.product, "product", Reference.class, CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.dosage, "dosage", Dosage.class);
+            ValidationSupport.checkList(activityDefinition.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.checkList(activityDefinition.specimenRequirement, "specimenRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.observationRequirement, "observationRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.observationResultRequirement, "observationResultRequirement", Reference.class);
+            ValidationSupport.checkList(activityDefinition.dynamicValue, "dynamicValue", DynamicValue.class);
+            ValidationSupport.checkReferenceType(activityDefinition.subject, "subject", "Group");
+            ValidationSupport.checkReferenceType(activityDefinition.location, "location", "Location");
+            ValidationSupport.checkReferenceType(activityDefinition.product, "product", "Medication", "Substance");
+            ValidationSupport.checkReferenceType(activityDefinition.specimenRequirement, "specimenRequirement", "SpecimenDefinition");
+            ValidationSupport.checkReferenceType(activityDefinition.observationRequirement, "observationRequirement", "ObservationDefinition");
+            ValidationSupport.checkReferenceType(activityDefinition.observationResultRequirement, "observationResultRequirement", "ObservationDefinition");
         }
 
         protected Builder from(ActivityDefinition activityDefinition) {
@@ -2455,7 +2493,7 @@ public class ActivityDefinition extends DomainResource {
     public static class Participant extends BackboneElement {
         @Binding(
             bindingName = "ActivityParticipantType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of participant in the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-participant-type|4.0.1"
         )
@@ -2463,19 +2501,16 @@ public class ActivityDefinition extends DomainResource {
         private final ActivityParticipantType type;
         @Binding(
             bindingName = "ActivityParticipantRole",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Defines roles played by participants for the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-participant-role"
         )
         private final CodeableConcept role;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
+            type = builder.type;
             role = builder.role;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2718,7 +2753,17 @@ public class ActivityDefinition extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.requireNonNull(participant.type, "type");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -2741,13 +2786,10 @@ public class ActivityDefinition extends DomainResource {
         @Required
         private final Expression expression;
 
-        private volatile int hashCode;
-
         private DynamicValue(Builder builder) {
             super(builder);
-            path = ValidationSupport.requireNonNull(builder.path, "path");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            path = builder.path;
+            expression = builder.expression;
         }
 
         /**
@@ -3001,7 +3043,18 @@ public class ActivityDefinition extends DomainResource {
              */
             @Override
             public DynamicValue build() {
-                return new DynamicValue(this);
+                DynamicValue dynamicValue = new DynamicValue(this);
+                if (validating) {
+                    validate(dynamicValue);
+                }
+                return dynamicValue;
+            }
+
+            protected void validate(DynamicValue dynamicValue) {
+                super.validate(dynamicValue);
+                ValidationSupport.requireNonNull(dynamicValue.path, "path");
+                ValidationSupport.requireNonNull(dynamicValue.expression, "expression");
+                ValidationSupport.requireValueOrChildren(dynamicValue);
             }
 
             protected Builder from(DynamicValue dynamicValue) {

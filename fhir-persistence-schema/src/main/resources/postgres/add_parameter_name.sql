@@ -1,5 +1,5 @@
 -------------------------------------------------------------------------------
--- (C) Copyright IBM Corp. 2020
+-- (C) Copyright IBM Corp. 2020, 2021
 --
 -- SPDX-License-Identifier: Apache-2.0
 -------------------------------------------------------------------------------
@@ -13,6 +13,7 @@
      AS $$
 
 BEGIN
+    -- LOADED ON: {{DATE}}
     SELECT parameter_name_id INTO p_parameter_name_id
     FROM {{SCHEMA_NAME}}.parameter_names
     WHERE parameter_name = p_parameter_name;

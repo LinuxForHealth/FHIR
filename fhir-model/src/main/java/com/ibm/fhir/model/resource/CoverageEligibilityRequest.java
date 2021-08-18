@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EligibilityRequestPurpose;
 import com.ibm.fhir.model.type.code.EligibilityRequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -47,14 +49,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The CoverageEligibilityRequest provides patient and insurance coverage information to an insurer for them to respond, 
  * in the form of an CoverageEligibilityResponse, with information regarding whether the stated coverage is valid and in-
  * force and optionally to provide the insurance details of the policy.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CoverageEligibilityRequest extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "EligibilityRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -62,7 +70,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     private final EligibilityRequestStatus status;
     @Binding(
         bindingName = "ProcessPriority",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The timeliness with which processing is required: STAT, normal, Deferred.",
         valueSet = "http://hl7.org/fhir/ValueSet/process-priority"
     )
@@ -70,7 +78,7 @@ public class CoverageEligibilityRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EligibilityRequestPurpose",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the types of information being requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/eligibilityrequest-purpose|4.0.1"
     )
@@ -99,30 +107,22 @@ public class CoverageEligibilityRequest extends DomainResource {
     private final List<Insurance> insurance;
     private final List<Item> item;
 
-    private volatile int hashCode;
-
     private CoverageEligibilityRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         priority = builder.priority;
-        purpose = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.purpose, "purpose"));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        serviced = ValidationSupport.choiceElement(builder.serviced, "serviced", Date.class, Period.class);
-        created = ValidationSupport.requireNonNull(builder.created, "created");
+        purpose = Collections.unmodifiableList(builder.purpose);
+        patient = builder.patient;
+        serviced = builder.serviced;
+        created = builder.created;
         enterer = builder.enterer;
         provider = builder.provider;
-        insurer = ValidationSupport.requireNonNull(builder.insurer, "insurer");
+        insurer = builder.insurer;
         facility = builder.facility;
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        item = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.item, "item"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(enterer, "enterer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(insurer, "insurer", "Organization");
-        ValidationSupport.checkReferenceType(facility, "facility", "Location");
-        ValidationSupport.requireChildren(this);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        item = Collections.unmodifiableList(builder.item);
     }
 
     /**
@@ -983,7 +983,30 @@ public class CoverageEligibilityRequest extends DomainResource {
          */
         @Override
         public CoverageEligibilityRequest build() {
-            return new CoverageEligibilityRequest(this);
+            CoverageEligibilityRequest coverageEligibilityRequest = new CoverageEligibilityRequest(this);
+            if (validating) {
+                validate(coverageEligibilityRequest);
+            }
+            return coverageEligibilityRequest;
+        }
+
+        protected void validate(CoverageEligibilityRequest coverageEligibilityRequest) {
+            super.validate(coverageEligibilityRequest);
+            ValidationSupport.checkList(coverageEligibilityRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(coverageEligibilityRequest.status, "status");
+            ValidationSupport.checkNonEmptyList(coverageEligibilityRequest.purpose, "purpose", EligibilityRequestPurpose.class);
+            ValidationSupport.requireNonNull(coverageEligibilityRequest.patient, "patient");
+            ValidationSupport.choiceElement(coverageEligibilityRequest.serviced, "serviced", Date.class, Period.class);
+            ValidationSupport.requireNonNull(coverageEligibilityRequest.created, "created");
+            ValidationSupport.requireNonNull(coverageEligibilityRequest.insurer, "insurer");
+            ValidationSupport.checkList(coverageEligibilityRequest.supportingInfo, "supportingInfo", SupportingInfo.class);
+            ValidationSupport.checkList(coverageEligibilityRequest.insurance, "insurance", Insurance.class);
+            ValidationSupport.checkList(coverageEligibilityRequest.item, "item", Item.class);
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.enterer, "enterer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.provider, "provider", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.insurer, "insurer", "Organization");
+            ValidationSupport.checkReferenceType(coverageEligibilityRequest.facility, "facility", "Location");
         }
 
         protected Builder from(CoverageEligibilityRequest coverageEligibilityRequest) {
@@ -1017,14 +1040,11 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final Reference information;
         private final Boolean appliesToAll;
 
-        private volatile int hashCode;
-
         private SupportingInfo(Builder builder) {
             super(builder);
-            sequence = ValidationSupport.requireNonNull(builder.sequence, "sequence");
-            information = ValidationSupport.requireNonNull(builder.information, "information");
+            sequence = builder.sequence;
+            information = builder.information;
             appliesToAll = builder.appliesToAll;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1301,7 +1321,18 @@ public class CoverageEligibilityRequest extends DomainResource {
              */
             @Override
             public SupportingInfo build() {
-                return new SupportingInfo(this);
+                SupportingInfo supportingInfo = new SupportingInfo(this);
+                if (validating) {
+                    validate(supportingInfo);
+                }
+                return supportingInfo;
+            }
+
+            protected void validate(SupportingInfo supportingInfo) {
+                super.validate(supportingInfo);
+                ValidationSupport.requireNonNull(supportingInfo.sequence, "sequence");
+                ValidationSupport.requireNonNull(supportingInfo.information, "information");
+                ValidationSupport.requireValueOrChildren(supportingInfo);
             }
 
             protected Builder from(SupportingInfo supportingInfo) {
@@ -1324,15 +1355,11 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final Reference coverage;
         private final String businessArrangement;
 
-        private volatile int hashCode;
-
         private Insurance(Builder builder) {
             super(builder);
             focal = builder.focal;
-            coverage = ValidationSupport.requireNonNull(builder.coverage, "coverage");
+            coverage = builder.coverage;
             businessArrangement = builder.businessArrangement;
-            ValidationSupport.checkReferenceType(coverage, "coverage", "Coverage");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1611,7 +1638,18 @@ public class CoverageEligibilityRequest extends DomainResource {
              */
             @Override
             public Insurance build() {
-                return new Insurance(this);
+                Insurance insurance = new Insurance(this);
+                if (validating) {
+                    validate(insurance);
+                }
+                return insurance;
+            }
+
+            protected void validate(Insurance insurance) {
+                super.validate(insurance);
+                ValidationSupport.requireNonNull(insurance.coverage, "coverage");
+                ValidationSupport.checkReferenceType(insurance.coverage, "coverage", "Coverage");
+                ValidationSupport.requireValueOrChildren(insurance);
             }
 
             protected Builder from(Insurance insurance) {
@@ -1632,21 +1670,21 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final List<PositiveInt> supportingInfoSequence;
         @Binding(
             bindingName = "BenefitCategory",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Benefit categories such as: oral, medical, vision etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/ex-benefitcategory"
         )
         private final CodeableConcept category;
         @Binding(
             bindingName = "ServiceProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Allowable service and product codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/service-uscls"
         )
         private final CodeableConcept productOrService;
         @Binding(
             bindingName = "Modifiers",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Item type or modifiers codes, eg for Oral whether the treatment is cosmetic or associated with TMJ, or an appliance was lost or stolen.",
             valueSet = "http://hl7.org/fhir/ValueSet/claim-modifiers"
         )
@@ -1660,23 +1698,18 @@ public class CoverageEligibilityRequest extends DomainResource {
         private final List<Diagnosis> diagnosis;
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Item(Builder builder) {
             super(builder);
-            supportingInfoSequence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfoSequence, "supportingInfoSequence"));
+            supportingInfoSequence = Collections.unmodifiableList(builder.supportingInfoSequence);
             category = builder.category;
             productOrService = builder.productOrService;
-            modifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modifier, "modifier"));
+            modifier = Collections.unmodifiableList(builder.modifier);
             provider = builder.provider;
             quantity = builder.quantity;
             unitPrice = builder.unitPrice;
             facility = builder.facility;
-            diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.checkReferenceType(provider, "provider", "Practitioner", "PractitionerRole");
-            ValidationSupport.checkReferenceType(facility, "facility", "Location", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            diagnosis = Collections.unmodifiableList(builder.diagnosis);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2236,7 +2269,22 @@ public class CoverageEligibilityRequest extends DomainResource {
              */
             @Override
             public Item build() {
-                return new Item(this);
+                Item item = new Item(this);
+                if (validating) {
+                    validate(item);
+                }
+                return item;
+            }
+
+            protected void validate(Item item) {
+                super.validate(item);
+                ValidationSupport.checkList(item.supportingInfoSequence, "supportingInfoSequence", PositiveInt.class);
+                ValidationSupport.checkList(item.modifier, "modifier", CodeableConcept.class);
+                ValidationSupport.checkList(item.diagnosis, "diagnosis", Diagnosis.class);
+                ValidationSupport.checkList(item.detail, "detail", Reference.class);
+                ValidationSupport.checkReferenceType(item.provider, "provider", "Practitioner", "PractitionerRole");
+                ValidationSupport.checkReferenceType(item.facility, "facility", "Location", "Organization");
+                ValidationSupport.requireValueOrChildren(item);
             }
 
             protected Builder from(Item item) {
@@ -2263,19 +2311,15 @@ public class CoverageEligibilityRequest extends DomainResource {
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "ICD10",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "ICD10 Diagnostic codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/icd-10"
             )
             private final Element diagnosis;
 
-            private volatile int hashCode;
-
             private Diagnosis(Builder builder) {
                 super(builder);
-                diagnosis = ValidationSupport.choiceElement(builder.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
-                ValidationSupport.checkReferenceType(diagnosis, "diagnosis", "Condition");
-                ValidationSupport.requireValueOrChildren(this);
+                diagnosis = builder.diagnosis;
             }
 
             /**
@@ -2493,7 +2537,18 @@ public class CoverageEligibilityRequest extends DomainResource {
                  */
                 @Override
                 public Diagnosis build() {
-                    return new Diagnosis(this);
+                    Diagnosis diagnosis = new Diagnosis(this);
+                    if (validating) {
+                        validate(diagnosis);
+                    }
+                    return diagnosis;
+                }
+
+                protected void validate(Diagnosis diagnosis) {
+                    super.validate(diagnosis);
+                    ValidationSupport.choiceElement(diagnosis.diagnosis, "diagnosis", CodeableConcept.class, Reference.class);
+                    ValidationSupport.checkReferenceType(diagnosis.diagnosis, "diagnosis", "Condition");
+                    ValidationSupport.requireValueOrChildren(diagnosis);
                 }
 
                 protected Builder from(Diagnosis diagnosis) {

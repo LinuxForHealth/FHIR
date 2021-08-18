@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -34,6 +34,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/signature-type",
     expression = "type.exists() and type.all(memberOf('http://hl7.org/fhir/ValueSet/signature-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Signature",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -41,7 +42,7 @@ public class Signature extends Element {
     @Summary
     @Binding(
         bindingName = "SignatureType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "An indication of the reason that an entity signed the object.",
         valueSet = "http://hl7.org/fhir/ValueSet/signature-type"
     )
@@ -59,34 +60,29 @@ public class Signature extends Element {
     private final Reference onBehalfOf;
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
     private final Code targetFormat;
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
     private final Code sigFormat;
     private final Base64Binary data;
 
-    private volatile int hashCode;
-
     private Signature(Builder builder) {
         super(builder);
-        type = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.type, "type"));
-        when = ValidationSupport.requireNonNull(builder.when, "when");
-        who = ValidationSupport.requireNonNull(builder.who, "who");
+        type = Collections.unmodifiableList(builder.type);
+        when = builder.when;
+        who = builder.who;
         onBehalfOf = builder.onBehalfOf;
         targetFormat = builder.targetFormat;
         sigFormat = builder.sigFormat;
         data = builder.data;
-        ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-        ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -480,7 +476,21 @@ public class Signature extends Element {
          */
         @Override
         public Signature build() {
-            return new Signature(this);
+            Signature signature = new Signature(this);
+            if (validating) {
+                validate(signature);
+            }
+            return signature;
+        }
+
+        protected void validate(Signature signature) {
+            super.validate(signature);
+            ValidationSupport.checkNonEmptyList(signature.type, "type", Coding.class);
+            ValidationSupport.requireNonNull(signature.when, "when");
+            ValidationSupport.requireNonNull(signature.who, "who");
+            ValidationSupport.checkReferenceType(signature.who, "who", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.checkReferenceType(signature.onBehalfOf, "onBehalfOf", "Practitioner", "PractitionerRole", "RelatedPerson", "Patient", "Device", "Organization");
+            ValidationSupport.requireValueOrChildren(signature);
         }
 
         protected Builder from(Signature signature) {

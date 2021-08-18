@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -36,33 +37,43 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.NamingSystemIdentifierType;
 import com.ibm.fhir.model.type.code.NamingSystemType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A curated namespace that issues unique symbols within that namespace for the identification of concepts, people, 
  * devices, etc. Represents a "System" used within the Identifier and Coding data types.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "nsd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "nsd-1",
     level = "Rule",
     location = "(base)",
     description = "Root systems cannot have uuid identifiers",
-    expression = "kind != 'root' or uniqueId.all(type != 'uuid')"
+    expression = "kind != 'root' or uniqueId.all(type != 'uuid')",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "nsd-2",
     level = "Rule",
     location = "(base)",
     description = "Can't have more than one preferred identifier for a type",
-    expression = "uniqueId.where(preferred = true).select(type).isDistinct()"
+    expression = "uniqueId.where(preferred = true).select(type).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem"
 )
 @Constraint(
     id = "namingSystem-3",
@@ -70,6 +81,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/identifier-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/identifier-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem",
     generated = true
 )
 @Constraint(
@@ -78,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/NamingSystem",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -88,7 +101,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -97,7 +110,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "NamingSystemType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose of the naming system.",
         valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-type|4.0.1"
     )
@@ -113,7 +126,7 @@ public class NamingSystem extends DomainResource {
     private final String responsible;
     @Binding(
         bindingName = "IdentifierType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
@@ -124,7 +137,7 @@ public class NamingSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -134,24 +147,21 @@ public class NamingSystem extends DomainResource {
     @Required
     private final List<UniqueId> uniqueId;
 
-    private volatile int hashCode;
-
     private NamingSystem(Builder builder) {
         super(builder);
-        name = ValidationSupport.requireNonNull(builder.name, "name");
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        name = builder.name;
+        status = builder.status;
+        kind = builder.kind;
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         responsible = builder.responsible;
         type = builder.type;
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         usage = builder.usage;
-        uniqueId = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.uniqueId, "uniqueId"));
-        ValidationSupport.requireChildren(this);
+        uniqueId = Collections.unmodifiableList(builder.uniqueId);
     }
 
     /**
@@ -935,7 +945,23 @@ public class NamingSystem extends DomainResource {
          */
         @Override
         public NamingSystem build() {
-            return new NamingSystem(this);
+            NamingSystem namingSystem = new NamingSystem(this);
+            if (validating) {
+                validate(namingSystem);
+            }
+            return namingSystem;
+        }
+
+        protected void validate(NamingSystem namingSystem) {
+            super.validate(namingSystem);
+            ValidationSupport.requireNonNull(namingSystem.name, "name");
+            ValidationSupport.requireNonNull(namingSystem.status, "status");
+            ValidationSupport.requireNonNull(namingSystem.kind, "kind");
+            ValidationSupport.requireNonNull(namingSystem.date, "date");
+            ValidationSupport.checkList(namingSystem.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(namingSystem.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(namingSystem.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkNonEmptyList(namingSystem.uniqueId, "uniqueId", UniqueId.class);
         }
 
         protected Builder from(NamingSystem namingSystem) {
@@ -964,7 +990,7 @@ public class NamingSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "NamingSystemIdentifierType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the style of unique identifier used to identify a namespace.",
             valueSet = "http://hl7.org/fhir/ValueSet/namingsystem-identifier-type|4.0.1"
         )
@@ -977,16 +1003,13 @@ public class NamingSystem extends DomainResource {
         private final String comment;
         private final Period period;
 
-        private volatile int hashCode;
-
         private UniqueId(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            value = ValidationSupport.requireNonNull(builder.value, "value");
+            type = builder.type;
+            value = builder.value;
             preferred = builder.preferred;
             comment = builder.comment;
             period = builder.period;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1321,7 +1344,18 @@ public class NamingSystem extends DomainResource {
              */
             @Override
             public UniqueId build() {
-                return new UniqueId(this);
+                UniqueId uniqueId = new UniqueId(this);
+                if (validating) {
+                    validate(uniqueId);
+                }
+                return uniqueId;
+            }
+
+            protected void validate(UniqueId uniqueId) {
+                super.validate(uniqueId);
+                ValidationSupport.requireNonNull(uniqueId.type, "type");
+                ValidationSupport.requireNonNull(uniqueId.value, "value");
+                ValidationSupport.requireValueOrChildren(uniqueId);
             }
 
             protected Builder from(UniqueId uniqueId) {

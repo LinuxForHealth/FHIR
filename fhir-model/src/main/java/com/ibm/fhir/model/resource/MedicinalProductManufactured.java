@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -26,12 +27,19 @@ import com.ibm.fhir.model.type.ProdCharacteristic;
 import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The manufactured item as contained in the packaged medicinal product.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductManufactured extends DomainResource {
     @Summary
@@ -53,20 +61,15 @@ public class MedicinalProductManufactured extends DomainResource {
     @Summary
     private final List<CodeableConcept> otherCharacteristics;
 
-    private volatile int hashCode;
-
     private MedicinalProductManufactured(Builder builder) {
         super(builder);
-        manufacturedDoseForm = ValidationSupport.requireNonNull(builder.manufacturedDoseForm, "manufacturedDoseForm");
+        manufacturedDoseForm = builder.manufacturedDoseForm;
         unitOfPresentation = builder.unitOfPresentation;
-        quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        quantity = builder.quantity;
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        ingredient = Collections.unmodifiableList(builder.ingredient);
         physicalCharacteristics = builder.physicalCharacteristics;
-        otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.checkReferenceType(ingredient, "ingredient", "MedicinalProductIngredient");
-        ValidationSupport.requireChildren(this);
+        otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
     }
 
     /**
@@ -647,7 +650,22 @@ public class MedicinalProductManufactured extends DomainResource {
          */
         @Override
         public MedicinalProductManufactured build() {
-            return new MedicinalProductManufactured(this);
+            MedicinalProductManufactured medicinalProductManufactured = new MedicinalProductManufactured(this);
+            if (validating) {
+                validate(medicinalProductManufactured);
+            }
+            return medicinalProductManufactured;
+        }
+
+        protected void validate(MedicinalProductManufactured medicinalProductManufactured) {
+            super.validate(medicinalProductManufactured);
+            ValidationSupport.requireNonNull(medicinalProductManufactured.manufacturedDoseForm, "manufacturedDoseForm");
+            ValidationSupport.requireNonNull(medicinalProductManufactured.quantity, "quantity");
+            ValidationSupport.checkList(medicinalProductManufactured.manufacturer, "manufacturer", Reference.class);
+            ValidationSupport.checkList(medicinalProductManufactured.ingredient, "ingredient", Reference.class);
+            ValidationSupport.checkList(medicinalProductManufactured.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
+            ValidationSupport.checkReferenceType(medicinalProductManufactured.manufacturer, "manufacturer", "Organization");
+            ValidationSupport.checkReferenceType(medicinalProductManufactured.ingredient, "ingredient", "MedicinalProductIngredient");
         }
 
         protected Builder from(MedicinalProductManufactured medicinalProductManufactured) {

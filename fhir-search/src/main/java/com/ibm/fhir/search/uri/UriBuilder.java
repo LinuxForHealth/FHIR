@@ -72,7 +72,10 @@ public class UriBuilder {
      * @throws URISyntaxException
      */
     public String toSearchSelfUri() throws URISyntaxException {
-        URI requestUri = new URI(requestUriString);
+        String hostAndPath = requestUriString.contains("?") ?
+                requestUriString.substring(0, requestUriString.indexOf("?")) :
+                requestUriString;
+        URI requestUri = new URI(hostAndPath);
 
         // Always include page size at the beginning, even if it wasn't in the request
         queryString.append(SearchConstants.COUNT);
@@ -85,6 +88,7 @@ public class UriBuilder {
         appendRevInclusionParameters();
         appendSortParameters();
         appendSummaryParameter();
+        appendTotalParameter();
         appendResourceTypesParameter();
 
         // Always include page number at the end, even if it wasn't in the request
@@ -157,6 +161,9 @@ public class UriBuilder {
         for (InclusionParameter param : context.getIncludeParameters()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.INCLUDE);
+            if (param.getModifier() != null) {
+                queryString.append(SearchConstants.COLON_DELIMITER).append(param.getModifier().value());
+            }
             queryString.append(SearchConstants.EQUALS_CHAR);
             appendInclusionParamValue(param);
         }
@@ -171,10 +178,22 @@ public class UriBuilder {
         }
     }
 
+    private void appendTotalParameter() {
+        if (context.getTotalParameter() != null) {
+            queryString.append(SearchConstants.AND_CHAR);
+            queryString.append(SearchConstants.TOTAL);
+            queryString.append(SearchConstants.EQUALS_CHAR);
+            queryString.append(context.getTotalParameter().value());
+        }
+    }
+
     private void appendRevInclusionParameters() {
         for (InclusionParameter param : context.getRevIncludeParameters()) {
             queryString.append(SearchConstants.AND_CHAR);
             queryString.append(SearchConstants.REVINCLUDE);
+            if (param.getModifier() != null) {
+                queryString.append(SearchConstants.COLON_DELIMITER).append(param.getModifier().value());
+            }
             queryString.append(SearchConstants.EQUALS_CHAR);
             appendInclusionParamValue(param);
         }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.time.temporal.ChronoField;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.Objects;
 
 import com.ibm.fhir.path.visitor.FHIRPathNodeVisitor;
 
-public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode implements FHIRPathTemporalValue {
+public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractSystemValue implements FHIRPathTemporalValue {
     private static final List<ChronoField> FIELDS = Arrays.asList(
             ChronoField.YEAR,
             ChronoField.MONTH_OF_YEAR,
@@ -89,7 +88,7 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
     @Override
     public abstract Builder toBuilder();
 
-    public static abstract class Builder extends FHIRPathAbstractNode.Builder {
+    public static abstract class Builder extends FHIRPathAbstractSystemValue.Builder {
         protected final TemporalAccessor temporalAccessor;
         protected final ChronoField precision;
         protected String text;
@@ -108,21 +107,6 @@ public abstract class FHIRPathAbstractTemporalValue extends FHIRPathAbstractNode
         @Override
         public Builder path(String path) {
             return (Builder) super.path(path);
-        }
-
-        @Override
-        public Builder value(FHIRPathSystemValue value) {
-            return this;
-        }
-
-        @Override
-        public Builder children(FHIRPathNode... children) {
-            return this;
-        }
-
-        @Override
-        public Builder children(Collection<FHIRPathNode> children) {
-            return this;
         }
 
         public Builder text(String text) {

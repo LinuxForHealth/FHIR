@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class CompositionAttestationMode extends Code {
      * 
      * <p>The person authenticated the content in their personal capacity.
      */
-    public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.builder().value(ValueSet.PERSONAL).build();
+    public static final CompositionAttestationMode PERSONAL = CompositionAttestationMode.builder().value(Value.PERSONAL).build();
 
     /**
      * Professional
      * 
      * <p>The person authenticated the content in their professional capacity.
      */
-    public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.builder().value(ValueSet.PROFESSIONAL).build();
+    public static final CompositionAttestationMode PROFESSIONAL = CompositionAttestationMode.builder().value(Value.PROFESSIONAL).build();
 
     /**
      * Legal
      * 
      * <p>The person authenticated the content and accepted legal responsibility for its content.
      */
-    public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.builder().value(ValueSet.LEGAL).build();
+    public static final CompositionAttestationMode LEGAL = CompositionAttestationMode.builder().value(Value.LEGAL).build();
 
     /**
      * Official
      * 
      * <p>The organization authenticated the content as consistent with their policies and procedures.
      */
-    public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.builder().value(ValueSet.OFFICIAL).build();
+    public static final CompositionAttestationMode OFFICIAL = CompositionAttestationMode.builder().value(Value.OFFICIAL).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class CompositionAttestationMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CompositionAttestationMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CompositionAttestationMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CompositionAttestationMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CompositionAttestationMode of(ValueSet value) {
+        switch (value) {
+        case PERSONAL:
+            return PERSONAL;
+        case PROFESSIONAL:
+            return PROFESSIONAL;
+        case LEGAL:
+            return LEGAL;
+        case OFFICIAL:
+            return OFFICIAL;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CompositionAttestationMode objects from a passed enum value.
      */
-    public static CompositionAttestationMode of(ValueSet value) {
+    public static CompositionAttestationMode of(Value value) {
         switch (value) {
         case PERSONAL:
             return PERSONAL;
@@ -84,7 +116,7 @@ public class CompositionAttestationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CompositionAttestationMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class CompositionAttestationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class CompositionAttestationMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class CompositionAttestationMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class CompositionAttestationMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CompositionAttestationMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public CompositionAttestationMode build() {
-            return new CompositionAttestationMode(this);
+            CompositionAttestationMode compositionAttestationMode = new CompositionAttestationMode(this);
+            if (validating) {
+                validate(compositionAttestationMode);
+            }
+            return compositionAttestationMode;
+        }
+
+        protected void validate(CompositionAttestationMode compositionAttestationMode) {
+            super.validate(compositionAttestationMode);
+        }
+
+        protected Builder from(CompositionAttestationMode compositionAttestationMode) {
+            super.from(compositionAttestationMode);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Personal
@@ -227,7 +286,7 @@ public class CompositionAttestationMode extends Code {
         }
 
         /**
-         * Factory method for creating CompositionAttestationMode.ValueSet values from a passed string value.
+         * Factory method for creating CompositionAttestationMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class CompositionAttestationMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Personal
+         * 
+         * <p>The person authenticated the content in their personal capacity.
+         */
+        PERSONAL("personal"),
+
+        /**
+         * Professional
+         * 
+         * <p>The person authenticated the content in their professional capacity.
+         */
+        PROFESSIONAL("professional"),
+
+        /**
+         * Legal
+         * 
+         * <p>The person authenticated the content and accepted legal responsibility for its content.
+         */
+        LEGAL("legal"),
+
+        /**
+         * Official
+         * 
+         * <p>The organization authenticated the content as consistent with their policies and procedures.
+         */
+        OFFICIAL("official");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CompositionAttestationMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CompositionAttestationMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "personal":
+                return PERSONAL;
+            case "professional":
+                return PROFESSIONAL;
+            case "legal":
+                return LEGAL;
+            case "official":
+                return OFFICIAL;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

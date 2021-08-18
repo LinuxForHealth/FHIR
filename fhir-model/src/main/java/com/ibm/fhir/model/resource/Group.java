@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,6 +39,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GroupType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,13 +47,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Represents a defined collection of entities that may be discussed or acted upon collectively but which are not 
  * expected to act collectively, and are not formally or legally recognized; i.e. a collection of entities that isn't an 
  * Organization.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "grp-1",
     level = "Rule",
     location = "(base)",
     description = "Can only have members if group is \"actual\"",
-    expression = "member.empty() or (actual = true)"
+    expression = "member.empty() or (actual = true)",
+    source = "http://hl7.org/fhir/StructureDefinition/Group"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Group extends DomainResource {
@@ -62,7 +71,7 @@ public class Group extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GroupType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Types of resources that are part of group.",
         valueSet = "http://hl7.org/fhir/ValueSet/group-type|4.0.1"
     )
@@ -74,7 +83,7 @@ public class Group extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GroupKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Kind of particular resource; e.g. cow, syringe, lake, etc."
     )
     private final CodeableConcept code;
@@ -88,22 +97,18 @@ public class Group extends DomainResource {
     private final List<Characteristic> characteristic;
     private final List<Member> member;
 
-    private volatile int hashCode;
-
     private Group(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        actual = ValidationSupport.requireNonNull(builder.actual, "actual");
+        type = builder.type;
+        actual = builder.actual;
         code = builder.code;
         name = builder.name;
         quantity = builder.quantity;
         managingEntity = builder.managingEntity;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.characteristic, "characteristic"));
-        member = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.member, "member"));
-        ValidationSupport.checkReferenceType(managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
+        member = Collections.unmodifiableList(builder.member);
     }
 
     /**
@@ -761,7 +766,21 @@ public class Group extends DomainResource {
          */
         @Override
         public Group build() {
-            return new Group(this);
+            Group group = new Group(this);
+            if (validating) {
+                validate(group);
+            }
+            return group;
+        }
+
+        protected void validate(Group group) {
+            super.validate(group);
+            ValidationSupport.checkList(group.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(group.type, "type");
+            ValidationSupport.requireNonNull(group.actual, "actual");
+            ValidationSupport.checkList(group.characteristic, "characteristic", Characteristic.class);
+            ValidationSupport.checkList(group.member, "member", Member.class);
+            ValidationSupport.checkReferenceType(group.managingEntity, "managingEntity", "Organization", "RelatedPerson", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(Group group) {
@@ -786,7 +805,7 @@ public class Group extends DomainResource {
     public static class Characteristic extends BackboneElement {
         @Binding(
             bindingName = "GroupCharacteristicKind",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "List of characteristics used to describe group members; e.g. gender, age, owner, location, etc."
         )
         @Required
@@ -794,7 +813,7 @@ public class Group extends DomainResource {
         @Choice({ CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class })
         @Binding(
             bindingName = "GroupCharacteristicValue",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Value of descriptive member characteristic; e.g. red, male, pneumonia, Caucasian, etc."
         )
         @Required
@@ -803,15 +822,12 @@ public class Group extends DomainResource {
         private final Boolean exclude;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Characteristic(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            value = ValidationSupport.requireChoiceElement(builder.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
-            exclude = ValidationSupport.requireNonNull(builder.exclude, "exclude");
+            code = builder.code;
+            value = builder.value;
+            exclude = builder.exclude;
             period = builder.period;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1127,7 +1143,19 @@ public class Group extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireNonNull(characteristic.code, "code");
+                ValidationSupport.requireChoiceElement(characteristic.value, "value", CodeableConcept.class, Boolean.class, Quantity.class, Range.class, Reference.class);
+                ValidationSupport.requireNonNull(characteristic.exclude, "exclude");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {
@@ -1151,15 +1179,11 @@ public class Group extends DomainResource {
         private final Period period;
         private final Boolean inactive;
 
-        private volatile int hashCode;
-
         private Member(Builder builder) {
             super(builder);
-            entity = ValidationSupport.requireNonNull(builder.entity, "entity");
+            entity = builder.entity;
             period = builder.period;
             inactive = builder.inactive;
-            ValidationSupport.checkReferenceType(entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1444,7 +1468,18 @@ public class Group extends DomainResource {
              */
             @Override
             public Member build() {
-                return new Member(this);
+                Member member = new Member(this);
+                if (validating) {
+                    validate(member);
+                }
+                return member;
+            }
+
+            protected void validate(Member member) {
+                super.validate(member);
+                ValidationSupport.requireNonNull(member.entity, "entity");
+                ValidationSupport.checkReferenceType(member.entity, "entity", "Patient", "Practitioner", "PractitionerRole", "Device", "Medication", "Substance", "Group");
+                ValidationSupport.requireValueOrChildren(member);
             }
 
             protected Builder from(Member member) {

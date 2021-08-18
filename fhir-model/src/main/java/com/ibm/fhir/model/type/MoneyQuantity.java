@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,12 +24,11 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "Quantity",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of currency.  If system is present, it SHALL be ISO 4217 (system = \"urn:iso:std:iso:4217\" - currency).",
-    expression = "(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')"
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = 'urn:iso:std:iso:4217')",
+    source = "http://hl7.org/fhir/StructureDefinition/MoneyQuantity"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MoneyQuantity extends Quantity {
-    private volatile int hashCode;
-
     private MoneyQuantity(Builder builder) {
         super(builder);
     }
@@ -238,7 +237,15 @@ public class MoneyQuantity extends Quantity {
          */
         @Override
         public MoneyQuantity build() {
-            return new MoneyQuantity(this);
+            MoneyQuantity moneyQuantity = new MoneyQuantity(this);
+            if (validating) {
+                validate(moneyQuantity);
+            }
+            return moneyQuantity;
+        }
+
+        protected void validate(MoneyQuantity moneyQuantity) {
+            super.validate(moneyQuantity);
         }
 
         protected Builder from(MoneyQuantity moneyQuantity) {

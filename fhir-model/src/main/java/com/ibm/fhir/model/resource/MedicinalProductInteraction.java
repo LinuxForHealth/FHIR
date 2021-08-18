@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -28,12 +29,19 @@ import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The interactions of the medicinal product with other medicinal products, or other forms of interactions.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductInteraction extends DomainResource {
     @Summary
@@ -52,19 +60,15 @@ public class MedicinalProductInteraction extends DomainResource {
     @Summary
     private final CodeableConcept management;
 
-    private volatile int hashCode;
-
     private MedicinalProductInteraction(Builder builder) {
         super(builder);
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        subject = Collections.unmodifiableList(builder.subject);
         description = builder.description;
-        interactant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interactant, "interactant"));
+        interactant = Collections.unmodifiableList(builder.interactant);
         type = builder.type;
         effect = builder.effect;
         incidence = builder.incidence;
         management = builder.management;
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct", "Medication", "Substance");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -609,7 +613,18 @@ public class MedicinalProductInteraction extends DomainResource {
          */
         @Override
         public MedicinalProductInteraction build() {
-            return new MedicinalProductInteraction(this);
+            MedicinalProductInteraction medicinalProductInteraction = new MedicinalProductInteraction(this);
+            if (validating) {
+                validate(medicinalProductInteraction);
+            }
+            return medicinalProductInteraction;
+        }
+
+        protected void validate(MedicinalProductInteraction medicinalProductInteraction) {
+            super.validate(medicinalProductInteraction);
+            ValidationSupport.checkList(medicinalProductInteraction.subject, "subject", Reference.class);
+            ValidationSupport.checkList(medicinalProductInteraction.interactant, "interactant", Interactant.class);
+            ValidationSupport.checkReferenceType(medicinalProductInteraction.subject, "subject", "MedicinalProduct", "Medication", "Substance");
         }
 
         protected Builder from(MedicinalProductInteraction medicinalProductInteraction) {
@@ -635,13 +650,9 @@ public class MedicinalProductInteraction extends DomainResource {
         @Required
         private final Element item;
 
-        private volatile int hashCode;
-
         private Interactant(Builder builder) {
             super(builder);
-            item = ValidationSupport.requireChoiceElement(builder.item, "item", Reference.class, CodeableConcept.class);
-            ValidationSupport.checkReferenceType(item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
-            ValidationSupport.requireValueOrChildren(this);
+            item = builder.item;
         }
 
         /**
@@ -869,7 +880,18 @@ public class MedicinalProductInteraction extends DomainResource {
              */
             @Override
             public Interactant build() {
-                return new Interactant(this);
+                Interactant interactant = new Interactant(this);
+                if (validating) {
+                    validate(interactant);
+                }
+                return interactant;
+            }
+
+            protected void validate(Interactant interactant) {
+                super.validate(interactant);
+                ValidationSupport.requireChoiceElement(interactant.item, "item", Reference.class, CodeableConcept.class);
+                ValidationSupport.checkReferenceType(interactant.item, "item", "MedicinalProduct", "Medication", "Substance", "ObservationDefinition");
+                ValidationSupport.requireValueOrChildren(interactant);
             }
 
             protected Builder from(Interactant interactant) {

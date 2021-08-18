@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class ExplanationOfBenefitStatus extends Code {
      * 
      * <p>The resource instance is currently in-force.
      */
-    public static final ExplanationOfBenefitStatus ACTIVE = ExplanationOfBenefitStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final ExplanationOfBenefitStatus ACTIVE = ExplanationOfBenefitStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Cancelled
      * 
      * <p>The resource instance is withdrawn, rescinded or reversed.
      */
-    public static final ExplanationOfBenefitStatus CANCELLED = ExplanationOfBenefitStatus.builder().value(ValueSet.CANCELLED).build();
+    public static final ExplanationOfBenefitStatus CANCELLED = ExplanationOfBenefitStatus.builder().value(Value.CANCELLED).build();
 
     /**
      * Draft
      * 
      * <p>A new resource instance the contents of which is not complete.
      */
-    public static final ExplanationOfBenefitStatus DRAFT = ExplanationOfBenefitStatus.builder().value(ValueSet.DRAFT).build();
+    public static final ExplanationOfBenefitStatus DRAFT = ExplanationOfBenefitStatus.builder().value(Value.DRAFT).build();
 
     /**
      * Entered In Error
      * 
      * <p>The resource instance was entered in error.
      */
-    public static final ExplanationOfBenefitStatus ENTERED_IN_ERROR = ExplanationOfBenefitStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final ExplanationOfBenefitStatus ENTERED_IN_ERROR = ExplanationOfBenefitStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class ExplanationOfBenefitStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ExplanationOfBenefitStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ExplanationOfBenefitStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ExplanationOfBenefitStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ExplanationOfBenefitStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case CANCELLED:
+            return CANCELLED;
+        case DRAFT:
+            return DRAFT;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ExplanationOfBenefitStatus objects from a passed enum value.
      */
-    public static ExplanationOfBenefitStatus of(ValueSet value) {
+    public static ExplanationOfBenefitStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -84,7 +116,7 @@ public class ExplanationOfBenefitStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ExplanationOfBenefitStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class ExplanationOfBenefitStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class ExplanationOfBenefitStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class ExplanationOfBenefitStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class ExplanationOfBenefitStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ExplanationOfBenefitStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ExplanationOfBenefitStatus build() {
-            return new ExplanationOfBenefitStatus(this);
+            ExplanationOfBenefitStatus explanationOfBenefitStatus = new ExplanationOfBenefitStatus(this);
+            if (validating) {
+                validate(explanationOfBenefitStatus);
+            }
+            return explanationOfBenefitStatus;
+        }
+
+        protected void validate(ExplanationOfBenefitStatus explanationOfBenefitStatus) {
+            super.validate(explanationOfBenefitStatus);
+        }
+
+        protected Builder from(ExplanationOfBenefitStatus explanationOfBenefitStatus) {
+            super.from(explanationOfBenefitStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -227,7 +286,7 @@ public class ExplanationOfBenefitStatus extends Code {
         }
 
         /**
-         * Factory method for creating ExplanationOfBenefitStatus.ValueSet values from a passed string value.
+         * Factory method for creating ExplanationOfBenefitStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class ExplanationOfBenefitStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The resource instance is currently in-force.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Cancelled
+         * 
+         * <p>The resource instance is withdrawn, rescinded or reversed.
+         */
+        CANCELLED("cancelled"),
+
+        /**
+         * Draft
+         * 
+         * <p>A new resource instance the contents of which is not complete.
+         */
+        DRAFT("draft"),
+
+        /**
+         * Entered In Error
+         * 
+         * <p>The resource instance was entered in error.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ExplanationOfBenefitStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ExplanationOfBenefitStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "cancelled":
+                return CANCELLED;
+            case "draft":
+                return DRAFT;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

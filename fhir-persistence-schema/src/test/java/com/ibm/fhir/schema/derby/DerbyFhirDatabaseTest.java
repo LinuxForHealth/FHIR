@@ -1,11 +1,12 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.schema.derby;
 
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -20,6 +21,7 @@ import com.ibm.fhir.database.utils.common.JdbcTarget;
 import com.ibm.fhir.database.utils.derby.DerbyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyMaster;
 import com.ibm.fhir.schema.control.FhirSchemaConstants;
+import com.ibm.fhir.schema.control.GetXXLogicalResourceNeedsMigration;
 
 /**
  * Unit test for the DerbyFhirDatabase utility
@@ -36,17 +38,33 @@ public class DerbyFhirDatabaseTest {
         try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database created successfully.");
             checkDatabase(db);
+            testMigrationFunction(db);
         }
-        
+
         // Now that we've got an existing database, let's try the creation again...which should be a NOP
         try (DerbyFhirDatabase db = new DerbyFhirDatabase(DB_NAME)) {
             System.out.println("FHIR database exists.");
             checkDatabase(db);
         }
     }
-    
+
+    protected void testMigrationFunction(IConnectionProvider cp) throws SQLException {
+        try (Connection c = cp.getConnection()) {
+            try {
+                JdbcTarget tgt = new JdbcTarget(c);
+                DerbyAdapter adapter = new DerbyAdapter(tgt);
+                GetXXLogicalResourceNeedsMigration cmd = new GetXXLogicalResourceNeedsMigration("FHIRDATA", "Observation");
+                assertFalse(adapter.runStatement(cmd));
+                c.commit();
+            } catch (Throwable t) {
+                c.rollback();
+                throw t;
+            }
+        }
+    }
+
     protected void checkDatabase(IConnectionProvider cp) throws SQLException {
-        
+
         try (Connection c = cp.getConnection()) {
             try {
                 JdbcTarget tgt = new JdbcTarget(c);

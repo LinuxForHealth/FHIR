@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If the Attachment has data, it SHALL have a contentType",
-    expression = "data.empty() or contentType.exists()"
+    expression = "data.empty() or contentType.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Attachment"
 )
 @Constraint(
     id = "attachment-2",
@@ -34,6 +35,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "language.exists() implies (language.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Attachment",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -41,7 +43,7 @@ public class Attachment extends Element {
     @Summary
     @Binding(
         bindingName = "MimeType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The mime type of an attachment. Any valid mime type is allowed.",
         valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
     )
@@ -49,7 +51,7 @@ public class Attachment extends Element {
     @Summary
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -67,8 +69,6 @@ public class Attachment extends Element {
     @Summary
     private final DateTime creation;
 
-    private volatile int hashCode;
-
     private Attachment(Builder builder) {
         super(builder);
         contentType = builder.contentType;
@@ -79,8 +79,6 @@ public class Attachment extends Element {
         hash = builder.hash;
         title = builder.title;
         creation = builder.creation;
-        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -441,7 +439,17 @@ public class Attachment extends Element {
          */
         @Override
         public Attachment build() {
-            return new Attachment(this);
+            Attachment attachment = new Attachment(this);
+            if (validating) {
+                validate(attachment);
+            }
+            return attachment;
+        }
+
+        protected void validate(Attachment attachment) {
+            super.validate(attachment);
+            ValidationSupport.checkValueSetBinding(attachment.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+            ValidationSupport.requireValueOrChildren(attachment);
         }
 
         protected Builder from(Attachment attachment) {

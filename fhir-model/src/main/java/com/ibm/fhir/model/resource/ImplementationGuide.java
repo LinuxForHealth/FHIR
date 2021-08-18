@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -45,6 +46,7 @@ import com.ibm.fhir.model.type.code.GuideParameterCode;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SPDXLicense;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -52,27 +54,36 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A set of rules of how a particular interoperability or standards problem is solved - typically through the use of FHIR 
  * resources. This resource is used to gather all the parts of an implementation guide into a logical whole and to 
  * publish a computable definition of all the parts.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ig-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "ig-1",
     level = "Rule",
     location = "ImplementationGuide.definition",
     description = "If a resource has a groupingId, it must refer to a grouping defined in the Implementation Guide",
-    expression = "resource.groupingId.all(%context.grouping.id contains $this)"
+    expression = "resource.groupingId.all(%context.grouping.id contains $this)",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "ig-2",
     level = "Rule",
     location = "(base)",
     description = "If a resource has a fhirVersion, it must be oe of the versions defined for the Implementation Guide",
-    expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)"
+    expression = "definition.resource.fhirVersion.all(%context.fhirVersion contains $this)",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide"
 )
 @Constraint(
     id = "implementationGuide-3",
@@ -80,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ImplementationGuide",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -97,7 +109,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -117,7 +129,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -129,7 +141,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "SPDXLicense",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The license that applies to an Implementation Guide (using an SPDX license Identifiers, or 'not-open-source'). The binding is required but new SPDX license Identifiers are allowed to be used (https://spdx.org/licenses/).",
         valueSet = "http://hl7.org/fhir/ValueSet/spdx-license|4.0.1"
     )
@@ -137,7 +149,7 @@ public class ImplementationGuide extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRVersion",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
@@ -150,31 +162,28 @@ public class ImplementationGuide extends DomainResource {
     private final Definition definition;
     private final Manifest manifest;
 
-    private volatile int hashCode;
-
     private ImplementationGuide(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
-        packageId = ValidationSupport.requireNonNull(builder.packageId, "packageId");
+        packageId = builder.packageId;
         license = builder.license;
-        fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.fhirVersion, "fhirVersion"));
-        dependsOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependsOn, "dependsOn"));
-        global = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.global, "global"));
+        fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
+        dependsOn = Collections.unmodifiableList(builder.dependsOn);
+        global = Collections.unmodifiableList(builder.global);
         definition = builder.definition;
         manifest = builder.manifest;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1226,7 +1235,25 @@ public class ImplementationGuide extends DomainResource {
          */
         @Override
         public ImplementationGuide build() {
-            return new ImplementationGuide(this);
+            ImplementationGuide implementationGuide = new ImplementationGuide(this);
+            if (validating) {
+                validate(implementationGuide);
+            }
+            return implementationGuide;
+        }
+
+        protected void validate(ImplementationGuide implementationGuide) {
+            super.validate(implementationGuide);
+            ValidationSupport.requireNonNull(implementationGuide.url, "url");
+            ValidationSupport.requireNonNull(implementationGuide.name, "name");
+            ValidationSupport.requireNonNull(implementationGuide.status, "status");
+            ValidationSupport.checkList(implementationGuide.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(implementationGuide.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(implementationGuide.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(implementationGuide.packageId, "packageId");
+            ValidationSupport.checkNonEmptyList(implementationGuide.fhirVersion, "fhirVersion", FHIRVersion.class);
+            ValidationSupport.checkList(implementationGuide.dependsOn, "dependsOn", DependsOn.class);
+            ValidationSupport.checkList(implementationGuide.global, "global", Global.class);
         }
 
         protected Builder from(ImplementationGuide implementationGuide) {
@@ -1268,14 +1295,11 @@ public class ImplementationGuide extends DomainResource {
         @Summary
         private final String version;
 
-        private volatile int hashCode;
-
         private DependsOn(Builder builder) {
             super(builder);
-            uri = ValidationSupport.requireNonNull(builder.uri, "uri");
+            uri = builder.uri;
             packageId = builder.packageId;
             version = builder.version;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1547,7 +1571,17 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public DependsOn build() {
-                return new DependsOn(this);
+                DependsOn dependsOn = new DependsOn(this);
+                if (validating) {
+                    validate(dependsOn);
+                }
+                return dependsOn;
+            }
+
+            protected void validate(DependsOn dependsOn) {
+                super.validate(dependsOn);
+                ValidationSupport.requireNonNull(dependsOn.uri, "uri");
+                ValidationSupport.requireValueOrChildren(dependsOn);
             }
 
             protected Builder from(DependsOn dependsOn) {
@@ -1567,7 +1601,7 @@ public class ImplementationGuide extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
@@ -1577,13 +1611,10 @@ public class ImplementationGuide extends DomainResource {
         @Required
         private final Canonical profile;
 
-        private volatile int hashCode;
-
         private Global(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            profile = builder.profile;
         }
 
         /**
@@ -1829,7 +1860,18 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Global build() {
-                return new Global(this);
+                Global global = new Global(this);
+                if (validating) {
+                    validate(global);
+                }
+                return global;
+            }
+
+            protected void validate(Global global) {
+                super.validate(global);
+                ValidationSupport.requireNonNull(global.type, "type");
+                ValidationSupport.requireNonNull(global.profile, "profile");
+                ValidationSupport.requireValueOrChildren(global);
             }
 
             protected Builder from(Global global) {
@@ -1852,16 +1894,13 @@ public class ImplementationGuide extends DomainResource {
         private final List<Parameter> parameter;
         private final List<Template> template;
 
-        private volatile int hashCode;
-
         private Definition(Builder builder) {
             super(builder);
-            grouping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.grouping, "grouping"));
-            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
+            grouping = Collections.unmodifiableList(builder.grouping);
+            resource = Collections.unmodifiableList(builder.resource);
             page = builder.page;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-            template = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.template, "template"));
-            ValidationSupport.requireValueOrChildren(this);
+            parameter = Collections.unmodifiableList(builder.parameter);
+            template = Collections.unmodifiableList(builder.template);
         }
 
         /**
@@ -2279,7 +2318,20 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Definition build() {
-                return new Definition(this);
+                Definition definition = new Definition(this);
+                if (validating) {
+                    validate(definition);
+                }
+                return definition;
+            }
+
+            protected void validate(Definition definition) {
+                super.validate(definition);
+                ValidationSupport.checkList(definition.grouping, "grouping", Grouping.class);
+                ValidationSupport.checkNonEmptyList(definition.resource, "resource", Resource.class);
+                ValidationSupport.checkList(definition.parameter, "parameter", Parameter.class);
+                ValidationSupport.checkList(definition.template, "template", Template.class);
+                ValidationSupport.requireValueOrChildren(definition);
             }
 
             protected Builder from(Definition definition) {
@@ -2301,13 +2353,10 @@ public class ImplementationGuide extends DomainResource {
             private final String name;
             private final String description;
 
-            private volatile int hashCode;
-
             private Grouping(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2550,7 +2599,17 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Grouping build() {
-                    return new Grouping(this);
+                    Grouping grouping = new Grouping(this);
+                    if (validating) {
+                        validate(grouping);
+                    }
+                    return grouping;
+                }
+
+                protected void validate(Grouping grouping) {
+                    super.validate(grouping);
+                    ValidationSupport.requireNonNull(grouping.name, "name");
+                    ValidationSupport.requireValueOrChildren(grouping);
                 }
 
                 protected Builder from(Grouping grouping) {
@@ -2572,7 +2631,7 @@ public class ImplementationGuide extends DomainResource {
             private final Reference reference;
             @Binding(
                 bindingName = "FHIRVersion",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "All published FHIR Versions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
             )
@@ -2583,17 +2642,14 @@ public class ImplementationGuide extends DomainResource {
             private final Element example;
             private final Id groupingId;
 
-            private volatile int hashCode;
-
             private Resource(Builder builder) {
                 super(builder);
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                fhirVersion = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fhirVersion, "fhirVersion"));
+                reference = builder.reference;
+                fhirVersion = Collections.unmodifiableList(builder.fhirVersion);
                 name = builder.name;
                 description = builder.description;
-                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                example = builder.example;
                 groupingId = builder.groupingId;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2985,7 +3041,19 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.reference, "reference");
+                    ValidationSupport.checkList(resource.fhirVersion, "fhirVersion", FHIRVersion.class);
+                    ValidationSupport.choiceElement(resource.example, "example", Boolean.class, Canonical.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -3013,7 +3081,7 @@ public class ImplementationGuide extends DomainResource {
             private final String title;
             @Binding(
                 bindingName = "GuidePageGeneration",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A code that indicates how the page is generated.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-page-generation|4.0.1"
             )
@@ -3021,16 +3089,12 @@ public class ImplementationGuide extends DomainResource {
             private final GuidePageGeneration generation;
             private final List<ImplementationGuide.Definition.Page> page;
 
-            private volatile int hashCode;
-
             private Page(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireChoiceElement(builder.name, "name", Url.class, Reference.class);
-                title = ValidationSupport.requireNonNull(builder.title, "title");
-                generation = ValidationSupport.requireNonNull(builder.generation, "generation");
-                page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
-                ValidationSupport.checkReferenceType(name, "name", "Binary");
-                ValidationSupport.requireValueOrChildren(this);
+                name = builder.name;
+                title = builder.title;
+                generation = builder.generation;
+                page = Collections.unmodifiableList(builder.page);
             }
 
             /**
@@ -3368,7 +3432,21 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Page build() {
-                    return new Page(this);
+                    Page page = new Page(this);
+                    if (validating) {
+                        validate(page);
+                    }
+                    return page;
+                }
+
+                protected void validate(Page page) {
+                    super.validate(page);
+                    ValidationSupport.requireChoiceElement(page.name, "name", Url.class, Reference.class);
+                    ValidationSupport.requireNonNull(page.title, "title");
+                    ValidationSupport.requireNonNull(page.generation, "generation");
+                    ValidationSupport.checkList(page.page, "page", ImplementationGuide.Definition.Page.class);
+                    ValidationSupport.checkReferenceType(page.name, "name", "Binary");
+                    ValidationSupport.requireValueOrChildren(page);
                 }
 
                 protected Builder from(Page page) {
@@ -3388,7 +3466,7 @@ public class ImplementationGuide extends DomainResource {
         public static class Parameter extends BackboneElement {
             @Binding(
                 bindingName = "GuideParameterCode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Code of parameter that is input to the guide.",
                 valueSet = "http://hl7.org/fhir/ValueSet/guide-parameter-code|4.0.1"
             )
@@ -3397,13 +3475,10 @@ public class ImplementationGuide extends DomainResource {
             @Required
             private final String value;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -3652,7 +3727,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.code, "code");
+                    ValidationSupport.requireNonNull(parameter.value, "value");
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3674,14 +3760,11 @@ public class ImplementationGuide extends DomainResource {
             private final String source;
             private final String scope;
 
-            private volatile int hashCode;
-
             private Template(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                source = ValidationSupport.requireNonNull(builder.source, "source");
+                code = builder.code;
+                source = builder.source;
                 scope = builder.scope;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3956,7 +4039,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Template build() {
-                    return new Template(this);
+                    Template template = new Template(this);
+                    if (validating) {
+                        validate(template);
+                    }
+                    return template;
+                }
+
+                protected void validate(Template template) {
+                    super.validate(template);
+                    ValidationSupport.requireNonNull(template.code, "code");
+                    ValidationSupport.requireNonNull(template.source, "source");
+                    ValidationSupport.requireValueOrChildren(template);
                 }
 
                 protected Builder from(Template template) {
@@ -3983,16 +4077,13 @@ public class ImplementationGuide extends DomainResource {
         private final List<String> image;
         private final List<String> other;
 
-        private volatile int hashCode;
-
         private Manifest(Builder builder) {
             super(builder);
             rendering = builder.rendering;
-            resource = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.resource, "resource"));
-            page = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.page, "page"));
-            image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
-            other = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.other, "other"));
-            ValidationSupport.requireValueOrChildren(this);
+            resource = Collections.unmodifiableList(builder.resource);
+            page = Collections.unmodifiableList(builder.page);
+            image = Collections.unmodifiableList(builder.image);
+            other = Collections.unmodifiableList(builder.other);
         }
 
         /**
@@ -4413,7 +4504,20 @@ public class ImplementationGuide extends DomainResource {
              */
             @Override
             public Manifest build() {
-                return new Manifest(this);
+                Manifest manifest = new Manifest(this);
+                if (validating) {
+                    validate(manifest);
+                }
+                return manifest;
+            }
+
+            protected void validate(Manifest manifest) {
+                super.validate(manifest);
+                ValidationSupport.checkNonEmptyList(manifest.resource, "resource", Resource.class);
+                ValidationSupport.checkList(manifest.page, "page", Page.class);
+                ValidationSupport.checkList(manifest.image, "image", String.class);
+                ValidationSupport.checkList(manifest.other, "other", String.class);
+                ValidationSupport.requireValueOrChildren(manifest);
             }
 
             protected Builder from(Manifest manifest) {
@@ -4440,14 +4544,11 @@ public class ImplementationGuide extends DomainResource {
             private final Element example;
             private final Url relativePath;
 
-            private volatile int hashCode;
-
             private Resource(Builder builder) {
                 super(builder);
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                example = ValidationSupport.choiceElement(builder.example, "example", Boolean.class, Canonical.class);
+                reference = builder.reference;
+                example = builder.example;
                 relativePath = builder.relativePath;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4727,7 +4828,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Resource build() {
-                    return new Resource(this);
+                    Resource resource = new Resource(this);
+                    if (validating) {
+                        validate(resource);
+                    }
+                    return resource;
+                }
+
+                protected void validate(Resource resource) {
+                    super.validate(resource);
+                    ValidationSupport.requireNonNull(resource.reference, "reference");
+                    ValidationSupport.choiceElement(resource.example, "example", Boolean.class, Canonical.class);
+                    ValidationSupport.requireValueOrChildren(resource);
                 }
 
                 protected Builder from(Resource resource) {
@@ -4749,14 +4861,11 @@ public class ImplementationGuide extends DomainResource {
             private final String title;
             private final List<String> anchor;
 
-            private volatile int hashCode;
-
             private Page(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 title = builder.title;
-                anchor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.anchor, "anchor"));
-                ValidationSupport.requireValueOrChildren(this);
+                anchor = Collections.unmodifiableList(builder.anchor);
             }
 
             /**
@@ -5048,7 +5157,18 @@ public class ImplementationGuide extends DomainResource {
                  */
                 @Override
                 public Page build() {
-                    return new Page(this);
+                    Page page = new Page(this);
+                    if (validating) {
+                        validate(page);
+                    }
+                    return page;
+                }
+
+                protected void validate(Page page) {
+                    super.validate(page);
+                    ValidationSupport.requireNonNull(page.name, "name");
+                    ValidationSupport.checkList(page.anchor, "anchor", String.class);
+                    ValidationSupport.requireValueOrChildren(page);
                 }
 
                 protected Builder from(Page page) {

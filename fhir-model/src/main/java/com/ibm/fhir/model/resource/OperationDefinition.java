@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -40,40 +41,51 @@ import com.ibm.fhir.model.type.code.OperationParameterUse;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.type.code.SearchParamType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A formal computable definition of an operation (on the RESTful interface) or a named query (using the search 
  * interaction).
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "opd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-1",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "Either a type must be provided, or parts",
-    expression = "type.exists() or part.exists()"
+    expression = "type.exists() or part.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-2",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "A search type can only be specified for parameters of type string",
-    expression = "searchType.exists() implies type = 'string'"
+    expression = "searchType.exists() implies type = 'string'",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "opd-3",
     level = "Rule",
     location = "OperationDefinition.parameter",
     description = "A targetProfile can only be specified for parameters of type Reference or Canonical",
-    expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')"
+    expression = "targetProfile.exists() implies (type = 'Reference' or type = 'canonical')",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition"
 )
 @Constraint(
     id = "operationDefinition-4",
@@ -81,6 +93,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/OperationDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -97,7 +110,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -106,7 +119,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OperationKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Whether an operation is a normal operation or a query.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-kind|4.0.1"
     )
@@ -126,7 +139,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -143,7 +156,7 @@ public class OperationDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ResourceType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "One of the resource types defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
     )
@@ -162,37 +175,34 @@ public class OperationDefinition extends DomainResource {
     private final List<Parameter> parameter;
     private final List<Overload> overload;
 
-    private volatile int hashCode;
-
     private OperationDefinition(Builder builder) {
         super(builder);
         url = builder.url;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+        status = builder.status;
+        kind = builder.kind;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         affectsState = builder.affectsState;
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        code = builder.code;
         comment = builder.comment;
         base = builder.base;
-        resource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resource, "resource"));
-        system = ValidationSupport.requireNonNull(builder.system, "system");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        instance = ValidationSupport.requireNonNull(builder.instance, "instance");
+        resource = Collections.unmodifiableList(builder.resource);
+        system = builder.system;
+        type = builder.type;
+        instance = builder.instance;
         inputProfile = builder.inputProfile;
         outputProfile = builder.outputProfile;
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        overload = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.overload, "overload"));
-        ValidationSupport.requireChildren(this);
+        parameter = Collections.unmodifiableList(builder.parameter);
+        overload = Collections.unmodifiableList(builder.overload);
     }
 
     /**
@@ -1420,7 +1430,28 @@ public class OperationDefinition extends DomainResource {
          */
         @Override
         public OperationDefinition build() {
-            return new OperationDefinition(this);
+            OperationDefinition operationDefinition = new OperationDefinition(this);
+            if (validating) {
+                validate(operationDefinition);
+            }
+            return operationDefinition;
+        }
+
+        protected void validate(OperationDefinition operationDefinition) {
+            super.validate(operationDefinition);
+            ValidationSupport.requireNonNull(operationDefinition.name, "name");
+            ValidationSupport.requireNonNull(operationDefinition.status, "status");
+            ValidationSupport.requireNonNull(operationDefinition.kind, "kind");
+            ValidationSupport.checkList(operationDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(operationDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(operationDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(operationDefinition.code, "code");
+            ValidationSupport.checkList(operationDefinition.resource, "resource", ResourceType.class);
+            ValidationSupport.requireNonNull(operationDefinition.system, "system");
+            ValidationSupport.requireNonNull(operationDefinition.type, "type");
+            ValidationSupport.requireNonNull(operationDefinition.instance, "instance");
+            ValidationSupport.checkList(operationDefinition.parameter, "parameter", Parameter.class);
+            ValidationSupport.checkList(operationDefinition.overload, "overload", Overload.class);
         }
 
         protected Builder from(OperationDefinition operationDefinition) {
@@ -1463,7 +1494,7 @@ public class OperationDefinition extends DomainResource {
         private final Code name;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "OperationParameterUse",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Whether an operation parameter is an input or an output parameter.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.1"
         )
@@ -1476,7 +1507,7 @@ public class OperationDefinition extends DomainResource {
         private final String documentation;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "FHIRAllTypes",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
             valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
         )
@@ -1484,7 +1515,7 @@ public class OperationDefinition extends DomainResource {
         private final List<Canonical> targetProfile;
         @com.ibm.fhir.model.annotation.Binding(
             bindingName = "SearchParamType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Data types allowed to be used for search parameters.",
             valueSet = "http://hl7.org/fhir/ValueSet/search-param-type|4.0.1"
         )
@@ -1493,22 +1524,19 @@ public class OperationDefinition extends DomainResource {
         private final List<ReferencedFrom> referencedFrom;
         private final List<OperationDefinition.Parameter> part;
 
-        private volatile int hashCode;
-
         private Parameter(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
-            use = ValidationSupport.requireNonNull(builder.use, "use");
-            min = ValidationSupport.requireNonNull(builder.min, "min");
-            max = ValidationSupport.requireNonNull(builder.max, "max");
+            name = builder.name;
+            use = builder.use;
+            min = builder.min;
+            max = builder.max;
             documentation = builder.documentation;
             type = builder.type;
-            targetProfile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetProfile, "targetProfile"));
+            targetProfile = Collections.unmodifiableList(builder.targetProfile);
             searchType = builder.searchType;
             binding = builder.binding;
-            referencedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referencedFrom, "referencedFrom"));
-            part = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.part, "part"));
-            ValidationSupport.requireValueOrChildren(this);
+            referencedFrom = Collections.unmodifiableList(builder.referencedFrom);
+            part = Collections.unmodifiableList(builder.part);
         }
 
         /**
@@ -2093,7 +2121,23 @@ public class OperationDefinition extends DomainResource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.requireNonNull(parameter.name, "name");
+                ValidationSupport.requireNonNull(parameter.use, "use");
+                ValidationSupport.requireNonNull(parameter.min, "min");
+                ValidationSupport.requireNonNull(parameter.max, "max");
+                ValidationSupport.checkList(parameter.targetProfile, "targetProfile", Canonical.class);
+                ValidationSupport.checkList(parameter.referencedFrom, "referencedFrom", ReferencedFrom.class);
+                ValidationSupport.checkList(parameter.part, "part", OperationDefinition.Parameter.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {
@@ -2119,7 +2163,7 @@ public class OperationDefinition extends DomainResource {
         public static class Binding extends BackboneElement {
             @com.ibm.fhir.model.annotation.Binding(
                 bindingName = "BindingStrength",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Indication of the degree of conformance expectations associated with a binding.",
                 valueSet = "http://hl7.org/fhir/ValueSet/binding-strength|4.0.1"
             )
@@ -2128,13 +2172,10 @@ public class OperationDefinition extends DomainResource {
             @Required
             private final Canonical valueSet;
 
-            private volatile int hashCode;
-
             private Binding(Builder builder) {
                 super(builder);
-                strength = ValidationSupport.requireNonNull(builder.strength, "strength");
-                valueSet = ValidationSupport.requireNonNull(builder.valueSet, "valueSet");
-                ValidationSupport.requireValueOrChildren(this);
+                strength = builder.strength;
+                valueSet = builder.valueSet;
             }
 
             /**
@@ -2382,7 +2423,18 @@ public class OperationDefinition extends DomainResource {
                  */
                 @Override
                 public Binding build() {
-                    return new Binding(this);
+                    Binding binding = new Binding(this);
+                    if (validating) {
+                        validate(binding);
+                    }
+                    return binding;
+                }
+
+                protected void validate(Binding binding) {
+                    super.validate(binding);
+                    ValidationSupport.requireNonNull(binding.strength, "strength");
+                    ValidationSupport.requireNonNull(binding.valueSet, "valueSet");
+                    ValidationSupport.requireValueOrChildren(binding);
                 }
 
                 protected Builder from(Binding binding) {
@@ -2402,13 +2454,10 @@ public class OperationDefinition extends DomainResource {
             private final String source;
             private final String sourceId;
 
-            private volatile int hashCode;
-
             private ReferencedFrom(Builder builder) {
                 super(builder);
-                source = ValidationSupport.requireNonNull(builder.source, "source");
+                source = builder.source;
                 sourceId = builder.sourceId;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2653,7 +2702,17 @@ public class OperationDefinition extends DomainResource {
                  */
                 @Override
                 public ReferencedFrom build() {
-                    return new ReferencedFrom(this);
+                    ReferencedFrom referencedFrom = new ReferencedFrom(this);
+                    if (validating) {
+                        validate(referencedFrom);
+                    }
+                    return referencedFrom;
+                }
+
+                protected void validate(ReferencedFrom referencedFrom) {
+                    super.validate(referencedFrom);
+                    ValidationSupport.requireNonNull(referencedFrom.source, "source");
+                    ValidationSupport.requireValueOrChildren(referencedFrom);
                 }
 
                 protected Builder from(ReferencedFrom referencedFrom) {
@@ -2674,13 +2733,10 @@ public class OperationDefinition extends DomainResource {
         private final List<String> parameterName;
         private final String comment;
 
-        private volatile int hashCode;
-
         private Overload(Builder builder) {
             super(builder);
-            parameterName = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameterName, "parameterName"));
+            parameterName = Collections.unmodifiableList(builder.parameterName);
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2936,7 +2992,17 @@ public class OperationDefinition extends DomainResource {
              */
             @Override
             public Overload build() {
-                return new Overload(this);
+                Overload overload = new Overload(this);
+                if (validating) {
+                    validate(overload);
+                }
+                return overload;
+            }
+
+            protected void validate(Overload overload) {
+                super.validate(overload);
+                ValidationSupport.checkList(overload.parameterName, "parameterName", String.class);
+                ValidationSupport.requireValueOrChildren(overload);
             }
 
             protected Builder from(Overload overload) {

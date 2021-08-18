@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,6 +37,7 @@ import com.ibm.fhir.model.type.UnsignedInt;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImagingStudyStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,13 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * includes a set of Service-Object Pair Instances (SOP Instances - images or other data) acquired or produced in a 
  * common context. A series is of only one modality (e.g. X-ray, CT, MR, ultrasound), but a study may have multiple 
  * series of different modalities.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "imagingStudy-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
     expression = "modality.exists() implies (modality.all(memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
     generated = true
 )
 @Constraint(
@@ -59,6 +68,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://www.rsna.org/RadLex_Playbook.aspx",
     expression = "procedureCode.exists() implies (procedureCode.all(memberOf('http://www.rsna.org/RadLex_Playbook.aspx', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
     generated = true
 )
 @Constraint(
@@ -67,6 +77,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "series.modality",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html",
     expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
     generated = true
 )
 @Constraint(
@@ -75,6 +86,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "series.performer.function",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/series-performer-function",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/series-performer-function', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
     generated = true
 )
 @Constraint(
@@ -83,6 +95,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "series.instance.sopClass",
     description = "SHALL, if possible, contain a code from value set http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1",
     expression = "$this.memberOf('http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ImagingStudy",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -92,7 +105,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingStudyStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the ImagingStudy.",
         valueSet = "http://hl7.org/fhir/ValueSet/imagingstudy-status|4.0.1"
     )
@@ -101,7 +114,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingModality",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Type of acquired data in the instance.",
         valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
     )
@@ -137,7 +150,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingProcedureCode",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The performed procedure type.",
         valueSet = "http://www.rsna.org/RadLex_Playbook.aspx"
     )
@@ -148,7 +161,7 @@ public class ImagingStudy extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ImagingReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason for the study.",
         valueSet = "http://hl7.org/fhir/ValueSet/procedure-reason"
     )
@@ -163,40 +176,28 @@ public class ImagingStudy extends DomainResource {
     @Summary
     private final List<Series> series;
 
-    private volatile int hashCode;
-
     private ImagingStudy(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        modality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.modality, "modality"));
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        modality = Collections.unmodifiableList(builder.modality);
+        subject = builder.subject;
         encounter = builder.encounter;
         started = builder.started;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
+        basedOn = Collections.unmodifiableList(builder.basedOn);
         referrer = builder.referrer;
-        interpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpreter, "interpreter"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+        interpreter = Collections.unmodifiableList(builder.interpreter);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
         numberOfSeries = builder.numberOfSeries;
         numberOfInstances = builder.numberOfInstances;
         procedureReference = builder.procedureReference;
-        procedureCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.procedureCode, "procedureCode"));
+        procedureCode = Collections.unmodifiableList(builder.procedureCode);
         location = builder.location;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
         description = builder.description;
-        series = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.series, "series"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Device", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
-        ValidationSupport.checkReferenceType(referrer, "referrer", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(interpreter, "interpreter", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.checkReferenceType(procedureReference, "procedureReference", "Procedure");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
+        series = Collections.unmodifiableList(builder.series);
     }
 
     /**
@@ -1385,7 +1386,36 @@ public class ImagingStudy extends DomainResource {
          */
         @Override
         public ImagingStudy build() {
-            return new ImagingStudy(this);
+            ImagingStudy imagingStudy = new ImagingStudy(this);
+            if (validating) {
+                validate(imagingStudy);
+            }
+            return imagingStudy;
+        }
+
+        protected void validate(ImagingStudy imagingStudy) {
+            super.validate(imagingStudy);
+            ValidationSupport.checkList(imagingStudy.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(imagingStudy.status, "status");
+            ValidationSupport.checkList(imagingStudy.modality, "modality", Coding.class);
+            ValidationSupport.requireNonNull(imagingStudy.subject, "subject");
+            ValidationSupport.checkList(imagingStudy.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(imagingStudy.interpreter, "interpreter", Reference.class);
+            ValidationSupport.checkList(imagingStudy.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkList(imagingStudy.procedureCode, "procedureCode", CodeableConcept.class);
+            ValidationSupport.checkList(imagingStudy.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(imagingStudy.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(imagingStudy.note, "note", Annotation.class);
+            ValidationSupport.checkList(imagingStudy.series, "series", Series.class);
+            ValidationSupport.checkReferenceType(imagingStudy.subject, "subject", "Patient", "Device", "Group");
+            ValidationSupport.checkReferenceType(imagingStudy.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(imagingStudy.basedOn, "basedOn", "CarePlan", "ServiceRequest", "Appointment", "AppointmentResponse", "Task");
+            ValidationSupport.checkReferenceType(imagingStudy.referrer, "referrer", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.interpreter, "interpreter", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(imagingStudy.endpoint, "endpoint", "Endpoint");
+            ValidationSupport.checkReferenceType(imagingStudy.procedureReference, "procedureReference", "Procedure");
+            ValidationSupport.checkReferenceType(imagingStudy.location, "location", "Location");
+            ValidationSupport.checkReferenceType(imagingStudy.reasonReference, "reasonReference", "Condition", "Observation", "Media", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(ImagingStudy imagingStudy) {
@@ -1426,7 +1456,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ImagingModality",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Type of acquired data in the instance.",
             valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part16/sect_CID_29.html"
         )
@@ -1442,7 +1472,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "BodySite",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing anatomical locations. May include laterality.",
             valueSet = "http://hl7.org/fhir/ValueSet/body-site"
         )
@@ -1450,7 +1480,7 @@ public class ImagingStudy extends DomainResource {
         @Summary
         @Binding(
             bindingName = "Laterality",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing body site laterality (left, right, etc.).",
             valueSet = "http://hl7.org/fhir/ValueSet/bodysite-laterality"
         )
@@ -1464,25 +1494,20 @@ public class ImagingStudy extends DomainResource {
         private final List<Performer> performer;
         private final List<Instance> instance;
 
-        private volatile int hashCode;
-
         private Series(Builder builder) {
             super(builder);
-            uid = ValidationSupport.requireNonNull(builder.uid, "uid");
+            uid = builder.uid;
             number = builder.number;
-            modality = ValidationSupport.requireNonNull(builder.modality, "modality");
+            modality = builder.modality;
             description = builder.description;
             numberOfInstances = builder.numberOfInstances;
-            endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
+            endpoint = Collections.unmodifiableList(builder.endpoint);
             bodySite = builder.bodySite;
             laterality = builder.laterality;
-            specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
+            specimen = Collections.unmodifiableList(builder.specimen);
             started = builder.started;
-            performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-            instance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instance, "instance"));
-            ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-            ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-            ValidationSupport.requireValueOrChildren(this);
+            performer = Collections.unmodifiableList(builder.performer);
+            instance = Collections.unmodifiableList(builder.instance);
         }
 
         /**
@@ -2136,7 +2161,24 @@ public class ImagingStudy extends DomainResource {
              */
             @Override
             public Series build() {
-                return new Series(this);
+                Series series = new Series(this);
+                if (validating) {
+                    validate(series);
+                }
+                return series;
+            }
+
+            protected void validate(Series series) {
+                super.validate(series);
+                ValidationSupport.requireNonNull(series.uid, "uid");
+                ValidationSupport.requireNonNull(series.modality, "modality");
+                ValidationSupport.checkList(series.endpoint, "endpoint", Reference.class);
+                ValidationSupport.checkList(series.specimen, "specimen", Reference.class);
+                ValidationSupport.checkList(series.performer, "performer", Performer.class);
+                ValidationSupport.checkList(series.instance, "instance", Instance.class);
+                ValidationSupport.checkReferenceType(series.endpoint, "endpoint", "Endpoint");
+                ValidationSupport.checkReferenceType(series.specimen, "specimen", "Specimen");
+                ValidationSupport.requireValueOrChildren(series);
             }
 
             protected Builder from(Series series) {
@@ -2164,7 +2206,7 @@ public class ImagingStudy extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "EventPerformerFunction",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The type of involvement of the performer.",
                 valueSet = "http://hl7.org/fhir/ValueSet/series-performer-function"
             )
@@ -2174,14 +2216,10 @@ public class ImagingStudy extends DomainResource {
             @Required
             private final Reference actor;
 
-            private volatile int hashCode;
-
             private Performer(Builder builder) {
                 super(builder);
                 function = builder.function;
-                actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-                ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
-                ValidationSupport.requireValueOrChildren(this);
+                actor = builder.actor;
             }
 
             /**
@@ -2435,7 +2473,18 @@ public class ImagingStudy extends DomainResource {
                  */
                 @Override
                 public Performer build() {
-                    return new Performer(this);
+                    Performer performer = new Performer(this);
+                    if (validating) {
+                        validate(performer);
+                    }
+                    return performer;
+                }
+
+                protected void validate(Performer performer) {
+                    super.validate(performer);
+                    ValidationSupport.requireNonNull(performer.actor, "actor");
+                    ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "Device", "RelatedPerson");
+                    ValidationSupport.requireValueOrChildren(performer);
                 }
 
                 protected Builder from(Performer performer) {
@@ -2455,7 +2504,7 @@ public class ImagingStudy extends DomainResource {
             private final Id uid;
             @Binding(
                 bindingName = "sopClass",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The sopClass for the instance.",
                 valueSet = "http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1"
             )
@@ -2464,15 +2513,12 @@ public class ImagingStudy extends DomainResource {
             private final UnsignedInt number;
             private final String title;
 
-            private volatile int hashCode;
-
             private Instance(Builder builder) {
                 super(builder);
-                uid = ValidationSupport.requireNonNull(builder.uid, "uid");
-                sopClass = ValidationSupport.requireNonNull(builder.sopClass, "sopClass");
+                uid = builder.uid;
+                sopClass = builder.sopClass;
                 number = builder.number;
                 title = builder.title;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2776,7 +2822,18 @@ public class ImagingStudy extends DomainResource {
                  */
                 @Override
                 public Instance build() {
-                    return new Instance(this);
+                    Instance instance = new Instance(this);
+                    if (validating) {
+                        validate(instance);
+                    }
+                    return instance;
+                }
+
+                protected void validate(Instance instance) {
+                    super.validate(instance);
+                    ValidationSupport.requireNonNull(instance.uid, "uid");
+                    ValidationSupport.requireNonNull(instance.sopClass, "sopClass");
+                    ValidationSupport.requireValueOrChildren(instance);
                 }
 
                 protected Builder from(Instance instance) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TestReportActionResult;
 import com.ibm.fhir.model.type.code.TestReportParticipantType;
 import com.ibm.fhir.model.type.code.TestReportResult;
@@ -41,20 +43,28 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A summary of information based on the results of executing a TestScript.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "inv-1",
     level = "Rule",
     location = "TestReport.setup.action",
     description = "Setup action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestReport"
 )
 @Constraint(
     id = "inv-2",
     level = "Rule",
     location = "TestReport.test.action",
     description = "Test action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestReport"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class TestReport extends DomainResource {
@@ -65,7 +75,7 @@ public class TestReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TestReportStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The current status of the test report.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-status-codes|4.0.1"
     )
@@ -78,7 +88,7 @@ public class TestReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TestReportResult",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The reported execution result.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-result-codes|4.0.1"
     )
@@ -95,24 +105,20 @@ public class TestReport extends DomainResource {
     private final List<Test> test;
     private final Teardown teardown;
 
-    private volatile int hashCode;
-
     private TestReport(Builder builder) {
         super(builder);
         identifier = builder.identifier;
         name = builder.name;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        testScript = ValidationSupport.requireNonNull(builder.testScript, "testScript");
-        result = ValidationSupport.requireNonNull(builder.result, "result");
+        status = builder.status;
+        testScript = builder.testScript;
+        result = builder.result;
         score = builder.score;
         tester = builder.tester;
         issued = builder.issued;
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+        participant = Collections.unmodifiableList(builder.participant);
         setup = builder.setup;
-        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
+        test = Collections.unmodifiableList(builder.test);
         teardown = builder.teardown;
-        ValidationSupport.checkReferenceType(testScript, "testScript", "TestScript");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -810,7 +816,21 @@ public class TestReport extends DomainResource {
          */
         @Override
         public TestReport build() {
-            return new TestReport(this);
+            TestReport testReport = new TestReport(this);
+            if (validating) {
+                validate(testReport);
+            }
+            return testReport;
+        }
+
+        protected void validate(TestReport testReport) {
+            super.validate(testReport);
+            ValidationSupport.requireNonNull(testReport.status, "status");
+            ValidationSupport.requireNonNull(testReport.testScript, "testScript");
+            ValidationSupport.requireNonNull(testReport.result, "result");
+            ValidationSupport.checkList(testReport.participant, "participant", Participant.class);
+            ValidationSupport.checkList(testReport.test, "test", Test.class);
+            ValidationSupport.checkReferenceType(testReport.testScript, "testScript", "TestScript");
         }
 
         protected Builder from(TestReport testReport) {
@@ -837,7 +857,7 @@ public class TestReport extends DomainResource {
     public static class Participant extends BackboneElement {
         @Binding(
             bindingName = "TestReportParticipantType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of participant.",
             valueSet = "http://hl7.org/fhir/ValueSet/report-participant-type|4.0.1"
         )
@@ -847,14 +867,11 @@ public class TestReport extends DomainResource {
         private final Uri uri;
         private final String display;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            uri = ValidationSupport.requireNonNull(builder.uri, "uri");
+            type = builder.type;
+            uri = builder.uri;
             display = builder.display;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1129,7 +1146,18 @@ public class TestReport extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.requireNonNull(participant.type, "type");
+                ValidationSupport.requireNonNull(participant.uri, "uri");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -1149,12 +1177,9 @@ public class TestReport extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Setup(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -1390,7 +1415,17 @@ public class TestReport extends DomainResource {
              */
             @Override
             public Setup build() {
-                return new Setup(this);
+                Setup setup = new Setup(this);
+                if (validating) {
+                    validate(setup);
+                }
+                return setup;
+            }
+
+            protected void validate(Setup setup) {
+                super.validate(setup);
+                ValidationSupport.checkNonEmptyList(setup.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(setup);
             }
 
             protected Builder from(Setup setup) {
@@ -1407,13 +1442,10 @@ public class TestReport extends DomainResource {
             private final Operation operation;
             private final Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1649,7 +1681,16 @@ public class TestReport extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -1666,7 +1707,7 @@ public class TestReport extends DomainResource {
             public static class Operation extends BackboneElement {
                 @Binding(
                     bindingName = "TestReportActionResult",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.1"
                 )
@@ -1675,14 +1716,11 @@ public class TestReport extends DomainResource {
                 private final Markdown message;
                 private final Uri detail;
 
-                private volatile int hashCode;
-
                 private Operation(Builder builder) {
                     super(builder);
-                    result = ValidationSupport.requireNonNull(builder.result, "result");
+                    result = builder.result;
                     message = builder.message;
                     detail = builder.detail;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -1954,7 +1992,17 @@ public class TestReport extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.result, "result");
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -1973,7 +2021,7 @@ public class TestReport extends DomainResource {
             public static class Assert extends BackboneElement {
                 @Binding(
                     bindingName = "TestReportActionResult",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The results of executing an action.",
                     valueSet = "http://hl7.org/fhir/ValueSet/report-action-result-codes|4.0.1"
                 )
@@ -1982,14 +2030,11 @@ public class TestReport extends DomainResource {
                 private final Markdown message;
                 private final String detail;
 
-                private volatile int hashCode;
-
                 private Assert(Builder builder) {
                     super(builder);
-                    result = ValidationSupport.requireNonNull(builder.result, "result");
+                    result = builder.result;
                     message = builder.message;
                     detail = builder.detail;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -2261,7 +2306,17 @@ public class TestReport extends DomainResource {
                      */
                     @Override
                     public Assert build() {
-                        return new Assert(this);
+                        Assert _assert = new Assert(this);
+                        if (validating) {
+                            validate(_assert);
+                        }
+                        return _assert;
+                    }
+
+                    protected void validate(Assert _assert) {
+                        super.validate(_assert);
+                        ValidationSupport.requireNonNull(_assert.result, "result");
+                        ValidationSupport.requireValueOrChildren(_assert);
                     }
 
                     protected Builder from(Assert _assert) {
@@ -2285,14 +2340,11 @@ public class TestReport extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Test(Builder builder) {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -2586,7 +2638,17 @@ public class TestReport extends DomainResource {
              */
             @Override
             public Test build() {
-                return new Test(this);
+                Test test = new Test(this);
+                if (validating) {
+                    validate(test);
+                }
+                return test;
+            }
+
+            protected void validate(Test test) {
+                super.validate(test);
+                ValidationSupport.checkNonEmptyList(test.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(test);
             }
 
             protected Builder from(Test test) {
@@ -2605,13 +2667,10 @@ public class TestReport extends DomainResource {
             private final TestReport.Setup.Action.Operation operation;
             private final TestReport.Setup.Action.Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2847,7 +2906,16 @@ public class TestReport extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -2868,12 +2936,9 @@ public class TestReport extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Teardown(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -3109,7 +3174,17 @@ public class TestReport extends DomainResource {
              */
             @Override
             public Teardown build() {
-                return new Teardown(this);
+                Teardown teardown = new Teardown(this);
+                if (validating) {
+                    validate(teardown);
+                }
+                return teardown;
+            }
+
+            protected void validate(Teardown teardown) {
+                super.validate(teardown);
+                ValidationSupport.checkNonEmptyList(teardown.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(teardown);
             }
 
             protected Builder from(Teardown teardown) {
@@ -3126,12 +3201,9 @@ public class TestReport extends DomainResource {
             @Required
             private final TestReport.Setup.Action.Operation operation;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
-                operation = ValidationSupport.requireNonNull(builder.operation, "operation");
-                ValidationSupport.requireValueOrChildren(this);
+                operation = builder.operation;
             }
 
             /**
@@ -3345,7 +3417,17 @@ public class TestReport extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireNonNull(action.operation, "operation");
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {

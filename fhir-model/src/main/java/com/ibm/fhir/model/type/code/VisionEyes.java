@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,14 +24,14 @@ public class VisionEyes extends Code {
      * 
      * <p>Right Eye.
      */
-    public static final VisionEyes RIGHT = VisionEyes.builder().value(ValueSet.RIGHT).build();
+    public static final VisionEyes RIGHT = VisionEyes.builder().value(Value.RIGHT).build();
 
     /**
      * Left Eye
      * 
      * <p>Left Eye.
      */
-    public static final VisionEyes LEFT = VisionEyes.builder().value(ValueSet.LEFT).build();
+    public static final VisionEyes LEFT = VisionEyes.builder().value(Value.LEFT).build();
 
     private volatile int hashCode;
 
@@ -39,14 +39,42 @@ public class VisionEyes extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this VisionEyes as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this VisionEyes as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating VisionEyes objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static VisionEyes of(ValueSet value) {
+        switch (value) {
+        case RIGHT:
+            return RIGHT;
+        case LEFT:
+            return LEFT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating VisionEyes objects from a passed enum value.
      */
-    public static VisionEyes of(ValueSet value) {
+    public static VisionEyes of(Value value) {
         switch (value) {
         case RIGHT:
             return RIGHT;
@@ -66,7 +94,7 @@ public class VisionEyes extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static VisionEyes of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -78,7 +106,7 @@ public class VisionEyes extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -90,7 +118,7 @@ public class VisionEyes extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -119,11 +147,7 @@ public class VisionEyes extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -152,19 +176,50 @@ public class VisionEyes extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for VisionEyes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public VisionEyes build() {
-            return new VisionEyes(this);
+            VisionEyes visionEyes = new VisionEyes(this);
+            if (validating) {
+                validate(visionEyes);
+            }
+            return visionEyes;
+        }
+
+        protected void validate(VisionEyes visionEyes) {
+            super.validate(visionEyes);
+        }
+
+        protected Builder from(VisionEyes visionEyes) {
+            super.from(visionEyes);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Right Eye
@@ -195,7 +250,7 @@ public class VisionEyes extends Code {
         }
 
         /**
-         * Factory method for creating VisionEyes.ValueSet values from a passed string value.
+         * Factory method for creating VisionEyes.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -209,6 +264,60 @@ public class VisionEyes extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Right Eye
+         * 
+         * <p>Right Eye.
+         */
+        RIGHT("right"),
+
+        /**
+         * Left Eye
+         * 
+         * <p>Left Eye.
+         */
+        LEFT("left");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating VisionEyes.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding VisionEyes.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "right":
+                return RIGHT;
+            case "left":
+                return LEFT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

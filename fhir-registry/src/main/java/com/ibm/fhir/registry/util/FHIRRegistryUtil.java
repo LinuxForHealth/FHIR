@@ -152,7 +152,7 @@ public final class FHIRRegistryUtil {
                 ModelSupport.getResourceType(entry.getResourceType()),
                 entry.getId(),
                 entry.getUrl(),
-                Version.from(entry.getVersion()),
+                (entry.getVersion() != null) ? Version.from(entry.getVersion()) : Version.NO_VERSION,
                 entry.getKind(),
                 entry.getType(),
                 packageDirectory + "/" + entry.getFileName()));

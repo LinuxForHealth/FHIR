@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,12 +36,19 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.IdentityAssuranceLevel;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Demographics and administrative information about a person independent of a specific health-related context.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Person extends DomainResource {
     private final List<Identifier> identifier;
@@ -51,7 +59,7 @@ public class Person extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -67,22 +75,18 @@ public class Person extends DomainResource {
     private final Boolean active;
     private final List<Link> link;
 
-    private volatile int hashCode;
-
     private Person(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        address = Collections.unmodifiableList(builder.address);
         photo = builder.photo;
         managingOrganization = builder.managingOrganization;
         active = builder.active;
-        link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-        ValidationSupport.checkReferenceType(managingOrganization, "managingOrganization", "Organization");
-        ValidationSupport.requireChildren(this);
+        link = Collections.unmodifiableList(builder.link);
     }
 
     /**
@@ -765,7 +769,21 @@ public class Person extends DomainResource {
          */
         @Override
         public Person build() {
-            return new Person(this);
+            Person person = new Person(this);
+            if (validating) {
+                validate(person);
+            }
+            return person;
+        }
+
+        protected void validate(Person person) {
+            super.validate(person);
+            ValidationSupport.checkList(person.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(person.name, "name", HumanName.class);
+            ValidationSupport.checkList(person.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(person.address, "address", Address.class);
+            ValidationSupport.checkList(person.link, "link", Link.class);
+            ValidationSupport.checkReferenceType(person.managingOrganization, "managingOrganization", "Organization");
         }
 
         protected Builder from(Person person) {
@@ -793,20 +811,16 @@ public class Person extends DomainResource {
         private final Reference target;
         @Binding(
             bindingName = "IdentityAssuranceLevel",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The level of confidence that this link represents the same actual person, based on NIST Authentication Levels.",
             valueSet = "http://hl7.org/fhir/ValueSet/identity-assuranceLevel|4.0.1"
         )
         private final IdentityAssuranceLevel assurance;
 
-        private volatile int hashCode;
-
         private Link(Builder builder) {
             super(builder);
-            target = ValidationSupport.requireNonNull(builder.target, "target");
+            target = builder.target;
             assurance = builder.assurance;
-            ValidationSupport.checkReferenceType(target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1057,7 +1071,18 @@ public class Person extends DomainResource {
              */
             @Override
             public Link build() {
-                return new Link(this);
+                Link link = new Link(this);
+                if (validating) {
+                    validate(link);
+                }
+                return link;
+            }
+
+            protected void validate(Link link) {
+                super.validate(link);
+                ValidationSupport.requireNonNull(link.target, "target");
+                ValidationSupport.checkReferenceType(link.target, "target", "Patient", "Practitioner", "RelatedPerson", "Person");
+                ValidationSupport.requireValueOrChildren(link);
             }
 
             protected Builder from(Link link) {

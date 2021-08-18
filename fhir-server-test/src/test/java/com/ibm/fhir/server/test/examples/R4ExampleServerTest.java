@@ -1,10 +1,13 @@
 /**
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.test.examples;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.testng.annotations.Test;
 
@@ -24,12 +27,15 @@ public class R4ExampleServerTest extends FHIRServerTestBase {
      */
     @Test(groups = { "server-examples" })
     public void processExamples() throws Exception {
-
-        DriverMetrics dm = new DriverMetrics();
-
         // Process each of the examples using the provided ExampleRequestProcessor. We want to
         // validate first before we try and send to FHIR
         final R4ExamplesDriver driver = new R4ExamplesDriver();
+
+        // Setup a Pool
+        ExecutorService es = Executors.newFixedThreadPool(5);
+        driver.setPool(es, 5);
+
+        DriverMetrics dm = new DriverMetrics();
         driver.setMetrics(dm);
         driver.setValidator(new ValidationProcessor());
         driver.setProcessor(new ExampleRequestProcessor(this, "default", dm, 1));

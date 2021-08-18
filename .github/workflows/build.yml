@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'demo/**'
       - '.github/workflows/site.yml'
 
 jobs:
@@ -163,6 +164,7 @@ jobs:
         rm -fr ${it_results} 2>/dev/null
         mkdir -p ${it_results}/server-logs
         mkdir -p ${it_results}/fhir-server-test
+        cp pre-it-logs.zip ${it_results}/
         echo "Gathering post-test server logs..."
         cp -pr SIT/wlp/usr/servers/fhir-server/logs ${it_results}/server-logs
         echo "Gathering integration test output"

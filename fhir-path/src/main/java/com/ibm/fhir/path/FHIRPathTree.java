@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -30,11 +30,16 @@ import com.ibm.fhir.model.visitor.PathAwareVisitor;
  * A tree of {@link FHIRPathNode} nodes created from a {@link Resource} or an {@link Element}
  */
 public class FHIRPathTree {
-    private final FHIRPathNode root;
-    private final Map<String, FHIRPathNode> pathNodeMap;
+    private FHIRPathNode root;
+    private Map<String, FHIRPathNode> pathNodeMap;
 
-    private FHIRPathTree(FHIRPathNode root, Map<String, FHIRPathNode> pathNodeMap) {
+    private FHIRPathTree() { }
+
+    private void setRoot(FHIRPathNode root) {
         this.root = root;
+    }
+
+    private void setPathNodeMap(Map<String, FHIRPathNode> pathNodeMap) {
         this.pathNodeMap = Collections.unmodifiableMap(pathNodeMap);
     }
 
@@ -47,6 +52,7 @@ public class FHIRPathTree {
     public FHIRPathNode getRoot() {
         return root;
     }
+
 
     /**
      * Get the node at the location given by the path parameter
@@ -93,8 +99,8 @@ public class FHIRPathTree {
         FHIRPathNode parent = getParent(node);
         if (parent != null) {
             return parent.children().stream()
-                    .filter(child -> !child.equals(node))
-                    .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+                .filter(child -> !child.equals(node))
+                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
         }
         return Collections.emptyList();
     }
@@ -111,8 +117,8 @@ public class FHIRPathTree {
      */
     public Collection<FHIRPathNode> getSiblings(FHIRPathNode node, String name) {
         return getSiblings(node).stream()
-                .filter(sibling -> name.equals(sibling.name()))
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+            .filter(sibling -> name.equals(sibling.name()))
+            .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
     }
 
     /**
@@ -127,9 +133,9 @@ public class FHIRPathTree {
      */
     public FHIRPathNode getSibling(FHIRPathNode node, String name) {
         return getSiblings(node).stream()
-                .filter(sibling -> name.equals(sibling.name()))
-                .findFirst()
-                .orElse(null);
+            .filter(sibling -> name.equals(sibling.name()))
+            .findFirst()
+            .orElse(null);
     }
 
     /**
@@ -143,10 +149,15 @@ public class FHIRPathTree {
     public static FHIRPathTree tree(Resource resource) {
         Objects.requireNonNull(resource);
 
-        BuildingVisitor visitor = new BuildingVisitor();
+        FHIRPathTree tree = new FHIRPathTree();
+
+        BuildingVisitor visitor = new BuildingVisitor(tree);
         resource.accept(visitor);
 
-        return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
+        tree.setRoot(visitor.getRoot());
+        tree.setPathNodeMap(visitor.getPathNodeMap());
+
+        return tree;
     }
 
     /**
@@ -160,16 +171,27 @@ public class FHIRPathTree {
     public static FHIRPathTree tree(Element element) {
         Objects.requireNonNull(element);
 
-        BuildingVisitor visitor = new BuildingVisitor();
+        FHIRPathTree tree = new FHIRPathTree();
+
+        BuildingVisitor visitor = new BuildingVisitor(tree);
         element.accept(visitor);
 
-        return new FHIRPathTree(visitor.getRoot(), visitor.getPathNodeMap());
+        tree.setRoot(visitor.getRoot());
+        tree.setPathNodeMap(visitor.getPathNodeMap());
+
+        return tree;
     }
 
     private static class BuildingVisitor extends PathAwareVisitor {
+        private final FHIRPathTree tree;
+
         private Stack<FHIRPathNode.Builder> builderStack = new Stack<>();
         private FHIRPathNode root;
         private Map<String, FHIRPathNode> pathNodeMap = new HashMap<>();
+
+        private BuildingVisitor(FHIRPathTree tree) {
+            this.tree = tree;
+        }
 
         private void build() {
             String path = getPath();
@@ -179,10 +201,10 @@ public class FHIRPathTree {
 
             pathNodeMap.put(path, node);
 
-            if (!builderStack.isEmpty()) {
-                builderStack.peek().children(node);
-            } else {
+            if (builderStack.isEmpty()) {
                 root = node;
+            } else {
+                builderStack.peek().children(node);
             }
         }
 
@@ -208,19 +230,19 @@ public class FHIRPathTree {
         protected void doVisitStart(String elementName, int elementIndex, Element element) {
             if (element instanceof Quantity) {
                 Quantity quantity = (Quantity) element;
-                builderStack.push(FHIRPathQuantityNode.builder(quantity).name(elementName));
+                builderStack.push(FHIRPathQuantityNode.builder(quantity).name(elementName).tree(tree));
                 FHIRPathQuantityValue value = FHIRPathQuantityValue.quantityValue(quantity);
                 if (value != null) {
                     builderStack.peek().value(value);
                 }
             } else {
-                builderStack.push(FHIRPathElementNode.builder(element).name(elementName));
+                builderStack.push(FHIRPathElementNode.builder(element).name(elementName).tree(tree));
             }
         }
 
         @Override
         protected void doVisitStart(String elementName, int elementIndex, Resource resource) {
-            builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName));
+            builderStack.push(FHIRPathResourceNode.builder(resource).name(elementName).tree(tree));
         }
 
         @Override

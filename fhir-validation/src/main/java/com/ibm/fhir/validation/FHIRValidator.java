@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,12 +7,22 @@
 package com.ibm.fhir.validation;
 
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_FALSE;
+import static com.ibm.fhir.path.evaluator.FHIRPathEvaluator.SINGLETON_TRUE;
 import static com.ibm.fhir.path.util.FHIRPathUtil.evaluatesToBoolean;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getResourceNode;
+import static com.ibm.fhir.path.util.FHIRPathUtil.getRootResourceNode;
 import static com.ibm.fhir.path.util.FHIRPathUtil.isFalse;
 import static com.ibm.fhir.path.util.FHIRPathUtil.singleton;
-import static com.ibm.fhir.profile.ProfileSupport.createConstraint;
 import static com.ibm.fhir.validation.util.FHIRValidationUtil.ISSUE_COMPARATOR;
+import static com.ibm.fhir.validation.util.FHIRValidationUtil.hasErrors;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaMetafactory;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -20,12 +30,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.annotation.Constraint;
-import com.ibm.fhir.model.resource.DomainResource;
+import com.ibm.fhir.model.annotation.Constraint.FHIRPathConstraintValidator;
+import com.ibm.fhir.model.constraint.spi.ConstraintValidator;
 import com.ibm.fhir.model.resource.OperationOutcome.Issue;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -34,23 +47,56 @@ import com.ibm.fhir.model.type.Extension;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
+import com.ibm.fhir.model.visitor.Visitable;
 import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.FHIRPathTree;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
+import com.ibm.fhir.path.util.DiagnosticsEvaluationListener;
 import com.ibm.fhir.path.visitor.FHIRPathDefaultNodeVisitor;
 import com.ibm.fhir.profile.ProfileSupport;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
+import net.jcip.annotations.NotThreadSafe;
+
+/**
+ * A validator that uses conformance resources from the {@link com.ibm.fhir.registry.FHIRRegistry}
+ * to validate resource instances against the base specification and, optionally, extended profiles.
+ *
+ * The static factory method {@link #validator()} is threadsafe, but the created instances are not.
+ */
+@NotThreadSafe
 public class FHIRValidator {
+    public static final String SOURCE_VALIDATOR = "http://ibm.com/fhir/validation/FHIRValidator";
+
     private static final Logger log = Logger.getLogger(FHIRValidator.class.getName());
 
-    private final ValidatingNodeVisitor visitor = new ValidatingNodeVisitor();
+    private final ValidatingNodeVisitor visitor;
+    private final boolean failFast;
 
-    private FHIRValidator() { }
+    private FHIRValidator() {
+        this(false);
+    }
+
+    private FHIRValidator(boolean failFast) {
+        visitor = new ValidatingNodeVisitor(failFast);
+        this.failFast = failFast;
+    }
+
+    /**
+     * Indicates whether this validator is fail-fast
+     *
+     * <p>A fail-fast validator is one that terminates on the first issue it finds with a severity of ERROR.
+     *
+     * @return
+     *     true if this validator is fail-fast, false otherwise
+     */
+    public boolean isFailFast() {
+        return failFast;
+    }
 
     /**
      * Validate a {@link Resource} against constraints in the base specification and
@@ -167,11 +213,8 @@ public class FHIRValidator {
             throw new IllegalArgumentException("Root must be resource node");
         }
         try {
-            List<Issue> issues = new ArrayList<>();
-            validateProfileReferences(evaluationContext.getTree().getRoot().asResourceNode(), Arrays.asList(profiles), false, issues);
-            issues.addAll(visitor.validate(evaluationContext, includeResourceAssertedProfiles, profiles));
-            Collections.sort(issues, ISSUE_COMPARATOR);
-            return Collections.unmodifiableList(issues);
+            evaluationContext.setResolveRelativeReferences(true);
+            return visitor.validate(evaluationContext, includeResourceAssertedProfiles, Arrays.asList(profiles));
         } catch (Exception e) {
             throw new FHIRValidationException("An error occurred during validation", e);
         }
@@ -181,72 +224,67 @@ public class FHIRValidator {
         return new FHIRValidator();
     }
 
-    /**
-     * Validate a list of profile references to ensure they are supported (known by the FHIR registry) and applicable
-     * (the type constrained by the profile is compatible with the resource being validated).
-     *
-     * <p>Resource-asserted profile references that are not available in the FHIRRegistry result in issues with severity WARNING.
-     *
-     * <p>Unknown profile references passed as arguments to this method result in issues with severity ERROR.
-     *
-     * <p>Profiles that are incompatible with the resource type being validated result in issues with severity ERROR.
-     *
-     * @param resourceNode
-     *     the resource node being validated by a FHIRValidator instance
-     * @param profiles
-     *     the list of profile references to validate
-     * @param resourceAsserted
-     *     indicates whether the profile references came from the resource or were explicitly passed in as arguments
-     * @param issues
-     *     the list of issues to add to
-     */
-    private static void validateProfileReferences(
-            FHIRPathResourceNode resourceNode,
-            List<String> profiles,
-            boolean resourceAsserted,
-            List<Issue> issues) {
-        Class<?> resourceType = resourceNode.resource().getClass();
-        for (String url : profiles) {
-            StructureDefinition profile = ProfileSupport.getProfile(url);
-            if (profile == null) {
-                issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
-            } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
-                issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
-            }
-        }
+    public static FHIRValidator validator(boolean failFast) {
+        return new FHIRValidator(failFast);
     }
 
     private static Issue issue(IssueSeverity severity, IssueType code, String description, FHIRPathNode node) {
+        return issue(severity, code, description, null, node.path());
+    }
+
+    private static Issue issue(IssueSeverity severity, IssueType code, String details, String diagnostics, String expression) {
         return Issue.builder()
             .severity(severity)
             .code(code)
             .details(CodeableConcept.builder()
-                .text(string(description))
+                .text(string(details))
                 .build())
-            .expression(string(node.path()))
+            .diagnostics((diagnostics != null) ? string(diagnostics) : null)
+            .expression(string(expression))
             .build();
     }
 
     private static class ValidatingNodeVisitor extends FHIRPathDefaultNodeVisitor {
+        private static final Map<Class<?>, IsValidFunction> IS_VALID_FUNCTION_MAP = new ConcurrentHashMap<>();
+
+        private final boolean failFast;
+
         private FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         private EvaluationContext evaluationContext;
         private boolean includeResourceAssertedProfiles;
         private List<String> profiles;
         private List<Issue> issues = new ArrayList<>();
+        private DiagnosticsEvaluationListener diagnosticsEvaluationListener = new DiagnosticsEvaluationListener();
+        private boolean aborted = false;
 
-        private ValidatingNodeVisitor() { }
+        private ValidatingNodeVisitor(boolean failFast) {
+            this.failFast = failFast;
+        }
 
-        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, String... profiles) {
+        private List<Issue> validate(EvaluationContext evaluationContext, boolean includeResourceAssertedProfiles, List<String> profiles) {
             reset();
             this.evaluationContext = evaluationContext;
             this.includeResourceAssertedProfiles = includeResourceAssertedProfiles;
-            this.profiles = Arrays.asList(profiles);
+            this.profiles = profiles;
             this.evaluationContext.getTree().getRoot().accept(this);
-            return issues;
+            Collections.sort(issues, ISSUE_COMPARATOR);
+            return Collections.unmodifiableList(issues);
         }
 
         private void reset() {
             issues.clear();
+            diagnosticsEvaluationListener.reset();
+            aborted = false;
+        }
+
+        @Override
+        protected void visitChildren(FHIRPathNode node) {
+            for (FHIRPathNode child : node.children()) {
+                if (aborted) {
+                    break;
+                }
+                child.accept(this);
+            }
         }
 
         @Override
@@ -259,24 +297,20 @@ public class FHIRValidator {
             validate(node);
         }
 
-        /**
-         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed element node
-         */
         private void validate(FHIRPathElementNode elementNode) {
             Class<?> elementType = elementNode.element().getClass();
-            Collection<Constraint> constraints = ModelSupport.getConstraints(elementType);
+            List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(elementType));
             if (Extension.class.equals(elementType)) {
                 String url = elementNode.element().as(Extension.class).getUrl();
                 if (isAbsolute(url)) {
                     if (FHIRRegistry.getInstance().hasResource(url, StructureDefinition.class)) {
-                        constraints = new ArrayList<>(constraints);
-                        constraints.add(createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", false, true));
+                        constraints.add(Constraint.Factory.createConstraint("generated-ext-1", Constraint.LEVEL_RULE, Constraint.LOCATION_BASE, "Extension must conform to definition '" + url + "'", "conformsTo('" + url + "')", SOURCE_VALIDATOR, false, true));
                     } else {
                         issues.add(issue(IssueSeverity.WARNING, IssueType.NOT_SUPPORTED, "Extension definition '" + url + "' is not supported", elementNode));
                     }
                 }
             }
-            validate(elementType, elementNode, constraints);
+            validate(elementNode, constraints);
         }
 
         private boolean isAbsolute(String url) {
@@ -288,27 +322,42 @@ public class FHIRValidator {
             return false;
         }
 
-        /**
-         * @throws RuntimeException if the registered constraints cannot be evaluated for the passed resource node
-         */
         private void validate(FHIRPathResourceNode resourceNode) {
             Class<?> resourceType = resourceNode.resource().getClass();
-            validate(resourceType, resourceNode, ModelSupport.getConstraints(resourceType));
+            List<Constraint> constraints = new ArrayList<>(ModelSupport.getConstraints(resourceType));
             if (includeResourceAssertedProfiles) {
                 List<String> resourceAssertedProfiles = ProfileSupport.getResourceAssertedProfiles(resourceNode.resource());
-                validateProfileReferences(resourceNode, resourceAssertedProfiles, true, issues);
-                validate(resourceType, resourceNode, ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
+                validateProfileReferences(resourceNode, resourceAssertedProfiles, true);
+                constraints.addAll(ProfileSupport.getConstraints(resourceAssertedProfiles, resourceType));
             }
             if (!profiles.isEmpty() && !resourceNode.path().contains(".")) {
-                validate(resourceType, resourceNode, ProfileSupport.getConstraints(profiles, resourceType));
+                validateProfileReferences(resourceNode, profiles, false);
+                constraints.addAll(ProfileSupport.getConstraints(profiles, resourceType));
+            }
+            validate(resourceNode, constraints);
+        }
+
+        private void validateProfileReferences(FHIRPathResourceNode resourceNode, List<String> profiles, boolean resourceAsserted) {
+            Class<?> resourceType = resourceNode.resource().getClass();
+            for (String url : profiles) {
+                if (aborted) {
+                    break;
+                }
+                StructureDefinition profile = ProfileSupport.getProfile(url);
+                if (profile == null) {
+                    issues.add(issue(resourceAsserted ? IssueSeverity.WARNING : IssueSeverity.ERROR, IssueType.NOT_SUPPORTED, "Profile '" + url + "' is not supported", resourceNode));
+                } else if (!ProfileSupport.isApplicable(profile, resourceType)) {
+                    issues.add(issue(IssueSeverity.ERROR, IssueType.INVALID, "Profile '" + url + "' is not applicable to resource type: " + resourceType.getSimpleName(), resourceNode));
+                }
+                aborted = failFast && hasErrors(issues);
             }
         }
 
-        /**
-         * @throws RuntimeException if one of the passed constraints cannot be evaluated for the passed node
-         */
-        private void validate(Class<?> type, FHIRPathNode node, Collection<Constraint> constraints) {
+        private void validate(FHIRPathNode node, Collection<Constraint> constraints) {
             for (Constraint constraint : constraints) {
+                if (aborted) {
+                    break;
+                }
                 if (constraint.modelChecked()) {
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Constraint: " + constraint.id() + " is model-checked");
@@ -316,16 +365,20 @@ public class FHIRValidator {
                     continue;
                 }
                 evaluationContext.setConstraint(constraint);
-                validate(type, node, constraint);
+                validate(node, constraint);
                 evaluationContext.unsetConstraint();
             }
         }
 
-        /**
-         * @throws RuntimeException if the passed constraint cannot be evaluated for the passed node
-         */
-        private void validate(Class<?> type, FHIRPathNode node, Constraint constraint) {
+        private void validate(FHIRPathNode node, Constraint constraint) {
             String path = node.path();
+            ConstraintValidator<?> validator = getConstraintValidator(constraint.validatorClass());
+
+            if ((constraint.expression() == null || constraint.expression().isEmpty()) && validator == null) {
+                log.log(Level.WARNING, "No expression or validator for constraint: " + constraint);
+                return;
+            }
+
             try {
                 if (log.isLoggable(Level.FINER)) {
                     log.finer("    Constraint: " + constraint);
@@ -340,102 +393,113 @@ public class FHIRValidator {
 
                 IssueSeverity severity = Constraint.LEVEL_WARNING.equals(constraint.level()) ? IssueSeverity.WARNING : IssueSeverity.ERROR;
 
+                if (constraint.generated()) {
+                    evaluationContext.addEvaluationListener(diagnosticsEvaluationListener);
+                }
+
                 for (FHIRPathNode contextNode : initialContext) {
-                    evaluationContext.setExternalConstant("rootResource", getRootResourceNode(contextNode));
-                    evaluationContext.setExternalConstant("resource", getResourceNode(contextNode));
-                    Collection<FHIRPathNode> result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
-                    issues.addAll(evaluationContext.getIssues());
-                    evaluationContext.clearIssues();
+                    if (aborted) {
+                        break;
+                    }
+
+                    Collection<FHIRPathNode> result;
+
+                    if (validator != null) {
+                        result = isValid(validator, contextNode, constraint) ? SINGLETON_TRUE : SINGLETON_FALSE;
+                    } else {
+                        diagnosticsEvaluationListener.reset();
+                        evaluationContext.setExternalConstant("rootResource", getRootResourceNode(evaluationContext.getTree(), contextNode));
+                        evaluationContext.setExternalConstant("resource", getResourceNode(evaluationContext.getTree(), contextNode));
+
+                        result = evaluator.evaluate(evaluationContext, constraint.expression(), singleton(contextNode));
+
+                        issues.addAll(evaluationContext.getIssues());
+                        evaluationContext.clearIssues();
+                    }
 
                     if (evaluatesToBoolean(result) && isFalse(result)) {
-                        issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), contextNode));
+                        issues.add(issue(severity, IssueType.INVARIANT, constraint.id() + ": " + constraint.description(), diagnosticsEvaluationListener.getDiagnostics(), contextNode.path()));
+                        if (failFast && IssueSeverity.ERROR.equals(severity)) {
+                            aborted = true;
+                        }
                     }
 
                     if (log.isLoggable(Level.FINER)) {
                         log.finer("    Evaluation result: " + result + ", Path: " + contextNode.path());
                     }
                 }
-            } catch (Exception e) {
-                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() +
-                    " with location: " + constraint.location() + " and expression: " + constraint.expression() +
-                    " at path: " + path, e);
-            }
-        }
 
-        /**
-         * Get the resource node to use as a value for the %resource external constant.
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the resource node
-         */
-        private FHIRPathResourceNode getResourceNode(FHIRPathNode node) {
-            // get resource node ancestors for the context node
-            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
-
-            // return nearest resource node ancestor
-            return resourceNodes.get(0);
-        }
-
-        /**
-         * Get the resource node to use as a value for the %rootResource external constant.
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the rootResource node
-         */
-        private FHIRPathResourceNode getRootResourceNode(FHIRPathNode node) {
-            // get resource node ancestors for the context node
-            List<FHIRPathResourceNode> resourceNodes = getResourceNodes(node);
-            if (isContained(resourceNodes)) {
-                return resourceNodes.get(1);
-            } else {
-                return resourceNodes.get(0);
-            }
-        }
-
-        /**
-         * Determine whether the list of resource node ancestors indicates containment within a domain resource.
-         *
-         * @param resourceNodes
-         *     the list of resource node ancestors
-         * @return
-         *     true if there is containment, false otherwise
-         */
-        private boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
-            return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
-        }
-
-        /**
-         * Get the list of resource nodes in the path of the given context node (including the context node itself).
-         * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or
-         * the nearest resource node ancestor).
-         *
-         * @param node
-         *     the context node
-         * @return
-         *     the list of resource node ancestors
-         */
-        private List<FHIRPathResourceNode> getResourceNodes(FHIRPathNode node) {
-            List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
-
-            if (node.isResourceNode()) {
-                resourceNodes.add(node.asResourceNode());
-            }
-
-            String path = node.path();
-            int index = path.lastIndexOf(".");
-            while (index != -1) {
-                path = path.substring(0, index);
-                node = evaluationContext.getTree().getNode(path);
-                if (node.isResourceNode()) {
-                    resourceNodes.add(node.asResourceNode());
+                if (constraint.generated()) {
+                    evaluationContext.removeEvaluationListener(diagnosticsEvaluationListener);
                 }
-                index = path.lastIndexOf(".");
+            } catch (Exception e) {
+                throw new RuntimeException("An error occurred while validating constraint: " + constraint.id() + " with location: " + constraint.location() + ((validator != null) ? " and validator: " + validator.getClass().getName() : " and expression: " + constraint.expression()) + " at path: " + path, e);
             }
-            return resourceNodes;
+        }
+
+        private ConstraintValidator<?> getConstraintValidator(Class<? extends ConstraintValidator<?>> validatorClass) {
+            if (validatorClass == null || FHIRPathConstraintValidator.class.equals(validatorClass)) {
+                return null;
+            }
+            try {
+                return validatorClass.getDeclaredConstructor().newInstance();
+            } catch (Exception e) {
+                log.log(Level.WARNING, "Unable to instantiate ConstraintValidator class: " + validatorClass.getName());
+            }
+            return null;
+        }
+
+        private boolean isValid(ConstraintValidator<?> validator, FHIRPathNode node, Constraint constraint) {
+            return getIsValidFunction(validator.getClass()).apply(validator, getValidationTarget(node), constraint);
+        }
+
+        private IsValidFunction getIsValidFunction(Class<?> validatorClass) {
+            return IS_VALID_FUNCTION_MAP.computeIfAbsent(validatorClass, k -> computeIsValidFunction(validatorClass));
+        }
+
+        private IsValidFunction computeIsValidFunction(Class<?> validatorClass) {
+            try {
+                MethodHandles.Lookup lookup = MethodHandles.lookup();
+                Method isValidMethod = findIsValidMethod(validatorClass);
+                MethodHandle handle = lookup.unreflect(isValidMethod);
+                CallSite site = LambdaMetafactory.metafactory(
+                        lookup,
+                        "apply",
+                        MethodType.methodType(IsValidFunction.class),
+                        MethodType.methodType(Boolean.TYPE, ConstraintValidator.class, Visitable.class, Constraint.class),
+                        handle,
+                        handle.type());
+                return (IsValidFunction) site.getTarget().invoke();
+            } catch (Throwable t) {
+                throw new RuntimeException("Unable to compute IsValidFunction for ConstraintValidator class: " + validatorClass.getName(), t);
+            }
+        }
+
+        private Method findIsValidMethod(Class<?> validatorClass) {
+            for (Method method : validatorClass.getDeclaredMethods()) {
+                if ("isValid".equals(method.getName()) &&
+                        (method.getParameterCount() == 2) &&
+                        Visitable.class.isAssignableFrom(method.getParameterTypes()[0]) &&
+                        Constraint.class.equals(method.getParameterTypes()[1])) {
+                    return method;
+                }
+            }
+            throw new AssertionError();
+        }
+
+        private Visitable getValidationTarget(FHIRPathNode node) {
+            if (node.isElementNode()) {
+                return node.asElementNode().element();
+            }
+            if (node.isResourceNode()) {
+                return node.asResourceNode().resource();
+            }
+            throw new AssertionError();
+        }
+
+        @FunctionalInterface
+        interface IsValidFunction {
+            boolean apply(ConstraintValidator<?> validator, Visitable visitable, Constraint constraint);
         }
     }
 }

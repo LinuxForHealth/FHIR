@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "If present, low SHALL have a lower value than high",
-    expression = "low.empty() or high.empty() or (low <= high)"
+    expression = "low.empty() or high.empty() or (low <= high)",
+    source = "http://hl7.org/fhir/StructureDefinition/Range"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Range extends Element {
@@ -33,13 +34,10 @@ public class Range extends Element {
     @Summary
     private final SimpleQuantity high;
 
-    private volatile int hashCode;
-
     private Range(Builder builder) {
         super(builder);
         low = builder.low;
         high = builder.high;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -224,7 +222,16 @@ public class Range extends Element {
          */
         @Override
         public Range build() {
-            return new Range(this);
+            Range range = new Range(this);
+            if (validating) {
+                validate(range);
+            }
+            return range;
+        }
+
+        protected void validate(Range range) {
+            super.validate(range);
+            ValidationSupport.requireValueOrChildren(range);
         }
 
         protected Builder from(Range range) {

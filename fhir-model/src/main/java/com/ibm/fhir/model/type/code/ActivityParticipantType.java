@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class ActivityParticipantType extends Code {
      * 
      * <p>The participant is the patient under evaluation.
      */
-    public static final ActivityParticipantType PATIENT = ActivityParticipantType.builder().value(ValueSet.PATIENT).build();
+    public static final ActivityParticipantType PATIENT = ActivityParticipantType.builder().value(Value.PATIENT).build();
 
     /**
      * Practitioner
      * 
      * <p>The participant is a practitioner involved in the patient's care.
      */
-    public static final ActivityParticipantType PRACTITIONER = ActivityParticipantType.builder().value(ValueSet.PRACTITIONER).build();
+    public static final ActivityParticipantType PRACTITIONER = ActivityParticipantType.builder().value(Value.PRACTITIONER).build();
 
     /**
      * Related Person
      * 
      * <p>The participant is a person related to the patient.
      */
-    public static final ActivityParticipantType RELATED_PERSON = ActivityParticipantType.builder().value(ValueSet.RELATED_PERSON).build();
+    public static final ActivityParticipantType RELATED_PERSON = ActivityParticipantType.builder().value(Value.RELATED_PERSON).build();
 
     /**
      * Device
      * 
      * <p>The participant is a system or device used in the care of the patient.
      */
-    public static final ActivityParticipantType DEVICE = ActivityParticipantType.builder().value(ValueSet.DEVICE).build();
+    public static final ActivityParticipantType DEVICE = ActivityParticipantType.builder().value(Value.DEVICE).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class ActivityParticipantType extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this ActivityParticipantType as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this ActivityParticipantType as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating ActivityParticipantType objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static ActivityParticipantType of(ValueSet value) {
+        switch (value) {
+        case PATIENT:
+            return PATIENT;
+        case PRACTITIONER:
+            return PRACTITIONER;
+        case RELATED_PERSON:
+            return RELATED_PERSON;
+        case DEVICE:
+            return DEVICE;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating ActivityParticipantType objects from a passed enum value.
      */
-    public static ActivityParticipantType of(ValueSet value) {
+    public static ActivityParticipantType of(Value value) {
         switch (value) {
         case PATIENT:
             return PATIENT;
@@ -84,7 +116,7 @@ public class ActivityParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static ActivityParticipantType of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class ActivityParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class ActivityParticipantType extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class ActivityParticipantType extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class ActivityParticipantType extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for ActivityParticipantType
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public ActivityParticipantType build() {
-            return new ActivityParticipantType(this);
+            ActivityParticipantType activityParticipantType = new ActivityParticipantType(this);
+            if (validating) {
+                validate(activityParticipantType);
+            }
+            return activityParticipantType;
+        }
+
+        protected void validate(ActivityParticipantType activityParticipantType) {
+            super.validate(activityParticipantType);
+        }
+
+        protected Builder from(ActivityParticipantType activityParticipantType) {
+            super.from(activityParticipantType);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Patient
@@ -227,7 +286,7 @@ public class ActivityParticipantType extends Code {
         }
 
         /**
-         * Factory method for creating ActivityParticipantType.ValueSet values from a passed string value.
+         * Factory method for creating ActivityParticipantType.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class ActivityParticipantType extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Patient
+         * 
+         * <p>The participant is the patient under evaluation.
+         */
+        PATIENT("patient"),
+
+        /**
+         * Practitioner
+         * 
+         * <p>The participant is a practitioner involved in the patient's care.
+         */
+        PRACTITIONER("practitioner"),
+
+        /**
+         * Related Person
+         * 
+         * <p>The participant is a person related to the patient.
+         */
+        RELATED_PERSON("related-person"),
+
+        /**
+         * Device
+         * 
+         * <p>The participant is a system or device used in the care of the patient.
+         */
+        DEVICE("device");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating ActivityParticipantType.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding ActivityParticipantType.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "patient":
+                return PATIENT;
+            case "practitioner":
+                return PRACTITIONER;
+            case "related-person":
+                return RELATED_PERSON;
+            case "device":
+                return DEVICE;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

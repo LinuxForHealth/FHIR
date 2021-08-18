@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,21 +25,21 @@ public class FlagStatus extends Code {
      * <p>A current flag that should be displayed to a user. A system may use the category to determine which user roles 
      * should view the flag.
      */
-    public static final FlagStatus ACTIVE = FlagStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final FlagStatus ACTIVE = FlagStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Inactive
      * 
      * <p>The flag no longer needs to be displayed.
      */
-    public static final FlagStatus INACTIVE = FlagStatus.builder().value(ValueSet.INACTIVE).build();
+    public static final FlagStatus INACTIVE = FlagStatus.builder().value(Value.INACTIVE).build();
 
     /**
      * Entered in Error
      * 
      * <p>The flag was added in error and should no longer be displayed.
      */
-    public static final FlagStatus ENTERED_IN_ERROR = FlagStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final FlagStatus ENTERED_IN_ERROR = FlagStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -47,14 +47,44 @@ public class FlagStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this FlagStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this FlagStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating FlagStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static FlagStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating FlagStatus objects from a passed enum value.
      */
-    public static FlagStatus of(ValueSet value) {
+    public static FlagStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -76,7 +106,7 @@ public class FlagStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static FlagStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -88,7 +118,7 @@ public class FlagStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -100,7 +130,7 @@ public class FlagStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -129,11 +159,7 @@ public class FlagStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -162,19 +188,50 @@ public class FlagStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for FlagStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public FlagStatus build() {
-            return new FlagStatus(this);
+            FlagStatus flagStatus = new FlagStatus(this);
+            if (validating) {
+                validate(flagStatus);
+            }
+            return flagStatus;
+        }
+
+        protected void validate(FlagStatus flagStatus) {
+            super.validate(flagStatus);
+        }
+
+        protected Builder from(FlagStatus flagStatus) {
+            super.from(flagStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -213,7 +270,7 @@ public class FlagStatus extends Code {
         }
 
         /**
-         * Factory method for creating FlagStatus.ValueSet values from a passed string value.
+         * Factory method for creating FlagStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -227,6 +284,70 @@ public class FlagStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>A current flag that should be displayed to a user. A system may use the category to determine which user roles 
+         * should view the flag.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The flag no longer needs to be displayed.
+         */
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The flag was added in error and should no longer be displayed.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating FlagStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding FlagStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "inactive":
+                return INACTIVE;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

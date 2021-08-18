@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -19,10 +19,10 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonReaderFactory;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
 
 import com.ibm.fhir.config.DefaultFHIRConfigProvider;
 import com.ibm.fhir.config.FHIRConfigProvider;
@@ -37,8 +37,8 @@ import com.ibm.fhir.database.utils.derby.DerbyNetworkTranslator;
 import com.ibm.fhir.database.utils.derby.DerbyPropertyAdapter;
 import com.ibm.fhir.database.utils.derby.DerbyTranslator;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlPropertyAdapter;
-import com.ibm.fhir.database.utils.postgresql.PostgreSqlTranslator;
+import com.ibm.fhir.database.utils.postgres.PostgresPropertyAdapter;
+import com.ibm.fhir.database.utils.postgres.PostgresTranslator;
 import com.ibm.fhir.database.utils.transaction.SimpleTransactionProvider;
 import com.ibm.fhir.examples.Index;
 import com.ibm.fhir.model.spec.test.DriverMetrics;
@@ -53,6 +53,7 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -309,7 +310,7 @@ public class Main {
             break;
         }
     }
-    
+
     /**
      * Configure the property group to inject the tenantKey, which is the only attribute
      * required for this scenario
@@ -321,12 +322,12 @@ public class Main {
         final String dsPropertyName = FHIRConfiguration.PROPERTY_DATASOURCES + "/default";
 
         // The bare necessities we need to provide to the persistence layer in this case
-        final String jsonString = " {" + 
-                "    \"tenantKey\": \"" + this.tenantKey + "\"," + 
-                "    \"type\": \"db2\"," + 
-                "    \"multitenant\": true" + 
+        final String jsonString = " {" +
+                "    \"tenantKey\": \"" + this.tenantKey + "\"," +
+                "    \"type\": \"db2\"," +
+                "    \"multitenant\": true" +
                 "}";
-        
+
         try (JsonReader reader = JSON_READER_FACTORY.createReader(new ByteArrayInputStream(jsonString.getBytes(StandardCharsets.UTF_8)))) {
             JsonObject jsonObj = reader.readObject();
             PropertyGroup pg = new PropertyGroup(jsonObj);
@@ -350,9 +351,9 @@ public class Main {
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         TestFHIRConfigProvider configProvider = new TestFHIRConfigProvider(new DefaultFHIRConfigProvider());
         configure(configProvider);
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
-        
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
+
         // Provide the credentials we need for accessing a multi-tenant schema (if enabled)
         // Must set this BEFORE we create our persistence object
         if (this.tenantName == null || tenantKey == null) {
@@ -432,8 +433,8 @@ public class Main {
         // IConnectionProvider implementation used by the persistence
         // layer to obtain connections.
         try (DerbyFhirDatabase database = new DerbyFhirDatabase()) {
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
             persistence = new FHIRPersistenceJDBCImpl(this.configProps, database, cache);
 
             // create a custom list of operations to apply in order to each resource
@@ -484,8 +485,8 @@ public class Main {
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
         // create a custom list of operations to apply in order to each resource
         DriverMetrics dm = new DriverMetrics();
@@ -533,14 +534,14 @@ public class Main {
     protected void processPostgreSql() throws Exception {
         // Set up a connection provider pointing to the PostgreSql instance described
         // by the configProps
-        JdbcPropertyAdapter adapter = new PostgreSqlPropertyAdapter(configProps);
-        PostgreSqlTranslator translator = new PostgreSqlTranslator();
+        JdbcPropertyAdapter adapter = new PostgresPropertyAdapter(configProps);
+        PostgresTranslator translator = new PostgresTranslator();
         JdbcConnectionProvider cp = new JdbcConnectionProvider(translator, adapter);
         PoolConnectionProvider connectionPool = new PoolConnectionProvider(cp, this.threads);
         ITransactionProvider transactionProvider = new SimpleTransactionProvider(connectionPool);
         FHIRConfigProvider configProvider = new DefaultFHIRConfigProvider();
-        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+        ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+        FHIRPersistenceJDBCCache cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
 
 
         // create a custom list of operations to apply in order to each resource
@@ -592,6 +593,11 @@ public class Main {
         // Should we also do validation?
         if (this.validate) {
             driver.setValidator(new ValidationProcessor());
+        }
+
+        // If we're testing concurrency, pass in a thread pool
+        if (this.pool != null) {
+            driver.setPool(this.pool, this.maxInflight);
         }
 
         runDriver(driver);

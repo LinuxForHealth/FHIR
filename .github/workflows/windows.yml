@@ -4,6 +4,7 @@ on:
   pull_request:
     paths-ignore:
       - 'docs/**'
+      - 'demo/**'
       - '.github/workflows/site.yml'
 
 jobs:
@@ -20,15 +21,21 @@ jobs:
       uses: joschi/setup-jdk@v2.3.0
       with:
         java-version: ${{ matrix.java }}
+    - name: configure Pagefile
+      uses: al-cheb/configure-pagefile-action@v1.2
+      with:
+        minimum-size: 8GB
+        maximum-size: 8GB
+        disk-root: "C:"
     - name: Build samples
       shell: powershell
       run: mvn -B install --file fhir-examples/pom.xml --no-transfer-progress
     - name: Download Dependencies
       shell: powershell
-      run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
+      run: mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline -f fhir-parent -DexcludeReactor=true
     - name: Download Plugins
       shell: powershell
-      run: mvn org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
+      run: mvn -B org.apache.maven.plugins:maven-dependency-plugin:3.1.2:resolve-plugins -f fhir-parent -DexcludeReactor=true
     - name: Build parent without tests
       shell: powershell
       run: mvn -B install --file fhir-parent/pom.xml -P include-fhir-igs --no-transfer-progress

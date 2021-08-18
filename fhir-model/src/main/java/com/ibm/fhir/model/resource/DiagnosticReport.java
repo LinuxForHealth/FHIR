@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DiagnosticReportStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -45,13 +47,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * and/or specimens derived from these. The report includes clinical context such as requesting and provider information, 
  * and some mix of atomic results, images, textual and coded interpretations, and formatted representation of diagnostic 
  * reports.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "diagnosticReport-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/report-codes",
     expression = "code.exists() and code.memberOf('http://hl7.org/fhir/ValueSet/report-codes', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DiagnosticReport",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -63,7 +72,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticReportStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the diagnostic report.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-report-status|4.0.1"
     )
@@ -72,7 +81,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticServiceSection",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for diagnostic service sections.",
         valueSet = "http://hl7.org/fhir/ValueSet/diagnostic-service-sections"
     )
@@ -80,7 +89,7 @@ public class DiagnosticReport extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DiagnosticReportCodes",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Codes that describe Diagnostic Reports.",
         valueSet = "http://hl7.org/fhir/ValueSet/report-codes"
     )
@@ -114,44 +123,33 @@ public class DiagnosticReport extends DomainResource {
     private final String conclusion;
     @Binding(
         bindingName = "AdjunctDiagnosis",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Diagnosis codes provided as adjuncts to the report.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
     private final List<CodeableConcept> conclusionCode;
     private final List<Attachment> presentedForm;
 
-    private volatile int hashCode;
-
     private DiagnosticReport(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         subject = builder.subject;
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class);
+        effective = builder.effective;
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        resultsInterpreter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsInterpreter, "resultsInterpreter"));
-        specimen = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specimen, "specimen"));
-        result = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.result, "result"));
-        imagingStudy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imagingStudy, "imagingStudy"));
-        media = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.media, "media"));
+        performer = Collections.unmodifiableList(builder.performer);
+        resultsInterpreter = Collections.unmodifiableList(builder.resultsInterpreter);
+        specimen = Collections.unmodifiableList(builder.specimen);
+        result = Collections.unmodifiableList(builder.result);
+        imagingStudy = Collections.unmodifiableList(builder.imagingStudy);
+        media = Collections.unmodifiableList(builder.media);
         conclusion = builder.conclusion;
-        conclusionCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.conclusionCode, "conclusionCode"));
-        presentedForm = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.presentedForm, "presentedForm"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(result, "result", "Observation");
-        ValidationSupport.checkReferenceType(imagingStudy, "imagingStudy", "ImagingStudy");
-        ValidationSupport.requireChildren(this);
+        conclusionCode = Collections.unmodifiableList(builder.conclusionCode);
+        presentedForm = Collections.unmodifiableList(builder.presentedForm);
     }
 
     /**
@@ -1313,7 +1311,37 @@ public class DiagnosticReport extends DomainResource {
          */
         @Override
         public DiagnosticReport build() {
-            return new DiagnosticReport(this);
+            DiagnosticReport diagnosticReport = new DiagnosticReport(this);
+            if (validating) {
+                validate(diagnosticReport);
+            }
+            return diagnosticReport;
+        }
+
+        protected void validate(DiagnosticReport diagnosticReport) {
+            super.validate(diagnosticReport);
+            ValidationSupport.checkList(diagnosticReport.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(diagnosticReport.basedOn, "basedOn", Reference.class);
+            ValidationSupport.requireNonNull(diagnosticReport.status, "status");
+            ValidationSupport.checkList(diagnosticReport.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(diagnosticReport.code, "code");
+            ValidationSupport.choiceElement(diagnosticReport.effective, "effective", DateTime.class, Period.class);
+            ValidationSupport.checkList(diagnosticReport.performer, "performer", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.resultsInterpreter, "resultsInterpreter", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.specimen, "specimen", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.result, "result", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.imagingStudy, "imagingStudy", Reference.class);
+            ValidationSupport.checkList(diagnosticReport.media, "media", Media.class);
+            ValidationSupport.checkList(diagnosticReport.conclusionCode, "conclusionCode", CodeableConcept.class);
+            ValidationSupport.checkList(diagnosticReport.presentedForm, "presentedForm", Attachment.class);
+            ValidationSupport.checkReferenceType(diagnosticReport.basedOn, "basedOn", "CarePlan", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(diagnosticReport.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(diagnosticReport.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(diagnosticReport.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.resultsInterpreter, "resultsInterpreter", "Practitioner", "PractitionerRole", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(diagnosticReport.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(diagnosticReport.result, "result", "Observation");
+            ValidationSupport.checkReferenceType(diagnosticReport.imagingStudy, "imagingStudy", "ImagingStudy");
         }
 
         protected Builder from(DiagnosticReport diagnosticReport) {
@@ -1351,14 +1379,10 @@ public class DiagnosticReport extends DomainResource {
         @Required
         private final Reference link;
 
-        private volatile int hashCode;
-
         private Media(Builder builder) {
             super(builder);
             comment = builder.comment;
-            link = ValidationSupport.requireNonNull(builder.link, "link");
-            ValidationSupport.checkReferenceType(link, "link", "Media");
-            ValidationSupport.requireValueOrChildren(this);
+            link = builder.link;
         }
 
         /**
@@ -1608,7 +1632,18 @@ public class DiagnosticReport extends DomainResource {
              */
             @Override
             public Media build() {
-                return new Media(this);
+                Media media = new Media(this);
+                if (validating) {
+                    validate(media);
+                }
+                return media;
+            }
+
+            protected void validate(Media media) {
+                super.validate(media);
+                ValidationSupport.requireNonNull(media.link, "link");
+                ValidationSupport.checkReferenceType(media.link, "link", "Media");
+                ValidationSupport.requireValueOrChildren(media);
             }
 
             protected Builder from(Media media) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,47 +40,59 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ConsentDataMeaning;
 import com.ibm.fhir.model.type.code.ConsentProvisionType;
 import com.ibm.fhir.model.type.code.ConsentState;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A record of a healthcare consumer’s choices, which permits or denies identified recipient(s) or recipient role(s) to 
  * perform one or more actions within a given policy context, for specific purposes and periods of time.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ppc-1",
     level = "Rule",
     location = "(base)",
     description = "Either a Policy or PolicyRule",
-    expression = "policy.exists() or policyRule.exists()"
+    expression = "policy.exists() or policyRule.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-2",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=privacy, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='patient-privacy').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-3",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=research, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='research').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='research').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-4",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=adr, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='adr').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "ppc-5",
     level = "Rule",
     location = "(base)",
     description = "IF Scope=treatment, there must be a patient",
-    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()"
+    expression = "patient.exists() or scope.coding.where(system='something' and code='treatment').exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent"
 )
 @Constraint(
     id = "consent-6",
@@ -87,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-scope",
     expression = "scope.exists() and scope.memberOf('http://hl7.org/fhir/ValueSet/consent-scope', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -95,6 +109,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-category",
     expression = "category.exists() and category.all(memberOf('http://hl7.org/fhir/ValueSet/consent-category', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -103,6 +118,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-policy",
     expression = "policyRule.exists() implies (policyRule.memberOf('http://hl7.org/fhir/ValueSet/consent-policy', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -111,6 +127,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.actor.role",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-role-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-role-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -119,6 +136,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.securityLabel",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/security-labels",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/security-labels', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -127,6 +145,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.purpose",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-PurposeOfUse",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-PurposeOfUse', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Constraint(
@@ -135,6 +154,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "provision.class",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/consent-content-class",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/consent-content-class', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Consent",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -144,7 +164,7 @@ public class Consent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConsentState",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the state of the consent.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-state-codes|4.0.1"
     )
@@ -153,7 +173,7 @@ public class Consent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConsentScope",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The four anticipated uses for the Consent Resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-scope"
     )
@@ -162,7 +182,7 @@ public class Consent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConsentCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A classification of the type of consents found in a consent statement.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-category"
     )
@@ -187,7 +207,7 @@ public class Consent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConsentPolicyRule",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Regulatory policy examples.",
         valueSet = "http://hl7.org/fhir/ValueSet/consent-policy"
     )
@@ -197,28 +217,21 @@ public class Consent extends DomainResource {
     @Summary
     private final Provision provision;
 
-    private volatile int hashCode;
-
     private Consent(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        scope = ValidationSupport.requireNonNull(builder.scope, "scope");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.category, "category"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        scope = builder.scope;
+        category = Collections.unmodifiableList(builder.category);
         patient = builder.patient;
         dateTime = builder.dateTime;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        organization = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.organization, "organization"));
-        source = ValidationSupport.choiceElement(builder.source, "source", Attachment.class, Reference.class);
-        policy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.policy, "policy"));
+        performer = Collections.unmodifiableList(builder.performer);
+        organization = Collections.unmodifiableList(builder.organization);
+        source = builder.source;
+        policy = Collections.unmodifiableList(builder.policy);
         policyRule = builder.policyRule;
-        verification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.verification, "verification"));
+        verification = Collections.unmodifiableList(builder.verification);
         provision = builder.provision;
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1084,7 +1097,28 @@ public class Consent extends DomainResource {
          */
         @Override
         public Consent build() {
-            return new Consent(this);
+            Consent consent = new Consent(this);
+            if (validating) {
+                validate(consent);
+            }
+            return consent;
+        }
+
+        protected void validate(Consent consent) {
+            super.validate(consent);
+            ValidationSupport.checkList(consent.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(consent.status, "status");
+            ValidationSupport.requireNonNull(consent.scope, "scope");
+            ValidationSupport.checkNonEmptyList(consent.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(consent.performer, "performer", Reference.class);
+            ValidationSupport.checkList(consent.organization, "organization", Reference.class);
+            ValidationSupport.choiceElement(consent.source, "source", Attachment.class, Reference.class);
+            ValidationSupport.checkList(consent.policy, "policy", Policy.class);
+            ValidationSupport.checkList(consent.verification, "verification", Verification.class);
+            ValidationSupport.checkReferenceType(consent.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(consent.performer, "performer", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+            ValidationSupport.checkReferenceType(consent.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(consent.source, "source", "Consent", "DocumentReference", "Contract", "QuestionnaireResponse");
         }
 
         protected Builder from(Consent consent) {
@@ -1114,13 +1148,10 @@ public class Consent extends DomainResource {
         private final Uri authority;
         private final Uri uri;
 
-        private volatile int hashCode;
-
         private Policy(Builder builder) {
             super(builder);
             authority = builder.authority;
             uri = builder.uri;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1360,7 +1391,16 @@ public class Consent extends DomainResource {
              */
             @Override
             public Policy build() {
-                return new Policy(this);
+                Policy policy = new Policy(this);
+                if (validating) {
+                    validate(policy);
+                }
+                return policy;
+            }
+
+            protected void validate(Policy policy) {
+                super.validate(policy);
+                ValidationSupport.requireValueOrChildren(policy);
             }
 
             protected Builder from(Policy policy) {
@@ -1384,15 +1424,11 @@ public class Consent extends DomainResource {
         private final Reference verifiedWith;
         private final DateTime verificationDate;
 
-        private volatile int hashCode;
-
         private Verification(Builder builder) {
             super(builder);
-            verified = ValidationSupport.requireNonNull(builder.verified, "verified");
+            verified = builder.verified;
             verifiedWith = builder.verifiedWith;
             verificationDate = builder.verificationDate;
-            ValidationSupport.checkReferenceType(verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1670,7 +1706,18 @@ public class Consent extends DomainResource {
              */
             @Override
             public Verification build() {
-                return new Verification(this);
+                Verification verification = new Verification(this);
+                if (validating) {
+                    validate(verification);
+                }
+                return verification;
+            }
+
+            protected void validate(Verification verification) {
+                super.validate(verification);
+                ValidationSupport.requireNonNull(verification.verified, "verified");
+                ValidationSupport.checkReferenceType(verification.verifiedWith, "verifiedWith", "Patient", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(verification);
             }
 
             protected Builder from(Verification verification) {
@@ -1690,7 +1737,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ConsentProvisionType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How a rule statement is applied, such as adding additional consent or removing consent.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-provision-type|4.0.1"
         )
@@ -1701,7 +1748,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ConsentAction",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Detailed codes for the consent action.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-action"
         )
@@ -1709,7 +1756,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "SecurityLabels",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Security Labels from the Healthcare Privacy and Security Classification System.",
             valueSet = "http://hl7.org/fhir/ValueSet/security-labels"
         )
@@ -1717,7 +1764,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "PurposeOfUse",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "What purposes of use are controlled by this exception. If more than one label is specified, operations must have all the specified labels.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-PurposeOfUse"
         )
@@ -1725,7 +1772,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ConsentContentClass",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The class (type) of information a consent rule covers.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-class"
         )
@@ -1733,7 +1780,7 @@ public class Consent extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ConsentContentCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "If this code is found in an instance, then the exception applies.",
             valueSet = "http://hl7.org/fhir/ValueSet/consent-content-code"
         )
@@ -1744,22 +1791,19 @@ public class Consent extends DomainResource {
         private final List<Data> data;
         private final List<Consent.Provision> provision;
 
-        private volatile int hashCode;
-
         private Provision(Builder builder) {
             super(builder);
             type = builder.type;
             period = builder.period;
-            actor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.actor, "actor"));
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            securityLabel = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.securityLabel, "securityLabel"));
-            purpose = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.purpose, "purpose"));
-            clazz = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.clazz, "class"));
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            actor = Collections.unmodifiableList(builder.actor);
+            action = Collections.unmodifiableList(builder.action);
+            securityLabel = Collections.unmodifiableList(builder.securityLabel);
+            purpose = Collections.unmodifiableList(builder.purpose);
+            clazz = Collections.unmodifiableList(builder.clazz);
+            code = Collections.unmodifiableList(builder.code);
             dataPeriod = builder.dataPeriod;
-            data = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.data, "data"));
-            provision = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.provision, "provision"));
-            ValidationSupport.requireValueOrChildren(this);
+            data = Collections.unmodifiableList(builder.data);
+            provision = Collections.unmodifiableList(builder.provision);
         }
 
         /**
@@ -2427,7 +2471,24 @@ public class Consent extends DomainResource {
              */
             @Override
             public Provision build() {
-                return new Provision(this);
+                Provision provision = new Provision(this);
+                if (validating) {
+                    validate(provision);
+                }
+                return provision;
+            }
+
+            protected void validate(Provision provision) {
+                super.validate(provision);
+                ValidationSupport.checkList(provision.actor, "actor", Actor.class);
+                ValidationSupport.checkList(provision.action, "action", CodeableConcept.class);
+                ValidationSupport.checkList(provision.securityLabel, "securityLabel", Coding.class);
+                ValidationSupport.checkList(provision.purpose, "purpose", Coding.class);
+                ValidationSupport.checkList(provision.clazz, "class", Coding.class);
+                ValidationSupport.checkList(provision.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(provision.data, "data", Data.class);
+                ValidationSupport.checkList(provision.provision, "provision", Consent.Provision.class);
+                ValidationSupport.requireValueOrChildren(provision);
             }
 
             protected Builder from(Provision provision) {
@@ -2454,7 +2515,7 @@ public class Consent extends DomainResource {
         public static class Actor extends BackboneElement {
             @Binding(
                 bindingName = "ConsentActorRole",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "How an actor is involved in the consent considerations.",
                 valueSet = "http://hl7.org/fhir/ValueSet/security-role-type"
             )
@@ -2464,14 +2525,10 @@ public class Consent extends DomainResource {
             @Required
             private final Reference reference;
 
-            private volatile int hashCode;
-
             private Actor(Builder builder) {
                 super(builder);
-                role = ValidationSupport.requireNonNull(builder.role, "role");
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                ValidationSupport.checkReferenceType(reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
+                role = builder.role;
+                reference = builder.reference;
             }
 
             /**
@@ -2731,7 +2788,19 @@ public class Consent extends DomainResource {
                  */
                 @Override
                 public Actor build() {
-                    return new Actor(this);
+                    Actor actor = new Actor(this);
+                    if (validating) {
+                        validate(actor);
+                    }
+                    return actor;
+                }
+
+                protected void validate(Actor actor) {
+                    super.validate(actor);
+                    ValidationSupport.requireNonNull(actor.role, "role");
+                    ValidationSupport.requireNonNull(actor.reference, "reference");
+                    ValidationSupport.checkReferenceType(actor.reference, "reference", "Device", "Group", "CareTeam", "Organization", "Patient", "Practitioner", "RelatedPerson", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(actor);
                 }
 
                 protected Builder from(Actor actor) {
@@ -2750,7 +2819,7 @@ public class Consent extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "ConsentDataMeaning",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "How a resource reference is interpreted when testing consent restrictions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/consent-data-meaning|4.0.1"
             )
@@ -2760,13 +2829,10 @@ public class Consent extends DomainResource {
             @Required
             private final Reference reference;
 
-            private volatile int hashCode;
-
             private Data(Builder builder) {
                 super(builder);
-                meaning = ValidationSupport.requireNonNull(builder.meaning, "meaning");
-                reference = ValidationSupport.requireNonNull(builder.reference, "reference");
-                ValidationSupport.requireValueOrChildren(this);
+                meaning = builder.meaning;
+                reference = builder.reference;
             }
 
             /**
@@ -3012,7 +3078,18 @@ public class Consent extends DomainResource {
                  */
                 @Override
                 public Data build() {
-                    return new Data(this);
+                    Data data = new Data(this);
+                    if (validating) {
+                        validate(data);
+                    }
+                    return data;
+                }
+
+                protected void validate(Data data) {
+                    super.validate(data);
+                    ValidationSupport.requireNonNull(data.meaning, "meaning");
+                    ValidationSupport.requireNonNull(data.reference, "reference");
+                    ValidationSupport.requireValueOrChildren(data);
                 }
 
                 protected Builder from(Data data) {

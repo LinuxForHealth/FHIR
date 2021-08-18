@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class GraphCompartmentRule extends Code {
      * 
      * <p>The compartment must be identical (the same literal reference).
      */
-    public static final GraphCompartmentRule IDENTICAL = GraphCompartmentRule.builder().value(ValueSet.IDENTICAL).build();
+    public static final GraphCompartmentRule IDENTICAL = GraphCompartmentRule.builder().value(Value.IDENTICAL).build();
 
     /**
      * Matching
      * 
      * <p>The compartment must be the same - the record must be about the same patient, but the reference may be different.
      */
-    public static final GraphCompartmentRule MATCHING = GraphCompartmentRule.builder().value(ValueSet.MATCHING).build();
+    public static final GraphCompartmentRule MATCHING = GraphCompartmentRule.builder().value(Value.MATCHING).build();
 
     /**
      * Different
      * 
      * <p>The compartment must be different.
      */
-    public static final GraphCompartmentRule DIFFERENT = GraphCompartmentRule.builder().value(ValueSet.DIFFERENT).build();
+    public static final GraphCompartmentRule DIFFERENT = GraphCompartmentRule.builder().value(Value.DIFFERENT).build();
 
     /**
      * Custom
      * 
      * <p>The compartment rule is defined in the accompanying FHIRPath expression.
      */
-    public static final GraphCompartmentRule CUSTOM = GraphCompartmentRule.builder().value(ValueSet.CUSTOM).build();
+    public static final GraphCompartmentRule CUSTOM = GraphCompartmentRule.builder().value(Value.CUSTOM).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class GraphCompartmentRule extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this GraphCompartmentRule as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this GraphCompartmentRule as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating GraphCompartmentRule objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static GraphCompartmentRule of(ValueSet value) {
+        switch (value) {
+        case IDENTICAL:
+            return IDENTICAL;
+        case MATCHING:
+            return MATCHING;
+        case DIFFERENT:
+            return DIFFERENT;
+        case CUSTOM:
+            return CUSTOM;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating GraphCompartmentRule objects from a passed enum value.
      */
-    public static GraphCompartmentRule of(ValueSet value) {
+    public static GraphCompartmentRule of(Value value) {
         switch (value) {
         case IDENTICAL:
             return IDENTICAL;
@@ -84,7 +116,7 @@ public class GraphCompartmentRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static GraphCompartmentRule of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class GraphCompartmentRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class GraphCompartmentRule extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class GraphCompartmentRule extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class GraphCompartmentRule extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for GraphCompartmentRule
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public GraphCompartmentRule build() {
-            return new GraphCompartmentRule(this);
+            GraphCompartmentRule graphCompartmentRule = new GraphCompartmentRule(this);
+            if (validating) {
+                validate(graphCompartmentRule);
+            }
+            return graphCompartmentRule;
+        }
+
+        protected void validate(GraphCompartmentRule graphCompartmentRule) {
+            super.validate(graphCompartmentRule);
+        }
+
+        protected Builder from(GraphCompartmentRule graphCompartmentRule) {
+            super.from(graphCompartmentRule);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Identical
@@ -227,7 +286,7 @@ public class GraphCompartmentRule extends Code {
         }
 
         /**
-         * Factory method for creating GraphCompartmentRule.ValueSet values from a passed string value.
+         * Factory method for creating GraphCompartmentRule.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class GraphCompartmentRule extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Identical
+         * 
+         * <p>The compartment must be identical (the same literal reference).
+         */
+        IDENTICAL("identical"),
+
+        /**
+         * Matching
+         * 
+         * <p>The compartment must be the same - the record must be about the same patient, but the reference may be different.
+         */
+        MATCHING("matching"),
+
+        /**
+         * Different
+         * 
+         * <p>The compartment must be different.
+         */
+        DIFFERENT("different"),
+
+        /**
+         * Custom
+         * 
+         * <p>The compartment rule is defined in the accompanying FHIRPath expression.
+         */
+        CUSTOM("custom");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating GraphCompartmentRule.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding GraphCompartmentRule.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "identical":
+                return IDENTICAL;
+            case "matching":
+                return MATCHING;
+            case "different":
+                return DIFFERENT;
+            case "custom":
+                return CUSTOM;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

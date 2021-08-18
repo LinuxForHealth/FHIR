@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -11,7 +11,6 @@ import static com.ibm.fhir.model.util.ModelSupport.FHIR_STRING;
 import static com.ibm.fhir.server.util.FHIROperationUtil.getOutputParameters;
 
 import java.time.ZoneOffset;
-import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,10 +32,12 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.DateTime;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ConceptMapEquivalence;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
+import com.ibm.fhir.term.service.exception.FHIRTermServiceException;
 
 /**
  * An experimental implementation of the ConceptMap closure operation that does not support versioning or playback
@@ -59,20 +60,26 @@ public class ClosureOperation extends AbstractTermOperation {
             String name = getName(parameters);
             Set<Coding> codingSet = getCodingSet(parameters);
             if (codingSet.stream().anyMatch(coding -> coding.getSystem() == null || coding.getCode() == null)) {
-                throw new FHIROperationException("Parameter(s) named 'concept' must have both a system and a code present");
+                throw buildExceptionWithIssue("Parameter(s) named 'concept' must have both a system and a code present", IssueType.INVALID);
             }
-            Map<Coding, Set<Concept>> result = new LinkedHashMap<>();
-            for (Coding coding : codingSet) {
-                Set<Concept> concepts = service.closure(coding);
+            Map<Coding, Set<Concept>> result = service.closure(codingSet);
+            if (result.isEmpty()) {
+                throw buildExceptionWithIssue("Closure cannot be computed for the provided input parameters", IssueType.NOT_SUPPORTED);
+            }
+            for (Coding coding : result.keySet()) {
+                Set<Concept> concepts = result.get(coding);
                 if (concepts.isEmpty()) {
-                    throw new FHIROperationException(String.format("Closure cannot be computed for concept '%s' from system '%s'", coding.getCode().getValue(), coding.getSystem().getValue()));
+                    throw buildExceptionWithIssue(String.format("Closure cannot be computed for concept '%s' from system '%s'", coding.getCode().getValue(), coding.getSystem().getValue()), IssueType.NOT_SUPPORTED);
                 }
-                result.put(coding, concepts);
             }
             ConceptMap conceptMap = buildConceptMap(name, result);
             return getOutputParameters(conceptMap);
         } catch (FHIROperationException e) {
             throw e;
+        } catch (FHIRTermServiceException e) {
+            throw new FHIROperationException(e.getMessage(), e.getCause()).withIssue(e.getIssues());
+        } catch (UnsupportedOperationException e) {
+            throw buildExceptionWithIssue(e.getMessage(), IssueType.NOT_SUPPORTED, e);
         } catch (Exception e) {
             throw new FHIROperationException("An error occurred during the ConceptMap closure operation", e);
         }

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,20 +34,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ImmunizationEvaluationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes a comparison of an immunization event against published recommendations to determine if the administration 
  * is "valid" in relation to those recommendations.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class ImmunizationEvaluation extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "ImmunizationEvaluationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The status of the evaluation being done.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-status|4.0.1"
     )
@@ -62,7 +70,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvaluationTargetDisease",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The vaccine preventable disease the dose is being evaluated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-target-disease"
     )
@@ -75,7 +83,7 @@ public class ImmunizationEvaluation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvaluationDoseStatus",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The status of the administered dose relative to the published recommendations for the target disease.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status"
     )
@@ -83,7 +91,7 @@ public class ImmunizationEvaluation extends DomainResource {
     private final CodeableConcept doseStatus;
     @Binding(
         bindingName = "EvaluationDoseStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The reason the dose status was assigned.",
         valueSet = "http://hl7.org/fhir/ValueSet/immunization-evaluation-dose-status-reason"
     )
@@ -95,27 +103,21 @@ public class ImmunizationEvaluation extends DomainResource {
     @Choice({ PositiveInt.class, String.class })
     private final Element seriesDoses;
 
-    private volatile int hashCode;
-
     private ImmunizationEvaluation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        patient = builder.patient;
         date = builder.date;
         authority = builder.authority;
-        targetDisease = ValidationSupport.requireNonNull(builder.targetDisease, "targetDisease");
-        immunizationEvent = ValidationSupport.requireNonNull(builder.immunizationEvent, "immunizationEvent");
-        doseStatus = ValidationSupport.requireNonNull(builder.doseStatus, "doseStatus");
-        doseStatusReason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.doseStatusReason, "doseStatusReason"));
+        targetDisease = builder.targetDisease;
+        immunizationEvent = builder.immunizationEvent;
+        doseStatus = builder.doseStatus;
+        doseStatusReason = Collections.unmodifiableList(builder.doseStatusReason);
         description = builder.description;
         series = builder.series;
-        doseNumber = ValidationSupport.choiceElement(builder.doseNumber, "doseNumber", PositiveInt.class, String.class);
-        seriesDoses = ValidationSupport.choiceElement(builder.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(authority, "authority", "Organization");
-        ValidationSupport.checkReferenceType(immunizationEvent, "immunizationEvent", "Immunization");
-        ValidationSupport.requireChildren(this);
+        doseNumber = builder.doseNumber;
+        seriesDoses = builder.seriesDoses;
     }
 
     /**
@@ -869,7 +871,27 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         @Override
         public ImmunizationEvaluation build() {
-            return new ImmunizationEvaluation(this);
+            ImmunizationEvaluation immunizationEvaluation = new ImmunizationEvaluation(this);
+            if (validating) {
+                validate(immunizationEvaluation);
+            }
+            return immunizationEvaluation;
+        }
+
+        protected void validate(ImmunizationEvaluation immunizationEvaluation) {
+            super.validate(immunizationEvaluation);
+            ValidationSupport.checkList(immunizationEvaluation.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(immunizationEvaluation.status, "status");
+            ValidationSupport.requireNonNull(immunizationEvaluation.patient, "patient");
+            ValidationSupport.requireNonNull(immunizationEvaluation.targetDisease, "targetDisease");
+            ValidationSupport.requireNonNull(immunizationEvaluation.immunizationEvent, "immunizationEvent");
+            ValidationSupport.requireNonNull(immunizationEvaluation.doseStatus, "doseStatus");
+            ValidationSupport.checkList(immunizationEvaluation.doseStatusReason, "doseStatusReason", CodeableConcept.class);
+            ValidationSupport.choiceElement(immunizationEvaluation.doseNumber, "doseNumber", PositiveInt.class, String.class);
+            ValidationSupport.choiceElement(immunizationEvaluation.seriesDoses, "seriesDoses", PositiveInt.class, String.class);
+            ValidationSupport.checkReferenceType(immunizationEvaluation.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.authority, "authority", "Organization");
+            ValidationSupport.checkReferenceType(immunizationEvaluation.immunizationEvent, "immunizationEvent", "Immunization");
         }
 
         protected Builder from(ImmunizationEvaluation immunizationEvaluation) {

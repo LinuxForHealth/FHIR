@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -40,6 +41,7 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ExtensionContextType;
 import com.ibm.fhir.model.type.code.FHIRVersion;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.StructureDefinitionKind;
 import com.ibm.fhir.model.type.code.TypeDerivationRule;
 import com.ibm.fhir.model.util.ValidationSupport;
@@ -48,174 +50,204 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A definition of a FHIR structure. This resource is used to describe the underlying resources, data types defined in 
  * FHIR, and also for describing extensions and constraints on resources and data types.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "sdf-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-1",
     level = "Rule",
     location = "(base)",
     description = "Element paths must be unique unless the structure is a constraint",
-    expression = "derivation = 'constraint' or snapshot.element.select(path).isDistinct()"
+    expression = "derivation = 'constraint' or snapshot.element.select(path).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-2",
     level = "Rule",
     location = "StructureDefinition.mapping",
     description = "Must have at least a name or a uri (or both)",
-    expression = "name.exists() or uri.exists()"
+    expression = "name.exists() or uri.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-3",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "Each element definition in a snapshot must have a formal definition and cardinalities",
-    expression = "element.all(definition.exists() and min.exists() and max.exists())"
+    expression = "element.all(definition.exists() and min.exists() and max.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-4",
     level = "Rule",
     location = "(base)",
     description = "If the structure is not abstract, then there SHALL be a baseDefinition",
-    expression = "abstract = true or baseDefinition.exists()"
+    expression = "abstract = true or baseDefinition.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-5",
     level = "Rule",
     location = "(base)",
     description = "If the structure defines an extension then the structure must have context information",
-    expression = "type != 'Extension' or derivation = 'specialization' or (context.exists())"
+    expression = "type != 'Extension' or derivation = 'specialization' or (context.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-6",
     level = "Rule",
     location = "(base)",
     description = "A structure must have either a differential, or a snapshot (or both)",
-    expression = "snapshot.exists() or differential.exists()"
+    expression = "snapshot.exists() or differential.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "All snapshot elements must start with the StructureDefinition's specified type for non-logical models, or with the same type name for logical models",
-    expression = "(%resource.kind = 'logical' or element.first().path = %resource.type) and element.tail().all(path.startsWith(%resource.snapshot.element.first().path&'.'))"
+    expression = "(%resource.kind = 'logical' or element.first().path = %resource.type) and element.tail().all(path.startsWith(%resource.snapshot.element.first().path&'.'))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8a",
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "In any differential, all the elements must start with the StructureDefinition's specified type for non-logical models, or with the same type name for logical models",
-    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().empty() or element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))"
+    expression = "(%resource.kind = 'logical' or element.first().path.startsWith(%resource.type)) and (element.tail().empty() or element.tail().all(path.startsWith(%resource.differential.element.first().path.replaceMatches('\\..*','')&'.')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-8b",
     level = "Rule",
     location = "StructureDefinition.snapshot",
     description = "All snapshot elements must have a base definition",
-    expression = "element.all(base.exists())"
+    expression = "element.all(base.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-9",
     level = "Rule",
     location = "(base)",
     description = "In any snapshot or differential, no label, code or requirements on an element without a \".\" in the path (e.g. the first element)",
-    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()"
+    expression = "children().element.where(path.contains('.').not()).label.empty() and children().element.where(path.contains('.').not()).code.empty() and children().element.where(path.contains('.').not()).requirements.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-10",
     level = "Rule",
     location = "StructureDefinition.snapshot.element",
     description = "provide either a binding reference or a description (or both)",
-    expression = "binding.empty() or binding.valueSet.exists() or binding.description.exists()"
+    expression = "binding.empty() or binding.valueSet.exists() or binding.description.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-11",
     level = "Rule",
     location = "(base)",
     description = "If there's a type, its content must match the path name in the first element of a snapshot",
-    expression = "kind != 'logical' implies snapshot.empty() or snapshot.element.first().path = type"
+    expression = "kind != 'logical' implies snapshot.empty() or snapshot.element.first().path = type",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-14",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have an id",
-    expression = "snapshot.element.all(id.exists()) and differential.element.all(id.exists())"
+    expression = "snapshot.element.all(id.exists()) and differential.element.all(id.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-15",
     level = "Rule",
     location = "(base)",
     description = "The first element in a snapshot has no type unless model is a logical model.",
-    expression = "kind!='logical' implies snapshot.element.first().type.empty()"
+    expression = "kind!='logical' implies snapshot.element.first().type.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-15a",
     level = "Rule",
     location = "(base)",
     description = "If the first element in a differential has no \".\" in the path and it's not a logical model, it has no type",
-    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()"
+    expression = "(kind!='logical'  and differential.element.first().path.contains('.').not()) implies differential.element.first().type.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-16",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (snapshot)",
-    expression = "snapshot.element.all(id.exists()) and snapshot.element.id.trace('ids').isDistinct()"
+    expression = "snapshot.element.all(id.exists()) and snapshot.element.id.trace('ids').isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-17",
     level = "Rule",
     location = "(base)",
     description = "All element definitions must have unique ids (diff)",
-    expression = "differential.element.all(id.exists()) and differential.element.id.trace('ids').isDistinct()"
+    expression = "differential.element.all(id.exists()) and differential.element.id.trace('ids').isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-18",
     level = "Rule",
     location = "(base)",
     description = "Context Invariants can only be used for extensions",
-    expression = "contextInvariant.exists() implies type = 'Extension'"
+    expression = "contextInvariant.exists() implies type = 'Extension'",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-19",
     level = "Rule",
     location = "(base)",
     description = "FHIR Specification models only use FHIR defined types",
-    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(matches('^[a-zA-Z0-9]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')) and snapshot.element.type.code.all(matches('^[a-zA-Z0-9\\.]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')))"
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (differential.element.type.code.all(matches('^[a-zA-Z0-9]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')) and snapshot.element.type.code.all(matches('^[a-zA-Z0-9\\.]+$') or matches('^http:\\/\\/hl7\\.org\\/fhirpath\\/System\\.[A-Z][A-Za-z]+$')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-20",
     level = "Rule",
     location = "StructureDefinition.differential",
     description = "No slicing on the root element",
-    expression = "element.where(path.contains('.').not()).slicing.empty()"
+    expression = "element.where(path.contains('.').not()).slicing.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-21",
     level = "Rule",
     location = "(base)",
     description = "Default values can only be specified on specializations",
-    expression = "differential.element.defaultValue.exists() implies (derivation = 'specialization')"
+    expression = "differential.element.defaultValue.exists() implies (derivation = 'specialization')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-22",
     level = "Rule",
     location = "(base)",
     description = "FHIR Specification models never have default values",
-    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (snapshot.element.defaultValue.empty() and differential.element.defaultValue.empty())"
+    expression = "url.startsWith('http://hl7.org/fhir/StructureDefinition') implies (snapshot.element.defaultValue.empty() and differential.element.defaultValue.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "sdf-23",
     level = "Rule",
     location = "(base)",
     description = "No slice name on root",
-    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())"
+    expression = "(snapshot | differential).element.all(path.contains('.').not() implies sliceName.empty())",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition"
 )
 @Constraint(
     id = "structureDefinition-24",
@@ -223,6 +255,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Constraint(
@@ -231,6 +264,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/definition-use",
     expression = "keyword.exists() implies (keyword.all(memberOf('http://hl7.org/fhir/ValueSet/definition-use', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Constraint(
@@ -239,6 +273,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/defined-types",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/defined-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -258,7 +293,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -278,7 +313,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -288,7 +323,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "StructureDefinitionKeyword",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes for the meaning of the defined structure (SNOMED CT and LOINC codes, as an example).",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-use"
     )
@@ -296,7 +331,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRVersion",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "All published FHIR Versions.",
         valueSet = "http://hl7.org/fhir/ValueSet/FHIR-version|4.0.1"
     )
@@ -305,7 +340,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "StructureDefinitionKind",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Defines the type of structure that a definition is describing.",
         valueSet = "http://hl7.org/fhir/ValueSet/structure-definition-kind|4.0.1"
     )
@@ -321,7 +356,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FHIRDefinedTypeExt",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Either a resource or a data type, including logical model types.",
         valueSet = "http://hl7.org/fhir/ValueSet/defined-types"
     )
@@ -332,7 +367,7 @@ public class StructureDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "TypeDerivationRule",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "How a type relates to its baseDefinition.",
         valueSet = "http://hl7.org/fhir/ValueSet/type-derivation-rule|4.0.1"
     )
@@ -340,38 +375,35 @@ public class StructureDefinition extends DomainResource {
     private final Snapshot snapshot;
     private final Differential differential;
 
-    private volatile int hashCode;
-
     private StructureDefinition(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        keyword = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.keyword, "keyword"));
+        keyword = Collections.unmodifiableList(builder.keyword);
         fhirVersion = builder.fhirVersion;
-        mapping = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mapping, "mapping"));
-        kind = ValidationSupport.requireNonNull(builder.kind, "kind");
-        _abstract = ValidationSupport.requireNonNull(builder._abstract, "abstract");
-        context = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.context, "context"));
-        contextInvariant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contextInvariant, "contextInvariant"));
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        mapping = Collections.unmodifiableList(builder.mapping);
+        kind = builder.kind;
+        _abstract = builder._abstract;
+        context = Collections.unmodifiableList(builder.context);
+        contextInvariant = Collections.unmodifiableList(builder.contextInvariant);
+        type = builder.type;
         baseDefinition = builder.baseDefinition;
         derivation = builder.derivation;
         snapshot = builder.snapshot;
         differential = builder.differential;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1677,7 +1709,29 @@ public class StructureDefinition extends DomainResource {
          */
         @Override
         public StructureDefinition build() {
-            return new StructureDefinition(this);
+            StructureDefinition structureDefinition = new StructureDefinition(this);
+            if (validating) {
+                validate(structureDefinition);
+            }
+            return structureDefinition;
+        }
+
+        protected void validate(StructureDefinition structureDefinition) {
+            super.validate(structureDefinition);
+            ValidationSupport.requireNonNull(structureDefinition.url, "url");
+            ValidationSupport.checkList(structureDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(structureDefinition.name, "name");
+            ValidationSupport.requireNonNull(structureDefinition.status, "status");
+            ValidationSupport.checkList(structureDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(structureDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(structureDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(structureDefinition.keyword, "keyword", Coding.class);
+            ValidationSupport.checkList(structureDefinition.mapping, "mapping", Mapping.class);
+            ValidationSupport.requireNonNull(structureDefinition.kind, "kind");
+            ValidationSupport.requireNonNull(structureDefinition._abstract, "abstract");
+            ValidationSupport.checkList(structureDefinition.context, "context", Context.class);
+            ValidationSupport.checkList(structureDefinition.contextInvariant, "contextInvariant", String.class);
+            ValidationSupport.requireNonNull(structureDefinition.type, "type");
         }
 
         protected Builder from(StructureDefinition structureDefinition) {
@@ -1723,15 +1777,12 @@ public class StructureDefinition extends DomainResource {
         private final String name;
         private final String comment;
 
-        private volatile int hashCode;
-
         private Mapping(Builder builder) {
             super(builder);
-            identity = ValidationSupport.requireNonNull(builder.identity, "identity");
+            identity = builder.identity;
             uri = builder.uri;
             name = builder.name;
             comment = builder.comment;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2032,7 +2083,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Mapping build() {
-                return new Mapping(this);
+                Mapping mapping = new Mapping(this);
+                if (validating) {
+                    validate(mapping);
+                }
+                return mapping;
+            }
+
+            protected void validate(Mapping mapping) {
+                super.validate(mapping);
+                ValidationSupport.requireNonNull(mapping.identity, "identity");
+                ValidationSupport.requireValueOrChildren(mapping);
             }
 
             protected Builder from(Mapping mapping) {
@@ -2053,7 +2114,7 @@ public class StructureDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ExtensionContextType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How an extension context is interpreted.",
             valueSet = "http://hl7.org/fhir/ValueSet/extension-context-type|4.0.1"
         )
@@ -2063,13 +2124,10 @@ public class StructureDefinition extends DomainResource {
         @Required
         private final String expression;
 
-        private volatile int hashCode;
-
         private Context(Builder builder) {
             super(builder);
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            expression = ValidationSupport.requireNonNull(builder.expression, "expression");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
+            expression = builder.expression;
         }
 
         /**
@@ -2315,7 +2373,18 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Context build() {
-                return new Context(this);
+                Context context = new Context(this);
+                if (validating) {
+                    validate(context);
+                }
+                return context;
+            }
+
+            protected void validate(Context context) {
+                super.validate(context);
+                ValidationSupport.requireNonNull(context.type, "type");
+                ValidationSupport.requireNonNull(context.expression, "expression");
+                ValidationSupport.requireValueOrChildren(context);
             }
 
             protected Builder from(Context context) {
@@ -2335,12 +2404,9 @@ public class StructureDefinition extends DomainResource {
         @Required
         private final List<ElementDefinition> element;
 
-        private volatile int hashCode;
-
         private Snapshot(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
-            ValidationSupport.requireValueOrChildren(this);
+            element = Collections.unmodifiableList(builder.element);
         }
 
         /**
@@ -2576,7 +2642,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Snapshot build() {
-                return new Snapshot(this);
+                Snapshot snapshot = new Snapshot(this);
+                if (validating) {
+                    validate(snapshot);
+                }
+                return snapshot;
+            }
+
+            protected void validate(Snapshot snapshot) {
+                super.validate(snapshot);
+                ValidationSupport.checkNonEmptyList(snapshot.element, "element", ElementDefinition.class);
+                ValidationSupport.requireValueOrChildren(snapshot);
             }
 
             protected Builder from(Snapshot snapshot) {
@@ -2594,12 +2670,9 @@ public class StructureDefinition extends DomainResource {
         @Required
         private final List<ElementDefinition> element;
 
-        private volatile int hashCode;
-
         private Differential(Builder builder) {
             super(builder);
-            element = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.element, "element"));
-            ValidationSupport.requireValueOrChildren(this);
+            element = Collections.unmodifiableList(builder.element);
         }
 
         /**
@@ -2835,7 +2908,17 @@ public class StructureDefinition extends DomainResource {
              */
             @Override
             public Differential build() {
-                return new Differential(this);
+                Differential differential = new Differential(this);
+                if (validating) {
+                    validate(differential);
+                }
+                return differential;
+            }
+
+            protected void validate(Differential differential) {
+                super.validate(differential);
+                ValidationSupport.checkNonEmptyList(differential.element, "element", ElementDefinition.class);
+                ValidationSupport.requireValueOrChildren(differential);
             }
 
             protected Builder from(Differential differential) {

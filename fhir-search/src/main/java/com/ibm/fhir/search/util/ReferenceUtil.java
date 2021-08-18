@@ -1,12 +1,11 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.search.util;
 
-import java.util.Arrays;
 import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ import java.util.stream.Collectors;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.type.Reference;
-import com.ibm.fhir.model.type.code.FHIRResourceType;
+import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 
@@ -30,13 +29,10 @@ public class ReferenceUtil {
     private static final String URN = "urn:";
 
     // A set of resource type names to assist computing the base URL string
-    private static final Set<String> resourceTypes = Arrays.stream(FHIRResourceType.ValueSet.values())
-            .map(FHIRResourceType.ValueSet::value)
+    private static final Set<String> resourceTypes = ModelSupport.getResourceTypes(false).stream()
+            .map(Class::getSimpleName)
             .collect(Collectors.toSet());
 
-
-    // The service base URL string cached after we compute it once.
-    private static volatile String serviceBase;
 
     /**
      * Processes a Reference value from the FHIR model and interprets
@@ -65,57 +61,8 @@ public class ReferenceUtil {
         Integer version = null;
 
         if (ref.getReference() != null && ref.getReference().getValue() != null) {
-            // LITERAL REFERENCE
-            // * an absolute URL
-            // * relative URL, which is relative to the Service Base URL, or, if processing a resource
-            //   from a bundle, which is relative to the base URL implied by the Bundle.entry.fullUrl
-            // Note that fragment (internal) references are not relevant here, because bundle
-            // processing will already have resolved them, replacing them with the relative values
-            value = ref.getReference().getValue();
-
-            if (baseUrl != null && value.startsWith(baseUrl)) {
-                // - relative reference https://example.com/Patient/123
-                // Because this reference is to a local FHIR resource (inside this server), we need use the correct
-                // resource type name (assigned as the code system)
-                //  - https://localhost:9443/fhir-server/api/v4/Patient/1234
-                //  - https://example.com/Patient/1234
-                //  - https://example.com/Patient/1234/_history/2
-                referenceType = ReferenceType.LITERAL_RELATIVE;
-                value = value.substring(baseUrl.length());
-
-                // Patient/1234
-                // Patient/1234/_history/2
-                String[] tokens = value.split("/");
-                if (tokens.length > 1) {
-                    targetResourceType = tokens[0];
-                    value = tokens[1];
-                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
-                        // versioned reference
-                        version = Integer.parseInt(tokens[3]);
-                    }
-                }
-            } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
-                // - Absolute reference. We only know the type if it is given by the type field
-                referenceType = ReferenceType.LITERAL_ABSOLUTE;
-                if (ref.getType() != null) {
-                    targetResourceType = ref.getType().getValue();
-                }
-
-            } else {
-                //  - Relative ==> Patient/1234
-                //  - Relative ==> Patient/1234/_history/2
-                referenceType = ReferenceType.LITERAL_RELATIVE;
-                String[] tokens = value.split("/");
-                if (tokens.length > 1) {
-                    targetResourceType = tokens[0];
-                    value = tokens[1];
-                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
-                        // versioned reference
-                        version = Integer.parseInt(tokens[3]);
-                    }
-                }
-            }
-        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null) {
+            return createReferenceValueFrom(ref.getReference().getValue(), ref.getType() != null ? ref.getType().getValue() : null, baseUrl);
+        } else if (ref.getIdentifier() != null && ref.getIdentifier().getValue() != null && ref.getIdentifier().getValue().getValue() != null) {
             // LOGICAL REFERENCE
             value = ref.getIdentifier().getValue().getValue();
             referenceType = ReferenceType.LOGICAL;
@@ -139,6 +86,86 @@ public class ReferenceUtil {
     }
 
     /**
+     * Processes the string value of a Reference object from the FHIR model and interprets
+     * it according to https://www.hl7.org/fhir/references.html#2.3.0
+     *
+     * <p>Absolute literal references will be converted to relative references if their base matches baseUrl.
+     *
+     * <p>The resulting ReferenceValue will contain an inferred ReferenceType
+     * and the structure of the ReferenceValue.value will vary accordingly:
+     * <ol>
+     * <li>LITERAL_RELATIVE: the id of the referenced resource</li>
+     * <li>LITERAL_ABSOLUTE: the full URI of the reference</li>
+     * <li>INVALID: null</li>
+     * </ol>
+     *
+     * @param refValue a reference value string
+     * @param refType a reference resource type (used for LITERAL_ABSOLUTE only)
+     * @param baseUrl the base URL used to determine whether to convert absolute references to relative references
+     * @return a structured representation of the reference value that varies by its inferred reference type
+     */
+    public static ReferenceValue createReferenceValueFrom(String refValue, String refType, String baseUrl) {
+        String value = null;
+        String targetResourceType = null;
+        ReferenceType referenceType =  ReferenceType.INVALID;
+        Integer version = null;
+
+        if (refValue != null) {
+            // LITERAL REFERENCE
+            // * an absolute URL
+            // * relative URL, which is relative to the Service Base URL, or, if processing a resource
+            //   from a bundle, which is relative to the base URL implied by the Bundle.entry.fullUrl
+            // Note that fragment (internal) references are not relevant here, because bundle
+            // processing will already have resolved them, replacing them with the relative values
+            value = refValue;
+
+            if (baseUrl != null && value.startsWith(baseUrl)) {
+                // - relative reference https://example.com/Patient/123
+                // Because this reference is to a local FHIR resource (inside this server), we need to
+                // use the correct resource type name (assigned as the code system)
+                //  - https://localhost:9443/fhir-server/api/v4/Patient/1234
+                //  - https://example.com/Patient/1234
+                //  - https://example.com/Patient/1234/_history/2
+                referenceType = ReferenceType.LITERAL_RELATIVE;
+                value = value.substring(baseUrl.length());
+
+                // Patient/1234
+                // Patient/1234/_history/2
+                String[] tokens = value.split("/");
+                if (tokens.length > 1) {
+                    targetResourceType = tokens[0];
+                    value = tokens[1];
+                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
+                        // versioned reference
+                        version = Integer.parseInt(tokens[3]);
+                    }
+                }
+            } else if (value != null && value.startsWith(HTTP) || value.startsWith(HTTPS) || value.startsWith(URN)) {
+                // - Absolute reference. We only know the type if it is given by the type field
+                referenceType = ReferenceType.LITERAL_ABSOLUTE;
+                if (refType != null) {
+                    targetResourceType = refType;
+                }
+            } else {
+                //  - Relative ==> Patient/1234
+                //  - Relative ==> Patient/1234/_history/2
+                referenceType = ReferenceType.LITERAL_RELATIVE;
+                String[] tokens = value.split("/");
+                if (tokens.length > 1) {
+                    targetResourceType = tokens[0];
+                    value = tokens[1];
+                    if (tokens.length == 4 && HISTORY.equals(tokens[2])) {
+                        // versioned reference
+                        version = Integer.parseInt(tokens[3]);
+                    }
+                }
+            }
+        }
+
+        return new ReferenceValue(targetResourceType, value, referenceType, version);
+    }
+
+    /**
      * Extract the base URL from the bundle entry if one is given, otherwise
      * use the service base URL.
      * @param entry, can be null
@@ -149,13 +176,8 @@ public class ReferenceUtil {
         if (entry != null) {
             return getBaseUrlFromBundle(entry);
         } else {
-            // return the cached value if we've already computed it
-            if (serviceBase != null) {
-                return serviceBase;
-            }
             return getServiceBaseUrl();
         }
-
     }
 
     /**
@@ -200,6 +222,7 @@ public class ReferenceUtil {
      * @throws FHIRSearchException
      */
     public static String getServiceBaseUrl(String uri) throws FHIRSearchException {
+        String result;
 
         // request URI is not set for all unit-tests, so we need to take that into account
         if (uri == null) {
@@ -251,13 +274,13 @@ public class ReferenceUtil {
                 // make sure we always have a final "/" to make life easier downstream.
                 sb = sb + "/";
             }
-            serviceBase = sb;
+            result = sb;
         } else {
             // log locally, do not leak in exception...might contain server name/ip secrets
             logger.severe("FHIRRequestContext.originalRequestUri is invalid: " + uri);
             throw new FHIRSearchException("Invalid originalRequestUri in FHIRRequestContext. Details in log.");
         }
 
-        return serviceBase;
+        return result;
     }
 }

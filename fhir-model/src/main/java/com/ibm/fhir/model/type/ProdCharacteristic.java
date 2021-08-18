@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -47,8 +47,6 @@ public class ProdCharacteristic extends BackboneElement {
     @Summary
     private final CodeableConcept scoring;
 
-    private volatile int hashCode;
-
     private ProdCharacteristic(Builder builder) {
         super(builder);
         height = builder.height;
@@ -58,11 +56,10 @@ public class ProdCharacteristic extends BackboneElement {
         nominalVolume = builder.nominalVolume;
         externalDiameter = builder.externalDiameter;
         shape = builder.shape;
-        color = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.color, "color"));
-        imprint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.imprint, "imprint"));
-        image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
+        color = Collections.unmodifiableList(builder.color);
+        imprint = Collections.unmodifiableList(builder.imprint);
+        image = Collections.unmodifiableList(builder.image);
         scoring = builder.scoring;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -671,7 +668,19 @@ public class ProdCharacteristic extends BackboneElement {
          */
         @Override
         public ProdCharacteristic build() {
-            return new ProdCharacteristic(this);
+            ProdCharacteristic prodCharacteristic = new ProdCharacteristic(this);
+            if (validating) {
+                validate(prodCharacteristic);
+            }
+            return prodCharacteristic;
+        }
+
+        protected void validate(ProdCharacteristic prodCharacteristic) {
+            super.validate(prodCharacteristic);
+            ValidationSupport.checkList(prodCharacteristic.color, "color", String.class);
+            ValidationSupport.checkList(prodCharacteristic.imprint, "imprint", String.class);
+            ValidationSupport.checkList(prodCharacteristic.image, "image", Attachment.class);
+            ValidationSupport.requireValueOrChildren(prodCharacteristic);
         }
 
         protected Builder from(ProdCharacteristic prodCharacteristic) {

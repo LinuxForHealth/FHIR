@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -36,19 +37,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DetectedIssueSeverity;
 import com.ibm.fhir.model.type.code.DetectedIssueStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Indicates an actual or potential clinical issue with or between one or more active or proposed clinical actions for a 
  * patient; e.g. Drug-drug interaction, Ineffective treatment frequency, Procedure-condition conflict, etc.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "detectedIssue-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-category",
     expression = "code.exists() implies (code.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/DetectedIssue",
     generated = true
 )
 @Constraint(
@@ -57,6 +66,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "mitigation.action",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/DetectedIssue",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -66,7 +76,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the status of the identified issue.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
@@ -75,7 +85,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Codes identifying the general type of detected issue; e.g. Drug-drug interaction, Timing issue, Duplicate therapy, etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-category"
     )
@@ -83,7 +93,7 @@ public class DetectedIssue extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DetectedIssueSeverity",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates the potential degree of impact of the identified issue on the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-severity|4.0.1"
     )
@@ -104,25 +114,20 @@ public class DetectedIssue extends DomainResource {
     private final Uri reference;
     private final List<Mitigation> mitigation;
 
-    private volatile int hashCode;
-
     private DetectedIssue(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         code = builder.code;
         severity = builder.severity;
         patient = builder.patient;
-        identified = ValidationSupport.choiceElement(builder.identified, "identified", DateTime.class, Period.class);
+        identified = builder.identified;
         author = builder.author;
-        implicated = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.implicated, "implicated"));
-        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
+        implicated = Collections.unmodifiableList(builder.implicated);
+        evidence = Collections.unmodifiableList(builder.evidence);
         detail = builder.detail;
         reference = builder.reference;
-        mitigation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.mitigation, "mitigation"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.requireChildren(this);
+        mitigation = Collections.unmodifiableList(builder.mitigation);
     }
 
     /**
@@ -874,7 +879,23 @@ public class DetectedIssue extends DomainResource {
          */
         @Override
         public DetectedIssue build() {
-            return new DetectedIssue(this);
+            DetectedIssue detectedIssue = new DetectedIssue(this);
+            if (validating) {
+                validate(detectedIssue);
+            }
+            return detectedIssue;
+        }
+
+        protected void validate(DetectedIssue detectedIssue) {
+            super.validate(detectedIssue);
+            ValidationSupport.checkList(detectedIssue.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(detectedIssue.status, "status");
+            ValidationSupport.choiceElement(detectedIssue.identified, "identified", DateTime.class, Period.class);
+            ValidationSupport.checkList(detectedIssue.implicated, "implicated", Reference.class);
+            ValidationSupport.checkList(detectedIssue.evidence, "evidence", Evidence.class);
+            ValidationSupport.checkList(detectedIssue.mitigation, "mitigation", Mitigation.class);
+            ValidationSupport.checkReferenceType(detectedIssue.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(detectedIssue.author, "author", "Practitioner", "PractitionerRole", "Device");
         }
 
         protected Builder from(DetectedIssue detectedIssue) {
@@ -902,20 +923,17 @@ public class DetectedIssue extends DomainResource {
     public static class Evidence extends BackboneElement {
         @Binding(
             bindingName = "DetectedIssueEvidenceCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that describes the types of evidence for a detected issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )
         private final List<CodeableConcept> code;
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1191,7 +1209,18 @@ public class DetectedIssue extends DomainResource {
              */
             @Override
             public Evidence build() {
-                return new Evidence(this);
+                Evidence evidence = new Evidence(this);
+                if (validating) {
+                    validate(evidence);
+                }
+                return evidence;
+            }
+
+            protected void validate(Evidence evidence) {
+                super.validate(evidence);
+                ValidationSupport.checkList(evidence.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(evidence.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(evidence);
             }
 
             protected Builder from(Evidence evidence) {
@@ -1211,7 +1240,7 @@ public class DetectedIssue extends DomainResource {
     public static class Mitigation extends BackboneElement {
         @Binding(
             bindingName = "DetectedIssueMitigationAction",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Codes describing steps taken to resolve the issue or other circumstances that mitigate the risk associated with the issue; e.g. 'added concurrent therapy', 'prior therapy documented', etc.",
             valueSet = "http://hl7.org/fhir/ValueSet/detectedissue-mitigation-action"
         )
@@ -1221,15 +1250,11 @@ public class DetectedIssue extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final Reference author;
 
-        private volatile int hashCode;
-
         private Mitigation(Builder builder) {
             super(builder);
-            action = ValidationSupport.requireNonNull(builder.action, "action");
+            action = builder.action;
             date = builder.date;
             author = builder.author;
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1509,7 +1534,18 @@ public class DetectedIssue extends DomainResource {
              */
             @Override
             public Mitigation build() {
-                return new Mitigation(this);
+                Mitigation mitigation = new Mitigation(this);
+                if (validating) {
+                    validate(mitigation);
+                }
+                return mitigation;
+            }
+
+            protected void validate(Mitigation mitigation) {
+                super.validate(mitigation);
+                ValidationSupport.requireNonNull(mitigation.action, "action");
+                ValidationSupport.checkReferenceType(mitigation.author, "author", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(mitigation);
             }
 
             protected Builder from(Mitigation mitigation) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Address;
@@ -75,6 +76,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.Uuid;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.StructureMapContextType;
 import com.ibm.fhir.model.type.code.StructureMapGroupTypeMode;
 import com.ibm.fhir.model.type.code.StructureMapInputMode;
@@ -87,27 +89,36 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A Map of relationships between 2 structures that can be used to transform data.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "smp-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureMap"
 )
 @Constraint(
     id = "smp-1",
     level = "Rule",
     location = "StructureMap.group.rule.target",
     description = "Can only have an element if you have a context",
-    expression = "element.exists() implies context.exists()"
+    expression = "element.exists() implies context.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureMap"
 )
 @Constraint(
     id = "smp-2",
     level = "Rule",
     location = "StructureMap.group.rule.target",
     description = "Must have a contextType if you have a context",
-    expression = "context.exists() implies contextType.exists()"
+    expression = "context.exists() implies contextType.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureMap"
 )
 @Constraint(
     id = "structureMap-3",
@@ -115,6 +126,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/StructureMap",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -134,7 +146,7 @@ public class StructureMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -154,7 +166,7 @@ public class StructureMap extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -169,29 +181,26 @@ public class StructureMap extends DomainResource {
     @Required
     private final List<Group> group;
 
-    private volatile int hashCode;
-
     private StructureMap(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        url = builder.url;
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        structure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.structure, "structure"));
-        _import = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder._import, "import"));
-        group = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.group, "group"));
-        ValidationSupport.requireChildren(this);
+        structure = Collections.unmodifiableList(builder.structure);
+        _import = Collections.unmodifiableList(builder._import);
+        group = Collections.unmodifiableList(builder.group);
     }
 
     /**
@@ -1193,7 +1202,25 @@ public class StructureMap extends DomainResource {
          */
         @Override
         public StructureMap build() {
-            return new StructureMap(this);
+            StructureMap structureMap = new StructureMap(this);
+            if (validating) {
+                validate(structureMap);
+            }
+            return structureMap;
+        }
+
+        protected void validate(StructureMap structureMap) {
+            super.validate(structureMap);
+            ValidationSupport.requireNonNull(structureMap.url, "url");
+            ValidationSupport.checkList(structureMap.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(structureMap.name, "name");
+            ValidationSupport.requireNonNull(structureMap.status, "status");
+            ValidationSupport.checkList(structureMap.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(structureMap.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(structureMap.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(structureMap.structure, "structure", Structure.class);
+            ValidationSupport.checkList(structureMap._import, "import", Canonical.class);
+            ValidationSupport.checkNonEmptyList(structureMap.group, "group", Group.class);
         }
 
         protected Builder from(StructureMap structureMap) {
@@ -1231,7 +1258,7 @@ public class StructureMap extends DomainResource {
         @Summary
         @Binding(
             bindingName = "StructureMapModelMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How the referenced structure is used in this mapping.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-model-mode|4.0.1"
         )
@@ -1241,15 +1268,12 @@ public class StructureMap extends DomainResource {
         private final String alias;
         private final String documentation;
 
-        private volatile int hashCode;
-
         private Structure(Builder builder) {
             super(builder);
-            url = ValidationSupport.requireNonNull(builder.url, "url");
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            url = builder.url;
+            mode = builder.mode;
             alias = builder.alias;
             documentation = builder.documentation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1553,7 +1577,18 @@ public class StructureMap extends DomainResource {
              */
             @Override
             public Structure build() {
-                return new Structure(this);
+                Structure structure = new Structure(this);
+                if (validating) {
+                    validate(structure);
+                }
+                return structure;
+            }
+
+            protected void validate(Structure structure) {
+                super.validate(structure);
+                ValidationSupport.requireNonNull(structure.url, "url");
+                ValidationSupport.requireNonNull(structure.mode, "mode");
+                ValidationSupport.requireValueOrChildren(structure);
             }
 
             protected Builder from(Structure structure) {
@@ -1579,7 +1614,7 @@ public class StructureMap extends DomainResource {
         @Summary
         @Binding(
             bindingName = "StructureMapGroupTypeMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "If this is the default rule set to apply for the source type, or this combination of types.",
             valueSet = "http://hl7.org/fhir/ValueSet/map-group-type-mode|4.0.1"
         )
@@ -1594,17 +1629,14 @@ public class StructureMap extends DomainResource {
         @Required
         private final List<Rule> rule;
 
-        private volatile int hashCode;
-
         private Group(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             _extends = builder._extends;
-            typeMode = ValidationSupport.requireNonNull(builder.typeMode, "typeMode");
+            typeMode = builder.typeMode;
             documentation = builder.documentation;
-            input = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.input, "input"));
-            rule = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.rule, "rule"));
-            ValidationSupport.requireValueOrChildren(this);
+            input = Collections.unmodifiableList(builder.input);
+            rule = Collections.unmodifiableList(builder.rule);
         }
 
         /**
@@ -2016,7 +2048,20 @@ public class StructureMap extends DomainResource {
              */
             @Override
             public Group build() {
-                return new Group(this);
+                Group group = new Group(this);
+                if (validating) {
+                    validate(group);
+                }
+                return group;
+            }
+
+            protected void validate(Group group) {
+                super.validate(group);
+                ValidationSupport.requireNonNull(group.name, "name");
+                ValidationSupport.requireNonNull(group.typeMode, "typeMode");
+                ValidationSupport.checkNonEmptyList(group.input, "input", Input.class);
+                ValidationSupport.checkNonEmptyList(group.rule, "rule", Rule.class);
+                ValidationSupport.requireValueOrChildren(group);
             }
 
             protected Builder from(Group group) {
@@ -2043,7 +2088,7 @@ public class StructureMap extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "StructureMapInputMode",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Mode for this instance of data.",
                 valueSet = "http://hl7.org/fhir/ValueSet/map-input-mode|4.0.1"
             )
@@ -2051,15 +2096,12 @@ public class StructureMap extends DomainResource {
             private final StructureMapInputMode mode;
             private final String documentation;
 
-            private volatile int hashCode;
-
             private Input(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
+                name = builder.name;
                 type = builder.type;
-                mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+                mode = builder.mode;
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2363,7 +2405,18 @@ public class StructureMap extends DomainResource {
                  */
                 @Override
                 public Input build() {
-                    return new Input(this);
+                    Input input = new Input(this);
+                    if (validating) {
+                        validate(input);
+                    }
+                    return input;
+                }
+
+                protected void validate(Input input) {
+                    super.validate(input);
+                    ValidationSupport.requireNonNull(input.name, "name");
+                    ValidationSupport.requireNonNull(input.mode, "mode");
+                    ValidationSupport.requireValueOrChildren(input);
                 }
 
                 protected Builder from(Input input) {
@@ -2395,17 +2448,14 @@ public class StructureMap extends DomainResource {
             private final List<Dependent> dependent;
             private final String documentation;
 
-            private volatile int hashCode;
-
             private Rule(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
-                source = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.source, "source"));
-                target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-                rule = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rule, "rule"));
-                dependent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dependent, "dependent"));
+                name = builder.name;
+                source = Collections.unmodifiableList(builder.source);
+                target = Collections.unmodifiableList(builder.target);
+                rule = Collections.unmodifiableList(builder.rule);
+                dependent = Collections.unmodifiableList(builder.dependent);
                 documentation = builder.documentation;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2849,7 +2899,21 @@ public class StructureMap extends DomainResource {
                  */
                 @Override
                 public Rule build() {
-                    return new Rule(this);
+                    Rule rule = new Rule(this);
+                    if (validating) {
+                        validate(rule);
+                    }
+                    return rule;
+                }
+
+                protected void validate(Rule rule) {
+                    super.validate(rule);
+                    ValidationSupport.requireNonNull(rule.name, "name");
+                    ValidationSupport.checkNonEmptyList(rule.source, "source", Source.class);
+                    ValidationSupport.checkList(rule.target, "target", Target.class);
+                    ValidationSupport.checkList(rule.rule, "rule", StructureMap.Group.Rule.class);
+                    ValidationSupport.checkList(rule.dependent, "dependent", Dependent.class);
+                    ValidationSupport.requireValueOrChildren(rule);
                 }
 
                 protected Builder from(Rule rule) {
@@ -2885,7 +2949,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapSourceListMode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the source.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-source-list-mode|4.0.1"
                 )
@@ -2899,22 +2963,19 @@ public class StructureMap extends DomainResource {
                 @Summary
                 private final String logMessage;
 
-                private volatile int hashCode;
-
                 private Source(Builder builder) {
                     super(builder);
-                    context = ValidationSupport.requireNonNull(builder.context, "context");
+                    context = builder.context;
                     min = builder.min;
                     max = builder.max;
                     type = builder.type;
-                    defaultValue = ValidationSupport.choiceElement(builder.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                    defaultValue = builder.defaultValue;
                     element = builder.element;
                     listMode = builder.listMode;
                     variable = builder.variable;
                     condition = builder.condition;
                     check = builder.check;
                     logMessage = builder.logMessage;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -3478,7 +3539,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Source build() {
-                        return new Source(this);
+                        Source source = new Source(this);
+                        if (validating) {
+                            validate(source);
+                        }
+                        return source;
+                    }
+
+                    protected void validate(Source source) {
+                        super.validate(source);
+                        ValidationSupport.requireNonNull(source.context, "context");
+                        ValidationSupport.choiceElement(source.defaultValue, "defaultValue", Base64Binary.class, Boolean.class, Canonical.class, Code.class, Date.class, DateTime.class, Decimal.class, Id.class, Instant.class, Integer.class, Markdown.class, Oid.class, PositiveInt.class, String.class, Time.class, UnsignedInt.class, Uri.class, Url.class, Uuid.class, Address.class, Age.class, Annotation.class, Attachment.class, CodeableConcept.class, Coding.class, ContactPoint.class, Count.class, Distance.class, Duration.class, HumanName.class, Identifier.class, Money.class, Period.class, Quantity.class, Range.class, Ratio.class, Reference.class, SampledData.class, Signature.class, Timing.class, ContactDetail.class, Contributor.class, DataRequirement.class, Expression.class, ParameterDefinition.class, RelatedArtifact.class, TriggerDefinition.class, UsageContext.class, Dosage.class, Meta.class);
+                        ValidationSupport.requireValueOrChildren(source);
                     }
 
                     protected Builder from(Source source) {
@@ -3508,7 +3580,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapContextType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How to interpret the context.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-context-type|4.0.1"
                 )
@@ -3520,7 +3592,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapTargetListMode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "If field is a list, how to manage the production.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-target-list-mode|4.0.1"
                 )
@@ -3530,7 +3602,7 @@ public class StructureMap extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "StructureMapTransform",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "How data is copied/created.",
                     valueSet = "http://hl7.org/fhir/ValueSet/map-transform|4.0.1"
                 )
@@ -3538,19 +3610,16 @@ public class StructureMap extends DomainResource {
                 @Summary
                 private final List<Parameter> parameter;
 
-                private volatile int hashCode;
-
                 private Target(Builder builder) {
                     super(builder);
                     context = builder.context;
                     contextType = builder.contextType;
                     element = builder.element;
                     variable = builder.variable;
-                    listMode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.listMode, "listMode"));
+                    listMode = Collections.unmodifiableList(builder.listMode);
                     listRuleId = builder.listRuleId;
                     transform = builder.transform;
-                    parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    parameter = Collections.unmodifiableList(builder.parameter);
                 }
 
                 /**
@@ -4000,7 +4069,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Target build() {
-                        return new Target(this);
+                        Target target = new Target(this);
+                        if (validating) {
+                            validate(target);
+                        }
+                        return target;
+                    }
+
+                    protected void validate(Target target) {
+                        super.validate(target);
+                        ValidationSupport.checkList(target.listMode, "listMode", StructureMapTargetListMode.class);
+                        ValidationSupport.checkList(target.parameter, "parameter", Parameter.class);
+                        ValidationSupport.requireValueOrChildren(target);
                     }
 
                     protected Builder from(Target target) {
@@ -4026,12 +4106,9 @@ public class StructureMap extends DomainResource {
                     @Required
                     private final Element value;
 
-                    private volatile int hashCode;
-
                     private Parameter(Builder builder) {
                         super(builder);
-                        value = ValidationSupport.requireChoiceElement(builder.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
-                        ValidationSupport.requireValueOrChildren(this);
+                        value = builder.value;
                     }
 
                     /**
@@ -4254,7 +4331,17 @@ public class StructureMap extends DomainResource {
                          */
                         @Override
                         public Parameter build() {
-                            return new Parameter(this);
+                            Parameter parameter = new Parameter(this);
+                            if (validating) {
+                                validate(parameter);
+                            }
+                            return parameter;
+                        }
+
+                        protected void validate(Parameter parameter) {
+                            super.validate(parameter);
+                            ValidationSupport.requireChoiceElement(parameter.value, "value", Id.class, String.class, Boolean.class, Integer.class, Decimal.class);
+                            ValidationSupport.requireValueOrChildren(parameter);
                         }
 
                         protected Builder from(Parameter parameter) {
@@ -4277,13 +4364,10 @@ public class StructureMap extends DomainResource {
                 @Required
                 private final List<String> variable;
 
-                private volatile int hashCode;
-
                 private Dependent(Builder builder) {
                     super(builder);
-                    name = ValidationSupport.requireNonNull(builder.name, "name");
-                    variable = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.variable, "variable"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    name = builder.name;
+                    variable = Collections.unmodifiableList(builder.variable);
                 }
 
                 /**
@@ -4551,7 +4635,18 @@ public class StructureMap extends DomainResource {
                      */
                     @Override
                     public Dependent build() {
-                        return new Dependent(this);
+                        Dependent dependent = new Dependent(this);
+                        if (validating) {
+                            validate(dependent);
+                        }
+                        return dependent;
+                    }
+
+                    protected void validate(Dependent dependent) {
+                        super.validate(dependent);
+                        ValidationSupport.requireNonNull(dependent.name, "name");
+                        ValidationSupport.checkNonEmptyList(dependent.variable, "variable", String.class);
+                        ValidationSupport.requireValueOrChildren(dependent);
                     }
 
                     protected Builder from(Dependent dependent) {

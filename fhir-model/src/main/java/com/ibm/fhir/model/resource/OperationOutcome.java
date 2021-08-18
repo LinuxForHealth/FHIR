@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -28,24 +29,28 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A collection of error, warning, or information messages that result from a system action.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class OperationOutcome extends DomainResource {
     @Summary
     @Required
     private final List<Issue> issue;
 
-    private volatile int hashCode;
-
     private OperationOutcome(Builder builder) {
         super(builder);
-        issue = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.issue, "issue"));
-        ValidationSupport.requireChildren(this);
+        issue = Collections.unmodifiableList(builder.issue);
     }
 
     /**
@@ -391,7 +396,16 @@ public class OperationOutcome extends DomainResource {
          */
         @Override
         public OperationOutcome build() {
-            return new OperationOutcome(this);
+            OperationOutcome operationOutcome = new OperationOutcome(this);
+            if (validating) {
+                validate(operationOutcome);
+            }
+            return operationOutcome;
+        }
+
+        protected void validate(OperationOutcome operationOutcome) {
+            super.validate(operationOutcome);
+            ValidationSupport.checkNonEmptyList(operationOutcome.issue, "issue", Issue.class);
         }
 
         protected Builder from(OperationOutcome operationOutcome) {
@@ -408,7 +422,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueSeverity",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "How the issue affects the success of the action.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-severity|4.0.1"
         )
@@ -417,7 +431,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A code that describes the type of issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/issue-type|4.0.1"
         )
@@ -426,7 +440,7 @@ public class OperationOutcome extends DomainResource {
         @Summary
         @Binding(
             bindingName = "IssueDetails",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that provides details as the exact issue.",
             valueSet = "http://hl7.org/fhir/ValueSet/operation-outcome"
         )
@@ -438,17 +452,14 @@ public class OperationOutcome extends DomainResource {
         @Summary
         private final List<String> expression;
 
-        private volatile int hashCode;
-
         private Issue(Builder builder) {
             super(builder);
-            severity = ValidationSupport.requireNonNull(builder.severity, "severity");
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            severity = builder.severity;
+            code = builder.code;
             details = builder.details;
             diagnostics = builder.diagnostics;
-            location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-            expression = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.expression, "expression"));
-            ValidationSupport.requireValueOrChildren(this);
+            location = Collections.unmodifiableList(builder.location);
+            expression = Collections.unmodifiableList(builder.expression);
         }
 
         /**
@@ -872,7 +883,20 @@ public class OperationOutcome extends DomainResource {
              */
             @Override
             public Issue build() {
-                return new Issue(this);
+                Issue issue = new Issue(this);
+                if (validating) {
+                    validate(issue);
+                }
+                return issue;
+            }
+
+            protected void validate(Issue issue) {
+                super.validate(issue);
+                ValidationSupport.requireNonNull(issue.severity, "severity");
+                ValidationSupport.requireNonNull(issue.code, "code");
+                ValidationSupport.checkList(issue.location, "location", String.class);
+                ValidationSupport.checkList(issue.expression, "expression", String.class);
+                ValidationSupport.requireValueOrChildren(issue);
             }
 
             protected Builder from(Issue issue) {

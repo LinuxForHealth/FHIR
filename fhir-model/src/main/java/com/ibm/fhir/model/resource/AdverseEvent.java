@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -32,6 +33,7 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdverseEventActuality;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -39,13 +41,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Actual or potential/avoided event causing unintended physical injury resulting from or contributed to by medical care, 
  * a research study or other healthcare setting factors that requires additional monitoring, treatment, or 
  * hospitalization, or that results in death.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "adverseEvent-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/adverse-event-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/adverse-event-category', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/AdverseEvent",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -55,7 +64,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventActuality",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Overall nature of the adverse event, e.g. real or potential.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-actuality|4.0.1"
     )
@@ -64,7 +73,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Overall categorization of the event, e.g. product-related or situational.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-category"
     )
@@ -72,7 +81,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detailed type of event.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-type"
     )
@@ -99,7 +108,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventSeriousness",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Overall seriousness of this event for the patient.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-seriousness"
     )
@@ -107,7 +116,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventSeverity",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The severity of the adverse event itself, in direct relation to the subject.",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-severity|4.0.1"
     )
@@ -115,7 +124,7 @@ public class AdverseEvent extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdverseEventOutcome",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "TODO (and should this be required?).",
         valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-outcome|4.0.1"
     )
@@ -138,42 +147,28 @@ public class AdverseEvent extends DomainResource {
     @ReferenceTarget({ "ResearchStudy" })
     private final List<Reference> study;
 
-    private volatile int hashCode;
-
     private AdverseEvent(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        actuality = ValidationSupport.requireNonNull(builder.actuality, "actuality");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        actuality = builder.actuality;
+        category = Collections.unmodifiableList(builder.category);
         event = builder.event;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
         date = builder.date;
         detected = builder.detected;
         recordedDate = builder.recordedDate;
-        resultingCondition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultingCondition, "resultingCondition"));
+        resultingCondition = Collections.unmodifiableList(builder.resultingCondition);
         location = builder.location;
         seriousness = builder.seriousness;
         severity = builder.severity;
         outcome = builder.outcome;
         recorder = builder.recorder;
-        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
-        suspectEntity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.suspectEntity, "suspectEntity"));
-        subjectMedicalHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subjectMedicalHistory, "subjectMedicalHistory"));
-        referenceDocument = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceDocument, "referenceDocument"));
-        study = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.study, "study"));
-        ValidationSupport.checkValueSetBinding(severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
-        ValidationSupport.checkValueSetBinding(outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(resultingCondition, "resultingCondition", "Condition");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.checkReferenceType(contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
-        ValidationSupport.checkReferenceType(subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
-        ValidationSupport.checkReferenceType(referenceDocument, "referenceDocument", "DocumentReference");
-        ValidationSupport.checkReferenceType(study, "study", "ResearchStudy");
-        ValidationSupport.requireChildren(this);
+        contributor = Collections.unmodifiableList(builder.contributor);
+        suspectEntity = Collections.unmodifiableList(builder.suspectEntity);
+        subjectMedicalHistory = Collections.unmodifiableList(builder.subjectMedicalHistory);
+        referenceDocument = Collections.unmodifiableList(builder.referenceDocument);
+        study = Collections.unmodifiableList(builder.study);
     }
 
     /**
@@ -1307,7 +1302,35 @@ public class AdverseEvent extends DomainResource {
          */
         @Override
         public AdverseEvent build() {
-            return new AdverseEvent(this);
+            AdverseEvent adverseEvent = new AdverseEvent(this);
+            if (validating) {
+                validate(adverseEvent);
+            }
+            return adverseEvent;
+        }
+
+        protected void validate(AdverseEvent adverseEvent) {
+            super.validate(adverseEvent);
+            ValidationSupport.requireNonNull(adverseEvent.actuality, "actuality");
+            ValidationSupport.checkList(adverseEvent.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(adverseEvent.subject, "subject");
+            ValidationSupport.checkList(adverseEvent.resultingCondition, "resultingCondition", Reference.class);
+            ValidationSupport.checkList(adverseEvent.contributor, "contributor", Reference.class);
+            ValidationSupport.checkList(adverseEvent.suspectEntity, "suspectEntity", SuspectEntity.class);
+            ValidationSupport.checkList(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", Reference.class);
+            ValidationSupport.checkList(adverseEvent.referenceDocument, "referenceDocument", Reference.class);
+            ValidationSupport.checkList(adverseEvent.study, "study", Reference.class);
+            ValidationSupport.checkValueSetBinding(adverseEvent.severity, "severity", "http://hl7.org/fhir/ValueSet/adverse-event-severity", "http://terminology.hl7.org/CodeSystem/adverse-event-severity", "mild", "moderate", "severe");
+            ValidationSupport.checkValueSetBinding(adverseEvent.outcome, "outcome", "http://hl7.org/fhir/ValueSet/adverse-event-outcome", "http://terminology.hl7.org/CodeSystem/adverse-event-outcome", "resolved", "recovering", "ongoing", "resolvedWithSequelae", "fatal", "unknown");
+            ValidationSupport.checkReferenceType(adverseEvent.subject, "subject", "Patient", "Group", "Practitioner", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(adverseEvent.resultingCondition, "resultingCondition", "Condition");
+            ValidationSupport.checkReferenceType(adverseEvent.location, "location", "Location");
+            ValidationSupport.checkReferenceType(adverseEvent.recorder, "recorder", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(adverseEvent.contributor, "contributor", "Practitioner", "PractitionerRole", "Device");
+            ValidationSupport.checkReferenceType(adverseEvent.subjectMedicalHistory, "subjectMedicalHistory", "Condition", "Observation", "AllergyIntolerance", "FamilyMemberHistory", "Immunization", "Procedure", "Media", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.referenceDocument, "referenceDocument", "DocumentReference");
+            ValidationSupport.checkReferenceType(adverseEvent.study, "study", "ResearchStudy");
         }
 
         protected Builder from(AdverseEvent adverseEvent) {
@@ -1347,14 +1370,10 @@ public class AdverseEvent extends DomainResource {
         @Summary
         private final List<Causality> causality;
 
-        private volatile int hashCode;
-
         private SuspectEntity(Builder builder) {
             super(builder);
-            instance = ValidationSupport.requireNonNull(builder.instance, "instance");
-            causality = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.causality, "causality"));
-            ValidationSupport.checkReferenceType(instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            instance = builder.instance;
+            causality = Collections.unmodifiableList(builder.causality);
         }
 
         /**
@@ -1630,7 +1649,19 @@ public class AdverseEvent extends DomainResource {
              */
             @Override
             public SuspectEntity build() {
-                return new SuspectEntity(this);
+                SuspectEntity suspectEntity = new SuspectEntity(this);
+                if (validating) {
+                    validate(suspectEntity);
+                }
+                return suspectEntity;
+            }
+
+            protected void validate(SuspectEntity suspectEntity) {
+                super.validate(suspectEntity);
+                ValidationSupport.requireNonNull(suspectEntity.instance, "instance");
+                ValidationSupport.checkList(suspectEntity.causality, "causality", Causality.class);
+                ValidationSupport.checkReferenceType(suspectEntity.instance, "instance", "Immunization", "Procedure", "Substance", "Medication", "MedicationAdministration", "MedicationStatement", "Device");
+                ValidationSupport.requireValueOrChildren(suspectEntity);
             }
 
             protected Builder from(SuspectEntity suspectEntity) {
@@ -1648,7 +1679,7 @@ public class AdverseEvent extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityAssessment",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Codes for the assessment of whether the entity caused the event.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-assess"
             )
@@ -1661,13 +1692,11 @@ public class AdverseEvent extends DomainResource {
             @Summary
             @Binding(
                 bindingName = "AdverseEventCausalityMethod",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "TODO.",
                 valueSet = "http://hl7.org/fhir/ValueSet/adverse-event-causality-method"
             )
             private final CodeableConcept method;
-
-            private volatile int hashCode;
 
             private Causality(Builder builder) {
                 super(builder);
@@ -1675,8 +1704,6 @@ public class AdverseEvent extends DomainResource {
                 productRelatedness = builder.productRelatedness;
                 author = builder.author;
                 method = builder.method;
-                ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -1976,7 +2003,17 @@ public class AdverseEvent extends DomainResource {
                  */
                 @Override
                 public Causality build() {
-                    return new Causality(this);
+                    Causality causality = new Causality(this);
+                    if (validating) {
+                        validate(causality);
+                    }
+                    return causality;
+                }
+
+                protected void validate(Causality causality) {
+                    super.validate(causality);
+                    ValidationSupport.checkReferenceType(causality.author, "author", "Practitioner", "PractitionerRole");
+                    ValidationSupport.requireValueOrChildren(causality);
                 }
 
                 protected Builder from(Causality causality) {

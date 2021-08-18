@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2019, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,16 +8,14 @@ package com.ibm.fhir.persistence.jdbc.search.test;
 
 import java.util.Properties;
 
-import org.testng.annotations.Test;
-
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.pool.PoolConnectionProvider;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.persistence.FHIRPersistence;
-import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 import com.ibm.fhir.persistence.jdbc.FHIRPersistenceJDBCCache;
 import com.ibm.fhir.persistence.jdbc.cache.CommonTokenValuesCacheImpl;
 import com.ibm.fhir.persistence.jdbc.cache.FHIRPersistenceJDBCCacheImpl;
+import com.ibm.fhir.persistence.jdbc.cache.IdNameCache;
 import com.ibm.fhir.persistence.jdbc.cache.NameIdCache;
 import com.ibm.fhir.persistence.jdbc.dao.api.ICommonTokenValuesCache;
 import com.ibm.fhir.persistence.jdbc.impl.FHIRPersistenceJDBCImpl;
@@ -30,7 +28,7 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
     private Properties testProps;
 
     private PoolConnectionProvider connectionPool;
-    
+
     private FHIRPersistenceJDBCCache cache;
 
     public JDBCSearchStringTest() throws Exception {
@@ -45,8 +43,8 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
             derbyInit = new DerbyInitializer(this.testProps);
             IConnectionProvider cp = derbyInit.getConnectionProvider(false);
             this.connectionPool = new PoolConnectionProvider(cp, 1);
-            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100);
-            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new NameIdCache<Integer>(), rrc);
+            ICommonTokenValuesCache rrc = new CommonTokenValuesCacheImpl(100, 100, 100);
+            cache = new FHIRPersistenceJDBCCacheImpl(new NameIdCache<Integer>(), new IdNameCache<Integer>(), new NameIdCache<Integer>(), rrc);
         }
     }
 
@@ -65,22 +63,5 @@ public class JDBCSearchStringTest extends AbstractSearchStringTest {
         if (this.connectionPool != null) {
             this.connectionPool.close();
         }
-    }
-
-
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters.
-     * https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
-    @Override
-    @Test(expectedExceptions = FHIRPersistenceNotSupportedException.class)
-    public void testSearchString_string_chained_missing() throws Exception {
-        assertSearchReturnsComposition("subject:Basic.string:missing", "false");
-        assertSearchDoesntReturnComposition("subject:Basic.string:missing", "true");
-
-        assertSearchReturnsComposition("subject:Basic.missing-string:missing", "true");
-        assertSearchDoesntReturnComposition("subject:Basic.missing-string:missing", "false");
     }
 }

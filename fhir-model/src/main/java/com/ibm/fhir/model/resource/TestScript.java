@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -43,6 +44,7 @@ import com.ibm.fhir.model.type.code.AssertionResponseTypes;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FHIRDefinedType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.TestScriptRequestMethodCode;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
@@ -50,104 +52,124 @@ import com.ibm.fhir.model.visitor.Visitor;
 /**
  * A structured set of tests against a FHIR server or client implementation to determine compliance against the FHIR 
  * specification.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "tst-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-1",
     level = "Rule",
     location = "TestScript.setup.action",
     description = "Setup action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-2",
     level = "Rule",
     location = "TestScript.test.action",
     description = "Test action SHALL contain either an operation or assert but not both.",
-    expression = "operation.exists() xor assert.exists()"
+    expression = "operation.exists() xor assert.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-3",
     level = "Rule",
     location = "TestScript.variable",
     description = "Variable can only contain one of expression, headerField or path.",
-    expression = "expression.empty() or headerField.empty() or path.empty()"
+    expression = "expression.empty() or headerField.empty() or path.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-4",
     level = "Rule",
     location = "TestScript.metadata",
     description = "TestScript metadata capability SHALL contain required or validated or both.",
-    expression = "capability.required.exists() or capability.validated.exists()"
+    expression = "capability.required.exists() or capability.validated.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-5",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Only a single assertion SHALL be present within setup action assert element.",
-    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count()  + validateProfileId.count() <=1)"
+    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count()  + validateProfileId.count() <=1)",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-6",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Only a single assertion SHALL be present within test action assert element.",
-    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count() + validateProfileId.count() <=1)"
+    expression = "extension.exists() or (contentType.count() + expression.count() + headerField.count() + minimumId.count() + navigationLinks.count() + path.count() + requestMethod.count() + resource.count() + responseCode.count() + response.count() + validateProfileId.count() <=1)",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-7",
     level = "Rule",
     location = "TestScript.setup.action.operation",
     description = "Setup operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' |'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' |'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-8",
     level = "Rule",
     location = "TestScript.test.action.operation",
     description = "Test operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-9",
     level = "Rule",
     location = "TestScript.teardown.action.operation",
     description = "Teardown operation SHALL contain either sourceId or targetId or params or url.",
-    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))"
+    expression = "sourceId.exists() or (targetId.count() + url.count() + params.count() = 1) or (type.code in ('capabilities' | 'search' | 'transaction' | 'history'))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-10",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Setup action assert SHALL contain either compareToSourceId and compareToSourceExpression, compareToSourceId and compareToSourcePath or neither.",
-    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())"
+    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-11",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Test action assert SHALL contain either compareToSourceId and compareToSourceExpression, compareToSourceId and compareToSourcePath or neither.",
-    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())"
+    expression = "compareToSourceId.empty() xor (compareToSourceExpression.exists() or compareToSourcePath.exists())",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-12",
     level = "Rule",
     location = "TestScript.setup.action.assert",
     description = "Setup action assert response and responseCode SHALL be empty when direction equals request",
-    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'"
+    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "tst-13",
     level = "Rule",
     location = "TestScript.test.action.assert",
     description = "Test action assert response and response and responseCode SHALL be empty when direction equals request",
-    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'"
+    expression = "(response.empty() and responseCode.empty() and direction = 'request') or direction.empty() or direction = 'response'",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript"
 )
 @Constraint(
     id = "testScript-14",
@@ -155,6 +177,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -163,6 +186,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "origin.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-origin-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-origin-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -171,6 +195,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "destination.profile",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-profile-destination-types",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-profile-destination-types', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Constraint(
@@ -179,6 +204,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "setup.action.operation.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/testscript-operation-codes",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/testscript-operation-codes', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/TestScript",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -198,7 +224,7 @@ public class TestScript extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -218,7 +244,7 @@ public class TestScript extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -235,35 +261,32 @@ public class TestScript extends DomainResource {
     private final List<Test> test;
     private final Teardown teardown;
 
-    private volatile int hashCode;
-
     private TestScript(Builder builder) {
         super(builder);
-        url = ValidationSupport.requireNonNull(builder.url, "url");
+        url = builder.url;
         identifier = builder.identifier;
         version = builder.version;
-        name = ValidationSupport.requireNonNull(builder.name, "name");
+        name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
-        origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
-        destination = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.destination, "destination"));
+        origin = Collections.unmodifiableList(builder.origin);
+        destination = Collections.unmodifiableList(builder.destination);
         metadata = builder.metadata;
-        fixture = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.fixture, "fixture"));
-        profile = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.profile, "profile"));
-        variable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.variable, "variable"));
+        fixture = Collections.unmodifiableList(builder.fixture);
+        profile = Collections.unmodifiableList(builder.profile);
+        variable = Collections.unmodifiableList(builder.variable);
         setup = builder.setup;
-        test = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.test, "test"));
+        test = Collections.unmodifiableList(builder.test);
         teardown = builder.teardown;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1470,7 +1493,27 @@ public class TestScript extends DomainResource {
          */
         @Override
         public TestScript build() {
-            return new TestScript(this);
+            TestScript testScript = new TestScript(this);
+            if (validating) {
+                validate(testScript);
+            }
+            return testScript;
+        }
+
+        protected void validate(TestScript testScript) {
+            super.validate(testScript);
+            ValidationSupport.requireNonNull(testScript.url, "url");
+            ValidationSupport.requireNonNull(testScript.name, "name");
+            ValidationSupport.requireNonNull(testScript.status, "status");
+            ValidationSupport.checkList(testScript.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(testScript.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(testScript.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(testScript.origin, "origin", Origin.class);
+            ValidationSupport.checkList(testScript.destination, "destination", Destination.class);
+            ValidationSupport.checkList(testScript.fixture, "fixture", Fixture.class);
+            ValidationSupport.checkList(testScript.profile, "profile", Reference.class);
+            ValidationSupport.checkList(testScript.variable, "variable", Variable.class);
+            ValidationSupport.checkList(testScript.test, "test", Test.class);
         }
 
         protected Builder from(TestScript testScript) {
@@ -1511,20 +1554,17 @@ public class TestScript extends DomainResource {
         private final Integer index;
         @Binding(
             bindingName = "TestScriptProfileOriginType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of origin profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-origin-types"
         )
         @Required
         private final Coding profile;
 
-        private volatile int hashCode;
-
         private Origin(Builder builder) {
             super(builder);
-            index = ValidationSupport.requireNonNull(builder.index, "index");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            index = builder.index;
+            profile = builder.profile;
         }
 
         /**
@@ -1770,7 +1810,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Origin build() {
-                return new Origin(this);
+                Origin origin = new Origin(this);
+                if (validating) {
+                    validate(origin);
+                }
+                return origin;
+            }
+
+            protected void validate(Origin origin) {
+                super.validate(origin);
+                ValidationSupport.requireNonNull(origin.index, "index");
+                ValidationSupport.requireNonNull(origin.profile, "profile");
+                ValidationSupport.requireValueOrChildren(origin);
             }
 
             protected Builder from(Origin origin) {
@@ -1790,20 +1841,17 @@ public class TestScript extends DomainResource {
         private final Integer index;
         @Binding(
             bindingName = "TestScriptProfileDestinationType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of destination profile the test system supports.",
             valueSet = "http://hl7.org/fhir/ValueSet/testscript-profile-destination-types"
         )
         @Required
         private final Coding profile;
 
-        private volatile int hashCode;
-
         private Destination(Builder builder) {
             super(builder);
-            index = ValidationSupport.requireNonNull(builder.index, "index");
-            profile = ValidationSupport.requireNonNull(builder.profile, "profile");
-            ValidationSupport.requireValueOrChildren(this);
+            index = builder.index;
+            profile = builder.profile;
         }
 
         /**
@@ -2049,7 +2097,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Destination build() {
-                return new Destination(this);
+                Destination destination = new Destination(this);
+                if (validating) {
+                    validate(destination);
+                }
+                return destination;
+            }
+
+            protected void validate(Destination destination) {
+                super.validate(destination);
+                ValidationSupport.requireNonNull(destination.index, "index");
+                ValidationSupport.requireNonNull(destination.profile, "profile");
+                ValidationSupport.requireValueOrChildren(destination);
             }
 
             protected Builder from(Destination destination) {
@@ -2069,13 +2128,10 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Capability> capability;
 
-        private volatile int hashCode;
-
         private Metadata(Builder builder) {
             super(builder);
-            link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-            capability = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.capability, "capability"));
-            ValidationSupport.requireValueOrChildren(this);
+            link = Collections.unmodifiableList(builder.link);
+            capability = Collections.unmodifiableList(builder.capability);
         }
 
         /**
@@ -2360,7 +2416,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Metadata build() {
-                return new Metadata(this);
+                Metadata metadata = new Metadata(this);
+                if (validating) {
+                    validate(metadata);
+                }
+                return metadata;
+            }
+
+            protected void validate(Metadata metadata) {
+                super.validate(metadata);
+                ValidationSupport.checkList(metadata.link, "link", Link.class);
+                ValidationSupport.checkNonEmptyList(metadata.capability, "capability", Capability.class);
+                ValidationSupport.requireValueOrChildren(metadata);
             }
 
             protected Builder from(Metadata metadata) {
@@ -2379,13 +2446,10 @@ public class TestScript extends DomainResource {
             private final Uri url;
             private final String description;
 
-            private volatile int hashCode;
-
             private Link(Builder builder) {
                 super(builder);
-                url = ValidationSupport.requireNonNull(builder.url, "url");
+                url = builder.url;
                 description = builder.description;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2628,7 +2692,17 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Link build() {
-                    return new Link(this);
+                    Link link = new Link(this);
+                    if (validating) {
+                        validate(link);
+                    }
+                    return link;
+                }
+
+                protected void validate(Link link) {
+                    super.validate(link);
+                    ValidationSupport.requireNonNull(link.url, "url");
+                    ValidationSupport.requireValueOrChildren(link);
                 }
 
                 protected Builder from(Link link) {
@@ -2655,18 +2729,15 @@ public class TestScript extends DomainResource {
             @Required
             private final Canonical capabilities;
 
-            private volatile int hashCode;
-
             private Capability(Builder builder) {
                 super(builder);
-                required = ValidationSupport.requireNonNull(builder.required, "required");
-                validated = ValidationSupport.requireNonNull(builder.validated, "validated");
+                required = builder.required;
+                validated = builder.validated;
                 description = builder.description;
-                origin = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.origin, "origin"));
+                origin = Collections.unmodifiableList(builder.origin);
                 destination = builder.destination;
-                link = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.link, "link"));
-                capabilities = ValidationSupport.requireNonNull(builder.capabilities, "capabilities");
-                ValidationSupport.requireValueOrChildren(this);
+                link = Collections.unmodifiableList(builder.link);
+                capabilities = builder.capabilities;
             }
 
             /**
@@ -3106,7 +3177,21 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Capability build() {
-                    return new Capability(this);
+                    Capability capability = new Capability(this);
+                    if (validating) {
+                        validate(capability);
+                    }
+                    return capability;
+                }
+
+                protected void validate(Capability capability) {
+                    super.validate(capability);
+                    ValidationSupport.requireNonNull(capability.required, "required");
+                    ValidationSupport.requireNonNull(capability.validated, "validated");
+                    ValidationSupport.checkList(capability.origin, "origin", Integer.class);
+                    ValidationSupport.checkList(capability.link, "link", Uri.class);
+                    ValidationSupport.requireNonNull(capability.capabilities, "capabilities");
+                    ValidationSupport.requireValueOrChildren(capability);
                 }
 
                 protected Builder from(Capability capability) {
@@ -3134,14 +3219,11 @@ public class TestScript extends DomainResource {
         private final Boolean autodelete;
         private final Reference resource;
 
-        private volatile int hashCode;
-
         private Fixture(Builder builder) {
             super(builder);
-            autocreate = ValidationSupport.requireNonNull(builder.autocreate, "autocreate");
-            autodelete = ValidationSupport.requireNonNull(builder.autodelete, "autodelete");
+            autocreate = builder.autocreate;
+            autodelete = builder.autodelete;
             resource = builder.resource;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3424,7 +3506,18 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Fixture build() {
-                return new Fixture(this);
+                Fixture fixture = new Fixture(this);
+                if (validating) {
+                    validate(fixture);
+                }
+                return fixture;
+            }
+
+            protected void validate(Fixture fixture) {
+                super.validate(fixture);
+                ValidationSupport.requireNonNull(fixture.autocreate, "autocreate");
+                ValidationSupport.requireNonNull(fixture.autodelete, "autodelete");
+                ValidationSupport.requireValueOrChildren(fixture);
             }
 
             protected Builder from(Fixture fixture) {
@@ -3451,11 +3544,9 @@ public class TestScript extends DomainResource {
         private final String path;
         private final Id sourceId;
 
-        private volatile int hashCode;
-
         private Variable(Builder builder) {
             super(builder);
-            name = ValidationSupport.requireNonNull(builder.name, "name");
+            name = builder.name;
             defaultValue = builder.defaultValue;
             description = builder.description;
             expression = builder.expression;
@@ -3463,7 +3554,6 @@ public class TestScript extends DomainResource {
             hint = builder.hint;
             path = builder.path;
             sourceId = builder.sourceId;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3884,7 +3974,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Variable build() {
-                return new Variable(this);
+                Variable variable = new Variable(this);
+                if (validating) {
+                    validate(variable);
+                }
+                return variable;
+            }
+
+            protected void validate(Variable variable) {
+                super.validate(variable);
+                ValidationSupport.requireNonNull(variable.name, "name");
+                ValidationSupport.requireValueOrChildren(variable);
             }
 
             protected Builder from(Variable variable) {
@@ -3909,12 +4009,9 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Setup(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -4150,7 +4247,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Setup build() {
-                return new Setup(this);
+                Setup setup = new Setup(this);
+                if (validating) {
+                    validate(setup);
+                }
+                return setup;
+            }
+
+            protected void validate(Setup setup) {
+                super.validate(setup);
+                ValidationSupport.checkNonEmptyList(setup.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(setup);
             }
 
             protected Builder from(Setup setup) {
@@ -4167,13 +4274,10 @@ public class TestScript extends DomainResource {
             private final Operation operation;
             private final Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -4409,7 +4513,16 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -4426,14 +4539,14 @@ public class TestScript extends DomainResource {
             public static class Operation extends BackboneElement {
                 @Binding(
                     bindingName = "TestScriptOperationCode",
-                    strength = BindingStrength.ValueSet.EXTENSIBLE,
+                    strength = BindingStrength.Value.EXTENSIBLE,
                     description = "The allowable operation code types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/testscript-operation-codes"
                 )
                 private final Coding type;
                 @Binding(
                     bindingName = "FHIRDefinedType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
                 )
@@ -4442,14 +4555,14 @@ public class TestScript extends DomainResource {
                 private final String description;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
                 private final Code accept;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
@@ -4459,7 +4572,7 @@ public class TestScript extends DomainResource {
                 private final Boolean encodeRequestUrl;
                 @Binding(
                     bindingName = "TestScriptRequestMethodCode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
                 )
@@ -4473,8 +4586,6 @@ public class TestScript extends DomainResource {
                 private final Id targetId;
                 private final String url;
 
-                private volatile int hashCode;
-
                 private Operation(Builder builder) {
                     super(builder);
                     type = builder.type;
@@ -4484,17 +4595,16 @@ public class TestScript extends DomainResource {
                     accept = builder.accept;
                     contentType = builder.contentType;
                     destination = builder.destination;
-                    encodeRequestUrl = ValidationSupport.requireNonNull(builder.encodeRequestUrl, "encodeRequestUrl");
+                    encodeRequestUrl = builder.encodeRequestUrl;
                     method = builder.method;
                     origin = builder.origin;
                     params = builder.params;
-                    requestHeader = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestHeader, "requestHeader"));
+                    requestHeader = Collections.unmodifiableList(builder.requestHeader);
                     requestId = builder.requestId;
                     responseId = builder.responseId;
                     sourceId = builder.sourceId;
                     targetId = builder.targetId;
                     url = builder.url;
-                    ValidationSupport.requireValueOrChildren(this);
                 }
 
                 /**
@@ -5198,7 +5308,18 @@ public class TestScript extends DomainResource {
                      */
                     @Override
                     public Operation build() {
-                        return new Operation(this);
+                        Operation operation = new Operation(this);
+                        if (validating) {
+                            validate(operation);
+                        }
+                        return operation;
+                    }
+
+                    protected void validate(Operation operation) {
+                        super.validate(operation);
+                        ValidationSupport.requireNonNull(operation.encodeRequestUrl, "encodeRequestUrl");
+                        ValidationSupport.checkList(operation.requestHeader, "requestHeader", RequestHeader.class);
+                        ValidationSupport.requireValueOrChildren(operation);
                     }
 
                     protected Builder from(Operation operation) {
@@ -5233,13 +5354,10 @@ public class TestScript extends DomainResource {
                     @Required
                     private final String value;
 
-                    private volatile int hashCode;
-
                     private RequestHeader(Builder builder) {
                         super(builder);
-                        field = ValidationSupport.requireNonNull(builder.field, "field");
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.requireValueOrChildren(this);
+                        field = builder.field;
+                        value = builder.value;
                     }
 
                     /**
@@ -5485,7 +5603,18 @@ public class TestScript extends DomainResource {
                          */
                         @Override
                         public RequestHeader build() {
-                            return new RequestHeader(this);
+                            RequestHeader requestHeader = new RequestHeader(this);
+                            if (validating) {
+                                validate(requestHeader);
+                            }
+                            return requestHeader;
+                        }
+
+                        protected void validate(RequestHeader requestHeader) {
+                            super.validate(requestHeader);
+                            ValidationSupport.requireNonNull(requestHeader.field, "field");
+                            ValidationSupport.requireNonNull(requestHeader.value, "value");
+                            ValidationSupport.requireValueOrChildren(requestHeader);
                         }
 
                         protected Builder from(RequestHeader requestHeader) {
@@ -5506,7 +5635,7 @@ public class TestScript extends DomainResource {
                 private final String description;
                 @Binding(
                     bindingName = "AssertionDirectionType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The type of direction to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-direction-codes|4.0.1"
                 )
@@ -5516,7 +5645,7 @@ public class TestScript extends DomainResource {
                 private final String compareToSourcePath;
                 @Binding(
                     bindingName = "MimeType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The mime type of an attachment. Any valid mime type is allowed.",
                     valueSet = "http://hl7.org/fhir/ValueSet/mimetypes|4.0.1"
                 )
@@ -5527,7 +5656,7 @@ public class TestScript extends DomainResource {
                 private final Boolean navigationLinks;
                 @Binding(
                     bindingName = "AssertionOperatorType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The type of operator to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-operator-codes|4.0.1"
                 )
@@ -5535,7 +5664,7 @@ public class TestScript extends DomainResource {
                 private final String path;
                 @Binding(
                     bindingName = "TestScriptRequestMethodCode",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The allowable request method or HTTP operation codes.",
                     valueSet = "http://hl7.org/fhir/ValueSet/http-operations|4.0.1"
                 )
@@ -5543,14 +5672,14 @@ public class TestScript extends DomainResource {
                 private final String requestURL;
                 @Binding(
                     bindingName = "FHIRDefinedType",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "A list of all the concrete types defined in this version of the FHIR specification - Data Types and Resource Types.",
                     valueSet = "http://hl7.org/fhir/ValueSet/defined-types|4.0.1"
                 )
                 private final FHIRDefinedType resource;
                 @Binding(
                     bindingName = "AssertionResponseTypes",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The type of response code to use for assertion.",
                     valueSet = "http://hl7.org/fhir/ValueSet/assert-response-code-types|4.0.1"
                 )
@@ -5561,8 +5690,6 @@ public class TestScript extends DomainResource {
                 private final String value;
                 @Required
                 private final Boolean warningOnly;
-
-                private volatile int hashCode;
 
                 private Assert(Builder builder) {
                     super(builder);
@@ -5587,8 +5714,7 @@ public class TestScript extends DomainResource {
                     sourceId = builder.sourceId;
                     validateProfileId = builder.validateProfileId;
                     value = builder.value;
-                    warningOnly = ValidationSupport.requireNonNull(builder.warningOnly, "warningOnly");
-                    ValidationSupport.requireValueOrChildren(this);
+                    warningOnly = builder.warningOnly;
                 }
 
                 /**
@@ -6420,7 +6546,17 @@ public class TestScript extends DomainResource {
                      */
                     @Override
                     public Assert build() {
-                        return new Assert(this);
+                        Assert _assert = new Assert(this);
+                        if (validating) {
+                            validate(_assert);
+                        }
+                        return _assert;
+                    }
+
+                    protected void validate(Assert _assert) {
+                        super.validate(_assert);
+                        ValidationSupport.requireNonNull(_assert.warningOnly, "warningOnly");
+                        ValidationSupport.requireValueOrChildren(_assert);
                     }
 
                     protected Builder from(Assert _assert) {
@@ -6463,14 +6599,11 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Test(Builder builder) {
             super(builder);
             name = builder.name;
             description = builder.description;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -6764,7 +6897,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Test build() {
-                return new Test(this);
+                Test test = new Test(this);
+                if (validating) {
+                    validate(test);
+                }
+                return test;
+            }
+
+            protected void validate(Test test) {
+                super.validate(test);
+                ValidationSupport.checkNonEmptyList(test.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(test);
             }
 
             protected Builder from(Test test) {
@@ -6783,13 +6926,10 @@ public class TestScript extends DomainResource {
             private final TestScript.Setup.Action.Operation operation;
             private final TestScript.Setup.Action.Assert _assert;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
                 operation = builder.operation;
                 _assert = builder._assert;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -7025,7 +7165,16 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {
@@ -7045,12 +7194,9 @@ public class TestScript extends DomainResource {
         @Required
         private final List<Action> action;
 
-        private volatile int hashCode;
-
         private Teardown(Builder builder) {
             super(builder);
-            action = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.action, "action"));
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -7286,7 +7432,17 @@ public class TestScript extends DomainResource {
              */
             @Override
             public Teardown build() {
-                return new Teardown(this);
+                Teardown teardown = new Teardown(this);
+                if (validating) {
+                    validate(teardown);
+                }
+                return teardown;
+            }
+
+            protected void validate(Teardown teardown) {
+                super.validate(teardown);
+                ValidationSupport.checkNonEmptyList(teardown.action, "action", Action.class);
+                ValidationSupport.requireValueOrChildren(teardown);
             }
 
             protected Builder from(Teardown teardown) {
@@ -7303,12 +7459,9 @@ public class TestScript extends DomainResource {
             @Required
             private final TestScript.Setup.Action.Operation operation;
 
-            private volatile int hashCode;
-
             private Action(Builder builder) {
                 super(builder);
-                operation = ValidationSupport.requireNonNull(builder.operation, "operation");
-                ValidationSupport.requireValueOrChildren(this);
+                operation = builder.operation;
             }
 
             /**
@@ -7522,7 +7675,17 @@ public class TestScript extends DomainResource {
                  */
                 @Override
                 public Action build() {
-                    return new Action(this);
+                    Action action = new Action(this);
+                    if (validating) {
+                        validate(action);
+                    }
+                    return action;
+                }
+
+                protected void validate(Action action) {
+                    super.validate(action);
+                    ValidationSupport.requireNonNull(action.operation, "operation");
+                    ValidationSupport.requireValueOrChildren(action);
                 }
 
                 protected Builder from(Action action) {

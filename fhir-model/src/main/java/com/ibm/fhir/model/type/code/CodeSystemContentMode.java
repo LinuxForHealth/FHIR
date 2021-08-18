@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,7 +24,7 @@ public class CodeSystemContentMode extends Code {
      * 
      * <p>None of the concepts defined by the code system are included in the code system resource.
      */
-    public static final CodeSystemContentMode NOT_PRESENT = CodeSystemContentMode.builder().value(ValueSet.NOT_PRESENT).build();
+    public static final CodeSystemContentMode NOT_PRESENT = CodeSystemContentMode.builder().value(Value.NOT_PRESENT).build();
 
     /**
      * Example
@@ -32,7 +32,7 @@ public class CodeSystemContentMode extends Code {
      * <p>A few representative concepts are included in the code system resource. There is no useful intent in the subset 
      * choice and there's no process to make it workable: it's not intended to be workable.
      */
-    public static final CodeSystemContentMode EXAMPLE = CodeSystemContentMode.builder().value(ValueSet.EXAMPLE).build();
+    public static final CodeSystemContentMode EXAMPLE = CodeSystemContentMode.builder().value(Value.EXAMPLE).build();
 
     /**
      * Fragment
@@ -42,14 +42,14 @@ public class CodeSystemContentMode extends Code {
      * of the fragmentation are clearly defined in the fragment or the code system documentation. Fragments are also known as 
      * partitions.
      */
-    public static final CodeSystemContentMode FRAGMENT = CodeSystemContentMode.builder().value(ValueSet.FRAGMENT).build();
+    public static final CodeSystemContentMode FRAGMENT = CodeSystemContentMode.builder().value(Value.FRAGMENT).build();
 
     /**
      * Complete
      * 
      * <p>All the concepts defined by the code system are included in the code system resource.
      */
-    public static final CodeSystemContentMode COMPLETE = CodeSystemContentMode.builder().value(ValueSet.COMPLETE).build();
+    public static final CodeSystemContentMode COMPLETE = CodeSystemContentMode.builder().value(Value.COMPLETE).build();
 
     /**
      * Supplement
@@ -57,7 +57,7 @@ public class CodeSystemContentMode extends Code {
      * <p>The resource doesn't define any new concepts; it just provides additional designations and properties to another 
      * code system.
      */
-    public static final CodeSystemContentMode SUPPLEMENT = CodeSystemContentMode.builder().value(ValueSet.SUPPLEMENT).build();
+    public static final CodeSystemContentMode SUPPLEMENT = CodeSystemContentMode.builder().value(Value.SUPPLEMENT).build();
 
     private volatile int hashCode;
 
@@ -65,14 +65,48 @@ public class CodeSystemContentMode extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this CodeSystemContentMode as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this CodeSystemContentMode as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating CodeSystemContentMode objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static CodeSystemContentMode of(ValueSet value) {
+        switch (value) {
+        case NOT_PRESENT:
+            return NOT_PRESENT;
+        case EXAMPLE:
+            return EXAMPLE;
+        case FRAGMENT:
+            return FRAGMENT;
+        case COMPLETE:
+            return COMPLETE;
+        case SUPPLEMENT:
+            return SUPPLEMENT;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating CodeSystemContentMode objects from a passed enum value.
      */
-    public static CodeSystemContentMode of(ValueSet value) {
+    public static CodeSystemContentMode of(Value value) {
         switch (value) {
         case NOT_PRESENT:
             return NOT_PRESENT;
@@ -98,7 +132,7 @@ public class CodeSystemContentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static CodeSystemContentMode of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +144,7 @@ public class CodeSystemContentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -122,7 +156,7 @@ public class CodeSystemContentMode extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -151,11 +185,7 @@ public class CodeSystemContentMode extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -184,19 +214,50 @@ public class CodeSystemContentMode extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for CodeSystemContentMode
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public CodeSystemContentMode build() {
-            return new CodeSystemContentMode(this);
+            CodeSystemContentMode codeSystemContentMode = new CodeSystemContentMode(this);
+            if (validating) {
+                validate(codeSystemContentMode);
+            }
+            return codeSystemContentMode;
+        }
+
+        protected void validate(CodeSystemContentMode codeSystemContentMode) {
+            super.validate(codeSystemContentMode);
+        }
+
+        protected Builder from(CodeSystemContentMode codeSystemContentMode) {
+            super.from(codeSystemContentMode);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Not Present
@@ -253,7 +314,7 @@ public class CodeSystemContentMode extends Code {
         }
 
         /**
-         * Factory method for creating CodeSystemContentMode.ValueSet values from a passed string value.
+         * Factory method for creating CodeSystemContentMode.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -267,6 +328,92 @@ public class CodeSystemContentMode extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Not Present
+         * 
+         * <p>None of the concepts defined by the code system are included in the code system resource.
+         */
+        NOT_PRESENT("not-present"),
+
+        /**
+         * Example
+         * 
+         * <p>A few representative concepts are included in the code system resource. There is no useful intent in the subset 
+         * choice and there's no process to make it workable: it's not intended to be workable.
+         */
+        EXAMPLE("example"),
+
+        /**
+         * Fragment
+         * 
+         * <p>A subset of the code system concepts are included in the code system resource. This is a curated subset released 
+         * for a specific purpose under the governance of the code system steward, and that the intent, bounds and consequences 
+         * of the fragmentation are clearly defined in the fragment or the code system documentation. Fragments are also known as 
+         * partitions.
+         */
+        FRAGMENT("fragment"),
+
+        /**
+         * Complete
+         * 
+         * <p>All the concepts defined by the code system are included in the code system resource.
+         */
+        COMPLETE("complete"),
+
+        /**
+         * Supplement
+         * 
+         * <p>The resource doesn't define any new concepts; it just provides additional designations and properties to another 
+         * code system.
+         */
+        SUPPLEMENT("supplement");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating CodeSystemContentMode.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding CodeSystemContentMode.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "not-present":
+                return NOT_PRESENT;
+            case "example":
+                return EXAMPLE;
+            case "fragment":
+                return FRAGMENT;
+            case "complete":
+                return COMPLETE;
+            case "supplement":
+                return SUPPLEMENT;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

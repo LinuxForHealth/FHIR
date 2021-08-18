@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,21 +24,21 @@ public class SlotStatus extends Code {
      * 
      * <p>Indicates that the time interval is busy because one or more events have been scheduled for that interval.
      */
-    public static final SlotStatus BUSY = SlotStatus.builder().value(ValueSet.BUSY).build();
+    public static final SlotStatus BUSY = SlotStatus.builder().value(Value.BUSY).build();
 
     /**
      * Free
      * 
      * <p>Indicates that the time interval is free for scheduling.
      */
-    public static final SlotStatus FREE = SlotStatus.builder().value(ValueSet.FREE).build();
+    public static final SlotStatus FREE = SlotStatus.builder().value(Value.FREE).build();
 
     /**
      * Busy (Unavailable)
      * 
      * <p>Indicates that the time interval is busy and that the interval cannot be scheduled.
      */
-    public static final SlotStatus BUSY_UNAVAILABLE = SlotStatus.builder().value(ValueSet.BUSY_UNAVAILABLE).build();
+    public static final SlotStatus BUSY_UNAVAILABLE = SlotStatus.builder().value(Value.BUSY_UNAVAILABLE).build();
 
     /**
      * Busy (Tentative)
@@ -46,14 +46,14 @@ public class SlotStatus extends Code {
      * <p>Indicates that the time interval is busy because one or more events have been tentatively scheduled for that 
      * interval.
      */
-    public static final SlotStatus BUSY_TENTATIVE = SlotStatus.builder().value(ValueSet.BUSY_TENTATIVE).build();
+    public static final SlotStatus BUSY_TENTATIVE = SlotStatus.builder().value(Value.BUSY_TENTATIVE).build();
 
     /**
      * Entered in error
      * 
      * <p>This instance should not have been part of this patient's medical record.
      */
-    public static final SlotStatus ENTERED_IN_ERROR = SlotStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final SlotStatus ENTERED_IN_ERROR = SlotStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -61,14 +61,48 @@ public class SlotStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this SlotStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this SlotStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating SlotStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static SlotStatus of(ValueSet value) {
+        switch (value) {
+        case BUSY:
+            return BUSY;
+        case FREE:
+            return FREE;
+        case BUSY_UNAVAILABLE:
+            return BUSY_UNAVAILABLE;
+        case BUSY_TENTATIVE:
+            return BUSY_TENTATIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating SlotStatus objects from a passed enum value.
      */
-    public static SlotStatus of(ValueSet value) {
+    public static SlotStatus of(Value value) {
         switch (value) {
         case BUSY:
             return BUSY;
@@ -94,7 +128,7 @@ public class SlotStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static SlotStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -106,7 +140,7 @@ public class SlotStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -118,7 +152,7 @@ public class SlotStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -147,11 +181,7 @@ public class SlotStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -180,19 +210,50 @@ public class SlotStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for SlotStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public SlotStatus build() {
-            return new SlotStatus(this);
+            SlotStatus slotStatus = new SlotStatus(this);
+            if (validating) {
+                validate(slotStatus);
+            }
+            return slotStatus;
+        }
+
+        protected void validate(SlotStatus slotStatus) {
+            super.validate(slotStatus);
+        }
+
+        protected Builder from(SlotStatus slotStatus) {
+            super.from(slotStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Busy
@@ -245,7 +306,7 @@ public class SlotStatus extends Code {
         }
 
         /**
-         * Factory method for creating SlotStatus.ValueSet values from a passed string value.
+         * Factory method for creating SlotStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -259,6 +320,88 @@ public class SlotStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Busy
+         * 
+         * <p>Indicates that the time interval is busy because one or more events have been scheduled for that interval.
+         */
+        BUSY("busy"),
+
+        /**
+         * Free
+         * 
+         * <p>Indicates that the time interval is free for scheduling.
+         */
+        FREE("free"),
+
+        /**
+         * Busy (Unavailable)
+         * 
+         * <p>Indicates that the time interval is busy and that the interval cannot be scheduled.
+         */
+        BUSY_UNAVAILABLE("busy-unavailable"),
+
+        /**
+         * Busy (Tentative)
+         * 
+         * <p>Indicates that the time interval is busy because one or more events have been tentatively scheduled for that 
+         * interval.
+         */
+        BUSY_TENTATIVE("busy-tentative"),
+
+        /**
+         * Entered in error
+         * 
+         * <p>This instance should not have been part of this patient's medical record.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating SlotStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding SlotStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "busy":
+                return BUSY;
+            case "free":
+                return FREE;
+            case "busy-unavailable":
+                return BUSY_UNAVAILABLE;
+            case "busy-tentative":
+                return BUSY_TENTATIVE;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

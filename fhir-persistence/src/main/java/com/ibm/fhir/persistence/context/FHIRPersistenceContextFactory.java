@@ -1,11 +1,16 @@
 /*
- * (C) Copyright IBM Corp. 2016,2019
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.persistence.context;
 
+import java.util.logging.Logger;
+
+import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.config.FHIRConfiguration;
+import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.persistence.context.impl.FHIRHistoryContextImpl;
 import com.ibm.fhir.persistence.context.impl.FHIRPersistenceContextImpl;
 import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
@@ -15,13 +20,12 @@ import com.ibm.fhir.search.context.FHIRSearchContext;
  * This is a factory used to create instances of the FHIRPersistenceContext interface.
  */
 public class FHIRPersistenceContextFactory {
+    private static Logger log = Logger.getLogger(FHIRPersistenceContextFactory.class.getName());
 
-    /**
-     * Hide the default ctor.
-     */
     private FHIRPersistenceContextFactory() {
+        // No Operation
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -29,7 +33,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event) {
         return new FHIRPersistenceContextImpl(event);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent instance.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -38,7 +42,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, boolean includeDeleted) {
         return new FHIRPersistenceContextImpl(event, includeDeleted);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRHistoryContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -47,7 +51,7 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRHistoryContext historyContext) {
         return new FHIRPersistenceContextImpl(event, historyContext);
     }
-    
+
     /**
      * Returns a FHIRPersistenceContext that contains a FHIRPersistenceEvent and a FHIRSearchContext.
      * @param event the FHIRPersistenceEvent instance to be contained in the FHIRPersistenceContext instance
@@ -56,12 +60,25 @@ public class FHIRPersistenceContextFactory {
     public static FHIRPersistenceContext createPersistenceContext(FHIRPersistenceEvent event, FHIRSearchContext searchContext) {
         return new FHIRPersistenceContextImpl(event, searchContext);
     }
-    
+
     /**
      * Returns a FHIRHistoryContext instance with default values.
      */
     public static FHIRHistoryContext createHistoryContext() {
-        return new FHIRHistoryContextImpl();
+        int maxPageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT_MAX);
+        int pageSize = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, FHIRConstants.FHIR_PAGE_SIZE_DEFAULT);
+        if (pageSize > maxPageSize) {
+            log.warning(String.format("Server configuration %s = %d exceeds maximum allowed page size %d; using %d",
+                FHIRConfiguration.PROPERTY_DEFAULT_PAGE_SIZE, pageSize, maxPageSize, maxPageSize));
+            pageSize = maxPageSize;
+        }
+        int maxPageIncludeCount = FHIRConfigHelper.getIntProperty(FHIRConfiguration.PROPERTY_MAX_PAGE_INCLUDE_COUNT, FHIRConstants.FHIR_PAGE_INCLUDE_COUNT_DEFAULT_MAX);
+
+        FHIRHistoryContext ctx = new FHIRHistoryContextImpl();
+        ctx.setPageSize(pageSize);
+        ctx.setMaxPageSize(maxPageSize);
+        ctx.setMaxPageIncludeCount(maxPageIncludeCount);
+        return ctx;
     }
 
     /**

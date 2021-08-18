@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -39,6 +40,7 @@ import com.ibm.fhir.model.type.code.CompositionStatus;
 import com.ibm.fhir.model.type.code.DocumentConfidentiality;
 import com.ibm.fhir.model.type.code.DocumentRelationshipType;
 import com.ibm.fhir.model.type.code.SectionMode;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,20 +51,28 @@ import com.ibm.fhir.model.visitor.Visitor;
  * a Composition alone does not constitute a document. Rather, the Composition must be the first entry in a Bundle where 
  * Bundle.type=document, and any other resources referenced from Composition must be included as subsequent entries in 
  * the Bundle (for example Patient, Practitioner, Encounter, etc.).
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "cmp-1",
     level = "Rule",
     location = "Composition.section",
     description = "A section must contain at least one of text, entries, or sub-sections",
-    expression = "text.exists() or entry.exists() or section.exists()"
+    expression = "text.exists() or entry.exists() or section.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition"
 )
 @Constraint(
     id = "cmp-2",
     level = "Rule",
     location = "Composition.section",
     description = "A section can only have an emptyReason if it is empty",
-    expression = "emptyReason.empty() or entry.empty()"
+    expression = "emptyReason.empty() or entry.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition"
 )
 @Constraint(
     id = "composition-3",
@@ -70,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/doc-typecodes",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/doc-typecodes', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Constraint(
@@ -78,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "section.orderedBy",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-order",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-order', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Constraint(
@@ -86,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "section.emptyReason",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/list-empty-reason",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/list-empty-reason', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Composition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -95,7 +108,7 @@ public class Composition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CompositionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The workflow/clinical status of the composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/composition-status|4.0.1"
     )
@@ -104,7 +117,7 @@ public class Composition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentType",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Type of a composition.",
         valueSet = "http://hl7.org/fhir/ValueSet/doc-typecodes"
     )
@@ -113,7 +126,7 @@ public class Composition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level kind of a clinical document at a macro level.",
         valueSet = "http://hl7.org/fhir/ValueSet/document-classcodes"
     )
@@ -136,7 +149,7 @@ public class Composition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DocumentConfidentiality",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes specifying the level of confidentiality of the composition.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ConfidentialityClassification|2014-03-26"
     )
@@ -150,29 +163,23 @@ public class Composition extends DomainResource {
     private final List<Event> event;
     private final List<Section> section;
 
-    private volatile int hashCode;
-
     private Composition(Builder builder) {
         super(builder);
         identifier = builder.identifier;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        status = builder.status;
+        type = builder.type;
+        category = Collections.unmodifiableList(builder.category);
         subject = builder.subject;
         encounter = builder.encounter;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
-        author = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.author, "author"));
-        title = ValidationSupport.requireNonNull(builder.title, "title");
+        date = builder.date;
+        author = Collections.unmodifiableList(builder.author);
+        title = builder.title;
         confidentiality = builder.confidentiality;
-        attester = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.attester, "attester"));
+        attester = Collections.unmodifiableList(builder.attester);
         custodian = builder.custodian;
-        relatesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatesTo, "relatesTo"));
-        event = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.event, "event"));
-        section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-        ValidationSupport.checkReferenceType(custodian, "custodian", "Organization");
-        ValidationSupport.requireChildren(this);
+        relatesTo = Collections.unmodifiableList(builder.relatesTo);
+        event = Collections.unmodifiableList(builder.event);
+        section = Collections.unmodifiableList(builder.section);
     }
 
     /**
@@ -1079,7 +1086,28 @@ public class Composition extends DomainResource {
          */
         @Override
         public Composition build() {
-            return new Composition(this);
+            Composition composition = new Composition(this);
+            if (validating) {
+                validate(composition);
+            }
+            return composition;
+        }
+
+        protected void validate(Composition composition) {
+            super.validate(composition);
+            ValidationSupport.requireNonNull(composition.status, "status");
+            ValidationSupport.requireNonNull(composition.type, "type");
+            ValidationSupport.checkList(composition.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(composition.date, "date");
+            ValidationSupport.checkNonEmptyList(composition.author, "author", Reference.class);
+            ValidationSupport.requireNonNull(composition.title, "title");
+            ValidationSupport.checkList(composition.attester, "attester", Attester.class);
+            ValidationSupport.checkList(composition.relatesTo, "relatesTo", RelatesTo.class);
+            ValidationSupport.checkList(composition.event, "event", Event.class);
+            ValidationSupport.checkList(composition.section, "section", Section.class);
+            ValidationSupport.checkReferenceType(composition.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(composition.author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+            ValidationSupport.checkReferenceType(composition.custodian, "custodian", "Organization");
         }
 
         protected Builder from(Composition composition) {
@@ -1109,7 +1137,7 @@ public class Composition extends DomainResource {
     public static class Attester extends BackboneElement {
         @Binding(
             bindingName = "CompositionAttestationMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The way in which a person authenticated a composition.",
             valueSet = "http://hl7.org/fhir/ValueSet/composition-attestation-mode|4.0.1"
         )
@@ -1119,15 +1147,11 @@ public class Composition extends DomainResource {
         @ReferenceTarget({ "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization" })
         private final Reference party;
 
-        private volatile int hashCode;
-
         private Attester(Builder builder) {
             super(builder);
-            mode = ValidationSupport.requireNonNull(builder.mode, "mode");
+            mode = builder.mode;
             time = builder.time;
             party = builder.party;
-            ValidationSupport.checkReferenceType(party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1408,7 +1432,18 @@ public class Composition extends DomainResource {
              */
             @Override
             public Attester build() {
-                return new Attester(this);
+                Attester attester = new Attester(this);
+                if (validating) {
+                    validate(attester);
+                }
+                return attester;
+            }
+
+            protected void validate(Attester attester) {
+                super.validate(attester);
+                ValidationSupport.requireNonNull(attester.mode, "mode");
+                ValidationSupport.checkReferenceType(attester.party, "party", "Patient", "RelatedPerson", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.requireValueOrChildren(attester);
             }
 
             protected Builder from(Attester attester) {
@@ -1427,7 +1462,7 @@ public class Composition extends DomainResource {
     public static class RelatesTo extends BackboneElement {
         @Binding(
             bindingName = "DocumentRelationshipType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of relationship between documents.",
             valueSet = "http://hl7.org/fhir/ValueSet/document-relationship-type|4.0.1"
         )
@@ -1438,14 +1473,10 @@ public class Composition extends DomainResource {
         @Required
         private final Element target;
 
-        private volatile int hashCode;
-
         private RelatesTo(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            target = ValidationSupport.requireChoiceElement(builder.target, "target", Identifier.class, Reference.class);
-            ValidationSupport.checkReferenceType(target, "target", "Composition");
-            ValidationSupport.requireValueOrChildren(this);
+            code = builder.code;
+            target = builder.target;
         }
 
         /**
@@ -1702,7 +1733,19 @@ public class Composition extends DomainResource {
              */
             @Override
             public RelatesTo build() {
-                return new RelatesTo(this);
+                RelatesTo relatesTo = new RelatesTo(this);
+                if (validating) {
+                    validate(relatesTo);
+                }
+                return relatesTo;
+            }
+
+            protected void validate(RelatesTo relatesTo) {
+                super.validate(relatesTo);
+                ValidationSupport.requireNonNull(relatesTo.code, "code");
+                ValidationSupport.requireChoiceElement(relatesTo.target, "target", Identifier.class, Reference.class);
+                ValidationSupport.checkReferenceType(relatesTo.target, "target", "Composition");
+                ValidationSupport.requireValueOrChildren(relatesTo);
             }
 
             protected Builder from(RelatesTo relatesTo) {
@@ -1721,7 +1764,7 @@ public class Composition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "DocumentEventType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "This list of codes represents the main clinical acts being documented.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActCode"
         )
@@ -1731,14 +1774,11 @@ public class Composition extends DomainResource {
         @Summary
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Event(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
+            code = Collections.unmodifiableList(builder.code);
             period = builder.period;
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.requireValueOrChildren(this);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -2054,7 +2094,18 @@ public class Composition extends DomainResource {
              */
             @Override
             public Event build() {
-                return new Event(this);
+                Event event = new Event(this);
+                if (validating) {
+                    validate(event);
+                }
+                return event;
+            }
+
+            protected void validate(Event event) {
+                super.validate(event);
+                ValidationSupport.checkList(event.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(event.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(event);
             }
 
             protected Builder from(Event event) {
@@ -2074,7 +2125,7 @@ public class Composition extends DomainResource {
         private final String title;
         @Binding(
             bindingName = "CompositionSectionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Classification of a section of a composition/document.",
             valueSet = "http://hl7.org/fhir/ValueSet/doc-section-codes"
         )
@@ -2085,14 +2136,14 @@ public class Composition extends DomainResource {
         private final Narrative text;
         @Binding(
             bindingName = "SectionMode",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The processing mode that applies to this section.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-mode|4.0.1"
         )
         private final SectionMode mode;
         @Binding(
             bindingName = "SectionEntryOrder",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "What order applies to the items in the entry.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-order"
         )
@@ -2100,29 +2151,25 @@ public class Composition extends DomainResource {
         private final List<Reference> entry;
         @Binding(
             bindingName = "SectionEmptyReason",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "If a section is empty, why it is empty.",
             valueSet = "http://hl7.org/fhir/ValueSet/list-empty-reason"
         )
         private final CodeableConcept emptyReason;
         private final List<Composition.Section> section;
 
-        private volatile int hashCode;
-
         private Section(Builder builder) {
             super(builder);
             title = builder.title;
             code = builder.code;
-            author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
+            author = Collections.unmodifiableList(builder.author);
             focus = builder.focus;
             text = builder.text;
             mode = builder.mode;
             orderedBy = builder.orderedBy;
-            entry = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.entry, "entry"));
+            entry = Collections.unmodifiableList(builder.entry);
             emptyReason = builder.emptyReason;
-            section = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.section, "section"));
-            ValidationSupport.checkReferenceType(author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            section = Collections.unmodifiableList(builder.section);
         }
 
         /**
@@ -2688,7 +2735,20 @@ public class Composition extends DomainResource {
              */
             @Override
             public Section build() {
-                return new Section(this);
+                Section section = new Section(this);
+                if (validating) {
+                    validate(section);
+                }
+                return section;
+            }
+
+            protected void validate(Section section) {
+                super.validate(section);
+                ValidationSupport.checkList(section.author, "author", Reference.class);
+                ValidationSupport.checkList(section.entry, "entry", Reference.class);
+                ValidationSupport.checkList(section.section, "section", Composition.Section.class);
+                ValidationSupport.checkReferenceType(section.author, "author", "Practitioner", "PractitionerRole", "Device", "Patient", "RelatedPerson", "Organization");
+                ValidationSupport.requireValueOrChildren(section);
             }
 
             protected Builder from(Section section) {

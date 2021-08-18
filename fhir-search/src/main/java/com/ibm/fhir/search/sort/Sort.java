@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -9,9 +9,13 @@ package com.ibm.fhir.search.sort;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.ibm.fhir.model.resource.SearchParameter;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
+import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.exception.FHIRSearchException;
@@ -38,9 +42,9 @@ public class Sort {
     public enum Direction {
 
         // r4 - https://www.hl7.org/fhir/r4/search.html#sort
-        // uses chars as an optimization choice to compare rather than a string to string for a single char. 
-        // Each item in the comma separated list is a search parameter, optionally with a '-' prefix. The prefix 
-        // indicates decreasing order; in its absence, the parameter is applied in increasing order. 
+        // uses chars as an optimization choice to compare rather than a string to string for a single char.
+        // Each item in the comma separated list is a search parameter, optionally with a '-' prefix. The prefix
+        // indicates decreasing order; in its absence, the parameter is applied in increasing order.
         // previously increasing was ASCENDING and decreasing was DESCENDING.
         DECREASING('-'),
         INCREASING('+');
@@ -58,7 +62,7 @@ public class Sort {
         /**
          * from value is converted to a sort direction based on the use of '-' else it's
          * assumed to be the default increasing.
-         * 
+         *
          * @param value
          * @return
          */
@@ -77,34 +81,32 @@ public class Sort {
     }
 
     /**
-     * @param resourceType
-     * @param context
-     * @param sortQueryParmValues
-     * @param lenient
-     * @throws Exception
+     * Parses the _sort parameter.
+     * @param resourceType the resource type
+     * @param context the search context
+     * @param sortParmValue the parameter value
+     * @throws Exception an exception
      */
-    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context,
-            List<String> sortQueryParmValues, boolean lenient) throws Exception {
-        parseSortParameter(resourceType.getSimpleName(), context, sortQueryParmValues, lenient);
+    public void parseSortParameter(Class<?> resourceType, FHIRSearchContext context, String sortParmValue) throws Exception {
+        parseSortParameter(resourceType.getSimpleName(), context, sortParmValue);
     }
 
     /**
-     * @param resourceTypeName
-     * @param context
-     * @param sortQueryParmValues
-     * @param lenient
-     * @throws Exception
+     * Parses the _sort parameter.
+     * @param resourceTypeName the resource type name
+     * @param context the search context
+     * @param sortParmValue the parameter value
+     * @throws Exception an exception
      */
-    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context,
-            List<String> sortQueryParmValues, boolean lenient) throws Exception {
+    public void parseSortParameter(String resourceTypeName, FHIRSearchContext context, String sortParmValue) throws Exception {
 
-        for (String sortParmCodes : sortQueryParmValues) {
-            for (String sortParmCode : sortParmCodes.split(",")) {
+        for (String sortParmCode : sortParmValue.split(",")) {
+            try {
                 // Each parameter now includes the direction.
                 Sort.Direction sortDirection = Direction.fromValue(sortParmCode);
 
-                // In the case, where we are DECREASING, we need to treat the CODE in a special 
-                // way by stripping the directional indicator. 
+                // In the case, where we are DECREASING, we need to treat the CODE in a special
+                // way by stripping the directional indicator.
                 if (Sort.Direction.DECREASING.compareTo(sortDirection) == 0) {
                     sortParmCode = sortParmCode.substring(1);
                 }
@@ -112,64 +114,74 @@ public class Sort {
                 // Per the FHIR spec, the _sort parameter value is a search parameter. We need to determine what
                 // type of search parameter.
                 SearchParameter sortParmProxy = SearchUtil.getSearchParameter(resourceTypeName, sortParmCode);
-                if (!isUndefinedOrLenient(resourceTypeName, sortParmCode, sortParmProxy, lenient)) {
-                    SearchConstants.Type sortParmType =
-                            SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
-                    SortParameter sortParm = new SortParameter(sortParmCode, sortParmType, sortDirection);
+                checkIfUndefined(resourceTypeName, sortParmCode, sortParmProxy, context);
 
-                    checkSystemLevel(resourceTypeName, sortParm.getCode());
+                SearchConstants.Type sortParmType =
+                        SearchConstants.Type.fromValue(sortParmProxy.getType().getValue());
+                SortParameter sortParm = new SortParameter(sortParmCode, sortParmType, sortDirection);
+                checkSystemLevel(resourceTypeName, sortParm.getCode(), context);
 
-                    context.getSortParameters().add(sortParm);
+                context.getSortParameters().add(sortParm);
+            } catch (FHIRSearchException se) {
+                // If we're in lenient mode and there was an issue parsing the _sort parameter value then log and move on to the next one.
+                if (context.isLenient()) {
+                    String msg = "Sort value '" + sortParmCode + "' for resource type '" + resourceTypeName + "' ignored";
+                    log.log(Level.FINE, msg, se);
+                    context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INCOMPLETE, msg));
+                } else {
+                    throw se;
                 }
             }
         }
     }
 
     /**
-     * checks to see if undefined as a SearchParameter or Lenient
-     * 
-     * @param resourceTypeName
-     * @param sortParmCode
-     * @param sortParmProxy
-     * @param lenient
-     * @return
-     * @throws FHIRSearchException
+     * Checks to see if undefined as a SearchParameter.
+     *
+     * @param resourceTypeName the resource type
+     * @param sortParmCode the sort value
+     * @param sortParmProxy the search parameter
+     * @param context the context
+     * @throws FHIRSearchException if search parameter is undefined
      */
-    public boolean isUndefinedOrLenient(String resourceTypeName, String sortParmCode, SearchParameter sortParmProxy,
-            boolean lenient) throws FHIRSearchException {
-        boolean result = sortParmProxy == null;
-        if (result) {
+    public void checkIfUndefined(String resourceTypeName, String sortParmCode, SearchParameter sortParmProxy,
+            FHIRSearchContext context) throws FHIRSearchException {
+        if (sortParmProxy == null) {
             String msg = buildUndefinedSortParamMessage(resourceTypeName, sortParmCode);
-            
-            // Stop Processing if not lenient
-            if (!lenient) {
-                throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
+            if (context.isLenient()) {
+                log.fine(msg);
+                context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
             }
-            
-            log.fine(msg);
+            // Always throw a FHIRSearchException which is caught by parseSortParameter
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
-        return result;
     }
 
     /**
-     * check system level searches with DESC/ASC are ONLY with _id and _lastUpdated
-     * 
+     * Check system level searches with DESC/ASC are ONLY with _id and _lastUpdated.
+     *
      * @param resourceTypeName one of the FHIR Resources, and must be a non-null
      *                         value
      * @param code             the code to check.
-     * @throws FHIRSearchException
+     * @param context          the context
+     * @throws FHIRSearchException if system level search and code is not system level
      */
-    public void checkSystemLevel(String resourceTypeName, String code) throws FHIRSearchException {
-        if ("Resource".compareTo(resourceTypeName) == 0
+    public void checkSystemLevel(String resourceTypeName, String code, FHIRSearchContext context) throws FHIRSearchException {
+        if ("Resource".equals(resourceTypeName)
                 && !SYSTEM_LEVEL_SORT_PARAMETER_NAMES.contains(code)) {
-            throw SearchExceptionUtil.buildNewInvalidSearchException(
-                    buildNewInvalidSearchExceptionMessage(code));
+            String msg = buildNewInvalidSearchExceptionMessage(code);
+            if (context.isLenient()) {
+                log.fine(msg);
+                context.addOutcomeIssue(FHIRUtil.buildOperationOutcomeIssue(IssueSeverity.WARNING, IssueType.INVALID, msg));
+            }
+            // Always throw a FHIRSearchException which is caught by parseSortParameter
+            throw SearchExceptionUtil.buildNewInvalidSearchException(msg);
         }
     }
 
     /**
      * builds exception message when the sort parameter used is undefined.
-     * 
+     *
      * @param sortParmCode the code that is passed in
      * @return String representing the exception message
      */
@@ -183,7 +195,7 @@ public class Sort {
 
     /**
      * builds exception message when the sort parameter used is undefined.
-     * 
+     *
      * @param resourceTypeName the specific FHIR Resource passed in or general
      *                         RESOURCE
      * @param sortParmCode     the code that is passed in

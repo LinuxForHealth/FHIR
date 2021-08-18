@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "There SHALL be a code if there is a value and it SHALL be an expression of time.  If system is present, it SHALL be UCUM.  If value is present, it SHALL be positive.",
-    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (value.empty() or value.hasValue().not() or value > 0)"
+    expression = "(code.exists() or value.empty()) and (system.empty() or system = %ucum) and (value.empty() or value.hasValue().not() or value > 0)",
+    source = "http://hl7.org/fhir/StructureDefinition/Age"
 )
 @Constraint(
     id = "age-2",
@@ -33,19 +34,18 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/age-units",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/age-units', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Age",
     generated = true
 )
 @Binding(
     bindingName = "AgeUnits",
-    strength = BindingStrength.ValueSet.EXTENSIBLE,
+    strength = BindingStrength.Value.EXTENSIBLE,
     description = "Appropriate units for Age.",
     valueSet = "http://hl7.org/fhir/ValueSet/age-units",
     maxValueSet = "http://hl7.org/fhir/ValueSet/all-time-units"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Age extends Quantity {
-    private volatile int hashCode;
-
     private Age(Builder builder) {
         super(builder);
     }
@@ -254,7 +254,15 @@ public class Age extends Quantity {
          */
         @Override
         public Age build() {
-            return new Age(this);
+            Age age = new Age(this);
+            if (validating) {
+                validate(age);
+            }
+            return age;
+        }
+
+        protected void validate(Age age) {
+            super.validate(age);
         }
 
         protected Builder from(Age age) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,17 +13,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRResponse;
-import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.DocumentReference;
 import com.ibm.fhir.model.test.TestUtil;
@@ -45,9 +41,7 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
 
     @Override
     public List<String> getRequiredProfiles() {
-        //@formatter:off
         return Arrays.asList("http://hl7.org/fhir/us/core/StructureDefinition/us-core-documentreference|3.1.1");
-        //@formatter:on
     }
 
     @Override
@@ -65,33 +59,11 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
         }
     }
 
-    @AfterClass
-    public void deleteResources() throws Exception {
-        if (!skip) {
-            deleteDocumentReference1();
-        }
-    }
-
     public void loadDocumentReference1() throws Exception {
         String resource = "json/profiles/fhir-ig-us-core/DocumentReference-episode-summary.json";
-        WebTarget target = getWebTarget();
 
-        DocumentReference goal = TestUtil.readExampleResource(resource);
-
-        Entity<DocumentReference> entity = Entity.entity(goal, FHIRMediaType.APPLICATION_FHIR_JSON);
-        Response response = target.path("DocumentReference").request().post(entity, Response.class);
-        assertResponse(response, Response.Status.CREATED.getStatusCode());
-
-        // GET [base]/DocumentReference/12354 (first actual test, but simple)
-        documentReferenceId1 = getLocationLogicalId(response);
-        response = target.path("DocumentReference/" + documentReferenceId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
-        assertResponse(response, Response.Status.OK.getStatusCode());
-    }
-
-    public void deleteDocumentReference1() throws Exception {
-        WebTarget target = getWebTarget();
-        Response response = target.path("DocumentReference/" + documentReferenceId1).request(FHIRMediaType.APPLICATION_FHIR_JSON).delete();
-        assertResponse(response, Response.Status.OK.getStatusCode());
+        DocumentReference documentReference = TestUtil.readExampleResource(resource);
+        documentReferenceId1 = createResourceAndReturnTheLogicalId("DocumentReference", documentReference);
     }
 
     @Test
@@ -104,12 +76,11 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatient() throws Exception {
         // SHALL support searching for all documentreferences for a patient using the patient search parameter:
@@ -120,12 +91,11 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCategory() throws Exception {
         // SHALL support searching using the combination of the patient and category search parameters:
@@ -137,19 +107,18 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCategoryAndDate() throws Exception {
         // SHALL support searching using the combination of the patient and category and date search parameters:
         // including support for these date comparators: gt,lt,ge,le
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET [base]/DocumentReference?patient=[reference]&category=http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category|clinical-note&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -158,19 +127,18 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndCategoryAndBadDate() throws Exception {
         // SHALL support searching using the combination of the patient and category and date search parameters:
         // including support for these date comparators: gt,lt,ge,le
         // including optional support for composite AND search on date (e.g.date=[date]&date=[date]]&...)
         // GET [base]/DocumentReference?patient=[reference]&category=http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category|clinical-note&date={gt|lt|ge|le}[date]{&date={gt|lt|ge|le}[date]&...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -183,12 +151,12 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             assertTrue(bundle.getEntry().size() == 0);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndType() throws Exception {
         // SHALL support searching using the combination of the patient and type search parameters:
         // GET [base]/DocumentReference?patient=[reference]&type={system|}[code]
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -196,18 +164,17 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndStatus() throws Exception {
         // SHOULD support searching using the combination of the patient and status search parameters:
         // including support for composite OR search on status (e.g.status={system|}[code],{system|}[code],...)
         // GET [base]/DocumentReference?patient=[reference]&status={system|}[code]{,{system|}[code],...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -215,19 +182,18 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }
-    
+
     @Test
     public void testSearchForPatientAndTypeAndPeriod() throws Exception {
         // SHOULD support searching using the combination of the patient and type and period search parameters:
         // including support for these period comparators: gt,lt,ge,le
         // including optional support for composite AND search on period (e.g.period=[date]&period=[date]]&...)
         // GET [base]/DocumentReference?patient=[reference]&type={system|}[code]&period={gt|lt|ge|le}[date]{&period={gt|lt|ge|le}[date]&...}
-        
+
         if (!skip) {
             FHIRParameters parameters = new FHIRParameters();
             parameters.searchParam("patient", "Patient/example");
@@ -236,8 +202,7 @@ public class USCoreDocumentReferenceTest extends ProfilesTestBase {
             FHIRResponse response = client.search(DocumentReference.class.getSimpleName(), parameters);
             assertSearchResponse(response, Response.Status.OK.getStatusCode());
             Bundle bundle = response.getResource(Bundle.class);
-            assertNotNull(bundle);
-            assertTrue(bundle.getEntry().size() >= 1);
+            assertBaseBundleNotEmpty(bundle);
             assertContainsIds(bundle, documentReferenceId1);
         }
     }

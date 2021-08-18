@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Boolean;
@@ -30,19 +31,27 @@ import com.ibm.fhir.model.type.Period;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Defines an affiliation/assotiation/relationship between 2 distinct oganizations, that is not a part-of 
  * relationship/sub-division relationship.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "organizationAffiliation-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/OrganizationAffiliation",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -65,7 +74,7 @@ public class OrganizationAffiliation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationAffiliation",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The role the participating organization providing services to the primary organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/organization-role"
     )
@@ -73,7 +82,7 @@ public class OrganizationAffiliation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "OrganizationSpecialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Specific specialty associated with the participating organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -88,29 +97,20 @@ public class OrganizationAffiliation extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private OrganizationAffiliation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         period = builder.period;
         organization = builder.organization;
         participatingOrganization = builder.participatingOrganization;
-        network = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.network, "network"));
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(participatingOrganization, "participatingOrganization", "Organization");
-        ValidationSupport.checkReferenceType(network, "network", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
+        network = Collections.unmodifiableList(builder.network);
+        code = Collections.unmodifiableList(builder.code);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        healthcareService = Collections.unmodifiableList(builder.healthcareService);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -963,7 +963,29 @@ public class OrganizationAffiliation extends DomainResource {
          */
         @Override
         public OrganizationAffiliation build() {
-            return new OrganizationAffiliation(this);
+            OrganizationAffiliation organizationAffiliation = new OrganizationAffiliation(this);
+            if (validating) {
+                validate(organizationAffiliation);
+            }
+            return organizationAffiliation;
+        }
+
+        protected void validate(OrganizationAffiliation organizationAffiliation) {
+            super.validate(organizationAffiliation);
+            ValidationSupport.checkList(organizationAffiliation.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(organizationAffiliation.network, "network", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.code, "code", CodeableConcept.class);
+            ValidationSupport.checkList(organizationAffiliation.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(organizationAffiliation.location, "location", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.healthcareService, "healthcareService", Reference.class);
+            ValidationSupport.checkList(organizationAffiliation.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(organizationAffiliation.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(organizationAffiliation.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.participatingOrganization, "participatingOrganization", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.network, "network", "Organization");
+            ValidationSupport.checkReferenceType(organizationAffiliation.location, "location", "Location");
+            ValidationSupport.checkReferenceType(organizationAffiliation.healthcareService, "healthcareService", "HealthcareService");
+            ValidationSupport.checkReferenceType(organizationAffiliation.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(OrganizationAffiliation organizationAffiliation) {

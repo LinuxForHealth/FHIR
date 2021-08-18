@@ -35,6 +35,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * This utility encapsulates the logic specific to fhir-search related to
  * quantity.
  */
+@Deprecated
 public class DateParmBehaviorUtil {
 
     public DateParmBehaviorUtil() {
@@ -110,7 +111,7 @@ public class DateParmBehaviorUtil {
         case GT:
             // GT - Greater Than
             // the range above the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_END, GT, lowerBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_END, GT, upperBound);
             break;
         case LE:
             // LE - Less Than Equal
@@ -121,7 +122,7 @@ public class DateParmBehaviorUtil {
         case LT:
             // LT - Less Than
             // the range below the search value intersects (i.e. overlaps) with the range of the target value
-            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_START, LT, upperBound);
+            buildCommonClause(whereClauseSegment, bindVariables, tableAlias, DATE_START, LT, lowerBound);
             break;
         case AP:
             // AP - Approximate - Relative

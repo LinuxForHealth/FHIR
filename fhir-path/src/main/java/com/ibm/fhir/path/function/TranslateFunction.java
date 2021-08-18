@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,8 +31,8 @@ import com.ibm.fhir.path.FHIRPathElementNode;
 import com.ibm.fhir.path.FHIRPathNode;
 import com.ibm.fhir.path.FHIRPathResourceNode;
 import com.ibm.fhir.path.evaluator.FHIRPathEvaluator.EvaluationContext;
-import com.ibm.fhir.term.spi.TranslationOutcome;
-import com.ibm.fhir.term.spi.TranslationParameters;
+import com.ibm.fhir.term.service.TranslationOutcome;
+import com.ibm.fhir.term.service.TranslationParameters;
 
 public class TranslateFunction extends FHIRPathAbstractTermFunction {
     @Override

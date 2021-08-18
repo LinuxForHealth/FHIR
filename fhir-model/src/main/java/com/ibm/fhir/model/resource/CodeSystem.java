@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -45,26 +46,35 @@ import com.ibm.fhir.model.type.code.CodeSystemHierarchyMeaning;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PropertyType;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The CodeSystem resource is used to declare the existence of and describe a code system or code system supplement and 
  * its key properties, and optionally define a part or all of its content.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "csd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem"
 )
 @Constraint(
     id = "csd-1",
     level = "Rule",
     location = "(base)",
     description = "Within a code system definition, all the codes SHALL be unique",
-    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()"
+    expression = "concept.code.combine($this.descendants().concept.code).isDistinct()",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem"
 )
 @Constraint(
     id = "codeSystem-2",
@@ -72,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Constraint(
@@ -80,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "concept.designation.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Constraint(
@@ -88,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "concept.designation.use",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/CodeSystem",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -105,7 +118,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -125,7 +138,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -139,7 +152,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CodeSystemHierarchyMeaning",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The meaning of the hierarchy of concepts in a code system.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-hierarchy-meaning|4.0.1"
     )
@@ -151,7 +164,7 @@ public class CodeSystem extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CodeSystemContentMode",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The extent of the content of the code system (the concepts and codes it defines) are represented in a code system resource.",
         valueSet = "http://hl7.org/fhir/ValueSet/codesystem-content-mode|4.0.1"
     )
@@ -167,23 +180,21 @@ public class CodeSystem extends DomainResource {
     private final List<Property> property;
     private final List<Concept> concept;
 
-    private volatile int hashCode;
-
     private CodeSystem(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         caseSensitive = builder.caseSensitive;
@@ -191,13 +202,12 @@ public class CodeSystem extends DomainResource {
         hierarchyMeaning = builder.hierarchyMeaning;
         compositional = builder.compositional;
         versionNeeded = builder.versionNeeded;
-        content = ValidationSupport.requireNonNull(builder.content, "content");
+        content = builder.content;
         supplements = builder.supplements;
         count = builder.count;
-        filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-        property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-        concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
-        ValidationSupport.requireChildren(this);
+        filter = Collections.unmodifiableList(builder.filter);
+        property = Collections.unmodifiableList(builder.property);
+        concept = Collections.unmodifiableList(builder.concept);
     }
 
     /**
@@ -1433,7 +1443,24 @@ public class CodeSystem extends DomainResource {
          */
         @Override
         public CodeSystem build() {
-            return new CodeSystem(this);
+            CodeSystem codeSystem = new CodeSystem(this);
+            if (validating) {
+                validate(codeSystem);
+            }
+            return codeSystem;
+        }
+
+        protected void validate(CodeSystem codeSystem) {
+            super.validate(codeSystem);
+            ValidationSupport.checkList(codeSystem.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(codeSystem.status, "status");
+            ValidationSupport.checkList(codeSystem.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(codeSystem.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(codeSystem.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.requireNonNull(codeSystem.content, "content");
+            ValidationSupport.checkList(codeSystem.filter, "filter", Filter.class);
+            ValidationSupport.checkList(codeSystem.property, "property", Property.class);
+            ValidationSupport.checkList(codeSystem.concept, "concept", Concept.class);
         }
 
         protected Builder from(CodeSystem codeSystem) {
@@ -1480,7 +1507,7 @@ public class CodeSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "FilterOperator",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The kind of operation to perform as a part of a property based filter.",
             valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
         )
@@ -1490,15 +1517,12 @@ public class CodeSystem extends DomainResource {
         @Required
         private final String value;
 
-        private volatile int hashCode;
-
         private Filter(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             description = builder.description;
-            operator = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.operator, "operator"));
-            value = ValidationSupport.requireNonNull(builder.value, "value");
-            ValidationSupport.requireValueOrChildren(this);
+            operator = Collections.unmodifiableList(builder.operator);
+            value = builder.value;
         }
 
         /**
@@ -1827,7 +1851,19 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Filter build() {
-                return new Filter(this);
+                Filter filter = new Filter(this);
+                if (validating) {
+                    validate(filter);
+                }
+                return filter;
+            }
+
+            protected void validate(Filter filter) {
+                super.validate(filter);
+                ValidationSupport.requireNonNull(filter.code, "code");
+                ValidationSupport.checkNonEmptyList(filter.operator, "operator", FilterOperator.class);
+                ValidationSupport.requireNonNull(filter.value, "value");
+                ValidationSupport.requireValueOrChildren(filter);
             }
 
             protected Builder from(Filter filter) {
@@ -1855,22 +1891,19 @@ public class CodeSystem extends DomainResource {
         @Summary
         @Binding(
             bindingName = "PropertyType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The type of a property value.",
             valueSet = "http://hl7.org/fhir/ValueSet/concept-property-type|4.0.1"
         )
         @Required
         private final PropertyType type;
 
-        private volatile int hashCode;
-
         private Property(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             uri = builder.uri;
             description = builder.description;
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            ValidationSupport.requireValueOrChildren(this);
+            type = builder.type;
         }
 
         /**
@@ -2180,7 +2213,18 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Property build() {
-                return new Property(this);
+                Property property = new Property(this);
+                if (validating) {
+                    validate(property);
+                }
+                return property;
+            }
+
+            protected void validate(Property property) {
+                super.validate(property);
+                ValidationSupport.requireNonNull(property.code, "code");
+                ValidationSupport.requireNonNull(property.type, "type");
+                ValidationSupport.requireValueOrChildren(property);
             }
 
             protected Builder from(Property property) {
@@ -2207,17 +2251,14 @@ public class CodeSystem extends DomainResource {
         private final List<Property> property;
         private final List<CodeSystem.Concept> concept;
 
-        private volatile int hashCode;
-
         private Concept(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             display = builder.display;
             definition = builder.definition;
-            designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-            property = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.property, "property"));
-            concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
-            ValidationSupport.requireValueOrChildren(this);
+            designation = Collections.unmodifiableList(builder.designation);
+            property = Collections.unmodifiableList(builder.property);
+            concept = Collections.unmodifiableList(builder.concept);
         }
 
         /**
@@ -2646,7 +2687,20 @@ public class CodeSystem extends DomainResource {
              */
             @Override
             public Concept build() {
-                return new Concept(this);
+                Concept concept = new Concept(this);
+                if (validating) {
+                    validate(concept);
+                }
+                return concept;
+            }
+
+            protected void validate(Concept concept) {
+                super.validate(concept);
+                ValidationSupport.requireNonNull(concept.code, "code");
+                ValidationSupport.checkList(concept.designation, "designation", Designation.class);
+                ValidationSupport.checkList(concept.property, "property", Property.class);
+                ValidationSupport.checkList(concept.concept, "concept", CodeSystem.Concept.class);
+                ValidationSupport.requireValueOrChildren(concept);
             }
 
             protected Builder from(Concept concept) {
@@ -2668,7 +2722,7 @@ public class CodeSystem extends DomainResource {
         public static class Designation extends BackboneElement {
             @Binding(
                 bindingName = "Language",
-                strength = BindingStrength.ValueSet.PREFERRED,
+                strength = BindingStrength.Value.PREFERRED,
                 description = "A human language.",
                 valueSet = "http://hl7.org/fhir/ValueSet/languages",
                 maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -2676,7 +2730,7 @@ public class CodeSystem extends DomainResource {
             private final Code language;
             @Binding(
                 bindingName = "ConceptDesignationUse",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "Details of how a designation would be used.",
                 valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
             )
@@ -2684,15 +2738,11 @@ public class CodeSystem extends DomainResource {
             @Required
             private final String value;
 
-            private volatile int hashCode;
-
             private Designation(Builder builder) {
                 super(builder);
                 language = builder.language;
                 use = builder.use;
-                value = ValidationSupport.requireNonNull(builder.value, "value");
-                ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-                ValidationSupport.requireValueOrChildren(this);
+                value = builder.value;
             }
 
             /**
@@ -2964,7 +3014,18 @@ public class CodeSystem extends DomainResource {
                  */
                 @Override
                 public Designation build() {
-                    return new Designation(this);
+                    Designation designation = new Designation(this);
+                    if (validating) {
+                        validate(designation);
+                    }
+                    return designation;
+                }
+
+                protected void validate(Designation designation) {
+                    super.validate(designation);
+                    ValidationSupport.requireNonNull(designation.value, "value");
+                    ValidationSupport.checkValueSetBinding(designation.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                    ValidationSupport.requireValueOrChildren(designation);
                 }
 
                 protected Builder from(Designation designation) {
@@ -2987,13 +3048,10 @@ public class CodeSystem extends DomainResource {
             @Required
             private final Element value;
 
-            private volatile int hashCode;
-
             private Property(Builder builder) {
                 super(builder);
-                code = ValidationSupport.requireNonNull(builder.code, "code");
-                value = ValidationSupport.requireChoiceElement(builder.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
-                ValidationSupport.requireValueOrChildren(this);
+                code = builder.code;
+                value = builder.value;
             }
 
             /**
@@ -3250,7 +3308,18 @@ public class CodeSystem extends DomainResource {
                  */
                 @Override
                 public Property build() {
-                    return new Property(this);
+                    Property property = new Property(this);
+                    if (validating) {
+                        validate(property);
+                    }
+                    return property;
+                }
+
+                protected void validate(Property property) {
+                    super.validate(property);
+                    ValidationSupport.requireNonNull(property.code, "code");
+                    ValidationSupport.requireChoiceElement(property.value, "value", Code.class, Coding.class, String.class, Integer.class, Boolean.class, DateTime.class, Decimal.class);
+                    ValidationSupport.requireValueOrChildren(property);
                 }
 
                 protected Builder from(Property property) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,12 +32,9 @@ public class Time extends Element {
 
     private final LocalTime value;
 
-    private volatile int hashCode;
-
     private Time(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -60,11 +57,25 @@ public class Time extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Time objects from a LocalTime
+     * 
+     * @param value
+     *     A LocalTime, not null
+     */
     public static Time of(LocalTime value) {
+        Objects.requireNonNull(value, "value");
         return Time.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Time objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static Time of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Time.builder().value(value).build();
     }
 
@@ -209,7 +220,16 @@ public class Time extends Element {
          */
         @Override
         public Time build() {
-            return new Time(this);
+            Time time = new Time(this);
+            if (validating) {
+                validate(time);
+            }
+            return time;
+        }
+
+        protected void validate(Time time) {
+            super.validate(time);
+            ValidationSupport.requireValueOrChildren(time);
         }
 
         protected Builder from(Time time) {

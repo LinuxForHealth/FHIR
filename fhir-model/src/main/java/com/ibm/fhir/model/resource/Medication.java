@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,13 +36,20 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * This resource is primarily used for the identification and definition of a medication for the purposes of prescribing, 
  * dispensing, and administering a medication as well as for making statements about medication use.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Medication extends DomainResource {
     @Summary
@@ -49,7 +57,7 @@ public class Medication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationFormalRepresentation",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept that defines the type of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -57,7 +65,7 @@ public class Medication extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept defining if the medication is in active use.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-status|4.0.1"
     )
@@ -67,7 +75,7 @@ public class Medication extends DomainResource {
     private final Reference manufacturer;
     @Binding(
         bindingName = "MedicationForm",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept defining the form of a medication.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-form-codes"
     )
@@ -77,20 +85,16 @@ public class Medication extends DomainResource {
     private final List<Ingredient> ingredient;
     private final Batch batch;
 
-    private volatile int hashCode;
-
     private Medication(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         code = builder.code;
         status = builder.status;
         manufacturer = builder.manufacturer;
         form = builder.form;
         amount = builder.amount;
-        ingredient = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.ingredient, "ingredient"));
+        ingredient = Collections.unmodifiableList(builder.ingredient);
         batch = builder.batch;
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -665,7 +669,18 @@ public class Medication extends DomainResource {
          */
         @Override
         public Medication build() {
-            return new Medication(this);
+            Medication medication = new Medication(this);
+            if (validating) {
+                validate(medication);
+            }
+            return medication;
+        }
+
+        protected void validate(Medication medication) {
+            super.validate(medication);
+            ValidationSupport.checkList(medication.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medication.ingredient, "ingredient", Ingredient.class);
+            ValidationSupport.checkReferenceType(medication.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(Medication medication) {
@@ -693,15 +708,11 @@ public class Medication extends DomainResource {
         private final Boolean isActive;
         private final Ratio strength;
 
-        private volatile int hashCode;
-
         private Ingredient(Builder builder) {
             super(builder);
-            item = ValidationSupport.requireChoiceElement(builder.item, "item", CodeableConcept.class, Reference.class);
+            item = builder.item;
             isActive = builder.isActive;
             strength = builder.strength;
-            ValidationSupport.checkReferenceType(item, "item", "Substance", "Medication");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -987,7 +998,18 @@ public class Medication extends DomainResource {
              */
             @Override
             public Ingredient build() {
-                return new Ingredient(this);
+                Ingredient ingredient = new Ingredient(this);
+                if (validating) {
+                    validate(ingredient);
+                }
+                return ingredient;
+            }
+
+            protected void validate(Ingredient ingredient) {
+                super.validate(ingredient);
+                ValidationSupport.requireChoiceElement(ingredient.item, "item", CodeableConcept.class, Reference.class);
+                ValidationSupport.checkReferenceType(ingredient.item, "item", "Substance", "Medication");
+                ValidationSupport.requireValueOrChildren(ingredient);
             }
 
             protected Builder from(Ingredient ingredient) {
@@ -1007,13 +1029,10 @@ public class Medication extends DomainResource {
         private final String lotNumber;
         private final DateTime expirationDate;
 
-        private volatile int hashCode;
-
         private Batch(Builder builder) {
             super(builder);
             lotNumber = builder.lotNumber;
             expirationDate = builder.expirationDate;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1249,7 +1268,16 @@ public class Medication extends DomainResource {
              */
             @Override
             public Batch build() {
-                return new Batch(this);
+                Batch batch = new Batch(this);
+                if (validating) {
+                    validate(batch);
+                }
+                return batch;
+            }
+
+            protected void validate(Batch batch) {
+                super.validate(batch);
+                ValidationSupport.requireValueOrChildren(batch);
             }
 
             protected Builder from(Batch batch) {

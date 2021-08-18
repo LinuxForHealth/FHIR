@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,19 +36,27 @@ import com.ibm.fhir.model.type.Time;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DaysOfWeek;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A specific set of Roles/Locations/specialties/services that a practitioner may perform at an organization for a period 
  * of time.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "practitionerRole-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/PractitionerRole",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -67,7 +76,7 @@ public class PractitionerRole extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PractitionerRole",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The role a person plays representing an organization.",
         valueSet = "http://hl7.org/fhir/ValueSet/practitioner-role"
     )
@@ -75,7 +84,7 @@ public class PractitionerRole extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PractitionerSpecialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Specific specialty associated with the agency.",
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
@@ -93,30 +102,22 @@ public class PractitionerRole extends DomainResource {
     @ReferenceTarget({ "Endpoint" })
     private final List<Reference> endpoint;
 
-    private volatile int hashCode;
-
     private PractitionerRole(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         period = builder.period;
         practitioner = builder.practitioner;
         organization = builder.organization;
-        code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
-        healthcareService = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.healthcareService, "healthcareService"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        availableTime = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.availableTime, "availableTime"));
-        notAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.notAvailable, "notAvailable"));
+        code = Collections.unmodifiableList(builder.code);
+        specialty = Collections.unmodifiableList(builder.specialty);
+        location = Collections.unmodifiableList(builder.location);
+        healthcareService = Collections.unmodifiableList(builder.healthcareService);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        availableTime = Collections.unmodifiableList(builder.availableTime);
+        notAvailable = Collections.unmodifiableList(builder.notAvailable);
         availabilityExceptions = builder.availabilityExceptions;
-        endpoint = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endpoint, "endpoint"));
-        ValidationSupport.checkReferenceType(practitioner, "practitioner", "Practitioner");
-        ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(healthcareService, "healthcareService", "HealthcareService");
-        ValidationSupport.checkReferenceType(endpoint, "endpoint", "Endpoint");
-        ValidationSupport.requireChildren(this);
+        endpoint = Collections.unmodifiableList(builder.endpoint);
     }
 
     /**
@@ -1032,7 +1033,29 @@ public class PractitionerRole extends DomainResource {
          */
         @Override
         public PractitionerRole build() {
-            return new PractitionerRole(this);
+            PractitionerRole practitionerRole = new PractitionerRole(this);
+            if (validating) {
+                validate(practitionerRole);
+            }
+            return practitionerRole;
+        }
+
+        protected void validate(PractitionerRole practitionerRole) {
+            super.validate(practitionerRole);
+            ValidationSupport.checkList(practitionerRole.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(practitionerRole.code, "code", CodeableConcept.class);
+            ValidationSupport.checkList(practitionerRole.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(practitionerRole.location, "location", Reference.class);
+            ValidationSupport.checkList(practitionerRole.healthcareService, "healthcareService", Reference.class);
+            ValidationSupport.checkList(practitionerRole.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(practitionerRole.availableTime, "availableTime", AvailableTime.class);
+            ValidationSupport.checkList(practitionerRole.notAvailable, "notAvailable", NotAvailable.class);
+            ValidationSupport.checkList(practitionerRole.endpoint, "endpoint", Reference.class);
+            ValidationSupport.checkReferenceType(practitionerRole.practitioner, "practitioner", "Practitioner");
+            ValidationSupport.checkReferenceType(practitionerRole.organization, "organization", "Organization");
+            ValidationSupport.checkReferenceType(practitionerRole.location, "location", "Location");
+            ValidationSupport.checkReferenceType(practitionerRole.healthcareService, "healthcareService", "HealthcareService");
+            ValidationSupport.checkReferenceType(practitionerRole.endpoint, "endpoint", "Endpoint");
         }
 
         protected Builder from(PractitionerRole practitionerRole) {
@@ -1061,7 +1084,7 @@ public class PractitionerRole extends DomainResource {
     public static class AvailableTime extends BackboneElement {
         @Binding(
             bindingName = "DaysOfWeek",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The days of the week.",
             valueSet = "http://hl7.org/fhir/ValueSet/days-of-week|4.0.1"
         )
@@ -1070,15 +1093,12 @@ public class PractitionerRole extends DomainResource {
         private final Time availableStartTime;
         private final Time availableEndTime;
 
-        private volatile int hashCode;
-
         private AvailableTime(Builder builder) {
             super(builder);
-            daysOfWeek = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.daysOfWeek, "daysOfWeek"));
+            daysOfWeek = Collections.unmodifiableList(builder.daysOfWeek);
             allDay = builder.allDay;
             availableStartTime = builder.availableStartTime;
             availableEndTime = builder.availableEndTime;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1392,7 +1412,17 @@ public class PractitionerRole extends DomainResource {
              */
             @Override
             public AvailableTime build() {
-                return new AvailableTime(this);
+                AvailableTime availableTime = new AvailableTime(this);
+                if (validating) {
+                    validate(availableTime);
+                }
+                return availableTime;
+            }
+
+            protected void validate(AvailableTime availableTime) {
+                super.validate(availableTime);
+                ValidationSupport.checkList(availableTime.daysOfWeek, "daysOfWeek", DaysOfWeek.class);
+                ValidationSupport.requireValueOrChildren(availableTime);
             }
 
             protected Builder from(AvailableTime availableTime) {
@@ -1414,13 +1444,10 @@ public class PractitionerRole extends DomainResource {
         private final String description;
         private final Period during;
 
-        private volatile int hashCode;
-
         private NotAvailable(Builder builder) {
             super(builder);
-            description = ValidationSupport.requireNonNull(builder.description, "description");
+            description = builder.description;
             during = builder.during;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1663,7 +1690,17 @@ public class PractitionerRole extends DomainResource {
              */
             @Override
             public NotAvailable build() {
-                return new NotAvailable(this);
+                NotAvailable notAvailable = new NotAvailable(this);
+                if (validating) {
+                    validate(notAvailable);
+                }
+                return notAvailable;
+            }
+
+            protected void validate(NotAvailable notAvailable) {
+                super.validate(notAvailable);
+                ValidationSupport.requireNonNull(notAvailable.description, "description");
+                ValidationSupport.requireValueOrChildren(notAvailable);
             }
 
             protected Builder from(NotAvailable notAvailable) {

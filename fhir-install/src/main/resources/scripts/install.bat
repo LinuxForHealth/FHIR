@@ -1,13 +1,13 @@
 @echo off
 @REM ----------------------------------------------------------------------------
-@REM (C) Copyright IBM Corp. 2017, 2019
+@REM (C) Copyright IBM Corp. 2017, 2021
 @REM
 @REM SPDX-License-Identifier: Apache-2.0
 @REM ----------------------------------------------------------------------------
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-set LIBERTY_VERSION=20.0.0.9
+set LIBERTY_VERSION=21.0.0.6
 
 echo Executing %0 to deploy the fhir-server web application...
 

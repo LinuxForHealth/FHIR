@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -34,6 +35,7 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.VisionBase;
 import com.ibm.fhir.model.type.code.VisionEyes;
 import com.ibm.fhir.model.type.code.VisionStatus;
@@ -42,14 +44,20 @@ import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An authorization for the provision of glasses and/or contact lenses to a patient.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class VisionPrescription extends DomainResource {
     private final List<Identifier> identifier;
     @Summary
     @Binding(
         bindingName = "VisionStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A code specifying the state of the resource instance.",
         valueSet = "http://hl7.org/fhir/ValueSet/fm-status|4.0.1"
     )
@@ -75,22 +83,16 @@ public class VisionPrescription extends DomainResource {
     @Required
     private final List<LensSpecification> lensSpecification;
 
-    private volatile int hashCode;
-
     private VisionPrescription(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        created = ValidationSupport.requireNonNull(builder.created, "created");
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        created = builder.created;
+        patient = builder.patient;
         encounter = builder.encounter;
-        dateWritten = ValidationSupport.requireNonNull(builder.dateWritten, "dateWritten");
-        prescriber = ValidationSupport.requireNonNull(builder.prescriber, "prescriber");
-        lensSpecification = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.lensSpecification, "lensSpecification"));
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(prescriber, "prescriber", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
+        dateWritten = builder.dateWritten;
+        prescriber = builder.prescriber;
+        lensSpecification = Collections.unmodifiableList(builder.lensSpecification);
     }
 
     /**
@@ -695,7 +697,25 @@ public class VisionPrescription extends DomainResource {
          */
         @Override
         public VisionPrescription build() {
-            return new VisionPrescription(this);
+            VisionPrescription visionPrescription = new VisionPrescription(this);
+            if (validating) {
+                validate(visionPrescription);
+            }
+            return visionPrescription;
+        }
+
+        protected void validate(VisionPrescription visionPrescription) {
+            super.validate(visionPrescription);
+            ValidationSupport.checkList(visionPrescription.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(visionPrescription.status, "status");
+            ValidationSupport.requireNonNull(visionPrescription.created, "created");
+            ValidationSupport.requireNonNull(visionPrescription.patient, "patient");
+            ValidationSupport.requireNonNull(visionPrescription.dateWritten, "dateWritten");
+            ValidationSupport.requireNonNull(visionPrescription.prescriber, "prescriber");
+            ValidationSupport.checkNonEmptyList(visionPrescription.lensSpecification, "lensSpecification", LensSpecification.class);
+            ValidationSupport.checkReferenceType(visionPrescription.patient, "patient", "Patient");
+            ValidationSupport.checkReferenceType(visionPrescription.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(visionPrescription.prescriber, "prescriber", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(VisionPrescription visionPrescription) {
@@ -720,7 +740,7 @@ public class VisionPrescription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VisionProduct",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the vision products.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-product"
         )
@@ -729,7 +749,7 @@ public class VisionPrescription extends DomainResource {
         @Summary
         @Binding(
             bindingName = "VisionEyes",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "A coded concept listing the eye codes.",
             valueSet = "http://hl7.org/fhir/ValueSet/vision-eye-codes|4.0.1"
         )
@@ -748,16 +768,14 @@ public class VisionPrescription extends DomainResource {
         private final String brand;
         private final List<Annotation> note;
 
-        private volatile int hashCode;
-
         private LensSpecification(Builder builder) {
             super(builder);
-            product = ValidationSupport.requireNonNull(builder.product, "product");
-            eye = ValidationSupport.requireNonNull(builder.eye, "eye");
+            product = builder.product;
+            eye = builder.eye;
             sphere = builder.sphere;
             cylinder = builder.cylinder;
             axis = builder.axis;
-            prism = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.prism, "prism"));
+            prism = Collections.unmodifiableList(builder.prism);
             add = builder.add;
             power = builder.power;
             backCurve = builder.backCurve;
@@ -765,8 +783,7 @@ public class VisionPrescription extends DomainResource {
             duration = builder.duration;
             color = builder.color;
             brand = builder.brand;
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            ValidationSupport.requireValueOrChildren(this);
+            note = Collections.unmodifiableList(builder.note);
         }
 
         /**
@@ -1400,7 +1417,20 @@ public class VisionPrescription extends DomainResource {
              */
             @Override
             public LensSpecification build() {
-                return new LensSpecification(this);
+                LensSpecification lensSpecification = new LensSpecification(this);
+                if (validating) {
+                    validate(lensSpecification);
+                }
+                return lensSpecification;
+            }
+
+            protected void validate(LensSpecification lensSpecification) {
+                super.validate(lensSpecification);
+                ValidationSupport.requireNonNull(lensSpecification.product, "product");
+                ValidationSupport.requireNonNull(lensSpecification.eye, "eye");
+                ValidationSupport.checkList(lensSpecification.prism, "prism", Prism.class);
+                ValidationSupport.checkList(lensSpecification.note, "note", Annotation.class);
+                ValidationSupport.requireValueOrChildren(lensSpecification);
             }
 
             protected Builder from(LensSpecification lensSpecification) {
@@ -1431,20 +1461,17 @@ public class VisionPrescription extends DomainResource {
             private final Decimal amount;
             @Binding(
                 bindingName = "VisionBase",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "A coded concept listing the base codes.",
                 valueSet = "http://hl7.org/fhir/ValueSet/vision-base-codes|4.0.1"
             )
             @Required
             private final VisionBase base;
 
-            private volatile int hashCode;
-
             private Prism(Builder builder) {
                 super(builder);
-                amount = ValidationSupport.requireNonNull(builder.amount, "amount");
-                base = ValidationSupport.requireNonNull(builder.base, "base");
-                ValidationSupport.requireValueOrChildren(this);
+                amount = builder.amount;
+                base = builder.base;
             }
 
             /**
@@ -1690,7 +1717,18 @@ public class VisionPrescription extends DomainResource {
                  */
                 @Override
                 public Prism build() {
-                    return new Prism(this);
+                    Prism prism = new Prism(this);
+                    if (validating) {
+                        validate(prism);
+                    }
+                    return prism;
+                }
+
+                protected void validate(Prism prism) {
+                    super.validate(prism);
+                    ValidationSupport.requireNonNull(prism.amount, "amount");
+                    ValidationSupport.requireNonNull(prism.base, "base");
+                    ValidationSupport.requireValueOrChildren(prism);
                 }
 
                 protected Builder from(Prism prism) {

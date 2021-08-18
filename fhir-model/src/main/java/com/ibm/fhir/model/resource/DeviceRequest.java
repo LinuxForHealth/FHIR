@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,13 +42,20 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.DeviceRequestStatus;
 import com.ibm.fhir.model.type.code.RequestIntent;
 import com.ibm.fhir.model.type.code.RequestPriority;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Represents a request for a patient to employ a medical device. The device may be an implantable device, or an external 
  * assistive device, such as a walker.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class DeviceRequest extends DomainResource {
     @Summary
@@ -65,7 +73,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes representing the status of the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -73,7 +81,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The kind of diagnostic request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
@@ -82,7 +90,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -92,7 +100,7 @@ public class DeviceRequest extends DomainResource {
     @Choice({ Reference.class, CodeableConcept.class })
     @Binding(
         bindingName = "DeviceRequestCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for devices that can be requested.",
         valueSet = "http://hl7.org/fhir/ValueSet/device-kind"
     )
@@ -117,7 +125,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestParticipantRole",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates specific responsibility of an individual within the care team, such as \"Primary physician\", \"Team coordinator\", \"Caregiver\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/participant-role"
     )
@@ -128,7 +136,7 @@ public class DeviceRequest extends DomainResource {
     @Summary
     @Binding(
         bindingName = "DeviceRequestReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Diagnosis or problem codes justifying the reason for requesting the device.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -143,43 +151,32 @@ public class DeviceRequest extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> relevantHistory;
 
-    private volatile int hashCode;
-
     private DeviceRequest(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        priorRequest = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.priorRequest, "priorRequest"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        priorRequest = Collections.unmodifiableList(builder.priorRequest);
         groupIdentifier = builder.groupIdentifier;
         status = builder.status;
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        intent = builder.intent;
         priority = builder.priority;
-        code = ValidationSupport.requireChoiceElement(builder.code, "code", Reference.class, CodeableConcept.class);
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        code = builder.code;
+        parameter = Collections.unmodifiableList(builder.parameter);
+        subject = builder.subject;
         encounter = builder.encounter;
-        occurrence = ValidationSupport.choiceElement(builder.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+        occurrence = builder.occurrence;
         authoredOn = builder.authoredOn;
         requester = builder.requester;
         performerType = builder.performerType;
         performer = builder.performer;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        insurance = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.insurance, "insurance"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        relevantHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relevantHistory, "relevantHistory"));
-        ValidationSupport.checkReferenceType(code, "code", "Device");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Location", "Device");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.checkReferenceType(insurance, "insurance", "Coverage", "ClaimResponse");
-        ValidationSupport.checkReferenceType(relevantHistory, "relevantHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        insurance = Collections.unmodifiableList(builder.insurance);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        note = Collections.unmodifiableList(builder.note);
+        relevantHistory = Collections.unmodifiableList(builder.relevantHistory);
     }
 
     /**
@@ -1524,7 +1521,39 @@ public class DeviceRequest extends DomainResource {
          */
         @Override
         public DeviceRequest build() {
-            return new DeviceRequest(this);
+            DeviceRequest deviceRequest = new DeviceRequest(this);
+            if (validating) {
+                validate(deviceRequest);
+            }
+            return deviceRequest;
+        }
+
+        protected void validate(DeviceRequest deviceRequest) {
+            super.validate(deviceRequest);
+            ValidationSupport.checkList(deviceRequest.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(deviceRequest.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(deviceRequest.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(deviceRequest.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(deviceRequest.priorRequest, "priorRequest", Reference.class);
+            ValidationSupport.requireNonNull(deviceRequest.intent, "intent");
+            ValidationSupport.requireChoiceElement(deviceRequest.code, "code", Reference.class, CodeableConcept.class);
+            ValidationSupport.checkList(deviceRequest.parameter, "parameter", Parameter.class);
+            ValidationSupport.requireNonNull(deviceRequest.subject, "subject");
+            ValidationSupport.choiceElement(deviceRequest.occurrence, "occurrence", DateTime.class, Period.class, Timing.class);
+            ValidationSupport.checkList(deviceRequest.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(deviceRequest.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(deviceRequest.insurance, "insurance", Reference.class);
+            ValidationSupport.checkList(deviceRequest.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(deviceRequest.note, "note", Annotation.class);
+            ValidationSupport.checkList(deviceRequest.relevantHistory, "relevantHistory", Reference.class);
+            ValidationSupport.checkReferenceType(deviceRequest.code, "code", "Device");
+            ValidationSupport.checkReferenceType(deviceRequest.subject, "subject", "Patient", "Group", "Location", "Device");
+            ValidationSupport.checkReferenceType(deviceRequest.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(deviceRequest.requester, "requester", "Device", "Practitioner", "PractitionerRole", "Organization");
+            ValidationSupport.checkReferenceType(deviceRequest.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "HealthcareService", "Patient", "Device", "RelatedPerson");
+            ValidationSupport.checkReferenceType(deviceRequest.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+            ValidationSupport.checkReferenceType(deviceRequest.insurance, "insurance", "Coverage", "ClaimResponse");
+            ValidationSupport.checkReferenceType(deviceRequest.relevantHistory, "relevantHistory", "Provenance");
         }
 
         protected Builder from(DeviceRequest deviceRequest) {
@@ -1563,20 +1592,17 @@ public class DeviceRequest extends DomainResource {
     public static class Parameter extends BackboneElement {
         @Binding(
             bindingName = "ParameterCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code that identifies the device detail."
         )
         private final CodeableConcept code;
         @Choice({ CodeableConcept.class, Quantity.class, Range.class, Boolean.class })
         private final Element value;
 
-        private volatile int hashCode;
-
         private Parameter(Builder builder) {
             super(builder);
             code = builder.code;
-            value = ValidationSupport.choiceElement(builder.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
-            ValidationSupport.requireValueOrChildren(this);
+            value = builder.value;
         }
 
         /**
@@ -1820,7 +1846,17 @@ public class DeviceRequest extends DomainResource {
              */
             @Override
             public Parameter build() {
-                return new Parameter(this);
+                Parameter parameter = new Parameter(this);
+                if (validating) {
+                    validate(parameter);
+                }
+                return parameter;
+            }
+
+            protected void validate(Parameter parameter) {
+                super.validate(parameter);
+                ValidationSupport.choiceElement(parameter.value, "value", CodeableConcept.class, Quantity.class, Range.class, Boolean.class);
+                ValidationSupport.requireValueOrChildren(parameter);
             }
 
             protected Builder from(Parameter parameter) {

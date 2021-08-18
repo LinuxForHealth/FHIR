@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,26 +43,35 @@ import com.ibm.fhir.model.type.code.MessageHeaderResponseRequest;
 import com.ibm.fhir.model.type.code.MessageSignificanceCategory;
 import com.ibm.fhir.model.type.code.PublicationStatus;
 import com.ibm.fhir.model.type.code.ResourceType;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Defines the characteristics of a message that can be shared between systems, including the type of event that 
  * initiates the message, the content to be transmitted and what response(s), if any, are permitted.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "msd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition"
 )
 @Constraint(
     id = "md-1",
     level = "Rule",
     location = "MessageDefinition.focus",
     description = "Max must be postive int or *",
-    expression = "max='*' or (max.toInteger() > 0)"
+    expression = "max='*' or (max.toInteger() > 0)",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition"
 )
 @Constraint(
     id = "messageDefinition-2",
@@ -69,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/MessageDefinition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -88,7 +99,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -110,7 +121,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -126,7 +137,7 @@ public class MessageDefinition extends DomainResource {
     @Choice({ Coding.class, Uri.class })
     @Binding(
         bindingName = "MessageEvent",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "One of the message events defined as part of this version of FHIR.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-events"
     )
@@ -135,7 +146,7 @@ public class MessageDefinition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MessageSignificanceCategory",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The impact of the content of a message.",
         valueSet = "http://hl7.org/fhir/ValueSet/message-significance-category|4.0.1"
     )
@@ -144,7 +155,7 @@ public class MessageDefinition extends DomainResource {
     private final List<Focus> focus;
     @Binding(
         bindingName = "messageheader-response-request",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "HL7-defined table of codes which identify conditions under which acknowledgments are required to be returned in response to a message.",
         valueSet = "http://hl7.org/fhir/ValueSet/messageheader-response-request|4.0.1"
     )
@@ -152,35 +163,32 @@ public class MessageDefinition extends DomainResource {
     private final List<AllowedResponse> allowedResponse;
     private final List<Canonical> graph;
 
-    private volatile int hashCode;
-
     private MessageDefinition(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        replaces = Collections.unmodifiableList(builder.replaces);
+        status = builder.status;
         experimental = builder.experimental;
-        date = ValidationSupport.requireNonNull(builder.date, "date");
+        date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         copyright = builder.copyright;
         base = builder.base;
-        parent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parent, "parent"));
-        event = ValidationSupport.requireChoiceElement(builder.event, "event", Coding.class, Uri.class);
+        parent = Collections.unmodifiableList(builder.parent);
+        event = builder.event;
         category = builder.category;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(builder.focus);
         responseRequired = builder.responseRequired;
-        allowedResponse = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.allowedResponse, "allowedResponse"));
-        graph = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.graph, "graph"));
-        ValidationSupport.requireChildren(this);
+        allowedResponse = Collections.unmodifiableList(builder.allowedResponse);
+        graph = Collections.unmodifiableList(builder.graph);
     }
 
     /**
@@ -1399,7 +1407,27 @@ public class MessageDefinition extends DomainResource {
          */
         @Override
         public MessageDefinition build() {
-            return new MessageDefinition(this);
+            MessageDefinition messageDefinition = new MessageDefinition(this);
+            if (validating) {
+                validate(messageDefinition);
+            }
+            return messageDefinition;
+        }
+
+        protected void validate(MessageDefinition messageDefinition) {
+            super.validate(messageDefinition);
+            ValidationSupport.checkList(messageDefinition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(messageDefinition.replaces, "replaces", Canonical.class);
+            ValidationSupport.requireNonNull(messageDefinition.status, "status");
+            ValidationSupport.requireNonNull(messageDefinition.date, "date");
+            ValidationSupport.checkList(messageDefinition.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(messageDefinition.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(messageDefinition.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(messageDefinition.parent, "parent", Canonical.class);
+            ValidationSupport.requireChoiceElement(messageDefinition.event, "event", Coding.class, Uri.class);
+            ValidationSupport.checkList(messageDefinition.focus, "focus", Focus.class);
+            ValidationSupport.checkList(messageDefinition.allowedResponse, "allowedResponse", AllowedResponse.class);
+            ValidationSupport.checkList(messageDefinition.graph, "graph", Canonical.class);
         }
 
         protected Builder from(MessageDefinition messageDefinition) {
@@ -1440,7 +1468,7 @@ public class MessageDefinition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ResourceType",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "One of the resource types defined as part of this version of FHIR.",
             valueSet = "http://hl7.org/fhir/ValueSet/resource-types|4.0.1"
         )
@@ -1452,15 +1480,12 @@ public class MessageDefinition extends DomainResource {
         private final UnsignedInt min;
         private final String max;
 
-        private volatile int hashCode;
-
         private Focus(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            code = builder.code;
             profile = builder.profile;
-            min = ValidationSupport.requireNonNull(builder.min, "min");
+            min = builder.min;
             max = builder.max;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1768,7 +1793,18 @@ public class MessageDefinition extends DomainResource {
              */
             @Override
             public Focus build() {
-                return new Focus(this);
+                Focus focus = new Focus(this);
+                if (validating) {
+                    validate(focus);
+                }
+                return focus;
+            }
+
+            protected void validate(Focus focus) {
+                super.validate(focus);
+                ValidationSupport.requireNonNull(focus.code, "code");
+                ValidationSupport.requireNonNull(focus.min, "min");
+                ValidationSupport.requireValueOrChildren(focus);
             }
 
             protected Builder from(Focus focus) {
@@ -1790,13 +1826,10 @@ public class MessageDefinition extends DomainResource {
         private final Canonical message;
         private final Markdown situation;
 
-        private volatile int hashCode;
-
         private AllowedResponse(Builder builder) {
             super(builder);
-            message = ValidationSupport.requireNonNull(builder.message, "message");
+            message = builder.message;
             situation = builder.situation;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2041,7 +2074,17 @@ public class MessageDefinition extends DomainResource {
              */
             @Override
             public AllowedResponse build() {
-                return new AllowedResponse(this);
+                AllowedResponse allowedResponse = new AllowedResponse(this);
+                if (validating) {
+                    validate(allowedResponse);
+                }
+                return allowedResponse;
+            }
+
+            protected void validate(AllowedResponse allowedResponse) {
+                super.validate(allowedResponse);
+                ValidationSupport.requireNonNull(allowedResponse.message, "message");
+                ValidationSupport.requireValueOrChildren(allowedResponse);
             }
 
             protected Builder from(AllowedResponse allowedResponse) {

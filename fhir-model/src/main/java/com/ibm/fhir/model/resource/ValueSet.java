@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -42,6 +43,7 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FilterOperator;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -49,55 +51,68 @@ import com.ibm.fhir.model.visitor.Visitor;
  * A ValueSet resource instance specifies a set of codes drawn from one or more code systems, intended for use in a 
  * particular context. Value sets link between [CodeSystem](codesystem.html) definitions and their use in [coded elements]
  * (terminologies.html).
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "vsd-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-1",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "A value set include/exclude SHALL have a value set or a system",
-    expression = "valueSet.exists() or system.exists()"
+    expression = "valueSet.exists() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-2",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "A value set with concepts or filters SHALL include a system",
-    expression = "(concept.exists() or filter.exists()) implies system.exists()"
+    expression = "(concept.exists() or filter.exists()) implies system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-3",
     level = "Rule",
     location = "ValueSet.compose.include",
     description = "Cannot have both concept and filter",
-    expression = "concept.empty() or filter.empty()"
+    expression = "concept.empty() or filter.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-6",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "SHALL have a code or a display",
-    expression = "code.exists() or display.exists()"
+    expression = "code.exists() or display.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-9",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "Must have a code if not abstract",
-    expression = "code.exists() or abstract = true"
+    expression = "code.exists() or abstract = true",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "vsd-10",
     level = "Rule",
     location = "ValueSet.expansion.contains",
     description = "Must have a system if a code is present",
-    expression = "code.empty() or system.exists()"
+    expression = "code.empty() or system.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet"
 )
 @Constraint(
     id = "valueSet-11",
@@ -105,6 +120,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Constraint(
@@ -113,6 +129,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "compose.include.concept.designation.language",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Constraint(
@@ -121,6 +138,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "compose.include.concept.designation.use",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/designation-use",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/designation-use', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/ValueSet",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -138,7 +156,7 @@ public class ValueSet extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -158,7 +176,7 @@ public class ValueSet extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -170,29 +188,26 @@ public class ValueSet extends DomainResource {
     private final Compose compose;
     private final Expansion expansion;
 
-    private volatile int hashCode;
-
     private ValueSet(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         immutable = builder.immutable;
         purpose = builder.purpose;
         copyright = builder.copyright;
         compose = builder.compose;
         expansion = builder.expansion;
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1128,7 +1143,20 @@ public class ValueSet extends DomainResource {
          */
         @Override
         public ValueSet build() {
-            return new ValueSet(this);
+            ValueSet valueSet = new ValueSet(this);
+            if (validating) {
+                validate(valueSet);
+            }
+            return valueSet;
+        }
+
+        protected void validate(ValueSet valueSet) {
+            super.validate(valueSet);
+            ValidationSupport.checkList(valueSet.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(valueSet.status, "status");
+            ValidationSupport.checkList(valueSet.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(valueSet.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(valueSet.jurisdiction, "jurisdiction", CodeableConcept.class);
         }
 
         protected Builder from(ValueSet valueSet) {
@@ -1169,15 +1197,12 @@ public class ValueSet extends DomainResource {
         private final List<Include> include;
         private final List<ValueSet.Compose.Include> exclude;
 
-        private volatile int hashCode;
-
         private Compose(Builder builder) {
             super(builder);
             lockedDate = builder.lockedDate;
             inactive = builder.inactive;
-            include = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.include, "include"));
-            exclude = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.exclude, "exclude"));
-            ValidationSupport.requireValueOrChildren(this);
+            include = Collections.unmodifiableList(builder.include);
+            exclude = Collections.unmodifiableList(builder.exclude);
         }
 
         /**
@@ -1528,7 +1553,18 @@ public class ValueSet extends DomainResource {
              */
             @Override
             public Compose build() {
-                return new Compose(this);
+                Compose compose = new Compose(this);
+                if (validating) {
+                    validate(compose);
+                }
+                return compose;
+            }
+
+            protected void validate(Compose compose) {
+                super.validate(compose);
+                ValidationSupport.checkNonEmptyList(compose.include, "include", Include.class);
+                ValidationSupport.checkList(compose.exclude, "exclude", ValueSet.Compose.Include.class);
+                ValidationSupport.requireValueOrChildren(compose);
             }
 
             protected Builder from(Compose compose) {
@@ -1555,16 +1591,13 @@ public class ValueSet extends DomainResource {
             @Summary
             private final List<Canonical> valueSet;
 
-            private volatile int hashCode;
-
             private Include(Builder builder) {
                 super(builder);
                 system = builder.system;
                 version = builder.version;
-                concept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.concept, "concept"));
-                filter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.filter, "filter"));
-                valueSet = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.valueSet, "valueSet"));
-                ValidationSupport.requireValueOrChildren(this);
+                concept = Collections.unmodifiableList(builder.concept);
+                filter = Collections.unmodifiableList(builder.filter);
+                valueSet = Collections.unmodifiableList(builder.valueSet);
             }
 
             /**
@@ -1956,7 +1989,19 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Include build() {
-                    return new Include(this);
+                    Include include = new Include(this);
+                    if (validating) {
+                        validate(include);
+                    }
+                    return include;
+                }
+
+                protected void validate(Include include) {
+                    super.validate(include);
+                    ValidationSupport.checkList(include.concept, "concept", Concept.class);
+                    ValidationSupport.checkList(include.filter, "filter", Filter.class);
+                    ValidationSupport.checkList(include.valueSet, "valueSet", Canonical.class);
+                    ValidationSupport.requireValueOrChildren(include);
                 }
 
                 protected Builder from(Include include) {
@@ -1979,14 +2024,11 @@ public class ValueSet extends DomainResource {
                 private final String display;
                 private final List<Designation> designation;
 
-                private volatile int hashCode;
-
                 private Concept(Builder builder) {
                     super(builder);
-                    code = ValidationSupport.requireNonNull(builder.code, "code");
+                    code = builder.code;
                     display = builder.display;
-                    designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-                    ValidationSupport.requireValueOrChildren(this);
+                    designation = Collections.unmodifiableList(builder.designation);
                 }
 
                 /**
@@ -2283,7 +2325,18 @@ public class ValueSet extends DomainResource {
                      */
                     @Override
                     public Concept build() {
-                        return new Concept(this);
+                        Concept concept = new Concept(this);
+                        if (validating) {
+                            validate(concept);
+                        }
+                        return concept;
+                    }
+
+                    protected void validate(Concept concept) {
+                        super.validate(concept);
+                        ValidationSupport.requireNonNull(concept.code, "code");
+                        ValidationSupport.checkList(concept.designation, "designation", Designation.class);
+                        ValidationSupport.requireValueOrChildren(concept);
                     }
 
                     protected Builder from(Concept concept) {
@@ -2302,7 +2355,7 @@ public class ValueSet extends DomainResource {
                 public static class Designation extends BackboneElement {
                     @Binding(
                         bindingName = "Language",
-                        strength = BindingStrength.ValueSet.PREFERRED,
+                        strength = BindingStrength.Value.PREFERRED,
                         description = "A human language.",
                         valueSet = "http://hl7.org/fhir/ValueSet/languages",
                         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
@@ -2310,7 +2363,7 @@ public class ValueSet extends DomainResource {
                     private final Code language;
                     @Binding(
                         bindingName = "ConceptDesignationUse",
-                        strength = BindingStrength.ValueSet.EXTENSIBLE,
+                        strength = BindingStrength.Value.EXTENSIBLE,
                         description = "Details of how a designation would be used.",
                         valueSet = "http://hl7.org/fhir/ValueSet/designation-use"
                     )
@@ -2318,15 +2371,11 @@ public class ValueSet extends DomainResource {
                     @Required
                     private final String value;
 
-                    private volatile int hashCode;
-
                     private Designation(Builder builder) {
                         super(builder);
                         language = builder.language;
                         use = builder.use;
-                        value = ValidationSupport.requireNonNull(builder.value, "value");
-                        ValidationSupport.checkValueSetBinding(language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-                        ValidationSupport.requireValueOrChildren(this);
+                        value = builder.value;
                     }
 
                     /**
@@ -2598,7 +2647,18 @@ public class ValueSet extends DomainResource {
                          */
                         @Override
                         public Designation build() {
-                            return new Designation(this);
+                            Designation designation = new Designation(this);
+                            if (validating) {
+                                validate(designation);
+                            }
+                            return designation;
+                        }
+
+                        protected void validate(Designation designation) {
+                            super.validate(designation);
+                            ValidationSupport.requireNonNull(designation.value, "value");
+                            ValidationSupport.checkValueSetBinding(designation.language, "language", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
+                            ValidationSupport.requireValueOrChildren(designation);
                         }
 
                         protected Builder from(Designation designation) {
@@ -2623,7 +2683,7 @@ public class ValueSet extends DomainResource {
                 @Summary
                 @Binding(
                     bindingName = "FilterOperator",
-                    strength = BindingStrength.ValueSet.REQUIRED,
+                    strength = BindingStrength.Value.REQUIRED,
                     description = "The kind of operation to perform as a part of a property based filter.",
                     valueSet = "http://hl7.org/fhir/ValueSet/filter-operator|4.0.1"
                 )
@@ -2633,14 +2693,11 @@ public class ValueSet extends DomainResource {
                 @Required
                 private final String value;
 
-                private volatile int hashCode;
-
                 private Filter(Builder builder) {
                     super(builder);
-                    property = ValidationSupport.requireNonNull(builder.property, "property");
-                    op = ValidationSupport.requireNonNull(builder.op, "op");
-                    value = ValidationSupport.requireNonNull(builder.value, "value");
-                    ValidationSupport.requireValueOrChildren(this);
+                    property = builder.property;
+                    op = builder.op;
+                    value = builder.value;
                 }
 
                 /**
@@ -2924,7 +2981,19 @@ public class ValueSet extends DomainResource {
                      */
                     @Override
                     public Filter build() {
-                        return new Filter(this);
+                        Filter filter = new Filter(this);
+                        if (validating) {
+                            validate(filter);
+                        }
+                        return filter;
+                    }
+
+                    protected void validate(Filter filter) {
+                        super.validate(filter);
+                        ValidationSupport.requireNonNull(filter.property, "property");
+                        ValidationSupport.requireNonNull(filter.op, "op");
+                        ValidationSupport.requireNonNull(filter.value, "value");
+                        ValidationSupport.requireValueOrChildren(filter);
                     }
 
                     protected Builder from(Filter filter) {
@@ -2952,17 +3021,14 @@ public class ValueSet extends DomainResource {
         private final List<Parameter> parameter;
         private final List<Contains> contains;
 
-        private volatile int hashCode;
-
         private Expansion(Builder builder) {
             super(builder);
             identifier = builder.identifier;
-            timestamp = ValidationSupport.requireNonNull(builder.timestamp, "timestamp");
+            timestamp = builder.timestamp;
             total = builder.total;
             offset = builder.offset;
-            parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-            contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
-            ValidationSupport.requireValueOrChildren(this);
+            parameter = Collections.unmodifiableList(builder.parameter);
+            contains = Collections.unmodifiableList(builder.contains);
         }
 
         /**
@@ -3374,7 +3440,19 @@ public class ValueSet extends DomainResource {
              */
             @Override
             public Expansion build() {
-                return new Expansion(this);
+                Expansion expansion = new Expansion(this);
+                if (validating) {
+                    validate(expansion);
+                }
+                return expansion;
+            }
+
+            protected void validate(Expansion expansion) {
+                super.validate(expansion);
+                ValidationSupport.requireNonNull(expansion.timestamp, "timestamp");
+                ValidationSupport.checkList(expansion.parameter, "parameter", Parameter.class);
+                ValidationSupport.checkList(expansion.contains, "contains", Contains.class);
+                ValidationSupport.requireValueOrChildren(expansion);
             }
 
             protected Builder from(Expansion expansion) {
@@ -3399,13 +3477,10 @@ public class ValueSet extends DomainResource {
             @Choice({ String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class })
             private final Element value;
 
-            private volatile int hashCode;
-
             private Parameter(Builder builder) {
                 super(builder);
-                name = ValidationSupport.requireNonNull(builder.name, "name");
-                value = ValidationSupport.choiceElement(builder.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
-                ValidationSupport.requireValueOrChildren(this);
+                name = builder.name;
+                value = builder.value;
             }
 
             /**
@@ -3661,7 +3736,18 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Parameter build() {
-                    return new Parameter(this);
+                    Parameter parameter = new Parameter(this);
+                    if (validating) {
+                        validate(parameter);
+                    }
+                    return parameter;
+                }
+
+                protected void validate(Parameter parameter) {
+                    super.validate(parameter);
+                    ValidationSupport.requireNonNull(parameter.name, "name");
+                    ValidationSupport.choiceElement(parameter.value, "value", String.class, Boolean.class, Integer.class, Decimal.class, Uri.class, Code.class, DateTime.class);
+                    ValidationSupport.requireValueOrChildren(parameter);
                 }
 
                 protected Builder from(Parameter parameter) {
@@ -3686,8 +3772,6 @@ public class ValueSet extends DomainResource {
             private final List<ValueSet.Compose.Include.Concept.Designation> designation;
             private final List<ValueSet.Expansion.Contains> contains;
 
-            private volatile int hashCode;
-
             private Contains(Builder builder) {
                 super(builder);
                 system = builder.system;
@@ -3696,9 +3780,8 @@ public class ValueSet extends DomainResource {
                 version = builder.version;
                 code = builder.code;
                 display = builder.display;
-                designation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.designation, "designation"));
-                contains = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contains, "contains"));
-                ValidationSupport.requireValueOrChildren(this);
+                designation = Collections.unmodifiableList(builder.designation);
+                contains = Collections.unmodifiableList(builder.contains);
             }
 
             /**
@@ -4163,7 +4246,18 @@ public class ValueSet extends DomainResource {
                  */
                 @Override
                 public Contains build() {
-                    return new Contains(this);
+                    Contains contains = new Contains(this);
+                    if (validating) {
+                        validate(contains);
+                    }
+                    return contains;
+                }
+
+                protected void validate(Contains contains) {
+                    super.validate(contains);
+                    ValidationSupport.checkList(contains.designation, "designation", ValueSet.Compose.Include.Concept.Designation.class);
+                    ValidationSupport.checkList(contains.contains, "contains", ValueSet.Expansion.Contains.class);
+                    ValidationSupport.requireValueOrChildren(contains);
                 }
 
                 protected Builder from(Contains contains) {

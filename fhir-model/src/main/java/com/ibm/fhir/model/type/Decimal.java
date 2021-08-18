@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,12 +22,9 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Decimal extends Element {
     private final BigDecimal value;
 
-    private volatile int hashCode;
-
     private Decimal(Builder builder) {
         super(builder);
         value = builder.value;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -50,15 +47,36 @@ public class Decimal extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a BigDecimal
+     * 
+     * @param value
+     *     A BigDecimal, not null
+     */
     public static Decimal of(BigDecimal value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a Number
+     * 
+     * @param value
+     *     A Number, not null
+     */
     public static Decimal of(Number value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value.toString()).build();
     }
 
+    /**
+     * Factory method for creating Decimal objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed into a BigDecimal, not null
+     */
     public static Decimal of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Decimal.builder().value(value).build();
     }
 
@@ -203,7 +221,16 @@ public class Decimal extends Element {
          */
         @Override
         public Decimal build() {
-            return new Decimal(this);
+            Decimal decimal = new Decimal(this);
+            if (validating) {
+                validate(decimal);
+            }
+            return decimal;
+        }
+
+        protected void validate(Decimal decimal) {
+            super.validate(decimal);
+            ValidationSupport.requireValueOrChildren(decimal);
         }
 
         protected Builder from(Decimal decimal) {

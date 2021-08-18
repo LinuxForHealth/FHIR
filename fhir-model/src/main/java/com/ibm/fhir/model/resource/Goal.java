@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -41,19 +42,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.GoalLifecycleStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes the intended objective(s) for a patient, group or organization care, for example, weight loss, restoring an 
  * activity of daily living, obtaining herd immunity via immunization, meeting a process improvement objective, etc.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "gol-1",
     level = "Rule",
     location = "Goal.target",
     description = "Goal.target.measure is required if Goal.target.detail is populated",
-    expression = "(detail.exists() and measure.exists()) or detail.exists().not()"
+    expression = "(detail.exists() and measure.exists()) or detail.exists().not()",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal"
 )
 @Constraint(
     id = "goal-2",
@@ -61,6 +70,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-achievement",
     expression = "achievementStatus.exists() implies (achievementStatus.memberOf('http://hl7.org/fhir/ValueSet/goal-achievement', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal",
     generated = true
 )
 @Constraint(
@@ -69,6 +79,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/goal-priority",
     expression = "priority.exists() implies (priority.memberOf('http://hl7.org/fhir/ValueSet/goal-priority', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Goal",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -77,7 +88,7 @@ public class Goal extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GoalLifecycleStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes that reflect the current state of a goal and whether the goal is still being targeted.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-status|4.0.1"
     )
@@ -86,7 +97,7 @@ public class Goal extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GoalAchievementStatus",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Indicates the progression, or lack thereof, towards the goal against the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-achievement"
     )
@@ -94,7 +105,7 @@ public class Goal extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GoalCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes for grouping and sorting goals.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-category"
     )
@@ -102,7 +113,7 @@ public class Goal extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GoalPriority",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The level of importance associated with a goal.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-priority"
     )
@@ -110,7 +121,7 @@ public class Goal extends DomainResource {
     @Summary
     @Binding(
         bindingName = "GoalDescription",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes providing the details of a particular goal.  This will generally be system or implementation guide-specific.  In many systems, only the text element will be used.",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -124,7 +135,7 @@ public class Goal extends DomainResource {
     @Choice({ Date.class, CodeableConcept.class })
     @Binding(
         bindingName = "GoalStartEvent",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing events that can trigger the initiation of a goal.",
         valueSet = "http://hl7.org/fhir/ValueSet/goal-start-event"
     )
@@ -141,7 +152,7 @@ public class Goal extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "GoalOutcome",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The result of the goal; e.g. \"25% increase in shoulder mobility\", \"Anxiety reduced to moderate levels\".  \"15 kg weight loss sustained over 6 months\".",
         valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
     )
@@ -149,31 +160,24 @@ public class Goal extends DomainResource {
     @ReferenceTarget({ "Observation" })
     private final List<Reference> outcomeReference;
 
-    private volatile int hashCode;
-
     private Goal(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        lifecycleStatus = ValidationSupport.requireNonNull(builder.lifecycleStatus, "lifecycleStatus");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        lifecycleStatus = builder.lifecycleStatus;
         achievementStatus = builder.achievementStatus;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         priority = builder.priority;
-        description = ValidationSupport.requireNonNull(builder.description, "description");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
-        start = ValidationSupport.choiceElement(builder.start, "start", Date.class, CodeableConcept.class);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
+        description = builder.description;
+        subject = builder.subject;
+        start = builder.start;
+        target = Collections.unmodifiableList(builder.target);
         statusDate = builder.statusDate;
         statusReason = builder.statusReason;
         expressedBy = builder.expressedBy;
-        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        outcomeCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCode, "outcomeCode"));
-        outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Organization");
-        ValidationSupport.checkReferenceType(expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
-        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
-        ValidationSupport.checkReferenceType(outcomeReference, "outcomeReference", "Observation");
-        ValidationSupport.requireChildren(this);
+        addresses = Collections.unmodifiableList(builder.addresses);
+        note = Collections.unmodifiableList(builder.note);
+        outcomeCode = Collections.unmodifiableList(builder.outcomeCode);
+        outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
     }
 
     /**
@@ -1134,7 +1138,30 @@ public class Goal extends DomainResource {
          */
         @Override
         public Goal build() {
-            return new Goal(this);
+            Goal goal = new Goal(this);
+            if (validating) {
+                validate(goal);
+            }
+            return goal;
+        }
+
+        protected void validate(Goal goal) {
+            super.validate(goal);
+            ValidationSupport.checkList(goal.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(goal.lifecycleStatus, "lifecycleStatus");
+            ValidationSupport.checkList(goal.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(goal.description, "description");
+            ValidationSupport.requireNonNull(goal.subject, "subject");
+            ValidationSupport.choiceElement(goal.start, "start", Date.class, CodeableConcept.class);
+            ValidationSupport.checkList(goal.target, "target", Target.class);
+            ValidationSupport.checkList(goal.addresses, "addresses", Reference.class);
+            ValidationSupport.checkList(goal.note, "note", Annotation.class);
+            ValidationSupport.checkList(goal.outcomeCode, "outcomeCode", CodeableConcept.class);
+            ValidationSupport.checkList(goal.outcomeReference, "outcomeReference", Reference.class);
+            ValidationSupport.checkReferenceType(goal.subject, "subject", "Patient", "Group", "Organization");
+            ValidationSupport.checkReferenceType(goal.expressedBy, "expressedBy", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson");
+            ValidationSupport.checkReferenceType(goal.addresses, "addresses", "Condition", "Observation", "MedicationStatement", "NutritionOrder", "ServiceRequest", "RiskAssessment");
+            ValidationSupport.checkReferenceType(goal.outcomeReference, "outcomeReference", "Observation");
         }
 
         protected Builder from(Goal goal) {
@@ -1166,7 +1193,7 @@ public class Goal extends DomainResource {
         @Summary
         @Binding(
             bindingName = "GoalTargetMeasure",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes to identify the value being tracked, e.g. body weight, blood pressure, or hemoglobin A1c level.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
@@ -1175,7 +1202,7 @@ public class Goal extends DomainResource {
         @Choice({ Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class })
         @Binding(
             bindingName = "GoalTargetDetail",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes to identify the target value of the focus to be achieved to signify the fulfillment of the goal."
         )
         private final Element detail;
@@ -1183,14 +1210,11 @@ public class Goal extends DomainResource {
         @Choice({ Date.class, Duration.class })
         private final Element due;
 
-        private volatile int hashCode;
-
         private Target(Builder builder) {
             super(builder);
             measure = builder.measure;
-            detail = ValidationSupport.choiceElement(builder.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
-            due = ValidationSupport.choiceElement(builder.due, "due", Date.class, Duration.class);
-            ValidationSupport.requireValueOrChildren(this);
+            detail = builder.detail;
+            due = builder.due;
         }
 
         /**
@@ -1478,7 +1502,18 @@ public class Goal extends DomainResource {
              */
             @Override
             public Target build() {
-                return new Target(this);
+                Target target = new Target(this);
+                if (validating) {
+                    validate(target);
+                }
+                return target;
+            }
+
+            protected void validate(Target target) {
+                super.validate(target);
+                ValidationSupport.choiceElement(target.detail, "detail", Quantity.class, Range.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Ratio.class);
+                ValidationSupport.choiceElement(target.due, "due", Date.class, Duration.class);
+                ValidationSupport.requireValueOrChildren(target);
             }
 
             protected Builder from(Target target) {

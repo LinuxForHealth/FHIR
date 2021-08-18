@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -46,32 +47,42 @@ import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ObservationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Measurements and simple assertions made about a patient, device or other subject.
+ * 
+ * <p>Maturity level: FMM5 (Normative)
  */
+@Maturity(
+    level = 5,
+    status = StandardsStatus.Value.NORMATIVE
+)
 @Constraint(
     id = "obs-3",
     level = "Rule",
     location = "Observation.referenceRange",
     description = "Must have at least a low or a high or text",
-    expression = "low.exists() or high.exists() or text.exists()"
+    expression = "low.exists() or high.exists() or text.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "obs-6",
     level = "Rule",
     location = "(base)",
     description = "dataAbsentReason SHALL only be present if Observation.value[x] is not present",
-    expression = "dataAbsentReason.empty() or value.empty()"
+    expression = "dataAbsentReason.empty() or value.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "obs-7",
     level = "Rule",
     location = "(base)",
     description = "If Observation.code is the same as an Observation.component.code then the value element associated with the code SHALL NOT be present",
-    expression = "value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()"
+    expression = "value.empty() or component.code.where(coding.intersect(%resource.code.coding).exists()).empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation"
 )
 @Constraint(
     id = "observation-8",
@@ -79,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/observation-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/observation-category', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -87,6 +99,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
     expression = "dataAbsentReason.exists() implies (dataAbsentReason.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -95,6 +108,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
     expression = "interpretation.exists() implies (interpretation.all(memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -103,6 +117,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "referenceRange.type",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/referencerange-meaning",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/referencerange-meaning', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -111,6 +126,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "component.dataAbsentReason",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/data-absent-reason",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/data-absent-reason', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Constraint(
@@ -119,6 +135,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "component.interpretation",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/observation-interpretation",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/observation-interpretation', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Observation",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -134,7 +151,7 @@ public class Observation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ObservationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes providing the status of an observation.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-status|4.0.1"
     )
@@ -142,7 +159,7 @@ public class Observation extends DomainResource {
     private final ObservationStatus status;
     @Binding(
         bindingName = "ObservationCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Codes for high level observation categories.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-category"
     )
@@ -150,7 +167,7 @@ public class Observation extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ObservationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes identifying names of simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
     )
@@ -177,14 +194,14 @@ public class Observation extends DomainResource {
     private final Element value;
     @Binding(
         bindingName = "ObservationValueAbsentReason",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
         valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
     )
     private final CodeableConcept dataAbsentReason;
     @Binding(
         bindingName = "ObservationInterpretation",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Codes identifying interpretations of observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
     )
@@ -192,14 +209,14 @@ public class Observation extends DomainResource {
     private final List<Annotation> note;
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept bodySite;
     @Binding(
         bindingName = "ObservationMethod",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Methods for simple observations.",
         valueSet = "http://hl7.org/fhir/ValueSet/observation-methods"
     )
@@ -218,44 +235,32 @@ public class Observation extends DomainResource {
     @Summary
     private final List<Component> component;
 
-    private volatile int hashCode;
-
     private Observation(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
         subject = builder.subject;
-        focus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.focus, "focus"));
+        focus = Collections.unmodifiableList(builder.focus);
         encounter = builder.encounter;
-        effective = ValidationSupport.choiceElement(builder.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
+        effective = builder.effective;
         issued = builder.issued;
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-        value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+        performer = Collections.unmodifiableList(builder.performer);
+        value = builder.value;
         dataAbsentReason = builder.dataAbsentReason;
-        interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
+        interpretation = Collections.unmodifiableList(builder.interpretation);
+        note = Collections.unmodifiableList(builder.note);
         bodySite = builder.bodySite;
         method = builder.method;
         specimen = builder.specimen;
         device = builder.device;
-        referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
-        hasMember = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.hasMember, "hasMember"));
-        derivedFrom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.derivedFrom, "derivedFrom"));
-        component = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.component, "component"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group", "Device", "Location");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(specimen, "specimen", "Specimen");
-        ValidationSupport.checkReferenceType(device, "device", "Device", "DeviceMetric");
-        ValidationSupport.checkReferenceType(hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
-        ValidationSupport.checkReferenceType(derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
-        ValidationSupport.requireChildren(this);
+        referenceRange = Collections.unmodifiableList(builder.referenceRange);
+        hasMember = Collections.unmodifiableList(builder.hasMember);
+        derivedFrom = Collections.unmodifiableList(builder.derivedFrom);
+        component = Collections.unmodifiableList(builder.component);
     }
 
     /**
@@ -1679,7 +1684,40 @@ public class Observation extends DomainResource {
          */
         @Override
         public Observation build() {
-            return new Observation(this);
+            Observation observation = new Observation(this);
+            if (validating) {
+                validate(observation);
+            }
+            return observation;
+        }
+
+        protected void validate(Observation observation) {
+            super.validate(observation);
+            ValidationSupport.checkList(observation.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(observation.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(observation.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(observation.status, "status");
+            ValidationSupport.checkList(observation.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(observation.code, "code");
+            ValidationSupport.checkList(observation.focus, "focus", Reference.class);
+            ValidationSupport.choiceElement(observation.effective, "effective", DateTime.class, Period.class, Timing.class, Instant.class);
+            ValidationSupport.checkList(observation.performer, "performer", Reference.class);
+            ValidationSupport.choiceElement(observation.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+            ValidationSupport.checkList(observation.interpretation, "interpretation", CodeableConcept.class);
+            ValidationSupport.checkList(observation.note, "note", Annotation.class);
+            ValidationSupport.checkList(observation.referenceRange, "referenceRange", ReferenceRange.class);
+            ValidationSupport.checkList(observation.hasMember, "hasMember", Reference.class);
+            ValidationSupport.checkList(observation.derivedFrom, "derivedFrom", Reference.class);
+            ValidationSupport.checkList(observation.component, "component", Component.class);
+            ValidationSupport.checkReferenceType(observation.basedOn, "basedOn", "CarePlan", "DeviceRequest", "ImmunizationRecommendation", "MedicationRequest", "NutritionOrder", "ServiceRequest");
+            ValidationSupport.checkReferenceType(observation.partOf, "partOf", "MedicationAdministration", "MedicationDispense", "MedicationStatement", "Procedure", "Immunization", "ImagingStudy");
+            ValidationSupport.checkReferenceType(observation.subject, "subject", "Patient", "Group", "Device", "Location");
+            ValidationSupport.checkReferenceType(observation.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(observation.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "CareTeam", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(observation.specimen, "specimen", "Specimen");
+            ValidationSupport.checkReferenceType(observation.device, "device", "Device", "DeviceMetric");
+            ValidationSupport.checkReferenceType(observation.hasMember, "hasMember", "Observation", "QuestionnaireResponse", "MolecularSequence");
+            ValidationSupport.checkReferenceType(observation.derivedFrom, "derivedFrom", "DocumentReference", "ImagingStudy", "Media", "QuestionnaireResponse", "Observation", "MolecularSequence");
         }
 
         protected Builder from(Observation observation) {
@@ -1722,14 +1760,14 @@ public class Observation extends DomainResource {
         private final SimpleQuantity high;
         @Binding(
             bindingName = "ObservationRangeMeaning",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Code for the meaning of a reference range.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-meaning"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ObservationRangeType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes identifying the population the reference range applies to.",
             valueSet = "http://hl7.org/fhir/ValueSet/referencerange-appliesto"
         )
@@ -1737,17 +1775,14 @@ public class Observation extends DomainResource {
         private final Range age;
         private final String text;
 
-        private volatile int hashCode;
-
         private ReferenceRange(Builder builder) {
             super(builder);
             low = builder.low;
             high = builder.high;
             type = builder.type;
-            appliesTo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appliesTo, "appliesTo"));
+            appliesTo = Collections.unmodifiableList(builder.appliesTo);
             age = builder.age;
             text = builder.text;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2142,7 +2177,17 @@ public class Observation extends DomainResource {
              */
             @Override
             public ReferenceRange build() {
-                return new ReferenceRange(this);
+                ReferenceRange referenceRange = new ReferenceRange(this);
+                if (validating) {
+                    validate(referenceRange);
+                }
+                return referenceRange;
+            }
+
+            protected void validate(ReferenceRange referenceRange) {
+                super.validate(referenceRange);
+                ValidationSupport.checkList(referenceRange.appliesTo, "appliesTo", CodeableConcept.class);
+                ValidationSupport.requireValueOrChildren(referenceRange);
             }
 
             protected Builder from(ReferenceRange referenceRange) {
@@ -2167,7 +2212,7 @@ public class Observation extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ObservationCode",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes identifying names of simple observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-codes"
         )
@@ -2178,30 +2223,27 @@ public class Observation extends DomainResource {
         private final Element value;
         @Binding(
             bindingName = "ObservationValueAbsentReason",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes specifying why the result (`Observation.value[x]`) is missing.",
             valueSet = "http://hl7.org/fhir/ValueSet/data-absent-reason"
         )
         private final CodeableConcept dataAbsentReason;
         @Binding(
             bindingName = "ObservationInterpretation",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Codes identifying interpretations of observations.",
             valueSet = "http://hl7.org/fhir/ValueSet/observation-interpretation"
         )
         private final List<CodeableConcept> interpretation;
         private final List<Observation.ReferenceRange> referenceRange;
 
-        private volatile int hashCode;
-
         private Component(Builder builder) {
             super(builder);
-            code = ValidationSupport.requireNonNull(builder.code, "code");
-            value = ValidationSupport.choiceElement(builder.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+            code = builder.code;
+            value = builder.value;
             dataAbsentReason = builder.dataAbsentReason;
-            interpretation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.interpretation, "interpretation"));
-            referenceRange = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.referenceRange, "referenceRange"));
-            ValidationSupport.requireValueOrChildren(this);
+            interpretation = Collections.unmodifiableList(builder.interpretation);
+            referenceRange = Collections.unmodifiableList(builder.referenceRange);
         }
 
         /**
@@ -2586,7 +2628,20 @@ public class Observation extends DomainResource {
              */
             @Override
             public Component build() {
-                return new Component(this);
+                Component component = new Component(this);
+                if (validating) {
+                    validate(component);
+                }
+                return component;
+            }
+
+            protected void validate(Component component) {
+                super.validate(component);
+                ValidationSupport.requireNonNull(component.code, "code");
+                ValidationSupport.choiceElement(component.value, "value", Quantity.class, CodeableConcept.class, String.class, Boolean.class, Integer.class, Range.class, Ratio.class, SampledData.class, Time.class, DateTime.class, Period.class);
+                ValidationSupport.checkList(component.interpretation, "interpretation", CodeableConcept.class);
+                ValidationSupport.checkList(component.referenceRange, "referenceRange", Observation.ReferenceRange.class);
+                ValidationSupport.requireValueOrChildren(component);
             }
 
             protected Builder from(Component component) {

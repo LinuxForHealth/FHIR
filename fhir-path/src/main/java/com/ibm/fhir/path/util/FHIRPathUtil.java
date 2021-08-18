@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,6 +32,7 @@ import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -49,6 +50,7 @@ import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
+import com.ibm.fhir.model.resource.DomainResource;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
@@ -86,8 +88,6 @@ import com.ibm.fhir.path.evaluator.FHIRPathEvaluator;
 import com.ibm.fhir.path.exception.FHIRPathException;
 
 public final class FHIRPathUtil {
-    private static FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
-
     public static final Set<String> STRING_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "t", "yes", "y", "1", "1.0"));
     public static final Set<String> STRING_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "f", "no", "n", "0", "0.0"));
     public static final Integer INTEGER_TRUE = 1;
@@ -127,6 +127,26 @@ public final class FHIRPathUtil {
     private FHIRPathUtil() { }
 
     public static ExpressionContext compile(String expr) {
+        int startIndex = -1;
+        for (int i = 0; i < expr.length(); i++) {
+            if (!Character.isWhitespace(expr.charAt(i))) {
+                startIndex = i;
+                break;
+            }
+        }
+
+        int stopIndex = -1;
+        for (int i = expr.length() - 1; i >= 0; i--) {
+            if (!Character.isWhitespace(expr.charAt(i))) {
+                stopIndex = i;
+                break;
+            }
+        }
+
+        if (startIndex == -1 || stopIndex == -1) {
+            throw new IllegalArgumentException("Invalid FHIRPath expression: '" + expr + "'");
+        }
+
         FHIRPathLexer lexer = new FHIRPathLexer(CharStreams.fromString(expr));
         lexer.removeErrorListeners();
         lexer.addErrorListener(SYNTAX_ERROR_LISTENER);
@@ -137,7 +157,17 @@ public final class FHIRPathUtil {
         parser.removeErrorListeners();
         parser.addErrorListener(SYNTAX_ERROR_LISTENER);
 
-        return parser.expression();
+        ExpressionContext expressionContext = parser.expression();
+
+        if (expressionContext.getStart() == null || expressionContext.getStop() == null) {
+            throw new IllegalArgumentException("FHIRPath expression was parsed but start and/or stop token was null");
+        }
+
+        if (expressionContext.getStart().getStartIndex() != startIndex || expressionContext.getStop().getStopIndex() != stopIndex) {
+            throw new IllegalArgumentException("FHIRPath expression parsing error at: '" + expr.charAt(expressionContext.getStop().getStopIndex() + 1) + "'");
+        }
+
+        return expressionContext;
     }
 
     public static boolean isTypeCompatible(FHIRPathSystemValue leftValue, FHIRPathSystemValue rightValue) {
@@ -685,10 +715,7 @@ public final class FHIRPathUtil {
 
     public static TupleTypeInfoElement buildTupleTypeInfoElement(ElementInfo elementInfo) {
         FHIRPathType type = FHIRPathType.from(elementInfo.getType());
-        if (elementInfo.isRepeating()) {
-            return new TupleTypeInfoElement(elementInfo.getName(), "List<" + type.namespace() + "." + type.getName() + ">", false);
-        }
-        return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName());
+        return new TupleTypeInfoElement(elementInfo.getName(), type.namespace() + "." + type.getName(), !elementInfo.isRepeating());
     }
 
     public static ClassInfo buildClassInfo(FHIRPathType type) {
@@ -713,10 +740,7 @@ public final class FHIRPathUtil {
         } else {
             typeName = type.getName();
         }
-        if (elementInfo.isRepeating()) {
-            return new ClassInfoElement(elementInfo.getName(), "List<" + typeName + ">", false);
-        }
-        return new ClassInfoElement(elementInfo.getName(), typeName);
+        return new ClassInfoElement(elementInfo.getName(), typeName, !elementInfo.isRepeating());
     }
 
     public static Collection<FHIRPathNode> unordered(Collection<FHIRPathNode> nodes) {
@@ -860,19 +884,20 @@ public final class FHIRPathUtil {
      * @throws FHIRPatchException
      * @throws NullPointerException if any of the passed arguments are null
      */
-    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+    public static <T extends Visitable> T add(T elementOrResource, String fhirPath, String elementName, Visitable value)
+            throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
         Visitable parent = node.isResourceNode() ?
                 node.asResourceNode().resource() : node.asElementNode().element();
 
-        AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
-
         try {
+            AddingVisitor<T> addingVisitor = new AddingVisitor<>(parent, node.path(), elementName, value);
             elementOrResource.accept(addingVisitor);
-        } catch (IllegalStateException e) {
+            return addingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while adding the value", fhirPath, e);
         }
-        return addingVisitor.getResult();
     }
 
     /**
@@ -882,15 +907,16 @@ public final class FHIRPathUtil {
      * @throws NullPointerException if any of the passed arguments are null
      */
     public static <T extends Visitable> T delete(T elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
-        DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
 
         try {
+            DeletingVisitor<T> deletingVisitor = new DeletingVisitor<T>(node.path());
             elementOrResource.accept(deletingVisitor);
-        } catch (IllegalStateException e) {
+            return deletingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while deleting the value", fhirPath, e);
         }
-        return deletingVisitor.getResult();
     }
 
     /**
@@ -901,25 +927,39 @@ public final class FHIRPathUtil {
      * @throws NullPointerException if any of the passed arguments are null
      */
     public static <T extends Visitable> T replace(T elementOrResource, String fhirPath, Visitable value) throws FHIRPathException, FHIRPatchException {
-        FHIRPathNode node = evaluateToSingle(elementOrResource, fhirPath);
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
+        FHIRPathNode node = evaluateToSingle(evaluator, elementOrResource, fhirPath);
         String elementName = node.name();
 
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parentNode = tree.getParent(node);
+
+        if (parentNode == null) {
+            throw new FHIRPatchException("Unable to compute the parent for '" + elementName + "';" +
+                    " a FHIRPathPatch replace FHIRPath must select a node with a parent", fhirPath);
+        }
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
-
         try {
+            ReplacingVisitor<T> replacingVisitor = new ReplacingVisitor<T>(parent, elementName, node.path(), value);
             elementOrResource.accept(replacingVisitor);
-        } catch (IllegalStateException e) {
+            return replacingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while replacing the value", fhirPath, e);
         }
-        return replacingVisitor.getResult();
     }
 
-    private static FHIRPathNode evaluateToSingle(Visitable elementOrResource, String fhirPath) throws FHIRPathException, FHIRPatchException {
+    /**
+     * @param evaluator
+     * @param elementOrResource
+     * @param fhirPath
+     * @return
+     * @throws FHIRPathException
+     * @throws FHIRPatchException if the fhirPath does not evaluate to a single node
+     */
+    private static FHIRPathNode evaluateToSingle(FHIRPathEvaluator evaluator, Visitable elementOrResource, String fhirPath)
+            throws FHIRPathException, FHIRPatchException {
         /*
          * 1. The FHIRPath statement must return a single element.
          * 2. The FHIRPath statement SHALL NOT cross resources using the resolve() function
@@ -933,6 +973,9 @@ public final class FHIRPathUtil {
          * 5. Except for the delete operation, it is an error if no element matches the specified path.
          */
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
+        if (!isSingleton(nodes)) {
+            throw new FHIRPatchException("The FHIRPath must return a single element but instead returned " + nodes.size(), fhirPath);
+        }
         return getSingleton(nodes);
     }
 
@@ -946,6 +989,7 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T insert(T elementOrResource, String fhirPath, int index, Visitable value)
             throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (index > nodes.size()) {
             throw new FHIRPatchException("Index must be equal or less than the number of elements in the list", fhirPath);
@@ -959,14 +1003,13 @@ public final class FHIRPathUtil {
         Visitable parent = parentNode.isResourceNode() ?
                 parentNode.asResourceNode().resource() : parentNode.asElementNode().element();
 
-        InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
-
         try {
+            InsertingVisitor<T> insertingVisitor = new InsertingVisitor<T>(parent, parentNode.path(), elementName, index, value);
             elementOrResource.accept(insertingVisitor);
-        } catch (IllegalStateException e) {
+            return insertingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while inserting the value", fhirPath, e);
         }
-        return insertingVisitor.getResult();
     }
 
     /**
@@ -977,6 +1020,7 @@ public final class FHIRPathUtil {
      */
     public static <T extends Visitable> T move(T elementOrResource, String fhirPath, int source, int target)
             throws FHIRPathException, FHIRPatchException {
+        FHIRPathEvaluator evaluator = FHIRPathEvaluator.evaluator();
         Collection<FHIRPathNode> nodes = evaluator.evaluate(elementOrResource, fhirPath);
         if (source > nodes.size() || target > nodes.size()) {
             throw new FHIRPatchException("Source and target indices must be less than or equal to"
@@ -990,14 +1034,13 @@ public final class FHIRPathUtil {
         FHIRPathTree tree = evaluator.getEvaluationContext().getTree();
         FHIRPathNode parent = getCommonParent(fhirPath, nodes, tree);
 
-        MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
-
         try {
+            MovingVisitor<T> movingVisitor = new MovingVisitor<T>(parent.path(), elementName, source, target);
             elementOrResource.accept(movingVisitor);
-        } catch (IllegalStateException e) {
+            return movingVisitor.getResult();
+        } catch (IllegalArgumentException | IllegalStateException e) {
             throw new FHIRPatchException("An error occurred while moving the value", fhirPath, e);
         }
-        return movingVisitor.getResult();
     }
 
     /**
@@ -1048,5 +1091,160 @@ public final class FHIRPathUtil {
             }
         }
         return parent;
+    }
+
+    /**
+     * Get the resource node to use as a value for the %resource external constant.
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the resource node, or null if not exists
+     */
+    public static FHIRPathResourceNode getResourceNode(FHIRPathTree tree, FHIRPathNode node) {
+        // get resource node ancestors for the context node
+        List<FHIRPathResourceNode> resourceNodes = getResourceNodes(tree, node);
+
+        if (!resourceNodes.isEmpty()) {
+            // return nearest resource node ancestor
+            return resourceNodes.get(0);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the resource node to use as a value for the %rootResource external constant.
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the rootResource node, or null if not exists
+     */
+    public static FHIRPathResourceNode getRootResourceNode(FHIRPathTree tree, FHIRPathNode node) {
+        // get resource node ancestors for the context node
+        List<FHIRPathResourceNode> resourceNodes = getResourceNodes(tree, node);
+
+        if (!resourceNodes.isEmpty()) {
+            if (isContained(resourceNodes)) {
+                return resourceNodes.get(1);
+            } else {
+                return resourceNodes.get(0);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Determine whether the list of resource node ancestors indicates containment within a domain resource.
+     *
+     * @param resourceNodes
+     *     the list of resource node ancestors
+     * @return
+     *     true if there is containment, false otherwise
+     */
+    private static boolean isContained(List<FHIRPathResourceNode> resourceNodes) {
+        return resourceNodes.size() > 1 && resourceNodes.get(1).resource().is(DomainResource.class);
+    }
+
+    /**
+     * Get the list of resource nodes in the path of the given context node (including the context node itself).
+     * The ancestors are ordered from node to root (i.e. the node at index 0 is either the current node or
+     * the nearest resource node ancestor).
+     *
+     * @param tree
+     *     the FHIRPath tree
+     * @param node
+     *     the context node
+     * @return
+     *     the list of resource node ancestors, or empty if none exist
+     */
+    private static List<FHIRPathResourceNode> getResourceNodes(FHIRPathTree tree, FHIRPathNode node) {
+        if (tree != null) {
+            List<FHIRPathResourceNode> resourceNodes = new ArrayList<>();
+
+            if (node.isResourceNode()) {
+                resourceNodes.add(node.asResourceNode());
+            }
+
+            String path = node.path();
+            int index = path.lastIndexOf(".");
+            while (index != -1) {
+                path = path.substring(0, index);
+                node = tree.getNode(path);
+                if (node.isResourceNode()) {
+                    resourceNodes.add(node.asResourceNode());
+                }
+                index = path.lastIndexOf(".");
+            }
+
+            return resourceNodes;
+        }
+        return Collections.emptyList();
+    }
+
+    /**
+     * Get the URI-typed sibling of the given element node with name "system".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the URI-typed sibling of the given element node with name "system", or null if no such sibling exists
+     */
+    public static Uri getSystem(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode systemNode = tree.getSibling(elementNode, "system");
+            if (systemNode != null && FHIRPathType.FHIR_URI.equals(systemNode.type())) {
+                return systemNode.asElementNode().element().as(Uri.class);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "version".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "version", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getVersion(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode versionNode = tree.getSibling(elementNode, "version");
+            if (versionNode != null && FHIRPathType.FHIR_STRING.equals(versionNode.type())) {
+                return versionNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the String-typed sibling of the given element node with name "display".
+     *
+     * @param tree
+     *     the tree
+     * @param elementNode
+     *     the element node
+     * @return
+     *     the String-typed sibling of the given element node with name "display", or null if no such sibling exists
+     */
+    public static com.ibm.fhir.model.type.String getDisplay(FHIRPathTree tree, FHIRPathElementNode elementNode) {
+        if (tree != null) {
+            FHIRPathNode displayNode = tree.getSibling(elementNode, "display");
+            if (displayNode != null && FHIRPathType.FHIR_STRING.equals(displayNode.type())) {
+                return displayNode.asElementNode().element().as(FHIR_STRING);
+            }
+        }
+        return null;
     }
 }

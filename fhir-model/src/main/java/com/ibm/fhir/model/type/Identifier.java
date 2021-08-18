@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -29,6 +29,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/identifier-type",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/identifier-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Identifier",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -36,7 +37,7 @@ public class Identifier extends Element {
     @Summary
     @Binding(
         bindingName = "IdentifierUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the purpose for this identifier, if known .",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-use|4.0.1"
     )
@@ -44,7 +45,7 @@ public class Identifier extends Element {
     @Summary
     @Binding(
         bindingName = "IdentifierType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A coded type for an identifier that can be used to determine which identifier to use for a specific purpose.",
         valueSet = "http://hl7.org/fhir/ValueSet/identifier-type"
     )
@@ -59,8 +60,6 @@ public class Identifier extends Element {
     @ReferenceTarget({ "Organization" })
     private final Reference assigner;
 
-    private volatile int hashCode;
-
     private Identifier(Builder builder) {
         super(builder);
         use = builder.use;
@@ -69,8 +68,6 @@ public class Identifier extends Element {
         value = builder.value;
         period = builder.period;
         assigner = builder.assigner;
-        ValidationSupport.checkReferenceType(assigner, "assigner", "Organization");
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -376,7 +373,17 @@ public class Identifier extends Element {
          */
         @Override
         public Identifier build() {
-            return new Identifier(this);
+            Identifier identifier = new Identifier(this);
+            if (validating) {
+                validate(identifier);
+            }
+            return identifier;
+        }
+
+        protected void validate(Identifier identifier) {
+            super.validate(identifier);
+            ValidationSupport.checkReferenceType(identifier.assigner, "assigner", "Organization");
+            ValidationSupport.requireValueOrChildren(identifier);
         }
 
         protected Builder from(Identifier identifier) {

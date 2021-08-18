@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -29,12 +30,19 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.FlagStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Prospective warnings of potential issues when providing care to the patient.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Flag extends DomainResource {
     @Summary
@@ -42,7 +50,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether this flag is active and needs to be displayed to a user, or whether it is no longer needed or was entered in error.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-status|4.0.1"
     )
@@ -51,7 +59,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A general category for flags for filtering/display purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-category"
     )
@@ -59,7 +67,7 @@ public class Flag extends DomainResource {
     @Summary
     @Binding(
         bindingName = "FlagCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Detail codes identifying specific flagged issues.",
         valueSet = "http://hl7.org/fhir/ValueSet/flag-code"
     )
@@ -78,22 +86,16 @@ public class Flag extends DomainResource {
     @ReferenceTarget({ "Device", "Organization", "Patient", "Practitioner", "PractitionerRole" })
     private final Reference author;
 
-    private volatile int hashCode;
-
     private Flag(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
-        code = ValidationSupport.requireNonNull(builder.code, "code");
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        category = Collections.unmodifiableList(builder.category);
+        code = builder.code;
+        subject = builder.subject;
         period = builder.period;
         encounter = builder.encounter;
         author = builder.author;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -700,7 +702,23 @@ public class Flag extends DomainResource {
          */
         @Override
         public Flag build() {
-            return new Flag(this);
+            Flag flag = new Flag(this);
+            if (validating) {
+                validate(flag);
+            }
+            return flag;
+        }
+
+        protected void validate(Flag flag) {
+            super.validate(flag);
+            ValidationSupport.checkList(flag.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(flag.status, "status");
+            ValidationSupport.checkList(flag.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(flag.code, "code");
+            ValidationSupport.requireNonNull(flag.subject, "subject");
+            ValidationSupport.checkReferenceType(flag.subject, "subject", "Patient", "Location", "Group", "Organization", "Practitioner", "PlanDefinition", "Medication", "Procedure");
+            ValidationSupport.checkReferenceType(flag.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(flag.author, "author", "Device", "Organization", "Patient", "Practitioner", "PractitionerRole");
         }
 
         protected Builder from(Flag flag) {

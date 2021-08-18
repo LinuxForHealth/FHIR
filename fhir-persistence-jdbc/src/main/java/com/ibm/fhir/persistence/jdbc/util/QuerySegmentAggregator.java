@@ -6,11 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AND;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.AS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.COMBINED_RESULTS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.DEFAULT_ORDERING;
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.EQ;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FETCH_NEXT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.FROM;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.JOIN;
@@ -19,12 +19,17 @@ import static com.ibm.fhir.persistence.jdbc.JDBCConstants.LIMIT;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.OFFSET;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ON;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_ALIAS;
+import static com.ibm.fhir.persistence.jdbc.JDBCConstants.PARAMETER_TABLE_NAME_PLACEHOLDER;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.RIGHT_PAREN;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.ROWS_ONLY;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UNION;
 import static com.ibm.fhir.persistence.jdbc.JDBCConstants.WHERE;
-import static com.ibm.fhir.persistence.jdbc.util.type.LastUpdatedParmBehaviorUtil.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.ID;
+import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +39,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import com.ibm.fhir.config.FHIRConfigHelper;
 import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.persistence.jdbc.JDBCConstants;
@@ -51,6 +57,7 @@ import com.ibm.fhir.search.parameters.QueryParameterValue;
  * query segments together to produce a well-formed FHIR Resource query or
  * FHIR Resource count query.
  */
+@Deprecated
 public class QuerySegmentAggregator {
     private static final String CLASSNAME = QuerySegmentAggregator.class.getName();
     private static final Logger log = java.util.logging.Logger.getLogger(CLASSNAME);
@@ -73,7 +80,6 @@ public class QuerySegmentAggregator {
     protected static final String WHERE_CLAUSE_ROOT = "WHERE R.IS_DELETED = 'N'";
 
     // Enables the SKIP_WHERE of WHERE clauses.
-    public static final String ID = "_id";
     public static final String ID_COLUMN_NAME = "LOGICAL_ID ";
     protected static final Set<String> SKIP_WHERE =
             new HashSet<>(Arrays.asList(ID, LAST_UPDATED));
@@ -106,6 +112,9 @@ public class QuerySegmentAggregator {
     protected ParameterDAO parameterDao;
     protected ResourceDAO resourceDao;
 
+    // Enable use of legacy whole-system search parameters for the search request
+    protected final boolean legacyWholeSystemSearchParamsEnabled;
+
     /**
      * Constructs a new QueryBuilderHelper
      *
@@ -124,6 +133,8 @@ public class QuerySegmentAggregator {
         this.queryHints            = queryHints;
         this.querySegments         = new ArrayList<>();
         this.searchQueryParameters = new ArrayList<>();
+        this.legacyWholeSystemSearchParamsEnabled =
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
     }
 
     public void setResourceTypes(List<String> resourceTypes) {
@@ -538,7 +549,7 @@ public class QuerySegmentAggregator {
      * @return
      */
     protected void buildWhereClause(StringBuilder whereClause, String overrideType) {
-        final String METHODNAME = "buildWhereClause";
+       final String METHODNAME = "buildWhereClause";
         log.entering(CLASSNAME, METHODNAME);
 
         // Override the Type is null, then use the default type here.
@@ -546,7 +557,7 @@ public class QuerySegmentAggregator {
             overrideType = this.resourceType.getSimpleName();
         }
 
-        StringBuilder missingModifierWhereClause = new StringBuilder();
+        StringBuilder missingOrNotModifierWhereClause = new StringBuilder();
 
         for (int i = 0; i < this.querySegments.size(); i++) {
             SqlQueryData querySegment = this.querySegments.get(i);
@@ -557,18 +568,27 @@ public class QuerySegmentAggregator {
             // the NPE would have occurred earlier in the stack.
             String code = param.getCode();
             if (!SKIP_WHERE.contains(code)) {
+                final String paramTableAlias = "param" + i;
 
                 if (Modifier.MISSING.equals(param.getModifier())) {
+                    // In addition to replacing the parameter table alias,
+                    // the PARAMETER_TABLE_NAME_PLACEHOLDER needs to be replaced by the actual table name
+                    String valuesTable = tableName(overrideType, param);
+                    final String querySegmentString = querySegment.getQueryString()
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".")
+                            .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
+                            .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable)
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "_p", paramTableAlias + "_p");
+
                     // Append queryString to a separate StringBuilder which will get appended to the where clause last.
-                    if (missingModifierWhereClause.length() == 0) {
-                        missingModifierWhereClause.append(querySegment.getQueryString());
+                    if (missingOrNotModifierWhereClause.length() == 0) {
+                        missingOrNotModifierWhereClause.append(querySegmentString);
                     } else {
-                        // If not the first param with a :missing modifier, replace the WHERE with an AND
-                        missingModifierWhereClause.append(querySegment.getQueryString().replaceFirst(WHERE, AND));
+                        // If not the first param with a :missing or :not modifier, replace the WHERE with an AND
+                        missingOrNotModifierWhereClause.append(querySegmentString.replaceFirst(WHERE, AND));
                     }
                 } else {
                     if (!Type.COMPOSITE.equals(param.getType())) {
-                        final String paramTableAlias = "param" + i;
                         if (param.isReverseChained()) {
                             // Join on a select from resource type logical resource table
                             //   JOIN (
@@ -586,78 +606,117 @@ public class QuerySegmentAggregator {
                                         .append(paramTableAlias)
                                         .append(".LOGICAL_ID");
                         } else {
-                            // Join a standard parameter table
-                            //   JOIN Observation_TOKEN_VALUES AS param0
-                            //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
-                            //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+                            String valuesTable = tableName(overrideType, param);
+                            final String paramTableFilter = querySegment.getQueryString()
+                                    .replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".")
+                                    .replaceAll(AS + PARAMETER_TABLE_ALIAS, AS + paramTableAlias)
+                                    .replaceAll(PARAMETER_TABLE_NAME_PLACEHOLDER, valuesTable);
 
-                            final String onFilter = querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.", paramTableAlias + ".");
-
-                            whereClause.append(JOIN)
-                                        .append(tableName(overrideType, param))
-                                        .append(AS)
-                                        .append(paramTableAlias)
-                                        .append(ON)
-                                        .append(onFilter)
-                                        .append(" AND LR.LOGICAL_RESOURCE_ID = ")
-                                        .append(paramTableAlias)
-                                        .append(".LOGICAL_RESOURCE_ID");
-                        }
-                    } else {
-                        // add an alias for the composite table
-                        String compositeAlias = "comp" + (i + 1);
-                        String whereClauseSegment =
-                                querySegment.getQueryString().replaceAll(PARAMETER_TABLE_ALIAS + "\\.",
-                                        compositeAlias + ".");
-
-                        whereClause.append(JOIN)
-                                .append("(SELECT " + compositeAlias + ".LOGICAL_RESOURCE_ID FROM ");
-                        whereClause.append(tableName(overrideType, param))
-                                .append(compositeAlias);
-
-                        if (param.getValues() != null && !param.getValues().isEmpty()) {
-                            // Assumption:  all the values should have the same number of components and the same types
-                            QueryParameterValue queryParameterValue = param.getValues().get(0);
-                            List<QueryParameter> components = queryParameterValue.getComponent();
-                            for (int componentNum = 1; componentNum <= components.size(); componentNum++) {
-                                String alias = compositeAlias + "_p" + componentNum;
-                                QueryParameter component = components.get(componentNum - 1);
-                                String tableName = tableName(overrideType, component);
-                                // Check if type is reference or token - composites still use the 'old' token values table (issue #1669)
-                                if (component.getType().equals(Type.REFERENCE) || component.getType().equals(Type.TOKEN)) {
-                                    tableName = overrideType + "_TOKEN_VALUES ";
+                            if (Modifier.NOT.equals(param.getModifier()) || Modifier.NOT_IN.equals(param.getModifier())) {
+                                // Not exists against a standard parameter table
+                                //   NOT EXISTS (SELECT 1 FROM Observation_TOKEN_VALUES AS param0
+                                //                     WHERE param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                                //                     AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID)
+                                // If not the first param with a :missing, :not, or :not-in modifier, use AND instead of WHERE
+                                missingOrNotModifierWhereClause.append(missingOrNotModifierWhereClause.length() == 0 ? WHERE : AND)
+                                            .append(" NOT EXISTS (SELECT 1 FROM ")
+                                            .append(valuesTable)
+                                            .append(AS);
+                                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                                        (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode()))) {
+                                    String valuesTableAlias = paramTableAlias + "_P";
+                                    missingOrNotModifierWhereClause.append(valuesTableAlias)
+                                            .append(JOIN)
+                                            .append("COMMON_TOKEN_VALUES")
+                                            .append(AS)
+                                            .append(paramTableAlias)
+                                            .append(ON)
+                                            .append(paramTableAlias)
+                                            .append(".COMMON_TOKEN_VALUE_ID = ")
+                                            .append(valuesTableAlias)
+                                            .append(".COMMON_TOKEN_VALUE_ID")
+                                            .append(AND)
+                                            .append(paramTableFilter)
+                                            .append(WHERE)
+                                            .append("LR.LOGICAL_RESOURCE_ID = ")
+                                            .append(valuesTableAlias)
+                                            .append(".LOGICAL_RESOURCE_ID")
+                                            .append(RIGHT_PAREN);
+                                } else {
+                                    missingOrNotModifierWhereClause.append(paramTableAlias)
+                                            .append(WHERE)
+                                            .append(paramTableFilter)
+                                            .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                            .append(paramTableAlias)
+                                            .append(".LOGICAL_RESOURCE_ID")
+                                            .append(RIGHT_PAREN);
                                 }
-                                whereClause.append(JOIN).append(tableName).append(alias)
-                                        .append(ON)
-                                        .append(compositeAlias).append(".COMP").append(componentNum).append(abbr(component))
-                                        .append(EQ)
-                                        .append(alias).append(".ROW_ID");
-                                whereClauseSegment =
-                                        whereClauseSegment.replaceAll(
-                                                PARAMETER_TABLE_ALIAS + "_p" + componentNum + "\\.", alias + ".");
+                            }
+                            else {
+                                // Join a standard parameter table
+                                //   JOIN Observation_TOKEN_VALUES AS param0
+                                //     ON param0.PARAMETER_NAME_ID=1191 AND param0.TOKEN_VALUE = :p1
+                                //    AND param0.LOGICAL_RESOURCE_ID = LR.LOGICAL_RESOURCE_ID
+                                whereClause.append(JOIN)
+                                            .append(valuesTable)
+                                            .append(AS);
+                                if (!this.legacyWholeSystemSearchParamsEnabled &&
+                                        (TAG.equals(param.getCode()) || SECURITY.equals(param.getCode()))) {
+                                    String valuesTableAlias = paramTableAlias + "_P";
+                                    whereClause.append(valuesTableAlias)
+                                                .append(ON)
+                                                .append(" LR.LOGICAL_RESOURCE_ID = ")
+                                                .append(valuesTableAlias)
+                                                .append(".LOGICAL_RESOURCE_ID")
+                                                .append(JOIN)
+                                                .append("COMMON_TOKEN_VALUES")
+                                                .append(AS)
+                                                .append(paramTableAlias)
+                                                .append(ON)
+                                                .append(paramTableAlias)
+                                                .append(".COMMON_TOKEN_VALUE_ID = ")
+                                                .append(valuesTableAlias)
+                                                .append(".COMMON_TOKEN_VALUE_ID")
+                                                .append(AND)
+                                                .append(paramTableFilter);
+                                } else {
+                                    whereClause.append(paramTableAlias)
+                                                .append(ON)
+                                                .append(paramTableFilter)
+                                                .append(" AND LR.LOGICAL_RESOURCE_ID = ")
+                                                .append(paramTableAlias)
+                                                .append(".LOGICAL_RESOURCE_ID");
+                                }
                             }
                         }
-                        whereClause.append(" WHERE ").append(whereClauseSegment).append(") ");
-                        String tmpTableName = overrideType + i;
-                        whereClause.append(tmpTableName).append(ON).append(tmpTableName)
-                        .append(".LOGICAL_RESOURCE_ID = R.LOGICAL_RESOURCE_ID");
+                    } else {
+                        whereClause.append(querySegment.getQueryString()
+                            .replaceAll(PARAMETER_TABLE_ALIAS + "_p", paramTableAlias + "_p"));
                     }
                 }
             } // end if SKIP_WHERE
         } // end for
 
-        // If there were any query parameters with :missing modifier, append the missingModifierWhereClause
-        if (missingModifierWhereClause.length() > 0) {
-            whereClause.append(missingModifierWhereClause.toString());
+        // If there were any query parameters with :missing, :not, or :not-in modifier, append the missingOrNotModifierWhereClause
+        if (missingOrNotModifierWhereClause.length() > 0) {
+            whereClause.append(missingOrNotModifierWhereClause.toString());
         }
 
         log.exiting(CLASSNAME, METHODNAME);
     }
 
     public static String tableName(String resourceType, QueryParameter param) {
+        boolean legacyWholeSystemSearchParamsEnabled = 
+                FHIRConfigHelper.getBooleanProperty(PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS, false);
         StringBuilder name = new StringBuilder(resourceType);
         switch (param.getType()) {
         case URI:
+            if (!legacyWholeSystemSearchParamsEnabled && PROFILE.equals(param.getCode())) {
+                name.append("_PROFILES ");
+            } else {
+                name.append("_STR_VALUES ");
+            }
+            break;
         case STRING:
         case NUMBER:
         case QUANTITY:
@@ -669,12 +728,20 @@ public class QuerySegmentAggregator {
         case TOKEN:
             if (param.isReverseChained()) {
                 name.append("_LOGICAL_RESOURCES");
+            } else if (!legacyWholeSystemSearchParamsEnabled && TAG.equals(param.getCode()) &&
+                    (param.getModifier() == null ||
+                    !Modifier.TEXT.equals(param.getModifier()))) {
+                name.append("_TAGS ");
+            } else if (!legacyWholeSystemSearchParamsEnabled && SECURITY.equals(param.getCode()) &&
+                    (param.getModifier() == null ||
+                    !Modifier.TEXT.equals(param.getModifier()))) {
+                name.append("_SECURITY ");
             } else {
                 name.append("_TOKEN_VALUES_V "); // uses view to hide new issue #1366 schema
             }
             break;
         case COMPOSITE:
-            name.append("_COMPOSITES ");
+            name.append("_LOGICAL_RESOURCES ");
             break;
         }
         return name.toString();

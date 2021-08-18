@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 
 import com.ibm.fhir.database.utils.api.IDatabaseStatement;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.common.DataDefinitionUtil;
 import com.ibm.fhir.database.utils.model.DbType;
 
 /**
@@ -23,6 +24,9 @@ import com.ibm.fhir.database.utils.model.DbType;
  */
 public class RecordLogicalId implements IDatabaseStatement {
     private static final Logger logger = Logger.getLogger(RegisterLoaderInstance.class.getName());
+
+    // the schema holding the fhirbucket tables
+    private final String schemaName;
 
     // FK describing the type of the resource
     private final int resourceTypeId;
@@ -35,16 +39,21 @@ public class RecordLogicalId implements IDatabaseStatement {
 
     // the line number of the resource (in an NDJSON file)
     private final int lineNumber;
-    
+
     // Response time if this was an individual resource create (not part of a bundle)
     private final Integer responseTimeMs;
 
     /**
      * Public constructor
-     * @param bucketId
-     * @param objectName
+     * @param schemaName
+     * @param resourceTypeId
+     * @param logicalId
+     * @param resourceBundleLoadId
+     * @param lineNumber
+     * @param responseTimeMs
      */
-    public RecordLogicalId(int resourceTypeId, String logicalId, long resourceBundleLoadId, int lineNumber, Integer responseTimeMs) {
+    public RecordLogicalId(String schemaName, int resourceTypeId, String logicalId, long resourceBundleLoadId, int lineNumber, Integer responseTimeMs) {
+        this.schemaName = schemaName;
         this.resourceTypeId = resourceTypeId;
         this.logicalId = logicalId;
         this.resourceBundleLoadId = resourceBundleLoadId;
@@ -56,21 +65,22 @@ public class RecordLogicalId implements IDatabaseStatement {
     public void run(IDatabaseTranslator translator, Connection c) {
         final String currentTimestamp = translator.currentTimestampString();
 
-        String dml;
+        final String logicalResources = DataDefinitionUtil.getQualifiedName(schemaName, "logical_resources");
+        final String dml;
         if (translator.getType() == DbType.POSTGRESQL) {
             // Use UPSERT syntax for Postgres to avoid breaking the transaction when
             // a statement fails
-            dml = 
-                    "INSERT INTO logical_resources ("
+            dml =
+                    "INSERT INTO " + logicalResources + "("
                     + "          resource_type_id, logical_id, resource_bundle_load_id, line_number, response_time_ms, created_tstamp) "
                     + "   VALUES (?, ?, ?, ?, ?, " + currentTimestamp + ") ON CONFLICT (resource_type_id, logical_id) DO NOTHING";
         } else {
-            dml = 
-                "INSERT INTO logical_resources ("
+            dml =
+                "INSERT INTO " + logicalResources + "("
                 + "          resource_type_id, logical_id, resource_bundle_load_id, line_number, response_time_ms, created_tstamp) "
                 + "   VALUES (?, ?, ?, ?, ?, " + currentTimestamp + ")";
         }
-        
+
         try (PreparedStatement ps = c.prepareStatement(dml)) {
             ps.setLong(1, resourceTypeId);
             ps.setString(2, logicalId);
@@ -86,7 +96,7 @@ public class RecordLogicalId implements IDatabaseStatement {
             if (translator.isDuplicate(x)) {
                 // This resource has already been recorded, so we'll just warn in case something
                 // is going wrong
-                logger.warning("Duplicate resource logical id: " + resourceTypeId + "/" + logicalId 
+                logger.warning("Duplicate resource logical id: " + resourceTypeId + "/" + logicalId
                     + " from " + resourceBundleLoadId + "#" + lineNumber);
             } else {
                 // log this, but don't propagate values in the exception

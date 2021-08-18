@@ -1,16 +1,18 @@
 /*
- * (C) Copyright IBM Corp. 2019
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.database.utils.query;
 
+import com.ibm.fhir.database.utils.query.node.ExpNode;
+
 /**
  * Adapter for building the FROM clause of a SELECT statement
  */
 public class FromAdapter {
-    
+
     // the select statement being built
     private final Select select;
 
@@ -21,7 +23,7 @@ public class FromAdapter {
     public FromAdapter(Select select) {
         this.select = select;
     }
-    
+
     /**
      * Add a table to the from clause
      * returning this {@link FromAdapter} ready for the next item
@@ -29,7 +31,7 @@ public class FromAdapter {
      * @return
      */
     public FromAdapter from(String tableName) {
-        this.select.addTable(null, tableName);
+        this.select.addTable(tableName);
         return this;
     }
 
@@ -46,12 +48,80 @@ public class FromAdapter {
     }
 
     /**
+     * Add an INNER JOIN for the given table
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     * @return
+     */
+    public FromAdapter innerJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
+        this.select.addInnerJoin(tableName, alias, joinOnPredicate.getExpression());
+        return this;
+    }
+
+    /**
+     * Add a LEFT OUTER JOIN for the given table
+     * @param tableName
+     * @param alias
+     * @param joinOnPredicate
+     * @return
+     */
+    public FromAdapter leftOuterJoin(String tableName, Alias alias, WhereFragment joinOnPredicate) {
+        this.select.addLeftOuterJoin(tableName, alias, joinOnPredicate.getExpression());
+        return this;
+    }
+
+    /**
      * Start building the "WHERE" clause for the statement
      * @param predicate
      * @return
      */
     public WhereAdapter where(String predicate) {
-        return new WhereAdapter(this.select, predicate);
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, predicate);
+    }
+
+    /**
+     * Starts building a WHERE clause with the {tableAlias}.{columnName}
+     * @param tableAlias
+     * @param columnName
+     * @return
+     */
+    public WhereAdapter where(String tableAlias, String columnName) {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, tableAlias, columnName);
+    }
+
+    /**
+     * Starts building a WHERE clause without any predicate nodes
+     * @return
+     */
+    public WhereAdapter where() {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc);
+    }
+
+    /**
+     * Builds a WHERE clause starting with the given predicate node
+     * @param predicate
+     * @return
+     */
+    public WhereAdapter where(ExpNode predicate) {
+        WhereClause wc = establishWhereClause();
+        return new WhereAdapter(this.select, wc, predicate);
+    }
+
+    /**
+     * Adds a where clause if one does not yet exist
+     * @return
+     */
+    public WhereClause establishWhereClause() {
+        WhereClause wc = this.select.getWhereClause();
+        if (wc == null) {
+            wc = new WhereClause();
+            this.select.setWhereClause(wc);
+        }
+        return wc;
     }
 
     /**
@@ -66,18 +136,38 @@ public class FromAdapter {
         // complete
         return new FromSubQueryAdapter(this.select, this);
     }
-        
+
+    /**
+     * Provide the select statement we've been building
+     * @return
+     */
     public Select build() {
         return select;
     }
-    
+
+    /**
+     * Start a group by expression
+     * @param expressions
+     * @return
+     */
     public GroupByAdapter groupBy(String... expressions) {
-        select.addGroupBy(expressions);
-        return new GroupByAdapter(select);
+        GroupByClause gb = new GroupByClause();
+        this.select.setGroupByClause(gb);
+        return new GroupByAdapter(select, gb, expressions);
     }
-    
+
+    /**
+     * Start an ORDER BY expression
+     * @param expressions
+     * @return
+     */
     public OrderByAdapter orderBy(String...expressions) {
-        select.addOrderBy(expressions);
-        return new OrderByAdapter(select);
+        OrderByClause orderBy = select.getOrderByClause();
+        if (orderBy == null) {
+            orderBy = new OrderByClause();
+            select.setOrderByClause(orderBy);
+        }
+        orderBy.add(expressions);
+        return new OrderByAdapter(select, orderBy);
     }
 }

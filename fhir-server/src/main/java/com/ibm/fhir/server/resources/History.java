@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 
 import javax.annotation.security.RolesAllowed;
 import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -23,8 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.eclipse.microprofile.jwt.JsonWebToken;
 
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
@@ -42,12 +39,6 @@ import com.ibm.fhir.server.util.RestAuditLogger;
 public class History extends FHIRResource {
     private static final Logger log = java.util.logging.Logger.getLogger(History.class.getName());
 
-    // The JWT of the current caller. Since this is a request scoped resource, the
-    // JWT will be injected for each JAX-RS request. The injection is performed by
-    // the mpJwt feature.
-    @Inject
-    private JsonWebToken jwt;
-
     public History() throws Exception {
         super();
     }
@@ -62,9 +53,10 @@ public class History extends FHIRResource {
 
         try {
             checkInitComplete();
+            checkType(type);
 
             FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
-            bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri(), null);
+            bundle = helper.doHistory(type, id, uriInfo.getQueryParameters(), getRequestUri());
             status = Status.OK;
             return Response.status(status).entity(bundle).build();
         } catch (FHIROperationException e) {
@@ -84,4 +76,38 @@ public class History extends FHIRResource {
             log.exiting(this.getClass().getName(), "history(String,String)");
         }
     }
+
+    @GET
+    @Path("_history")
+    public Response systemHistory() {
+        log.entering(this.getClass().getName(), "systemHistory()");
+        Date startTime = new Date();
+        Response.Status status = null;
+        Bundle bundle = null;
+
+        try {
+            checkInitComplete();
+
+            FHIRRestHelper helper = new FHIRRestHelper(getPersistenceImpl());
+            bundle = helper.doHistory(uriInfo.getQueryParameters(), getRequestUri());
+            status = Status.OK;
+            return Response.status(status).entity(bundle).build();
+        } catch (FHIROperationException e) {
+            status = issueListToStatus(e.getIssues());
+            return exceptionResponse(e, status);
+        } catch (Exception e) {
+            status = Status.INTERNAL_SERVER_ERROR;
+            return exceptionResponse(e, status);
+        } finally {
+            try {
+                RestAuditLogger.logHistory(httpServletRequest, bundle,
+                        startTime, new Date(), status);
+            } catch (Exception e) {
+                log.log(Level.SEVERE, AUDIT_LOGGING_ERR_MSG, e);
+            }
+
+            log.exiting(this.getClass().getName(), "systemHistory()");
+        }
+    }
+
 }

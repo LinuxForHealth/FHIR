@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.Summary;
 import com.ibm.fhir.model.type.Attachment;
 import com.ibm.fhir.model.type.BackboneElement;
@@ -26,6 +27,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Narrative;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -35,7 +37,13 @@ import com.ibm.fhir.model.visitor.Visitor;
  * recombinant and purified SubstanceProteins of defined sequence, whether the use is therapeutic or prophylactic. This 
  * set of elements will be used to describe albumins, coagulation factors, cytokines, growth factors, 
  * peptide/SubstanceProtein hormones, enzymes, toxins, toxoids, recombinant vaccines, and immunomodulators.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SubstanceProtein extends DomainResource {
     @Summary
@@ -47,15 +55,12 @@ public class SubstanceProtein extends DomainResource {
     @Summary
     private final List<Subunit> subunit;
 
-    private volatile int hashCode;
-
     private SubstanceProtein(Builder builder) {
         super(builder);
         sequenceType = builder.sequenceType;
         numberOfSubunits = builder.numberOfSubunits;
-        disulfideLinkage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.disulfideLinkage, "disulfideLinkage"));
-        subunit = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subunit, "subunit"));
-        ValidationSupport.requireChildren(this);
+        disulfideLinkage = Collections.unmodifiableList(builder.disulfideLinkage);
+        subunit = Collections.unmodifiableList(builder.subunit);
     }
 
     /**
@@ -540,7 +545,17 @@ public class SubstanceProtein extends DomainResource {
          */
         @Override
         public SubstanceProtein build() {
-            return new SubstanceProtein(this);
+            SubstanceProtein substanceProtein = new SubstanceProtein(this);
+            if (validating) {
+                validate(substanceProtein);
+            }
+            return substanceProtein;
+        }
+
+        protected void validate(SubstanceProtein substanceProtein) {
+            super.validate(substanceProtein);
+            ValidationSupport.checkList(substanceProtein.disulfideLinkage, "disulfideLinkage", String.class);
+            ValidationSupport.checkList(substanceProtein.subunit, "subunit", Subunit.class);
         }
 
         protected Builder from(SubstanceProtein substanceProtein) {
@@ -578,8 +593,6 @@ public class SubstanceProtein extends DomainResource {
         @Summary
         private final String cTerminalModification;
 
-        private volatile int hashCode;
-
         private Subunit(Builder builder) {
             super(builder);
             subunit = builder.subunit;
@@ -590,7 +603,6 @@ public class SubstanceProtein extends DomainResource {
             nTerminalModification = builder.nTerminalModification;
             cTerminalModificationId = builder.cTerminalModificationId;
             cTerminalModification = builder.cTerminalModification;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1030,7 +1042,16 @@ public class SubstanceProtein extends DomainResource {
              */
             @Override
             public Subunit build() {
-                return new Subunit(this);
+                Subunit subunit = new Subunit(this);
+                if (validating) {
+                    validate(subunit);
+                }
+                return subunit;
+            }
+
+            protected void validate(Subunit subunit) {
+                super.validate(subunit);
+                ValidationSupport.requireValueOrChildren(subunit);
             }
 
             protected Builder from(Subunit subunit) {

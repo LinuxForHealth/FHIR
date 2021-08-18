@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2016, 2020
+ * (C) Copyright IBM Corp. 2016, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -8,7 +8,6 @@ package com.ibm.fhir.server.listener;
 
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_CHECK_REFERENCE_TYPES;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION;
-import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DB;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_CONNECTIONPROPS;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_KAFKA_TOPICNAME;
@@ -23,27 +22,27 @@ import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TLS_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_NATS_TRUSTSTORE_PW;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED;
+import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED;
 import static com.ibm.fhir.config.FHIRConfiguration.PROPERTY_WEBSOCKET_ENABLED;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.naming.InitialContext;
-import javax.naming.NameNotFoundException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.sql.DataSource;
-import javax.transaction.UserTransaction;
 import javax.websocket.server.ServerContainer;
 
+import org.apache.commons.configuration.MapConfiguration;
 import org.owasp.encoder.Encode;
 
-import com.ibm.fhir.config.FHIRConfigHelper;
+import com.ibm.fhir.cache.CachingProxy;
 import com.ibm.fhir.config.FHIRConfiguration;
-import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.config.PropertyGroup;
 import com.ibm.fhir.config.PropertyGroup.PropertyEntry;
 import com.ibm.fhir.model.config.FHIRModelConfig;
@@ -52,15 +51,24 @@ import com.ibm.fhir.model.util.FHIRUtil;
 import com.ibm.fhir.notification.websocket.impl.FHIRNotificationServiceEndpointConfig;
 import com.ibm.fhir.notifications.kafka.impl.FHIRNotificationKafkaPublisher;
 import com.ibm.fhir.notifications.nats.impl.FHIRNotificationNATSPublisher;
+import com.ibm.fhir.path.function.registry.FHIRPathFunctionRegistry;
 import com.ibm.fhir.persistence.helper.FHIRPersistenceHelper;
-import com.ibm.fhir.persistence.interceptor.impl.FHIRPersistenceInterceptorMgr;
-import com.ibm.fhir.persistence.jdbc.connection.FHIRDbTenantDatasourceConnectionStrategy;
-import com.ibm.fhir.persistence.jdbc.util.DerbyBootstrapper;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.server.operation.FHIROperationRegistry;
 import com.ibm.fhir.server.registry.ServerRegistryResourceProvider;
+import com.ibm.fhir.server.resolve.ServerResolveFunction;
 import com.ibm.fhir.server.util.FHIROperationUtil;
+import com.ibm.fhir.term.config.FHIRTermConfig;
+import com.ibm.fhir.term.graph.provider.GraphTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.BasicAuth;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Header;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.Supports;
+import com.ibm.fhir.term.remote.provider.RemoteTermServiceProvider.Configuration.TrustStore;
+import com.ibm.fhir.term.service.FHIRTermService;
+import com.ibm.fhir.term.spi.FHIRTermServiceProvider;
 
 @WebListener("IBM FHIR Server Servlet Context Listener")
 public class FHIRServletContextListener implements ServletContextListener {
@@ -74,7 +82,9 @@ public class FHIRServletContextListener implements ServletContextListener {
     public static final String FHIR_SERVER_INIT_COMPLETE = "com.ibm.fhir.webappInitComplete";
     private static FHIRNotificationKafkaPublisher kafkaPublisher = null;
     private static FHIRNotificationNATSPublisher natsPublisher = null;
-    private static final String TXN_JNDI_NAME = "java:comp/UserTransaction";
+
+    private List<GraphTermServiceProvider> graphTermServiceProviders = new ArrayList<>();
+    private List<RemoteTermServiceProvider> remoteTermServiceProviders = new ArrayList<>();
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -85,6 +95,7 @@ public class FHIRServletContextListener implements ServletContextListener {
             // Initialize our "initComplete" flag to false.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.FALSE);
 
+            FHIRConfiguration.setConfigHome(System.getenv("FHIR_CONFIG_HOME"));
             PropertyGroup fhirConfig = FHIRConfiguration.getInstance().loadConfiguration();
             if (fhirConfig == null) {
                 throw new IllegalStateException("No FHIRConfiguration was found");
@@ -185,20 +196,22 @@ public class FHIRServletContextListener implements ServletContextListener {
             Boolean extendedCodeableConceptValidation = fhirConfig.getBooleanProperty(PROPERTY_EXTENDED_CODEABLE_CONCEPT_VALIDATION, Boolean.TRUE);
             FHIRModelConfig.setExtendedCodeableConceptValidation(extendedCodeableConceptValidation);
 
-            // Transaction handling done inside the following method, so each database
-            // we need to bootstrap can get its own transaction.
-            bootstrapDerbyDatabases(fhirConfig);
-
             log.fine("Initializing FHIRRegistry...");
             FHIRRegistry.getInstance();
 
             Boolean serverRegistryResourceProviderEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_REGISTRY_RESOURCE_PROVIDER_ENABLED, Boolean.FALSE);
             if (serverRegistryResourceProviderEnabled) {
                 log.info("Registering ServerRegistryResourceProvider...");
-                ServerRegistryResourceProvider provider = new ServerRegistryResourceProvider(persistenceHelper);
-                FHIRRegistry.getInstance().register(provider);
-                FHIRPersistenceInterceptorMgr.getInstance().addInterceptor(provider);
+                FHIRRegistry.getInstance().addProvider(new ServerRegistryResourceProvider(persistenceHelper));
             }
+
+            Boolean serverResolveFunctionEnabled = fhirConfig.getBooleanProperty(PROPERTY_SERVER_RESOLVE_FUNCTION_ENABLED, Boolean.FALSE);
+            if (serverResolveFunctionEnabled) {
+                log.info("Registering ServerResolveFunction...");
+                FHIRPathFunctionRegistry.getInstance().register(new ServerResolveFunction(persistenceHelper));
+            }
+
+            configureTermServiceCapabilities(fhirConfig);
 
             // Finally, set our "initComplete" flag to true.
             event.getServletContext().setAttribute(FHIR_SERVER_INIT_COMPLETE, Boolean.TRUE);
@@ -210,185 +223,6 @@ public class FHIRServletContextListener implements ServletContextListener {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextInitialized");
             }
-        }
-    }
-
-    /**
-     * Bootstraps derby databases during server startup if requested.
-     */
-    private void bootstrapDerbyDatabases(PropertyGroup fhirConfig) throws Exception {
-        Boolean performDbBootstrap = fhirConfig.getBooleanProperty(PROPERTY_JDBC_BOOTSTRAP_DB, Boolean.FALSE);
-        if (performDbBootstrap) {
-            log.info("Performing Derby database bootstrapping...");
-
-            InitialContext ctxt = new InitialContext();
-
-            // Need to use the correct datasource/connection strategy for all databases,
-            // including the "demo/test" schemas we build here. Each of these tenant/datasources
-            // requires a supporting configuration and (if no longer using the legacy
-            // proxy datasource) a matching JNDI datasource.
-
-            UserTransaction utx = (UserTransaction)ctxt.lookup(TXN_JNDI_NAME);
-
-            if (fhirConfig.getBooleanProperty(FHIRConfiguration.PROPERTY_JDBC_ENABLE_PROXY_DATASOURCE, Boolean.TRUE)) {
-                // Bootstrap using the legacy proxy datasource mechanism
-                String datasourceJndiName = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_DATASOURCE_JNDINAME);
-                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
-
-                bootstrapFhirDb(utx, "default", "default", ds, true);
-                bootstrapFhirDb(utx, "tenant1", "profile", ds, true);
-                bootstrapFhirDb(utx, "tenant1", "reference", ds, true);
-                bootstrapFhirDb(utx, "tenant1", "study1", ds, true);
-
-                checkFhirDb(utx, "default", "default", ds);
-            } else {
-                // Bootstrap using dedicated datasources
-                String jndiBase = fhirConfig.getStringProperty(FHIRConfiguration.PROPERTY_JDBC_BOOTSTRAP_DATASOURCE_BASE, "jdbc/bootstrap");
-                bootstrapFhirDb(utx, jndiBase, "default", "default");
-                bootstrapFhirDb(utx, jndiBase, "tenant1", "profile");
-                bootstrapFhirDb(utx, jndiBase, "tenant1", "reference");
-                bootstrapFhirDb(utx, jndiBase, "tenant1", "study1");
-            }
-
-            String datasourceJndiName = "jdbc/OAuth2DB";
-            try {
-                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
-                if (ds != null) {
-                    log.info("Found '" + datasourceJndiName + "'; bootstrapping the OAuth client tables");
-                    utx.begin();
-                    try {
-                        DerbyBootstrapper.bootstrapOauthDb(ds);
-                        utx.commit();
-                        utx = null;
-                    } finally {
-                        if (utx != null) {
-                            safeRollback(utx);
-                        }
-                    }
-                }
-            } catch (NameNotFoundException e) {
-                log.info("No '" + datasourceJndiName + "' dataSource found; skipping OAuth client table bootstrapping");
-            }
-
-            datasourceJndiName = "jdbc/fhirbatchDB";
-            try {
-                // Check the batch database, if the batch database configuration is there, and available.
-                // Note, in the boostrap code we conditionally bootstrap if and only if it's targeting derby.
-                DataSource ds = (DataSource) ctxt.lookup(datasourceJndiName);
-                if (ds != null) {
-                    log.info("Found '" + datasourceJndiName + "'; bootstrapping the Java Batch tables");
-                    utx.begin();
-                    try {
-                        DerbyBootstrapper.bootstrapBatchDb(ds);
-                        utx.commit();
-                        utx = null;
-                    } finally {
-                        if (utx != null) {
-                            safeRollback(utx);
-                        }
-                    }
-                }
-            } catch (NameNotFoundException e) {
-                log.info("No '" + datasourceJndiName + "' dataSource found; skipping Java Batch table bootstrapping");
-            }
-
-            log.info("Finished Derby database bootstrapping...");
-        } else {
-            log.info("Derby database bootstrapping is disabled.");
-        }
-    }
-
-    /**
-     * Bootstrap the FHIR database by looking up the JNDI datasource configured for the
-     * given tenant and dsId values
-     * @param utx
-     * @param tenantId the tenant name/identifier
-     * @param dsId the datasource identifier
-     * @throws Exception
-     */
-    private void bootstrapFhirDb(UserTransaction utx, String jndiBase, String tenantId, String dsId) throws Exception {
-        InitialContext ctxt = new InitialContext();
-
-        final String jndiName = FHIRDbTenantDatasourceConnectionStrategy.makeTenantDatasourceJNDIName(jndiBase, tenantId, dsId, false);
-        DataSource ds = (DataSource) ctxt.lookup(jndiName);
-        bootstrapFhirDb(utx, tenantId, dsId, ds, false);
-    }
-
-    /**
-     * Bootstraps the database specified by tenantId and dsId, assuming the specified datastore definition can be
-     * retrieved from the configuration.
-     */
-    private void bootstrapFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds, boolean useProxy) throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
-        if (pg != null) {
-            String type = pg.getStringProperty("type");
-            if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
-                utx.begin();
-                try {
-                    log.info("Bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-                    DerbyBootstrapper.bootstrapDb(ds, useProxy);
-                    log.info("Finished bootstrapping database for tenantId/dsId: " + tenantId + "/" + dsId);
-
-                    log.fine("Committing transaction");
-                    utx.commit();
-                    utx = null;
-                } finally {
-                    if (utx != null) {
-                        safeRollback(utx);
-                    }
-                }
-            }
-        }
-
-        FHIRRequestContext.remove();
-    }
-
-    /**
-     * Schema bootstrap migration can be impacted by Liberty/Derby defect
-     * https://github.com/OpenLiberty/open-liberty/issues/14537. This check
-     * is in place to catch the failure during startup, instead of failing
-     * on the first request.
-     * @param utx
-     * @param tenantId
-     * @param dsId
-     * @param ds
-     * @throws Exception
-     */
-    private void checkFhirDb(UserTransaction utx, String tenantId, String dsId, DataSource ds) throws Exception {
-        FHIRRequestContext.set(new FHIRRequestContext(tenantId, dsId));
-        PropertyGroup pg = FHIRConfigHelper.getPropertyGroup(FHIRConfiguration.PROPERTY_DATASOURCES + "/" + dsId);
-        if (pg != null) {
-            String type = pg.getStringProperty("type");
-            if (type != null && !type.isEmpty() && (type.toLowerCase().equals("derby") || type.toLowerCase().equals("derby_network_server"))) {
-                utx.begin();
-                try {
-                    log.info("Checking connection after schema bootstrap/migration");
-                    DerbyBootstrapper.checkDatabase(ds);
-                    utx.commit();
-                    utx = null;
-                } finally {
-                    if (utx != null) {
-                        safeRollback(utx);
-                    }
-                }
-            }
-        }
-
-        FHIRRequestContext.remove();
-    }
-
-    /**
-     * Safely rollback the transaction, logging any exception but not throwing it
-     * @param tx
-     */
-    private void safeRollback(UserTransaction tx) {
-        try {
-            log.fine("Rolling back transaction");
-            tx.rollback();
-        } catch (Exception x) {
-            // log but don't throw this exception, as it often hides the original cause
-            log.log(Level.SEVERE, "transaction rollback failed", x);
         }
     }
 
@@ -412,10 +246,124 @@ public class FHIRServletContextListener implements ServletContextListener {
                 natsPublisher.shutdown();
                 natsPublisher = null;
             }
+
+            for (GraphTermServiceProvider graphTermServiceProvider : graphTermServiceProviders) {
+                graphTermServiceProvider.getGraph().close();
+            }
+
+            for (RemoteTermServiceProvider remoteTermServiceProvider : remoteTermServiceProviders) {
+                remoteTermServiceProvider.close();
+            }
         } catch (Exception e) {
+            // Ignore it
         } finally {
             if (log.isLoggable(Level.FINER)) {
                 log.exiting(FHIRServletContextListener.class.getName(), "contextDestroyed");
+            }
+        }
+    }
+
+    private void configureTermServiceCapabilities(PropertyGroup fhirConfig) throws Exception {
+        // Configure terminology service capabilities
+        PropertyGroup termPropertyGroup = fhirConfig.getPropertyGroup("fhirServer/term");
+        if (termPropertyGroup != null) {
+            Boolean cachingDisabled = fhirConfig.getBooleanProperty("cachingDisabled", Boolean.FALSE);
+            FHIRTermConfig.setCachingDisabled(cachingDisabled);
+
+            // Configure graph term service providers
+            Object[] graphTermServiceProvidersArray = termPropertyGroup.getArrayProperty("graphTermServiceProviders");
+            if (graphTermServiceProvidersArray != null) {
+                for (Object graphTermServiceProviderObject : graphTermServiceProvidersArray) {
+                    PropertyGroup graphTermServiceProviderPropertyGroup = (PropertyGroup) graphTermServiceProviderObject;
+                    Boolean enabled = graphTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                    if (!enabled) {
+                        continue;
+                    }
+                    try {
+                        log.info("Adding GraphTermServiceProvider...");
+                        PropertyGroup configurationPropertyGroup = graphTermServiceProviderPropertyGroup.getPropertyGroup("configuration");
+                        if (configurationPropertyGroup == null) {
+                            log.log(Level.WARNING, "GraphTermServiceProvider configuration not found");
+                        } else {
+                            Map<String, Object> map = new HashMap<>();
+                            configurationPropertyGroup.getProperties().stream().forEach(entry -> map.put(entry.getName(), entry.getValue()));
+                            int timeLimit = graphTermServiceProviderPropertyGroup.getIntProperty("timeLimit", GraphTermServiceProvider.DEFAULT_TIME_LIMIT);
+                            GraphTermServiceProvider graphTermServiceProvider = new GraphTermServiceProvider(new MapConfiguration(map), timeLimit);
+                            FHIRTermService.getInstance().addProvider(cachingDisabled ? graphTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, graphTermServiceProvider));
+                            graphTermServiceProviders.add(graphTermServiceProvider);
+                        }
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Unable to create GraphTermServiceProvider from configuration property group: " + graphTermServiceProviderPropertyGroup, e);
+                    }
+                }
+            }
+
+            // Configure remote term service providers
+            Object[] remoteTermServiceProvidersArray = termPropertyGroup.getArrayProperty("remoteTermServiceProviders");
+            if (remoteTermServiceProvidersArray != null) {
+                for (Object remoteTermServiceProviderObject : remoteTermServiceProvidersArray) {
+                    PropertyGroup remoteTermServiceProviderPropertyGroup = (PropertyGroup) remoteTermServiceProviderObject;
+                    Boolean enabled = remoteTermServiceProviderPropertyGroup.getBooleanProperty("enabled", Boolean.FALSE);
+                    if (!enabled) {
+                        continue;
+                    }
+                    try {
+                        Configuration.Builder builder = Configuration.builder();
+
+                        builder.base(remoteTermServiceProviderPropertyGroup.getStringProperty("base"));
+
+                        PropertyGroup trustStorePropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("trustStore");
+                        if (trustStorePropertyGroup != null) {
+                            builder.trustStore(TrustStore.builder()
+                                .location(trustStorePropertyGroup.getStringProperty("location"))
+                                .password(trustStorePropertyGroup.getStringProperty("password"))
+                                .type(trustStorePropertyGroup.getStringProperty("type", TrustStore.DEFAULT_TYPE))
+                                .build());
+                        }
+
+                        builder.hostnameVerificationEnabled(remoteTermServiceProviderPropertyGroup.getBooleanProperty("hostnameVerificationEnabled", Configuration.DEFAULT_HOSTNAME_VERIFICATION_ENABLED));
+
+                        PropertyGroup basicAuthPropertyGroup = remoteTermServiceProviderPropertyGroup.getPropertyGroup("basicAuth");
+                        if (basicAuthPropertyGroup != null) {
+                            builder.basicAuth(BasicAuth.builder()
+                                .username(basicAuthPropertyGroup.getStringProperty("username"))
+                                .password(basicAuthPropertyGroup.getStringProperty("password"))
+                                .build());
+                        }
+
+                        Object[] headersArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("headers");
+                        if (headersArray != null) {
+                            for (Object headerObject : headersArray) {
+                                PropertyGroup headerPropertyGroup = (PropertyGroup) headerObject;
+                                builder.headers(Header.builder()
+                                    .name(headerPropertyGroup.getStringProperty("name"))
+                                    .value(headerPropertyGroup.getStringProperty("value"))
+                                    .build());
+                            }
+                        }
+
+                        builder.httpTimeout(remoteTermServiceProviderPropertyGroup.getIntProperty("httpTimeout", Configuration.DEFAULT_HTTP_TIMEOUT));
+
+                        Object[] supportsArray = remoteTermServiceProviderPropertyGroup.getArrayProperty("supports");
+                        if (supportsArray != null) {
+                            for (Object supportsObject : supportsArray) {
+                                PropertyGroup supportsPropertyGroup = (PropertyGroup) supportsObject;
+                                builder.supports(Supports.builder()
+                                    .system(supportsPropertyGroup.getStringProperty("system"))
+                                    .version(supportsPropertyGroup.getStringProperty("version"))
+                                    .build());
+                            }
+                        }
+
+                        Configuration configuration = builder.build();
+
+                        RemoteTermServiceProvider remoteTermServiceProvider = new RemoteTermServiceProvider(configuration);
+                        FHIRTermService.getInstance().addProvider(cachingDisabled ? remoteTermServiceProvider : CachingProxy.newInstance(FHIRTermServiceProvider.class, remoteTermServiceProvider));
+                        remoteTermServiceProviders.add(remoteTermServiceProvider);
+                    } catch (Exception e) {
+                        log.log(Level.WARNING, "Unable to create RemoteTermServiceProvider from configuration property group: " + remoteTermServiceProviderPropertyGroup, e);
+                    }
+                }
             }
         }
     }

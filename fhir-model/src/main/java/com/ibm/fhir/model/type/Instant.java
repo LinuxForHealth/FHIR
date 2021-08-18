@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -33,12 +33,9 @@ public class Instant extends Element {
 
     private final ZonedDateTime value;
 
-    private volatile int hashCode;
-
     private Instant(Builder builder) {
         super(builder);
         value = ModelSupport.truncateTime(builder.value, ChronoUnit.MICROS);
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -61,19 +58,43 @@ public class Instant extends Element {
         return super.hasChildren();
     }
 
+    /**
+     * Factory method for creating Instant objects from a ZonedDateTime
+     * 
+     * @param value
+     *     A ZonedDateTime, not null
+     */
     public static Instant of(ZonedDateTime value) {
+        Objects.requireNonNull(value, "value");
         return Instant.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Instant objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String value that can be parsed by {@link #PARSER_FORMATTER}, not null
+     */
     public static Instant of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Instant.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating a Instant that represents the current Instant
+     */
     public static Instant now() {
         return Instant.builder().value(ZonedDateTime.now()).build();
     }
 
+    /**
+     * Factory method for creating a Instant that represents the current Instant in the passed time zone
+     * 
+     * @param offset
+     *     the ZoneOffset for the desired time zone, not null
+     */
     public static Instant now(ZoneOffset offset) {
+        Objects.requireNonNull(offset, "offset");
         return Instant.builder().value(ZonedDateTime.now(offset)).build();
     }
 
@@ -218,7 +239,16 @@ public class Instant extends Element {
          */
         @Override
         public Instant build() {
-            return new Instant(this);
+            Instant instant = new Instant(this);
+            if (validating) {
+                validate(instant);
+            }
+            return instant;
+        }
+
+        protected void validate(Instant instant) {
+            super.validate(instant);
+            ValidationSupport.requireValueOrChildren(instant);
         }
 
         protected Builder from(Instant instant) {

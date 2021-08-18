@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -23,12 +23,12 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.json.spi.JsonProvider;
-import javax.json.stream.JsonGenerator;
-import javax.json.stream.JsonGeneratorFactory;
-import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
-import javax.json.stream.JsonParserFactory;
+import jakarta.json.spi.JsonProvider;
+import jakarta.json.stream.JsonGenerator;
+import jakarta.json.stream.JsonGeneratorFactory;
+import jakarta.json.stream.JsonParser;
+import jakarta.json.stream.JsonParser.Event;
+import jakarta.json.stream.JsonParserFactory;
 
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
@@ -237,7 +237,7 @@ public class Index {
             this.resourceType = Objects.requireNonNull(resourceType, "resourceType");
             this.id = Objects.requireNonNull(id, "id");
             this.url = Objects.requireNonNull(url, "url");
-            this.version = Objects.requireNonNull(version, "version");
+            this.version = version;
             this.kind = kind;
             this.type = type;
         }
@@ -284,7 +284,7 @@ public class Index {
 
             String url = FHIRRegistryUtil.getUrl(resource);
             String version = FHIRRegistryUtil.getVersion(resource);
-            if (url == null || version == null) {
+            if (url == null) {
                 return null;
             }
 

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,11 +20,8 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Id extends String {
-    private volatile int hashCode;
-
     private Id(Builder builder) {
         super(builder);
-        ValidationSupport.checkId(value);
     }
 
     @Override
@@ -32,11 +29,25 @@ public class Id extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Id objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Id of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Id.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Id objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Id.builder().value(value).build();
     }
 
@@ -174,7 +185,16 @@ public class Id extends String {
          */
         @Override
         public Id build() {
-            return new Id(this);
+            Id id = new Id(this);
+            if (validating) {
+                validate(id);
+            }
+            return id;
+        }
+
+        protected void validate(Id id) {
+            super.validate(id);
+            ValidationSupport.checkId(id.value);
         }
 
         protected Builder from(Id id) {

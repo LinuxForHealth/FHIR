@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -14,6 +14,7 @@ import java.util.Objects;
 
 import javax.annotation.Generated;
 
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -31,12 +32,19 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A medicinal product in a container or package.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class MedicinalProductPackaged extends DomainResource {
     @Summary
@@ -62,23 +70,17 @@ public class MedicinalProductPackaged extends DomainResource {
     @Required
     private final List<PackageItem> packageItem;
 
-    private volatile int hashCode;
-
     private MedicinalProductPackaged(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        subject = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.subject, "subject"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        subject = Collections.unmodifiableList(builder.subject);
         description = builder.description;
         legalStatusOfSupply = builder.legalStatusOfSupply;
-        marketingStatus = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.marketingStatus, "marketingStatus"));
+        marketingStatus = Collections.unmodifiableList(builder.marketingStatus);
         marketingAuthorization = builder.marketingAuthorization;
-        manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-        batchIdentifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.batchIdentifier, "batchIdentifier"));
-        packageItem = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.packageItem, "packageItem"));
-        ValidationSupport.checkReferenceType(subject, "subject", "MedicinalProduct");
-        ValidationSupport.checkReferenceType(marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
-        ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-        ValidationSupport.requireChildren(this);
+        manufacturer = Collections.unmodifiableList(builder.manufacturer);
+        batchIdentifier = Collections.unmodifiableList(builder.batchIdentifier);
+        packageItem = Collections.unmodifiableList(builder.packageItem);
     }
 
     /**
@@ -781,7 +783,24 @@ public class MedicinalProductPackaged extends DomainResource {
          */
         @Override
         public MedicinalProductPackaged build() {
-            return new MedicinalProductPackaged(this);
+            MedicinalProductPackaged medicinalProductPackaged = new MedicinalProductPackaged(this);
+            if (validating) {
+                validate(medicinalProductPackaged);
+            }
+            return medicinalProductPackaged;
+        }
+
+        protected void validate(MedicinalProductPackaged medicinalProductPackaged) {
+            super.validate(medicinalProductPackaged);
+            ValidationSupport.checkList(medicinalProductPackaged.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicinalProductPackaged.subject, "subject", Reference.class);
+            ValidationSupport.checkList(medicinalProductPackaged.marketingStatus, "marketingStatus", MarketingStatus.class);
+            ValidationSupport.checkList(medicinalProductPackaged.manufacturer, "manufacturer", Reference.class);
+            ValidationSupport.checkList(medicinalProductPackaged.batchIdentifier, "batchIdentifier", BatchIdentifier.class);
+            ValidationSupport.checkNonEmptyList(medicinalProductPackaged.packageItem, "packageItem", PackageItem.class);
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.subject, "subject", "MedicinalProduct");
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.marketingAuthorization, "marketingAuthorization", "MedicinalProductAuthorization");
+            ValidationSupport.checkReferenceType(medicinalProductPackaged.manufacturer, "manufacturer", "Organization");
         }
 
         protected Builder from(MedicinalProductPackaged medicinalProductPackaged) {
@@ -809,13 +828,10 @@ public class MedicinalProductPackaged extends DomainResource {
         @Summary
         private final Identifier immediatePackaging;
 
-        private volatile int hashCode;
-
         private BatchIdentifier(Builder builder) {
             super(builder);
-            outerPackaging = ValidationSupport.requireNonNull(builder.outerPackaging, "outerPackaging");
+            outerPackaging = builder.outerPackaging;
             immediatePackaging = builder.immediatePackaging;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1058,7 +1074,17 @@ public class MedicinalProductPackaged extends DomainResource {
              */
             @Override
             public BatchIdentifier build() {
-                return new BatchIdentifier(this);
+                BatchIdentifier batchIdentifier = new BatchIdentifier(this);
+                if (validating) {
+                    validate(batchIdentifier);
+                }
+                return batchIdentifier;
+            }
+
+            protected void validate(BatchIdentifier batchIdentifier) {
+                super.validate(batchIdentifier);
+                ValidationSupport.requireNonNull(batchIdentifier.outerPackaging, "outerPackaging");
+                ValidationSupport.requireValueOrChildren(batchIdentifier);
             }
 
             protected Builder from(BatchIdentifier batchIdentifier) {
@@ -1104,26 +1130,20 @@ public class MedicinalProductPackaged extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final List<Reference> manufacturer;
 
-        private volatile int hashCode;
-
         private PackageItem(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-            type = ValidationSupport.requireNonNull(builder.type, "type");
-            quantity = ValidationSupport.requireNonNull(builder.quantity, "quantity");
-            material = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.material, "material"));
-            alternateMaterial = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.alternateMaterial, "alternateMaterial"));
-            device = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.device, "device"));
-            manufacturedItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturedItem, "manufacturedItem"));
-            packageItem = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.packageItem, "packageItem"));
+            identifier = Collections.unmodifiableList(builder.identifier);
+            type = builder.type;
+            quantity = builder.quantity;
+            material = Collections.unmodifiableList(builder.material);
+            alternateMaterial = Collections.unmodifiableList(builder.alternateMaterial);
+            device = Collections.unmodifiableList(builder.device);
+            manufacturedItem = Collections.unmodifiableList(builder.manufacturedItem);
+            packageItem = Collections.unmodifiableList(builder.packageItem);
             physicalCharacteristics = builder.physicalCharacteristics;
-            otherCharacteristics = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.otherCharacteristics, "otherCharacteristics"));
-            shelfLifeStorage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.shelfLifeStorage, "shelfLifeStorage"));
-            manufacturer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.manufacturer, "manufacturer"));
-            ValidationSupport.checkReferenceType(device, "device", "DeviceDefinition");
-            ValidationSupport.checkReferenceType(manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
-            ValidationSupport.checkReferenceType(manufacturer, "manufacturer", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
+            otherCharacteristics = Collections.unmodifiableList(builder.otherCharacteristics);
+            shelfLifeStorage = Collections.unmodifiableList(builder.shelfLifeStorage);
+            manufacturer = Collections.unmodifiableList(builder.manufacturer);
         }
 
         /**
@@ -1869,7 +1889,30 @@ public class MedicinalProductPackaged extends DomainResource {
              */
             @Override
             public PackageItem build() {
-                return new PackageItem(this);
+                PackageItem packageItem = new PackageItem(this);
+                if (validating) {
+                    validate(packageItem);
+                }
+                return packageItem;
+            }
+
+            protected void validate(PackageItem packageItem) {
+                super.validate(packageItem);
+                ValidationSupport.checkList(packageItem.identifier, "identifier", Identifier.class);
+                ValidationSupport.requireNonNull(packageItem.type, "type");
+                ValidationSupport.requireNonNull(packageItem.quantity, "quantity");
+                ValidationSupport.checkList(packageItem.material, "material", CodeableConcept.class);
+                ValidationSupport.checkList(packageItem.alternateMaterial, "alternateMaterial", CodeableConcept.class);
+                ValidationSupport.checkList(packageItem.device, "device", Reference.class);
+                ValidationSupport.checkList(packageItem.manufacturedItem, "manufacturedItem", Reference.class);
+                ValidationSupport.checkList(packageItem.packageItem, "packageItem", MedicinalProductPackaged.PackageItem.class);
+                ValidationSupport.checkList(packageItem.otherCharacteristics, "otherCharacteristics", CodeableConcept.class);
+                ValidationSupport.checkList(packageItem.shelfLifeStorage, "shelfLifeStorage", ProductShelfLife.class);
+                ValidationSupport.checkList(packageItem.manufacturer, "manufacturer", Reference.class);
+                ValidationSupport.checkReferenceType(packageItem.device, "device", "DeviceDefinition");
+                ValidationSupport.checkReferenceType(packageItem.manufacturedItem, "manufacturedItem", "MedicinalProductManufactured");
+                ValidationSupport.checkReferenceType(packageItem.manufacturer, "manufacturer", "Organization");
+                ValidationSupport.requireValueOrChildren(packageItem);
             }
 
             protected Builder from(PackageItem packageItem) {

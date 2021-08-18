@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -33,19 +34,27 @@ import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Timing;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.type.code.Status;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes validation requirements, source(s), status and dates for one or more elements.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "verificationResult-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-need",
     expression = "need.exists() implies (need.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-need', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -54,6 +63,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-type",
     expression = "validationType.exists() implies (validationType.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-type', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -62,6 +72,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-failure-action",
     expression = "failureAction.exists() implies (failureAction.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-failure-action', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -70,6 +81,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.validationStatus",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-validation-status",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-validation-status', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -78,6 +90,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.canPushUpdates",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Constraint(
@@ -86,6 +99,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "primarySource.pushTypeAvailable",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/verificationresult-push-type-available",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/verificationresult-push-type-available', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/VerificationResult",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -97,7 +111,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "need",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The frequency with which the target must be validated.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-need"
     )
@@ -105,7 +119,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "status",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The validation status of the target.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-status|4.0.1"
     )
@@ -116,7 +130,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "validation-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "What the target is validated against.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-type"
     )
@@ -124,7 +138,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "validation-process",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The primary process by which the target is validated.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-process"
     )
@@ -135,7 +149,7 @@ public class VerificationResult extends DomainResource {
     @Summary
     @Binding(
         bindingName = "failure-action",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The result if validation fails.",
         valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-failure-action"
     )
@@ -144,25 +158,22 @@ public class VerificationResult extends DomainResource {
     private final Attestation attestation;
     private final List<Validator> validator;
 
-    private volatile int hashCode;
-
     private VerificationResult(Builder builder) {
         super(builder);
-        target = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.target, "target"));
-        targetLocation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.targetLocation, "targetLocation"));
+        target = Collections.unmodifiableList(builder.target);
+        targetLocation = Collections.unmodifiableList(builder.targetLocation);
         need = builder.need;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         statusDate = builder.statusDate;
         validationType = builder.validationType;
-        validationProcess = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validationProcess, "validationProcess"));
+        validationProcess = Collections.unmodifiableList(builder.validationProcess);
         frequency = builder.frequency;
         lastPerformed = builder.lastPerformed;
         nextScheduled = builder.nextScheduled;
         failureAction = builder.failureAction;
-        primarySource = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.primarySource, "primarySource"));
+        primarySource = Collections.unmodifiableList(builder.primarySource);
         attestation = builder.attestation;
-        validator = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.validator, "validator"));
-        ValidationSupport.requireChildren(this);
+        validator = Collections.unmodifiableList(builder.validator);
     }
 
     /**
@@ -970,7 +981,21 @@ public class VerificationResult extends DomainResource {
          */
         @Override
         public VerificationResult build() {
-            return new VerificationResult(this);
+            VerificationResult verificationResult = new VerificationResult(this);
+            if (validating) {
+                validate(verificationResult);
+            }
+            return verificationResult;
+        }
+
+        protected void validate(VerificationResult verificationResult) {
+            super.validate(verificationResult);
+            ValidationSupport.checkList(verificationResult.target, "target", Reference.class);
+            ValidationSupport.checkList(verificationResult.targetLocation, "targetLocation", String.class);
+            ValidationSupport.requireNonNull(verificationResult.status, "status");
+            ValidationSupport.checkList(verificationResult.validationProcess, "validationProcess", CodeableConcept.class);
+            ValidationSupport.checkList(verificationResult.primarySource, "primarySource", PrimarySource.class);
+            ValidationSupport.checkList(verificationResult.validator, "validator", Validator.class);
         }
 
         protected Builder from(VerificationResult verificationResult) {
@@ -1002,7 +1027,7 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "primary-source-type",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Type of the validation primary source.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-primary-source-type"
         )
@@ -1010,14 +1035,14 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "communication-method",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Method for communicating with the data source (manual; API; Push).",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-communication-method"
         )
         private final List<CodeableConcept> communicationMethod;
         @Binding(
             bindingName = "validation-status",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Status of the validation of the target against the primary source.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-validation-status"
         )
@@ -1026,32 +1051,28 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "can-push-updates",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Ability of the primary source to push updates/alerts.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-can-push-updates"
         )
         private final CodeableConcept canPushUpdates;
         @Binding(
             bindingName = "push-type-available",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Type of alerts/updates the primary source can send.",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-push-type-available"
         )
         private final List<CodeableConcept> pushTypeAvailable;
 
-        private volatile int hashCode;
-
         private PrimarySource(Builder builder) {
             super(builder);
             who = builder.who;
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
-            communicationMethod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communicationMethod, "communicationMethod"));
+            type = Collections.unmodifiableList(builder.type);
+            communicationMethod = Collections.unmodifiableList(builder.communicationMethod);
             validationStatus = builder.validationStatus;
             validationDate = builder.validationDate;
             canPushUpdates = builder.canPushUpdates;
-            pushTypeAvailable = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.pushTypeAvailable, "pushTypeAvailable"));
-            ValidationSupport.checkReferenceType(who, "who", "Organization", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
+            pushTypeAvailable = Collections.unmodifiableList(builder.pushTypeAvailable);
         }
 
         /**
@@ -1504,7 +1525,20 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public PrimarySource build() {
-                return new PrimarySource(this);
+                PrimarySource primarySource = new PrimarySource(this);
+                if (validating) {
+                    validate(primarySource);
+                }
+                return primarySource;
+            }
+
+            protected void validate(PrimarySource primarySource) {
+                super.validate(primarySource);
+                ValidationSupport.checkList(primarySource.type, "type", CodeableConcept.class);
+                ValidationSupport.checkList(primarySource.communicationMethod, "communicationMethod", CodeableConcept.class);
+                ValidationSupport.checkList(primarySource.pushTypeAvailable, "pushTypeAvailable", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(primarySource.who, "who", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(primarySource);
             }
 
             protected Builder from(PrimarySource primarySource) {
@@ -1534,7 +1568,7 @@ public class VerificationResult extends DomainResource {
         @Summary
         @Binding(
             bindingName = "communication-method",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Method for communicating with the data source (manual; API; Push).",
             valueSet = "http://hl7.org/fhir/ValueSet/verificationresult-communication-method"
         )
@@ -1546,8 +1580,6 @@ public class VerificationResult extends DomainResource {
         private final Signature proxySignature;
         private final Signature sourceSignature;
 
-        private volatile int hashCode;
-
         private Attestation(Builder builder) {
             super(builder);
             who = builder.who;
@@ -1558,9 +1590,6 @@ public class VerificationResult extends DomainResource {
             proxyIdentityCertificate = builder.proxyIdentityCertificate;
             proxySignature = builder.proxySignature;
             sourceSignature = builder.sourceSignature;
-            ValidationSupport.checkReferenceType(who, "who", "Practitioner", "PractitionerRole", "Organization");
-            ValidationSupport.checkReferenceType(onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1989,7 +2018,18 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public Attestation build() {
-                return new Attestation(this);
+                Attestation attestation = new Attestation(this);
+                if (validating) {
+                    validate(attestation);
+                }
+                return attestation;
+            }
+
+            protected void validate(Attestation attestation) {
+                super.validate(attestation);
+                ValidationSupport.checkReferenceType(attestation.who, "who", "Practitioner", "PractitionerRole", "Organization");
+                ValidationSupport.checkReferenceType(attestation.onBehalfOf, "onBehalfOf", "Organization", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(attestation);
             }
 
             protected Builder from(Attestation attestation) {
@@ -2017,15 +2057,11 @@ public class VerificationResult extends DomainResource {
         private final String identityCertificate;
         private final Signature attestationSignature;
 
-        private volatile int hashCode;
-
         private Validator(Builder builder) {
             super(builder);
-            organization = ValidationSupport.requireNonNull(builder.organization, "organization");
+            organization = builder.organization;
             identityCertificate = builder.identityCertificate;
             attestationSignature = builder.attestationSignature;
-            ValidationSupport.checkReferenceType(organization, "organization", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2302,7 +2338,18 @@ public class VerificationResult extends DomainResource {
              */
             @Override
             public Validator build() {
-                return new Validator(this);
+                Validator validator = new Validator(this);
+                if (validating) {
+                    validate(validator);
+                }
+                return validator;
+            }
+
+            protected void validate(Validator validator) {
+                super.validate(validator);
+                ValidationSupport.requireNonNull(validator.organization, "organization");
+                ValidationSupport.checkReferenceType(validator.organization, "organization", "Organization");
+                ValidationSupport.requireValueOrChildren(validator);
             }
 
             protected Builder from(Validator validator) {

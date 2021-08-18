@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -73,7 +73,7 @@ public class ReferenceMappingVistorTest {
         java.lang.String uUID = UUID.randomUUID().toString();
 
         localRefMap = new HashMap<java.lang.String, java.lang.String>();
-        localRefMap.put("urn:uuid:" + uUID, "romote:" + uUID);
+        localRefMap.put("urn:uuid:" + uUID, "urn:romote:" + uUID);
 
         Reference providerRef = Reference.builder()
                         .reference(String.of("urn:uuid:" + uUID))

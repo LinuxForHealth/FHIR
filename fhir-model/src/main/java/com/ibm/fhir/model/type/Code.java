@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -20,11 +20,8 @@ import com.ibm.fhir.model.visitor.Visitor;
  */
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class Code extends String {
-    private volatile int hashCode;
-
     protected Code(Builder builder) {
         super(builder);
-        ValidationSupport.checkCode(value);
     }
 
     @Override
@@ -32,15 +29,36 @@ public class Code extends String {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Code of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static String string(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Code objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR code value, not null
+     */
     public static Code code(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Code.builder().value(value).build();
     }
 
@@ -178,7 +196,16 @@ public class Code extends String {
          */
         @Override
         public Code build() {
-            return new Code(this);
+            Code code = new Code(this);
+            if (validating) {
+                validate(code);
+            }
+            return code;
+        }
+
+        protected void validate(Code code) {
+            super.validate(code);
+            ValidationSupport.checkCode(code.value);
         }
 
         protected Builder from(Code code) {

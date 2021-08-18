@@ -33,7 +33,7 @@
             <fileMode>0755</fileMode>
         </file>
         <file>
-            <source>../fhir-bulkimportexport-webapp/target/fhir-bulkimportexport.war</source>
+            <source>../fhir-bulkdata-webapp/target/fhir-bulkdata-webapp.war</source>
             <outputDirectory>artifacts/servers/fhir-server/apps</outputDirectory>
             <fileMode>0755</fileMode>
         </file>
@@ -51,21 +51,6 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>io.openliberty:openliberty-runtime:*</include>
-            </includes>
-        </dependencySet>
-        <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
-            <useTransitiveDependencies>true</useTransitiveDependencies>
-            <useTransitiveFiltering>true</useTransitiveFiltering>
-            <outputDirectory>artifacts/shared/resources/lib/fhir</outputDirectory>
-            <directoryMode>0755</directoryMode>
-            <fileMode>0755</fileMode>
-            <includes>
-                <include>${project.groupId}:fhir-persistence-proxy</include>
-                <!-- We shouldn't need to list these, but we found that (under certain circumstances)
-                  fhir-core was missing when it wasn't explicitly listed here -->
-                <include>${project.groupId}:fhir-core</include>
-                <include>${project.groupId}:fhir-config</include>
             </includes>
         </dependencySet>
         <dependencySet>
@@ -104,6 +89,15 @@
             <fileMode>0755</fileMode>
             <includes>
                 <include>org.postgresql:postgresql</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <useProjectArtifact>false</useProjectArtifact>
+            <outputDirectory>tools</outputDirectory>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>${project.groupId}:fhir-persistence-schema:jar:cli</include>
             </includes>
         </dependencySet>
     </dependencySets>

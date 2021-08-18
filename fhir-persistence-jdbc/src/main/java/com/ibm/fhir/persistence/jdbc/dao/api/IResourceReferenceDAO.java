@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -7,9 +7,14 @@
 package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 
 /**
  * Contract for DAO implementations handling persistence of
@@ -31,40 +36,52 @@ public interface IResourceReferenceDAO {
     void flush() throws FHIRPersistenceException;
 
     /**
-     * Delete current external references for a given resource type and logical id. Typically
-     * called when creating a new version of a resource or when re-indexing
-     * @param resourceTypeId
-     * @param logicalId
-     */
-    void deleteExternalReferences(int resourceTypeId, String logicalId);
-
-    /**
-     * Delete current local references for a given resource described by its
-     * logical_resource_id. Typically called when creating a new version of a
-     * resource or when re-indexing.
-     * @param resourceType
-     * @param logicalId
-     */
-    void deleteLocalReferences(long logicalResourceId);
-
-    /**
-     * Delete the membership this resource has with other compartments
-     * @param logicalResourceId
-     */
-    void deleteLogicalResourceCompartments(long logicalResourceId);
-
-    /**
      * Add TOKEN_VALUE_MAP records, creating any CODE_SYSTEMS and COMMON_TOKEN_VALUES
      * as necessary
      * @param resourceType
      * @param xrefs
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
      */
-    void addCommonTokenValues(String resourceType, Collection<ResourceTokenValueRec> xrefs);
+    void addNormalizedValues(String resourceType, Collection<ResourceTokenValueRec> xrefs, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs);
 
     /**
      * Persist the records, which may span multiple resource types
      * @param records
+     * @param profileRecs
+     * @param tagRecs
+     * @param securityRecs
      */
-    void persist(Collection<ResourceTokenValueRec> records);
+    void persist(Collection<ResourceTokenValueRec> records, Collection<ResourceProfileRec> profileRecs, Collection<ResourceTokenValueRec> tagRecs, Collection<ResourceTokenValueRec> securityRecs);
 
+    /**
+     * Find the database id for the given token value and system
+     * @param codeSystem
+     * @param tokenValue
+     * @return the matching id from common_token_values.common_token_value_id or null if not found
+     */
+    CommonTokenValueResult readCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Find database ids for a set of common token values
+     * @param tokenValues
+     * @return a non-null, possibly-empty set of ids from common_token_values.common_token_value_id;
+     *      CommonTokenValues with no corresponding record will be omitted from the set
+     */
+    Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues);
+
+    /**
+     * Fetch the list of matching common_token_value_id records for the given tokenValue.
+     * @param tokenValue
+     * @return
+     */
+    List<Long> readCommonTokenValueIdList(String tokenValue);
+
+    /**
+     * Read the database canonical_id for the given value
+     * @param canonicalValue
+     * @return
+     */
+    Integer readCanonicalId(String canonicalValue);
 }

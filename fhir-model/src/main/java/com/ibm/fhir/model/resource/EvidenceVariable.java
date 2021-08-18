@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -50,18 +51,26 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EvidenceVariableType;
 import com.ibm.fhir.model.type.code.GroupMeasure;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The EvidenceVariable resource describes a "PICO" element that knowledge (evidence, assertion, recommendation) is about.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "evv-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/EvidenceVariable"
 )
 @Constraint(
     id = "evidenceVariable-1",
@@ -69,6 +78,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/EvidenceVariable",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -89,7 +99,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -109,7 +119,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -121,7 +131,7 @@ public class EvidenceVariable extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -134,7 +144,7 @@ public class EvidenceVariable extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EvidenceVariableType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The possible types of variables for exposures or outcomes (E.g. Dichotomous, Continuous, Descriptive).",
         valueSet = "http://hl7.org/fhir/ValueSet/variable-type|4.0.1"
     )
@@ -143,38 +153,35 @@ public class EvidenceVariable extends DomainResource {
     @Required
     private final List<Characteristic> characteristic;
 
-    private volatile int hashCode;
-
     private EvidenceVariable(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         shortTitle = builder.shortTitle;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
         type = builder.type;
-        characteristic = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.characteristic, "characteristic"));
-        ValidationSupport.requireChildren(this);
+        characteristic = Collections.unmodifiableList(builder.characteristic);
     }
 
     /**
@@ -1546,7 +1553,28 @@ public class EvidenceVariable extends DomainResource {
          */
         @Override
         public EvidenceVariable build() {
-            return new EvidenceVariable(this);
+            EvidenceVariable evidenceVariable = new EvidenceVariable(this);
+            if (validating) {
+                validate(evidenceVariable);
+            }
+            return evidenceVariable;
+        }
+
+        protected void validate(EvidenceVariable evidenceVariable) {
+            super.validate(evidenceVariable);
+            ValidationSupport.checkList(evidenceVariable.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(evidenceVariable.status, "status");
+            ValidationSupport.checkList(evidenceVariable.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.note, "note", Annotation.class);
+            ValidationSupport.checkList(evidenceVariable.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(evidenceVariable.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(evidenceVariable.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(evidenceVariable.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(evidenceVariable.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkNonEmptyList(evidenceVariable.characteristic, "characteristic", Characteristic.class);
         }
 
         protected Builder from(EvidenceVariable evidenceVariable) {
@@ -1600,25 +1628,21 @@ public class EvidenceVariable extends DomainResource {
         private final Duration timeFromStart;
         @Binding(
             bindingName = "GroupMeasure",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Possible group measure aggregates (E.g. Mean, Median).",
             valueSet = "http://hl7.org/fhir/ValueSet/group-measure|4.0.1"
         )
         private final GroupMeasure groupMeasure;
 
-        private volatile int hashCode;
-
         private Characteristic(Builder builder) {
             super(builder);
             description = builder.description;
-            definition = ValidationSupport.requireChoiceElement(builder.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
-            usageContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.usageContext, "usageContext"));
+            definition = builder.definition;
+            usageContext = Collections.unmodifiableList(builder.usageContext);
             exclude = builder.exclude;
-            participantEffective = ValidationSupport.choiceElement(builder.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+            participantEffective = builder.participantEffective;
             timeFromStart = builder.timeFromStart;
             groupMeasure = builder.groupMeasure;
-            ValidationSupport.checkReferenceType(definition, "definition", "Group", "ActivityDefinition");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2056,7 +2080,20 @@ public class EvidenceVariable extends DomainResource {
              */
             @Override
             public Characteristic build() {
-                return new Characteristic(this);
+                Characteristic characteristic = new Characteristic(this);
+                if (validating) {
+                    validate(characteristic);
+                }
+                return characteristic;
+            }
+
+            protected void validate(Characteristic characteristic) {
+                super.validate(characteristic);
+                ValidationSupport.requireChoiceElement(characteristic.definition, "definition", Reference.class, Canonical.class, CodeableConcept.class, Expression.class, DataRequirement.class, TriggerDefinition.class);
+                ValidationSupport.checkList(characteristic.usageContext, "usageContext", UsageContext.class);
+                ValidationSupport.choiceElement(characteristic.participantEffective, "participantEffective", DateTime.class, Period.class, Duration.class, Timing.class);
+                ValidationSupport.checkReferenceType(characteristic.definition, "definition", "Group", "ActivityDefinition");
+                ValidationSupport.requireValueOrChildren(characteristic);
             }
 
             protected Builder from(Characteristic characteristic) {

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -24,28 +24,28 @@ public class DeviceMetricOperationalStatus extends Code {
      * 
      * <p>The DeviceMetric is operating and will generate DeviceObservations.
      */
-    public static final DeviceMetricOperationalStatus ON = DeviceMetricOperationalStatus.builder().value(ValueSet.ON).build();
+    public static final DeviceMetricOperationalStatus ON = DeviceMetricOperationalStatus.builder().value(Value.ON).build();
 
     /**
      * Off
      * 
      * <p>The DeviceMetric is not operating.
      */
-    public static final DeviceMetricOperationalStatus OFF = DeviceMetricOperationalStatus.builder().value(ValueSet.OFF).build();
+    public static final DeviceMetricOperationalStatus OFF = DeviceMetricOperationalStatus.builder().value(Value.OFF).build();
 
     /**
      * Standby
      * 
      * <p>The DeviceMetric is operating, but will not generate any DeviceObservations.
      */
-    public static final DeviceMetricOperationalStatus STANDBY = DeviceMetricOperationalStatus.builder().value(ValueSet.STANDBY).build();
+    public static final DeviceMetricOperationalStatus STANDBY = DeviceMetricOperationalStatus.builder().value(Value.STANDBY).build();
 
     /**
      * Entered In Error
      * 
      * <p>The DeviceMetric was entered in error.
      */
-    public static final DeviceMetricOperationalStatus ENTERED_IN_ERROR = DeviceMetricOperationalStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final DeviceMetricOperationalStatus ENTERED_IN_ERROR = DeviceMetricOperationalStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     private volatile int hashCode;
 
@@ -53,14 +53,46 @@ public class DeviceMetricOperationalStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this DeviceMetricOperationalStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this DeviceMetricOperationalStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating DeviceMetricOperationalStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static DeviceMetricOperationalStatus of(ValueSet value) {
+        switch (value) {
+        case ON:
+            return ON;
+        case OFF:
+            return OFF;
+        case STANDBY:
+            return STANDBY;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating DeviceMetricOperationalStatus objects from a passed enum value.
      */
-    public static DeviceMetricOperationalStatus of(ValueSet value) {
+    public static DeviceMetricOperationalStatus of(Value value) {
         switch (value) {
         case ON:
             return ON;
@@ -84,7 +116,7 @@ public class DeviceMetricOperationalStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static DeviceMetricOperationalStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -96,7 +128,7 @@ public class DeviceMetricOperationalStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -108,7 +140,7 @@ public class DeviceMetricOperationalStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -137,11 +169,7 @@ public class DeviceMetricOperationalStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -170,19 +198,50 @@ public class DeviceMetricOperationalStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for DeviceMetricOperationalStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public DeviceMetricOperationalStatus build() {
-            return new DeviceMetricOperationalStatus(this);
+            DeviceMetricOperationalStatus deviceMetricOperationalStatus = new DeviceMetricOperationalStatus(this);
+            if (validating) {
+                validate(deviceMetricOperationalStatus);
+            }
+            return deviceMetricOperationalStatus;
+        }
+
+        protected void validate(DeviceMetricOperationalStatus deviceMetricOperationalStatus) {
+            super.validate(deviceMetricOperationalStatus);
+        }
+
+        protected Builder from(DeviceMetricOperationalStatus deviceMetricOperationalStatus) {
+            super.from(deviceMetricOperationalStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * On
@@ -227,7 +286,7 @@ public class DeviceMetricOperationalStatus extends Code {
         }
 
         /**
-         * Factory method for creating DeviceMetricOperationalStatus.ValueSet values from a passed string value.
+         * Factory method for creating DeviceMetricOperationalStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -241,6 +300,78 @@ public class DeviceMetricOperationalStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * On
+         * 
+         * <p>The DeviceMetric is operating and will generate DeviceObservations.
+         */
+        ON("on"),
+
+        /**
+         * Off
+         * 
+         * <p>The DeviceMetric is not operating.
+         */
+        OFF("off"),
+
+        /**
+         * Standby
+         * 
+         * <p>The DeviceMetric is operating, but will not generate any DeviceObservations.
+         */
+        STANDBY("standby"),
+
+        /**
+         * Entered In Error
+         * 
+         * <p>The DeviceMetric was entered in error.
+         */
+        ENTERED_IN_ERROR("entered-in-error");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating DeviceMetricOperationalStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding DeviceMetricOperationalStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "on":
+                return ON;
+            case "off":
+                return OFF;
+            case "standby":
+                return STANDBY;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

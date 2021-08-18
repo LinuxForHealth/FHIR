@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,6 +38,7 @@ import com.ibm.fhir.model.type.SimpleQuantity;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.MedicationDispenseStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -44,13 +46,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * Indicates that a medication product is to be or has been dispensed for a named person/patient. This includes a 
  * description of the medication product (supply) provided and the instructions for administering the medication. The 
  * medication dispense is the result of a pharmacy system responding to a medication order.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "mdd-1",
     level = "Rule",
     location = "(base)",
     description = "whenHandedOver cannot be before whenPrepared",
-    expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared"
+    expression = "whenHandedOver.empty() or whenPrepared.empty() or whenHandedOver >= whenPrepared",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationDispense"
 )
 @Constraint(
     id = "medicationDispense-2",
@@ -58,6 +67,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/medicationdispense-category",
     expression = "category.exists() implies (category.memberOf('http://hl7.org/fhir/ValueSet/medicationdispense-category', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/MedicationDispense",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -68,7 +78,7 @@ public class MedicationDispense extends DomainResource {
     @Summary
     @Binding(
         bindingName = "MedicationDispenseStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A coded concept specifying the state of the dispense event.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status|4.0.1"
     )
@@ -78,14 +88,14 @@ public class MedicationDispense extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationDispenseStatusReason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A code describing why a dispense was not performed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-status-reason"
     )
     private final Element statusReason;
     @Binding(
         bindingName = "MedicationDispenseCategory",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A code describing where the dispensed medication is expected to be consumed or administered.",
         valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-category"
     )
@@ -95,7 +105,7 @@ public class MedicationDispense extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "MedicationCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "A coded concept identifying which substance or product can be dispensed.",
         valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
     )
@@ -114,7 +124,7 @@ public class MedicationDispense extends DomainResource {
     private final List<Reference> authorizingPrescription;
     @Binding(
         bindingName = "MedicationDispenseType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the type of dispensing event that is performed. For example, Trial Fill, Completion of Trial, Partial Fill, Emergency Fill, Samples, etc.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPharmacySupplyType"
     )
@@ -136,46 +146,32 @@ public class MedicationDispense extends DomainResource {
     @ReferenceTarget({ "Provenance" })
     private final List<Reference> eventHistory;
 
-    private volatile int hashCode;
-
     private MedicationDispense(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusReason = ValidationSupport.choiceElement(builder.statusReason, "statusReason", CodeableConcept.class, Reference.class);
+        identifier = Collections.unmodifiableList(builder.identifier);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        statusReason = builder.statusReason;
         category = builder.category;
-        medication = ValidationSupport.requireChoiceElement(builder.medication, "medication", CodeableConcept.class, Reference.class);
+        medication = builder.medication;
         subject = builder.subject;
         context = builder.context;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
-        performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
+        performer = Collections.unmodifiableList(builder.performer);
         location = builder.location;
-        authorizingPrescription = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.authorizingPrescription, "authorizingPrescription"));
+        authorizingPrescription = Collections.unmodifiableList(builder.authorizingPrescription);
         type = builder.type;
         quantity = builder.quantity;
         daysSupply = builder.daysSupply;
         whenPrepared = builder.whenPrepared;
         whenHandedOver = builder.whenHandedOver;
         destination = builder.destination;
-        receiver = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.receiver, "receiver"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        dosageInstruction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dosageInstruction, "dosageInstruction"));
+        receiver = Collections.unmodifiableList(builder.receiver);
+        note = Collections.unmodifiableList(builder.note);
+        dosageInstruction = Collections.unmodifiableList(builder.dosageInstruction);
         substitution = builder.substitution;
-        detectedIssue = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detectedIssue, "detectedIssue"));
-        eventHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.eventHistory, "eventHistory"));
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Procedure");
-        ValidationSupport.checkReferenceType(statusReason, "statusReason", "DetectedIssue");
-        ValidationSupport.checkReferenceType(medication, "medication", "Medication");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(context, "context", "Encounter", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(location, "location", "Location");
-        ValidationSupport.checkReferenceType(authorizingPrescription, "authorizingPrescription", "MedicationRequest");
-        ValidationSupport.checkReferenceType(destination, "destination", "Location");
-        ValidationSupport.checkReferenceType(receiver, "receiver", "Patient", "Practitioner");
-        ValidationSupport.checkReferenceType(detectedIssue, "detectedIssue", "DetectedIssue");
-        ValidationSupport.checkReferenceType(eventHistory, "eventHistory", "Provenance");
-        ValidationSupport.requireChildren(this);
+        detectedIssue = Collections.unmodifiableList(builder.detectedIssue);
+        eventHistory = Collections.unmodifiableList(builder.eventHistory);
     }
 
     /**
@@ -1490,7 +1486,39 @@ public class MedicationDispense extends DomainResource {
          */
         @Override
         public MedicationDispense build() {
-            return new MedicationDispense(this);
+            MedicationDispense medicationDispense = new MedicationDispense(this);
+            if (validating) {
+                validate(medicationDispense);
+            }
+            return medicationDispense;
+        }
+
+        protected void validate(MedicationDispense medicationDispense) {
+            super.validate(medicationDispense);
+            ValidationSupport.checkList(medicationDispense.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(medicationDispense.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(medicationDispense.status, "status");
+            ValidationSupport.choiceElement(medicationDispense.statusReason, "statusReason", CodeableConcept.class, Reference.class);
+            ValidationSupport.requireChoiceElement(medicationDispense.medication, "medication", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(medicationDispense.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkList(medicationDispense.performer, "performer", Performer.class);
+            ValidationSupport.checkList(medicationDispense.authorizingPrescription, "authorizingPrescription", Reference.class);
+            ValidationSupport.checkList(medicationDispense.receiver, "receiver", Reference.class);
+            ValidationSupport.checkList(medicationDispense.note, "note", Annotation.class);
+            ValidationSupport.checkList(medicationDispense.dosageInstruction, "dosageInstruction", Dosage.class);
+            ValidationSupport.checkList(medicationDispense.detectedIssue, "detectedIssue", Reference.class);
+            ValidationSupport.checkList(medicationDispense.eventHistory, "eventHistory", Reference.class);
+            ValidationSupport.checkReferenceType(medicationDispense.partOf, "partOf", "Procedure");
+            ValidationSupport.checkReferenceType(medicationDispense.statusReason, "statusReason", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.medication, "medication", "Medication");
+            ValidationSupport.checkReferenceType(medicationDispense.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(medicationDispense.context, "context", "Encounter", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(medicationDispense.location, "location", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.authorizingPrescription, "authorizingPrescription", "MedicationRequest");
+            ValidationSupport.checkReferenceType(medicationDispense.destination, "destination", "Location");
+            ValidationSupport.checkReferenceType(medicationDispense.receiver, "receiver", "Patient", "Practitioner");
+            ValidationSupport.checkReferenceType(medicationDispense.detectedIssue, "detectedIssue", "DetectedIssue");
+            ValidationSupport.checkReferenceType(medicationDispense.eventHistory, "eventHistory", "Provenance");
         }
 
         protected Builder from(MedicationDispense medicationDispense) {
@@ -1529,7 +1557,7 @@ public class MedicationDispense extends DomainResource {
     public static class Performer extends BackboneElement {
         @Binding(
             bindingName = "MedicationDispensePerformerFunction",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A code describing the role an individual played in dispensing a medication.",
             valueSet = "http://hl7.org/fhir/ValueSet/medicationdispense-performer-function"
         )
@@ -1538,14 +1566,10 @@ public class MedicationDispense extends DomainResource {
         @Required
         private final Reference actor;
 
-        private volatile int hashCode;
-
         private Performer(Builder builder) {
             super(builder);
             function = builder.function;
-            actor = ValidationSupport.requireNonNull(builder.actor, "actor");
-            ValidationSupport.checkReferenceType(actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
+            actor = builder.actor;
         }
 
         /**
@@ -1800,7 +1824,18 @@ public class MedicationDispense extends DomainResource {
              */
             @Override
             public Performer build() {
-                return new Performer(this);
+                Performer performer = new Performer(this);
+                if (validating) {
+                    validate(performer);
+                }
+                return performer;
+            }
+
+            protected void validate(Performer performer) {
+                super.validate(performer);
+                ValidationSupport.requireNonNull(performer.actor, "actor");
+                ValidationSupport.checkReferenceType(performer.actor, "actor", "Practitioner", "PractitionerRole", "Organization", "Patient", "Device", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(performer);
             }
 
             protected Builder from(Performer performer) {
@@ -1822,14 +1857,14 @@ public class MedicationDispense extends DomainResource {
         private final Boolean wasSubstituted;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing whether a different medicinal product may be dispensed other than the product as specified exactly in the prescription.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActSubstanceAdminSubstitutionCode"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "MedicationIntendedSubstitutionReason",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "A coded concept describing the reason that a different medication should (or should not) be substituted from what was prescribed.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-SubstanceAdminSubstitutionReason"
         )
@@ -1837,16 +1872,12 @@ public class MedicationDispense extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole" })
         private final List<Reference> responsibleParty;
 
-        private volatile int hashCode;
-
         private Substitution(Builder builder) {
             super(builder);
-            wasSubstituted = ValidationSupport.requireNonNull(builder.wasSubstituted, "wasSubstituted");
+            wasSubstituted = builder.wasSubstituted;
             type = builder.type;
-            reason = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reason, "reason"));
-            responsibleParty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.responsibleParty, "responsibleParty"));
-            ValidationSupport.checkReferenceType(responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
-            ValidationSupport.requireValueOrChildren(this);
+            reason = Collections.unmodifiableList(builder.reason);
+            responsibleParty = Collections.unmodifiableList(builder.responsibleParty);
         }
 
         /**
@@ -2199,7 +2230,20 @@ public class MedicationDispense extends DomainResource {
              */
             @Override
             public Substitution build() {
-                return new Substitution(this);
+                Substitution substitution = new Substitution(this);
+                if (validating) {
+                    validate(substitution);
+                }
+                return substitution;
+            }
+
+            protected void validate(Substitution substitution) {
+                super.validate(substitution);
+                ValidationSupport.requireNonNull(substitution.wasSubstituted, "wasSubstituted");
+                ValidationSupport.checkList(substitution.reason, "reason", CodeableConcept.class);
+                ValidationSupport.checkList(substitution.responsibleParty, "responsibleParty", Reference.class);
+                ValidationSupport.checkReferenceType(substitution.responsibleParty, "responsibleParty", "Practitioner", "PractitionerRole");
+                ValidationSupport.requireValueOrChildren(substitution);
             }
 
             protected Builder from(Substitution substitution) {

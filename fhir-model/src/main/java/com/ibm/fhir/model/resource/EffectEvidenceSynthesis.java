@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -42,19 +43,27 @@ import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ExposureState;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * The EffectEvidenceSynthesis resource describes the difference in an outcome between exposures states in a population 
  * where the effect estimate is derived from a combination of research studies.
+ * 
+ * <p>Maturity level: FMM0 (Trial Use)
  */
+@Maturity(
+    level = 0,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "ees-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis"
 )
 @Constraint(
     id = "effectEvidenceSynthesis-1",
@@ -62,6 +71,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -70,6 +80,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/synthesis-type",
     expression = "synthesisType.exists() implies (synthesisType.memberOf('http://hl7.org/fhir/ValueSet/synthesis-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -78,6 +89,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/study-type",
     expression = "studyType.exists() implies (studyType.memberOf('http://hl7.org/fhir/ValueSet/study-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -86,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "resultsByExposure.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -94,6 +107,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/effect-estimate-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/effect-estimate-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -102,6 +116,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.variantState",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-variant-state",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-variant-state', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -110,6 +125,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "effectEstimate.precisionEstimate.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/precision-estimate-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/precision-estimate-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -118,6 +134,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/evidence-quality",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/evidence-quality', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -126,6 +143,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.certaintySubcomponent.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Constraint(
@@ -134,6 +152,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "certainty.certaintySubcomponent.rating",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/EffectEvidenceSynthesis",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -151,7 +170,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -171,7 +190,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -183,7 +202,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -195,14 +214,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private final List<RelatedArtifact> relatedArtifact;
     @Binding(
         bindingName = "SynthesisType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Types of combining results from a body of evidence (eg. summary data meta-analysis).",
         valueSet = "http://hl7.org/fhir/ValueSet/synthesis-type"
     )
     private final CodeableConcept synthesisType;
     @Binding(
         bindingName = "StudyType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Types of research studies (types of research methods).",
         valueSet = "http://hl7.org/fhir/ValueSet/study-type"
     )
@@ -229,48 +248,41 @@ public class EffectEvidenceSynthesis extends DomainResource {
     private final List<EffectEstimate> effectEstimate;
     private final List<Certainty> certainty;
 
-    private volatile int hashCode;
-
     private EffectEvidenceSynthesis(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        note = Collections.unmodifiableList(builder.note);
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
         synthesisType = builder.synthesisType;
         studyType = builder.studyType;
-        population = ValidationSupport.requireNonNull(builder.population, "population");
-        exposure = ValidationSupport.requireNonNull(builder.exposure, "exposure");
-        exposureAlternative = ValidationSupport.requireNonNull(builder.exposureAlternative, "exposureAlternative");
-        outcome = ValidationSupport.requireNonNull(builder.outcome, "outcome");
+        population = builder.population;
+        exposure = builder.exposure;
+        exposureAlternative = builder.exposureAlternative;
+        outcome = builder.outcome;
         sampleSize = builder.sampleSize;
-        resultsByExposure = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.resultsByExposure, "resultsByExposure"));
-        effectEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.effectEstimate, "effectEstimate"));
-        certainty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certainty, "certainty"));
-        ValidationSupport.checkReferenceType(population, "population", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposure, "exposure", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(exposureAlternative, "exposureAlternative", "EvidenceVariable");
-        ValidationSupport.checkReferenceType(outcome, "outcome", "EvidenceVariable");
-        ValidationSupport.requireChildren(this);
+        resultsByExposure = Collections.unmodifiableList(builder.resultsByExposure);
+        effectEstimate = Collections.unmodifiableList(builder.effectEstimate);
+        certainty = Collections.unmodifiableList(builder.certainty);
     }
 
     /**
@@ -1872,7 +1884,38 @@ public class EffectEvidenceSynthesis extends DomainResource {
          */
         @Override
         public EffectEvidenceSynthesis build() {
-            return new EffectEvidenceSynthesis(this);
+            EffectEvidenceSynthesis effectEvidenceSynthesis = new EffectEvidenceSynthesis(this);
+            if (validating) {
+                validate(effectEvidenceSynthesis);
+            }
+            return effectEvidenceSynthesis;
+        }
+
+        protected void validate(EffectEvidenceSynthesis effectEvidenceSynthesis) {
+            super.validate(effectEvidenceSynthesis);
+            ValidationSupport.checkList(effectEvidenceSynthesis.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.status, "status");
+            ValidationSupport.checkList(effectEvidenceSynthesis.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.note, "note", Annotation.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.population, "population");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.exposure, "exposure");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.exposureAlternative, "exposureAlternative");
+            ValidationSupport.requireNonNull(effectEvidenceSynthesis.outcome, "outcome");
+            ValidationSupport.checkList(effectEvidenceSynthesis.resultsByExposure, "resultsByExposure", ResultsByExposure.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.effectEstimate, "effectEstimate", EffectEstimate.class);
+            ValidationSupport.checkList(effectEvidenceSynthesis.certainty, "certainty", Certainty.class);
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.population, "population", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.exposure, "exposure", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.exposureAlternative, "exposureAlternative", "EvidenceVariable");
+            ValidationSupport.checkReferenceType(effectEvidenceSynthesis.outcome, "outcome", "EvidenceVariable");
         }
 
         protected Builder from(EffectEvidenceSynthesis effectEvidenceSynthesis) {
@@ -1922,14 +1965,11 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final Integer numberOfStudies;
         private final Integer numberOfParticipants;
 
-        private volatile int hashCode;
-
         private SampleSize(Builder builder) {
             super(builder);
             description = builder.description;
             numberOfStudies = builder.numberOfStudies;
             numberOfParticipants = builder.numberOfParticipants;
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2194,7 +2234,16 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public SampleSize build() {
-                return new SampleSize(this);
+                SampleSize sampleSize = new SampleSize(this);
+                if (validating) {
+                    validate(sampleSize);
+                }
+                return sampleSize;
+            }
+
+            protected void validate(SampleSize sampleSize) {
+                super.validate(sampleSize);
+                ValidationSupport.requireValueOrChildren(sampleSize);
             }
 
             protected Builder from(SampleSize sampleSize) {
@@ -2214,14 +2263,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "ExposureState",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Whether the results by exposure is describing the results for the primary exposure of interest (exposure) or the alternative state (exposureAlternative).",
             valueSet = "http://hl7.org/fhir/ValueSet/exposure-state|4.0.1"
         )
         private final ExposureState exposureState;
         @Binding(
             bindingName = "EvidenceVariantState",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Used for results by exposure in variant states such as low-risk, medium-risk and high-risk states.",
             valueSet = "http://hl7.org/fhir/ValueSet/evidence-variant-state"
         )
@@ -2230,16 +2279,12 @@ public class EffectEvidenceSynthesis extends DomainResource {
         @Required
         private final Reference riskEvidenceSynthesis;
 
-        private volatile int hashCode;
-
         private ResultsByExposure(Builder builder) {
             super(builder);
             description = builder.description;
             exposureState = builder.exposureState;
             variantState = builder.variantState;
-            riskEvidenceSynthesis = ValidationSupport.requireNonNull(builder.riskEvidenceSynthesis, "riskEvidenceSynthesis");
-            ValidationSupport.checkReferenceType(riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
-            ValidationSupport.requireValueOrChildren(this);
+            riskEvidenceSynthesis = builder.riskEvidenceSynthesis;
         }
 
         /**
@@ -2545,7 +2590,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public ResultsByExposure build() {
-                return new ResultsByExposure(this);
+                ResultsByExposure resultsByExposure = new ResultsByExposure(this);
+                if (validating) {
+                    validate(resultsByExposure);
+                }
+                return resultsByExposure;
+            }
+
+            protected void validate(ResultsByExposure resultsByExposure) {
+                super.validate(resultsByExposure);
+                ValidationSupport.requireNonNull(resultsByExposure.riskEvidenceSynthesis, "riskEvidenceSynthesis");
+                ValidationSupport.checkReferenceType(resultsByExposure.riskEvidenceSynthesis, "riskEvidenceSynthesis", "RiskEvidenceSynthesis");
+                ValidationSupport.requireValueOrChildren(resultsByExposure);
             }
 
             protected Builder from(ResultsByExposure resultsByExposure) {
@@ -2566,14 +2622,14 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final String description;
         @Binding(
             bindingName = "EffectEstimateType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Whether the effect estimate is an absolute effect estimate (absolute difference) or a relative effect estimate (relative difference), and the specific type of effect estimate (eg relative risk or median difference).",
             valueSet = "http://hl7.org/fhir/ValueSet/effect-estimate-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "EvidenceVariantState",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Used for results by exposure in variant states such as low-risk, medium-risk and high-risk states.",
             valueSet = "http://hl7.org/fhir/ValueSet/evidence-variant-state"
         )
@@ -2581,14 +2637,12 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final Decimal value;
         @Binding(
             bindingName = "UCUMUnits",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Unified Code for Units of Measure (UCUM).",
             valueSet = "http://hl7.org/fhir/ValueSet/ucum-units|4.0.1"
         )
         private final CodeableConcept unitOfMeasure;
         private final List<PrecisionEstimate> precisionEstimate;
-
-        private volatile int hashCode;
 
         private EffectEstimate(Builder builder) {
             super(builder);
@@ -2597,9 +2651,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
             variantState = builder.variantState;
             value = builder.value;
             unitOfMeasure = builder.unitOfMeasure;
-            precisionEstimate = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.precisionEstimate, "precisionEstimate"));
-            ValidationSupport.checkValueSetBinding(unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
-            ValidationSupport.requireValueOrChildren(this);
+            precisionEstimate = Collections.unmodifiableList(builder.precisionEstimate);
         }
 
         /**
@@ -2971,7 +3023,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public EffectEstimate build() {
-                return new EffectEstimate(this);
+                EffectEstimate effectEstimate = new EffectEstimate(this);
+                if (validating) {
+                    validate(effectEstimate);
+                }
+                return effectEstimate;
+            }
+
+            protected void validate(EffectEstimate effectEstimate) {
+                super.validate(effectEstimate);
+                ValidationSupport.checkList(effectEstimate.precisionEstimate, "precisionEstimate", PrecisionEstimate.class);
+                ValidationSupport.checkValueSetBinding(effectEstimate.unitOfMeasure, "unitOfMeasure", "http://hl7.org/fhir/ValueSet/ucum-units", "http://unitsofmeasure.org");
+                ValidationSupport.requireValueOrChildren(effectEstimate);
             }
 
             protected Builder from(EffectEstimate effectEstimate) {
@@ -2992,7 +3055,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
         public static class PrecisionEstimate extends BackboneElement {
             @Binding(
                 bindingName = "PrecisionEstimateType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "Method of reporting variability of estimates, such as confidence intervals, interquartile range or standard deviation.",
                 valueSet = "http://hl7.org/fhir/ValueSet/precision-estimate-type"
             )
@@ -3001,15 +3064,12 @@ public class EffectEvidenceSynthesis extends DomainResource {
             private final Decimal from;
             private final Decimal to;
 
-            private volatile int hashCode;
-
             private PrecisionEstimate(Builder builder) {
                 super(builder);
                 type = builder.type;
                 level = builder.level;
                 from = builder.from;
                 to = builder.to;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3303,7 +3363,16 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  */
                 @Override
                 public PrecisionEstimate build() {
-                    return new PrecisionEstimate(this);
+                    PrecisionEstimate precisionEstimate = new PrecisionEstimate(this);
+                    if (validating) {
+                        validate(precisionEstimate);
+                    }
+                    return precisionEstimate;
+                }
+
+                protected void validate(PrecisionEstimate precisionEstimate) {
+                    super.validate(precisionEstimate);
+                    ValidationSupport.requireValueOrChildren(precisionEstimate);
                 }
 
                 protected Builder from(PrecisionEstimate precisionEstimate) {
@@ -3324,7 +3393,7 @@ public class EffectEvidenceSynthesis extends DomainResource {
     public static class Certainty extends BackboneElement {
         @Binding(
             bindingName = "QualityOfEvidenceRating",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The quality of the evidence described. The code system used specifies the quality scale used to grade this evidence source while the code specifies the actual quality score (represented as a coded value) associated with the evidence.",
             valueSet = "http://hl7.org/fhir/ValueSet/evidence-quality"
         )
@@ -3332,14 +3401,11 @@ public class EffectEvidenceSynthesis extends DomainResource {
         private final List<Annotation> note;
         private final List<CertaintySubcomponent> certaintySubcomponent;
 
-        private volatile int hashCode;
-
         private Certainty(Builder builder) {
             super(builder);
-            rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-            note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-            certaintySubcomponent = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.certaintySubcomponent, "certaintySubcomponent"));
-            ValidationSupport.requireValueOrChildren(this);
+            rating = Collections.unmodifiableList(builder.rating);
+            note = Collections.unmodifiableList(builder.note);
+            certaintySubcomponent = Collections.unmodifiableList(builder.certaintySubcomponent);
         }
 
         /**
@@ -3664,7 +3730,19 @@ public class EffectEvidenceSynthesis extends DomainResource {
              */
             @Override
             public Certainty build() {
-                return new Certainty(this);
+                Certainty certainty = new Certainty(this);
+                if (validating) {
+                    validate(certainty);
+                }
+                return certainty;
+            }
+
+            protected void validate(Certainty certainty) {
+                super.validate(certainty);
+                ValidationSupport.checkList(certainty.rating, "rating", CodeableConcept.class);
+                ValidationSupport.checkList(certainty.note, "note", Annotation.class);
+                ValidationSupport.checkList(certainty.certaintySubcomponent, "certaintySubcomponent", CertaintySubcomponent.class);
+                ValidationSupport.requireValueOrChildren(certainty);
             }
 
             protected Builder from(Certainty certainty) {
@@ -3682,28 +3760,25 @@ public class EffectEvidenceSynthesis extends DomainResource {
         public static class CertaintySubcomponent extends BackboneElement {
             @Binding(
                 bindingName = "CertaintySubcomponentType",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The subcomponent classification of quality of evidence rating systems.",
                 valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-type"
             )
             private final CodeableConcept type;
             @Binding(
                 bindingName = "CertaintySubcomponentRating",
-                strength = BindingStrength.ValueSet.EXTENSIBLE,
+                strength = BindingStrength.Value.EXTENSIBLE,
                 description = "The quality rating of the subcomponent of a quality of evidence rating.",
                 valueSet = "http://hl7.org/fhir/ValueSet/certainty-subcomponent-rating"
             )
             private final List<CodeableConcept> rating;
             private final List<Annotation> note;
 
-            private volatile int hashCode;
-
             private CertaintySubcomponent(Builder builder) {
                 super(builder);
                 type = builder.type;
-                rating = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.rating, "rating"));
-                note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-                ValidationSupport.requireValueOrChildren(this);
+                rating = Collections.unmodifiableList(builder.rating);
+                note = Collections.unmodifiableList(builder.note);
             }
 
             /**
@@ -4008,7 +4083,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
                  */
                 @Override
                 public CertaintySubcomponent build() {
-                    return new CertaintySubcomponent(this);
+                    CertaintySubcomponent certaintySubcomponent = new CertaintySubcomponent(this);
+                    if (validating) {
+                        validate(certaintySubcomponent);
+                    }
+                    return certaintySubcomponent;
+                }
+
+                protected void validate(CertaintySubcomponent certaintySubcomponent) {
+                    super.validate(certaintySubcomponent);
+                    ValidationSupport.checkList(certaintySubcomponent.rating, "rating", CodeableConcept.class);
+                    ValidationSupport.checkList(certaintySubcomponent.note, "note", Annotation.class);
+                    ValidationSupport.requireValueOrChildren(certaintySubcomponent);
                 }
 
                 protected Builder from(CertaintySubcomponent certaintySubcomponent) {

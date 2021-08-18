@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -22,11 +22,8 @@ import com.ibm.fhir.model.visitor.Visitor;
 public class Oid extends Uri {
     private static final Pattern PATTERN = Pattern.compile("urn:oid:[0-2](\\.(0|[1-9][0-9]*))+");
 
-    private volatile int hashCode;
-
     private Oid(Builder builder) {
         super(builder);
-        ValidationSupport.checkValue(value, PATTERN);
     }
 
     @Override
@@ -34,11 +31,25 @@ public class Oid extends Uri {
         return (value != null);
     }
 
+    /**
+     * Factory method for creating Oid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String, not null
+     */
     public static Oid of(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Oid.builder().value(value).build();
     }
 
+    /**
+     * Factory method for creating Oid objects from a java.lang.String
+     * 
+     * @param value
+     *     A java.lang.String that can be parsed into a valid FHIR uri value, not null
+     */
     public static Uri uri(java.lang.String value) {
+        Objects.requireNonNull(value, "value");
         return Oid.builder().value(value).build();
     }
 
@@ -176,7 +187,16 @@ public class Oid extends Uri {
          */
         @Override
         public Oid build() {
-            return new Oid(this);
+            Oid oid = new Oid(this);
+            if (validating) {
+                validate(oid);
+            }
+            return oid;
+        }
+
+        protected void validate(Oid oid) {
+            super.validate(oid);
+            ValidationSupport.checkValue(oid.value, PATTERN);
         }
 
         protected Builder from(Oid oid) {

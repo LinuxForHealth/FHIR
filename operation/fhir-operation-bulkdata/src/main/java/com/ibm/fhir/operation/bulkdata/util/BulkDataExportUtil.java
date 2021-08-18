@@ -1,20 +1,19 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
+
 package com.ibm.fhir.operation.bulkdata.util;
 
 import static com.ibm.fhir.model.type.String.string;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import javax.ws.rs.core.MediaType;
 
 import com.ibm.fhir.core.FHIRMediaType;
@@ -27,19 +26,26 @@ import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants;
-import com.ibm.fhir.operation.bulkdata.BulkDataConstants.ExportType;
+import com.ibm.fhir.operation.bulkdata.OperationConstants;
+import com.ibm.fhir.operation.bulkdata.OperationConstants.ExportType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse;
+import com.ibm.fhir.operation.bulkdata.model.transformer.JobIdEncodingTransformer;
+import com.ibm.fhir.search.compartment.CompartmentUtil;
+import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 
 /**
  * BulkData Util captures common methods
  */
 public class BulkDataExportUtil {
+    private static Set<String> RESOURCE_TYPES = ModelSupport.getResourceTypes(false).stream()
+                                                    .map(Class::getSimpleName)
+                                                    .collect(Collectors.toSet());
 
-    private BulkDataExportUtil() {
+    public BulkDataExportUtil() {
         // No Operation
     }
+
 
     /**
      * Check the Export Type is valid and converts to intermediate enum
@@ -48,8 +54,8 @@ public class BulkDataExportUtil {
      * @param resourceType
      * @return
      */
-    public static BulkDataConstants.ExportType checkExportType(FHIROperationContext.Type type,
-            Class<? extends Resource> resourceType) {
+    public OperationConstants.ExportType checkExportType(FHIROperationContext.Type type,
+        Class<? extends Resource> resourceType) {
         ExportType exportType = ExportType.INVALID;
         if (FHIROperationContext.Type.INSTANCE.equals(type) && "Group".equals(resourceType.getSimpleName())) {
             exportType = ExportType.GROUP;
@@ -62,8 +68,29 @@ public class BulkDataExportUtil {
         return exportType;
     }
 
-    public static MediaType checkAndConvertToMediaType(Parameters parameters)
-            throws FHIROperationException {
+    /**
+     *
+     * @implNote originally this was in the PartitionMapper for Patient Export.
+     *
+     * @param resourceTypes
+     * @throws FHIROperationException
+     */
+    public void checkExportPatientResourceTypes(List<String> resourceTypes) throws FHIROperationException {
+        boolean valid = false;
+        try {
+            // Also Check to see if the Export is valid for the Compartment.
+            List<String> allCompartmentResourceTypes = CompartmentUtil.getCompartmentResourceTypes("Patient");
+            List<String> tmp = resourceTypes.stream().filter(item -> allCompartmentResourceTypes.contains(item)).collect(Collectors.toList());
+            valid = tmp != null && !tmp.isEmpty();
+        } catch (Exception e) {
+            // No Operation intentionally
+        }
+        if (!valid) {
+            throw buildOperationException("Resource Type outside of the Patient Compartment in Export", IssueType.INVALID);
+        }
+    }
+
+    public MediaType checkAndConvertToMediaType(Parameters parameters) throws FHIROperationException {
         /*
          * The format for the requested bulk data files to be generated as per [FHIR Asynchronous Request
          * Pattern](http://hl7.org/fhir/async.html). Defaults to application/fhir+ndjson. Servers SHALL support [Newline
@@ -72,7 +99,7 @@ public class BulkDataExportUtil {
          * application/ndjson and ndjson.
          */
         Optional<Parameter> parameter = parameters.getParameter().stream()
-                .filter(p -> BulkDataConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
+                .filter(p -> OperationConstants.PARAM_OUTPUT_FORMAT.equals(p.getName().getValue()))
                 .findFirst();
 
         String mediaType = FHIRMediaType.APPLICATION_NDJSON;
@@ -83,43 +110,42 @@ public class BulkDataExportUtil {
         return MediaType.valueOf(mediaType);
     }
 
-    private static String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
+    private String retrieveOutputFormat(String requestedFormat) throws FHIROperationException {
         // If the parameter isn't passed, use application/fhir+ndjson
         String finalValue = FHIRMediaType.APPLICATION_NDJSON;
 
         if (requestedFormat != null) {
             // Normalize the NDJSON variants to MEDIA_TYPE_ND_JSON
-            if (BulkDataConstants.NDJSON_VARIANTS.contains(requestedFormat)) {
+            if (OperationConstants.NDJSON_VARIANTS.contains(requestedFormat)) {
                 requestedFormat = FHIRMediaType.APPLICATION_NDJSON;
             }
 
             // We're checking that it's acceptable.
-            if (!BulkDataConstants.EXPORT_FORMATS.contains(requestedFormat)) {
+            if (!OperationConstants.EXPORT_FORMATS.contains(requestedFormat)) {
                 // Workaround for Liberty/CXF replacing "+" with " "
                 requestedFormat = requestedFormat.replaceAll(" ", "+");
             }
 
-            if (BulkDataConstants.EXPORT_FORMATS.contains(requestedFormat)) {
+            if (OperationConstants.EXPORT_FORMATS.contains(requestedFormat)) {
                 finalValue = requestedFormat;
             } else {
-                throw buildOperationException("Invalid requested format: '" + requestedFormat + "'" , IssueType.INVALID);
+                throw buildOperationException("Invalid requested format must be one of '" + OperationConstants.EXPORT_FORMATS + "'", IssueType.INVALID);
             }
         }
         return finalValue;
     }
 
-    public static FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
-        FHIROperationException operationException = new FHIROperationException(errMsg);
+    public FHIROperationException buildOperationException(String errMsg, IssueType issueType) {
+        return buildOperationException(errMsg, issueType, null);
+    }
 
-        List<Issue> issues = new ArrayList<>();
-        issues.add(Issue.builder()
-                .code(issueType)
-                .diagnostics(string(errMsg))
-                .severity(IssueSeverity.ERROR)
-                .build());
-
-        operationException.setIssues(issues);
-        return operationException;
+    public FHIROperationException buildOperationException(String errMsg, IssueType issueType, Exception e) {
+        return new FHIROperationException(errMsg, e)
+                .withIssue(Issue.builder()
+                    .code(issueType)
+                    .diagnostics(string(errMsg))
+                    .severity(IssueSeverity.ERROR)
+                    .build());
     }
 
     /**
@@ -127,7 +153,7 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public static Instant checkAndExtractSince(Parameters parameters) {
+    public Instant checkAndExtractSince(Parameters parameters) {
         /*
          * Resources will be included in the response if their state has changed after the supplied time (e.g. if
          * Resource.meta.lastUpdated is later than the supplied _since time).
@@ -135,13 +161,12 @@ public class BulkDataExportUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 // Parameter name is non-null (required per spec).
-                if (BulkDataConstants.PARAM_SINCE.equals(parameter.getName().getValue())) {
+                if (OperationConstants.PARAM_SINCE.equals(parameter.getName().getValue())) {
                     if (parameter.getValue() != null) {
                         if (parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                             return Instant.of(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
                         } else if (parameter.getValue().is(com.ibm.fhir.model.type.Instant.class)) {
-                            return Instant
-                                    .of(parameter.getValue().as(com.ibm.fhir.model.type.Instant.class).getValue());
+                            return Instant.of(parameter.getValue().as(com.ibm.fhir.model.type.Instant.class).getValue());
                         }
                     }
                     // No matching type found
@@ -152,7 +177,7 @@ public class BulkDataExportUtil {
         return null;
     }
 
-    public static List<String> checkAndValidateTypes(Parameters parameters) throws FHIROperationException {
+    public List<String> checkAndValidateTypes(Parameters parameters) throws FHIROperationException {
         /*
          * Only resources of the specified resource types(s) SHALL be included in the response. If this parameter is
          * omitted, the server SHALL return all supported resources within the scope of the client authorization. For
@@ -170,22 +195,20 @@ public class BulkDataExportUtil {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
                 // The model makes sure getName is never non-null.
-                if (BulkDataConstants.PARAM_TYPE.equals(parameter.getName().getValue())) {
+                if (OperationConstants.PARAM_TYPE.equals(parameter.getName().getValue())) {
                     if (parameter.getValue() != null) {
                         String types =
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
                         for (String type : types.split(",")) {
                             // Type will never be null here.
-                            if (!type.isEmpty() && ModelSupport.isResourceType(type)) {
+                            if (!type.isEmpty() && RESOURCE_TYPES.contains(type)) {
                                 result.add(type);
                             } else {
-                                throw buildOperationException(
-                                        "invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
+                                throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
                             }
                         }
                     } else {
-                        throw buildOperationException(
-                                "invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
+                        throw buildOperationException("invalid resource type sent as a parameter to $export operation", IssueType.INVALID);
                     }
                 }
             }
@@ -193,7 +216,28 @@ public class BulkDataExportUtil {
         return result;
     }
 
-    public static List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {
+    /**
+     * the default resource types
+     * @return
+     */
+    public List<String> defaultResourceTypes(){
+        return new ArrayList<>(RESOURCE_TYPES);
+    }
+
+    /**
+     * gets the defaults for the patient compartment.
+     * @return
+     * @throws FHIROperationException
+     */
+    public List<String> addDefaultsForPatientCompartment() throws FHIROperationException {
+        try {
+            return CompartmentUtil.getCompartmentResourceTypes("Patient");
+        } catch (FHIRSearchException e) {
+            throw buildOperationException("unable to process the Patient compartment into types", IssueType.UNKNOWN);
+        }
+    }
+
+    public List<String> checkAndValidateTypeFilters(Parameters parameters) throws FHIROperationException {
         /*
          * To request finer-grained filtering, a client MAY supply a _typeFilter parameter alongside the _type
          * parameter. The value of the _typeFilter parameter is a comma-separated list of FHIR REST API queries that
@@ -208,7 +252,7 @@ public class BulkDataExportUtil {
         List<String> result = new ArrayList<>();
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
-                if (BulkDataConstants.PARAM_TYPE_FILTER.equals(parameter.getName().getValue())) {
+                if (OperationConstants.PARAM_TYPE_FILTER.equals(parameter.getName().getValue())) {
                     if (parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
                         String typeFilters =
                                 parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue();
@@ -218,26 +262,22 @@ public class BulkDataExportUtil {
                             if (!typeFilter.isEmpty()) {
                                 result.add(typeFilter);
                             } else {
-                                throw buildOperationException(
-                                        "invalid typeFilter sent as a parameter to $export operation", IssueType.INVALID);
+                                throw buildOperationException("invalid typeFilter sent as a parameter to $export operation", IssueType.INVALID);
                             }
                         }
                         return result;
                     }
                     // Result must have NOT been returned.
-                    throw buildOperationException(
-                            "invalid typeFilter parameter type sent to $export operation", IssueType.INVALID);
+                    throw buildOperationException("invalid typeFilter parameter type sent to $export operation", IssueType.INVALID);
                 }
             }
         }
         return result;
     }
 
-    public static Parameters getOutputParametersWithJson(PollingLocationResponse resource) throws Exception {
+    public Parameters getOutputParametersWithJson(PollingLocationResponse resource) throws Exception {
         Parameters.Builder parametersBuilder = Parameters.builder();
-        parametersBuilder
-                .parameter(Parameter.builder().name(string("return"))
-                        .value(string(PollingLocationResponse.Writer.generate(resource))).build());
+        parametersBuilder.parameter(Parameter.builder().name(string("return")).value(string(PollingLocationResponse.Writer.generate(resource))).build());
         return parametersBuilder.build();
     }
 
@@ -248,12 +288,12 @@ public class BulkDataExportUtil {
      * @return
      * @throws FHIROperationException
      */
-    public static String checkAndValidateJob(Parameters parameters) throws FHIROperationException {
+    public String checkAndValidateJob(Parameters parameters) throws FHIROperationException {
         if (parameters != null) {
             for (Parameters.Parameter parameter : parameters.getParameter()) {
-                if (BulkDataConstants.PARAM_JOB.equals(parameter.getName().getValue())
+                if (OperationConstants.PARAM_JOB.equals(parameter.getName().getValue())
                         && parameter.getValue() != null && parameter.getValue().is(com.ibm.fhir.model.type.String.class)) {
-                    String job = decryptBatchJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue(), BulkDataConstants.BATCHJOBID_ENCRYPTION_KEY);
+                    String job = JobIdEncodingTransformer.getInstance().decodeJobId(parameter.getValue().as(com.ibm.fhir.model.type.String.class).getValue());
 
                     // The job is never going to be empty or null as STRING is never empty at this point.
                     if (job.contains("/") || job.contains("?")) {
@@ -266,44 +306,5 @@ public class BulkDataExportUtil {
         }
 
         throw new FHIROperationException("no job identifier is passed");
-    }
-
-
-    public static String encryptBatchJobId(String strToEncrypt, SecretKeySpec key) {
-        // Encrypt and UrlEncode the batch job id.
-        if (key == null) {
-            return strToEncrypt;
-        } else {
-            try {
-                // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
-                Cipher cp = Cipher.getInstance("AES/ECB/PKCS5Padding");
-                cp.init(Cipher.ENCRYPT_MODE, key);
-
-                // Encrypt the job id, base64-encode it, and replace all `/` chars with the less problematic `_` char
-                String encodedJobId = Base64.getEncoder().withoutPadding().encodeToString(cp.doFinal(strToEncrypt.getBytes("UTF-8"))).replaceAll("/", "_");
-                // The encrypted job id is used in the polling content location url directly, so urlencode here.
-                return java.net.URLEncoder.encode(encodedJobId, StandardCharsets.UTF_8.name());
-            } catch (Exception e) {
-                return strToEncrypt;
-            }
-        }
-    }
-
-    public static String decryptBatchJobId(String strToDecrypt, SecretKeySpec key) {
-        // Decrypt to get the batch job id.
-        if (key == null) {
-            return strToDecrypt;
-        } else {
-            try {
-                // Use light weight encryption without salt to simplify both the encryption/decryption and also config.
-                Cipher cp = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-                cp.init(Cipher.DECRYPT_MODE, key);
-                // The encrypted job id has already been urldecoded by liberty runtime before reaching this function,
-                // so, we don't do urldecode here.
-                return new String(cp.doFinal(Base64.getDecoder().decode(strToDecrypt.replaceAll("_", "/"))), "UTF-8");
-            } catch (Exception e) {
-                return strToDecrypt;
-            }
-        }
     }
 }

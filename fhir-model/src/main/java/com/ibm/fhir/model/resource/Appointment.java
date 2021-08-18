@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -38,40 +39,51 @@ import com.ibm.fhir.model.type.code.AppointmentStatus;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.ParticipantRequired;
 import com.ibm.fhir.model.type.code.ParticipationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A booking of a healthcare event among patient(s), practitioner(s), related person(s) and/or device(s) for a specific 
  * date/time. This may result in one or more Encounter(s).
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "app-1",
     level = "Rule",
     location = "Appointment.participant",
     description = "Either the type or actor on the participant SHALL be specified",
-    expression = "type.exists() or actor.exists()"
+    expression = "type.exists() or actor.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-2",
     level = "Rule",
     location = "(base)",
     description = "Either start and end are specified, or neither",
-    expression = "start.exists() = end.exists()"
+    expression = "start.exists() = end.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-3",
     level = "Rule",
     location = "(base)",
     description = "Only proposed or cancelled appointments can be missing start/end dates",
-    expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))"
+    expression = "(start.exists() and end.exists()) or (status in ('proposed' | 'cancelled' | 'waitlist'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "app-4",
     level = "Rule",
     location = "(base)",
     description = "Cancelation reason is only used for appointments that have been cancelled, or no-show",
-    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')"
+    expression = "Appointment.cancelationReason.exists() implies (Appointment.status='no-show' or Appointment.status='cancelled')",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment"
 )
 @Constraint(
     id = "appointment-5",
@@ -79,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/c80-practice-codes",
     expression = "specialty.exists() implies (specialty.all(memberOf('http://hl7.org/fhir/ValueSet/c80-practice-codes', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -87,6 +100,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://terminology.hl7.org/ValueSet/v2-0276",
     expression = "appointmentType.exists() implies (appointmentType.memberOf('http://terminology.hl7.org/ValueSet/v2-0276', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -95,6 +109,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-reason",
     expression = "reasonCode.exists() implies (reasonCode.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-reason', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Constraint(
@@ -103,6 +118,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "participant.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Appointment",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -112,7 +128,7 @@ public class Appointment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AppointmentStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The free/busy status of an appointment.",
         valueSet = "http://hl7.org/fhir/ValueSet/appointmentstatus|4.0.1"
     )
@@ -121,42 +137,42 @@ public class Appointment extends DomainResource {
     @Summary
     @Binding(
         bindingName = "cancelation-reason",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/appointment-cancellation-reason"
     )
     private final CodeableConcept cancelationReason;
     @Summary
     @Binding(
         bindingName = "service-category",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-category"
     )
     private final List<CodeableConcept> serviceCategory;
     @Summary
     @Binding(
         bindingName = "service-type",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final List<CodeableConcept> serviceType;
     @Summary
     @Binding(
         bindingName = "specialty",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://hl7.org/fhir/ValueSet/c80-practice-codes"
     )
     private final List<CodeableConcept> specialty;
     @Summary
     @Binding(
         bindingName = "appointment-type",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         valueSet = "http://terminology.hl7.org/ValueSet/v2-0276"
     )
     private final CodeableConcept appointmentType;
     @Summary
     @Binding(
         bindingName = "ApptReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "The Reason for the appointment to take place.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
@@ -182,36 +198,30 @@ public class Appointment extends DomainResource {
     private final List<Participant> participant;
     private final List<Period> requestedPeriod;
 
-    private volatile int hashCode;
-
     private Appointment(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
         cancelationReason = builder.cancelationReason;
-        serviceCategory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceCategory, "serviceCategory"));
-        serviceType = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.serviceType, "serviceType"));
-        specialty = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialty, "specialty"));
+        serviceCategory = Collections.unmodifiableList(builder.serviceCategory);
+        serviceType = Collections.unmodifiableList(builder.serviceType);
+        specialty = Collections.unmodifiableList(builder.specialty);
         appointmentType = builder.appointmentType;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
         priority = builder.priority;
         description = builder.description;
-        supportingInformation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInformation, "supportingInformation"));
+        supportingInformation = Collections.unmodifiableList(builder.supportingInformation);
         start = builder.start;
         end = builder.end;
         minutesDuration = builder.minutesDuration;
-        slot = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.slot, "slot"));
+        slot = Collections.unmodifiableList(builder.slot);
         created = builder.created;
         comment = builder.comment;
         patientInstruction = builder.patientInstruction;
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonEmpty(builder.participant, "participant"));
-        requestedPeriod = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.requestedPeriod, "requestedPeriod"));
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        ValidationSupport.checkReferenceType(slot, "slot", "Slot");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.requireChildren(this);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(builder.participant);
+        requestedPeriod = Collections.unmodifiableList(builder.requestedPeriod);
     }
 
     /**
@@ -1449,7 +1459,30 @@ public class Appointment extends DomainResource {
          */
         @Override
         public Appointment build() {
-            return new Appointment(this);
+            Appointment appointment = new Appointment(this);
+            if (validating) {
+                validate(appointment);
+            }
+            return appointment;
+        }
+
+        protected void validate(Appointment appointment) {
+            super.validate(appointment);
+            ValidationSupport.checkList(appointment.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(appointment.status, "status");
+            ValidationSupport.checkList(appointment.serviceCategory, "serviceCategory", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.serviceType, "serviceType", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.specialty, "specialty", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(appointment.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(appointment.supportingInformation, "supportingInformation", Reference.class);
+            ValidationSupport.checkList(appointment.slot, "slot", Reference.class);
+            ValidationSupport.checkList(appointment.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkNonEmptyList(appointment.participant, "participant", Participant.class);
+            ValidationSupport.checkList(appointment.requestedPeriod, "requestedPeriod", Period.class);
+            ValidationSupport.checkReferenceType(appointment.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(appointment.slot, "slot", "Slot");
+            ValidationSupport.checkReferenceType(appointment.basedOn, "basedOn", "ServiceRequest");
         }
 
         protected Builder from(Appointment appointment) {
@@ -1487,7 +1520,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Role of participant in encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
         )
@@ -1498,7 +1531,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantRequired",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Is the Participant required to attend the appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participantrequired|4.0.1"
         )
@@ -1506,7 +1539,7 @@ public class Appointment extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The Participation status of an appointment.",
             valueSet = "http://hl7.org/fhir/ValueSet/participationstatus|4.0.1"
         )
@@ -1514,17 +1547,13 @@ public class Appointment extends DomainResource {
         private final ParticipationStatus status;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = Collections.unmodifiableList(builder.type);
             actor = builder.actor;
             required = builder.required;
-            status = ValidationSupport.requireNonNull(builder.status, "status");
+            status = builder.status;
             period = builder.period;
-            ValidationSupport.checkReferenceType(actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1887,7 +1916,19 @@ public class Appointment extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
+                ValidationSupport.requireNonNull(participant.status, "status");
+                ValidationSupport.checkReferenceType(participant.actor, "actor", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device", "HealthcareService", "Location");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {

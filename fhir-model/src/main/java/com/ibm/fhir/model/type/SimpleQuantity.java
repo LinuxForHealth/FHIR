@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,15 +25,13 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "Quantity",
     description = "The comparator is not used on a SimpleQuantity",
     expression = "comparator.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/SimpleQuantity",
     modelChecked = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class SimpleQuantity extends Quantity {
-    private volatile int hashCode;
-
     private SimpleQuantity(Builder builder) {
         super(builder);
-        ValidationSupport.prohibited(comparator, "comparator");
     }
 
     @Override
@@ -241,7 +239,16 @@ public class SimpleQuantity extends Quantity {
          */
         @Override
         public SimpleQuantity build() {
-            return new SimpleQuantity(this);
+            SimpleQuantity simpleQuantity = new SimpleQuantity(this);
+            if (validating) {
+                validate(simpleQuantity);
+            }
+            return simpleQuantity;
+        }
+
+        protected void validate(SimpleQuantity simpleQuantity) {
+            super.validate(simpleQuantity);
+            ValidationSupport.prohibited(simpleQuantity.comparator, "comparator");
         }
 
         protected Builder from(SimpleQuantity simpleQuantity) {

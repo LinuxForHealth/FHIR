@@ -1,0 +1,56 @@
+{
+    "resourceType": "Organization",
+    "id": "ExampleEstablishmentRegistrant",
+    "meta": {
+        "profile": [
+            "http://hl7.org/fhir/us/spl/StructureDefinition/EstablishmentRegistrantOrganization"
+        ]
+    },
+    "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative</b></p><p><b>identifier</b>: id: 111111111</p><p><b>type</b>: <span title=\"Codes: {http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes EstablishmentRegistrant}\">An organization that registers establishment organizations.</span></p><p><b>name</b>: REGISTRANT SERVICES INC</p><h3>Contacts</h3><table class=\"grid\"><tr><td>-</td><td><b>Name</b></td><td><b>Telecom</b></td><td><b>Address</b></td></tr><tr><td>*</td><td>Charles Smith</td><td><a href=\"tel:+1-703-362-1280;ext=1234\">+1-703-362-1280;ext=1234</a>, <a href=\"mailto:charles@anywhere.com\">charles@anywhere.com</a></td><td>123 IVY LANE ROAD SMITH FALLS MD 12345 USA </td></tr></table></div>"
+    },
+    "identifier": [
+        {
+            "system": "urn:oid:1.3.6.1.4.1.519.1",
+            "value": "111111111"
+        }
+    ],
+    "type": [
+        {
+            "coding": [
+                {
+                    "system": "http://hl7.org/fhir/us/spl/CodeSystem/codesystem-organizationTypes",
+                    "code": "EstablishmentRegistrant"
+                }
+            ]
+        }
+    ],
+    "name": "REGISTRANT SERVICES INC",
+    "contact": [
+        {
+            "name": {
+                "text": "Charles Smith"
+            },
+            "telecom": [
+                {
+                    "system": "phone",
+                    "value": "+1-703-362-1280;ext=1234"
+                },
+                {
+                    "system": "email",
+                    "value": "charles@anywhere.com"
+                }
+            ],
+            "address": {
+                "line": [
+                    "123 IVY LANE ROAD"
+                ],
+                "city": "SMITH FALLS",
+                "state": "MD",
+                "postalCode": "12345",
+                "country": "USA"
+            }
+        }
+    ]
+}

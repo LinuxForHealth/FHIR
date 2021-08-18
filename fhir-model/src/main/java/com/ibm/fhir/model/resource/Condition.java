@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,47 +38,59 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A clinical condition, problem, diagnosis, or other event, situation, issue, or clinical concept that has risen to a 
  * level of concern.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "con-1",
     level = "Rule",
     location = "Condition.stage",
     description = "Stage SHALL have summary or assessment",
-    expression = "summary.exists() or assessment.exists()"
+    expression = "summary.exists() or assessment.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-2",
     level = "Rule",
     location = "Condition.evidence",
     description = "evidence SHALL have code or details",
-    expression = "code.exists() or detail.exists()"
+    expression = "code.exists() or detail.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-3",
     level = "Warning",
     location = "(base)",
     description = "Condition.clinicalStatus SHALL be present if verificationStatus is not entered-in-error and category is problem-list-item",
-    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()"
+    expression = "clinicalStatus.exists() or verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code = 'entered-in-error').exists() or category.select($this='problem-list-item').empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-4",
     level = "Rule",
     location = "(base)",
     description = "If condition is abated, then clinicalStatus must be either inactive, resolved, or remission",
-    expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()"
+    expression = "abatement.empty() or clinicalStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-clinical' and (code='resolved' or code='remission' or code='inactive')).exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "con-5",
     level = "Rule",
     location = "(base)",
     description = "Condition.clinicalStatus SHALL NOT be present if verification Status is entered-in-error",
-    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()"
+    expression = "verificationStatus.coding.where(system='http://terminology.hl7.org/CodeSystem/condition-ver-status' and code='entered-in-error').empty() or clinicalStatus.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition"
 )
 @Constraint(
     id = "condition-6",
@@ -85,6 +98,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/condition-category",
     expression = "category.exists() implies (category.all(memberOf('http://hl7.org/fhir/ValueSet/condition-category', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition",
     generated = true
 )
 @Constraint(
@@ -93,6 +107,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/condition-severity",
     expression = "severity.exists() implies (severity.memberOf('http://hl7.org/fhir/ValueSet/condition-severity', 'preferred'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Condition",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -102,7 +117,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionClinicalStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The clinical status of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-clinical|4.0.1"
     )
@@ -110,21 +125,21 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionVerificationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The verification status to support or decline the clinical status of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-ver-status|4.0.1"
     )
     private final CodeableConcept verificationStatus;
     @Binding(
         bindingName = "ConditionCategory",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "A category assigned to the condition.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-category"
     )
     private final List<CodeableConcept> category;
     @Binding(
         bindingName = "ConditionSeverity",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A subjective assessment of the severity of the condition as evaluated by the clinician.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-severity"
     )
@@ -132,7 +147,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "ConditionKind",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identification of the condition or diagnosis.",
         valueSet = "http://hl7.org/fhir/ValueSet/condition-code"
     )
@@ -140,7 +155,7 @@ public class Condition extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
@@ -169,34 +184,25 @@ public class Condition extends DomainResource {
     private final List<Evidence> evidence;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private Condition(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         clinicalStatus = builder.clinicalStatus;
         verificationStatus = builder.verificationStatus;
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        category = Collections.unmodifiableList(builder.category);
         severity = builder.severity;
         code = builder.code;
-        bodySite = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.bodySite, "bodySite"));
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        bodySite = Collections.unmodifiableList(builder.bodySite);
+        subject = builder.subject;
         encounter = builder.encounter;
-        onset = ValidationSupport.choiceElement(builder.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
-        abatement = ValidationSupport.choiceElement(builder.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
+        onset = builder.onset;
+        abatement = builder.abatement;
         recordedDate = builder.recordedDate;
         recorder = builder.recorder;
         asserter = builder.asserter;
-        stage = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.stage, "stage"));
-        evidence = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.evidence, "evidence"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkValueSetBinding(clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
-        ValidationSupport.checkValueSetBinding(verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.checkReferenceType(asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
-        ValidationSupport.requireChildren(this);
+        stage = Collections.unmodifiableList(builder.stage);
+        evidence = Collections.unmodifiableList(builder.evidence);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1164,7 +1170,30 @@ public class Condition extends DomainResource {
          */
         @Override
         public Condition build() {
-            return new Condition(this);
+            Condition condition = new Condition(this);
+            if (validating) {
+                validate(condition);
+            }
+            return condition;
+        }
+
+        protected void validate(Condition condition) {
+            super.validate(condition);
+            ValidationSupport.checkList(condition.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(condition.category, "category", CodeableConcept.class);
+            ValidationSupport.checkList(condition.bodySite, "bodySite", CodeableConcept.class);
+            ValidationSupport.requireNonNull(condition.subject, "subject");
+            ValidationSupport.choiceElement(condition.onset, "onset", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.choiceElement(condition.abatement, "abatement", DateTime.class, Age.class, Period.class, Range.class, String.class);
+            ValidationSupport.checkList(condition.stage, "stage", Stage.class);
+            ValidationSupport.checkList(condition.evidence, "evidence", Evidence.class);
+            ValidationSupport.checkList(condition.note, "note", Annotation.class);
+            ValidationSupport.checkValueSetBinding(condition.clinicalStatus, "clinicalStatus", "http://hl7.org/fhir/ValueSet/condition-clinical", "http://terminology.hl7.org/CodeSystem/condition-clinical", "active", "recurrence", "relapse", "inactive", "remission", "resolved");
+            ValidationSupport.checkValueSetBinding(condition.verificationStatus, "verificationStatus", "http://hl7.org/fhir/ValueSet/condition-ver-status", "http://terminology.hl7.org/CodeSystem/condition-ver-status", "unconfirmed", "provisional", "differential", "confirmed", "refuted", "entered-in-error");
+            ValidationSupport.checkReferenceType(condition.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(condition.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(condition.recorder, "recorder", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
+            ValidationSupport.checkReferenceType(condition.asserter, "asserter", "Practitioner", "PractitionerRole", "Patient", "RelatedPerson");
         }
 
         protected Builder from(Condition condition) {
@@ -1196,7 +1225,7 @@ public class Condition extends DomainResource {
     public static class Stage extends BackboneElement {
         @Binding(
             bindingName = "ConditionStage",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing condition stages (e.g. Cancer stages).",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-stage"
         )
@@ -1205,21 +1234,17 @@ public class Condition extends DomainResource {
         private final List<Reference> assessment;
         @Binding(
             bindingName = "ConditionStageType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes describing the kind of condition staging (e.g. clinical or pathological).",
             valueSet = "http://hl7.org/fhir/ValueSet/condition-stage-type"
         )
         private final CodeableConcept type;
 
-        private volatile int hashCode;
-
         private Stage(Builder builder) {
             super(builder);
             summary = builder.summary;
-            assessment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.assessment, "assessment"));
+            assessment = Collections.unmodifiableList(builder.assessment);
             type = builder.type;
-            ValidationSupport.checkReferenceType(assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1518,7 +1543,18 @@ public class Condition extends DomainResource {
              */
             @Override
             public Stage build() {
-                return new Stage(this);
+                Stage stage = new Stage(this);
+                if (validating) {
+                    validate(stage);
+                }
+                return stage;
+            }
+
+            protected void validate(Stage stage) {
+                super.validate(stage);
+                ValidationSupport.checkList(stage.assessment, "assessment", Reference.class);
+                ValidationSupport.checkReferenceType(stage.assessment, "assessment", "ClinicalImpression", "DiagnosticReport", "Observation");
+                ValidationSupport.requireValueOrChildren(stage);
             }
 
             protected Builder from(Stage stage) {
@@ -1539,7 +1575,7 @@ public class Condition extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ManifestationOrSymptom",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Codes that describe the manifestation or symptoms of a condition.",
             valueSet = "http://hl7.org/fhir/ValueSet/manifestation-or-symptom"
         )
@@ -1547,13 +1583,10 @@ public class Condition extends DomainResource {
         @Summary
         private final List<Reference> detail;
 
-        private volatile int hashCode;
-
         private Evidence(Builder builder) {
             super(builder);
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            detail = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.detail, "detail"));
-            ValidationSupport.requireValueOrChildren(this);
+            code = Collections.unmodifiableList(builder.code);
+            detail = Collections.unmodifiableList(builder.detail);
         }
 
         /**
@@ -1829,7 +1862,18 @@ public class Condition extends DomainResource {
              */
             @Override
             public Evidence build() {
-                return new Evidence(this);
+                Evidence evidence = new Evidence(this);
+                if (validating) {
+                    validate(evidence);
+                }
+                return evidence;
+            }
+
+            protected void validate(Evidence evidence) {
+                super.validate(evidence);
+                ValidationSupport.checkList(evidence.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(evidence.detail, "detail", Reference.class);
+                ValidationSupport.requireValueOrChildren(evidence);
             }
 
             protected Builder from(Evidence evidence) {

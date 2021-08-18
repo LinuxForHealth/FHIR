@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -37,18 +38,26 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A person who is directly or indirectly involved in the provisioning of healthcare.
+ * 
+ * <p>Maturity level: FMM3 (Trial Use)
  */
+@Maturity(
+    level = 3,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "practitioner-0",
     level = "Warning",
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/languages",
     expression = "communication.exists() implies (communication.all(memberOf('http://hl7.org/fhir/ValueSet/languages', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Practitioner",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -66,7 +75,7 @@ public class Practitioner extends DomainResource {
     @Summary
     @Binding(
         bindingName = "AdministrativeGender",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The gender of a person used for administrative purposes.",
         valueSet = "http://hl7.org/fhir/ValueSet/administrative-gender|4.0.1"
     )
@@ -77,29 +86,25 @@ public class Practitioner extends DomainResource {
     private final List<Qualification> qualification;
     @Binding(
         bindingName = "Language",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "A human language.",
         valueSet = "http://hl7.org/fhir/ValueSet/languages",
         maxValueSet = "http://hl7.org/fhir/ValueSet/all-languages"
     )
     private final List<CodeableConcept> communication;
 
-    private volatile int hashCode;
-
     private Practitioner(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
-        name = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.name, "name"));
-        telecom = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.telecom, "telecom"));
-        address = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.address, "address"));
+        name = Collections.unmodifiableList(builder.name);
+        telecom = Collections.unmodifiableList(builder.telecom);
+        address = Collections.unmodifiableList(builder.address);
         gender = builder.gender;
         birthDate = builder.birthDate;
-        photo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.photo, "photo"));
-        qualification = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.qualification, "qualification"));
-        communication = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.communication, "communication"));
-        ValidationSupport.checkValueSetBinding(communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
-        ValidationSupport.requireChildren(this);
+        photo = Collections.unmodifiableList(builder.photo);
+        qualification = Collections.unmodifiableList(builder.qualification);
+        communication = Collections.unmodifiableList(builder.communication);
     }
 
     /**
@@ -828,7 +833,23 @@ public class Practitioner extends DomainResource {
          */
         @Override
         public Practitioner build() {
-            return new Practitioner(this);
+            Practitioner practitioner = new Practitioner(this);
+            if (validating) {
+                validate(practitioner);
+            }
+            return practitioner;
+        }
+
+        protected void validate(Practitioner practitioner) {
+            super.validate(practitioner);
+            ValidationSupport.checkList(practitioner.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(practitioner.name, "name", HumanName.class);
+            ValidationSupport.checkList(practitioner.telecom, "telecom", ContactPoint.class);
+            ValidationSupport.checkList(practitioner.address, "address", Address.class);
+            ValidationSupport.checkList(practitioner.photo, "photo", Attachment.class);
+            ValidationSupport.checkList(practitioner.qualification, "qualification", Qualification.class);
+            ValidationSupport.checkList(practitioner.communication, "communication", CodeableConcept.class);
+            ValidationSupport.checkValueSetBinding(practitioner.communication, "communication", "http://hl7.org/fhir/ValueSet/all-languages", "urn:ietf:bcp:47");
         }
 
         protected Builder from(Practitioner practitioner) {
@@ -856,7 +877,7 @@ public class Practitioner extends DomainResource {
         private final List<Identifier> identifier;
         @Binding(
             bindingName = "Qualification",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Specific qualification the practitioner has to provide a service.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-2.7-0360"
         )
@@ -866,16 +887,12 @@ public class Practitioner extends DomainResource {
         @ReferenceTarget({ "Organization" })
         private final Reference issuer;
 
-        private volatile int hashCode;
-
         private Qualification(Builder builder) {
             super(builder);
-            identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-            code = ValidationSupport.requireNonNull(builder.code, "code");
+            identifier = Collections.unmodifiableList(builder.identifier);
+            code = builder.code;
             period = builder.period;
             issuer = builder.issuer;
-            ValidationSupport.checkReferenceType(issuer, "issuer", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -1201,7 +1218,19 @@ public class Practitioner extends DomainResource {
              */
             @Override
             public Qualification build() {
-                return new Qualification(this);
+                Qualification qualification = new Qualification(this);
+                if (validating) {
+                    validate(qualification);
+                }
+                return qualification;
+            }
+
+            protected void validate(Qualification qualification) {
+                super.validate(qualification);
+                ValidationSupport.checkList(qualification.identifier, "identifier", Identifier.class);
+                ValidationSupport.requireNonNull(qualification.code, "code");
+                ValidationSupport.checkReferenceType(qualification.issuer, "issuer", "Organization");
+                ValidationSupport.requireValueOrChildren(qualification);
             }
 
             protected Builder from(Qualification qualification) {

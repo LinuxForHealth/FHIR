@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -26,7 +26,8 @@ import com.ibm.fhir.model.visitor.Visitor;
     level = "Rule",
     location = "(base)",
     description = "SHALL have a contained resource if a local reference is provided",
-    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))"
+    expression = "reference.startsWith('#').not() or (reference.substring(1).trace('url') in %rootResource.contained.id.trace('ids'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Reference"
 )
 @Constraint(
     id = "reference-2",
@@ -34,6 +35,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/resource-types",
     expression = "type.exists() implies (type.memberOf('http://hl7.org/fhir/ValueSet/resource-types', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Reference",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -43,7 +45,7 @@ public class Reference extends Element {
     @Summary
     @Binding(
         bindingName = "FHIRResourceTypeExt",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Aa resource (or, for logical models, the URI of the logical model).",
         valueSet = "http://hl7.org/fhir/ValueSet/resource-types"
     )
@@ -53,15 +55,12 @@ public class Reference extends Element {
     @Summary
     private final String display;
 
-    private volatile int hashCode;
-
     private Reference(Builder builder) {
         super(builder);
         reference = builder.reference;
         type = builder.type;
         identifier = builder.identifier;
         display = builder.display;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -332,7 +331,16 @@ public class Reference extends Element {
          */
         @Override
         public Reference build() {
-            return new Reference(this);
+            Reference reference = new Reference(this);
+            if (validating) {
+                validate(reference);
+            }
+            return reference;
+        }
+
+        protected void validate(Reference reference) {
+            super.validate(reference);
+            ValidationSupport.requireValueOrChildren(reference);
         }
 
         protected Builder from(Reference reference) {

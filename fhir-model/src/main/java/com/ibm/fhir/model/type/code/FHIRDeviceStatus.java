@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -25,7 +25,7 @@ public class FHIRDeviceStatus extends Code {
      * <p>The device is available for use. Note: For *implanted devices* this means that the device is implanted in the 
      * patient.
      */
-    public static final FHIRDeviceStatus ACTIVE = FHIRDeviceStatus.builder().value(ValueSet.ACTIVE).build();
+    public static final FHIRDeviceStatus ACTIVE = FHIRDeviceStatus.builder().value(Value.ACTIVE).build();
 
     /**
      * Inactive
@@ -33,21 +33,21 @@ public class FHIRDeviceStatus extends Code {
      * <p>The device is no longer available for use (e.g. lost, expired, damaged). Note: For *implanted devices* this means 
      * that the device has been removed from the patient.
      */
-    public static final FHIRDeviceStatus INACTIVE = FHIRDeviceStatus.builder().value(ValueSet.INACTIVE).build();
+    public static final FHIRDeviceStatus INACTIVE = FHIRDeviceStatus.builder().value(Value.INACTIVE).build();
 
     /**
      * Entered in Error
      * 
      * <p>The device was entered in error and voided.
      */
-    public static final FHIRDeviceStatus ENTERED_IN_ERROR = FHIRDeviceStatus.builder().value(ValueSet.ENTERED_IN_ERROR).build();
+    public static final FHIRDeviceStatus ENTERED_IN_ERROR = FHIRDeviceStatus.builder().value(Value.ENTERED_IN_ERROR).build();
 
     /**
      * Unknown
      * 
      * <p>The status of the device has not been determined.
      */
-    public static final FHIRDeviceStatus UNKNOWN = FHIRDeviceStatus.builder().value(ValueSet.UNKNOWN).build();
+    public static final FHIRDeviceStatus UNKNOWN = FHIRDeviceStatus.builder().value(Value.UNKNOWN).build();
 
     private volatile int hashCode;
 
@@ -55,14 +55,46 @@ public class FHIRDeviceStatus extends Code {
         super(builder);
     }
 
+    /**
+     * Get the value of this FHIRDeviceStatus as an enum constant.
+     * @deprecated replaced by {@link #getValueAsEnum()}
+     */
+    @Deprecated
     public ValueSet getValueAsEnumConstant() {
         return (value != null) ? ValueSet.from(value) : null;
     }
 
     /**
+     * Get the value of this FHIRDeviceStatus as an enum constant.
+     */
+    public Value getValueAsEnum() {
+        return (value != null) ? Value.from(value) : null;
+    }
+
+    /**
+     * Factory method for creating FHIRDeviceStatus objects from a passed enum value.
+     * @deprecated replaced by {@link #of(Value)}
+     */
+    @Deprecated
+    public static FHIRDeviceStatus of(ValueSet value) {
+        switch (value) {
+        case ACTIVE:
+            return ACTIVE;
+        case INACTIVE:
+            return INACTIVE;
+        case ENTERED_IN_ERROR:
+            return ENTERED_IN_ERROR;
+        case UNKNOWN:
+            return UNKNOWN;
+        default:
+            throw new IllegalStateException(value.name());
+        }
+    }
+
+    /**
      * Factory method for creating FHIRDeviceStatus objects from a passed enum value.
      */
-    public static FHIRDeviceStatus of(ValueSet value) {
+    public static FHIRDeviceStatus of(Value value) {
         switch (value) {
         case ACTIVE:
             return ACTIVE;
@@ -86,7 +118,7 @@ public class FHIRDeviceStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static FHIRDeviceStatus of(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -98,7 +130,7 @@ public class FHIRDeviceStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static String string(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     /**
@@ -110,7 +142,7 @@ public class FHIRDeviceStatus extends Code {
      *     If the passed string cannot be parsed into an allowed code value
      */
     public static Code code(java.lang.String value) {
-        return of(ValueSet.from(value));
+        return of(Value.from(value));
     }
 
     @Override
@@ -139,11 +171,7 @@ public class FHIRDeviceStatus extends Code {
     }
 
     public Builder toBuilder() {
-        Builder builder = new Builder();
-        builder.id(id);
-        builder.extension(extension);
-        builder.value(value);
-        return builder;
+        return new Builder().from(this);
     }
 
     public static Builder builder() {
@@ -172,19 +200,50 @@ public class FHIRDeviceStatus extends Code {
 
         @Override
         public Builder value(java.lang.String value) {
-            return (value != null) ? (Builder) super.value(ValueSet.from(value).value()) : this;
+            return (value != null) ? (Builder) super.value(Value.from(value).value()) : this;
         }
 
+        /**
+         * @deprecated replaced by  {@link #value(Value)}
+         */
+        @Deprecated
         public Builder value(ValueSet value) {
+            return (value != null) ? (Builder) super.value(value.value()) : this;
+        }
+
+        /**
+         * Primitive value for code
+         * 
+         * @param value
+         *     An enum constant for FHIRDeviceStatus
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(Value value) {
             return (value != null) ? (Builder) super.value(value.value()) : this;
         }
 
         @Override
         public FHIRDeviceStatus build() {
-            return new FHIRDeviceStatus(this);
+            FHIRDeviceStatus fHIRDeviceStatus = new FHIRDeviceStatus(this);
+            if (validating) {
+                validate(fHIRDeviceStatus);
+            }
+            return fHIRDeviceStatus;
+        }
+
+        protected void validate(FHIRDeviceStatus fHIRDeviceStatus) {
+            super.validate(fHIRDeviceStatus);
+        }
+
+        protected Builder from(FHIRDeviceStatus fHIRDeviceStatus) {
+            super.from(fHIRDeviceStatus);
+            return this;
         }
     }
 
+    @Deprecated
     public enum ValueSet {
         /**
          * Active
@@ -231,7 +290,7 @@ public class FHIRDeviceStatus extends Code {
         }
 
         /**
-         * Factory method for creating FHIRDeviceStatus.ValueSet values from a passed string value.
+         * Factory method for creating FHIRDeviceStatus.Value values from a passed string value.
          * 
          * @param value
          *     A string that matches one of the allowed code values
@@ -245,6 +304,80 @@ public class FHIRDeviceStatus extends Code {
                 }
             }
             throw new IllegalArgumentException(value);
+        }
+    }
+
+    public enum Value {
+        /**
+         * Active
+         * 
+         * <p>The device is available for use. Note: For *implanted devices* this means that the device is implanted in the 
+         * patient.
+         */
+        ACTIVE("active"),
+
+        /**
+         * Inactive
+         * 
+         * <p>The device is no longer available for use (e.g. lost, expired, damaged). Note: For *implanted devices* this means 
+         * that the device has been removed from the patient.
+         */
+        INACTIVE("inactive"),
+
+        /**
+         * Entered in Error
+         * 
+         * <p>The device was entered in error and voided.
+         */
+        ENTERED_IN_ERROR("entered-in-error"),
+
+        /**
+         * Unknown
+         * 
+         * <p>The status of the device has not been determined.
+         */
+        UNKNOWN("unknown");
+
+        private final java.lang.String value;
+
+        Value(java.lang.String value) {
+            this.value = value;
+        }
+
+        /**
+         * @return
+         *     The java.lang.String value of the code represented by this enum
+         */
+        public java.lang.String value() {
+            return value;
+        }
+
+        /**
+         * Factory method for creating FHIRDeviceStatus.Value values from a passed string value.
+         * 
+         * @param value
+         *     A string that matches one of the allowed code values
+         * @return
+         *     The corresponding FHIRDeviceStatus.Value or null if a null value was passed
+         * @throws IllegalArgumentException
+         *     If the passed string is not null and cannot be parsed into an allowed code value
+         */
+        public static Value from(java.lang.String value) {
+            if (value == null) {
+                return null;
+            }
+            switch (value) {
+            case "active":
+                return ACTIVE;
+            case "inactive":
+                return INACTIVE;
+            case "entered-in-error":
+                return ENTERED_IN_ERROR;
+            case "unknown":
+                return UNKNOWN;
+            default:
+                throw new IllegalArgumentException(value);
+            }
         }
     }
 }

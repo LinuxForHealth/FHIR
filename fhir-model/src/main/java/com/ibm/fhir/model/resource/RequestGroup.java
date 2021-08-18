@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -53,19 +54,27 @@ import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.RequestIntent;
 import com.ibm.fhir.model.type.code.RequestPriority;
 import com.ibm.fhir.model.type.code.RequestStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * A group of related requests that can be used to capture intended activities that have inter-dependencies such as "give 
  * this medication after that one".
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "rqg-1",
     level = "Rule",
     location = "RequestGroup.action",
     description = "Must have resource or action but not both",
-    expression = "resource.exists() != action.exists()"
+    expression = "resource.exists() != action.exists()",
+    source = "http://hl7.org/fhir/StructureDefinition/RequestGroup"
 )
 @Constraint(
     id = "requestGroup-2",
@@ -73,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "action.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/action-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/action-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/RequestGroup",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -90,7 +100,7 @@ public class RequestGroup extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes identifying the lifecycle stage of a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -99,7 +109,7 @@ public class RequestGroup extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-intent|4.0.1"
     )
@@ -108,7 +118,7 @@ public class RequestGroup extends DomainResource {
     @Summary
     @Binding(
         bindingName = "RequestPriority",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Identifies the level of importance to be assigned to actioning the request.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
     )
@@ -128,33 +138,26 @@ public class RequestGroup extends DomainResource {
     private final List<Annotation> note;
     private final List<Action> action;
 
-    private volatile int hashCode;
-
     private RequestGroup(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
         groupIdentifier = builder.groupIdentifier;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
+        status = builder.status;
+        intent = builder.intent;
         priority = builder.priority;
         code = builder.code;
         subject = builder.subject;
         encounter = builder.encounter;
         authoredOn = builder.authoredOn;
         author = builder.author;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Device", "Practitioner", "PractitionerRole");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-        ValidationSupport.requireChildren(this);
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        note = Collections.unmodifiableList(builder.note);
+        action = Collections.unmodifiableList(builder.action);
     }
 
     /**
@@ -1198,7 +1201,30 @@ public class RequestGroup extends DomainResource {
          */
         @Override
         public RequestGroup build() {
-            return new RequestGroup(this);
+            RequestGroup requestGroup = new RequestGroup(this);
+            if (validating) {
+                validate(requestGroup);
+            }
+            return requestGroup;
+        }
+
+        protected void validate(RequestGroup requestGroup) {
+            super.validate(requestGroup);
+            ValidationSupport.checkList(requestGroup.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(requestGroup.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(requestGroup.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(requestGroup.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(requestGroup.replaces, "replaces", Reference.class);
+            ValidationSupport.requireNonNull(requestGroup.status, "status");
+            ValidationSupport.requireNonNull(requestGroup.intent, "intent");
+            ValidationSupport.checkList(requestGroup.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(requestGroup.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(requestGroup.note, "note", Annotation.class);
+            ValidationSupport.checkList(requestGroup.action, "action", Action.class);
+            ValidationSupport.checkReferenceType(requestGroup.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(requestGroup.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(requestGroup.author, "author", "Device", "Practitioner", "PractitionerRole");
+            ValidationSupport.checkReferenceType(requestGroup.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
         }
 
         protected Builder from(RequestGroup requestGroup) {
@@ -1237,7 +1263,7 @@ public class RequestGroup extends DomainResource {
         private final String textEquivalent;
         @Binding(
             bindingName = "RequestPriority",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Identifies the level of importance to be assigned to actioning the request.",
             valueSet = "http://hl7.org/fhir/ValueSet/request-priority|4.0.1"
         )
@@ -1252,50 +1278,48 @@ public class RequestGroup extends DomainResource {
         private final List<Reference> participant;
         @Binding(
             bindingName = "ActionType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "The type of action to be performed.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-type"
         )
         private final CodeableConcept type;
         @Binding(
             bindingName = "ActionGroupingBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines organization behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-grouping-behavior|4.0.1"
         )
         private final ActionGroupingBehavior groupingBehavior;
         @Binding(
             bindingName = "ActionSelectionBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection behavior of a group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-selection-behavior|4.0.1"
         )
         private final ActionSelectionBehavior selectionBehavior;
         @Binding(
             bindingName = "ActionRequiredBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines expectations around whether an action or action group is required.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-required-behavior|4.0.1"
         )
         private final ActionRequiredBehavior requiredBehavior;
         @Binding(
             bindingName = "ActionPrecheckBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines selection frequency behavior for an action or group.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-precheck-behavior|4.0.1"
         )
         private final ActionPrecheckBehavior precheckBehavior;
         @Binding(
             bindingName = "ActionCardinalityBehavior",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Defines behavior for an action or a group for how many times that item may be repeated.",
             valueSet = "http://hl7.org/fhir/ValueSet/action-cardinality-behavior|4.0.1"
         )
         private final ActionCardinalityBehavior cardinalityBehavior;
         private final Reference resource;
         private final List<RequestGroup.Action> action;
-
-        private volatile int hashCode;
 
         private Action(Builder builder) {
             super(builder);
@@ -1304,12 +1328,12 @@ public class RequestGroup extends DomainResource {
             description = builder.description;
             textEquivalent = builder.textEquivalent;
             priority = builder.priority;
-            code = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.code, "code"));
-            documentation = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.documentation, "documentation"));
-            condition = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.condition, "condition"));
-            relatedAction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedAction, "relatedAction"));
-            timing = ValidationSupport.choiceElement(builder.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
-            participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
+            code = Collections.unmodifiableList(builder.code);
+            documentation = Collections.unmodifiableList(builder.documentation);
+            condition = Collections.unmodifiableList(builder.condition);
+            relatedAction = Collections.unmodifiableList(builder.relatedAction);
+            timing = builder.timing;
+            participant = Collections.unmodifiableList(builder.participant);
             type = builder.type;
             groupingBehavior = builder.groupingBehavior;
             selectionBehavior = builder.selectionBehavior;
@@ -1317,9 +1341,7 @@ public class RequestGroup extends DomainResource {
             precheckBehavior = builder.precheckBehavior;
             cardinalityBehavior = builder.cardinalityBehavior;
             resource = builder.resource;
-            action = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.action, "action"));
-            ValidationSupport.checkReferenceType(participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
-            ValidationSupport.requireValueOrChildren(this);
+            action = Collections.unmodifiableList(builder.action);
         }
 
         /**
@@ -2204,7 +2226,24 @@ public class RequestGroup extends DomainResource {
              */
             @Override
             public Action build() {
-                return new Action(this);
+                Action action = new Action(this);
+                if (validating) {
+                    validate(action);
+                }
+                return action;
+            }
+
+            protected void validate(Action action) {
+                super.validate(action);
+                ValidationSupport.checkList(action.code, "code", CodeableConcept.class);
+                ValidationSupport.checkList(action.documentation, "documentation", RelatedArtifact.class);
+                ValidationSupport.checkList(action.condition, "condition", Condition.class);
+                ValidationSupport.checkList(action.relatedAction, "relatedAction", RelatedAction.class);
+                ValidationSupport.choiceElement(action.timing, "timing", DateTime.class, Age.class, Period.class, Duration.class, Range.class, Timing.class);
+                ValidationSupport.checkList(action.participant, "participant", Reference.class);
+                ValidationSupport.checkList(action.action, "action", RequestGroup.Action.class);
+                ValidationSupport.checkReferenceType(action.participant, "participant", "Patient", "Practitioner", "PractitionerRole", "RelatedPerson", "Device");
+                ValidationSupport.requireValueOrChildren(action);
             }
 
             protected Builder from(Action action) {
@@ -2238,7 +2277,7 @@ public class RequestGroup extends DomainResource {
         public static class Condition extends BackboneElement {
             @Binding(
                 bindingName = "ActionConditionKind",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "The kind of condition for the action.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-condition-kind|4.0.1"
             )
@@ -2246,13 +2285,10 @@ public class RequestGroup extends DomainResource {
             private final ActionConditionKind kind;
             private final Expression expression;
 
-            private volatile int hashCode;
-
             private Condition(Builder builder) {
                 super(builder);
-                kind = ValidationSupport.requireNonNull(builder.kind, "kind");
+                kind = builder.kind;
                 expression = builder.expression;
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -2495,7 +2531,17 @@ public class RequestGroup extends DomainResource {
                  */
                 @Override
                 public Condition build() {
-                    return new Condition(this);
+                    Condition condition = new Condition(this);
+                    if (validating) {
+                        validate(condition);
+                    }
+                    return condition;
+                }
+
+                protected void validate(Condition condition) {
+                    super.validate(condition);
+                    ValidationSupport.requireNonNull(condition.kind, "kind");
+                    ValidationSupport.requireValueOrChildren(condition);
                 }
 
                 protected Builder from(Condition condition) {
@@ -2515,7 +2561,7 @@ public class RequestGroup extends DomainResource {
             private final Id actionId;
             @Binding(
                 bindingName = "ActionRelationshipType",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Defines the types of relationships between actions.",
                 valueSet = "http://hl7.org/fhir/ValueSet/action-relationship-type|4.0.1"
             )
@@ -2524,14 +2570,11 @@ public class RequestGroup extends DomainResource {
             @Choice({ Duration.class, Range.class })
             private final Element offset;
 
-            private volatile int hashCode;
-
             private RelatedAction(Builder builder) {
                 super(builder);
-                actionId = ValidationSupport.requireNonNull(builder.actionId, "actionId");
-                relationship = ValidationSupport.requireNonNull(builder.relationship, "relationship");
-                offset = ValidationSupport.choiceElement(builder.offset, "offset", Duration.class, Range.class);
-                ValidationSupport.requireValueOrChildren(this);
+                actionId = builder.actionId;
+                relationship = builder.relationship;
+                offset = builder.offset;
             }
 
             /**
@@ -2813,7 +2856,19 @@ public class RequestGroup extends DomainResource {
                  */
                 @Override
                 public RelatedAction build() {
-                    return new RelatedAction(this);
+                    RelatedAction relatedAction = new RelatedAction(this);
+                    if (validating) {
+                        validate(relatedAction);
+                    }
+                    return relatedAction;
+                }
+
+                protected void validate(RelatedAction relatedAction) {
+                    super.validate(relatedAction);
+                    ValidationSupport.requireNonNull(relatedAction.actionId, "actionId");
+                    ValidationSupport.requireNonNull(relatedAction.relationship, "relationship");
+                    ValidationSupport.choiceElement(relatedAction.offset, "offset", Duration.class, Range.class);
+                    ValidationSupport.requireValueOrChildren(relatedAction);
                 }
 
                 protected Builder from(RelatedAction relatedAction) {

@@ -1,14 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.server.registry;
 
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.getUrl;
-import static com.ibm.fhir.registry.util.FHIRRegistryUtil.isDefinitionalResource;
+import static com.ibm.fhir.cache.CacheKey.key;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,13 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import com.ibm.fhir.cache.CacheKey;
+import com.ibm.fhir.cache.CacheManager;
+import com.ibm.fhir.cache.CacheManager.Configuration;
 import com.ibm.fhir.config.FHIRRequestContext;
-import com.ibm.fhir.core.util.LRUCache;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.SearchParameter;
 import com.ibm.fhir.model.resource.StructureDefinition;
@@ -35,19 +37,18 @@ import com.ibm.fhir.persistence.context.FHIRPersistenceContextFactory;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.persistence.helper.PersistenceHelper;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceEvent;
-import com.ibm.fhir.persistence.interceptor.FHIRPersistenceInterceptor;
 import com.ibm.fhir.registry.resource.FHIRRegistryResource;
-import com.ibm.fhir.registry.resource.FHIRRegistryResource.Version;
-import com.ibm.fhir.registry.spi.FHIRRegistryResourceProvider;
+import com.ibm.fhir.registry.spi.AbstractRegistryResourceProvider;
 import com.ibm.fhir.search.context.FHIRSearchContext;
 import com.ibm.fhir.search.util.SearchUtil;
 
-public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvider, FHIRPersistenceInterceptor {
+public class ServerRegistryResourceProvider extends AbstractRegistryResourceProvider {
     public static final Logger log = Logger.getLogger(ServerRegistryResourceProvider.class.getName());
 
+    public static final String REGISTRY_RESOURCE_CACHE_NAME = "com.ibm.fhir.server.registry.ServerRegistryResourceProvider.registryResourceCache";
+    public static final Configuration REGISTRY_RESOURCE_CACHE_CONFIGURATION = Configuration.of(1024, Duration.of(1, ChronoUnit.MINUTES));
+
     private final PersistenceHelper persistenceHelper;
-    private final Map<String, Map<String, List<FHIRRegistryResource>>> registryResourceMap = new ConcurrentHashMap<>();
 
     public ServerRegistryResourceProvider(PersistenceHelper persistenceHelper) {
         try {
@@ -58,26 +59,11 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     }
 
     @Override
-    public FHIRRegistryResource getRegistryResource(Class<? extends Resource> resourceType, String url, String version) {
-        String tenantId = FHIRRequestContext.get().getTenantId();
+    protected List<FHIRRegistryResource> getRegistryResources(Class<? extends Resource> resourceType, String url) {
         String dataStoreId = FHIRRequestContext.get().getDataStoreId();
-        String key = tenantId + ":" + dataStoreId;
-        List<FHIRRegistryResource> registryResources = registryResourceMap.computeIfAbsent(key, k -> LRUCache.createLRUCache(1024))
-                .computeIfAbsent(url, k -> computeRegistryResources(resourceType, url));
-        if (!registryResources.isEmpty()) {
-            if (version != null) {
-                Version v = Version.from(version);
-                for (FHIRRegistryResource resource : registryResources) {
-                    if (resource.getVersion().equals(v)) {
-                        return resource;
-                    }
-                }
-                log.warning("Unable to find resource: " + url + " with version: " + version);
-            } else {
-                return registryResources.get(registryResources.size() - 1);
-            }
-        }
-        return null;
+        CacheKey key = key(dataStoreId, url);
+        Map<CacheKey, List<FHIRRegistryResource>> cacheAsMap = CacheManager.getCacheAsMap(REGISTRY_RESOURCE_CACHE_NAME, REGISTRY_RESOURCE_CACHE_CONFIGURATION);
+        return cacheAsMap.computeIfAbsent(key, k -> computeRegistryResources(resourceType, url));
     }
 
     @Override
@@ -98,7 +84,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
     @Override
     public Collection<FHIRRegistryResource> getProfileResources() {
         Map<String, List<String>> queryParameters = new HashMap<>();
-        String types = Arrays.asList(ResourceType.ValueSet.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
+        String types = Arrays.asList(ResourceType.Value.values()).stream().map(r -> r.value()).collect(Collectors.joining(","));
         queryParameters.put("type", Collections.singletonList(types));
         queryParameters.put("kind", Collections.singletonList("resource"));
         queryParameters.put("derivation", Collections.singletonList("constraint"));
@@ -121,21 +107,6 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
         return getRegistryResources(SearchParameter.class, queryParameters);
     }
 
-    @Override
-    public void afterCreate(FHIRPersistenceEvent event) {
-        updateRegistryResourceMap(event);
-    }
-
-    @Override
-    public void afterUpdate(FHIRPersistenceEvent event) {
-        updateRegistryResourceMap(event);
-    }
-
-    @Override
-    public void afterDelete(FHIRPersistenceEvent event) {
-        updateRegistryResourceMap(event);
-    }
-
     private List<FHIRRegistryResource> computeRegistryResources(Class<? extends Resource> resourceType, String url) {
         FHIRTransactionHelper transactionHelper = null;
         try {
@@ -155,7 +126,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
                 transactionHelper = null;
 
                 return result.getResource().stream()
-                        .map(ServerRegistryResource::from)
+                        .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .sorted()
                         .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
@@ -189,9 +160,9 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
             MultiResourceResult<Resource> result = persistence.search(context, resourceType);
 
             if (result.isSuccess()) {
-                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount());
+                List<FHIRRegistryResource> registryResources = new ArrayList<>(searchContext.getTotalCount() != null ? searchContext.getTotalCount() : result.getResource().size());
                 registryResources.addAll(result.getResource().stream()
-                        .map(ServerRegistryResource::from)
+                        .map(FHIRRegistryResource::from)
                         .filter(Objects::nonNull)
                         .collect(Collectors.toList()));
 
@@ -201,7 +172,7 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
                     searchContext.setPageNumber(++pageNumber);
                     result = persistence.search(context, resourceType);
                     registryResources.addAll(result.getResource().stream()
-                            .map(ServerRegistryResource::from)
+                            .map(FHIRRegistryResource::from)
                             .filter(Objects::nonNull)
                             .collect(Collectors.toList()));
                 }
@@ -224,22 +195,5 @@ public class ServerRegistryResourceProvider implements FHIRRegistryResourceProvi
         }
 
         return Collections.emptyList();
-    }
-
-    private void updateRegistryResourceMap(FHIRPersistenceEvent event) {
-        if (event == null || event.getFhirResource() == null || !isDefinitionalResource(event.getFhirResource())) {
-            return;
-        }
-        Resource resource = event.getFhirResource();
-        String url = getUrl(resource);
-        if (url != null) {
-            String tenantId = FHIRRequestContext.get().getTenantId();
-            String dataStoreId = FHIRRequestContext.get().getDataStoreId();
-            String key = tenantId + ":" + dataStoreId;
-            List<FHIRRegistryResource> previous = registryResourceMap.getOrDefault(key, Collections.emptyMap()).remove(url);
-            if (previous != null && !previous.isEmpty()) {
-                log.fine("Removed registry resource(s) with url '" + url + "' from the ServerRegistryResourceProvider cache");
-            }
-        }
     }
 }

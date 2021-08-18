@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,6 +44,7 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.UsageContext;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.PublicationStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
@@ -50,13 +52,20 @@ import com.ibm.fhir.model.visitor.Visitor;
  * The Library resource is a general-purpose container for knowledge asset definitions. It can be used to describe and 
  * expose existing knowledge assets such as logic libraries and information model descriptions, as well as to describe a 
  * collection of knowledge assets.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "lib-0",
     level = "Warning",
     location = "(base)",
     description = "Name should be usable as an identifier for the module by machine processing applications such as code generation",
-    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')"
+    expression = "name.matches('[A-Z]([A-Za-z0-9_]){0,254}')",
+    source = "http://hl7.org/fhir/StructureDefinition/Library"
 )
 @Constraint(
     id = "library-1",
@@ -64,6 +73,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/library-type",
     expression = "type.exists() and type.memberOf('http://hl7.org/fhir/ValueSet/library-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Library",
     generated = true
 )
 @Constraint(
@@ -72,6 +82,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/subject-type",
     expression = "subject.as(CodeableConcept).exists() implies (subject.as(CodeableConcept).memberOf('http://hl7.org/fhir/ValueSet/subject-type', 'extensible'))",
+    source = "http://hl7.org/fhir/StructureDefinition/Library",
     generated = true
 )
 @Constraint(
@@ -80,6 +91,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/jurisdiction",
     expression = "jurisdiction.exists() implies (jurisdiction.all(memberOf('http://hl7.org/fhir/ValueSet/jurisdiction', 'extensible')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Library",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -98,7 +110,7 @@ public class Library extends DomainResource {
     @Summary
     @Binding(
         bindingName = "PublicationStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The lifecycle status of an artifact.",
         valueSet = "http://hl7.org/fhir/ValueSet/publication-status|4.0.1"
     )
@@ -109,7 +121,7 @@ public class Library extends DomainResource {
     @Summary
     @Binding(
         bindingName = "LibraryType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The type of knowledge asset this library contains.",
         valueSet = "http://hl7.org/fhir/ValueSet/library-type"
     )
@@ -119,7 +131,7 @@ public class Library extends DomainResource {
     @Choice({ CodeableConcept.class, Reference.class })
     @Binding(
         bindingName = "SubjectType",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "The possible types of subjects for a library (E.g. Patient, Practitioner, Organization, Location, etc.).",
         valueSet = "http://hl7.org/fhir/ValueSet/subject-type"
     )
@@ -137,7 +149,7 @@ public class Library extends DomainResource {
     @Summary
     @Binding(
         bindingName = "Jurisdiction",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Countries and regions within which this artifact is targeted for use.",
         valueSet = "http://hl7.org/fhir/ValueSet/jurisdiction"
     )
@@ -151,7 +163,7 @@ public class Library extends DomainResource {
     private final Period effectivePeriod;
     @Binding(
         bindingName = "DefinitionTopic",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "High-level categorization of the definition, used for searching, sorting, and filtering.",
         valueSet = "http://hl7.org/fhir/ValueSet/definition-topic"
     )
@@ -166,43 +178,39 @@ public class Library extends DomainResource {
     @Summary
     private final List<Attachment> content;
 
-    private volatile int hashCode;
-
     private Library(Builder builder) {
         super(builder);
         url = builder.url;
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         version = builder.version;
         name = builder.name;
         title = builder.title;
         subtitle = builder.subtitle;
-        status = ValidationSupport.requireNonNull(builder.status, "status");
+        status = builder.status;
         experimental = builder.experimental;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
-        subject = ValidationSupport.choiceElement(builder.subject, "subject", CodeableConcept.class, Reference.class);
+        type = builder.type;
+        subject = builder.subject;
         date = builder.date;
         publisher = builder.publisher;
-        contact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contact, "contact"));
+        contact = Collections.unmodifiableList(builder.contact);
         description = builder.description;
-        useContext = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.useContext, "useContext"));
-        jurisdiction = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.jurisdiction, "jurisdiction"));
+        useContext = Collections.unmodifiableList(builder.useContext);
+        jurisdiction = Collections.unmodifiableList(builder.jurisdiction);
         purpose = builder.purpose;
         usage = builder.usage;
         copyright = builder.copyright;
         approvalDate = builder.approvalDate;
         lastReviewDate = builder.lastReviewDate;
         effectivePeriod = builder.effectivePeriod;
-        topic = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.topic, "topic"));
-        author = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.author, "author"));
-        editor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.editor, "editor"));
-        reviewer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reviewer, "reviewer"));
-        endorser = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.endorser, "endorser"));
-        relatedArtifact = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.relatedArtifact, "relatedArtifact"));
-        parameter = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.parameter, "parameter"));
-        dataRequirement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dataRequirement, "dataRequirement"));
-        content = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.content, "content"));
-        ValidationSupport.checkReferenceType(subject, "subject", "Group");
-        ValidationSupport.requireChildren(this);
+        topic = Collections.unmodifiableList(builder.topic);
+        author = Collections.unmodifiableList(builder.author);
+        editor = Collections.unmodifiableList(builder.editor);
+        reviewer = Collections.unmodifiableList(builder.reviewer);
+        endorser = Collections.unmodifiableList(builder.endorser);
+        relatedArtifact = Collections.unmodifiableList(builder.relatedArtifact);
+        parameter = Collections.unmodifiableList(builder.parameter);
+        dataRequirement = Collections.unmodifiableList(builder.dataRequirement);
+        content = Collections.unmodifiableList(builder.content);
     }
 
     /**
@@ -1723,7 +1731,32 @@ public class Library extends DomainResource {
          */
         @Override
         public Library build() {
-            return new Library(this);
+            Library library = new Library(this);
+            if (validating) {
+                validate(library);
+            }
+            return library;
+        }
+
+        protected void validate(Library library) {
+            super.validate(library);
+            ValidationSupport.checkList(library.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(library.status, "status");
+            ValidationSupport.requireNonNull(library.type, "type");
+            ValidationSupport.choiceElement(library.subject, "subject", CodeableConcept.class, Reference.class);
+            ValidationSupport.checkList(library.contact, "contact", ContactDetail.class);
+            ValidationSupport.checkList(library.useContext, "useContext", UsageContext.class);
+            ValidationSupport.checkList(library.jurisdiction, "jurisdiction", CodeableConcept.class);
+            ValidationSupport.checkList(library.topic, "topic", CodeableConcept.class);
+            ValidationSupport.checkList(library.author, "author", ContactDetail.class);
+            ValidationSupport.checkList(library.editor, "editor", ContactDetail.class);
+            ValidationSupport.checkList(library.reviewer, "reviewer", ContactDetail.class);
+            ValidationSupport.checkList(library.endorser, "endorser", ContactDetail.class);
+            ValidationSupport.checkList(library.relatedArtifact, "relatedArtifact", RelatedArtifact.class);
+            ValidationSupport.checkList(library.parameter, "parameter", ParameterDefinition.class);
+            ValidationSupport.checkList(library.dataRequirement, "dataRequirement", DataRequirement.class);
+            ValidationSupport.checkList(library.content, "content", Attachment.class);
+            ValidationSupport.checkReferenceType(library.subject, "subject", "Group");
         }
 
         protected Builder from(Library library) {

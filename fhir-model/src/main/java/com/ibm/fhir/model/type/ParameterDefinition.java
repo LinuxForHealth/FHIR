@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -31,7 +31,7 @@ public class ParameterDefinition extends Element {
     @Summary
     @Binding(
         bindingName = "ParameterUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Whether the parameter is input or output.",
         valueSet = "http://hl7.org/fhir/ValueSet/operation-parameter-use|4.0.1"
     )
@@ -46,7 +46,7 @@ public class ParameterDefinition extends Element {
     @Summary
     @Binding(
         bindingName = "FHIRAllTypes",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "A list of all the concrete types defined in this version of the FHIR specification - Abstract Types, Data Types and Resource Types.",
         valueSet = "http://hl7.org/fhir/ValueSet/all-types|4.0.1"
     )
@@ -55,18 +55,15 @@ public class ParameterDefinition extends Element {
     @Summary
     private final Canonical profile;
 
-    private volatile int hashCode;
-
     private ParameterDefinition(Builder builder) {
         super(builder);
         name = builder.name;
-        use = ValidationSupport.requireNonNull(builder.use, "use");
+        use = builder.use;
         min = builder.min;
         max = builder.max;
         documentation = builder.documentation;
-        type = ValidationSupport.requireNonNull(builder.type, "type");
+        type = builder.type;
         profile = builder.profile;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -406,7 +403,18 @@ public class ParameterDefinition extends Element {
          */
         @Override
         public ParameterDefinition build() {
-            return new ParameterDefinition(this);
+            ParameterDefinition parameterDefinition = new ParameterDefinition(this);
+            if (validating) {
+                validate(parameterDefinition);
+            }
+            return parameterDefinition;
+        }
+
+        protected void validate(ParameterDefinition parameterDefinition) {
+            super.validate(parameterDefinition);
+            ValidationSupport.requireNonNull(parameterDefinition.use, "use");
+            ValidationSupport.requireNonNull(parameterDefinition.type, "type");
+            ValidationSupport.requireValueOrChildren(parameterDefinition);
         }
 
         protected Builder from(ParameterDefinition parameterDefinition) {

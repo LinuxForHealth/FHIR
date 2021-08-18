@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -32,7 +32,7 @@ public class Address extends Element {
     @Summary
     @Binding(
         bindingName = "AddressUse",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The use of an address.",
         valueSet = "http://hl7.org/fhir/ValueSet/address-use|4.0.1"
     )
@@ -40,7 +40,7 @@ public class Address extends Element {
     @Summary
     @Binding(
         bindingName = "AddressType",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "The type of an address (physical / postal).",
         valueSet = "http://hl7.org/fhir/ValueSet/address-type|4.0.1"
     )
@@ -62,21 +62,18 @@ public class Address extends Element {
     @Summary
     private final Period period;
 
-    private volatile int hashCode;
-
     private Address(Builder builder) {
         super(builder);
         use = builder.use;
         type = builder.type;
         text = builder.text;
-        line = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.line, "line"));
+        line = Collections.unmodifiableList(builder.line);
         city = builder.city;
         district = builder.district;
         state = builder.state;
         postalCode = builder.postalCode;
         country = builder.country;
         period = builder.period;
-        ValidationSupport.requireValueOrChildren(this);
     }
 
     /**
@@ -522,7 +519,17 @@ public class Address extends Element {
          */
         @Override
         public Address build() {
-            return new Address(this);
+            Address address = new Address(this);
+            if (validating) {
+                validate(address);
+            }
+            return address;
+        }
+
+        protected void validate(Address address) {
+            super.validate(address);
+            ValidationSupport.checkList(address.line, "line", String.class);
+            ValidationSupport.requireValueOrChildren(address);
         }
 
         protected Builder from(Address address) {

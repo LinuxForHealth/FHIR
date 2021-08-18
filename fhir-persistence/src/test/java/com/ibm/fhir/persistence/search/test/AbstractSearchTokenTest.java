@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -39,7 +39,10 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     @Test
     public void testSearchToken_string() throws Exception {
         assertSearchReturnsSavedResource("string", "testString");
+        assertSearchReturnsSavedResource("string", "TESTSTRING");
         assertSearchReturnsSavedResource("string", "|testString");
+        assertSearchReturnsSavedResource("string", "|TESTSTRING");
+        assertSearchDoesntReturnSavedResource("string", "other");
     }
 
     @Test
@@ -67,7 +70,6 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
     }
 
-
     @Test
     public void testSearchToken_boolean_missing() throws Exception {
         assertSearchReturnsSavedResource("boolean:missing", "false");
@@ -78,15 +80,74 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     @Test
+    public void testSearchToken_boolean_in() throws Exception {
+        assertSearchReturnsSavedResource("boolean:in", "http://hl7.org/fhir/ValueSet/special-values");
+        assertSearchDoesntReturnSavedResource("missing-boolean:in", "http://hl7.org/fhir/ValueSet/special-values");
+        assertSearchDoesntReturnSavedResource("boolean:in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_boolean_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("boolean:not-in", "http://hl7.org/fhir/ValueSet/special-values");
+        assertSearchReturnsSavedResource("missing-boolean:not-in", "http://hl7.org/fhir/ValueSet/special-values");
+        assertSearchReturnsSavedResource("boolean:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_boolean_above() throws Exception {
+        assertSearchReturnsSavedResource("boolean:above", "http://terminology.hl7.org/CodeSystem/special-values|true");
+        assertSearchDoesntReturnSavedResource("boolean:above", "http://terminology.hl7.org/CodeSystem/special-values|false");
+        assertSearchDoesntReturnSavedResource("missing-boolean:above", "http://terminology.hl7.org/CodeSystem/special-values|true");
+    }
+
+    @Test
+    public void testSearchToken_boolean_below() throws Exception {
+        assertSearchReturnsSavedResource("boolean:below", "http://terminology.hl7.org/CodeSystem/special-values|true");
+        assertSearchDoesntReturnSavedResource("boolean:below", "http://terminology.hl7.org/CodeSystem/special-values|false");
+        assertSearchDoesntReturnSavedResource("missing-boolean:below", "http://terminology.hl7.org/CodeSystem/special-values|true");
+    }
+
+    @Test
     public void testSearchToken_code() throws Exception {
+        // target value is "code" with no implicit or explicit system
+
         assertSearchReturnsSavedResource("code", "code");
+        assertSearchReturnsSavedResource("code", "CODE");
         assertSearchReturnsSavedResource("code", "|code");
+        assertSearchReturnsSavedResource("code", "|CODE");
+        assertSearchDoesntReturnSavedResource("code", "other");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("text-status", "http://hl7.org/fhir/narrative-status|extensions");
+        assertSearchDoesntReturnSavedResource("text-status", "http://hl7.org/fhir/narrative-status|EXTENSIONS");
+
+        assertSearchReturnsSavedResource("text-status", "http://hl7.org/fhir/narrative-status|");
+        assertSearchDoesntReturnSavedResource("text-status", "http://hl7.org/fhir/narrative-status||");
+        assertSearchDoesntReturnSavedResource("text-status", "system|");
     }
 
     @Test
     public void testSearchToken_code_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.code", "code");
         assertSearchReturnsComposition("subject:Basic.code", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.code", "other");
+    }
+
+    @Test
+    public void testSearchToken_code_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("code:not", "code");
+        assertSearchDoesntReturnSavedResource("code:not", "|code");
+        assertSearchReturnsSavedResource("code:not", "other");
+
+        assertSearchReturnsSavedResource("missing-code:not", "code");
+    }
+
+    @Test
+    public void testSearchToken_code_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.code:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.code:not", "|code");
+        assertSearchReturnsComposition("subject:Basic.code:not", "other");
+
+        assertSearchReturnsComposition("subject:Basic.missing-code:not", "code");
     }
 
     @Test
@@ -141,19 +202,50 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     @Test
-    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
-        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
-        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
+    public void testSearchToken_code_in() throws Exception {
+        assertSearchReturnsSavedResource("text-status:in", "http://hl7.org/fhir/ValueSet/narrative-status");
+        assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("missing-code:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("code:in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
 
-        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
-        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
+    @Test
+    public void testSearchToken_code_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("text-status:not-in", "http://hl7.org/fhir/ValueSet/narrative-status");
+        assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("missing-code:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("code:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_code_above() throws Exception {
+        assertSearchReturnsSavedResource("text-status:above", "http://hl7.org/fhir/narrative-status|extensions");
+        assertSearchDoesntReturnSavedResource("text-status:above", "http://hl7.org/fhir/narrative-status|empty");
+        assertSearchDoesntReturnSavedResource("missing-code:above", "http://hl7.org/fhir/narrative-status|extensions");
+    }
+
+    @Test
+    public void testSearchToken_code_below() throws Exception {
+        assertSearchReturnsSavedResource("text-status:below", "http://hl7.org/fhir/narrative-status|extensions");
+        assertSearchDoesntReturnSavedResource("text-status:below", "http://hl7.org/fhir/narrative-status|empty");
+        assertSearchDoesntReturnSavedResource("missing-code:below", "http://hl7.org/fhir/narrative-status|extensions");
     }
 
     @Test
     public void testSearchToken_CodeableConcept() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept", "code");
+        assertSearchReturnsSavedResource("CodeableConcept", "CODE");
+        // system is not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|code");
-//        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|");
+        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
+
+        assertSearchReturnsSavedResource("CodeableConcept", "http://example.org/codesystem|");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "http://example.org/codesystem||");
+        assertSearchDoesntReturnSavedResource("CodeableConcept", "example.org/codesystem|");
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|");
 
         // This shouldn't return any results because the CodeableConcept has a system
 //        assertSearchDoesntReturnSavedResource("CodeableConcept", "|code");
@@ -176,23 +268,46 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_CodeableConcept_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "code");
         assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|code");
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.CodeableConcept", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the CodeableConcept has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept", "|code");
     }
 
     @Test
-    public void testSearchDate_CodeableConcept_multiCoded() throws Exception {
+    public void testSearchToken_CodeableConcept_multiCoded() throws Exception {
         assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/codesystem|code");
         assertSearchReturnsSavedResource("CodeableConcept-multiCoded", "http://example.org/othersystem|code");
     }
 
     // Currently CodeableConcepts with no code are skipped
 //    @Test
-//    public void testSearchDate_CodeableConcept_NoCode() throws Exception {
+//    public void testSearchToken_CodeableConcept_NoCode() throws Exception {
 //        assertSearchReturnsSavedResource("CodeableConcept-noCode", "http://example.org/codesystem|");
 //    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("CodeableConcept:not", "code");
+        assertSearchDoesntReturnSavedResource("CodeableConcept:not", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("CodeableConcept:not", "other");
+        assertSearchReturnsSavedResource("CodeableConcept:not", "http://example.org/other|code");
+        assertSearchReturnsSavedResource("missing-CodeableConcept:not", "code");
+        assertSearchReturnsSavedResource("missing-CodeableConcept:not", "http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:not", "http://example.org/codesystem|code");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:not", "other");
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:not", "http://example.org/other|code");
+
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:not", "http://example.org/codesystem|code");
+    }
 
     @Test
     public void testSearchToken_CodeableConcept_missing() throws Exception {
@@ -204,13 +319,68 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     }
 
     @Test
+    public void testSearchToken_CodeableConcept_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.CodeableConcept:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.CodeableConcept:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-CodeableConcept:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-CodeableConcept:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_in() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchDoesntReturnSavedResource("CodeableConcept:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchReturnsSavedResource("CodeableConcept:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("missing-CodeableConcept:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_above() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+    }
+
+    @Test
+    public void testSearchToken_CodeableConcept_below() throws Exception {
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+        assertSearchReturnsSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("CodeableConcept-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+        assertSearchDoesntReturnSavedResource("missing-CodeableConcept:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+    }
+
+    @Test
     public void testSearchToken_Coding() throws Exception {
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
+
+
         assertSearchReturnsSavedResource("Coding", "code");
+        assertSearchReturnsSavedResource("Coding", "CODE");
+        // system not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|code");
-//        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|aa");
+        // system is not case-sensitive
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|F");
+        assertSearchReturnsSavedResource("Coding-validCaseInsensitiveCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v2-0001|f");
+
+        assertSearchReturnsSavedResource("Coding", "http://example.org/codesystem|");
+        assertSearchDoesntReturnSavedResource("Coding", "http://example.org/codesystem||");
+        assertSearchDoesntReturnSavedResource("Coding", "Http://example.org/codesystem|");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|");
 
         // This shouldn't return any results because the Coding has a system
-//        assertSearchDoesntReturnSavedResource("Coding", "|code");
+        assertSearchDoesntReturnSavedResource("Coding", "|code");
     }
 
     @Test
@@ -230,23 +400,49 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Coding_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Coding", "code");
         assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|code");
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.Coding", "http://example.org/codesystem|");
 
         // This shouldn't return any results because the Coding has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.Coding", "|code");
     }
 
     @Test
-    public void testSearchDate_Coding_NoSystem() throws Exception {
+    public void testSearchToken_Coding_NoSystem() throws Exception {
+        // target value is a coding with code "code" and no system
         assertSearchReturnsSavedResource("Coding-noSystem", "code");
+        assertSearchReturnsSavedResource("Coding-noSystem", "CODE");
         assertSearchReturnsSavedResource("Coding-noSystem", "|code");
+        assertSearchReturnsSavedResource("Coding-noSystem", "|CODE");
     }
 
     // Currently codings with no code are skipped
 //    @Test
-//    public void testSearchDate_Coding_NoCode() throws Exception {
+//    public void testSearchToken_Coding_NoCode() throws Exception {
 //        assertSearchReturnsSavedResource("Coding-noCode", "http://example.org/codesystem|");
 //    }
+
+    @Test
+    public void testSearchToken_Coding_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("Coding:not", "code");
+        assertSearchDoesntReturnSavedResource("Coding:not", "http://example.org/codesystem|code");
+        assertSearchReturnsSavedResource("Coding:not", "other");
+        assertSearchReturnsSavedResource("Coding:not", "http://example.org/other|code");
+        assertSearchReturnsSavedResource("missing-Coding:not", "code");
+        assertSearchReturnsSavedResource("missing-Coding:not", "http://example.org/codesystem|code");
+    }
+
+    @Test
+    public void testSearchToken_Coding_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.Coding:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.Coding:not", "http://example.org/codesystem|code");
+        assertSearchReturnsComposition("subject:Basic.Coding:not", "other");
+        assertSearchReturnsComposition("subject:Basic.Coding:not", "http://example.org/other|code");
+
+        assertSearchReturnsComposition("subject:Basic.missing-Coding:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-Coding:not", "http://example.org/codesystem|code");
+    }
 
     @Test
     public void testSearchToken_Coding_missing() throws Exception {
@@ -257,26 +453,74 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Coding:missing", "false");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
+    @Test
+    public void testSearchToken_Coding_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Coding:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.Coding:missing", "true");
 
-//    @Test
-//    public void testSearchToken_Coding_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.Coding:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.Coding:missing", "true");
-//
-//        assertSearchReturnsComposition("subject:Basic.missing-Coding:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-Coding:missing", "false");
-//    }
+        assertSearchReturnsComposition("subject:Basic.missing-Coding:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-Coding:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_Coding_in() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchDoesntReturnSavedResource("Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("missing-Coding:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_Coding_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-interpretation");
+        assertSearchReturnsSavedResource("Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("missing-Coding:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_Coding_above() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:above", "http://hl7.org/fhir/concept-property-type|code");
+        assertSearchDoesntReturnSavedResource("missing-Coding:above", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+    }
+
+    @Test
+    public void testSearchToken_Coding_below() throws Exception {
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+        assertSearchReturnsSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|AA");
+        assertSearchDoesntReturnSavedResource("Coding-validCodeAndSystem:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|LL");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:above", "http://hl7.org/fhir/concept-property-type|code");
+        assertSearchDoesntReturnSavedResource("missing-Coding:below", "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation|A");
+    }
+
+    @Test
+    public void testSearchToken_Coding_NoSystem_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("Coding-noSystem:in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_Coding_NoSystem_not_in() throws Exception {
+        assertSearchReturnsSavedResource("Coding-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("Coding-noSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
 
     @Test
     public void testSearchToken_Identifier() throws Exception {
         assertSearchReturnsSavedResource("Identifier", "code");
+        assertSearchReturnsSavedResource("Identifier", "CODE");
+        // system is not in registry - treated as not case-sensitive
         assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|code");
-//        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|");
+        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|CODE");
+        // system is case-sensitive
+        assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|official");
+        assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|OFFICIAL");
+
+        assertSearchReturnsSavedResource("Identifier", "http://example.org/identifiersystem|");
+        assertSearchDoesntReturnSavedResource("Identifier", "http://example.org/identifiersystem||");
+        assertSearchDoesntReturnSavedResource("Identifier", "http://example.org/IdentifierSystem|");
+        assertSearchReturnsSavedResource("Identifier-validValueAndSystem", "http://hl7.org/fhir/identifier-use|");
 
         // This shouldn't return any results because the Identifier has a system
 //        assertSearchDoesntReturnSavedResource("Identifier", "|code");
@@ -286,23 +530,47 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
     public void testSearchToken_Identifier_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.Identifier", "code");
         assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|code");
+
+        // system-only token search is not working for chained searches yet (https://github.com/IBM/FHIR/issues/2553)
 //        assertSearchReturnsComposition("subject:Basic.Identifier", "http://example.org/identifiersystem|");
 
         // This shouldn't return any results because the Identifier has a system
-//        assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier", "|code");
     }
 
     @Test
-    public void testSearchDate_Identifier_NoSystem() throws Exception {
+    public void testSearchToken_Identifier_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("Identifier-noSystem", "code");
         assertSearchReturnsSavedResource("Identifier-noSystem", "|code");
     }
 
     // Currently identifiers with no value are skipped
 //    @Test
-//    public void testSearchDate_Identifier_NoValue() throws Exception {
+//    public void testSearchToken_Identifier_NoValue() throws Exception {
 //        assertSearchReturnsSavedResource("Identifier-noValue", "http://example.org/identifiersystem|");
 //    }
+
+    @Test
+    public void testSearchToken_Identifier_not() throws Exception {
+        assertSearchDoesntReturnSavedResource("Identifier:not", "code");
+        assertSearchDoesntReturnSavedResource("Identifier:not", "http://example.org/identifiersystem|code");
+        assertSearchReturnsSavedResource("Identifier:not", "other");
+        assertSearchReturnsSavedResource("Identifier:not", "http://example.org/other|code");
+
+        assertSearchReturnsSavedResource("missing-Identifier:not", "code");
+        assertSearchReturnsSavedResource("missing-Identifier:not", "http://example.org/identifiersystem|code");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_chained_not() throws Exception {
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier:not", "code");
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier:not", "http://example.org/identifiersystem|code");
+        assertSearchReturnsComposition("subject:Basic.Identifier:not", "other");
+        assertSearchReturnsComposition("subject:Basic.Identifier:not", "http://example.org/other|code");
+
+        assertSearchReturnsComposition("subject:Basic.missing-Identifier:not", "code");
+        assertSearchReturnsComposition("subject:Basic.missing-Identifier:not", "http://example.org/identifiersystem|code");
+    }
 
     @Test
     public void testSearchToken_Identifier_missing() throws Exception {
@@ -313,44 +581,111 @@ public abstract class AbstractSearchTokenTest extends AbstractPLSearchTest {
         assertSearchDoesntReturnSavedResource("missing-Identifier:missing", "false");
     }
 
-    /*
-     * Currently, documented in our conformance statement. We do not support
-     * modifiers on chained parameters. https://ibm.github.io/FHIR/Conformance#search-modifiers
-     * Refer to https://github.com/IBM/FHIR/issues/473 to track the issue.
-     */
+    @Test
+    public void testSearchToken_Identifier_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.Identifier:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.Identifier:missing", "true");
 
-//    @Test
-//    public void testSearchToken_Identifier_chained_missing() throws Exception {
-//        assertSearchReturnsComposition("subject:Basic.Identifier:missing", "false");
-//        assertSearchDoesntReturnComposition("subject:Basic.Identifier:missing", "true");
-//
-//        assertSearchReturnsComposition("subject:Basic.missing-Identifier:missing", "true");
-//        assertSearchDoesntReturnComposition("subject:Basic.missing-Identifier:missing", "false");
-//    }
+        assertSearchReturnsComposition("subject:Basic.missing-Identifier:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-Identifier:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_in() throws Exception {
+        assertSearchReturnsSavedResource("Identifier-validValueAndSystem:in", "http://hl7.org/fhir/ValueSet/identifier-use");
+        assertSearchDoesntReturnSavedResource("Identifier:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("missing-Identifier:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_not_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Identifier-validValueAndSystem:not-in", "http://hl7.org/fhir/ValueSet/identifier-use");
+        assertSearchReturnsSavedResource("Identifier:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("missing-Identifier:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_NoSystem_in() throws Exception {
+        assertSearchDoesntReturnSavedResource("Identifier-noSystem:in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchDoesntReturnSavedResource("Identifier-noSystem:in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_NoSystem_not_in() throws Exception {
+        assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/concept-property-type");
+        assertSearchReturnsSavedResource("Identifier-noSystem:not-in", "http://hl7.org/fhir/ValueSet/observation-category");
+    }
+
+    @Test
+    public void testSearchToken_Identifier_of_type() throws Exception {
+        // system is not case-sensitive
+        assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|code");
+        assertSearchReturnsSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|mr|code");
+        assertSearchDoesntReturnSavedResource("Identifier-validType:of-type", "http://terminology.hl7.org/CodeSystem/v2-0203|MR|badcode");
+    }
 
     @Test
     public void testSearchToken_ContactPoint() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint", "(555) 675 5745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_chained() throws Exception {
         assertSearchReturnsComposition("subject:Basic.ContactPoint", "(555) 675 5745");
     }
+
     @Test
     public void testSearchToken_ContactPoint_URI() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-uri", "tel:+15556755745");
     }
+
     @Test
-    public void testSearchDate_ContactPoint_HomeFax() throws Exception {
+    public void testSearchToken_ContactPoint_HomeFax() throws Exception {
+
         assertSearchReturnsSavedResource("ContactPoint-homeFax", "(555) 675 5745");
     }
+
     @Test
-    public void testSearchDate_ContactPoint_NoUse() throws Exception {
+    public void testSearchToken_ContactPoint_NoUse() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noUse", "test@example.com");
     }
+
     @Test
-    public void testSearchDate_ContactPoint_NoSystem() throws Exception {
+    public void testSearchToken_ContactPoint_NoSystem() throws Exception {
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "test@example.com");
         assertSearchReturnsSavedResource("ContactPoint-noSystem", "|test@example.com");
     }
+
+    @Test
+    public void testSearchToken_ContactPoint_not() throws Exception {
+        assertSearchReturnsSavedResource("ContactPoint:not", "(555) 555 5555");
+        assertSearchDoesntReturnSavedResource("ContactPoint:not", "(555) 675 5745");
+        assertSearchReturnsSavedResource("missing-ContactPoint:not", "(555) 555 5555");
+    }
+
+    @Test
+    public void testSearchToken_ContactPoint_chained_not() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.ContactPoint:not", "(555) 555 5555");
+        assertSearchDoesntReturnComposition("subject:Basic.ContactPoint:not", "(555) 675 5745");
+        assertSearchReturnsComposition("subject:Basic.missing-ContactPoint:not", "(555) 555 5555");
+    }
+
+    @Test
+    public void testSearchToken_ContactPoint_missing() throws Exception {
+        assertSearchReturnsSavedResource("ContactPoint:missing", "false");
+        assertSearchDoesntReturnSavedResource("ContactPoint:missing", "true");
+
+        assertSearchReturnsSavedResource("missing-ContactPoint:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-ContactPoint:missing", "false");
+    }
+
+    @Test
+    public void testSearchToken_ContactPoint_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.ContactPoint:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.ContactPoint:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-ContactPoint:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-ContactPoint:missing", "false");
+    }
+
 }

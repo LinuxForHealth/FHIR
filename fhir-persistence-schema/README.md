@@ -11,8 +11,6 @@ The executable command line interface (cli) version of this module can be downlo
 
 To create the Db2 database and database user, use the following commands:
 
-
-
 1. If necessary on your system, create the User
 ``` shell
 groupadd -g 1002 fhir
@@ -98,7 +96,7 @@ For PostgreSQL:
 --db-type postgresql
 ```
 
-### Deploy new schema
+### Deploy new schema or update an existing schema
 For Db2:
 
 ```
@@ -106,14 +104,17 @@ For Db2:
 --schema-name FHIRDATA
 --update-schema
 ```
+
 For PostgreSQL:
 
 ```
 --prop-file postgresql.properties
---schema-name fhirdata
+--schema-name FHIRDATA
 --update-schema
 --db-type postgresql
 ```
+
+When updating the postgres schema, the autovacuum settings are configured.
 
 ### Grant privileges to data access user (Db2 only)
 
@@ -140,6 +141,7 @@ By default, we get the tenant id from the `X-FHIR-TENANT-ID` header, but to trus
 Once the server has determined the tenant id for a given request, it uses this to look up the tenantKey and the two are
 used in conjunction to create or retrieve data for this tenant.
 For more information on multi-tenancy, see section [4.9 Multi-tenancy of the IBM FHIR Server Users Guide](https://ibm.github.io/FHIR/guides/FHIRServerUsersGuide#49-multi-tenancy).
+
 
 ### Refresh Tenant Following Schema Update (Db2 only)
 
@@ -210,6 +212,46 @@ To add a tenant key for an existing tenant, replace FHIRDATA with your client sc
 Note, you may want to add a tenant key when a key is lost or needs to be changed.
 
 Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.  If the file exists the tenant key (up to 44 characters is read from the file.  If the file does not exist, the generated tenantKey is written out to the file.
+
+
+### Remove all tenant keys from an Existing Tenant (Db2 only)
+To remove all tenant keys for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--db-type db2
+--revoke-all-tenant-keys default
+```
+
+**Example Output**
+```
+2021-06-07 15:30:41.782 00000001    INFO .common.JdbcConnectionProvider Opening connection to database: jdbc:db2://demodb2:50000/fhirdb
+2021-06-07 15:30:42.405 00000001    INFO   com.ibm.fhir.schema.app.Main Tenant Key revoked for 'default' total removed=[1]
+2021-06-07 15:30:42.419 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.699 s
+2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
+```
+
+### Remove a tenant key key from an Existing Tenant (Db2 only)
+To remove a tenant key for an existing tenant, replace FHIRDATA with your client schema, and change default to your tenant's name. 
+
+```
+--prop-file db2.properties
+--schema-name FHIRDATA
+--db-type db2
+--revoke-tenant-key default
+--tenant-key rZ59TLyEpjU+FAKEtgVk8J44J0=
+```
+
+**Example Output**
+```
+2021-06-07 15:30:41.782 00000001    INFO .common.JdbcConnectionProvider Opening connection to database: jdbc:db2://demodb2:50000/fhirdb
+2021-06-07 15:30:42.405 00000001    INFO   com.ibm.fhir.schema.app.Main Tenant Key revoked for 'default' total removed=[1]
+2021-06-07 15:30:42.419 00000001    INFO   com.ibm.fhir.schema.app.Main Processing took:   0.699 s
+2021-06-07 15:30:42.420 00000001    INFO   com.ibm.fhir.schema.app.Main SCHEMA CHANGE: OK
+```
+
+Use `--tenant-key-file tenant.key.file` to direct the action to read the tenant-key from file.
 
 ### Update the stored procedures and functions for FHIRDATA (and not FHIR_ADMIN) (Db2 and PostgreSQL)
 
@@ -326,6 +368,35 @@ java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --target DATA FHIRDATA_2ND
 ```
 
+## Adjust the Vacuum Settings for PostgreSQL Tables only
+Since 4.9.0, the IBM FHIR Server has implemented support for modifying the [autovacuum](https://www.postgresql.org/docs/12/runtime-config-autovacuum.html). Per [4.1.2. Tuning Auto-vacuum](https://ibm.github.io/FHIR/guides/FHIRPerformanceGuide/#412-tuning-auto-vacuum) the schema tool modifies `autovacuum_vacuum_cost_limit`, `autovacuum_vacuum_scale_factor` and `autovacuum_vacuum_threshold`.
+
+The autovacuum_vacuum_scale_factor is not automatically configured, and not recommended on Databases for Postgres on IBM Cloud. The system configuration overrides the setting.
+
+### Specific Tables
+To update a specific tables settings, you can run with  `--vacuum-table-name`.
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type postgresql --prop db.host=localhost --prop db.port=5432 \
+--prop db.database=fhirdb --schema-name fhirdata \
+--prop user=fhiradmin --prop password=passw0rd \
+--update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
+--vacuum-scale-factor 0.01 --vacuum-table-name LOGICAL_RESOURCES
+```
+
+### All Tables in a Schema
+To update all tables in a schema, you can run without the table parameter. If you omit any value, the  defaults are picked as described in the Performance guide.
+
+```
+java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
+--db-type postgresql --prop db.host=localhost --prop db.port=5432 \
+--prop db.database=fhirdb --schema-name fhirdata \
+--prop user=fhiradmin --prop password=passw0rd \
+--update-vacuum --vacuum-cost-limit 2000 --vacuum-threshold 1000 \
+--vacuum-scale-factor 0.01
+```
+
 ## Advanced SSL Configuration with Postgres
 
 Create a properties file like the following:
@@ -346,7 +417,7 @@ Run the Update Schema with
 ```
 java -jar ./fhir-persistence-schema-${VERSION}-cli.jar \
 --prop-file /Users/paulbastide/git/wffh/FHIR/fhir-persistence-schema/postgresql.properties  \
---schema-name fhirdata \
+--schema-name FHIRDATA \
 --update-schema \
 --db-type postgresql
 ```

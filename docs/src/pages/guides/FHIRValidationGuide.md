@@ -2,13 +2,13 @@
 layout: post
 title: FHIR Validation Guide
 description: FHIR Validation Guide
-date:   2021-01-11 10:25:00 -0400
+date:   2021-03-24
 permalink: /FHIRValidationGuide/
 ---
 
 ## Overview
 
-The IBM FHIR Server validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/master/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions.
+The IBM FHIR Server validation module ([fhir-validation](https://github.com/IBM/FHIR/tree/main/fhir-validation)) provides Java APIs for validating FHIR resources using constraints specified in their corresponding structure definitions.
 
 The validation module is available from our [Maven artifact repository](https://github.com/ibm/fhir#building-on-top-of-the-ibm-fhir-server-modules) and is also packaged together with its dependencies and all of our pre-packaged implementation guides in the `fhir-validation-distribution.zip` artifact which may be downloaded from [https://github.com/IBM/FHIR/releases](releases).
 
@@ -27,15 +27,15 @@ For example, in the Patient resource, we have the following constraint:
 )
 ```
 
-The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://github.com/IBM/FHIR/tree/master/fhir-path)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
+The validation component picks up the Java annotation, pulls out the FHIRPath expression and passes it on to the IBM FHIR Server FHIRPath component ([fhir-path](https://github.com/IBM/FHIR/tree/main/fhir-path)) for evaluation. If the invariant evaluates to `false` then the FHIR validator will generate an OperationOutcome.Issue with the severity set relative to the "level" of the constraint (i.e. "Rule" or "Warning");
 
 ![https://ibm.github.io/FHIR/images/fhir-dependency-graph.png](https://ibm.github.io/FHIR/images/fhir-dependency-graph.png)
 
 ## Profile Support
 
-The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) at runtime.
+The validation component will also validate a resource against profiles that it asserts conformance to in the `Resource.meta.profile` element assuming those profiles are available to the IBM FHIR Server via the FHIR registry component ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) at runtime.
 
-Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/master/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
+Given a FHIR profile (structure definition) as input, the IBM FHIR Server Profile component ([fhir-profile](https://github.com/IBM/FHIR/tree/main/fhir-profile)) generates FHIRPath expressions for a number of different types of constraints. The current scope of constraint generation is:
 
 - Cardinality constraints (required and prohibited elements)
 - Fixed value constraints (Code and Uri data types)
@@ -177,7 +177,7 @@ Package your implementation in a jar file and be sure to include its fully-quali
 
 ### NPM package format support
 
-The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/master/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
+The IBM FHIR Server Registry module ([fhir-registry](https://github.com/IBM/FHIR/tree/main/fhir-registry)) has utilities that can be used to expose FHIR registry resources that exist in the NPM package format. Implementation guides that follow this packaging format can be dropped into the `src/main/resources/` under a directory structure defined by the ImplementationGuide.packageId value. For example, US Core implementation guide has a package id of: `hl7.fhir.us.core`. The NPM "package" folder can be dropped here: `src/main/resources/hl7/fhir/us/core/package`
 
 ![https://ibm.github.io/FHIR/images/us-core-package.png](https://ibm.github.io/FHIR/images/us-core-package.png)
 
@@ -224,3 +224,10 @@ The IBM FHIR Server provides a basic implementation of the $validate operation t
 ## ValueSet membership checking (FHIRPath `memberOf` function)
 
 Coded elements (code, Coding, CodeableConcept data types), maybe have a binding element that specifies a ValueSet that that element is bound to. This means that the coded element must have a value that comes from that value set. The FHIR profile component will expand value sets according to the ValueSet [expansion algorithm](http://hl7.org/fhir/valueset.html#expansion) for ValueSets that include CodeSystem resources available via the FHIR registry component.
+
+
+## fhir-path-cli - command line execution of fhirpath over a FHIR Resource
+
+The fhir-path-cli enables commandline processing of a FHIR Path over a FHIR resource and outputs the results. 
+
+For details on the fhir-path-cli, refer to the [README.md](https://github.com/IBM/FHIR/tree/main/fhir-path/README.md)

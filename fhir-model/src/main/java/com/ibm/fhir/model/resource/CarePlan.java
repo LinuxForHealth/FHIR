@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -17,6 +17,7 @@ import javax.annotation.Generated;
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Choice;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -43,19 +44,27 @@ import com.ibm.fhir.model.type.code.CarePlanActivityKind;
 import com.ibm.fhir.model.type.code.CarePlanActivityStatus;
 import com.ibm.fhir.model.type.code.CarePlanIntent;
 import com.ibm.fhir.model.type.code.CarePlanStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Describes the intention of how one or more practitioners intend to deliver care for a particular patient, group or 
  * community for a period of time, possibly limited to care for a specific condition or set of conditions.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "cpl-3",
     level = "Rule",
     location = "CarePlan.activity",
     description = "Provide a reference or detail, not both",
-    expression = "detail.empty() or reference.empty()"
+    expression = "detail.empty() or reference.empty()",
+    source = "http://hl7.org/fhir/StructureDefinition/CarePlan"
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class CarePlan extends DomainResource {
@@ -77,7 +86,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Indicates whether the plan is currently being acted upon, represents future intentions or is now a historical record.",
         valueSet = "http://hl7.org/fhir/ValueSet/request-status|4.0.1"
     )
@@ -86,7 +95,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanIntent",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Codes indicating the degree of authority/intentionality associated with a care plan.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-intent|4.0.1"
     )
@@ -95,7 +104,7 @@ public class CarePlan extends DomainResource {
     @Summary
     @Binding(
         bindingName = "CarePlanCategory",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Identifies what \"kind\" of plan this is to support differentiation between multiple co-existing plans; e.g. \"Home health\", \"psychiatric\", \"asthma\", \"disease management\", etc.",
         valueSet = "http://hl7.org/fhir/ValueSet/care-plan-category"
     )
@@ -131,44 +140,31 @@ public class CarePlan extends DomainResource {
     private final List<Activity> activity;
     private final List<Annotation> note;
 
-    private volatile int hashCode;
-
     private CarePlan(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-        instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        replaces = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.replaces, "replaces"));
-        partOf = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.partOf, "partOf"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        intent = ValidationSupport.requireNonNull(builder.intent, "intent");
-        category = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.category, "category"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+        instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        replaces = Collections.unmodifiableList(builder.replaces);
+        partOf = Collections.unmodifiableList(builder.partOf);
+        status = builder.status;
+        intent = builder.intent;
+        category = Collections.unmodifiableList(builder.category);
         title = builder.title;
         description = builder.description;
-        subject = ValidationSupport.requireNonNull(builder.subject, "subject");
+        subject = builder.subject;
         encounter = builder.encounter;
         period = builder.period;
         created = builder.created;
         author = builder.author;
-        contributor = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.contributor, "contributor"));
-        careTeam = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.careTeam, "careTeam"));
-        addresses = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.addresses, "addresses"));
-        supportingInfo = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.supportingInfo, "supportingInfo"));
-        goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
-        activity = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.activity, "activity"));
-        note = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.note, "note"));
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "CarePlan");
-        ValidationSupport.checkReferenceType(replaces, "replaces", "CarePlan");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "CarePlan");
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(encounter, "encounter", "Encounter");
-        ValidationSupport.checkReferenceType(author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
-        ValidationSupport.checkReferenceType(careTeam, "careTeam", "CareTeam");
-        ValidationSupport.checkReferenceType(addresses, "addresses", "Condition");
-        ValidationSupport.checkReferenceType(goal, "goal", "Goal");
-        ValidationSupport.requireChildren(this);
+        contributor = Collections.unmodifiableList(builder.contributor);
+        careTeam = Collections.unmodifiableList(builder.careTeam);
+        addresses = Collections.unmodifiableList(builder.addresses);
+        supportingInfo = Collections.unmodifiableList(builder.supportingInfo);
+        goal = Collections.unmodifiableList(builder.goal);
+        activity = Collections.unmodifiableList(builder.activity);
+        note = Collections.unmodifiableList(builder.note);
     }
 
     /**
@@ -1540,7 +1536,42 @@ public class CarePlan extends DomainResource {
          */
         @Override
         public CarePlan build() {
-            return new CarePlan(this);
+            CarePlan carePlan = new CarePlan(this);
+            if (validating) {
+                validate(carePlan);
+            }
+            return carePlan;
+        }
+
+        protected void validate(CarePlan carePlan) {
+            super.validate(carePlan);
+            ValidationSupport.checkList(carePlan.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(carePlan.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+            ValidationSupport.checkList(carePlan.instantiatesUri, "instantiatesUri", Uri.class);
+            ValidationSupport.checkList(carePlan.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(carePlan.replaces, "replaces", Reference.class);
+            ValidationSupport.checkList(carePlan.partOf, "partOf", Reference.class);
+            ValidationSupport.requireNonNull(carePlan.status, "status");
+            ValidationSupport.requireNonNull(carePlan.intent, "intent");
+            ValidationSupport.checkList(carePlan.category, "category", CodeableConcept.class);
+            ValidationSupport.requireNonNull(carePlan.subject, "subject");
+            ValidationSupport.checkList(carePlan.contributor, "contributor", Reference.class);
+            ValidationSupport.checkList(carePlan.careTeam, "careTeam", Reference.class);
+            ValidationSupport.checkList(carePlan.addresses, "addresses", Reference.class);
+            ValidationSupport.checkList(carePlan.supportingInfo, "supportingInfo", Reference.class);
+            ValidationSupport.checkList(carePlan.goal, "goal", Reference.class);
+            ValidationSupport.checkList(carePlan.activity, "activity", Activity.class);
+            ValidationSupport.checkList(carePlan.note, "note", Annotation.class);
+            ValidationSupport.checkReferenceType(carePlan.basedOn, "basedOn", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.replaces, "replaces", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.partOf, "partOf", "CarePlan");
+            ValidationSupport.checkReferenceType(carePlan.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(carePlan.encounter, "encounter", "Encounter");
+            ValidationSupport.checkReferenceType(carePlan.author, "author", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.contributor, "contributor", "Patient", "Practitioner", "PractitionerRole", "Device", "RelatedPerson", "Organization", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.careTeam, "careTeam", "CareTeam");
+            ValidationSupport.checkReferenceType(carePlan.addresses, "addresses", "Condition");
+            ValidationSupport.checkReferenceType(carePlan.goal, "goal", "Goal");
         }
 
         protected Builder from(CarePlan carePlan) {
@@ -1579,7 +1610,7 @@ public class CarePlan extends DomainResource {
     public static class Activity extends BackboneElement {
         @Binding(
             bindingName = "CarePlanActivityOutcome",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Identifies the results of the activity.",
             valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-outcome"
         )
@@ -1590,17 +1621,13 @@ public class CarePlan extends DomainResource {
         private final Reference reference;
         private final Detail detail;
 
-        private volatile int hashCode;
-
         private Activity(Builder builder) {
             super(builder);
-            outcomeCodeableConcept = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeCodeableConcept, "outcomeCodeableConcept"));
-            outcomeReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.outcomeReference, "outcomeReference"));
-            progress = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.progress, "progress"));
+            outcomeCodeableConcept = Collections.unmodifiableList(builder.outcomeCodeableConcept);
+            outcomeReference = Collections.unmodifiableList(builder.outcomeReference);
+            progress = Collections.unmodifiableList(builder.progress);
             reference = builder.reference;
             detail = builder.detail;
-            ValidationSupport.checkReferenceType(reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2007,7 +2034,20 @@ public class CarePlan extends DomainResource {
              */
             @Override
             public Activity build() {
-                return new Activity(this);
+                Activity activity = new Activity(this);
+                if (validating) {
+                    validate(activity);
+                }
+                return activity;
+            }
+
+            protected void validate(Activity activity) {
+                super.validate(activity);
+                ValidationSupport.checkList(activity.outcomeCodeableConcept, "outcomeCodeableConcept", CodeableConcept.class);
+                ValidationSupport.checkList(activity.outcomeReference, "outcomeReference", Reference.class);
+                ValidationSupport.checkList(activity.progress, "progress", Annotation.class);
+                ValidationSupport.checkReferenceType(activity.reference, "reference", "Appointment", "CommunicationRequest", "DeviceRequest", "MedicationRequest", "NutritionOrder", "Task", "ServiceRequest", "VisionPrescription", "RequestGroup");
+                ValidationSupport.requireValueOrChildren(activity);
             }
 
             protected Builder from(Activity activity) {
@@ -2028,7 +2068,7 @@ public class CarePlan extends DomainResource {
         public static class Detail extends BackboneElement {
             @Binding(
                 bindingName = "CarePlanActivityKind",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Resource types defined as part of FHIR that can be represented as in-line definitions of a care plan activity.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-kind|4.0.1"
             )
@@ -2037,14 +2077,14 @@ public class CarePlan extends DomainResource {
             private final List<Uri> instantiatesUri;
             @Binding(
                 bindingName = "CarePlanActivityType",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Detailed description of the type of activity; e.g. What lab test, what procedure, what kind of encounter.",
                 valueSet = "http://hl7.org/fhir/ValueSet/procedure-code"
             )
             private final CodeableConcept code;
             @Binding(
                 bindingName = "CarePlanActivityReason",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "Identifies why a care plan activity is needed.  Can include any health condition codes as well as such concepts as \"general wellness\", prophylaxis, surgical preparation, etc.",
                 valueSet = "http://hl7.org/fhir/ValueSet/clinical-findings"
             )
@@ -2055,7 +2095,7 @@ public class CarePlan extends DomainResource {
             private final List<Reference> goal;
             @Binding(
                 bindingName = "CarePlanActivityStatus",
-                strength = BindingStrength.ValueSet.REQUIRED,
+                strength = BindingStrength.Value.REQUIRED,
                 description = "Codes that reflect the current state of a care plan activity within its overall life cycle.",
                 valueSet = "http://hl7.org/fhir/ValueSet/care-plan-activity-status|4.0.1"
             )
@@ -2073,7 +2113,7 @@ public class CarePlan extends DomainResource {
             @Choice({ CodeableConcept.class, Reference.class })
             @Binding(
                 bindingName = "CarePlanProduct",
-                strength = BindingStrength.ValueSet.EXAMPLE,
+                strength = BindingStrength.Value.EXAMPLE,
                 description = "A product supplied or administered as part of a care plan activity.",
                 valueSet = "http://hl7.org/fhir/ValueSet/medication-codes"
             )
@@ -2082,33 +2122,25 @@ public class CarePlan extends DomainResource {
             private final SimpleQuantity quantity;
             private final String description;
 
-            private volatile int hashCode;
-
             private Detail(Builder builder) {
                 super(builder);
                 kind = builder.kind;
-                instantiatesCanonical = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesCanonical, "instantiatesCanonical"));
-                instantiatesUri = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.instantiatesUri, "instantiatesUri"));
+                instantiatesCanonical = Collections.unmodifiableList(builder.instantiatesCanonical);
+                instantiatesUri = Collections.unmodifiableList(builder.instantiatesUri);
                 code = builder.code;
-                reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-                reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-                goal = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.goal, "goal"));
-                status = ValidationSupport.requireNonNull(builder.status, "status");
+                reasonCode = Collections.unmodifiableList(builder.reasonCode);
+                reasonReference = Collections.unmodifiableList(builder.reasonReference);
+                goal = Collections.unmodifiableList(builder.goal);
+                status = builder.status;
                 statusReason = builder.statusReason;
                 doNotPerform = builder.doNotPerform;
-                scheduled = ValidationSupport.choiceElement(builder.scheduled, "scheduled", Timing.class, Period.class, String.class);
+                scheduled = builder.scheduled;
                 location = builder.location;
-                performer = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.performer, "performer"));
-                product = ValidationSupport.choiceElement(builder.product, "product", CodeableConcept.class, Reference.class);
+                performer = Collections.unmodifiableList(builder.performer);
+                product = builder.product;
                 dailyAmount = builder.dailyAmount;
                 quantity = builder.quantity;
                 description = builder.description;
-                ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
-                ValidationSupport.checkReferenceType(goal, "goal", "Goal");
-                ValidationSupport.checkReferenceType(location, "location", "Location");
-                ValidationSupport.checkReferenceType(performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
-                ValidationSupport.checkReferenceType(product, "product", "Medication", "Substance");
-                ValidationSupport.requireValueOrChildren(this);
             }
 
             /**
@@ -3003,7 +3035,30 @@ public class CarePlan extends DomainResource {
                  */
                 @Override
                 public Detail build() {
-                    return new Detail(this);
+                    Detail detail = new Detail(this);
+                    if (validating) {
+                        validate(detail);
+                    }
+                    return detail;
+                }
+
+                protected void validate(Detail detail) {
+                    super.validate(detail);
+                    ValidationSupport.checkList(detail.instantiatesCanonical, "instantiatesCanonical", Canonical.class);
+                    ValidationSupport.checkList(detail.instantiatesUri, "instantiatesUri", Uri.class);
+                    ValidationSupport.checkList(detail.reasonCode, "reasonCode", CodeableConcept.class);
+                    ValidationSupport.checkList(detail.reasonReference, "reasonReference", Reference.class);
+                    ValidationSupport.checkList(detail.goal, "goal", Reference.class);
+                    ValidationSupport.requireNonNull(detail.status, "status");
+                    ValidationSupport.choiceElement(detail.scheduled, "scheduled", Timing.class, Period.class, String.class);
+                    ValidationSupport.checkList(detail.performer, "performer", Reference.class);
+                    ValidationSupport.choiceElement(detail.product, "product", CodeableConcept.class, Reference.class);
+                    ValidationSupport.checkReferenceType(detail.reasonReference, "reasonReference", "Condition", "Observation", "DiagnosticReport", "DocumentReference");
+                    ValidationSupport.checkReferenceType(detail.goal, "goal", "Goal");
+                    ValidationSupport.checkReferenceType(detail.location, "location", "Location");
+                    ValidationSupport.checkReferenceType(detail.performer, "performer", "Practitioner", "PractitionerRole", "Organization", "RelatedPerson", "Patient", "CareTeam", "HealthcareService", "Device");
+                    ValidationSupport.checkReferenceType(detail.product, "product", "Medication", "Substance");
+                    ValidationSupport.requireValueOrChildren(detail);
                 }
 
                 protected Builder from(Detail detail) {

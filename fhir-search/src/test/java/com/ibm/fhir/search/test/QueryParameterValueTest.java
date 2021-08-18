@@ -14,6 +14,8 @@ import java.time.Instant;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.search.SearchConstants.Prefix;
+import com.ibm.fhir.search.SearchConstants.Type;
+import com.ibm.fhir.search.parameters.QueryParameter;
 import com.ibm.fhir.search.parameters.QueryParameterValue;
 
 /**
@@ -85,5 +87,29 @@ public class QueryParameterValueTest extends BaseSearchTest {
         assertEquals(testObj.getValueDateUpperBound(), valueDateUpperBound);
         assertEquals(testObj.toString(), "eq2019-12-11");
         assertEquals(testObj.toString(), "eq2019-12-11");
+    }
+
+    @Test
+    public void testToStringOfComposite() throws Exception {
+        QueryParameterValue testObj = new QueryParameterValue();
+        QueryParameter qp1 = new QueryParameter(Type.TOKEN, "qp1", null, null);
+        QueryParameterValue qpv1 = new QueryParameterValue();
+        String valueSystem1 = "valueSystem1";
+        String valueCode1 = "valueCode1";
+        qpv1.setValueSystem(valueSystem1);
+        qpv1.setValueCode(valueCode1);
+        qp1.getValues().add(qpv1);
+        QueryParameter qp2 = new QueryParameter(Type.TOKEN, "qp2", null, null);
+        QueryParameterValue qpv2 = new QueryParameterValue();
+        String valueCode2 = "valueCode2";
+        qpv2.setValueCode(valueCode2);
+        qp2.getValues().add(qpv2);
+        testObj.addComponent(qp1, qp2);
+        // toString of an :of-type modifier uses '|' as component delimiter
+        testObj.setOfTypeModifier(true);
+        assertEquals(testObj.toString(), "valueSystem1|valueCode1|valueCode2");
+        // Otherwise toString uses '$' as component delimiter
+        testObj.setOfTypeModifier(false);
+        assertEquals(testObj.toString(), "valueSystem1|valueCode1$valueCode2");
     }
 }

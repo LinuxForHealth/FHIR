@@ -1,12 +1,15 @@
 /*
- * (C) Copyright IBM Corp. 2020
+ * (C) Copyright IBM Corp. 2020, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
 
 package com.ibm.fhir.model.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.fail;
+
+import java.util.Base64;
 
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -14,6 +17,7 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.type.Base64Binary;
 
 public class Base64BinaryTest {
+
     @Test
     public void testBase64BinaryValid1() throws Exception {
         Base64Binary base64Binary = Base64Binary.builder().value("ABCDEA==").build();
@@ -74,5 +78,25 @@ public class Base64BinaryTest {
             Assert.assertTrue(e instanceof IllegalArgumentException);
             Assert.assertEquals(e.getMessage(), "Invalid base64 string: non-zero padding bits; character: 'F' found at index: 5 should be: 'A'");
         }
+    }
+
+    @Test
+    public void testBase64BinaryValidOfBytes() throws Exception {
+        Base64Binary base64Binary = Base64Binary.of("on-fhir-server".getBytes());
+        Assert.assertNotNull(base64Binary);
+        byte[] bytes = base64Binary.getValue();
+        String str = new String(bytes);
+        assertEquals(str, "on-fhir-server");
+    }
+
+    @Test
+    public void testBase64BinaryValidOfString() throws Exception {
+        String encoded = Base64.getEncoder().encodeToString("on-fhir-server".getBytes());
+        Base64Binary base64Binary = Base64Binary.of(encoded);
+        Assert.assertNotNull(base64Binary);
+
+        byte[] bytes = base64Binary.getValue();
+        String str = new String(bytes);
+        assertEquals(str, "on-fhir-server");
     }
 }

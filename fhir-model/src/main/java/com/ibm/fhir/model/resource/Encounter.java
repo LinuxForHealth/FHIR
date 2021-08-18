@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -16,6 +16,7 @@ import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
 import com.ibm.fhir.model.annotation.Constraint;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -35,19 +36,27 @@ import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
 import com.ibm.fhir.model.type.code.EncounterLocationStatus;
 import com.ibm.fhir.model.type.code.EncounterStatus;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * An interaction between a patient and healthcare provider(s) for the purpose of providing healthcare service(s) or 
  * assessing the health status of a patient.
+ * 
+ * <p>Maturity level: FMM2 (Trial Use)
  */
+@Maturity(
+    level = 2,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Constraint(
     id = "encounter-0",
     level = "Warning",
     location = "(base)",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
     expression = "class.exists() and class.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -56,6 +65,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "classHistory.class",
     description = "SHALL, if possible, contain a code from value set http://terminology.hl7.org/ValueSet/v3-ActEncounterCode",
     expression = "$this.memberOf('http://terminology.hl7.org/ValueSet/v3-ActEncounterCode', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -64,6 +74,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "participant.type",
     description = "SHALL, if possible, contain a code from value set http://hl7.org/fhir/ValueSet/encounter-participant-type",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-participant-type', 'extensible')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -72,6 +83,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "(base)",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-reason",
     expression = "reasonCode.exists() implies (reasonCode.all(memberOf('http://hl7.org/fhir/ValueSet/encounter-reason', 'preferred')))",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -80,6 +92,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "diagnosis.use",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/diagnosis-role",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/diagnosis-role', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -88,6 +101,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.admitSource",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-admit-source",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-admit-source', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -96,6 +110,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.specialCourtesy",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-courtesy",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-courtesy', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Constraint(
@@ -104,6 +119,7 @@ import com.ibm.fhir.model.visitor.Visitor;
     location = "hospitalization.specialArrangement",
     description = "SHOULD contain a code from value set http://hl7.org/fhir/ValueSet/encounter-special-arrangements",
     expression = "$this.memberOf('http://hl7.org/fhir/ValueSet/encounter-special-arrangements', 'preferred')",
+    source = "http://hl7.org/fhir/StructureDefinition/Encounter",
     generated = true
 )
 @Generated("com.ibm.fhir.tools.CodeGenerator")
@@ -113,7 +129,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterStatus",
-        strength = BindingStrength.ValueSet.REQUIRED,
+        strength = BindingStrength.Value.REQUIRED,
         description = "Current state of the encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
     )
@@ -123,7 +139,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterClass",
-        strength = BindingStrength.ValueSet.EXTENSIBLE,
+        strength = BindingStrength.Value.EXTENSIBLE,
         description = "Classification of the encounter.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
     )
@@ -133,7 +149,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "The type of encounter.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-type"
     )
@@ -141,14 +157,14 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterServiceType",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Broad categorization of the service that is to be provided.",
         valueSet = "http://hl7.org/fhir/ValueSet/service-type"
     )
     private final CodeableConcept serviceType;
     @Binding(
         bindingName = "Priority",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Indicates the urgency of the encounter.",
         valueSet = "http://terminology.hl7.org/ValueSet/v3-ActPriority"
     )
@@ -171,7 +187,7 @@ public class Encounter extends DomainResource {
     @Summary
     @Binding(
         bindingName = "EncounterReason",
-        strength = BindingStrength.ValueSet.PREFERRED,
+        strength = BindingStrength.Value.PREFERRED,
         description = "Reason why the encounter takes place.",
         valueSet = "http://hl7.org/fhir/ValueSet/encounter-reason"
     )
@@ -190,42 +206,31 @@ public class Encounter extends DomainResource {
     @ReferenceTarget({ "Encounter" })
     private final Reference partOf;
 
-    private volatile int hashCode;
-
     private Encounter(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
-        status = ValidationSupport.requireNonNull(builder.status, "status");
-        statusHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.statusHistory, "statusHistory"));
-        clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-        classHistory = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.classHistory, "classHistory"));
-        type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+        identifier = Collections.unmodifiableList(builder.identifier);
+        status = builder.status;
+        statusHistory = Collections.unmodifiableList(builder.statusHistory);
+        clazz = builder.clazz;
+        classHistory = Collections.unmodifiableList(builder.classHistory);
+        type = Collections.unmodifiableList(builder.type);
         serviceType = builder.serviceType;
         priority = builder.priority;
         subject = builder.subject;
-        episodeOfCare = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.episodeOfCare, "episodeOfCare"));
-        basedOn = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.basedOn, "basedOn"));
-        participant = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.participant, "participant"));
-        appointment = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.appointment, "appointment"));
+        episodeOfCare = Collections.unmodifiableList(builder.episodeOfCare);
+        basedOn = Collections.unmodifiableList(builder.basedOn);
+        participant = Collections.unmodifiableList(builder.participant);
+        appointment = Collections.unmodifiableList(builder.appointment);
         period = builder.period;
         length = builder.length;
-        reasonCode = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonCode, "reasonCode"));
-        reasonReference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.reasonReference, "reasonReference"));
-        diagnosis = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.diagnosis, "diagnosis"));
-        account = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.account, "account"));
+        reasonCode = Collections.unmodifiableList(builder.reasonCode);
+        reasonReference = Collections.unmodifiableList(builder.reasonReference);
+        diagnosis = Collections.unmodifiableList(builder.diagnosis);
+        account = Collections.unmodifiableList(builder.account);
         hospitalization = builder.hospitalization;
-        location = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.location, "location"));
+        location = Collections.unmodifiableList(builder.location);
         serviceProvider = builder.serviceProvider;
         partOf = builder.partOf;
-        ValidationSupport.checkReferenceType(subject, "subject", "Patient", "Group");
-        ValidationSupport.checkReferenceType(episodeOfCare, "episodeOfCare", "EpisodeOfCare");
-        ValidationSupport.checkReferenceType(basedOn, "basedOn", "ServiceRequest");
-        ValidationSupport.checkReferenceType(appointment, "appointment", "Appointment");
-        ValidationSupport.checkReferenceType(reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
-        ValidationSupport.checkReferenceType(account, "account", "Account");
-        ValidationSupport.checkReferenceType(serviceProvider, "serviceProvider", "Organization");
-        ValidationSupport.checkReferenceType(partOf, "partOf", "Encounter");
-        ValidationSupport.requireChildren(this);
     }
 
     /**
@@ -1563,7 +1568,38 @@ public class Encounter extends DomainResource {
          */
         @Override
         public Encounter build() {
-            return new Encounter(this);
+            Encounter encounter = new Encounter(this);
+            if (validating) {
+                validate(encounter);
+            }
+            return encounter;
+        }
+
+        protected void validate(Encounter encounter) {
+            super.validate(encounter);
+            ValidationSupport.checkList(encounter.identifier, "identifier", Identifier.class);
+            ValidationSupport.requireNonNull(encounter.status, "status");
+            ValidationSupport.checkList(encounter.statusHistory, "statusHistory", StatusHistory.class);
+            ValidationSupport.requireNonNull(encounter.clazz, "class");
+            ValidationSupport.checkList(encounter.classHistory, "classHistory", ClassHistory.class);
+            ValidationSupport.checkList(encounter.type, "type", CodeableConcept.class);
+            ValidationSupport.checkList(encounter.episodeOfCare, "episodeOfCare", Reference.class);
+            ValidationSupport.checkList(encounter.basedOn, "basedOn", Reference.class);
+            ValidationSupport.checkList(encounter.participant, "participant", Participant.class);
+            ValidationSupport.checkList(encounter.appointment, "appointment", Reference.class);
+            ValidationSupport.checkList(encounter.reasonCode, "reasonCode", CodeableConcept.class);
+            ValidationSupport.checkList(encounter.reasonReference, "reasonReference", Reference.class);
+            ValidationSupport.checkList(encounter.diagnosis, "diagnosis", Diagnosis.class);
+            ValidationSupport.checkList(encounter.account, "account", Reference.class);
+            ValidationSupport.checkList(encounter.location, "location", Location.class);
+            ValidationSupport.checkReferenceType(encounter.subject, "subject", "Patient", "Group");
+            ValidationSupport.checkReferenceType(encounter.episodeOfCare, "episodeOfCare", "EpisodeOfCare");
+            ValidationSupport.checkReferenceType(encounter.basedOn, "basedOn", "ServiceRequest");
+            ValidationSupport.checkReferenceType(encounter.appointment, "appointment", "Appointment");
+            ValidationSupport.checkReferenceType(encounter.reasonReference, "reasonReference", "Condition", "Procedure", "Observation", "ImmunizationRecommendation");
+            ValidationSupport.checkReferenceType(encounter.account, "account", "Account");
+            ValidationSupport.checkReferenceType(encounter.serviceProvider, "serviceProvider", "Organization");
+            ValidationSupport.checkReferenceType(encounter.partOf, "partOf", "Encounter");
         }
 
         protected Builder from(Encounter encounter) {
@@ -1602,7 +1638,7 @@ public class Encounter extends DomainResource {
     public static class StatusHistory extends BackboneElement {
         @Binding(
             bindingName = "EncounterStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "Current state of the encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-status|4.0.1"
         )
@@ -1611,13 +1647,10 @@ public class Encounter extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private StatusHistory(Builder builder) {
             super(builder);
-            status = ValidationSupport.requireNonNull(builder.status, "status");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            status = builder.status;
+            period = builder.period;
         }
 
         /**
@@ -1863,7 +1896,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public StatusHistory build() {
-                return new StatusHistory(this);
+                StatusHistory statusHistory = new StatusHistory(this);
+                if (validating) {
+                    validate(statusHistory);
+                }
+                return statusHistory;
+            }
+
+            protected void validate(StatusHistory statusHistory) {
+                super.validate(statusHistory);
+                ValidationSupport.requireNonNull(statusHistory.status, "status");
+                ValidationSupport.requireNonNull(statusHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(statusHistory);
             }
 
             protected Builder from(StatusHistory statusHistory) {
@@ -1885,7 +1929,7 @@ public class Encounter extends DomainResource {
     public static class ClassHistory extends BackboneElement {
         @Binding(
             bindingName = "EncounterClass",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Classification of the encounter.",
             valueSet = "http://terminology.hl7.org/ValueSet/v3-ActEncounterCode"
         )
@@ -1894,13 +1938,10 @@ public class Encounter extends DomainResource {
         @Required
         private final Period period;
 
-        private volatile int hashCode;
-
         private ClassHistory(Builder builder) {
             super(builder);
-            clazz = ValidationSupport.requireNonNull(builder.clazz, "class");
-            period = ValidationSupport.requireNonNull(builder.period, "period");
-            ValidationSupport.requireValueOrChildren(this);
+            clazz = builder.clazz;
+            period = builder.period;
         }
 
         /**
@@ -2146,7 +2187,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public ClassHistory build() {
-                return new ClassHistory(this);
+                ClassHistory classHistory = new ClassHistory(this);
+                if (validating) {
+                    validate(classHistory);
+                }
+                return classHistory;
+            }
+
+            protected void validate(ClassHistory classHistory) {
+                super.validate(classHistory);
+                ValidationSupport.requireNonNull(classHistory.clazz, "class");
+                ValidationSupport.requireNonNull(classHistory.period, "period");
+                ValidationSupport.requireValueOrChildren(classHistory);
             }
 
             protected Builder from(ClassHistory classHistory) {
@@ -2165,7 +2217,7 @@ public class Encounter extends DomainResource {
         @Summary
         @Binding(
             bindingName = "ParticipantType",
-            strength = BindingStrength.ValueSet.EXTENSIBLE,
+            strength = BindingStrength.Value.EXTENSIBLE,
             description = "Role of participant in encounter.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-participant-type"
         )
@@ -2175,15 +2227,11 @@ public class Encounter extends DomainResource {
         @ReferenceTarget({ "Practitioner", "PractitionerRole", "RelatedPerson" })
         private final Reference individual;
 
-        private volatile int hashCode;
-
         private Participant(Builder builder) {
             super(builder);
-            type = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.type, "type"));
+            type = Collections.unmodifiableList(builder.type);
             period = builder.period;
             individual = builder.individual;
-            ValidationSupport.checkReferenceType(individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2477,7 +2525,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Participant build() {
-                return new Participant(this);
+                Participant participant = new Participant(this);
+                if (validating) {
+                    validate(participant);
+                }
+                return participant;
+            }
+
+            protected void validate(Participant participant) {
+                super.validate(participant);
+                ValidationSupport.checkList(participant.type, "type", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(participant.individual, "individual", "Practitioner", "PractitionerRole", "RelatedPerson");
+                ValidationSupport.requireValueOrChildren(participant);
             }
 
             protected Builder from(Participant participant) {
@@ -2500,22 +2559,18 @@ public class Encounter extends DomainResource {
         private final Reference condition;
         @Binding(
             bindingName = "DiagnosisRole",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "The type of diagnosis this condition represents.",
             valueSet = "http://hl7.org/fhir/ValueSet/diagnosis-role"
         )
         private final CodeableConcept use;
         private final PositiveInt rank;
 
-        private volatile int hashCode;
-
         private Diagnosis(Builder builder) {
             super(builder);
-            condition = ValidationSupport.requireNonNull(builder.condition, "condition");
+            condition = builder.condition;
             use = builder.use;
             rank = builder.rank;
-            ValidationSupport.checkReferenceType(condition, "condition", "Condition", "Procedure");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -2797,7 +2852,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Diagnosis build() {
-                return new Diagnosis(this);
+                Diagnosis diagnosis = new Diagnosis(this);
+                if (validating) {
+                    validate(diagnosis);
+                }
+                return diagnosis;
+            }
+
+            protected void validate(Diagnosis diagnosis) {
+                super.validate(diagnosis);
+                ValidationSupport.requireNonNull(diagnosis.condition, "condition");
+                ValidationSupport.checkReferenceType(diagnosis.condition, "condition", "Condition", "Procedure");
+                ValidationSupport.requireValueOrChildren(diagnosis);
             }
 
             protected Builder from(Diagnosis diagnosis) {
@@ -2819,35 +2885,35 @@ public class Encounter extends DomainResource {
         private final Reference origin;
         @Binding(
             bindingName = "AdmitSource",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "From where the patient was admitted.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-admit-source"
         )
         private final CodeableConcept admitSource;
         @Binding(
             bindingName = "ReAdmissionType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "The reason for re-admission of this hospitalization encounter.",
             valueSet = "http://terminology.hl7.org/ValueSet/v2-0092"
         )
         private final CodeableConcept reAdmission;
         @Binding(
             bindingName = "PatientDiet",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Medical, cultural or ethical food preferences to help with catering requirements.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-diet"
         )
         private final List<CodeableConcept> dietPreference;
         @Binding(
             bindingName = "Courtesies",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Special courtesies.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-courtesy"
         )
         private final List<CodeableConcept> specialCourtesy;
         @Binding(
             bindingName = "Arrangements",
-            strength = BindingStrength.ValueSet.PREFERRED,
+            strength = BindingStrength.Value.PREFERRED,
             description = "Special arrangements.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-special-arrangements"
         )
@@ -2856,13 +2922,11 @@ public class Encounter extends DomainResource {
         private final Reference destination;
         @Binding(
             bindingName = "DischargeDisp",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Discharge Disposition.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-discharge-disposition"
         )
         private final CodeableConcept dischargeDisposition;
-
-        private volatile int hashCode;
 
         private Hospitalization(Builder builder) {
             super(builder);
@@ -2870,14 +2934,11 @@ public class Encounter extends DomainResource {
             origin = builder.origin;
             admitSource = builder.admitSource;
             reAdmission = builder.reAdmission;
-            dietPreference = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.dietPreference, "dietPreference"));
-            specialCourtesy = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialCourtesy, "specialCourtesy"));
-            specialArrangement = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.specialArrangement, "specialArrangement"));
+            dietPreference = Collections.unmodifiableList(builder.dietPreference);
+            specialCourtesy = Collections.unmodifiableList(builder.specialCourtesy);
+            specialArrangement = Collections.unmodifiableList(builder.specialArrangement);
             destination = builder.destination;
             dischargeDisposition = builder.dischargeDisposition;
-            ValidationSupport.checkReferenceType(origin, "origin", "Location", "Organization");
-            ValidationSupport.checkReferenceType(destination, "destination", "Location", "Organization");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3392,7 +3453,21 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Hospitalization build() {
-                return new Hospitalization(this);
+                Hospitalization hospitalization = new Hospitalization(this);
+                if (validating) {
+                    validate(hospitalization);
+                }
+                return hospitalization;
+            }
+
+            protected void validate(Hospitalization hospitalization) {
+                super.validate(hospitalization);
+                ValidationSupport.checkList(hospitalization.dietPreference, "dietPreference", CodeableConcept.class);
+                ValidationSupport.checkList(hospitalization.specialCourtesy, "specialCourtesy", CodeableConcept.class);
+                ValidationSupport.checkList(hospitalization.specialArrangement, "specialArrangement", CodeableConcept.class);
+                ValidationSupport.checkReferenceType(hospitalization.origin, "origin", "Location", "Organization");
+                ValidationSupport.checkReferenceType(hospitalization.destination, "destination", "Location", "Organization");
+                ValidationSupport.requireValueOrChildren(hospitalization);
             }
 
             protected Builder from(Hospitalization hospitalization) {
@@ -3420,30 +3495,26 @@ public class Encounter extends DomainResource {
         private final Reference location;
         @Binding(
             bindingName = "EncounterLocationStatus",
-            strength = BindingStrength.ValueSet.REQUIRED,
+            strength = BindingStrength.Value.REQUIRED,
             description = "The status of the location.",
             valueSet = "http://hl7.org/fhir/ValueSet/encounter-location-status|4.0.1"
         )
         private final EncounterLocationStatus status;
         @Binding(
             bindingName = "PhysicalType",
-            strength = BindingStrength.ValueSet.EXAMPLE,
+            strength = BindingStrength.Value.EXAMPLE,
             description = "Physical form of the location.",
             valueSet = "http://hl7.org/fhir/ValueSet/location-physical-type"
         )
         private final CodeableConcept physicalType;
         private final Period period;
 
-        private volatile int hashCode;
-
         private Location(Builder builder) {
             super(builder);
-            location = ValidationSupport.requireNonNull(builder.location, "location");
+            location = builder.location;
             status = builder.status;
             physicalType = builder.physicalType;
             period = builder.period;
-            ValidationSupport.checkReferenceType(location, "location", "Location");
-            ValidationSupport.requireValueOrChildren(this);
         }
 
         /**
@@ -3753,7 +3824,18 @@ public class Encounter extends DomainResource {
              */
             @Override
             public Location build() {
-                return new Location(this);
+                Location location = new Location(this);
+                if (validating) {
+                    validate(location);
+                }
+                return location;
+            }
+
+            protected void validate(Location location) {
+                super.validate(location);
+                ValidationSupport.requireNonNull(location.location, "location");
+                ValidationSupport.checkReferenceType(location.location, "location", "Location");
+                ValidationSupport.requireValueOrChildren(location);
             }
 
             protected Builder from(Location location) {

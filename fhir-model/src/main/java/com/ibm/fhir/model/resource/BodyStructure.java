@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2019, 2020
+ * (C) Copyright IBM Corp. 2019, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -15,6 +15,7 @@ import java.util.Objects;
 import javax.annotation.Generated;
 
 import com.ibm.fhir.model.annotation.Binding;
+import com.ibm.fhir.model.annotation.Maturity;
 import com.ibm.fhir.model.annotation.ReferenceTarget;
 import com.ibm.fhir.model.annotation.Required;
 import com.ibm.fhir.model.annotation.Summary;
@@ -30,13 +31,20 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BindingStrength;
+import com.ibm.fhir.model.type.code.StandardsStatus;
 import com.ibm.fhir.model.util.ValidationSupport;
 import com.ibm.fhir.model.visitor.Visitor;
 
 /**
  * Record details about an anatomical structure. This resource may be used when a coded concept does not provide the 
  * necessary detail needed for the use case.
+ * 
+ * <p>Maturity level: FMM1 (Trial Use)
  */
+@Maturity(
+    level = 1,
+    status = StandardsStatus.Value.TRIAL_USE
+)
 @Generated("com.ibm.fhir.tools.CodeGenerator")
 public class BodyStructure extends DomainResource {
     @Summary
@@ -46,7 +54,7 @@ public class BodyStructure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodyStructureCode",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomic morphology.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-code"
     )
@@ -54,14 +62,14 @@ public class BodyStructure extends DomainResource {
     @Summary
     @Binding(
         bindingName = "BodySite",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Codes describing anatomical locations. May include laterality.",
         valueSet = "http://hl7.org/fhir/ValueSet/body-site"
     )
     private final CodeableConcept location;
     @Binding(
         bindingName = "BodyStructureQualifier",
-        strength = BindingStrength.ValueSet.EXAMPLE,
+        strength = BindingStrength.Value.EXAMPLE,
         description = "Concepts modifying the anatomic location.",
         valueSet = "http://hl7.org/fhir/ValueSet/bodystructure-relative-location"
     )
@@ -74,20 +82,16 @@ public class BodyStructure extends DomainResource {
     @Required
     private final Reference patient;
 
-    private volatile int hashCode;
-
     private BodyStructure(Builder builder) {
         super(builder);
-        identifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.identifier, "identifier"));
+        identifier = Collections.unmodifiableList(builder.identifier);
         active = builder.active;
         morphology = builder.morphology;
         location = builder.location;
-        locationQualifier = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.locationQualifier, "locationQualifier"));
+        locationQualifier = Collections.unmodifiableList(builder.locationQualifier);
         description = builder.description;
-        image = Collections.unmodifiableList(ValidationSupport.requireNonNull(builder.image, "image"));
-        patient = ValidationSupport.requireNonNull(builder.patient, "patient");
-        ValidationSupport.checkReferenceType(patient, "patient", "Patient");
-        ValidationSupport.requireChildren(this);
+        image = Collections.unmodifiableList(builder.image);
+        patient = builder.patient;
     }
 
     /**
@@ -684,7 +688,20 @@ public class BodyStructure extends DomainResource {
          */
         @Override
         public BodyStructure build() {
-            return new BodyStructure(this);
+            BodyStructure bodyStructure = new BodyStructure(this);
+            if (validating) {
+                validate(bodyStructure);
+            }
+            return bodyStructure;
+        }
+
+        protected void validate(BodyStructure bodyStructure) {
+            super.validate(bodyStructure);
+            ValidationSupport.checkList(bodyStructure.identifier, "identifier", Identifier.class);
+            ValidationSupport.checkList(bodyStructure.locationQualifier, "locationQualifier", CodeableConcept.class);
+            ValidationSupport.checkList(bodyStructure.image, "image", Attachment.class);
+            ValidationSupport.requireNonNull(bodyStructure.patient, "patient");
+            ValidationSupport.checkReferenceType(bodyStructure.patient, "patient", "Patient");
         }
 
         protected Builder from(BodyStructure bodyStructure) {
