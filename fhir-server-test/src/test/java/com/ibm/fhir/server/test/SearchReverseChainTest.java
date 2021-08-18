@@ -113,7 +113,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         response = target.path("Endpoint/" + endpointId).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
         assertResponse(response, Response.Status.OK.getStatusCode());
         endpoint = response.readEntity(Endpoint.class);
-        assertEquals("2", endpoint.getMeta().getVersionId().getValue());
+        assertEquals(endpoint.getMeta().getVersionId().getValue(), "2");
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEndpoint"})
@@ -754,7 +754,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -776,8 +776,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -793,7 +793,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -815,8 +815,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -832,7 +832,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -854,7 +854,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -870,7 +870,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -892,8 +892,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -909,7 +909,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -931,7 +931,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 1);
         assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
     }
 
@@ -948,7 +948,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 1);
         assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
     }
 
@@ -965,8 +965,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -983,8 +983,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -999,8 +999,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1015,8 +1015,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1031,8 +1031,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1047,8 +1047,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -1063,8 +1063,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -1079,8 +1079,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -1095,8 +1095,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateEncounter1", "testCreateEncounter2"})
@@ -1111,8 +1111,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient2Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient2Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = { "testCreateLocation" })
@@ -1127,8 +1127,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(endpointId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), endpointId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1144,7 +1144,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -1166,7 +1166,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(2, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 2);
         List<String> resourceIds = new ArrayList<>();
         for (Bundle.Entry entry : bundle.getEntry()) {
             resourceIds.add(entry.getResource().getId());
@@ -1188,8 +1188,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(organization1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateLocation"})
@@ -1205,8 +1205,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(endpointId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), endpointId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePractitionerRole"})
@@ -1222,7 +1222,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1238,7 +1238,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1254,8 +1254,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
         assertTrue(bundle.getLink().size() == 1);
         assertTrue(bundle.getLink().get(0).getUrl().getValue().contains("status:missing=false"));
     }
@@ -1273,7 +1273,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateProcedure1", "testCreateProcedure2"})
@@ -1289,8 +1289,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(patient1Id, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), patient1Id);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasure"})
@@ -1306,8 +1306,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(libraryId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateCarePlan"})
@@ -1323,8 +1323,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(measureId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), measureId);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateMeasureReport"})
@@ -1340,7 +1340,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(0, bundle.getEntry().size());
+        assertEquals(bundle.getEntry().size(), 0);
     }
 
     @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreateCarePlan"})
@@ -1356,8 +1356,8 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Bundle bundle = response.readEntity(Bundle.class);
 
         assertNotNull(bundle);
-        assertEquals(1, bundle.getEntry().size());
-        assertEquals(libraryId, bundle.getEntry().get(0).getResource().getId());
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
     }
 
 }
