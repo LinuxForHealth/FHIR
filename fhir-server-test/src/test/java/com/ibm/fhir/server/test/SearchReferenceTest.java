@@ -18,7 +18,6 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Measure;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -30,7 +29,6 @@ import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 public class SearchReferenceTest extends FHIRServerTestBase {
 
@@ -517,7 +515,7 @@ public class SearchReferenceTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Measure and then call the 'create' API.
-        Measure measure = TestUtil.getMinimalResource(ResourceType.MEASURE, Format.JSON);
+        Measure measure = TestUtil.getMinimalResource(Measure.class);
 
         measure = measure.toBuilder()
                 .url(url == null ? null : Uri.of(url))

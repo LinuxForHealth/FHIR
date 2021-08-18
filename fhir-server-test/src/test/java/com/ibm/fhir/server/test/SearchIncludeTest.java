@@ -338,7 +338,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Library and then call the 'create' API.
-        Library library = TestUtil.getMinimalResource(ResourceType.LIBRARY, Format.JSON);
+        Library library = TestUtil.getMinimalResource(Library.class);
         library = library.toBuilder()
                 .url(Uri.of("http://example.org/fhir/Library/" + tag))
                 .version(com.ibm.fhir.model.type.String.string("1.0"))
@@ -366,7 +366,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Measure and then call the 'create' API.
-        Measure measure = TestUtil.getMinimalResource(ResourceType.MEASURE, Format.JSON);
+        Measure measure = TestUtil.getMinimalResource(Measure.class);
         measure = measure.toBuilder()
                 .url(Uri.of("http://example.org/fhir/Measure/" + tag))
                 .version(com.ibm.fhir.model.type.String.string("1.0"))
@@ -395,7 +395,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new CarePlan and then call the 'create' API.
-        CarePlan carePlan = TestUtil.getMinimalResource(ResourceType.CARE_PLAN, Format.JSON);
+        CarePlan carePlan = TestUtil.getMinimalResource(CarePlan.class);
         carePlan = carePlan.toBuilder()
                 .instantiatesCanonical(Canonical.of("http://example.org/fhir/Measure/" + tag))
                 .instantiatesUri(Uri.of(tag))
@@ -422,7 +422,7 @@ public class SearchIncludeTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new MeasureReport and then call the 'create' API.
-        MeasureReport measureReport = TestUtil.getMinimalResource(ResourceType.MEASURE_REPORT, Format.JSON);
+        MeasureReport measureReport = TestUtil.getMinimalResource(MeasureReport.class);
         measureReport = measureReport.toBuilder()
                 .measure(Canonical.of("http://example.org/fhir/Measure/" + tag + "|2.0"))
                 .subject(Reference.builder().reference(of("Patient/" + tag)).build())
