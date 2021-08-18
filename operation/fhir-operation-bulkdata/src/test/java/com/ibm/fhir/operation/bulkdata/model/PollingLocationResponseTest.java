@@ -5,6 +5,7 @@
  */
 package com.ibm.fhir.operation.bulkdata.model;
 
+import static com.ibm.fhir.model.type.String.string;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
@@ -19,10 +20,17 @@ import java.util.Map;
 
 import org.testng.annotations.Test;
 
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
+import com.ibm.fhir.model.resource.OperationOutcome;
+import com.ibm.fhir.model.resource.OperationOutcome.Issue;
+import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.code.IssueSeverity;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.model.PollingLocationResponse.Output;
 
 import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 
@@ -30,6 +38,16 @@ import jakarta.json.stream.JsonGeneratorFactory;
  * Simple Test for the Rough Response defined in the BulkData Export
  */
 public class PollingLocationResponseTest {
+    public static final OperationOutcome TEST_OK = OperationOutcome.builder()
+            .issue(Issue.builder()
+                .severity(IssueSeverity.INFORMATION)
+                .code(IssueType.INFORMATIONAL)
+                .details(CodeableConcept.builder()
+                    .text(string("Test OK"))
+                    .build())
+                .build())
+            .build();
+
     private static final Map<java.lang.String, Object> properties =
             Collections.singletonMap(JsonGenerator.PRETTY_PRINTING, true);
     private static final JsonGeneratorFactory PRETTY_PRINTING_GENERATOR_FACTORY =
@@ -135,6 +153,66 @@ public class PollingLocationResponseTest {
     }
 
     @Test
+    public void testResponseMetadataJsonFullWithExtension() throws IOException {
+        PollingLocationResponse metadata = new PollingLocationResponse();
+        metadata.setRequest("request");
+        metadata.setRequiresAccessToken(Boolean.FALSE);
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
+
+        JsonObject extension = Json.createObjectBuilder().add("test", false).build();
+        metadata.setExtension(extension);
+
+        assertEquals(
+                PollingLocationResponse.Writer.generate(metadata)
+                        .replaceFirst(s, ""),
+                "{\n"
+                + "    \"transactionTime\": \"\",\n"
+                + "    \"request\": \"request\",\n"
+                + "    \"requiresAccessToken\": false,\n"
+                + "    \"extension\": {\n"
+                + "        \"test\": false\n"
+                + "    }\n"
+                + "}");
+    }
+
+    @Test
+    public void testResponseMetadataJsonFullWithExtensionAndOperationOutcome() throws IOException, FHIRGeneratorException {
+        PollingLocationResponse metadata = new PollingLocationResponse();
+        metadata.setRequest("request");
+        metadata.setRequiresAccessToken(Boolean.FALSE);
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
+
+        metadata.addOperationOutcomeToExtension(TEST_OK);
+
+        assertEquals(
+                PollingLocationResponse.Writer.generate(metadata)
+                        .replaceFirst(s, ""),
+                "{\n"
+                + "    \"transactionTime\": \"\",\n"
+                + "    \"request\": \"request\",\n"
+                + "    \"requiresAccessToken\": false,\n"
+                + "    \"extension\": {\n"
+                + "        \"outcome\": {\n"
+                + "            \"resourceType\": \"OperationOutcome\",\n"
+                + "            \"issue\": [\n"
+                + "                {\n"
+                + "                    \"severity\": \"information\",\n"
+                + "                    \"code\": \"informational\",\n"
+                + "                    \"details\": {\n"
+                + "                        \"text\": \"Test OK\"\n"
+                + "                    }\n"
+                + "                }\n"
+                + "            ]\n"
+                + "        }\n"
+                + "    }\n"
+                + "}");
+    }
+
+    @Test
     public void testResponseMetadataJsonFullWithOutput() throws IOException {
         Output output = new Output("type1", "url1", "1000");
         assertEquals(output.getType(), "type1");
@@ -168,6 +246,32 @@ public class PollingLocationResponseTest {
                         + "            \"url\": \"url\",\n" + "            \"count\": 1000\n" + "        },\n"
                         + "        {\n" + "            \"type\": \"type2\",\n" + "            \"url\": \"url2\",\n"
                         + "            \"count\": 2000\n" + "        }\n" + "    ]\n" + "}");
+    }
+
+    @Test
+    public void testResponseMetadataJsonFullWithEmptyOutput() throws IOException {
+        List<Output> outputs = new ArrayList<>();
+
+        PollingLocationResponse metadata = new PollingLocationResponse();
+
+        metadata.setRequest("request");
+        metadata.setRequiresAccessToken(Boolean.FALSE);
+        Instant now = Instant.now(ZoneOffset.UTC);
+        String s = now.getValue().format(Instant.PARSER_FORMATTER).toString();
+        metadata.setTransactionTime(s);
+        assertNotNull(metadata.getTransactionTime());
+
+        metadata.setOutput(outputs);
+        assertEquals(
+                PollingLocationResponse.Writer.generate(metadata)
+                        .replaceFirst(s, ""),
+                "{\n"
+                + "    \"transactionTime\": \"\",\n"
+                + "    \"request\": \"request\",\n"
+                + "    \"requiresAccessToken\": false,\n"
+                + "    \"output\": [\n"
+                + "    ]\n"
+                + "}");
     }
 
     @Test

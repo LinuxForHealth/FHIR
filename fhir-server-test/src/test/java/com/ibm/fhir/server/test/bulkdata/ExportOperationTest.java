@@ -991,4 +991,49 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
         }
     }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testBaseExportWithNoResults() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("2123-01-01T08:21:26.94-04:00"), // Date far in the future...
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            do {
+                response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 mean export is finished
+                assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+            String body = response.readEntity(String.class);
+
+            JsonObject jsonObject = JSON_READER_FACTORY.createReader(new StringReader(body)).readObject();
+            assertTrue(jsonObject.containsKey("output"));
+
+            JsonArray arr = jsonObject.getJsonArray("output");
+            assertTrue(arr.isEmpty());
+
+            JsonObject obj = jsonObject.getJsonObject("extension");
+            assertTrue(obj.containsKey("outcome"));
+        }
+    }
 }

@@ -8,10 +8,12 @@ package com.ibm.fhir.persistence.jdbc.dao.api;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceProfileRec;
 import com.ibm.fhir.persistence.jdbc.dao.impl.ResourceTokenValueRec;
+import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValue;
 import com.ibm.fhir.persistence.jdbc.dto.CommonTokenValueResult;
 
 /**
@@ -60,6 +62,14 @@ public interface IResourceReferenceDAO {
      * @return the matching id from common_token_values.common_token_value_id or null if not found
      */
     CommonTokenValueResult readCommonTokenValueId(String codeSystem, String tokenValue);
+
+    /**
+     * Find database ids for a set of common token values
+     * @param tokenValues
+     * @return a non-null, possibly-empty set of ids from common_token_values.common_token_value_id;
+     *      CommonTokenValues with no corresponding record will be omitted from the set
+     */
+    Set<CommonTokenValueResult> readCommonTokenValueIds(Collection<CommonTokenValue> tokenValues);
 
     /**
      * Fetch the list of matching common_token_value_id records for the given tokenValue.

@@ -25,7 +25,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.model.config.FHIRModelConfig;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Encounter;
 import com.ibm.fhir.model.resource.Observation;
@@ -39,7 +38,6 @@ import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.HumanName;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.ObservationStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  *  This class tests the persistence layer support for the FHIR _has search parameter.
@@ -72,11 +70,11 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     public void createResources() throws Exception {
         checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         FHIRModelConfig.setCheckReferenceTypes(false);
-        Organization org = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
-        Observation observation = TestUtil.getMinimalResource(ResourceType.OBSERVATION, Format.JSON);
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
-        Device device = TestUtil.getMinimalResource(ResourceType.DEVICE, Format.JSON);
+        Organization org = TestUtil.getMinimalResource(Organization.class);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
+        Observation observation = TestUtil.getMinimalResource(Observation.class);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
+        Device device = TestUtil.getMinimalResource(Device.class);
 
         // Organizations that will be referenced by a Patient
         savedOrg1 = org.toBuilder().active(com.ibm.fhir.model.type.Boolean.of(true)).build();

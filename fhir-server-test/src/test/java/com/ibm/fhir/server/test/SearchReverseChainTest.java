@@ -23,7 +23,6 @@ import javax.ws.rs.core.Response;
 import org.testng.annotations.Test;
 
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.CarePlan;
 import com.ibm.fhir.model.resource.Encounter;
@@ -56,7 +55,6 @@ import com.ibm.fhir.model.type.code.AdministrativeGender;
 import com.ibm.fhir.model.type.code.ContactPointSystem;
 import com.ibm.fhir.model.type.code.EncounterStatus;
 import com.ibm.fhir.model.type.code.ProcedureStatus;
-import com.ibm.fhir.model.type.code.ResourceType;
 
 /**
  * The tests execute the reverse chained behavior in order to exercise reference chains.
@@ -85,7 +83,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
        // Build a new Endpoint.
-        Endpoint endpoint = TestUtil.getMinimalResource(ResourceType.ENDPOINT, Format.JSON);
+        Endpoint endpoint = TestUtil.getMinimalResource(Endpoint.class);
         endpoint = endpoint.toBuilder().name(of(tag)).build();
 
         // Call the 'create' API.
@@ -121,7 +119,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Organization.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
         organization = organization.toBuilder()
                 .name(of(tag))
                 .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId)).build())
@@ -148,7 +146,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
        // Build a new Organization.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
         organization = organization.toBuilder()
                 .name(of(tag))
                 .endpoint(Reference.builder().reference(of("Endpoint/" + endpointId)).build())
@@ -175,7 +173,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.MALE)
                 .name(HumanName.builder()
@@ -212,7 +210,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Patient and then call the 'create' API.
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT, Format.JSON);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .gender(AdministrativeGender.FEMALE)
                 .name(HumanName.builder()
@@ -249,7 +247,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(Reference.builder().reference(of("Patient/" + patient1Id)).build())
@@ -282,7 +280,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         Reference reference = Reference.builder().reference(of("Patient/" + patient2Id)).build();
 
         // Build a new Procedure and add subject reference to patient.
-        Procedure procedure = TestUtil.getMinimalResource(ResourceType.PROCEDURE, Format.JSON);
+        Procedure procedure = TestUtil.getMinimalResource(Procedure.class);
         procedure = procedure.toBuilder()
                 .status(ProcedureStatus.COMPLETED)
                 .subject(reference)
@@ -313,7 +311,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Encounter and add reason-reference reference to procedure.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder()
                 .status(EncounterStatus.FINISHED)
                 .reasonReference(Reference.builder().reference(of("Procedure/" + procedure1Id)).build())
@@ -344,7 +342,7 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Encounter and add reason-reference reference to procedure.
-        Encounter encounter = TestUtil.getMinimalResource(ResourceType.ENCOUNTER, Format.JSON);
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         encounter = encounter.toBuilder()
                 .status(EncounterStatus.FINISHED)
                 .reasonReference(Reference.builder().reference(of("Procedure/" + procedure2Id)).build())
