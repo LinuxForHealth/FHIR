@@ -30,8 +30,7 @@ public interface FHIRParser {
      * @param <T> The resource type to read
      * @param in
      * @return
-     * @throws FHIRParserException
-     * @throws ClassCastException If the InputStream contains a FHIR resource type that cannot be cast to the requested type
+     * @throws FHIRParserException if the resource could not be parsed for any reason
      */
     <T extends Resource> T parse(InputStream in) throws FHIRParserException;
 
@@ -41,8 +40,7 @@ public interface FHIRParser {
      * @param <T> The resource type to read
      * @param reader
      * @return
-     * @throws FHIRParserException
-     * @throws ClassCastException If the InputStream contains a FHIR resource type that cannot be cast to the requested type
+     * @throws FHIRParserException if the resource could not be parsed for any reason
      */
     <T extends Resource> T parse(Reader reader) throws FHIRParserException;
 
