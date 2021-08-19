@@ -1071,6 +1071,21 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the plan definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the plan definition when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the plan definition author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -1091,6 +1106,21 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this plan definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the plan definition. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -1106,6 +1136,21 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this plan definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive, user-friendly title for the plan definition.
          * 
          * @param title
@@ -1116,6 +1161,21 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate title of the plan definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
             return this;
         }
 
@@ -1161,6 +1221,21 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1217,6 +1292,21 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1369,6 +1459,21 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting usage.
+         * @see #usage(String)
+         * 
+         * @param usage
+         *     Describes the clinical usage of the plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = usage == null ? null : String.of(usage);
+            return this;
+        }
+
+        /**
          * A detailed description of how the plan definition is used from a clinical perspective.
          * 
          * @param usage
@@ -1398,6 +1503,21 @@ public class PlanDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the plan definition was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1409,6 +1529,21 @@ public class PlanDefinition extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the plan definition was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -3381,6 +3516,21 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting prefix.
+             * @see #prefix(String)
+             * 
+             * @param prefix
+             *     User-visible prefix for the action (e.g. 1. or A.)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder prefix(java.lang.String prefix) {
+                this.prefix = prefix == null ? null : String.of(prefix);
+                return this;
+            }
+
+            /**
              * A user-visible prefix for the action.
              * 
              * @param prefix
@@ -3391,6 +3541,21 @@ public class PlanDefinition extends DomainResource {
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting title.
+             * @see #title(String)
+             * 
+             * @param title
+             *     User-visible title
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder title(java.lang.String title) {
+                this.title = title == null ? null : String.of(title);
                 return this;
             }
 
@@ -3409,6 +3574,21 @@ public class PlanDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Brief description of the action
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A brief description of the action used to provide a summary to display to the user.
              * 
              * @param description
@@ -3419,6 +3599,21 @@ public class PlanDefinition extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting textEquivalent.
+             * @see #textEquivalent(String)
+             * 
+             * @param textEquivalent
+             *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder textEquivalent(java.lang.String textEquivalent) {
+                this.textEquivalent = textEquivalent == null ? null : String.of(textEquivalent);
                 return this;
             }
 
@@ -5223,6 +5418,21 @@ public class PlanDefinition extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting path.
+                 * @see #path(String)
+                 * 
+                 * @param path
+                 *     The path to the element to be set dynamically
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder path(java.lang.String path) {
+                    this.path = path == null ? null : String.of(path);
+                    return this;
                 }
 
                 /**

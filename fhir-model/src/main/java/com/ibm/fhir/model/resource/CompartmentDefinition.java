@@ -639,6 +639,21 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the compartment definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the compartment definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the compartment definition author and 
          * is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is 
@@ -652,6 +667,23 @@ public class CompartmentDefinition extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this compartment definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
             return this;
         }
 
@@ -689,6 +721,21 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this compartment definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -716,6 +763,21 @@ public class CompartmentDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -846,6 +908,23 @@ public class CompartmentDefinition extends DomainResource {
          */
         public Builder code(CompartmentType code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting search.
+         * @see #search(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param search
+         *     Whether the search syntax is supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder search(java.lang.Boolean search) {
+            this.search = search == null ? null : Boolean.of(search);
             return this;
         }
 
@@ -1209,6 +1288,25 @@ public class CompartmentDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting param.
+             * @see #param(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param param
+             *     Search Parameter Name, or chained parameters
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder param(java.lang.String... param) {
+                for (java.lang.String value : param) {
+                    this.param.add(value == null ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * The name of a search parameter that represents the link to the compartment. More than one may be listed because a 
              * resource may be linked to a compartment in more than one way,.
              * 
@@ -1241,6 +1339,21 @@ public class CompartmentDefinition extends DomainResource {
              */
             public Builder param(Collection<String> param) {
                 this.param = new ArrayList<>(param);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting documentation.
+             * @see #documentation(String)
+             * 
+             * @param documentation
+             *     Additional documentation about the resource and compartment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = documentation == null ? null : String.of(documentation);
                 return this;
             }
 

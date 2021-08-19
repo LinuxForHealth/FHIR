@@ -854,6 +854,21 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting disposition.
+         * @see #disposition(String)
+         * 
+         * @param disposition
+         *     Disposition Message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = disposition == null ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A human readable description of the status of the adjudication.
          * 
          * @param disposition
@@ -919,6 +934,21 @@ public class CoverageEligibilityResponse extends DomainResource {
          */
         public Builder insurance(Collection<Insurance> insurance) {
             this.insurance = new ArrayList<>(insurance);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting preAuthRef.
+         * @see #preAuthRef(String)
+         * 
+         * @param preAuthRef
+         *     Preauthorization reference
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder preAuthRef(java.lang.String preAuthRef) {
+            this.preAuthRef = preAuthRef == null ? null : String.of(preAuthRef);
             return this;
         }
 
@@ -1319,6 +1349,21 @@ public class CoverageEligibilityResponse extends DomainResource {
              */
             public Builder coverage(Reference coverage) {
                 this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting inforce.
+             * @see #inforce(Boolean)
+             * 
+             * @param inforce
+             *     Coverage inforce indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder inforce(java.lang.Boolean inforce) {
+                this.inforce = inforce == null ? null : Boolean.of(inforce);
                 return this;
             }
 
@@ -1964,6 +2009,21 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting excluded.
+                 * @see #excluded(Boolean)
+                 * 
+                 * @param excluded
+                 *     Excluded from the plan
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder excluded(java.lang.Boolean excluded) {
+                    this.excluded = excluded == null ? null : Boolean.of(excluded);
+                    return this;
+                }
+
+                /**
                  * True if the indicated class of service is excluded from the plan, missing or False indicates the product or service is 
                  * included in the coverage.
                  * 
@@ -1979,6 +2039,21 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting name.
+                 * @see #name(String)
+                 * 
+                 * @param name
+                 *     Short name for the benefit
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = name == null ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * A short name or tag for the benefit.
                  * 
                  * @param name
@@ -1989,6 +2064,21 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Description of the benefit or services covered
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
                     return this;
                 }
 
@@ -2079,6 +2169,21 @@ public class CoverageEligibilityResponse extends DomainResource {
                  */
                 public Builder benefit(Collection<Benefit> benefit) {
                     this.benefit = new ArrayList<>(benefit);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting authorizationRequired.
+                 * @see #authorizationRequired(Boolean)
+                 * 
+                 * @param authorizationRequired
+                 *     Authorization required flag
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder authorizationRequired(java.lang.Boolean authorizationRequired) {
+                    this.authorizationRequired = authorizationRequired == null ? null : Boolean.of(authorizationRequired);
                     return this;
                 }
 

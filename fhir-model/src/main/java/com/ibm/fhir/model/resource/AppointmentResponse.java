@@ -563,6 +563,21 @@ public class AppointmentResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting start.
+         * @see #start(Instant)
+         * 
+         * @param start
+         *     Time from appointment, or requested new start time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder start(java.time.ZonedDateTime start) {
+            this.start = start == null ? null : Instant.of(start);
+            return this;
+        }
+
+        /**
          * Date/Time that the appointment is to take place, or requested new start time.
          * 
          * @param start
@@ -573,6 +588,21 @@ public class AppointmentResponse extends DomainResource {
          */
         public Builder start(Instant start) {
             this.start = start;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting end.
+         * @see #end(Instant)
+         * 
+         * @param end
+         *     Time from appointment, or requested new end time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = end == null ? null : Instant.of(end);
             return this;
         }
 
@@ -665,6 +695,21 @@ public class AppointmentResponse extends DomainResource {
          */
         public Builder participantStatus(ParticipantStatus participantStatus) {
             this.participantStatus = participantStatus;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Additional comments
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
             return this;
         }
 

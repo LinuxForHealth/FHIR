@@ -227,7 +227,7 @@ public class FHIRPathPatchBuilderTest {
     private Patient deleteViaBuilder(Patient patient) {
         return patient.toBuilder()
                 .identifier(Collections.emptySet())
-                .active(null)
+                .active((Boolean)null)
                 .build();
     }
 

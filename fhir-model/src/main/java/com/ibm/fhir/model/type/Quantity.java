@@ -279,6 +279,21 @@ public class Quantity extends Element {
         }
 
         /**
+         * Convenience method for setting unit.
+         * @see #unit(String)
+         * 
+         * @param unit
+         *     Unit representation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder unit(java.lang.String unit) {
+            this.unit = unit == null ? null : String.of(unit);
+            return this;
+        }
+
+        /**
          * A human-readable form of the unit.
          * 
          * @param unit

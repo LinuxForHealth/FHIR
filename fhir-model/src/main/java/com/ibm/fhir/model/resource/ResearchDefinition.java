@@ -1070,6 +1070,21 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the research definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the research definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the research definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -1090,6 +1105,21 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this research definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the research definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1101,6 +1131,21 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this research definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1119,6 +1164,21 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting shortTitle.
+         * @see #shortTitle(String)
+         * 
+         * @param shortTitle
+         *     Title for use in informal contexts
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder shortTitle(java.lang.String shortTitle) {
+            this.shortTitle = shortTitle == null ? null : String.of(shortTitle);
+            return this;
+        }
+
+        /**
          * The short title provides an alternate title for use in informal descriptive contexts where the full, formal title is 
          * not necessary.
          * 
@@ -1130,6 +1190,21 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder shortTitle(String shortTitle) {
             this.shortTitle = shortTitle;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate title of the ResearchDefinition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
             return this;
         }
 
@@ -1160,6 +1235,21 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1217,6 +1307,21 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1279,6 +1384,25 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder description(Markdown description) {
             this.description = description;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param comment
+         *     Used for footnotes or explanatory notes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String... comment) {
+            for (java.lang.String value : comment) {
+                this.comment.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -1403,6 +1527,21 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting usage.
+         * @see #usage(String)
+         * 
+         * @param usage
+         *     Describes the clinical usage of the ResearchDefinition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = usage == null ? null : String.of(usage);
+            return this;
+        }
+
+        /**
          * A detailed description, from a clinical perspective, of how the ResearchDefinition is used.
          * 
          * @param usage
@@ -1432,6 +1571,21 @@ public class ResearchDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the research definition was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1443,6 +1597,21 @@ public class ResearchDefinition extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the research definition was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 

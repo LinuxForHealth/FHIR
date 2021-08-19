@@ -526,6 +526,21 @@ public class BodyStructure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this body site is in active use.
          * 
          * @param active
@@ -601,6 +616,21 @@ public class BodyStructure extends DomainResource {
          */
         public Builder locationQualifier(Collection<CodeableConcept> locationQualifier) {
             this.locationQualifier = new ArrayList<>(locationQualifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Text description
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
             return this;
         }
 

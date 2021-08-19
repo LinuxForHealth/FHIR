@@ -585,6 +585,21 @@ public class Substance extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Textual description of the substance, comments
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * A description of the substance - its appearance, handling requirements, and other usage notes.
          * 
          * @param description

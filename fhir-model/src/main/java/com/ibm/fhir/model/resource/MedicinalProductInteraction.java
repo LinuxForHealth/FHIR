@@ -500,6 +500,21 @@ public class MedicinalProductInteraction extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     The interaction described
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * The interaction described.
          * 
          * @param description

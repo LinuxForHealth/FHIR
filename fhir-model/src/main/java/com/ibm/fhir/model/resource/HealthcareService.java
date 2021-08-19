@@ -864,6 +864,21 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this HealthcareService record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * This flag is used to mark the record to not be used. This is not used when a center is closed for maintenance, or for 
          * holidays, the notAvailable period is to be used for this.
          * 
@@ -1044,6 +1059,21 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Description of service as presented to a consumer while searching
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * Further description of the service as it would be presented to a consumer while searching.
          * 
          * @param name
@@ -1054,6 +1084,21 @@ public class HealthcareService extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Additional description and/or any specific issues not covered elsewhere
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
             return this;
         }
 
@@ -1388,6 +1433,21 @@ public class HealthcareService extends DomainResource {
         }
 
         /**
+         * Convenience method for setting appointmentRequired.
+         * @see #appointmentRequired(Boolean)
+         * 
+         * @param appointmentRequired
+         *     If an appointment is required for access to this service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder appointmentRequired(java.lang.Boolean appointmentRequired) {
+            this.appointmentRequired = appointmentRequired == null ? null : Boolean.of(appointmentRequired);
+            return this;
+        }
+
+        /**
          * Indicates whether or not a prospective consumer will require an appointment for a particular service at a site to be 
          * provided by the Organization. Indicates if an appointment is required for access to this service.
          * 
@@ -1467,6 +1527,21 @@ public class HealthcareService extends DomainResource {
          */
         public Builder notAvailable(Collection<NotAvailable> notAvailable) {
             this.notAvailable = new ArrayList<>(notAvailable);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting availabilityExceptions.
+         * @see #availabilityExceptions(String)
+         * 
+         * @param availabilityExceptions
+         *     Description of availability exceptions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
+            this.availabilityExceptions = availabilityExceptions == null ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -2158,6 +2233,21 @@ public class HealthcareService extends DomainResource {
             }
 
             /**
+             * Convenience method for setting allDay.
+             * @see #allDay(Boolean)
+             * 
+             * @param allDay
+             *     Always available? e.g. 24 hour service
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder allDay(java.lang.Boolean allDay) {
+                this.allDay = allDay == null ? null : Boolean.of(allDay);
+                return this;
+            }
+
+            /**
              * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
              * 
              * @param allDay
@@ -2440,6 +2530,23 @@ public class HealthcareService extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Reason presented to the user explaining why time not available
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**

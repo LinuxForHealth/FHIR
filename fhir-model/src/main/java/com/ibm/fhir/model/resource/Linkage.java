@@ -392,6 +392,21 @@ public class Linkage extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this linkage assertion is active or not
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Indicates whether the asserted set of linkages are considered to be "in effect".
          * 
          * @param active

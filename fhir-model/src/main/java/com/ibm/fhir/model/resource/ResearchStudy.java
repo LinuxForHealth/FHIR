@@ -891,6 +891,21 @@ public class ResearchStudy extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this study
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive user-friendly label for the study.
          * 
          * @param title
@@ -1868,6 +1883,23 @@ public class ResearchStudy extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     Label for study arm
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Unique, human-readable label for this arm of the study.
              * 
              * <p>This element is required.
@@ -1894,6 +1926,21 @@ public class ResearchStudy extends DomainResource {
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Short explanation of study path
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 
@@ -2162,6 +2209,21 @@ public class ResearchStudy extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Label for the objective
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
             }
 
             /**

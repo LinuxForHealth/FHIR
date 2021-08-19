@@ -1070,6 +1070,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the risk evidence synthesis
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the risk evidence synthesis when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the risk evidence synthesis author and 
          * is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is 
@@ -1087,6 +1102,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this risk evidence synthesis (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the risk evidence synthesis. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1098,6 +1128,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this risk evidence synthesis (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1144,6 +1189,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1331,6 +1391,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the risk evidence synthesis was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1342,6 +1417,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the risk evidence synthesis was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -2040,6 +2130,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of sample size
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Human-readable summary of sample size.
              * 
              * @param description
@@ -2054,6 +2159,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting numberOfStudies.
+             * @see #numberOfStudies(Integer)
+             * 
+             * @param numberOfStudies
+             *     How many studies?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder numberOfStudies(java.lang.Integer numberOfStudies) {
+                this.numberOfStudies = numberOfStudies == null ? null : Integer.of(numberOfStudies);
+                return this;
+            }
+
+            /**
              * Number of studies included in this evidence synthesis.
              * 
              * @param numberOfStudies
@@ -2064,6 +2184,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public Builder numberOfStudies(Integer numberOfStudies) {
                 this.numberOfStudies = numberOfStudies;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting numberOfParticipants.
+             * @see #numberOfParticipants(Integer)
+             * 
+             * @param numberOfParticipants
+             *     How many participants?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder numberOfParticipants(java.lang.Integer numberOfParticipants) {
+                this.numberOfParticipants = numberOfParticipants == null ? null : Integer.of(numberOfParticipants);
                 return this;
             }
 
@@ -2419,6 +2554,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of risk estimate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Human-readable summary of risk estimate.
              * 
              * @param description
@@ -2475,6 +2625,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
             }
 
             /**
+             * Convenience method for setting denominatorCount.
+             * @see #denominatorCount(Integer)
+             * 
+             * @param denominatorCount
+             *     Sample size for group measured
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder denominatorCount(java.lang.Integer denominatorCount) {
+                this.denominatorCount = denominatorCount == null ? null : Integer.of(denominatorCount);
+                return this;
+            }
+
+            /**
              * The sample size for the group that was measured for this risk estimate.
              * 
              * @param denominatorCount
@@ -2485,6 +2650,21 @@ public class RiskEvidenceSynthesis extends DomainResource {
              */
             public Builder denominatorCount(Integer denominatorCount) {
                 this.denominatorCount = denominatorCount;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting numeratorCount.
+             * @see #numeratorCount(Integer)
+             * 
+             * @param numeratorCount
+             *     Number with the outcome
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder numeratorCount(java.lang.Integer numeratorCount) {
+                this.numeratorCount = numeratorCount == null ? null : Integer.of(numeratorCount);
                 return this;
             }
 

@@ -261,6 +261,21 @@ public class Expression extends Element {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Natural language description of the condition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * A brief, natural language description of the condition that effectively communicates the intended semantics.
          * 
          * @param description
@@ -302,6 +317,21 @@ public class Expression extends Element {
          */
         public Builder language(Code language) {
             this.language = language;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting expression.
+         * @see #expression(String)
+         * 
+         * @param expression
+         *     Expression in specified language
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder expression(java.lang.String expression) {
+            this.expression = expression == null ? null : String.of(expression);
             return this;
         }
 

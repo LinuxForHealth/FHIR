@@ -316,6 +316,21 @@ public class ParameterDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting min.
+         * @see #min(Integer)
+         * 
+         * @param min
+         *     Minimum cardinality
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder min(java.lang.Integer min) {
+            this.min = min == null ? null : Integer.of(min);
+            return this;
+        }
+
+        /**
          * The minimum number of times this parameter SHALL appear in the request or response.
          * 
          * @param min
@@ -330,6 +345,21 @@ public class ParameterDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting max.
+         * @see #max(String)
+         * 
+         * @param max
+         *     Maximum cardinality (a number of *)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder max(java.lang.String max) {
+            this.max = max == null ? null : String.of(max);
+            return this;
+        }
+
+        /**
          * The maximum number of times this element is permitted to appear in the request or response.
          * 
          * @param max
@@ -340,6 +370,21 @@ public class ParameterDefinition extends Element {
          */
         public Builder max(String max) {
             this.max = max;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting documentation.
+         * @see #documentation(String)
+         * 
+         * @param documentation
+         *     A brief description of the parameter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder documentation(java.lang.String documentation) {
+            this.documentation = documentation == null ? null : String.of(documentation);
             return this;
         }
 

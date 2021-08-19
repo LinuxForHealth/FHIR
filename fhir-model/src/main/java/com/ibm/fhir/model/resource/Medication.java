@@ -955,6 +955,21 @@ public class Medication extends DomainResource {
             }
 
             /**
+             * Convenience method for setting isActive.
+             * @see #isActive(Boolean)
+             * 
+             * @param isActive
+             *     Active ingredient indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder isActive(java.lang.Boolean isActive) {
+                this.isActive = isActive == null ? null : Boolean.of(isActive);
+                return this;
+            }
+
+            /**
              * Indication of whether this ingredient affects the therapeutic action of the drug.
              * 
              * @param isActive
@@ -1228,6 +1243,21 @@ public class Medication extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting lotNumber.
+             * @see #lotNumber(String)
+             * 
+             * @param lotNumber
+             *     Identifier assigned to batch
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder lotNumber(java.lang.String lotNumber) {
+                this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+                return this;
             }
 
             /**

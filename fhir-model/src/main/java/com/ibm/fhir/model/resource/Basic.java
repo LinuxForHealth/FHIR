@@ -488,6 +488,21 @@ public class Basic extends DomainResource {
         }
 
         /**
+         * Convenience method for setting created.
+         * @see #created(Date)
+         * 
+         * @param created
+         *     When created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder created(java.time.LocalDate created) {
+            this.created = created == null ? null : Date.of(created);
+            return this;
+        }
+
+        /**
          * Identifies when the resource was first created.
          * 
          * @param created

@@ -732,6 +732,21 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the example scenario
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the example scenario when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the example scenario author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -745,6 +760,21 @@ public class ExampleScenario extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this example scenario (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
             return this;
         }
 
@@ -780,6 +810,21 @@ public class ExampleScenario extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this example scenario is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -807,6 +852,21 @@ public class ExampleScenario extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1405,6 +1465,23 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
+             * Convenience method for setting actorId.
+             * @see #actorId(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param actorId
+             *     ID or acronym of the actor
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder actorId(java.lang.String actorId) {
+                this.actorId = actorId == null ? null : String.of(actorId);
+                return this;
+            }
+
+            /**
              * ID or acronym of actor.
              * 
              * <p>This element is required.
@@ -1433,6 +1510,21 @@ public class ExampleScenario extends DomainResource {
              */
             public Builder type(ExampleScenarioActorType type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     The name of the actor as shown in the page
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
                 return this;
             }
 
@@ -1790,6 +1882,23 @@ public class ExampleScenario extends DomainResource {
             }
 
             /**
+             * Convenience method for setting resourceId.
+             * @see #resourceId(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param resourceId
+             *     The id of the resource for referencing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder resourceId(java.lang.String resourceId) {
+                this.resourceId = resourceId == null ? null : String.of(resourceId);
+                return this;
+            }
+
+            /**
              * The id of the resource for referencing.
              * 
              * <p>This element is required.
@@ -1818,6 +1927,21 @@ public class ExampleScenario extends DomainResource {
              */
             public Builder resourceType(FHIRResourceType resourceType) {
                 this.resourceType = resourceType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     A short name for the resource instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
                 return this;
             }
 
@@ -2172,6 +2296,23 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting versionId.
+                 * @see #versionId(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param versionId
+                 *     The identifier of a specific version of a resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder versionId(java.lang.String versionId) {
+                    this.versionId = versionId == null ? null : String.of(versionId);
+                    return this;
+                }
+
+                /**
                  * The identifier of a specific version of a resource.
                  * 
                  * <p>This element is required.
@@ -2452,6 +2593,23 @@ public class ExampleScenario extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting resourceId.
+                 * @see #resourceId(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param resourceId
+                 *     Each resource contained in the instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder resourceId(java.lang.String resourceId) {
+                    this.resourceId = resourceId == null ? null : String.of(resourceId);
+                    return this;
+                }
+
+                /**
                  * Each resource contained in the instance.
                  * 
                  * <p>This element is required.
@@ -2464,6 +2622,21 @@ public class ExampleScenario extends DomainResource {
                  */
                 public Builder resourceId(String resourceId) {
                     this.resourceId = resourceId;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting versionId.
+                 * @see #versionId(String)
+                 * 
+                 * @param versionId
+                 *     A specific version of a resource contained in the instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder versionId(java.lang.String versionId) {
+                    this.versionId = versionId == null ? null : String.of(versionId);
                     return this;
                 }
 
@@ -2778,6 +2951,23 @@ public class ExampleScenario extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting title.
+             * @see #title(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param title
+             *     The diagram title of the group of operations
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder title(java.lang.String title) {
+                this.title = title == null ? null : String.of(title);
+                return this;
             }
 
             /**
@@ -3186,6 +3376,21 @@ public class ExampleScenario extends DomainResource {
                  */
                 public Builder process(Collection<ExampleScenario.Process> process) {
                     this.process = new ArrayList<>(process);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting pause.
+                 * @see #pause(Boolean)
+                 * 
+                 * @param pause
+                 *     If there is a pause in the flow
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder pause(java.lang.Boolean pause) {
+                    this.pause = pause == null ? null : Boolean.of(pause);
                     return this;
                 }
 
@@ -3633,6 +3838,23 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting number.
+                     * @see #number(String)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param number
+                     *     The sequential number of the interaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder number(java.lang.String number) {
+                        this.number = number == null ? null : String.of(number);
+                        return this;
+                    }
+
+                    /**
                      * The sequential number of the interaction, e.g. 1.2.5.
                      * 
                      * <p>This element is required.
@@ -3645,6 +3867,21 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder number(String number) {
                         this.number = number;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting type.
+                     * @see #type(String)
+                     * 
+                     * @param type
+                     *     The type of operation - CRUD
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder type(java.lang.String type) {
+                        this.type = type == null ? null : String.of(type);
                         return this;
                     }
 
@@ -3663,6 +3900,21 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting name.
+                     * @see #name(String)
+                     * 
+                     * @param name
+                     *     The human-friendly name of the interaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = name == null ? null : String.of(name);
+                        return this;
+                    }
+
+                    /**
                      * The human-friendly name of the interaction.
                      * 
                      * @param name
@@ -3677,6 +3929,21 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting initiator.
+                     * @see #initiator(String)
+                     * 
+                     * @param initiator
+                     *     Who starts the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder initiator(java.lang.String initiator) {
+                        this.initiator = initiator == null ? null : String.of(initiator);
+                        return this;
+                    }
+
+                    /**
                      * Who starts the transaction.
                      * 
                      * @param initiator
@@ -3687,6 +3954,21 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder initiator(String initiator) {
                         this.initiator = initiator;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting receiver.
+                     * @see #receiver(String)
+                     * 
+                     * @param receiver
+                     *     Who receives the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder receiver(java.lang.String receiver) {
+                        this.receiver = receiver == null ? null : String.of(receiver);
                         return this;
                     }
 
@@ -3719,6 +4001,21 @@ public class ExampleScenario extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting initiatorActive.
+                     * @see #initiatorActive(Boolean)
+                     * 
+                     * @param initiatorActive
+                     *     Whether the initiator is deactivated right after the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder initiatorActive(java.lang.Boolean initiatorActive) {
+                        this.initiatorActive = initiatorActive == null ? null : Boolean.of(initiatorActive);
+                        return this;
+                    }
+
+                    /**
                      * Whether the initiator is deactivated right after the transaction.
                      * 
                      * @param initiatorActive
@@ -3729,6 +4026,21 @@ public class ExampleScenario extends DomainResource {
                      */
                     public Builder initiatorActive(Boolean initiatorActive) {
                         this.initiatorActive = initiatorActive;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting receiverActive.
+                     * @see #receiverActive(Boolean)
+                     * 
+                     * @param receiverActive
+                     *     Whether the receiver is deactivated right after the transaction
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder receiverActive(java.lang.Boolean receiverActive) {
+                        this.receiverActive = receiverActive == null ? null : Boolean.of(receiverActive);
                         return this;
                     }
 
@@ -4045,6 +4357,23 @@ public class ExampleScenario extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting title.
+                     * @see #title(String)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param title
+                     *     Label for alternative
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder title(java.lang.String title) {
+                        this.title = title == null ? null : String.of(title);
+                        return this;
                     }
 
                     /**

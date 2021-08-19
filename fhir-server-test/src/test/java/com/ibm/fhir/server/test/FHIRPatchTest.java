@@ -113,7 +113,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         JsonArray array = Json.createPatchBuilder()
                 .remove("/active")
@@ -491,7 +491,7 @@ public class FHIRPatchTest extends FHIRServerTestBase {
 
         // create a copy of the patient and update it using the model API
         Patient.Builder patientBuilder = patient.toBuilder();
-        patientBuilder.active(null);
+        patientBuilder.active((Boolean)null);
 
         Parameters patch = Parameters.builder()
                 .parameter(Parameter.builder()

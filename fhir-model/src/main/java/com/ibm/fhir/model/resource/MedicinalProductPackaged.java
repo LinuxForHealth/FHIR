@@ -572,6 +572,21 @@ public class MedicinalProductPackaged extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Textual description
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * Textual description.
          * 
          * @param description

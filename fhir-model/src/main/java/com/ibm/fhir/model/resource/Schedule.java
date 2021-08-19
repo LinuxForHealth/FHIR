@@ -535,6 +535,21 @@ public class Schedule extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this schedule is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this schedule record is in active use or should not be used (such as was entered in error).
          * 
          * @param active
@@ -723,6 +738,21 @@ public class Schedule extends DomainResource {
          */
         public Builder planningHorizon(Period planningHorizon) {
             this.planningHorizon = planningHorizon;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Comments on availability
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
             return this;
         }
 

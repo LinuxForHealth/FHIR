@@ -882,6 +882,23 @@ public class Composition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param title
+         *     Human Readable name/title
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * Official human-readable label for the composition.
          * 
          * <p>This element is required.
@@ -2494,6 +2511,21 @@ public class Composition extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting title.
+             * @see #title(String)
+             * 
+             * @param title
+             *     Label for section (e.g. for ToC)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder title(java.lang.String title) {
+                this.title = title == null ? null : String.of(title);
+                return this;
             }
 
             /**

@@ -918,6 +918,21 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the search parameter
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the search parameter when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the search parameter author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -931,6 +946,23 @@ public class SearchParameter extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this search parameter (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
             return this;
         }
 
@@ -984,6 +1016,21 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this search parameter is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1011,6 +1058,21 @@ public class SearchParameter extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1235,6 +1297,21 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting expression.
+         * @see #expression(String)
+         * 
+         * @param expression
+         *     FHIRPath expression that extracts the values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder expression(java.lang.String expression) {
+            this.expression = expression == null ? null : String.of(expression);
+            return this;
+        }
+
+        /**
          * A FHIRPath expression that returns a set of elements for the search parameter.
          * 
          * @param expression
@@ -1245,6 +1322,21 @@ public class SearchParameter extends DomainResource {
          */
         public Builder expression(String expression) {
             this.expression = expression;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting xpath.
+         * @see #xpath(String)
+         * 
+         * @param xpath
+         *     XPath that extracts the values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder xpath(java.lang.String xpath) {
+            this.xpath = xpath == null ? null : String.of(xpath);
             return this;
         }
 
@@ -1311,6 +1403,21 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
+         * Convenience method for setting multipleOr.
+         * @see #multipleOr(Boolean)
+         * 
+         * @param multipleOr
+         *     Allow multiple values per parameter (or)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder multipleOr(java.lang.Boolean multipleOr) {
+            this.multipleOr = multipleOr == null ? null : Boolean.of(multipleOr);
+            return this;
+        }
+
+        /**
          * Whether multiple values are allowed for each time the parameter exists. Values are separated by commas, and the 
          * parameter matches if any of the values match.
          * 
@@ -1322,6 +1429,21 @@ public class SearchParameter extends DomainResource {
          */
         public Builder multipleOr(Boolean multipleOr) {
             this.multipleOr = multipleOr;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting multipleAnd.
+         * @see #multipleAnd(Boolean)
+         * 
+         * @param multipleAnd
+         *     Allow multiple parameters (and)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder multipleAnd(java.lang.Boolean multipleAnd) {
+            this.multipleAnd = multipleAnd == null ? null : Boolean.of(multipleAnd);
             return this;
         }
 
@@ -1405,6 +1527,25 @@ public class SearchParameter extends DomainResource {
          */
         public Builder modifier(Collection<SearchModifierCode> modifier) {
             this.modifier = new ArrayList<>(modifier);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting chain.
+         * @see #chain(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param chain
+         *     Chained names supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder chain(java.lang.String... chain) {
+            for (java.lang.String value : chain) {
+                this.chain.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -1785,6 +1926,23 @@ public class SearchParameter extends DomainResource {
              */
             public Builder definition(Canonical definition) {
                 this.definition = definition;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting expression.
+             * @see #expression(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param expression
+             *     Subexpression relative to main expression
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = expression == null ? null : String.of(expression);
                 return this;
             }
 

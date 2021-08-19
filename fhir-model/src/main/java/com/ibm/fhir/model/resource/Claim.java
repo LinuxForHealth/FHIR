@@ -2512,6 +2512,21 @@ public class Claim extends DomainResource {
             }
 
             /**
+             * Convenience method for setting responsible.
+             * @see #responsible(Boolean)
+             * 
+             * @param responsible
+             *     Indicator of the lead practitioner
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder responsible(java.lang.Boolean responsible) {
+                this.responsible = responsible == null ? null : Boolean.of(responsible);
+                return this;
+            }
+
+            /**
              * The party who is billing and/or responsible for the claimed products or services.
              * 
              * @param responsible
@@ -4264,6 +4279,23 @@ public class Claim extends DomainResource {
             }
 
             /**
+             * Convenience method for setting focal.
+             * @see #focal(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param focal
+             *     Coverage to be used for adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(java.lang.Boolean focal) {
+                this.focal = focal == null ? null : Boolean.of(focal);
+                return this;
+            }
+
+            /**
              * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
              * 
              * <p>This element is required.
@@ -4316,6 +4348,21 @@ public class Claim extends DomainResource {
             }
 
             /**
+             * Convenience method for setting businessArrangement.
+             * @see #businessArrangement(String)
+             * 
+             * @param businessArrangement
+             *     Additional provider contract number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder businessArrangement(java.lang.String businessArrangement) {
+                this.businessArrangement = businessArrangement == null ? null : String.of(businessArrangement);
+                return this;
+            }
+
+            /**
              * A business agreement number established between the provider and the insurer for special business processing purposes.
              * 
              * @param businessArrangement
@@ -4326,6 +4373,25 @@ public class Claim extends DomainResource {
              */
             public Builder businessArrangement(String businessArrangement) {
                 this.businessArrangement = businessArrangement;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting preAuthRef.
+             * @see #preAuthRef(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param preAuthRef
+             *     Prior authorization reference number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preAuthRef(java.lang.String... preAuthRef) {
+                for (java.lang.String value : preAuthRef) {
+                    this.preAuthRef.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 
@@ -4666,6 +4732,23 @@ public class Claim extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * <p>This element is required.
+             * 
+             * @param date
+             *     When the incident occurred
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
             }
 
             /**

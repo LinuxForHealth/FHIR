@@ -424,6 +424,22 @@ public class SubstanceProtein extends DomainResource {
         }
 
         /**
+         * Convenience method for setting numberOfSubunits.
+         * @see #numberOfSubunits(Integer)
+         * 
+         * @param numberOfSubunits
+         *     Number of linear sequences of amino acids linked through peptide bonds. The number of subunits constituting the 
+         *     SubstanceProtein shall be described. It is possible that the number of subunits can be variable
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder numberOfSubunits(java.lang.Integer numberOfSubunits) {
+            this.numberOfSubunits = numberOfSubunits == null ? null : Integer.of(numberOfSubunits);
+            return this;
+        }
+
+        /**
          * Number of linear sequences of amino acids linked through peptide bonds. The number of subunits constituting the 
          * SubstanceProtein shall be described. It is possible that the number of subunits can be variable.
          * 
@@ -436,6 +452,28 @@ public class SubstanceProtein extends DomainResource {
          */
         public Builder numberOfSubunits(Integer numberOfSubunits) {
             this.numberOfSubunits = numberOfSubunits;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting disulfideLinkage.
+         * @see #disulfideLinkage(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param disulfideLinkage
+         *     The disulphide bond between two cysteine residues either on the same subunit or on two different subunits shall be 
+         *     described. The position of the disulfide bonds in the SubstanceProtein shall be listed in increasing order of subunit 
+         *     number and position within subunit followed by the abbreviation of the amino acids involved. The disulfide linkage 
+         *     positions shall actually contain the amino acid Cysteine at the respective positions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disulfideLinkage(java.lang.String... disulfideLinkage) {
+            for (java.lang.String value : disulfideLinkage) {
+                this.disulfideLinkage.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -901,6 +939,23 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
+             * Convenience method for setting subunit.
+             * @see #subunit(Integer)
+             * 
+             * @param subunit
+             *     Index of primary sequences of amino acids linked through peptide bonds in order of decreasing length. Sequences of the 
+             *     same length will be ordered by molecular weight. Subunits that have identical sequences will be repeated and have 
+             *     sequential subscripts
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder subunit(java.lang.Integer subunit) {
+                this.subunit = subunit == null ? null : Integer.of(subunit);
+                return this;
+            }
+
+            /**
              * Index of primary sequences of amino acids linked through peptide bonds in order of decreasing length. Sequences of the 
              * same length will be ordered by molecular weight. Subunits that have identical sequences will be repeated and have 
              * sequential subscripts.
@@ -915,6 +970,25 @@ public class SubstanceProtein extends DomainResource {
              */
             public Builder subunit(Integer subunit) {
                 this.subunit = subunit;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting sequence.
+             * @see #sequence(String)
+             * 
+             * @param sequence
+             *     The sequence information shall be provided enumerating the amino acids from N- to C-terminal end using standard single-
+             *     letter amino acid codes. Uppercase shall be used for L-amino acids and lowercase for D-amino acids. Transcribed 
+             *     SubstanceProteins will always be described using the translated sequence; for synthetic peptide containing amino acids 
+             *     that are not represented with a single letter code an X should be used within the sequence. The modified amino acids 
+             *     will be distinguished by their position in the sequence
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sequence(java.lang.String sequence) {
+                this.sequence = sequence == null ? null : String.of(sequence);
                 return this;
             }
 
@@ -937,6 +1011,21 @@ public class SubstanceProtein extends DomainResource {
              */
             public Builder sequence(String sequence) {
                 this.sequence = sequence;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting length.
+             * @see #length(Integer)
+             * 
+             * @param length
+             *     Length of linear sequences of amino acids contained in the subunit
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder length(java.lang.Integer length) {
+                this.length = length == null ? null : Integer.of(length);
                 return this;
             }
 
@@ -991,6 +1080,21 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
+             * Convenience method for setting nTerminalModification.
+             * @see #nTerminalModification(String)
+             * 
+             * @param nTerminalModification
+             *     The name of the fragment modified at the N-terminal of the SubstanceProtein shall be specified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder nTerminalModification(java.lang.String nTerminalModification) {
+                this.nTerminalModification = nTerminalModification == null ? null : String.of(nTerminalModification);
+                return this;
+            }
+
+            /**
              * The name of the fragment modified at the N-terminal of the SubstanceProtein shall be specified.
              * 
              * @param nTerminalModification
@@ -1015,6 +1119,21 @@ public class SubstanceProtein extends DomainResource {
              */
             public Builder cTerminalModificationId(Identifier cTerminalModificationId) {
                 this.cTerminalModificationId = cTerminalModificationId;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting cTerminalModification.
+             * @see #cTerminalModification(String)
+             * 
+             * @param cTerminalModification
+             *     The modification at the C-terminal shall be specified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder cTerminalModification(java.lang.String cTerminalModification) {
+                this.cTerminalModification = cTerminalModification == null ? null : String.of(cTerminalModification);
                 return this;
             }
 

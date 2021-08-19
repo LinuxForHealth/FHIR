@@ -1946,6 +1946,21 @@ public class AdverseEvent extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting productRelatedness.
+                 * @see #productRelatedness(String)
+                 * 
+                 * @param productRelatedness
+                 *     AdverseEvent.suspectEntity.causalityProductRelatedness
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder productRelatedness(java.lang.String productRelatedness) {
+                    this.productRelatedness = productRelatedness == null ? null : String.of(productRelatedness);
+                    return this;
+                }
+
+                /**
                  * AdverseEvent.suspectEntity.causalityProductRelatedness.
                  * 
                  * @param productRelatedness

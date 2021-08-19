@@ -1101,6 +1101,21 @@ public class DeviceMetric extends DomainResource {
             }
 
             /**
+             * Convenience method for setting time.
+             * @see #time(Instant)
+             * 
+             * @param time
+             *     Describes the time last calibration has been performed
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder time(java.time.ZonedDateTime time) {
+                this.time = time == null ? null : Instant.of(time);
+                return this;
+            }
+
+            /**
              * Describes the time last calibration has been performed.
              * 
              * @param time

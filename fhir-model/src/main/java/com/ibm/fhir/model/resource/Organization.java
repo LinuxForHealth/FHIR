@@ -582,6 +582,21 @@ public class Organization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether the organization's record is still in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether the organization's record is still in active use.
          * 
          * @param active
@@ -630,6 +645,21 @@ public class Organization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name used for the organization
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A name associated with the organization.
          * 
          * @param name
@@ -640,6 +670,25 @@ public class Organization extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting alias.
+         * @see #alias(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param alias
+         *     A list of alternate names that the organization is known as, or was known as in the past
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 

@@ -519,6 +519,21 @@ public class Subscription extends DomainResource {
         }
 
         /**
+         * Convenience method for setting end.
+         * @see #end(Instant)
+         * 
+         * @param end
+         *     When to automatically delete the subscription
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = end == null ? null : Instant.of(end);
+            return this;
+        }
+
+        /**
          * The time for the server to turn the subscription off.
          * 
          * @param end
@@ -529,6 +544,23 @@ public class Subscription extends DomainResource {
          */
         public Builder end(Instant end) {
             this.end = end;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting reason.
+         * @see #reason(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param reason
+         *     Description of why this subscription was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder reason(java.lang.String reason) {
+            this.reason = reason == null ? null : String.of(reason);
             return this;
         }
 
@@ -549,6 +581,23 @@ public class Subscription extends DomainResource {
         }
 
         /**
+         * Convenience method for setting criteria.
+         * @see #criteria(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param criteria
+         *     Rule for server push
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder criteria(java.lang.String criteria) {
+            this.criteria = criteria == null ? null : String.of(criteria);
+            return this;
+        }
+
+        /**
          * The rules that the server should use to determine when to generate notifications for this subscription.
          * 
          * <p>This element is required.
@@ -561,6 +610,21 @@ public class Subscription extends DomainResource {
          */
         public Builder criteria(String criteria) {
             this.criteria = criteria;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting error.
+         * @see #error(String)
+         * 
+         * @param error
+         *     Latest error note
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder error(java.lang.String error) {
+            this.error = error == null ? null : String.of(error);
             return this;
         }
 
@@ -945,6 +1009,25 @@ public class Subscription extends DomainResource {
              */
             public Builder payload(Code payload) {
                 this.payload = payload;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting header.
+             * @see #header(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param header
+             *     Usage depends on the channel type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder header(java.lang.String... header) {
+                for (java.lang.String value : header) {
+                    this.header.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 

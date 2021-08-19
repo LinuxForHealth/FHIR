@@ -1240,6 +1240,21 @@ public class Observation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting issued.
+         * @see #issued(Instant)
+         * 
+         * @param issued
+         *     Date/Time this version was made available
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder issued(java.time.ZonedDateTime issued) {
+            this.issued = issued == null ? null : Instant.of(issued);
+            return this;
+        }
+
+        /**
          * The date and time this version of the observation was made available to providers, typically after the results have 
          * been reviewed and verified.
          * 
@@ -2149,6 +2164,21 @@ public class Observation extends DomainResource {
              */
             public Builder age(Range age) {
                 this.age = age;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Text based reference range in an observation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
                 return this;
             }
 

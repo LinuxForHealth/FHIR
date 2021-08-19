@@ -520,6 +520,21 @@ public class SpecimenDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting timeAspect.
+         * @see #timeAspect(String)
+         * 
+         * @param timeAspect
+         *     Time aspect for collection
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder timeAspect(java.lang.String timeAspect) {
+            this.timeAspect = timeAspect == null ? null : String.of(timeAspect);
+            return this;
+        }
+
+        /**
          * Time aspect of specimen collection (duration or offset).
          * 
          * @param timeAspect
@@ -969,6 +984,21 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting isDerived.
+             * @see #isDerived(Boolean)
+             * 
+             * @param isDerived
+             *     Primary or secondary specimen
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder isDerived(java.lang.Boolean isDerived) {
+                this.isDerived = isDerived == null ? null : Boolean.of(isDerived);
+                return this;
+            }
+
+            /**
              * Primary of secondary specimen.
              * 
              * @param isDerived
@@ -1023,6 +1053,21 @@ public class SpecimenDefinition extends DomainResource {
              */
             public Builder container(Container container) {
                 this.container = container;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting requirement.
+             * @see #requirement(String)
+             * 
+             * @param requirement
+             *     Specimen requirements
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder requirement(java.lang.String requirement) {
+                this.requirement = requirement == null ? null : String.of(requirement);
                 return this;
             }
 
@@ -1542,6 +1587,21 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Container description
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * The textual description of the kind of container.
                  * 
                  * @param description
@@ -1622,6 +1682,21 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 public Builder additive(Collection<Additive> additive) {
                     this.additive = new ArrayList<>(additive);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting preparation.
+                 * @see #preparation(String)
+                 * 
+                 * @param preparation
+                 *     Specimen container preparation
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder preparation(java.lang.String preparation) {
+                    this.preparation = preparation == null ? null : String.of(preparation);
                     return this;
                 }
 
@@ -2236,6 +2311,21 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 public Builder maxDuration(Duration maxDuration) {
                     this.maxDuration = maxDuration;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting instruction.
+                 * @see #instruction(String)
+                 * 
+                 * @param instruction
+                 *     Preservation instruction
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder instruction(java.lang.String instruction) {
+                    this.instruction = instruction == null ? null : String.of(instruction);
                     return this;
                 }
 

@@ -559,6 +559,21 @@ public class EnrollmentResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting disposition.
+         * @see #disposition(String)
+         * 
+         * @param disposition
+         *     Disposition Message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = disposition == null ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A description of the status of the adjudication.
          * 
          * @param disposition

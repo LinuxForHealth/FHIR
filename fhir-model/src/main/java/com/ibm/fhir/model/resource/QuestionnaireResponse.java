@@ -1142,6 +1142,23 @@ public class QuestionnaireResponse extends DomainResource {
             }
 
             /**
+             * Convenience method for setting linkId.
+             * @see #linkId(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param linkId
+             *     Pointer to specific item from Questionnaire
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder linkId(java.lang.String linkId) {
+                this.linkId = linkId == null ? null : String.of(linkId);
+                return this;
+            }
+
+            /**
              * The item from the Questionnaire that corresponds to this item in the QuestionnaireResponse resource.
              * 
              * <p>This element is required.
@@ -1168,6 +1185,21 @@ public class QuestionnaireResponse extends DomainResource {
              */
             public Builder definition(Uri definition) {
                 this.definition = definition;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Name for group or question text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
                 return this;
             }
 

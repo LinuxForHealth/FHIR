@@ -785,6 +785,21 @@ public class ImmunizationEvaluation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Evaluation notes
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * Additional information about the evaluation.
          * 
          * @param description
@@ -795,6 +810,21 @@ public class ImmunizationEvaluation extends DomainResource {
          */
         public Builder description(String description) {
             this.description = description;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting series.
+         * @see #series(String)
+         * 
+         * @param series
+         *     Name of vaccine series
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder series(java.lang.String series) {
+            this.series = series == null ? null : String.of(series);
             return this;
         }
 

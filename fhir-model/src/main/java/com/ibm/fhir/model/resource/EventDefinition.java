@@ -955,6 +955,21 @@ public class EventDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the event definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the event definition when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the event definition author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -968,6 +983,21 @@ public class EventDefinition extends DomainResource {
          */
         public Builder version(String version) {
             this.version = version;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this event definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
             return this;
         }
 
@@ -987,6 +1017,21 @@ public class EventDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this event definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive, user-friendly title for the event definition.
          * 
          * @param title
@@ -997,6 +1042,21 @@ public class EventDefinition extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate title of the event definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
             return this;
         }
 
@@ -1027,6 +1087,21 @@ public class EventDefinition extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1083,6 +1158,21 @@ public class EventDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1235,6 +1325,21 @@ public class EventDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting usage.
+         * @see #usage(String)
+         * 
+         * @param usage
+         *     Describes the clinical usage of the event definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = usage == null ? null : String.of(usage);
+            return this;
+        }
+
+        /**
          * A detailed description of how the event definition is used from a clinical perspective.
          * 
          * @param usage
@@ -1264,6 +1369,21 @@ public class EventDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the event definition was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1275,6 +1395,21 @@ public class EventDefinition extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the event definition was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 

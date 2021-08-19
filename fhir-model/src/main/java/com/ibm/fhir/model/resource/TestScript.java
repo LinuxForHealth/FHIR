@@ -973,6 +973,21 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the test script
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the test script when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the test script author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -990,6 +1005,23 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this test script (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the test script. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -1003,6 +1035,21 @@ public class TestScript extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this test script (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1037,6 +1084,21 @@ public class TestScript extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this test script is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * 
@@ -1064,6 +1126,21 @@ public class TestScript extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1763,6 +1840,23 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting index.
+             * @see #index(Integer)
+             * 
+             * <p>This element is required.
+             * 
+             * @param index
+             *     The index of the abstract origin server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder index(java.lang.Integer index) {
+                this.index = index == null ? null : Integer.of(index);
+                return this;
+            }
+
+            /**
              * Abstract name given to an origin server in this test script. The name is provided as a number starting at 1.
              * 
              * <p>This element is required.
@@ -2047,6 +2141,23 @@ public class TestScript extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting index.
+             * @see #index(Integer)
+             * 
+             * <p>This element is required.
+             * 
+             * @param index
+             *     The index of the abstract destination server starting at 1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder index(java.lang.Integer index) {
+                this.index = index == null ? null : Integer.of(index);
+                return this;
             }
 
             /**
@@ -2664,6 +2775,21 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Short description
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * Short description of the link.
                  * 
                  * @param description
@@ -3014,6 +3140,23 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting required.
+                 * @see #required(Boolean)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param required
+                 *     Are the capabilities required?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder required(java.lang.Boolean required) {
+                    this.required = required == null ? null : Boolean.of(required);
+                    return this;
+                }
+
+                /**
                  * Whether or not the test execution will require the given capabilities of the server in order for this test script to 
                  * execute.
                  * 
@@ -3027,6 +3170,23 @@ public class TestScript extends DomainResource {
                  */
                 public Builder required(Boolean required) {
                     this.required = required;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting validated.
+                 * @see #validated(Boolean)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param validated
+                 *     Are the capabilities validated?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder validated(java.lang.Boolean validated) {
+                    this.validated = validated == null ? null : Boolean.of(validated);
                     return this;
                 }
 
@@ -3048,6 +3208,21 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     The expected capabilities of the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * Description of the capabilities that this test script is requiring the server to support.
                  * 
                  * @param description
@@ -3058,6 +3233,25 @@ public class TestScript extends DomainResource {
                  */
                 public Builder description(String description) {
                     this.description = description;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting origin.
+                 * @see #origin(List<Integer>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param origin
+                 *     Which origin server these requirements apply to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder origin(java.lang.Integer... origin) {
+                    for (java.lang.Integer value : origin) {
+                        this.origin.add(value == null ? null : Integer.of(value));
+                    }
                     return this;
                 }
 
@@ -3092,6 +3286,21 @@ public class TestScript extends DomainResource {
                  */
                 public Builder origin(Collection<Integer> origin) {
                     this.origin = new ArrayList<>(origin);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting destination.
+                 * @see #destination(Integer)
+                 * 
+                 * @param destination
+                 *     Which server these requirements apply to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder destination(java.lang.Integer destination) {
+                    this.destination = destination == null ? null : Integer.of(destination);
                     return this;
                 }
 
@@ -3441,6 +3650,23 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting autocreate.
+             * @see #autocreate(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param autocreate
+             *     Whether or not to implicitly create the fixture during setup
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder autocreate(java.lang.Boolean autocreate) {
+                this.autocreate = autocreate == null ? null : Boolean.of(autocreate);
+                return this;
+            }
+
+            /**
              * Whether or not to implicitly create the fixture during setup. If true, the fixture is automatically created on each 
              * server being tested during setup, therefore no create operation is required for this fixture in the TestScript.setup 
              * section.
@@ -3455,6 +3681,23 @@ public class TestScript extends DomainResource {
              */
             public Builder autocreate(Boolean autocreate) {
                 this.autocreate = autocreate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting autodelete.
+             * @see #autodelete(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param autodelete
+             *     Whether or not to implicitly delete the fixture during teardown
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder autodelete(java.lang.Boolean autodelete) {
+                this.autodelete = autodelete == null ? null : Boolean.of(autodelete);
                 return this;
             }
 
@@ -3844,6 +4087,23 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     Descriptive name for this variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Descriptive name for this variable.
              * 
              * <p>This element is required.
@@ -3856,6 +4116,21 @@ public class TestScript extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting defaultValue.
+             * @see #defaultValue(String)
+             * 
+             * @param defaultValue
+             *     Default, hard-coded, or user-defined value for this variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder defaultValue(java.lang.String defaultValue) {
+                this.defaultValue = defaultValue == null ? null : String.of(defaultValue);
                 return this;
             }
 
@@ -3874,6 +4149,21 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Natural language description of the variable
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A free text natural language description of the variable and its purpose.
              * 
              * @param description
@@ -3884,6 +4174,21 @@ public class TestScript extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting expression.
+             * @see #expression(String)
+             * 
+             * @param expression
+             *     The FHIRPath expression against the fixture body
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = expression == null ? null : String.of(expression);
                 return this;
             }
 
@@ -3903,6 +4208,21 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting headerField.
+             * @see #headerField(String)
+             * 
+             * @param headerField
+             *     HTTP header field name for source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder headerField(java.lang.String headerField) {
+                this.headerField = headerField == null ? null : String.of(headerField);
+                return this;
+            }
+
+            /**
              * Will be used to grab the HTTP header field value from the headers that sourceId is pointing to.
              * 
              * @param headerField
@@ -3917,6 +4237,21 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting hint.
+             * @see #hint(String)
+             * 
+             * @param hint
+             *     Hint help text for default value to enter
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder hint(java.lang.String hint) {
+                this.hint = hint == null ? null : String.of(hint);
+                return this;
+            }
+
+            /**
              * Displayable text string with hint help information to the user when entering a default value.
              * 
              * @param hint
@@ -3927,6 +4262,21 @@ public class TestScript extends DomainResource {
              */
             public Builder hint(String hint) {
                 this.hint = hint;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting path.
+             * @see #path(String)
+             * 
+             * @param path
+             *     XPath or JSONPath against the fixture body
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(java.lang.String path) {
+                this.path = path == null ? null : String.of(path);
                 return this;
             }
 
@@ -5059,6 +5409,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting label.
+                     * @see #label(String)
+                     * 
+                     * @param label
+                     *     Tracking/logging operation label
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder label(java.lang.String label) {
+                        this.label = label == null ? null : String.of(label);
+                        return this;
+                    }
+
+                    /**
                      * The label would be used for tracking/logging purposes by test engines.
                      * 
                      * @param label
@@ -5069,6 +5434,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder label(String label) {
                         this.label = label;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting description.
+                     * @see #description(String)
+                     * 
+                     * @param description
+                     *     Tracking/reporting operation description
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = description == null ? null : String.of(description);
                         return this;
                     }
 
@@ -5115,6 +5495,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting destination.
+                     * @see #destination(Integer)
+                     * 
+                     * @param destination
+                     *     Server responding to the request
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder destination(java.lang.Integer destination) {
+                        this.destination = destination == null ? null : Integer.of(destination);
+                        return this;
+                    }
+
+                    /**
                      * The server where the request message is destined for. Must be one of the server numbers listed in TestScript.
                      * destination section.
                      * 
@@ -5126,6 +5521,23 @@ public class TestScript extends DomainResource {
                      */
                     public Builder destination(Integer destination) {
                         this.destination = destination;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting encodeRequestUrl.
+                     * @see #encodeRequestUrl(Boolean)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param encodeRequestUrl
+                     *     Whether or not to send the request url in encoded format
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder encodeRequestUrl(java.lang.Boolean encodeRequestUrl) {
+                        this.encodeRequestUrl = encodeRequestUrl == null ? null : Boolean.of(encodeRequestUrl);
                         return this;
                     }
 
@@ -5161,6 +5573,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting origin.
+                     * @see #origin(Integer)
+                     * 
+                     * @param origin
+                     *     Server initiating the request
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder origin(java.lang.Integer origin) {
+                        this.origin = origin == null ? null : Integer.of(origin);
+                        return this;
+                    }
+
+                    /**
                      * The server where the request message originates from. Must be one of the server numbers listed in TestScript.origin 
                      * section.
                      * 
@@ -5172,6 +5599,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder origin(Integer origin) {
                         this.origin = origin;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting params.
+                     * @see #params(String)
+                     * 
+                     * @param params
+                     *     Explicitly defined path parameters
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder params(java.lang.String params) {
+                        this.params = params == null ? null : String.of(params);
                         return this;
                     }
 
@@ -5276,6 +5718,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder targetId(Id targetId) {
                         this.targetId = targetId;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting url.
+                     * @see #url(String)
+                     * 
+                     * @param url
+                     *     Request URL
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder url(java.lang.String url) {
+                        this.url = url == null ? null : String.of(url);
                         return this;
                     }
 
@@ -5556,6 +6013,23 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
+                         * Convenience method for setting field.
+                         * @see #field(String)
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param field
+                         *     HTTP header field name
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder field(java.lang.String field) {
+                            this.field = field == null ? null : String.of(field);
+                            return this;
+                        }
+
+                        /**
                          * The HTTP header field e.g. "Accept".
                          * 
                          * <p>This element is required.
@@ -5568,6 +6042,23 @@ public class TestScript extends DomainResource {
                          */
                         public Builder field(String field) {
                             this.field = field;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting value.
+                         * @see #value(String)
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     HTTP headerfield value
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = value == null ? null : String.of(value);
                             return this;
                         }
 
@@ -6217,6 +6708,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting label.
+                     * @see #label(String)
+                     * 
+                     * @param label
+                     *     Tracking/logging assertion label
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder label(java.lang.String label) {
+                        this.label = label == null ? null : String.of(label);
+                        return this;
+                    }
+
+                    /**
                      * The label would be used for tracking/logging purposes by test engines.
                      * 
                      * @param label
@@ -6227,6 +6733,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder label(String label) {
                         this.label = label;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting description.
+                     * @see #description(String)
+                     * 
+                     * @param description
+                     *     Tracking/reporting assertion description
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = description == null ? null : String.of(description);
                         return this;
                     }
 
@@ -6259,6 +6780,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting compareToSourceId.
+                     * @see #compareToSourceId(String)
+                     * 
+                     * @param compareToSourceId
+                     *     Id of the source fixture to be evaluated
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder compareToSourceId(java.lang.String compareToSourceId) {
+                        this.compareToSourceId = compareToSourceId == null ? null : String.of(compareToSourceId);
+                        return this;
+                    }
+
+                    /**
                      * Id of the source fixture used as the contents to be evaluated by either the "source/expression" or "sourceId/path" 
                      * definition.
                      * 
@@ -6274,6 +6810,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting compareToSourceExpression.
+                     * @see #compareToSourceExpression(String)
+                     * 
+                     * @param compareToSourceExpression
+                     *     The FHIRPath expression to evaluate against the source fixture
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder compareToSourceExpression(java.lang.String compareToSourceExpression) {
+                        this.compareToSourceExpression = compareToSourceExpression == null ? null : String.of(compareToSourceExpression);
+                        return this;
+                    }
+
+                    /**
                      * The FHIRPath expression to evaluate against the source fixture. When compareToSourceId is defined, either 
                      * compareToSourceExpression or compareToSourcePath must be defined, but not both.
                      * 
@@ -6285,6 +6836,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder compareToSourceExpression(String compareToSourceExpression) {
                         this.compareToSourceExpression = compareToSourceExpression;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting compareToSourcePath.
+                     * @see #compareToSourcePath(String)
+                     * 
+                     * @param compareToSourcePath
+                     *     XPath or JSONPath expression to evaluate against the source fixture
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder compareToSourcePath(java.lang.String compareToSourcePath) {
+                        this.compareToSourcePath = compareToSourcePath == null ? null : String.of(compareToSourcePath);
                         return this;
                     }
 
@@ -6318,6 +6884,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting expression.
+                     * @see #expression(String)
+                     * 
+                     * @param expression
+                     *     The FHIRPath expression to be evaluated
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder expression(java.lang.String expression) {
+                        this.expression = expression == null ? null : String.of(expression);
+                        return this;
+                    }
+
+                    /**
                      * The FHIRPath expression to be evaluated against the request or response message contents - HTTP headers and payload.
                      * 
                      * @param expression
@@ -6328,6 +6909,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder expression(String expression) {
                         this.expression = expression;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting headerField.
+                     * @see #headerField(String)
+                     * 
+                     * @param headerField
+                     *     HTTP header field name
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder headerField(java.lang.String headerField) {
+                        this.headerField = headerField == null ? null : String.of(headerField);
                         return this;
                     }
 
@@ -6346,6 +6942,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting minimumId.
+                     * @see #minimumId(String)
+                     * 
+                     * @param minimumId
+                     *     Fixture Id of minimum content resource
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder minimumId(java.lang.String minimumId) {
+                        this.minimumId = minimumId == null ? null : String.of(minimumId);
+                        return this;
+                    }
+
+                    /**
                      * The ID of a fixture. Asserts that the response contains at a minimum the fixture specified by minimumId.
                      * 
                      * @param minimumId
@@ -6356,6 +6967,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder minimumId(String minimumId) {
                         this.minimumId = minimumId;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting navigationLinks.
+                     * @see #navigationLinks(Boolean)
+                     * 
+                     * @param navigationLinks
+                     *     Perform validation on navigation links?
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder navigationLinks(java.lang.Boolean navigationLinks) {
+                        this.navigationLinks = navigationLinks == null ? null : Boolean.of(navigationLinks);
                         return this;
                     }
 
@@ -6388,6 +7014,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting path.
+                     * @see #path(String)
+                     * 
+                     * @param path
+                     *     XPath or JSONPath expression
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder path(java.lang.String path) {
+                        this.path = path == null ? null : String.of(path);
+                        return this;
+                    }
+
+                    /**
                      * The XPath or JSONPath expression to be evaluated against the fixture representing the response received from server.
                      * 
                      * @param path
@@ -6412,6 +7053,21 @@ public class TestScript extends DomainResource {
                      */
                     public Builder requestMethod(TestScriptRequestMethodCode requestMethod) {
                         this.requestMethod = requestMethod;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting requestURL.
+                     * @see #requestURL(String)
+                     * 
+                     * @param requestURL
+                     *     Request URL comparison value
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder requestURL(java.lang.String requestURL) {
+                        this.requestURL = requestURL == null ? null : String.of(requestURL);
                         return this;
                     }
 
@@ -6460,6 +7116,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting responseCode.
+                     * @see #responseCode(String)
+                     * 
+                     * @param responseCode
+                     *     HTTP response code to test
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder responseCode(java.lang.String responseCode) {
+                        this.responseCode = responseCode == null ? null : String.of(responseCode);
+                        return this;
+                    }
+
+                    /**
                      * The value of the HTTP response code to be tested.
                      * 
                      * @param responseCode
@@ -6502,6 +7173,21 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting value.
+                     * @see #value(String)
+                     * 
+                     * @param value
+                     *     The value to compare to
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder value(java.lang.String value) {
+                        this.value = value == null ? null : String.of(value);
+                        return this;
+                    }
+
+                    /**
                      * The value to compare to.
                      * 
                      * @param value
@@ -6512,6 +7198,23 @@ public class TestScript extends DomainResource {
                      */
                     public Builder value(String value) {
                         this.value = value;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting warningOnly.
+                     * @see #warningOnly(Boolean)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param warningOnly
+                     *     Will this assert produce a warning only on error?
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder warningOnly(java.lang.Boolean warningOnly) {
+                        this.warningOnly = warningOnly == null ? null : Boolean.of(warningOnly);
                         return this;
                     }
 
@@ -6817,6 +7520,21 @@ public class TestScript extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Tracking/logging name of this test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * The name of this test used for tracking/logging purposes by test engines.
              * 
              * @param name
@@ -6827,6 +7545,21 @@ public class TestScript extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Tracking/reporting short description of the test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 

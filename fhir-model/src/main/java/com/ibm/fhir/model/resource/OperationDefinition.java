@@ -908,6 +908,21 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the operation definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the operation definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the operation definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -925,6 +940,23 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this operation definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the operation definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -938,6 +970,21 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this operation definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -988,6 +1035,21 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this operation definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1015,6 +1077,21 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1167,6 +1244,21 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting affectsState.
+         * @see #affectsState(Boolean)
+         * 
+         * @param affectsState
+         *     Whether content is changed by the operation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder affectsState(java.lang.Boolean affectsState) {
+            this.affectsState = affectsState == null ? null : Boolean.of(affectsState);
+            return this;
+        }
+
+        /**
          * Whether the operation affects state. Side effects such as producing audit trail entries do not count as 'affecting 
          * state'.
          * 
@@ -1260,6 +1352,23 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting system.
+         * @see #system(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param system
+         *     Invoke at the system level?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder system(java.lang.Boolean system) {
+            this.system = system == null ? null : Boolean.of(system);
+            return this;
+        }
+
+        /**
          * Indicates whether this operation or named query can be invoked at the system level (e.g. without needing to choose a 
          * resource type for the context).
          * 
@@ -1277,6 +1386,23 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting type.
+         * @see #type(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param type
+         *     Invoke at the type level?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder type(java.lang.Boolean type) {
+            this.type = type == null ? null : Boolean.of(type);
+            return this;
+        }
+
+        /**
          * Indicates whether this operation or named query can be invoked at the resource type level for any given resource type 
          * level (e.g. without needing to choose a specific resource id for the context).
          * 
@@ -1290,6 +1416,23 @@ public class OperationDefinition extends DomainResource {
          */
         public Builder type(Boolean type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting instance.
+         * @see #instance(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param instance
+         *     Invoke on an instance?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder instance(java.lang.Boolean instance) {
+            this.instance = instance == null ? null : Boolean.of(instance);
             return this;
         }
 
@@ -1906,6 +2049,23 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting min.
+             * @see #min(Integer)
+             * 
+             * <p>This element is required.
+             * 
+             * @param min
+             *     Minimum Cardinality
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder min(java.lang.Integer min) {
+                this.min = min == null ? null : Integer.of(min);
+                return this;
+            }
+
+            /**
              * The minimum number of times this parameter SHALL appear in the request or response.
              * 
              * <p>This element is required.
@@ -1922,6 +2082,23 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting max.
+             * @see #max(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param max
+             *     Maximum Cardinality (a number or *)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder max(java.lang.String max) {
+                this.max = max == null ? null : String.of(max);
+                return this;
+            }
+
+            /**
              * The maximum number of times this element is permitted to appear in the request or response.
              * 
              * <p>This element is required.
@@ -1934,6 +2111,21 @@ public class OperationDefinition extends DomainResource {
              */
             public Builder max(String max) {
                 this.max = max;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting documentation.
+             * @see #documentation(String)
+             * 
+             * @param documentation
+             *     Description of meaning/use
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = documentation == null ? null : String.of(documentation);
                 return this;
             }
 
@@ -2657,6 +2849,23 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting source.
+                 * @see #source(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param source
+                 *     Referencing parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder source(java.lang.String source) {
+                    this.source = source == null ? null : String.of(source);
+                    return this;
+                }
+
+                /**
                  * The name of the parameter or dot-separated path of parameter names pointing to the resource parameter that is expected 
                  * to contain a reference to this resource.
                  * 
@@ -2670,6 +2879,21 @@ public class OperationDefinition extends DomainResource {
                  */
                 public Builder source(String source) {
                     this.source = source;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting sourceId.
+                 * @see #sourceId(String)
+                 * 
+                 * @param sourceId
+                 *     Element id of reference
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder sourceId(java.lang.String sourceId) {
+                    this.sourceId = sourceId == null ? null : String.of(sourceId);
                     return this;
                 }
 
@@ -2935,6 +3159,25 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting parameterName.
+             * @see #parameterName(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param parameterName
+             *     Name of parameter to include in overload
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder parameterName(java.lang.String... parameterName) {
+                for (java.lang.String value : parameterName) {
+                    this.parameterName.add(value == null ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Name of parameter to include in overload.
              * 
              * <p>Adds new element(s) to the existing list
@@ -2965,6 +3208,21 @@ public class OperationDefinition extends DomainResource {
              */
             public Builder parameterName(Collection<String> parameterName) {
                 this.parameterName = new ArrayList<>(parameterName);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting comment.
+             * @see #comment(String)
+             * 
+             * @param comment
+             *     Comments to go on overload
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = comment == null ? null : String.of(comment);
                 return this;
             }
 

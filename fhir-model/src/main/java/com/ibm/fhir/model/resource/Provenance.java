@@ -619,6 +619,23 @@ public class Provenance extends DomainResource {
         }
 
         /**
+         * Convenience method for setting recorded.
+         * @see #recorded(Instant)
+         * 
+         * <p>This element is required.
+         * 
+         * @param recorded
+         *     When the activity was recorded / updated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recorded(java.time.ZonedDateTime recorded) {
+            this.recorded = recorded == null ? null : Instant.of(recorded);
+            return this;
+        }
+
+        /**
          * The instant of time at which the activity was recorded.
          * 
          * <p>This element is required.

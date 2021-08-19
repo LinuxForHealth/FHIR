@@ -1641,6 +1641,21 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
+         * Convenience method for setting disposition.
+         * @see #disposition(String)
+         * 
+         * @param disposition
+         *     Disposition Message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = disposition == null ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A human readable description of the status of the adjudication.
          * 
          * @param disposition
@@ -1651,6 +1666,25 @@ public class ExplanationOfBenefit extends DomainResource {
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting preAuthRef.
+         * @see #preAuthRef(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param preAuthRef
+         *     Preauthorization reference
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder preAuthRef(java.lang.String... preAuthRef) {
+            for (java.lang.String value : preAuthRef) {
+                this.preAuthRef.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -3213,6 +3247,21 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder provider(Reference provider) {
                 this.provider = provider;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting responsible.
+             * @see #responsible(Boolean)
+             * 
+             * @param responsible
+             *     Indicator of the lead practitioner
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder responsible(java.lang.Boolean responsible) {
+                this.responsible = responsible == null ? null : Boolean.of(responsible);
                 return this;
             }
 
@@ -4880,6 +4929,23 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
+             * Convenience method for setting focal.
+             * @see #focal(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param focal
+             *     Coverage to be used for adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(java.lang.Boolean focal) {
+                this.focal = focal == null ? null : Boolean.of(focal);
+                return this;
+            }
+
+            /**
              * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
              * 
              * <p>This element is required.
@@ -4914,6 +4980,25 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder coverage(Reference coverage) {
                 this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting preAuthRef.
+             * @see #preAuthRef(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param preAuthRef
+             *     Prior authorization reference number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preAuthRef(java.lang.String... preAuthRef) {
+                for (java.lang.String value : preAuthRef) {
+                    this.preAuthRef.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 
@@ -5227,6 +5312,21 @@ public class ExplanationOfBenefit extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * @param date
+             *     When the incident occurred
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
             }
 
             /**
@@ -11470,6 +11570,21 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * @param date
+             *     Expected date of payment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
+            }
+
+            /**
              * Estimated date the payment will be issued or the actual issue date of payment.
              * 
              * @param date
@@ -11826,6 +11941,21 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder type(NoteType type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Note explanatory text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
                 return this;
             }
 
@@ -12244,6 +12374,21 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
+             * Convenience method for setting excluded.
+             * @see #excluded(Boolean)
+             * 
+             * @param excluded
+             *     Excluded from the plan
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder excluded(java.lang.Boolean excluded) {
+                this.excluded = excluded == null ? null : Boolean.of(excluded);
+                return this;
+            }
+
+            /**
              * True if the indicated class of service is excluded from the plan, missing or False indicates the product or service is 
              * included in the coverage.
              * 
@@ -12259,6 +12404,21 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Short name for the benefit
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * A short name or tag for the benefit.
              * 
              * @param name
@@ -12269,6 +12429,21 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of the benefit or services covered
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 

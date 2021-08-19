@@ -613,6 +613,23 @@ public class CatalogEntry extends DomainResource {
         }
 
         /**
+         * Convenience method for setting orderable.
+         * @see #orderable(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param orderable
+         *     Whether the entry represents an orderable item
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder orderable(java.lang.Boolean orderable) {
+            this.orderable = orderable == null ? null : Boolean.of(orderable);
+            return this;
+        }
+
+        /**
          * Whether the entry represents an orderable item.
          * 
          * <p>This element is required.

@@ -557,6 +557,23 @@ public class Parameters extends Resource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     Name from the definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * The name of the parameter (reference to the operation definition).
              * 
              * <p>This element is required.

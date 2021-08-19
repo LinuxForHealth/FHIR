@@ -225,6 +225,23 @@ public class Contributor extends Element {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Who contributed the content
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * The name of the individual or organization responsible for the contribution.
          * 
          * <p>This element is required.

@@ -701,6 +701,21 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Official name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * Official name of the health insurance product as designated by the owner.
          * 
          * @param name
@@ -711,6 +726,25 @@ public class InsurancePlan extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting alias.
+         * @see #alias(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param alias
+         *     Alternate names
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -2061,6 +2095,21 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting requirement.
+                 * @see #requirement(String)
+                 * 
+                 * @param requirement
+                 *     Referral requirements
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder requirement(java.lang.String requirement) {
+                    this.requirement = requirement == null ? null : String.of(requirement);
+                    return this;
+                }
+
+                /**
                  * The referral requirements to have access/coverage for this benefit.
                  * 
                  * @param requirement
@@ -3226,6 +3275,21 @@ public class InsurancePlan extends DomainResource {
                  */
                 public Builder cost(Money cost) {
                     this.cost = cost;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting comment.
+                 * @see #comment(String)
+                 * 
+                 * @param comment
+                 *     Additional cost information
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder comment(java.lang.String comment) {
+                    this.comment = comment == null ? null : String.of(comment);
                     return this;
                 }
 

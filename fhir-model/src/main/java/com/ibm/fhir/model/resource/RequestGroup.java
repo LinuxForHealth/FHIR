@@ -1798,6 +1798,21 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
+             * Convenience method for setting prefix.
+             * @see #prefix(String)
+             * 
+             * @param prefix
+             *     User-visible prefix for the action (e.g. 1. or A.)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder prefix(java.lang.String prefix) {
+                this.prefix = prefix == null ? null : String.of(prefix);
+                return this;
+            }
+
+            /**
              * A user-visible prefix for the action.
              * 
              * @param prefix
@@ -1808,6 +1823,21 @@ public class RequestGroup extends DomainResource {
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting title.
+             * @see #title(String)
+             * 
+             * @param title
+             *     User-visible title
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder title(java.lang.String title) {
+                this.title = title == null ? null : String.of(title);
                 return this;
             }
 
@@ -1826,6 +1856,21 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Short description of the action
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A short description of the action used to provide a summary to display to the user.
              * 
              * @param description
@@ -1836,6 +1881,21 @@ public class RequestGroup extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting textEquivalent.
+             * @see #textEquivalent(String)
+             * 
+             * @param textEquivalent
+             *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder textEquivalent(java.lang.String textEquivalent) {
+                this.textEquivalent = textEquivalent == null ? null : String.of(textEquivalent);
                 return this;
             }
 

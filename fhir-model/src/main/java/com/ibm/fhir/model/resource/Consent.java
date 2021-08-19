@@ -1642,6 +1642,23 @@ public class Consent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting verified.
+             * @see #verified(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param verified
+             *     Has been verified
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder verified(java.lang.Boolean verified) {
+                this.verified = verified == null ? null : Boolean.of(verified);
+                return this;
+            }
+
+            /**
              * Has the instruction been verified.
              * 
              * <p>This element is required.

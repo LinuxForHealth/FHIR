@@ -1192,6 +1192,21 @@ public class ImmunizationRecommendation extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Protocol details
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Contains the description about the protocol under which the vaccine was administered.
              * 
              * @param description
@@ -1202,6 +1217,21 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             public Builder description(String description) {
                 this.description = description;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting series.
+             * @see #series(String)
+             * 
+             * @param series
+             *     Name of vaccination series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder series(java.lang.String series) {
+                this.series = series == null ? null : String.of(series);
                 return this;
             }
 

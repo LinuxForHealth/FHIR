@@ -757,6 +757,21 @@ public class Location extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name of the location as used by humans
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * Name of the location as used by humans. Does not need to be unique.
          * 
          * @param name
@@ -767,6 +782,25 @@ public class Location extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting alias.
+         * @see #alias(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param alias
+         *     A list of alternate names that the location is known as, or was known as, in the past
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -801,6 +835,22 @@ public class Location extends DomainResource {
          */
         public Builder alias(Collection<String> alias) {
             this.alias = new ArrayList<>(alias);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Additional details about the location that could be displayed as further information to identify the location beyond 
+         *     its name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
             return this;
         }
 
@@ -1015,6 +1065,21 @@ public class Location extends DomainResource {
          */
         public Builder hoursOfOperation(Collection<HoursOfOperation> hoursOfOperation) {
             this.hoursOfOperation = new ArrayList<>(hoursOfOperation);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting availabilityExceptions.
+         * @see #availabilityExceptions(String)
+         * 
+         * @param availabilityExceptions
+         *     Description of availability exceptions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
+            this.availabilityExceptions = availabilityExceptions == null ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -1729,6 +1794,21 @@ public class Location extends DomainResource {
              */
             public Builder daysOfWeek(Collection<DaysOfWeek> daysOfWeek) {
                 this.daysOfWeek = new ArrayList<>(daysOfWeek);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting allDay.
+             * @see #allDay(Boolean)
+             * 
+             * @param allDay
+             *     The Location is open all day
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder allDay(java.lang.Boolean allDay) {
+                this.allDay = allDay == null ? null : Boolean.of(allDay);
                 return this;
             }
 

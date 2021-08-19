@@ -1332,6 +1332,21 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
+         * Convenience method for setting doNotPerform.
+         * @see #doNotPerform(Boolean)
+         * 
+         * @param doNotPerform
+         *     True if service/procedure should not be performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            return this;
+        }
+
+        /**
          * Set this to true if the record is saying that the service/procedure should NOT be performed.
          * 
          * @param doNotPerform
@@ -1985,6 +2000,21 @@ public class ServiceRequest extends DomainResource {
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting patientInstruction.
+         * @see #patientInstruction(String)
+         * 
+         * @param patientInstruction
+         *     Patient or consumer-oriented instructions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patientInstruction(java.lang.String patientInstruction) {
+            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
             return this;
         }
 

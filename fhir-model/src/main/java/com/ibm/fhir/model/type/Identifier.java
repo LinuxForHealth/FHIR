@@ -317,6 +317,21 @@ public class Identifier extends Element {
         }
 
         /**
+         * Convenience method for setting value.
+         * @see #value(String)
+         * 
+         * @param value
+         *     The value that is unique
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(java.lang.String value) {
+            this.value = value == null ? null : String.of(value);
+            return this;
+        }
+
+        /**
          * The portion of the identifier typically relevant to the user and which is unique within the context of the system.
          * 
          * @param value

@@ -941,6 +941,21 @@ public class Evidence extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the evidence
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the evidence when it is referenced in a specification, model, 
          * design or instance. This is an arbitrary value managed by the evidence author and is not expected to be globally 
          * unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no 
@@ -961,6 +976,21 @@ public class Evidence extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this evidence (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the evidence. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -972,6 +1002,21 @@ public class Evidence extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this evidence (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -990,6 +1035,21 @@ public class Evidence extends DomainResource {
         }
 
         /**
+         * Convenience method for setting shortTitle.
+         * @see #shortTitle(String)
+         * 
+         * @param shortTitle
+         *     Title for use in informal contexts
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder shortTitle(java.lang.String shortTitle) {
+            this.shortTitle = shortTitle == null ? null : String.of(shortTitle);
+            return this;
+        }
+
+        /**
          * The short title provides an alternate title for use in informal descriptive contexts where the full, formal title is 
          * not necessary.
          * 
@@ -1001,6 +1061,21 @@ public class Evidence extends DomainResource {
          */
         public Builder shortTitle(String shortTitle) {
             this.shortTitle = shortTitle;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate title of the Evidence
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
             return this;
         }
 
@@ -1047,6 +1122,21 @@ public class Evidence extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1234,6 +1324,21 @@ public class Evidence extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the evidence was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1245,6 +1350,21 @@ public class Evidence extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the evidence was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 

@@ -296,6 +296,21 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting text.
+         * @see #text(String)
+         * 
+         * @param text
+         *     Text representation of the full name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder text(java.lang.String text) {
+            this.text = text == null ? null : String.of(text);
+            return this;
+        }
+
+        /**
          * Specifies the entire name as it should be displayed e.g. on an application UI. This may be provided instead of or as 
          * well as the specific parts.
          * 
@@ -311,6 +326,21 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting family.
+         * @see #family(String)
+         * 
+         * @param family
+         *     Family name (often called 'Surname')
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder family(java.lang.String family) {
+            this.family = family == null ? null : String.of(family);
+            return this;
+        }
+
+        /**
          * The part of a name that links to the genealogy. In some cultures (e.g. Eritrea) the family name of a son is the first 
          * name of his father.
          * 
@@ -322,6 +352,25 @@ public class HumanName extends Element {
          */
         public Builder family(String family) {
             this.family = family;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting given.
+         * @see #given(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param given
+         *     Given names (not always 'first'). Includes middle names
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder given(java.lang.String... given) {
+            for (java.lang.String value : given) {
+                this.given.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -360,6 +409,25 @@ public class HumanName extends Element {
         }
 
         /**
+         * Convenience method for setting prefix.
+         * @see #prefix(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param prefix
+         *     Parts that come before the name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder prefix(java.lang.String... prefix) {
+            for (java.lang.String value : prefix) {
+                this.prefix.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * 
@@ -392,6 +460,25 @@ public class HumanName extends Element {
          */
         public Builder prefix(Collection<String> prefix) {
             this.prefix = new ArrayList<>(prefix);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting suffix.
+         * @see #suffix(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param suffix
+         *     Parts that come after the name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder suffix(java.lang.String... suffix) {
+            for (java.lang.String value : suffix) {
+                this.suffix.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 

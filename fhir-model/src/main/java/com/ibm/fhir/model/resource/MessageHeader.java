@@ -1096,6 +1096,21 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Name of system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Human-readable name for the target system.
              * 
              * @param name
@@ -1473,6 +1488,21 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Name of system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Human-readable name for the source system.
              * 
              * @param name
@@ -1487,6 +1517,21 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
+             * Convenience method for setting software.
+             * @see #software(String)
+             * 
+             * @param software
+             *     Name of software running the system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder software(java.lang.String software) {
+                this.software = software == null ? null : String.of(software);
+                return this;
+            }
+
+            /**
              * May include configuration or other information useful in debugging.
              * 
              * @param software
@@ -1497,6 +1542,21 @@ public class MessageHeader extends DomainResource {
              */
             public Builder software(String software) {
                 this.software = software;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     Version of software running
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 

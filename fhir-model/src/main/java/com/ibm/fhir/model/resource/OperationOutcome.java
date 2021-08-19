@@ -774,6 +774,21 @@ public class OperationOutcome extends DomainResource {
             }
 
             /**
+             * Convenience method for setting diagnostics.
+             * @see #diagnostics(String)
+             * 
+             * @param diagnostics
+             *     Additional diagnostic information about the issue
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder diagnostics(java.lang.String diagnostics) {
+                this.diagnostics = diagnostics == null ? null : String.of(diagnostics);
+                return this;
+            }
+
+            /**
              * Additional diagnostic information about the issue.
              * 
              * @param diagnostics
@@ -784,6 +799,25 @@ public class OperationOutcome extends DomainResource {
              */
             public Builder diagnostics(String diagnostics) {
                 this.diagnostics = diagnostics;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting location.
+             * @see #location(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param location
+             *     Deprecated: Path of element(s) related to issue
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder location(java.lang.String... location) {
+                for (java.lang.String value : location) {
+                    this.location.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 
@@ -828,6 +862,25 @@ public class OperationOutcome extends DomainResource {
              */
             public Builder location(Collection<String> location) {
                 this.location = new ArrayList<>(location);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting expression.
+             * @see #expression(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param expression
+             *     FHIRPath of element(s) related to issue
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(java.lang.String... expression) {
+                for (java.lang.String value : expression) {
+                    this.expression.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 

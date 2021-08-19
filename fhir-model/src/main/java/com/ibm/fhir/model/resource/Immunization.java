@@ -1072,6 +1072,21 @@ public class Immunization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting primarySource.
+         * @see #primarySource(Boolean)
+         * 
+         * @param primarySource
+         *     Indicates context the data was recorded in
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder primarySource(java.lang.Boolean primarySource) {
+            this.primarySource = primarySource == null ? null : Boolean.of(primarySource);
+            return this;
+        }
+
+        /**
          * An indication that the content of the record is based on information from the person who administered the vaccine. 
          * This reflects the context under which the data was originally recorded.
          * 
@@ -1140,6 +1155,21 @@ public class Immunization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting lotNumber.
+         * @see #lotNumber(String)
+         * 
+         * @param lotNumber
+         *     Vaccine lot number
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lotNumber(java.lang.String lotNumber) {
+            this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+            return this;
+        }
+
+        /**
          * Lot number of the vaccine product.
          * 
          * @param lotNumber
@@ -1150,6 +1180,21 @@ public class Immunization extends DomainResource {
          */
         public Builder lotNumber(String lotNumber) {
             this.lotNumber = lotNumber;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting expirationDate.
+         * @see #expirationDate(Date)
+         * 
+         * @param expirationDate
+         *     Vaccine expiration date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder expirationDate(java.time.LocalDate expirationDate) {
+            this.expirationDate = expirationDate == null ? null : Date.of(expirationDate);
             return this;
         }
 
@@ -1356,6 +1401,21 @@ public class Immunization extends DomainResource {
          */
         public Builder reasonReference(Collection<Reference> reasonReference) {
             this.reasonReference = new ArrayList<>(reasonReference);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting isSubpotent.
+         * @see #isSubpotent(Boolean)
+         * 
+         * @param isSubpotent
+         *     Dose potency
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder isSubpotent(java.lang.Boolean isSubpotent) {
+            this.isSubpotent = isSubpotent == null ? null : Boolean.of(isSubpotent);
             return this;
         }
 
@@ -2177,6 +2237,21 @@ public class Immunization extends DomainResource {
             }
 
             /**
+             * Convenience method for setting documentType.
+             * @see #documentType(String)
+             * 
+             * @param documentType
+             *     Educational material document identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder documentType(java.lang.String documentType) {
+                this.documentType = documentType == null ? null : String.of(documentType);
+                return this;
+            }
+
+            /**
              * Identifier of the material presented to the patient.
              * 
              * @param documentType
@@ -2525,6 +2600,21 @@ public class Immunization extends DomainResource {
             }
 
             /**
+             * Convenience method for setting reported.
+             * @see #reported(Boolean)
+             * 
+             * @param reported
+             *     Indicates self-reported reaction
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder reported(java.lang.Boolean reported) {
+                this.reported = reported == null ? null : Boolean.of(reported);
+                return this;
+            }
+
+            /**
              * Self-reported indicator.
              * 
              * @param reported
@@ -2838,6 +2928,21 @@ public class Immunization extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting series.
+             * @see #series(String)
+             * 
+             * @param series
+             *     Name of vaccine series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder series(java.lang.String series) {
+                this.series = series == null ? null : String.of(series);
+                return this;
             }
 
             /**

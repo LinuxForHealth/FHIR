@@ -669,6 +669,21 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         /**
+         * Convenience method for setting quantity.
+         * @see #quantity(Integer)
+         * 
+         * @param quantity
+         *     The amount of this biologically derived product
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder quantity(java.lang.Integer quantity) {
+            this.quantity = quantity == null ? null : Integer.of(quantity);
+            return this;
+        }
+
+        /**
          * Number of discrete units within this product.
          * 
          * @param quantity
@@ -1447,6 +1462,21 @@ public class BiologicallyDerivedProduct extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of of processing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Description of of processing.
              * 
              * @param description
@@ -1756,6 +1786,21 @@ public class BiologicallyDerivedProduct extends DomainResource {
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of manipulation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -2070,6 +2115,21 @@ public class BiologicallyDerivedProduct extends DomainResource {
             @Override
             public Builder modifierExtension(java.util.Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of storage
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**

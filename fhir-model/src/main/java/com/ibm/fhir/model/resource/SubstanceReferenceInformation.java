@@ -417,6 +417,21 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Todo
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
+            return this;
+        }
+
+        /**
          * Todo.
          * 
          * @param comment

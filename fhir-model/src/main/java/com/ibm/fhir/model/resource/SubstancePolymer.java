@@ -494,6 +494,25 @@ public class SubstancePolymer extends DomainResource {
         }
 
         /**
+         * Convenience method for setting modification.
+         * @see #modification(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param modification
+         *     Todo
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder modification(java.lang.String... modification) {
+            for (java.lang.String value : modification) {
+                this.modification.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Todo.
          * 
          * <p>Adds new element(s) to the existing list
@@ -1196,6 +1215,21 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting isDefining.
+                 * @see #isDefining(Boolean)
+                 * 
+                 * @param isDefining
+                 *     Todo
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder isDefining(java.lang.Boolean isDefining) {
+                    this.isDefining = isDefining == null ? null : Boolean.of(isDefining);
+                    return this;
+                }
+
+                /**
                  * Todo.
                  * 
                  * @param isDefining
@@ -1504,6 +1538,21 @@ public class SubstancePolymer extends DomainResource {
             }
 
             /**
+             * Convenience method for setting numberOfUnits.
+             * @see #numberOfUnits(Integer)
+             * 
+             * @param numberOfUnits
+             *     Todo
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder numberOfUnits(java.lang.Integer numberOfUnits) {
+                this.numberOfUnits = numberOfUnits == null ? null : Integer.of(numberOfUnits);
+                return this;
+            }
+
+            /**
              * Todo.
              * 
              * @param numberOfUnits
@@ -1514,6 +1563,21 @@ public class SubstancePolymer extends DomainResource {
              */
             public Builder numberOfUnits(Integer numberOfUnits) {
                 this.numberOfUnits = numberOfUnits;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting averageMolecularFormula.
+             * @see #averageMolecularFormula(String)
+             * 
+             * @param averageMolecularFormula
+             *     Todo
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder averageMolecularFormula(java.lang.String averageMolecularFormula) {
+                this.averageMolecularFormula = averageMolecularFormula == null ? null : String.of(averageMolecularFormula);
                 return this;
             }
 
@@ -1887,6 +1951,21 @@ public class SubstancePolymer extends DomainResource {
                  */
                 public Builder orientationOfPolymerisation(CodeableConcept orientationOfPolymerisation) {
                     this.orientationOfPolymerisation = orientationOfPolymerisation;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting repeatUnit.
+                 * @see #repeatUnit(String)
+                 * 
+                 * @param repeatUnit
+                 *     Todo
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder repeatUnit(java.lang.String repeatUnit) {
+                    this.repeatUnit = repeatUnit == null ? null : String.of(repeatUnit);
                     return this;
                 }
 
@@ -2529,6 +2608,21 @@ public class SubstancePolymer extends DomainResource {
                      */
                     public Builder type(CodeableConcept type) {
                         this.type = type;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting representation.
+                     * @see #representation(String)
+                     * 
+                     * @param representation
+                     *     Todo
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder representation(java.lang.String representation) {
+                        this.representation = representation == null ? null : String.of(representation);
                         return this;
                     }
 

@@ -643,6 +643,23 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this naming system (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the naming system. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -710,6 +727,21 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
+            return this;
+        }
+
+        /**
          * The name of the organization or individual that published the naming system.
          * 
          * @param publisher
@@ -754,6 +786,21 @@ public class NamingSystem extends DomainResource {
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting responsible.
+         * @see #responsible(String)
+         * 
+         * @param responsible
+         *     Who maintains system namespace?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder responsible(java.lang.String responsible) {
+            this.responsible = responsible == null ? null : String.of(responsible);
             return this;
         }
 
@@ -870,6 +917,21 @@ public class NamingSystem extends DomainResource {
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting usage.
+         * @see #usage(String)
+         * 
+         * @param usage
+         *     How/where is it used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = usage == null ? null : String.of(usage);
             return this;
         }
 
@@ -1270,6 +1332,23 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting value.
+             * @see #value(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     The unique identifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(java.lang.String value) {
+                this.value = value == null ? null : String.of(value);
+                return this;
+            }
+
+            /**
              * The string that should be sent over the wire to identify the code system or identifier system.
              * 
              * <p>This element is required.
@@ -1286,6 +1365,21 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting preferred.
+             * @see #preferred(Boolean)
+             * 
+             * @param preferred
+             *     Is this the id that should be used for this type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = preferred == null ? null : Boolean.of(preferred);
+                return this;
+            }
+
+            /**
              * Indicates whether this identifier is the "preferred" identifier of this type.
              * 
              * @param preferred
@@ -1296,6 +1390,21 @@ public class NamingSystem extends DomainResource {
              */
             public Builder preferred(Boolean preferred) {
                 this.preferred = preferred;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting comment.
+             * @see #comment(String)
+             * 
+             * @param comment
+             *     Notes about identifier usage
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = comment == null ? null : String.of(comment);
                 return this;
             }
 

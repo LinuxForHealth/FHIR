@@ -252,6 +252,21 @@ public class Reference extends Element {
         }
 
         /**
+         * Convenience method for setting reference.
+         * @see #reference(String)
+         * 
+         * @param reference
+         *     Literal reference, Relative, internal or absolute URL
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder reference(java.lang.String reference) {
+            this.reference = reference == null ? null : String.of(reference);
+            return this;
+        }
+
+        /**
          * A reference to a location at which the other resource is found. The reference may be a relative reference, in which 
          * case it is relative to the service base URL, or an absolute URL that resolves to the location where the resource is 
          * found. The reference may be version specific or not. If the reference is not to a FHIR RESTful server, then it should 
@@ -304,6 +319,21 @@ public class Reference extends Element {
          */
         public Builder identifier(Identifier identifier) {
             this.identifier = identifier;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting display.
+         * @see #display(String)
+         * 
+         * @param display
+         *     Text alternative for the resource
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder display(java.lang.String display) {
+            this.display = display == null ? null : String.of(display);
             return this;
         }
 

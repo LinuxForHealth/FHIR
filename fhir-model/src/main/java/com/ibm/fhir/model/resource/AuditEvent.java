@@ -752,6 +752,23 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
+         * Convenience method for setting recorded.
+         * @see #recorded(Instant)
+         * 
+         * <p>This element is required.
+         * 
+         * @param recorded
+         *     Time when the event was recorded
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder recorded(java.time.ZonedDateTime recorded) {
+            this.recorded = recorded == null ? null : Instant.of(recorded);
+            return this;
+        }
+
+        /**
          * The time when the event was recorded.
          * 
          * <p>This element is required.
@@ -778,6 +795,21 @@ public class AuditEvent extends DomainResource {
          */
         public Builder outcome(AuditEventOutcome outcome) {
             this.outcome = outcome;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting outcomeDesc.
+         * @see #outcomeDesc(String)
+         * 
+         * @param outcomeDesc
+         *     Description of the event outcome
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder outcomeDesc(java.lang.String outcomeDesc) {
+            this.outcomeDesc = outcomeDesc == null ? null : String.of(outcomeDesc);
             return this;
         }
 
@@ -1439,6 +1471,21 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting altId.
+             * @see #altId(String)
+             * 
+             * @param altId
+             *     Alternative User identity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder altId(java.lang.String altId) {
+                this.altId = altId == null ? null : String.of(altId);
+                return this;
+            }
+
+            /**
              * Alternative agent Identifier. For a human, this should be a user identifier text string from authentication system. 
              * This identifier would be one known to a common authentication system (e.g. single sign-on), if available.
              * 
@@ -1454,6 +1501,21 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Human friendly name for the agent
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Human-meaningful name for the agent.
              * 
              * @param name
@@ -1464,6 +1526,23 @@ public class AuditEvent extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting requestor.
+             * @see #requestor(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param requestor
+             *     Whether user is initiator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder requestor(java.lang.Boolean requestor) {
+                this.requestor = requestor == null ? null : Boolean.of(requestor);
                 return this;
             }
 
@@ -1867,6 +1946,21 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting address.
+                 * @see #address(String)
+                 * 
+                 * @param address
+                 *     Identifier for the network access point of the user device
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder address(java.lang.String address) {
+                    this.address = address == null ? null : String.of(address);
+                    return this;
+                }
+
+                /**
                  * An identifier for the network access point of the user device for the audit event.
                  * 
                  * @param address
@@ -2159,6 +2253,21 @@ public class AuditEvent extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting site.
+             * @see #site(String)
+             * 
+             * @param site
+             *     Logical source location within the enterprise
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder site(java.lang.String site) {
+                this.site = site == null ? null : String.of(site);
+                return this;
             }
 
             /**
@@ -2721,6 +2830,21 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Descriptor for entity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * A name of the entity in the audit event.
              * 
              * @param name
@@ -2731,6 +2855,21 @@ public class AuditEvent extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Descriptive text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 
@@ -3044,6 +3183,23 @@ public class AuditEvent extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting type.
+                 * @see #type(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param type
+                 *     Name of the property
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(java.lang.String type) {
+                    this.type = type == null ? null : String.of(type);
+                    return this;
                 }
 
                 /**

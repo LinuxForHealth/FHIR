@@ -1167,6 +1167,21 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the structure definition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the structure definition when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the structure definition author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -1184,6 +1199,23 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this structure definition (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the structure definition. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1197,6 +1229,21 @@ public class StructureDefinition extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this structure definition (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1231,6 +1278,21 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this structure definition is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1258,6 +1320,21 @@ public class StructureDefinition extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1526,6 +1603,23 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting _abstract.
+         * @see #_abstract(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param _abstract
+         *     Whether the structure is abstract
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder _abstract(java.lang.Boolean _abstract) {
+            this._abstract = _abstract == null ? null : Boolean.of(_abstract);
+            return this;
+        }
+
+        /**
          * Whether structure this definition describes is abstract or not - that is, whether the structure is not intended to be 
          * instantiated. For Resources and Data types, abstract types will never be exchanged between systems.
          * 
@@ -1573,6 +1667,25 @@ public class StructureDefinition extends DomainResource {
          */
         public Builder context(Collection<Context> context) {
             this.context = new ArrayList<>(context);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting contextInvariant.
+         * @see #contextInvariant(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param contextInvariant
+         *     FHIRPath invariants - when the extension can be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder contextInvariant(java.lang.String... contextInvariant) {
+            for (java.lang.String value : contextInvariant) {
+                this.contextInvariant.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -2041,6 +2154,21 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Names what this mapping refers to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * A name for the specification that is being mapped to.
              * 
              * @param name
@@ -2051,6 +2179,21 @@ public class StructureDefinition extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting comment.
+             * @see #comment(String)
+             * 
+             * @param comment
+             *     Versions, Issues, Scope limitations etc.
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = comment == null ? null : String.of(comment);
                 return this;
             }
 
@@ -2338,6 +2481,23 @@ public class StructureDefinition extends DomainResource {
              */
             public Builder type(ExtensionContextType type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting expression.
+             * @see #expression(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param expression
+             *     Where the extension can be used in instances
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder expression(java.lang.String expression) {
+                this.expression = expression == null ? null : String.of(expression);
                 return this;
             }
 

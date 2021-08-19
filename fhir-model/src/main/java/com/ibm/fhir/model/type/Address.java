@@ -374,6 +374,21 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting text.
+         * @see #text(String)
+         * 
+         * @param text
+         *     Text representation of the address
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder text(java.lang.String text) {
+            this.text = text == null ? null : String.of(text);
+            return this;
+        }
+
+        /**
          * Specifies the entire address as it should be displayed e.g. on a postal label. This may be provided instead of or as 
          * well as the specific parts.
          * 
@@ -385,6 +400,25 @@ public class Address extends Element {
          */
         public Builder text(String text) {
             this.text = text;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting line.
+         * @see #line(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param line
+         *     Street name, number, direction &amp; P.O. Box etc.
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder line(java.lang.String... line) {
+            for (java.lang.String value : line) {
+                this.line.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -425,6 +459,21 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting city.
+         * @see #city(String)
+         * 
+         * @param city
+         *     Name of city, town etc.
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder city(java.lang.String city) {
+            this.city = city == null ? null : String.of(city);
+            return this;
+        }
+
+        /**
          * The name of the city, town, suburb, village or other community or delivery center.
          * 
          * @param city
@@ -439,6 +488,21 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting district.
+         * @see #district(String)
+         * 
+         * @param district
+         *     District name (aka county)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder district(java.lang.String district) {
+            this.district = district == null ? null : String.of(district);
+            return this;
+        }
+
+        /**
          * The name of the administrative area (county).
          * 
          * @param district
@@ -449,6 +513,21 @@ public class Address extends Element {
          */
         public Builder district(String district) {
             this.district = district;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting state.
+         * @see #state(String)
+         * 
+         * @param state
+         *     Sub-unit of country (abbreviations ok)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder state(java.lang.String state) {
+            this.state = state == null ? null : String.of(state);
             return this;
         }
 
@@ -468,6 +547,21 @@ public class Address extends Element {
         }
 
         /**
+         * Convenience method for setting postalCode.
+         * @see #postalCode(String)
+         * 
+         * @param postalCode
+         *     Postal code for area
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder postalCode(java.lang.String postalCode) {
+            this.postalCode = postalCode == null ? null : String.of(postalCode);
+            return this;
+        }
+
+        /**
          * A postal code designating a region defined by the postal service.
          * 
          * @param postalCode
@@ -478,6 +572,21 @@ public class Address extends Element {
          */
         public Builder postalCode(String postalCode) {
             this.postalCode = postalCode;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting country.
+         * @see #country(String)
+         * 
+         * @param country
+         *     Country (e.g. can be ISO 3166 2 or 3 letter code)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder country(java.lang.String country) {
+            this.country = country == null ? null : String.of(country);
             return this;
         }
 

@@ -272,6 +272,21 @@ public class ContactPoint extends Element {
         }
 
         /**
+         * Convenience method for setting value.
+         * @see #value(String)
+         * 
+         * @param value
+         *     The actual contact point details
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder value(java.lang.String value) {
+            this.value = value == null ? null : String.of(value);
+            return this;
+        }
+
+        /**
          * The actual contact point details, in a form that is meaningful to the designated communication system (i.e. phone 
          * number or email address).
          * 

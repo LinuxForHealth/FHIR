@@ -698,6 +698,25 @@ public class VerificationResult extends DomainResource {
         }
 
         /**
+         * Convenience method for setting targetLocation.
+         * @see #targetLocation(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param targetLocation
+         *     The fhirpath location(s) within the resource that was validated
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder targetLocation(java.lang.String... targetLocation) {
+            for (java.lang.String value : targetLocation) {
+                this.targetLocation.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * The fhirpath location(s) within the resource that was validated.
          * 
          * <p>Adds new element(s) to the existing list
@@ -853,6 +872,21 @@ public class VerificationResult extends DomainResource {
          */
         public Builder lastPerformed(DateTime lastPerformed) {
             this.lastPerformed = lastPerformed;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting nextScheduled.
+         * @see #nextScheduled(Date)
+         * 
+         * @param nextScheduled
+         *     The date when target is next validated, if appropriate
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder nextScheduled(java.time.LocalDate nextScheduled) {
+            this.nextScheduled = nextScheduled == null ? null : Date.of(nextScheduled);
             return this;
         }
 
@@ -1936,6 +1970,21 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * @param date
+             *     The date the information was attested to
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
+            }
+
+            /**
              * The date the information was attested to.
              * 
              * @param date
@@ -1950,6 +1999,21 @@ public class VerificationResult extends DomainResource {
             }
 
             /**
+             * Convenience method for setting sourceIdentityCertificate.
+             * @see #sourceIdentityCertificate(String)
+             * 
+             * @param sourceIdentityCertificate
+             *     A digital identity certificate associated with the attestation source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sourceIdentityCertificate(java.lang.String sourceIdentityCertificate) {
+                this.sourceIdentityCertificate = sourceIdentityCertificate == null ? null : String.of(sourceIdentityCertificate);
+                return this;
+            }
+
+            /**
              * A digital identity certificate associated with the attestation source.
              * 
              * @param sourceIdentityCertificate
@@ -1960,6 +2024,22 @@ public class VerificationResult extends DomainResource {
              */
             public Builder sourceIdentityCertificate(String sourceIdentityCertificate) {
                 this.sourceIdentityCertificate = sourceIdentityCertificate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting proxyIdentityCertificate.
+             * @see #proxyIdentityCertificate(String)
+             * 
+             * @param proxyIdentityCertificate
+             *     A digital identity certificate associated with the proxy entity submitting attested information on behalf of the 
+             *     attestation source
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder proxyIdentityCertificate(java.lang.String proxyIdentityCertificate) {
+                this.proxyIdentityCertificate = proxyIdentityCertificate == null ? null : String.of(proxyIdentityCertificate);
                 return this;
             }
 
@@ -2292,6 +2372,21 @@ public class VerificationResult extends DomainResource {
              */
             public Builder organization(Reference organization) {
                 this.organization = organization;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting identityCertificate.
+             * @see #identityCertificate(String)
+             * 
+             * @param identityCertificate
+             *     A digital identity certificate associated with the validator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder identityCertificate(java.lang.String identityCertificate) {
+                this.identityCertificate = identityCertificate == null ? null : String.of(identityCertificate);
                 return this;
             }
 

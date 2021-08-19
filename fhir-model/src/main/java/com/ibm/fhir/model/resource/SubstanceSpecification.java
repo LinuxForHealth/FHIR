@@ -735,6 +735,21 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Textual description of the substance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * Textual description of the substance.
          * 
          * @param description
@@ -789,6 +804,21 @@ public class SubstanceSpecification extends DomainResource {
          */
         public Builder source(Collection<Reference> source) {
             this.source = new ArrayList<>(source);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Textual comment about this record of a substance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
             return this;
         }
 
@@ -1508,6 +1538,21 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Textual name for this moiety substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Textual name for this moiety substance.
              * 
              * @param name
@@ -1546,6 +1591,21 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder opticalActivity(CodeableConcept opticalActivity) {
                 this.opticalActivity = opticalActivity;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting molecularFormula.
+             * @see #molecularFormula(String)
+             * 
+             * @param molecularFormula
+             *     Molecular formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder molecularFormula(java.lang.String molecularFormula) {
+                this.molecularFormula = molecularFormula == null ? null : String.of(molecularFormula);
                 return this;
             }
 
@@ -1912,6 +1972,21 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting parameters.
+             * @see #parameters(String)
+             * 
+             * @param parameters
+             *     Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder parameters(java.lang.String parameters) {
+                this.parameters = parameters == null ? null : String.of(parameters);
                 return this;
             }
 
@@ -2361,6 +2436,21 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting molecularFormula.
+             * @see #molecularFormula(String)
+             * 
+             * @param molecularFormula
+             *     Molecular formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder molecularFormula(java.lang.String molecularFormula) {
+                this.molecularFormula = molecularFormula == null ? null : String.of(molecularFormula);
+                return this;
+            }
+
+            /**
              * Molecular formula.
              * 
              * @param molecularFormula
@@ -2371,6 +2461,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder molecularFormula(String molecularFormula) {
                 this.molecularFormula = molecularFormula;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting molecularFormulaByMoiety.
+             * @see #molecularFormulaByMoiety(String)
+             * 
+             * @param molecularFormulaByMoiety
+             *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
+             *     dot
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder molecularFormulaByMoiety(java.lang.String molecularFormulaByMoiety) {
+                this.molecularFormulaByMoiety = molecularFormulaByMoiety == null ? null : String.of(molecularFormulaByMoiety);
                 return this;
             }
 
@@ -3472,6 +3578,21 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting representation.
+                 * @see #representation(String)
+                 * 
+                 * @param representation
+                 *     The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder representation(java.lang.String representation) {
+                    this.representation = representation == null ? null : String.of(representation);
+                    return this;
+                }
+
+                /**
                  * The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX.
                  * 
                  * @param representation
@@ -3836,6 +3957,21 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder statusDate(DateTime statusDate) {
                 this.statusDate = statusDate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting comment.
+             * @see #comment(String)
+             * 
+             * @param comment
+             *     Any comment can be provided in this field, if necessary
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = comment == null ? null : String.of(comment);
                 return this;
             }
 
@@ -4309,6 +4445,23 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     The actual name
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * The actual name.
              * 
              * <p>This element is required.
@@ -4349,6 +4502,21 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder status(CodeableConcept status) {
                 this.status = status;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting preferred.
+             * @see #preferred(Boolean)
+             * 
+             * @param preferred
+             *     If this is the preferred name for this substance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = preferred == null ? null : Boolean.of(preferred);
                 return this;
             }
 
@@ -5316,6 +5484,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder relationship(CodeableConcept relationship) {
                 this.relationship = relationship;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting isDefining.
+             * @see #isDefining(Boolean)
+             * 
+             * @param isDefining
+             *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
+             *     enzyme, out of several possible substance relationships
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder isDefining(java.lang.Boolean isDefining) {
+                this.isDefining = isDefining == null ? null : Boolean.of(isDefining);
                 return this;
             }
 

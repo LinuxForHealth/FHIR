@@ -1006,6 +1006,21 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the capability statement
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the capability statement when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the capability statement author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -1023,6 +1038,21 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this capability statement (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the capability statement. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -1034,6 +1064,21 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this capability statement (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1068,6 +1113,21 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this capability statement is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1097,6 +1157,21 @@ public class CapabilityStatement extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1921,6 +1996,23 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     A name the software is known by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Name the software is known by.
              * 
              * <p>This element is required.
@@ -1933,6 +2025,21 @@ public class CapabilityStatement extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     Version covered by this statement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 
@@ -2233,6 +2340,23 @@ public class CapabilityStatement extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Describes this specific instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -3147,6 +3271,21 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting cors.
+                 * @see #cors(Boolean)
+                 * 
+                 * @param cors
+                 *     Adds CORS Headers (http://enable-cors.org/)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder cors(java.lang.Boolean cors) {
+                    this.cors = cors == null ? null : Boolean.of(cors);
+                    return this;
+                }
+
+                /**
                  * Server adds CORS headers when responding to requests - this enables Javascript applications to use the server.
                  * 
                  * @param cors
@@ -3892,6 +4031,21 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting readHistory.
+                 * @see #readHistory(Boolean)
+                 * 
+                 * @param readHistory
+                 *     Whether vRead can return past versions
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder readHistory(java.lang.Boolean readHistory) {
+                    this.readHistory = readHistory == null ? null : Boolean.of(readHistory);
+                    return this;
+                }
+
+                /**
                  * A flag for whether the server is able to return past versions as part of the vRead operation.
                  * 
                  * @param readHistory
@@ -3902,6 +4056,21 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder readHistory(Boolean readHistory) {
                     this.readHistory = readHistory;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting updateCreate.
+                 * @see #updateCreate(Boolean)
+                 * 
+                 * @param updateCreate
+                 *     If update can commit to a new identity
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder updateCreate(java.lang.Boolean updateCreate) {
+                    this.updateCreate = updateCreate == null ? null : Boolean.of(updateCreate);
                     return this;
                 }
 
@@ -3918,6 +4087,21 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder updateCreate(Boolean updateCreate) {
                     this.updateCreate = updateCreate;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting conditionalCreate.
+                 * @see #conditionalCreate(Boolean)
+                 * 
+                 * @param conditionalCreate
+                 *     If allows/uses conditional create
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder conditionalCreate(java.lang.Boolean conditionalCreate) {
+                    this.conditionalCreate = conditionalCreate == null ? null : Boolean.of(conditionalCreate);
                     return this;
                 }
 
@@ -3946,6 +4130,21 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder conditionalRead(ConditionalReadStatus conditionalRead) {
                     this.conditionalRead = conditionalRead;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting conditionalUpdate.
+                 * @see #conditionalUpdate(Boolean)
+                 * 
+                 * @param conditionalUpdate
+                 *     If allows/uses conditional update
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder conditionalUpdate(java.lang.Boolean conditionalUpdate) {
+                    this.conditionalUpdate = conditionalUpdate == null ? null : Boolean.of(conditionalUpdate);
                     return this;
                 }
 
@@ -4012,6 +4211,25 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting searchInclude.
+                 * @see #searchInclude(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param searchInclude
+                 *     _include values supported by the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder searchInclude(java.lang.String... searchInclude) {
+                    for (java.lang.String value : searchInclude) {
+                        this.searchInclude.add(value == null ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * A list of _include values supported by the server.
                  * 
                  * <p>Adds new element(s) to the existing list
@@ -4042,6 +4260,25 @@ public class CapabilityStatement extends DomainResource {
                  */
                 public Builder searchInclude(Collection<String> searchInclude) {
                     this.searchInclude = new ArrayList<>(searchInclude);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting searchRevInclude.
+                 * @see #searchRevInclude(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param searchRevInclude
+                 *     _revinclude values supported by the server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder searchRevInclude(java.lang.String... searchRevInclude) {
+                    for (java.lang.String value : searchRevInclude) {
+                        this.searchRevInclude.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 
@@ -4749,6 +4986,23 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting name.
+                     * @see #name(String)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param name
+                     *     Name of search parameter
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = name == null ? null : String.of(name);
+                        return this;
+                    }
+
+                    /**
                      * The name of the search parameter used in the interface.
                      * 
                      * <p>This element is required.
@@ -5087,6 +5341,23 @@ public class CapabilityStatement extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting name.
+                     * @see #name(String)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param name
+                     *     Name by which the operation/query is invoked
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder name(java.lang.String name) {
+                        this.name = name == null ? null : String.of(name);
+                        return this;
                     }
 
                     /**

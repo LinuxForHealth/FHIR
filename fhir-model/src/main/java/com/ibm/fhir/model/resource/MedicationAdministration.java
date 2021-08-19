@@ -1997,6 +1997,21 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Free text dosage instructions e.g. SIG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
+                return this;
+            }
+
+            /**
              * Free text dosage can be used for cases where the dosage administered is too complex to code. When coded dosage is 
              * present, the free text dosage may still be present for display to humans.The dosage instructions should reflect the 
              * dosage of the medication that was administered.

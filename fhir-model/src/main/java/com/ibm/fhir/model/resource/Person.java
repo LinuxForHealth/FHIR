@@ -631,6 +631,21 @@ public class Person extends DomainResource {
         }
 
         /**
+         * Convenience method for setting birthDate.
+         * @see #birthDate(Date)
+         * 
+         * @param birthDate
+         *     The date on which the person was born
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder birthDate(java.time.LocalDate birthDate) {
+            this.birthDate = birthDate == null ? null : Date.of(birthDate);
+            return this;
+        }
+
+        /**
          * The birth date for the person.
          * 
          * @param birthDate
@@ -708,6 +723,21 @@ public class Person extends DomainResource {
          */
         public Builder managingOrganization(Reference managingOrganization) {
             this.managingOrganization = managingOrganization;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     This person's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
             return this;
         }
 

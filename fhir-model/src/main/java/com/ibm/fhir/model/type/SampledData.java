@@ -369,6 +369,21 @@ public class SampledData extends Element {
         }
 
         /**
+         * Convenience method for setting data.
+         * @see #data(String)
+         * 
+         * @param data
+         *     Decimal values with spaces, or "E" | "U" | "L"
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder data(java.lang.String data) {
+            this.data = data == null ? null : String.of(data);
+            return this;
+        }
+
+        /**
          * A series of data points which are decimal values separated by a single space (character u20). The special values "E" 
          * (error), "L" (below detection limit) and "U" (above detection limit) can also be used in place of a decimal value.
          * 

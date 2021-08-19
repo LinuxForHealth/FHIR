@@ -214,6 +214,21 @@ public class CodeableConcept extends Element {
         }
 
         /**
+         * Convenience method for setting text.
+         * @see #text(String)
+         * 
+         * @param text
+         *     Plain text representation of the concept
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder text(java.lang.String text) {
+            this.text = text == null ? null : String.of(text);
+            return this;
+        }
+
+        /**
          * A human language representation of the concept as seen/selected/uttered by the user who entered the data and/or which 
          * represents the intended meaning of the user.
          * 

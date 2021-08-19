@@ -801,6 +801,21 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the implementation guide
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the implementation guide when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the implementation guide author and is 
          * not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not 
@@ -818,6 +833,23 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this implementation guide (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the implementation guide. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -831,6 +863,21 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this implementation guide (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -865,6 +912,21 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this implementation guide is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -892,6 +954,21 @@ public class ImplementationGuide extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1539,6 +1616,21 @@ public class ImplementationGuide extends DomainResource {
              */
             public Builder packageId(Id packageId) {
                 this.packageId = packageId;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     Version of the IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 
@@ -2555,6 +2647,23 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting name.
+                 * @see #name(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     Descriptive name for the package
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = name == null ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * The human-readable title to display for the package of resources when rendering the implementation guide.
                  * 
                  * <p>This element is required.
@@ -2567,6 +2676,21 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Human readable text describing the package
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
                     return this;
                 }
 
@@ -2963,6 +3087,21 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting name.
+                 * @see #name(String)
+                 * 
+                 * @param name
+                 *     Human Name for the resource
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = name == null ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * A human assigned name for the resource. All resources SHOULD have a name, but the name may be extracted from the 
                  * resource (e.g. ValueSet.name).
                  * 
@@ -2974,6 +3113,21 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Reason why included in guide
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
                     return this;
                 }
 
@@ -3350,6 +3504,23 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting title.
+                 * @see #title(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param title
+                 *     Short title shown for navigational assistance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder title(java.lang.String title) {
+                    this.title = title == null ? null : String.of(title);
+                    return this;
+                }
+
+                /**
                  * A short title used to represent this page in navigational structures such as table of contents, bread crumbs, etc.
                  * 
                  * <p>This element is required.
@@ -3696,6 +3867,23 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting value.
+                 * @see #value(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Value for named type
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = value == null ? null : String.of(value);
+                    return this;
+                }
+
+                /**
                  * Value for named type.
                  * 
                  * <p>This element is required.
@@ -3994,6 +4182,23 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting source.
+                 * @see #source(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param source
+                 *     The source location for the template
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder source(java.lang.String source) {
+                    this.source = source == null ? null : String.of(source);
+                    return this;
+                }
+
+                /**
                  * The source location for the template.
                  * 
                  * <p>This element is required.
@@ -4006,6 +4211,21 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder source(String source) {
                     this.source = source;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting scope.
+                 * @see #scope(String)
+                 * 
+                 * @param scope
+                 *     The scope in which the template applies
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder scope(java.lang.String scope) {
+                    this.scope = scope == null ? null : String.of(scope);
                     return this;
                 }
 
@@ -4420,6 +4640,25 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
+             * Convenience method for setting image.
+             * @see #image(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param image
+             *     Image within the IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder image(java.lang.String... image) {
+                for (java.lang.String value : image) {
+                    this.image.add(value == null ? null : String.of(value));
+                }
+                return this;
+            }
+
+            /**
              * Indicates a relative path to an image that exists within the IG.
              * 
              * <p>Adds new element(s) to the existing list
@@ -4450,6 +4689,25 @@ public class ImplementationGuide extends DomainResource {
              */
             public Builder image(Collection<String> image) {
                 this.image = new ArrayList<>(image);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting other.
+             * @see #other(List<String>)
+             * 
+             * <p>Adds new element(s) to the existing list
+             * 
+             * @param other
+             *     Additional linkable file in IG
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder other(java.lang.String... other) {
+                for (java.lang.String value : other) {
+                    this.other.add(value == null ? null : String.of(value));
+                }
                 return this;
             }
 
@@ -5079,6 +5337,23 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting name.
+                 * @see #name(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     HTML page name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = name == null ? null : String.of(name);
+                    return this;
+                }
+
+                /**
                  * Relative path to the page.
                  * 
                  * <p>This element is required.
@@ -5095,6 +5370,21 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting title.
+                 * @see #title(String)
+                 * 
+                 * @param title
+                 *     Title of the page, for references
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder title(java.lang.String title) {
+                    this.title = title == null ? null : String.of(title);
+                    return this;
+                }
+
+                /**
                  * Label for the page intended for human display.
                  * 
                  * @param title
@@ -5105,6 +5395,25 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder title(String title) {
                     this.title = title;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting anchor.
+                 * @see #anchor(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param anchor
+                 *     Anchor available on the page
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder anchor(java.lang.String... anchor) {
+                    for (java.lang.String value : anchor) {
+                        this.anchor.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 

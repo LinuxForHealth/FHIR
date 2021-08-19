@@ -958,6 +958,21 @@ public class Device extends DomainResource {
         }
 
         /**
+         * Convenience method for setting distinctIdentifier.
+         * @see #distinctIdentifier(String)
+         * 
+         * @param distinctIdentifier
+         *     The distinct identification string
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder distinctIdentifier(java.lang.String distinctIdentifier) {
+            this.distinctIdentifier = distinctIdentifier == null ? null : String.of(distinctIdentifier);
+            return this;
+        }
+
+        /**
          * The distinct identification string as required by regulation for a human cell, tissue, or cellular and tissue-based 
          * product.
          * 
@@ -969,6 +984,21 @@ public class Device extends DomainResource {
          */
         public Builder distinctIdentifier(String distinctIdentifier) {
             this.distinctIdentifier = distinctIdentifier;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting manufacturer.
+         * @see #manufacturer(String)
+         * 
+         * @param manufacturer
+         *     Name of device manufacturer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder manufacturer(java.lang.String manufacturer) {
+            this.manufacturer = manufacturer == null ? null : String.of(manufacturer);
             return this;
         }
 
@@ -1015,6 +1045,21 @@ public class Device extends DomainResource {
         }
 
         /**
+         * Convenience method for setting lotNumber.
+         * @see #lotNumber(String)
+         * 
+         * @param lotNumber
+         *     Lot number of manufacture
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lotNumber(java.lang.String lotNumber) {
+            this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+            return this;
+        }
+
+        /**
          * Lot number assigned by the manufacturer.
          * 
          * @param lotNumber
@@ -1025,6 +1070,21 @@ public class Device extends DomainResource {
          */
         public Builder lotNumber(String lotNumber) {
             this.lotNumber = lotNumber;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting serialNumber.
+         * @see #serialNumber(String)
+         * 
+         * @param serialNumber
+         *     Serial number assigned by the manufacturer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder serialNumber(java.lang.String serialNumber) {
+            this.serialNumber = serialNumber == null ? null : String.of(serialNumber);
             return this;
         }
 
@@ -1081,6 +1141,21 @@ public class Device extends DomainResource {
         }
 
         /**
+         * Convenience method for setting modelNumber.
+         * @see #modelNumber(String)
+         * 
+         * @param modelNumber
+         *     The model number for the device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder modelNumber(java.lang.String modelNumber) {
+            this.modelNumber = modelNumber == null ? null : String.of(modelNumber);
+            return this;
+        }
+
+        /**
          * The model number for the device.
          * 
          * @param modelNumber
@@ -1091,6 +1166,21 @@ public class Device extends DomainResource {
          */
         public Builder modelNumber(String modelNumber) {
             this.modelNumber = modelNumber;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting partNumber.
+         * @see #partNumber(String)
+         * 
+         * @param partNumber
+         *     The part number of the device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder partNumber(java.lang.String partNumber) {
+            this.partNumber = partNumber == null ? null : String.of(partNumber);
             return this;
         }
 
@@ -1790,6 +1880,21 @@ public class Device extends DomainResource {
             }
 
             /**
+             * Convenience method for setting deviceIdentifier.
+             * @see #deviceIdentifier(String)
+             * 
+             * @param deviceIdentifier
+             *     Mandatory fixed portion of UDI
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder deviceIdentifier(java.lang.String deviceIdentifier) {
+                this.deviceIdentifier = deviceIdentifier == null ? null : String.of(deviceIdentifier);
+                return this;
+            }
+
+            /**
              * The device identifier (DI) is a mandatory, fixed portion of a UDI that identifies the labeler and the specific version 
              * or model of a device.
              * 
@@ -1855,6 +1960,21 @@ public class Device extends DomainResource {
              */
             public Builder carrierAIDC(Base64Binary carrierAIDC) {
                 this.carrierAIDC = carrierAIDC;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting carrierHRF.
+             * @see #carrierHRF(String)
+             * 
+             * @param carrierHRF
+             *     UDI Human Readable Barcode String
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder carrierHRF(java.lang.String carrierHRF) {
+                this.carrierHRF = carrierHRF == null ? null : String.of(carrierHRF);
                 return this;
             }
 
@@ -2139,6 +2259,23 @@ public class Device extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     The name of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
             }
 
             /**
@@ -2436,6 +2573,21 @@ public class Device extends DomainResource {
              */
             public Builder systemType(CodeableConcept systemType) {
                 this.systemType = systemType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     The version of the standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 
@@ -2741,6 +2893,23 @@ public class Device extends DomainResource {
              */
             public Builder component(Identifier component) {
                 this.component = component;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting value.
+             * @see #value(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     The version text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(java.lang.String value) {
+                this.value = value == null ? null : String.of(value);
                 return this;
             }
 

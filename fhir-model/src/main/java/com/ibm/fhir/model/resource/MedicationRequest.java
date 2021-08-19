@@ -1129,6 +1129,21 @@ public class MedicationRequest extends DomainResource {
         }
 
         /**
+         * Convenience method for setting doNotPerform.
+         * @see #doNotPerform(Boolean)
+         * 
+         * @param doNotPerform
+         *     True if request is prohibiting action
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            return this;
+        }
+
+        /**
          * If true indicates that the provider is asking for the medication request not to occur.
          * 
          * @param doNotPerform

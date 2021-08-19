@@ -925,6 +925,21 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
+         * Convenience method for setting issued.
+         * @see #issued(Instant)
+         * 
+         * @param issued
+         *     DateTime this version was made
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder issued(java.time.ZonedDateTime issued) {
+            this.issued = issued == null ? null : Instant.of(issued);
+            return this;
+        }
+
+        /**
          * The date and time that this version of the report was made available to providers, typically after the report was 
          * reviewed and verified.
          * 
@@ -1208,6 +1223,21 @@ public class DiagnosticReport extends DomainResource {
          */
         public Builder media(Collection<Media> media) {
             this.media = new ArrayList<>(media);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting conclusion.
+         * @see #conclusion(String)
+         * 
+         * @param conclusion
+         *     Clinical conclusion (interpretation) of test results
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder conclusion(java.lang.String conclusion) {
+            this.conclusion = conclusion == null ? null : String.of(conclusion);
             return this;
         }
 
@@ -1579,6 +1609,21 @@ public class DiagnosticReport extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting comment.
+             * @see #comment(String)
+             * 
+             * @param comment
+             *     Comment about the image (e.g. explanation)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder comment(java.lang.String comment) {
+                this.comment = comment == null ? null : String.of(comment);
+                return this;
             }
 
             /**

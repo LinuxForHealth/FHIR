@@ -864,6 +864,21 @@ public class DeviceDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting modelNumber.
+         * @see #modelNumber(String)
+         * 
+         * @param modelNumber
+         *     The model number for the device
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder modelNumber(java.lang.String modelNumber) {
+            this.modelNumber = modelNumber == null ? null : String.of(modelNumber);
+            return this;
+        }
+
+        /**
          * The model number for the device.
          * 
          * @param modelNumber
@@ -926,6 +941,25 @@ public class DeviceDefinition extends DomainResource {
          */
         public Builder specialization(Collection<Specialization> specialization) {
             this.specialization = new ArrayList<>(specialization);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting version.
+         * @see #version(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param version
+         *     Available versions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String... version) {
+            for (java.lang.String value : version) {
+                this.version.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -1629,6 +1663,24 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting deviceIdentifier.
+             * @see #deviceIdentifier(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param deviceIdentifier
+             *     The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and 
+             *     jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder deviceIdentifier(java.lang.String deviceIdentifier) {
+                this.deviceIdentifier = deviceIdentifier == null ? null : String.of(deviceIdentifier);
+                return this;
+            }
+
+            /**
              * The identifier that is to be associated with every Device that references this DeviceDefintiion for the issuer and 
              * jurisdication porvided in the DeviceDefinition.udiDeviceIdentifier.
              * 
@@ -1938,6 +1990,23 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     The name of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * The name of the device.
              * 
              * <p>This element is required.
@@ -2220,6 +2289,23 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting systemType.
+             * @see #systemType(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param systemType
+             *     The standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder systemType(java.lang.String systemType) {
+                this.systemType = systemType == null ? null : String.of(systemType);
+                return this;
+            }
+
+            /**
              * The standard that is used to operate and communicate.
              * 
              * <p>This element is required.
@@ -2232,6 +2318,21 @@ public class DeviceDefinition extends DomainResource {
              */
             public Builder systemType(String systemType) {
                 this.systemType = systemType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     The version of the standard that is used to operate and communicate
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 
@@ -3176,6 +3277,21 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
+             * Convenience method for setting alternate.
+             * @see #alternate(Boolean)
+             * 
+             * @param alternate
+             *     Indicates an alternative material of the device
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder alternate(java.lang.Boolean alternate) {
+                this.alternate = alternate == null ? null : Boolean.of(alternate);
+                return this;
+            }
+
+            /**
              * Indicates an alternative material of the device.
              * 
              * @param alternate
@@ -3186,6 +3302,21 @@ public class DeviceDefinition extends DomainResource {
              */
             public Builder alternate(Boolean alternate) {
                 this.alternate = alternate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting allergenicIndicator.
+             * @see #allergenicIndicator(Boolean)
+             * 
+             * @param allergenicIndicator
+             *     Whether the substance is a known or suspected allergen
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder allergenicIndicator(java.lang.Boolean allergenicIndicator) {
+                this.allergenicIndicator = allergenicIndicator == null ? null : Boolean.of(allergenicIndicator);
                 return this;
             }
 

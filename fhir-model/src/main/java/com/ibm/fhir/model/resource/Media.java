@@ -1028,6 +1028,21 @@ public class Media extends DomainResource {
         }
 
         /**
+         * Convenience method for setting issued.
+         * @see #issued(Instant)
+         * 
+         * @param issued
+         *     Date/Time this version was made available
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder issued(java.time.ZonedDateTime issued) {
+            this.issued = issued == null ? null : Instant.of(issued);
+            return this;
+        }
+
+        /**
          * The date and time this version of the media was made available to providers, typically after having been reviewed.
          * 
          * @param issued
@@ -1111,6 +1126,21 @@ public class Media extends DomainResource {
          */
         public Builder bodySite(CodeableConcept bodySite) {
             this.bodySite = bodySite;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting deviceName.
+         * @see #deviceName(String)
+         * 
+         * @param deviceName
+         *     Name of the device/manufacturer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder deviceName(java.lang.String deviceName) {
+            this.deviceName = deviceName == null ? null : String.of(deviceName);
             return this;
         }
 

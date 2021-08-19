@@ -714,6 +714,21 @@ public class Patient extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this patient's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this patient record is in active use. 
          * Many systems use this property to mark as non-current patients, such as those that have not been seen for a period of 
          * time based on an organization's business rules.
@@ -813,6 +828,21 @@ public class Patient extends DomainResource {
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting birthDate.
+         * @see #birthDate(Date)
+         * 
+         * @param birthDate
+         *     The date of birth for the individual
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder birthDate(java.time.LocalDate birthDate) {
+            this.birthDate = birthDate == null ? null : Date.of(birthDate);
             return this;
         }
 
@@ -1900,6 +1930,21 @@ public class Patient extends DomainResource {
              */
             public Builder language(CodeableConcept language) {
                 this.language = language;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting preferred.
+             * @see #preferred(Boolean)
+             * 
+             * @param preferred
+             *     Language preference indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = preferred == null ? null : Boolean.of(preferred);
                 return this;
             }
 

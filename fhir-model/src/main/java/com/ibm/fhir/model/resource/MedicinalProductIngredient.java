@@ -468,6 +468,21 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         /**
+         * Convenience method for setting allergenicIndicator.
+         * @see #allergenicIndicator(Boolean)
+         * 
+         * @param allergenicIndicator
+         *     If the ingredient is a known or suspected allergen
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder allergenicIndicator(java.lang.Boolean allergenicIndicator) {
+            this.allergenicIndicator = allergenicIndicator == null ? null : Boolean.of(allergenicIndicator);
+            return this;
+        }
+
+        /**
          * If the ingredient is a known or suspected allergen.
          * 
          * @param allergenicIndicator
@@ -1353,6 +1368,21 @@ public class MedicinalProductIngredient extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting measurementPoint.
+                 * @see #measurementPoint(String)
+                 * 
+                 * @param measurementPoint
+                 *     For when strength is measured at a particular point or distance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder measurementPoint(java.lang.String measurementPoint) {
+                    this.measurementPoint = measurementPoint == null ? null : String.of(measurementPoint);
+                    return this;
+                }
+
+                /**
                  * For when strength is measured at a particular point or distance.
                  * 
                  * @param measurementPoint
@@ -1783,6 +1813,21 @@ public class MedicinalProductIngredient extends DomainResource {
                      */
                     public Builder strengthLowLimit(Ratio strengthLowLimit) {
                         this.strengthLowLimit = strengthLowLimit;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting measurementPoint.
+                     * @see #measurementPoint(String)
+                     * 
+                     * @param measurementPoint
+                     *     For when strength is measured at a particular point or distance
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder measurementPoint(java.lang.String measurementPoint) {
+                        this.measurementPoint = measurementPoint == null ? null : String.of(measurementPoint);
                         return this;
                     }
 

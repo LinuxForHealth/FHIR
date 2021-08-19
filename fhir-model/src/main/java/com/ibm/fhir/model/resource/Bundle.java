@@ -435,6 +435,21 @@ public class Bundle extends Resource {
         }
 
         /**
+         * Convenience method for setting timestamp.
+         * @see #timestamp(Instant)
+         * 
+         * @param timestamp
+         *     When the bundle was assembled
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder timestamp(java.time.ZonedDateTime timestamp) {
+            this.timestamp = timestamp == null ? null : Instant.of(timestamp);
+            return this;
+        }
+
+        /**
          * The date/time that the bundle was assembled - i.e. when the resources were placed in the bundle.
          * 
          * @param timestamp
@@ -802,6 +817,23 @@ public class Bundle extends Resource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting relation.
+             * @see #relation(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param relation
+             *     See http://www.iana.org/assignments/link-relations/link-relations.xhtml#link-relations-1
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder relation(java.lang.String relation) {
+                this.relation = relation == null ? null : String.of(relation);
+                return this;
             }
 
             /**
@@ -1921,6 +1953,21 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting ifNoneMatch.
+                 * @see #ifNoneMatch(String)
+                 * 
+                 * @param ifNoneMatch
+                 *     For managing cache currency
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder ifNoneMatch(java.lang.String ifNoneMatch) {
+                    this.ifNoneMatch = ifNoneMatch == null ? null : String.of(ifNoneMatch);
+                    return this;
+                }
+
+                /**
                  * If the ETag values match, return a 304 Not Modified status. See the API documentation for ["Conditional Read"](http.
                  * html#cread).
                  * 
@@ -1932,6 +1979,21 @@ public class Bundle extends Resource {
                  */
                 public Builder ifNoneMatch(String ifNoneMatch) {
                     this.ifNoneMatch = ifNoneMatch;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting ifModifiedSince.
+                 * @see #ifModifiedSince(Instant)
+                 * 
+                 * @param ifModifiedSince
+                 *     For managing cache currency
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder ifModifiedSince(java.time.ZonedDateTime ifModifiedSince) {
+                    this.ifModifiedSince = ifModifiedSince == null ? null : Instant.of(ifModifiedSince);
                     return this;
                 }
 
@@ -1951,6 +2013,21 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting ifMatch.
+                 * @see #ifMatch(String)
+                 * 
+                 * @param ifMatch
+                 *     For managing update contention
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder ifMatch(java.lang.String ifMatch) {
+                    this.ifMatch = ifMatch == null ? null : String.of(ifMatch);
+                    return this;
+                }
+
+                /**
                  * Only perform the operation if the Etag value matches. For more information, see the API section ["Managing Resource 
                  * Contention"](http.html#concurrency).
                  * 
@@ -1962,6 +2039,21 @@ public class Bundle extends Resource {
                  */
                 public Builder ifMatch(String ifMatch) {
                     this.ifMatch = ifMatch;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting ifNoneExist.
+                 * @see #ifNoneExist(String)
+                 * 
+                 * @param ifNoneExist
+                 *     For conditional creates
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder ifNoneExist(java.lang.String ifNoneExist) {
+                    this.ifNoneExist = ifNoneExist == null ? null : String.of(ifNoneExist);
                     return this;
                 }
 
@@ -2293,6 +2385,23 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting status.
+                 * @see #status(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param status
+                 *     Status response code (text optional)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder status(java.lang.String status) {
+                    this.status = status == null ? null : String.of(status);
+                    return this;
+                }
+
+                /**
                  * The status code returned by processing this entry. The status SHALL start with a 3 digit HTTP code (e.g. 404) and may 
                  * contain the standard HTTP description associated with the status code.
                  * 
@@ -2324,6 +2433,21 @@ public class Bundle extends Resource {
                 }
 
                 /**
+                 * Convenience method for setting etag.
+                 * @see #etag(String)
+                 * 
+                 * @param etag
+                 *     The Etag for the resource (if relevant)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder etag(java.lang.String etag) {
+                    this.etag = etag == null ? null : String.of(etag);
+                    return this;
+                }
+
+                /**
                  * The Etag for the resource, if the operation for the entry produced a versioned resource (see [Resource Metadata and 
                  * Versioning](http.html#versioning) and [Managing Resource Contention](http.html#concurrency)).
                  * 
@@ -2335,6 +2459,21 @@ public class Bundle extends Resource {
                  */
                 public Builder etag(String etag) {
                     this.etag = etag;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting lastModified.
+                 * @see #lastModified(Instant)
+                 * 
+                 * @param lastModified
+                 *     Server's date time modified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder lastModified(java.time.ZonedDateTime lastModified) {
+                    this.lastModified = lastModified == null ? null : Instant.of(lastModified);
                     return this;
                 }
 

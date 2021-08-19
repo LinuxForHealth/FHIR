@@ -1705,6 +1705,21 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
+             * Convenience method for setting instruction.
+             * @see #instruction(String)
+             * 
+             * @param instruction
+             *     Instructions or additional information about the oral diet
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder instruction(java.lang.String instruction) {
+                this.instruction = instruction == null ? null : String.of(instruction);
+                return this;
+            }
+
+            /**
              * Free text or additional instructions or information pertaining to the oral diet.
              * 
              * @param instruction
@@ -2594,6 +2609,21 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
+             * Convenience method for setting productName.
+             * @see #productName(String)
+             * 
+             * @param productName
+             *     Product or brand name of the nutritional supplement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder productName(java.lang.String productName) {
+                this.productName = productName == null ? null : String.of(productName);
+                return this;
+            }
+
+            /**
              * The product or brand name of the nutritional supplement such as "Acme Protein Shake".
              * 
              * @param productName
@@ -2654,6 +2684,21 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder quantity(SimpleQuantity quantity) {
                 this.quantity = quantity;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting instruction.
+             * @see #instruction(String)
+             * 
+             * @param instruction
+             *     Instructions or additional information about the oral supplement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder instruction(java.lang.String instruction) {
+                this.instruction = instruction == null ? null : String.of(instruction);
                 return this;
             }
 
@@ -3076,6 +3121,21 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
+             * Convenience method for setting baseFormulaProductName.
+             * @see #baseFormulaProductName(String)
+             * 
+             * @param baseFormulaProductName
+             *     Product or brand name of the enteral or infant formula
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder baseFormulaProductName(java.lang.String baseFormulaProductName) {
+                this.baseFormulaProductName = baseFormulaProductName == null ? null : String.of(baseFormulaProductName);
+                return this;
+            }
+
+            /**
              * The product or brand name of the enteral or infant formula product such as "ACME Adult Standard Formula".
              * 
              * @param baseFormulaProductName
@@ -3101,6 +3161,21 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder additiveType(CodeableConcept additiveType) {
                 this.additiveType = additiveType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting additiveProductName.
+             * @see #additiveProductName(String)
+             * 
+             * @param additiveProductName
+             *     Product or brand name of the modular additive
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder additiveProductName(java.lang.String additiveProductName) {
+                this.additiveProductName = additiveProductName == null ? null : String.of(additiveProductName);
                 return this;
             }
 
@@ -3199,6 +3274,21 @@ public class NutritionOrder extends DomainResource {
              */
             public Builder maxVolumeToDeliver(SimpleQuantity maxVolumeToDeliver) {
                 this.maxVolumeToDeliver = maxVolumeToDeliver;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting administrationInstruction.
+             * @see #administrationInstruction(String)
+             * 
+             * @param administrationInstruction
+             *     Formula feeding instructions expressed as text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder administrationInstruction(java.lang.String administrationInstruction) {
+                this.administrationInstruction = administrationInstruction == null ? null : String.of(administrationInstruction);
                 return this;
             }
 

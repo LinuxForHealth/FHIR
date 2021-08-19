@@ -1111,6 +1111,21 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting disposition.
+         * @see #disposition(String)
+         * 
+         * @param disposition
+         *     Disposition Message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = disposition == null ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A human readable description of the status of the adjudication.
          * 
          * @param disposition
@@ -1121,6 +1136,21 @@ public class ClaimResponse extends DomainResource {
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting preAuthRef.
+         * @see #preAuthRef(String)
+         * 
+         * @param preAuthRef
+         *     Preauthorization reference
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder preAuthRef(java.lang.String preAuthRef) {
+            this.preAuthRef = preAuthRef == null ? null : String.of(preAuthRef);
             return this;
         }
 
@@ -6001,6 +6031,21 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * @param date
+             *     Expected date of payment
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
+            }
+
+            /**
              * Estimated date the payment will be issued or the actual issue date of payment.
              * 
              * @param date
@@ -6372,6 +6417,23 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param text
+             *     Note explanatory text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
+                return this;
+            }
+
+            /**
              * The explanation or description associated with the processing.
              * 
              * <p>This element is required.
@@ -6725,6 +6787,23 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
+             * Convenience method for setting focal.
+             * @see #focal(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param focal
+             *     Coverage to be used for adjudication
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(java.lang.Boolean focal) {
+                this.focal = focal == null ? null : Boolean.of(focal);
+                return this;
+            }
+
+            /**
              * A flag to indicate that this Coverage is to be used for adjudication of this claim when set to true.
              * 
              * <p>This element is required.
@@ -6759,6 +6838,21 @@ public class ClaimResponse extends DomainResource {
              */
             public Builder coverage(Reference coverage) {
                 this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting businessArrangement.
+             * @see #businessArrangement(String)
+             * 
+             * @param businessArrangement
+             *     Additional provider contract number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder businessArrangement(java.lang.String businessArrangement) {
+                this.businessArrangement = businessArrangement == null ? null : String.of(businessArrangement);
                 return this;
             }
 

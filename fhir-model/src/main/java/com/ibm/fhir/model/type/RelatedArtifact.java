@@ -295,6 +295,21 @@ public class RelatedArtifact extends Element {
         }
 
         /**
+         * Convenience method for setting label.
+         * @see #label(String)
+         * 
+         * @param label
+         *     Short label
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder label(java.lang.String label) {
+            this.label = label == null ? null : String.of(label);
+            return this;
+        }
+
+        /**
          * A short label that can be used to reference the citation from elsewhere in the containing artifact, such as a footnote 
          * index.
          * 
@@ -306,6 +321,21 @@ public class RelatedArtifact extends Element {
          */
         public Builder label(String label) {
             this.label = label;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting display.
+         * @see #display(String)
+         * 
+         * @param display
+         *     Brief description of the related artifact
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder display(java.lang.String display) {
+            this.display = display == null ? null : String.of(display);
             return this;
         }
 

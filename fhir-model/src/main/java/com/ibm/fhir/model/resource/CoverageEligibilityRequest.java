@@ -1292,6 +1292,21 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
+             * Convenience method for setting appliesToAll.
+             * @see #appliesToAll(Boolean)
+             * 
+             * @param appliesToAll
+             *     Applies to all items
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder appliesToAll(java.lang.Boolean appliesToAll) {
+                this.appliesToAll = appliesToAll == null ? null : Boolean.of(appliesToAll);
+                return this;
+            }
+
+            /**
              * The supporting materials are applicable for all detail items, product/servce categories and specific billing codes.
              * 
              * @param appliesToAll
@@ -1574,6 +1589,21 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
+             * Convenience method for setting focal.
+             * @see #focal(Boolean)
+             * 
+             * @param focal
+             *     Applicable coverage
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder focal(java.lang.Boolean focal) {
+                this.focal = focal == null ? null : Boolean.of(focal);
+                return this;
+            }
+
+            /**
              * A flag to indicate that this Coverage is to be used for evaluation of this request when set to true.
              * 
              * @param focal
@@ -1606,6 +1636,21 @@ public class CoverageEligibilityRequest extends DomainResource {
              */
             public Builder coverage(Reference coverage) {
                 this.coverage = coverage;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting businessArrangement.
+             * @see #businessArrangement(String)
+             * 
+             * @param businessArrangement
+             *     Additional provider contract number
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder businessArrangement(java.lang.String businessArrangement) {
+                this.businessArrangement = businessArrangement == null ? null : String.of(businessArrangement);
                 return this;
             }
 

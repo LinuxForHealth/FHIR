@@ -318,6 +318,21 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting amountText.
+         * @see #amountText(String)
+         * 
+         * @param amountText
+         *     A textual comment on a numeric value
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder amountText(java.lang.String amountText) {
+            this.amountText = amountText == null ? null : String.of(amountText);
+            return this;
+        }
+
+        /**
          * A textual comment on a numeric value.
          * 
          * @param amountText

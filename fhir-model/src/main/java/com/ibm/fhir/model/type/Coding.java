@@ -247,6 +247,21 @@ public class Coding extends Element {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Version of the system - if relevant
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The version of the code system which was used when choosing this code. Note that a well-maintained code system does 
          * not need the version reported, because the meaning of codes is consistent across versions. However this cannot 
          * consistently be assured, and when the meaning is not guaranteed to be consistent, the version SHOULD be exchanged.
@@ -278,6 +293,21 @@ public class Coding extends Element {
         }
 
         /**
+         * Convenience method for setting display.
+         * @see #display(String)
+         * 
+         * @param display
+         *     Representation defined by the system
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder display(java.lang.String display) {
+            this.display = display == null ? null : String.of(display);
+            return this;
+        }
+
+        /**
          * A representation of the meaning of the code in the system, following the rules of the system.
          * 
          * @param display
@@ -288,6 +318,21 @@ public class Coding extends Element {
          */
         public Builder display(String display) {
             this.display = display;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting userSelected.
+         * @see #userSelected(Boolean)
+         * 
+         * @param userSelected
+         *     If this coding was chosen directly by the user
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder userSelected(java.lang.Boolean userSelected) {
+            this.userSelected = userSelected == null ? null : Boolean.of(userSelected);
             return this;
         }
 

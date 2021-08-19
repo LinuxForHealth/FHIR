@@ -707,6 +707,21 @@ public class List extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Descriptive name for the list
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A label for the list assigned by the author.
          * 
          * @param title
@@ -1222,6 +1237,21 @@ public class List extends DomainResource {
              */
             public Builder flag(CodeableConcept flag) {
                 this.flag = flag;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting deleted.
+             * @see #deleted(Boolean)
+             * 
+             * @param deleted
+             *     If this item is actually marked as deleted
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder deleted(java.lang.Boolean deleted) {
+                this.deleted = deleted == null ? null : Boolean.of(deleted);
                 return this;
             }
 

@@ -806,6 +806,21 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Why/how the assessment was performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * A summary of the context and/or cause of the assessment - why / where it was performed, and what patient events/status 
          * prompted it.
          * 
@@ -1054,6 +1069,21 @@ public class ClinicalImpression extends DomainResource {
          */
         public Builder protocol(Collection<Uri> protocol) {
             this.protocol = new ArrayList<>(protocol);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting summary.
+         * @see #summary(String)
+         * 
+         * @param summary
+         *     Summary of the assessment
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder summary(java.lang.String summary) {
+            this.summary = summary == null ? null : String.of(summary);
             return this;
         }
 
@@ -1921,6 +1951,21 @@ public class ClinicalImpression extends DomainResource {
              */
             public Builder itemReference(Reference itemReference) {
                 this.itemReference = itemReference;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting basis.
+             * @see #basis(String)
+             * 
+             * @param basis
+             *     Which investigations support finding
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder basis(java.lang.String basis) {
+                this.basis = basis == null ? null : String.of(basis);
                 return this;
             }
 

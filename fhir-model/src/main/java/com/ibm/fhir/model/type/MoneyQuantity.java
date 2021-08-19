@@ -186,6 +186,21 @@ public class MoneyQuantity extends Quantity {
         }
 
         /**
+         * Convenience method for setting unit.
+         * @see #unit(String)
+         * 
+         * @param unit
+         *     Unit representation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        @Override
+        public Builder unit(java.lang.String unit) {
+            return (Builder) super.unit(unit);
+        }
+
+        /**
          * A human-readable form of the unit.
          * 
          * @param unit

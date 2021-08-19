@@ -695,6 +695,21 @@ public class PaymentNotice extends DomainResource {
         }
 
         /**
+         * Convenience method for setting paymentDate.
+         * @see #paymentDate(Date)
+         * 
+         * @param paymentDate
+         *     Payment or clearing date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder paymentDate(java.time.LocalDate paymentDate) {
+            this.paymentDate = paymentDate == null ? null : Date.of(paymentDate);
+            return this;
+        }
+
+        /**
          * The date when the above payment action occurred.
          * 
          * @param paymentDate

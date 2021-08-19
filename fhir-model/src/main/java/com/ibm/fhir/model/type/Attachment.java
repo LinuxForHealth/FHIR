@@ -402,6 +402,21 @@ public class Attachment extends Element {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Label to display in place of the data
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A label or set of text to display in place of the data.
          * 
          * @param title

@@ -1275,6 +1275,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the measure when it is referenced in a specification, model, 
          * design or instance. This is an arbitrary value managed by the measure author and is not expected to be globally 
          * unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no 
@@ -1295,6 +1310,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this measure (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the measure. This name should be usable as an identifier for the module by machine 
          * processing applications such as code generation.
          * 
@@ -1310,6 +1340,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this measure (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * A short, descriptive, user-friendly title for the measure.
          * 
          * @param title
@@ -1320,6 +1365,21 @@ public class Measure extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate title of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
             return this;
         }
 
@@ -1350,6 +1410,21 @@ public class Measure extends DomainResource {
          */
         public Builder status(PublicationStatus status) {
             this.status = status;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1407,6 +1482,21 @@ public class Measure extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1559,6 +1649,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting usage.
+         * @see #usage(String)
+         * 
+         * @param usage
+         *     Describes the clinical usage of the measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder usage(java.lang.String usage) {
+            this.usage = usage == null ? null : String.of(usage);
+            return this;
+        }
+
+        /**
          * A detailed description, from a clinical perspective, of how the measure is used.
          * 
          * @param usage
@@ -1588,6 +1693,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the measure was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1599,6 +1719,21 @@ public class Measure extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the measure was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1953,6 +2088,21 @@ public class Measure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting riskAdjustment.
+         * @see #riskAdjustment(String)
+         * 
+         * @param riskAdjustment
+         *     How risk adjustment is applied for this measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder riskAdjustment(java.lang.String riskAdjustment) {
+            this.riskAdjustment = riskAdjustment == null ? null : String.of(riskAdjustment);
+            return this;
+        }
+
+        /**
          * A description of the risk adjustment factors that may impact the resulting score for the measure and how they may be 
          * accounted for when computing and reporting measure results.
          * 
@@ -1964,6 +2114,21 @@ public class Measure extends DomainResource {
          */
         public Builder riskAdjustment(String riskAdjustment) {
             this.riskAdjustment = riskAdjustment;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting rateAggregation.
+         * @see #rateAggregation(String)
+         * 
+         * @param rateAggregation
+         *     How is rate aggregation performed for this measure
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder rateAggregation(java.lang.String rateAggregation) {
+            this.rateAggregation = rateAggregation == null ? null : String.of(rateAggregation);
             return this;
         }
 
@@ -2496,6 +2661,21 @@ public class Measure extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Summary description
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * The human readable description of this population group.
              * 
              * @param description
@@ -2861,6 +3041,21 @@ public class Measure extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     The human readable description of this population criteria
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
+                    return this;
+                }
+
+                /**
                  * The human readable description of this population criteria.
                  * 
                  * @param description
@@ -3186,6 +3381,21 @@ public class Measure extends DomainResource {
                  */
                 public Builder code(CodeableConcept code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     The human readable description of this stratifier
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
                     return this;
                 }
 
@@ -3528,6 +3738,21 @@ public class Measure extends DomainResource {
                      */
                     public Builder code(CodeableConcept code) {
                         this.code = code;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting description.
+                     * @see #description(String)
+                     * 
+                     * @param description
+                     *     The human readable description of this stratifier component
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder description(java.lang.String description) {
+                        this.description = description == null ? null : String.of(description);
                         return this;
                     }
 
@@ -3909,6 +4134,21 @@ public class Measure extends DomainResource {
              */
             public Builder usage(Collection<CodeableConcept> usage) {
                 this.usage = new ArrayList<>(usage);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     The human readable description of this supplemental data
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 

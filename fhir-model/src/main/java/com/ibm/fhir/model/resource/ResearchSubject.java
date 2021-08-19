@@ -586,6 +586,21 @@ public class ResearchSubject extends DomainResource {
         }
 
         /**
+         * Convenience method for setting assignedArm.
+         * @see #assignedArm(String)
+         * 
+         * @param assignedArm
+         *     What path should be followed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder assignedArm(java.lang.String assignedArm) {
+            this.assignedArm = assignedArm == null ? null : String.of(assignedArm);
+            return this;
+        }
+
+        /**
          * The name of the arm in the study the subject is expected to follow as part of this study.
          * 
          * @param assignedArm
@@ -596,6 +611,21 @@ public class ResearchSubject extends DomainResource {
          */
         public Builder assignedArm(String assignedArm) {
             this.assignedArm = assignedArm;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting actualArm.
+         * @see #actualArm(String)
+         * 
+         * @param actualArm
+         *     What path was followed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actualArm(java.lang.String actualArm) {
+            this.actualArm = actualArm == null ? null : String.of(actualArm);
             return this;
         }
 

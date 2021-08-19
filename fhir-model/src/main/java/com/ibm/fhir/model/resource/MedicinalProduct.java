@@ -800,6 +800,25 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
+         * Convenience method for setting specialMeasures.
+         * @see #specialMeasures(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param specialMeasures
+         *     Whether the Medicinal Product is subject to special measures for regulatory reasons
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder specialMeasures(java.lang.String... specialMeasures) {
+            for (java.lang.String value : specialMeasures) {
+                this.specialMeasures.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Whether the Medicinal Product is subject to special measures for regulatory reasons.
          * 
          * <p>Adds new element(s) to the existing list
@@ -1623,6 +1642,23 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
+             * Convenience method for setting productName.
+             * @see #productName(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param productName
+             *     The full product name
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder productName(java.lang.String productName) {
+                this.productName = productName == null ? null : String.of(productName);
+                return this;
+            }
+
+            /**
              * The full product name.
              * 
              * <p>This element is required.
@@ -1955,6 +1991,23 @@ public class MedicinalProduct extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting part.
+                 * @see #part(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param part
+                 *     A fragment of a product name
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder part(java.lang.String part) {
+                    this.part = part == null ? null : String.of(part);
+                    return this;
                 }
 
                 /**

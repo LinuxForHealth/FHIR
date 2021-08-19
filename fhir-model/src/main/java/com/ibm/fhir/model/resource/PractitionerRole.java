@@ -641,6 +641,21 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this practitioner role record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this practitioner role record is in active use.
          * 
          * @param active
@@ -961,6 +976,21 @@ public class PractitionerRole extends DomainResource {
          */
         public Builder notAvailable(Collection<NotAvailable> notAvailable) {
             this.notAvailable = new ArrayList<>(notAvailable);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting availabilityExceptions.
+         * @see #availabilityExceptions(String)
+         * 
+         * @param availabilityExceptions
+         *     Description of availability exceptions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
+            this.availabilityExceptions = availabilityExceptions == null ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -1361,6 +1391,21 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
+             * Convenience method for setting allDay.
+             * @see #allDay(Boolean)
+             * 
+             * @param allDay
+             *     Always available? e.g. 24 hour service
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder allDay(java.lang.Boolean allDay) {
+                this.allDay = allDay == null ? null : Boolean.of(allDay);
+                return this;
+            }
+
+            /**
              * Is this always available? (hence times are irrelevant) e.g. 24 hour service.
              * 
              * @param allDay
@@ -1643,6 +1688,23 @@ public class PractitionerRole extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Reason presented to the user explaining why time not available
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**

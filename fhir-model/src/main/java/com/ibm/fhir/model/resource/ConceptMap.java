@@ -761,6 +761,21 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the concept map
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the concept map when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the concept map author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -778,6 +793,21 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this concept map (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the concept map. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -789,6 +819,21 @@ public class ConceptMap extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this concept map (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -823,6 +868,21 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this concept map is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * 
@@ -850,6 +910,21 @@ public class ConceptMap extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1442,6 +1517,21 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
+             * Convenience method for setting sourceVersion.
+             * @see #sourceVersion(String)
+             * 
+             * @param sourceVersion
+             *     Specific version of the code system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder sourceVersion(java.lang.String sourceVersion) {
+                this.sourceVersion = sourceVersion == null ? null : String.of(sourceVersion);
+                return this;
+            }
+
+            /**
              * The specific version of the code system, as determined by the code system authority.
              * 
              * @param sourceVersion
@@ -1466,6 +1556,21 @@ public class ConceptMap extends DomainResource {
              */
             public Builder target(Uri target) {
                 this.target = target;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting targetVersion.
+             * @see #targetVersion(String)
+             * 
+             * @param targetVersion
+             *     Specific version of the code system
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder targetVersion(java.lang.String targetVersion) {
+                this.targetVersion = targetVersion == null ? null : String.of(targetVersion);
                 return this;
             }
 
@@ -1812,6 +1917,21 @@ public class ConceptMap extends DomainResource {
                  */
                 public Builder code(Code code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting display.
+                 * @see #display(String)
+                 * 
+                 * @param display
+                 *     Display for the code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = display == null ? null : String.of(display);
                     return this;
                 }
 
@@ -2197,6 +2317,21 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting display.
+                     * @see #display(String)
+                     * 
+                     * @param display
+                     *     Display for the code
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder display(java.lang.String display) {
+                        this.display = display == null ? null : String.of(display);
+                        return this;
+                    }
+
+                    /**
                      * The display for the code. The display is only provided to help editors when editing the concept map.
                      * 
                      * @param display
@@ -2224,6 +2359,21 @@ public class ConceptMap extends DomainResource {
                      */
                     public Builder equivalence(ConceptMapEquivalence equivalence) {
                         this.equivalence = equivalence;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting comment.
+                     * @see #comment(String)
+                     * 
+                     * @param comment
+                     *     Description of status/issues in mapping
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder comment(java.lang.String comment) {
+                        this.comment = comment == null ? null : String.of(comment);
                         return this;
                     }
 
@@ -2637,6 +2787,23 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
+                         * Convenience method for setting value.
+                         * @see #value(String)
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Value of the referenced element
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = value == null ? null : String.of(value);
+                            return this;
+                        }
+
+                        /**
                          * Identity (code or path) or the element/item/ValueSet/text that the map depends on / refers to.
                          * 
                          * <p>This element is required.
@@ -2649,6 +2816,21 @@ public class ConceptMap extends DomainResource {
                          */
                         public Builder value(String value) {
                             this.value = value;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting display.
+                         * @see #display(String)
+                         * 
+                         * @param display
+                         *     Display for the code (if value is a code)
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder display(java.lang.String display) {
+                            this.display = display == null ? null : String.of(display);
                             return this;
                         }
 
@@ -2993,6 +3175,21 @@ public class ConceptMap extends DomainResource {
                  */
                 public Builder code(Code code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting display.
+                 * @see #display(String)
+                 * 
+                 * @param display
+                 *     Display for the code
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = display == null ? null : String.of(display);
                     return this;
                 }
 

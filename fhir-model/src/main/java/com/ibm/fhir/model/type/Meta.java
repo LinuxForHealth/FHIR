@@ -298,6 +298,21 @@ public class Meta extends Element {
         }
 
         /**
+         * Convenience method for setting lastUpdated.
+         * @see #lastUpdated(Instant)
+         * 
+         * @param lastUpdated
+         *     When the resource version last changed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastUpdated(java.time.ZonedDateTime lastUpdated) {
+            this.lastUpdated = lastUpdated == null ? null : Instant.of(lastUpdated);
+            return this;
+        }
+
+        /**
          * When the resource last changed - e.g. when the version changed.
          * 
          * @param lastUpdated

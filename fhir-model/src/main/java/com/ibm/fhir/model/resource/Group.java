@@ -572,6 +572,21 @@ public class Group extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this group's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Indicates whether the record for the group is available for use or is merely being retained for historical purposes.
          * 
          * @param active
@@ -598,6 +613,23 @@ public class Group extends DomainResource {
          */
         public Builder type(GroupType type) {
             this.type = type;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting actual.
+         * @see #actual(Boolean)
+         * 
+         * <p>This element is required.
+         * 
+         * @param actual
+         *     Descriptive or actual
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder actual(java.lang.Boolean actual) {
+            this.actual = actual == null ? null : Boolean.of(actual);
             return this;
         }
 
@@ -629,6 +661,21 @@ public class Group extends DomainResource {
          */
         public Builder code(CodeableConcept code) {
             this.code = code;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Label for Group
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
             return this;
         }
 
@@ -1097,6 +1144,23 @@ public class Group extends DomainResource {
             }
 
             /**
+             * Convenience method for setting exclude.
+             * @see #exclude(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param exclude
+             *     Group includes or excludes
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder exclude(java.lang.Boolean exclude) {
+                this.exclude = exclude == null ? null : Boolean.of(exclude);
+                return this;
+            }
+
+            /**
              * If true, indicates the characteristic is one that is NOT held by members of the group.
              * 
              * <p>This element is required.
@@ -1436,6 +1500,21 @@ public class Group extends DomainResource {
              */
             public Builder period(Period period) {
                 this.period = period;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting inactive.
+             * @see #inactive(Boolean)
+             * 
+             * @param inactive
+             *     If member is no longer in group
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder inactive(java.lang.Boolean inactive) {
+                this.inactive = inactive == null ? null : Boolean.of(inactive);
                 return this;
             }
 

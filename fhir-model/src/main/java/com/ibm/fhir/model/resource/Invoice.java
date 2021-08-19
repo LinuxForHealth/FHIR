@@ -681,6 +681,21 @@ public class Invoice extends DomainResource {
         }
 
         /**
+         * Convenience method for setting cancelledReason.
+         * @see #cancelledReason(String)
+         * 
+         * @param cancelledReason
+         *     Reason for cancellation of this Invoice
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder cancelledReason(java.lang.String cancelledReason) {
+            this.cancelledReason = cancelledReason == null ? null : String.of(cancelledReason);
+            return this;
+        }
+
+        /**
          * In case of Invoice cancellation a reason must be given (entered in error, superseded by corrected invoice etc.).
          * 
          * @param cancelledReason

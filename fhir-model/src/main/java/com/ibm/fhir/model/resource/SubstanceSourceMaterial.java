@@ -633,6 +633,21 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
+         * Convenience method for setting organismName.
+         * @see #organismName(String)
+         * 
+         * @param organismName
+         *     The organism accepted Scientific name shall be provided based on the organism taxonomy
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder organismName(java.lang.String organismName) {
+            this.organismName = organismName == null ? null : String.of(organismName);
+            return this;
+        }
+
+        /**
          * The organism accepted Scientific name shall be provided based on the organism taxonomy.
          * 
          * @param organismName
@@ -681,6 +696,25 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         public Builder parentSubstanceId(Collection<Identifier> parentSubstanceId) {
             this.parentSubstanceId = new ArrayList<>(parentSubstanceId);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting parentSubstanceName.
+         * @see #parentSubstanceName(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param parentSubstanceName
+         *     The parent substance of the Herbal Drug, or Herbal preparation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder parentSubstanceName(java.lang.String... parentSubstanceName) {
+            for (java.lang.String value : parentSubstanceName) {
+                this.parentSubstanceName.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -757,6 +791,25 @@ public class SubstanceSourceMaterial extends DomainResource {
          */
         public Builder countryOfOrigin(Collection<CodeableConcept> countryOfOrigin) {
             this.countryOfOrigin = new ArrayList<>(countryOfOrigin);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting geographicalLocation.
+         * @see #geographicalLocation(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param geographicalLocation
+         *     The place/region where the plant is harvested or the places/regions where the animal source material has its habitat
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder geographicalLocation(java.lang.String... geographicalLocation) {
+            for (java.lang.String value : geographicalLocation) {
+                this.geographicalLocation.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -1176,6 +1229,21 @@ public class SubstanceSourceMaterial extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting fraction.
+             * @see #fraction(String)
+             * 
+             * @param fraction
+             *     This element is capturing information about the fraction of a plant part, or human plasma for fractionation
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder fraction(java.lang.String fraction) {
+                this.fraction = fraction == null ? null : String.of(fraction);
+                return this;
             }
 
             /**
@@ -1623,6 +1691,22 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
+             * Convenience method for setting intraspecificDescription.
+             * @see #intraspecificDescription(String)
+             * 
+             * @param intraspecificDescription
+             *     The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
+             *     Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder intraspecificDescription(java.lang.String intraspecificDescription) {
+                this.intraspecificDescription = intraspecificDescription == null ? null : String.of(intraspecificDescription);
+                return this;
+            }
+
+            /**
              * The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
              * Vaccine, the intraspecific description shall contain the syntax of the antigen in line with the WHO convention.
              * 
@@ -1970,6 +2054,22 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting authorDescription.
+                 * @see #authorDescription(String)
+                 * 
+                 * @param authorDescription
+                 *     The author of an organism species shall be specified. The author year of an organism shall also be specified when 
+                 *     applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any rank)
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder authorDescription(java.lang.String authorDescription) {
+                    this.authorDescription = authorDescription == null ? null : String.of(authorDescription);
+                    return this;
+                }
+
+                /**
                  * The author of an organism species shall be specified. The author year of an organism shall also be specified when 
                  * applicable; refers to the year in which the first author(s) published the infraspecific plant/animal name (of any 
                  * rank).
@@ -2286,6 +2386,23 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting maternalOrganismId.
+                 * @see #maternalOrganismId(String)
+                 * 
+                 * @param maternalOrganismId
+                 *     The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
+                 *     vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
+                 *     and which is paternal
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder maternalOrganismId(java.lang.String maternalOrganismId) {
+                    this.maternalOrganismId = maternalOrganismId == null ? null : String.of(maternalOrganismId);
+                    return this;
+                }
+
+                /**
                  * The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
                  * vocabulary. For plants, the parents aren’t always known, and it is unlikely that it will be known which is maternal 
                  * and which is paternal.
@@ -2300,6 +2417,22 @@ public class SubstanceSourceMaterial extends DomainResource {
                  */
                 public Builder maternalOrganismId(String maternalOrganismId) {
                     this.maternalOrganismId = maternalOrganismId;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting maternalOrganismName.
+                 * @see #maternalOrganismName(String)
+                 * 
+                 * @param maternalOrganismName
+                 *     The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
+                 *     always known, and it is unlikely that it will be known which is maternal and which is paternal
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder maternalOrganismName(java.lang.String maternalOrganismName) {
+                    this.maternalOrganismName = maternalOrganismName == null ? null : String.of(maternalOrganismName);
                     return this;
                 }
 
@@ -2320,6 +2453,22 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting paternalOrganismId.
+                 * @see #paternalOrganismId(String)
+                 * 
+                 * @param paternalOrganismId
+                 *     The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
+                 *     vocabulary
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder paternalOrganismId(java.lang.String paternalOrganismId) {
+                    this.paternalOrganismId = paternalOrganismId == null ? null : String.of(paternalOrganismId);
+                    return this;
+                }
+
+                /**
                  * The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
                  * vocabulary.
                  * 
@@ -2332,6 +2481,21 @@ public class SubstanceSourceMaterial extends DomainResource {
                  */
                 public Builder paternalOrganismId(String paternalOrganismId) {
                     this.paternalOrganismId = paternalOrganismId;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting paternalOrganismName.
+                 * @see #paternalOrganismName(String)
+                 * 
+                 * @param paternalOrganismName
+                 *     The name of the paternal species constituting the hybrid organism shall be specified
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder paternalOrganismName(java.lang.String paternalOrganismName) {
+                    this.paternalOrganismName = paternalOrganismName == null ? null : String.of(paternalOrganismName);
                     return this;
                 }
 

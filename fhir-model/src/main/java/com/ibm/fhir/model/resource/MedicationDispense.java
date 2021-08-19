@@ -2106,6 +2106,23 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
+             * Convenience method for setting wasSubstituted.
+             * @see #wasSubstituted(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param wasSubstituted
+             *     Whether a substitution was or was not performed on the dispense
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder wasSubstituted(java.lang.Boolean wasSubstituted) {
+                this.wasSubstituted = wasSubstituted == null ? null : Boolean.of(wasSubstituted);
+                return this;
+            }
+
+            /**
              * True if the dispenser dispensed a different drug or product from what was prescribed.
              * 
              * <p>This element is required.

@@ -349,6 +349,23 @@ public class Signature extends Element {
         }
 
         /**
+         * Convenience method for setting when.
+         * @see #when(Instant)
+         * 
+         * <p>This element is required.
+         * 
+         * @param when
+         *     When the signature was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder when(java.time.ZonedDateTime when) {
+            this.when = when == null ? null : Instant.of(when);
+            return this;
+        }
+
+        /**
          * When the digital signature was signed.
          * 
          * <p>This element is required.

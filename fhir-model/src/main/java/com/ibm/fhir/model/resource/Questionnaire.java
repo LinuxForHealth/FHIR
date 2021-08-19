@@ -952,6 +952,21 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the questionnaire
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the questionnaire when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the questionnaire author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -969,6 +984,21 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this questionnaire (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the questionnaire. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -980,6 +1010,21 @@ public class Questionnaire extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this questionnaire (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1048,6 +1093,21 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this questionnaire is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -1109,6 +1169,21 @@ public class Questionnaire extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1276,6 +1351,21 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
+         * Convenience method for setting approvalDate.
+         * @see #approvalDate(Date)
+         * 
+         * @param approvalDate
+         *     When the questionnaire was approved by publisher
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder approvalDate(java.time.LocalDate approvalDate) {
+            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            return this;
+        }
+
+        /**
          * The date on which the resource content was approved by the publisher. Approval happens once when the content is 
          * officially approved for usage.
          * 
@@ -1287,6 +1377,21 @@ public class Questionnaire extends DomainResource {
          */
         public Builder approvalDate(Date approvalDate) {
             this.approvalDate = approvalDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lastReviewDate.
+         * @see #lastReviewDate(Date)
+         * 
+         * @param lastReviewDate
+         *     When the questionnaire was last reviewed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
+            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1938,6 +2043,23 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting linkId.
+             * @see #linkId(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param linkId
+             *     Unique id for item in questionnaire
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder linkId(java.lang.String linkId) {
+                this.linkId = linkId == null ? null : String.of(linkId);
+                return this;
+            }
+
+            /**
              * An identifier that is unique within the Questionnaire allowing linkage to the equivalent item in a 
              * QuestionnaireResponse resource.
              * 
@@ -2017,6 +2139,21 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting prefix.
+             * @see #prefix(String)
+             * 
+             * @param prefix
+             *     E.g. "1(a)", "2.5.3"
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder prefix(java.lang.String prefix) {
+                this.prefix = prefix == null ? null : String.of(prefix);
+                return this;
+            }
+
+            /**
              * A short label for a particular group, question or set of display text within the questionnaire used for reference by 
              * the individual completing the questionnaire.
              * 
@@ -2028,6 +2165,21 @@ public class Questionnaire extends DomainResource {
              */
             public Builder prefix(String prefix) {
                 this.prefix = prefix;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Primary text for the item
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
                 return this;
             }
 
@@ -2113,6 +2265,21 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting required.
+             * @see #required(Boolean)
+             * 
+             * @param required
+             *     Whether the item must be included in data results
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder required(java.lang.Boolean required) {
+                this.required = required == null ? null : Boolean.of(required);
+                return this;
+            }
+
+            /**
              * An indication, if true, that the item must be present in a "completed" QuestionnaireResponse. If false, the item may 
              * be skipped when answering the questionnaire.
              * 
@@ -2124,6 +2291,21 @@ public class Questionnaire extends DomainResource {
              */
             public Builder required(Boolean required) {
                 this.required = required;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting repeats.
+             * @see #repeats(Boolean)
+             * 
+             * @param repeats
+             *     Whether the item may repeat
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder repeats(java.lang.Boolean repeats) {
+                this.repeats = repeats == null ? null : Boolean.of(repeats);
                 return this;
             }
 
@@ -2143,6 +2325,21 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
+             * Convenience method for setting readOnly.
+             * @see #readOnly(Boolean)
+             * 
+             * @param readOnly
+             *     Don't allow human editing
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder readOnly(java.lang.Boolean readOnly) {
+                this.readOnly = readOnly == null ? null : Boolean.of(readOnly);
+                return this;
+            }
+
+            /**
              * An indication, when true, that the value cannot be changed by a human respondent to the Questionnaire.
              * 
              * @param readOnly
@@ -2153,6 +2350,21 @@ public class Questionnaire extends DomainResource {
              */
             public Builder readOnly(Boolean readOnly) {
                 this.readOnly = readOnly;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting maxLength.
+             * @see #maxLength(Integer)
+             * 
+             * @param maxLength
+             *     No more than this many characters
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder maxLength(java.lang.Integer maxLength) {
+                this.maxLength = maxLength == null ? null : Integer.of(maxLength);
                 return this;
             }
 
@@ -2589,6 +2801,23 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting question.
+                 * @see #question(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param question
+                 *     Question that determines whether item is enabled
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder question(java.lang.String question) {
+                    this.question = question == null ? null : String.of(question);
+                    return this;
+                }
+
+                /**
                  * The linkId for the question whose answer (or lack of answer) governs whether this item is enabled.
                  * 
                  * <p>This element is required.
@@ -2931,6 +3160,21 @@ public class Questionnaire extends DomainResource {
                  */
                 public Builder value(Element value) {
                     this.value = value;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting initialSelected.
+                 * @see #initialSelected(Boolean)
+                 * 
+                 * @param initialSelected
+                 *     Whether option is selected by default
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder initialSelected(java.lang.Boolean initialSelected) {
+                    this.initialSelected = initialSelected == null ? null : Boolean.of(initialSelected);
                     return this;
                 }
 

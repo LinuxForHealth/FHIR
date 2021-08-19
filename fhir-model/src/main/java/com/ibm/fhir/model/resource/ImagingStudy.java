@@ -1322,6 +1322,21 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Institution-generated description
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * The Imaging Manager description of the study. Institution-generated description or classification of the Study 
          * (component) performed.
          * 
@@ -1906,6 +1921,21 @@ public class ImagingStudy extends DomainResource {
              */
             public Builder modality(Coding modality) {
                 this.modality = modality;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     A short human readable summary of the series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 
@@ -2789,6 +2819,21 @@ public class ImagingStudy extends DomainResource {
                  */
                 public Builder number(UnsignedInt number) {
                     this.number = number;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting title.
+                 * @see #title(String)
+                 * 
+                 * @param title
+                 *     Description of instance
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder title(java.lang.String title) {
+                    this.title = title == null ? null : String.of(title);
                     return this;
                 }
 

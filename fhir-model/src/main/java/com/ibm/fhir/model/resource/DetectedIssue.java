@@ -799,6 +799,21 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
+         * Convenience method for setting detail.
+         * @see #detail(String)
+         * 
+         * @param detail
+         *     Description and context
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder detail(java.lang.String detail) {
+            this.detail = detail == null ? null : String.of(detail);
+            return this;
+        }
+
+        /**
          * A textual explanation of the detected issue.
          * 
          * @param detail

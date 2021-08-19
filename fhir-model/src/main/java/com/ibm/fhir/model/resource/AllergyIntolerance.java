@@ -1487,6 +1487,21 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Description of the event as a whole
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Text description about the reaction as a whole, including details of the manifestation if required.
              * 
              * @param description

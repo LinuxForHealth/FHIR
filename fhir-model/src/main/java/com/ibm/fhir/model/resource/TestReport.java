@@ -593,6 +593,21 @@ public class TestReport extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Informal name of the executed TestScript
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A free text natural language name identifying the executed TestScript.
          * 
          * @param name
@@ -671,6 +686,21 @@ public class TestReport extends DomainResource {
          */
         public Builder score(Decimal score) {
             this.score = score;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting tester.
+         * @see #tester(String)
+         * 
+         * @param tester
+         *     Name of the tester producing this report (Organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder tester(java.lang.String tester) {
+            this.tester = tester == null ? null : String.of(tester);
             return this;
         }
 
@@ -1113,6 +1143,21 @@ public class TestReport extends DomainResource {
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting display.
+             * @see #display(String)
+             * 
+             * @param display
+             *     The display name of the participant
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder display(java.lang.String display) {
+                this.display = display == null ? null : String.of(display);
                 return this;
             }
 
@@ -2278,6 +2323,21 @@ public class TestReport extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting detail.
+                     * @see #detail(String)
+                     * 
+                     * @param detail
+                     *     A link to further details on the result
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder detail(java.lang.String detail) {
+                        this.detail = detail == null ? null : String.of(detail);
+                        return this;
+                    }
+
+                    /**
                      * A link to further details on the result.
                      * 
                      * @param detail
@@ -2558,6 +2618,21 @@ public class TestReport extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Tracking/logging name of this test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * The name of this test used for tracking/logging purposes by test engines.
              * 
              * @param name
@@ -2568,6 +2643,21 @@ public class TestReport extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Tracking/reporting short description of the test
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 

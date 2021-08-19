@@ -612,6 +612,21 @@ public class Account extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Human-readable label
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * Name used for the account when displaying it to humans in reports, etc.
          * 
          * @param name
@@ -751,6 +766,21 @@ public class Account extends DomainResource {
          */
         public Builder owner(Reference owner) {
             this.owner = owner;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Explanation of purpose/use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
             return this;
         }
 
@@ -1411,6 +1441,21 @@ public class Account extends DomainResource {
              */
             public Builder party(Reference party) {
                 this.party = party;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting onHold.
+             * @see #onHold(Boolean)
+             * 
+             * @param onHold
+             *     Credit or other hold applied
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder onHold(java.lang.Boolean onHold) {
+                this.onHold = onHold == null ? null : Boolean.of(onHold);
                 return this;
             }
 

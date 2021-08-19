@@ -421,6 +421,25 @@ public class DataRequirement extends Element {
         }
 
         /**
+         * Convenience method for setting mustSupport.
+         * @see #mustSupport(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param mustSupport
+         *     Indicates specific structure elements that are referenced by the knowledge module
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder mustSupport(java.lang.String... mustSupport) {
+            for (java.lang.String value : mustSupport) {
+                this.mustSupport.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Indicates that specific elements of the type are referenced by the knowledge module and must be supported by the 
          * consumer in order to obtain an effective evaluation. This does not mean that a value is required for this element, 
          * only that the consuming system must understand the element and be able to provide values for it if they are available. 
@@ -890,6 +909,21 @@ public class DataRequirement extends Element {
             }
 
             /**
+             * Convenience method for setting path.
+             * @see #path(String)
+             * 
+             * @param path
+             *     A code-valued attribute to filter on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(java.lang.String path) {
+                this.path = path == null ? null : String.of(path);
+                return this;
+            }
+
+            /**
              * The code-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
              * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
              * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
@@ -904,6 +938,21 @@ public class DataRequirement extends Element {
              */
             public Builder path(String path) {
                 this.path = path;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting searchParam.
+             * @see #searchParam(String)
+             * 
+             * @param searchParam
+             *     A coded (token) parameter to search on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder searchParam(java.lang.String searchParam) {
+                this.searchParam = searchParam == null ? null : String.of(searchParam);
                 return this;
             }
 
@@ -1247,6 +1296,21 @@ public class DataRequirement extends Element {
             }
 
             /**
+             * Convenience method for setting path.
+             * @see #path(String)
+             * 
+             * @param path
+             *     A date-valued attribute to filter on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(java.lang.String path) {
+                this.path = path == null ? null : String.of(path);
+                return this;
+            }
+
+            /**
              * The date-valued attribute of the filter. The specified path SHALL be a FHIRPath resolveable on the specified type of 
              * the DataRequirement, and SHALL consist only of identifiers, constant indexers, and .resolve(). The path is allowed to 
              * contain qualifiers (.) to traverse sub-elements, as well as indexers ([x]) to traverse multiple-cardinality sub-
@@ -1261,6 +1325,21 @@ public class DataRequirement extends Element {
              */
             public Builder path(String path) {
                 this.path = path;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting searchParam.
+             * @see #searchParam(String)
+             * 
+             * @param searchParam
+             *     A date valued parameter to search on
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder searchParam(java.lang.String searchParam) {
+                this.searchParam = searchParam == null ? null : String.of(searchParam);
                 return this;
             }
 
@@ -1552,6 +1631,23 @@ public class DataRequirement extends Element {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting path.
+             * @see #path(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param path
+             *     The name of the attribute to perform the sort
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder path(java.lang.String path) {
+                this.path = path == null ? null : String.of(path);
+                return this;
             }
 
             /**

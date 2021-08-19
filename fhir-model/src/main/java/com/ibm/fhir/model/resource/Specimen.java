@@ -1743,6 +1743,21 @@ public class Specimen extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Textual description of procedure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * Textual description of procedure.
              * 
              * @param description
@@ -2198,6 +2213,21 @@ public class Specimen extends DomainResource {
              */
             public Builder identifier(java.util.Collection<Identifier> identifier) {
                 this.identifier = new ArrayList<>(identifier);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Textual description of the container
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 

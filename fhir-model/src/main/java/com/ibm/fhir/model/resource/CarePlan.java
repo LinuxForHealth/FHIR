@@ -1104,6 +1104,21 @@ public class CarePlan extends DomainResource {
         }
 
         /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Human-friendly name for the care plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
+            return this;
+        }
+
+        /**
          * Human-friendly name for the care plan.
          * 
          * @param title
@@ -1114,6 +1129,21 @@ public class CarePlan extends DomainResource {
          */
         public Builder title(String title) {
             this.title = title;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Summary of nature of plan
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
             return this;
         }
 
@@ -2838,6 +2868,21 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting doNotPerform.
+                 * @see #doNotPerform(Boolean)
+                 * 
+                 * @param doNotPerform
+                 *     If true, activity is prohibiting action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+                    this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+                    return this;
+                }
+
+                /**
                  * If true, indicates that the described activity is one that must NOT be engaged in when following the plan. If false, 
                  * or missing, indicates that the described activity is one that should be engaged in when following the plan.
                  * 
@@ -3001,6 +3046,21 @@ public class CarePlan extends DomainResource {
                  */
                 public Builder quantity(SimpleQuantity quantity) {
                     this.quantity = quantity;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting description.
+                 * @see #description(String)
+                 * 
+                 * @param description
+                 *     Extra info describing activity to perform
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder description(java.lang.String description) {
+                    this.description = description == null ? null : String.of(description);
                     return this;
                 }
 

@@ -465,6 +465,21 @@ public class Dosage extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting sequence.
+         * @see #sequence(Integer)
+         * 
+         * @param sequence
+         *     The order of the dosage instructions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder sequence(java.lang.Integer sequence) {
+            this.sequence = sequence == null ? null : Integer.of(sequence);
+            return this;
+        }
+
+        /**
          * Indicates the order in which the dosage instructions should be applied or interpreted.
          * 
          * @param sequence
@@ -475,6 +490,21 @@ public class Dosage extends BackboneElement {
          */
         public Builder sequence(Integer sequence) {
             this.sequence = sequence;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting text.
+         * @see #text(String)
+         * 
+         * @param text
+         *     Free text dosage instructions e.g. SIG
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder text(java.lang.String text) {
+            this.text = text == null ? null : String.of(text);
             return this;
         }
 
@@ -527,6 +557,21 @@ public class Dosage extends BackboneElement {
          */
         public Builder additionalInstruction(Collection<CodeableConcept> additionalInstruction) {
             this.additionalInstruction = new ArrayList<>(additionalInstruction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting patientInstruction.
+         * @see #patientInstruction(String)
+         * 
+         * @param patientInstruction
+         *     Patient or consumer oriented instructions
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patientInstruction(java.lang.String patientInstruction) {
+            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
             return this;
         }
 

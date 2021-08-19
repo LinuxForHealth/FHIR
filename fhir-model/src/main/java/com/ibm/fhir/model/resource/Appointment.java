@@ -1137,6 +1137,21 @@ public class Appointment extends DomainResource {
         }
 
         /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Shown on a subject line in a meeting request, or appointment list
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
+            return this;
+        }
+
+        /**
          * The brief description of the appointment as would be shown on a subject line in a meeting request, or appointment 
          * list. Detailed or expanded information should be put in the comment field.
          * 
@@ -1186,6 +1201,21 @@ public class Appointment extends DomainResource {
         }
 
         /**
+         * Convenience method for setting start.
+         * @see #start(Instant)
+         * 
+         * @param start
+         *     When appointment is to take place
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder start(java.time.ZonedDateTime start) {
+            this.start = start == null ? null : Instant.of(start);
+            return this;
+        }
+
+        /**
          * Date/Time that the appointment is to take place.
          * 
          * @param start
@@ -1196,6 +1226,21 @@ public class Appointment extends DomainResource {
          */
         public Builder start(Instant start) {
             this.start = start;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting end.
+         * @see #end(Instant)
+         * 
+         * @param end
+         *     When appointment is to conclude
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = end == null ? null : Instant.of(end);
             return this;
         }
 
@@ -1291,6 +1336,21 @@ public class Appointment extends DomainResource {
         }
 
         /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Additional comments
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
+            return this;
+        }
+
+        /**
          * Additional comments about the appointment.
          * 
          * @param comment
@@ -1301,6 +1361,21 @@ public class Appointment extends DomainResource {
          */
         public Builder comment(String comment) {
             this.comment = comment;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting patientInstruction.
+         * @see #patientInstruction(String)
+         * 
+         * @param patientInstruction
+         *     Detailed information and instructions for the patient
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder patientInstruction(java.lang.String patientInstruction) {
+            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
             return this;
         }
 

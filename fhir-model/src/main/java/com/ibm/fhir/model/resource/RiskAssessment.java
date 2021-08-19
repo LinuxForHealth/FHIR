@@ -1030,6 +1030,21 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
+         * Convenience method for setting mitigation.
+         * @see #mitigation(String)
+         * 
+         * @param mitigation
+         *     How to reduce risk
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder mitigation(java.lang.String mitigation) {
+            this.mitigation = mitigation == null ? null : String.of(mitigation);
+            return this;
+        }
+
+        /**
          * A description of the steps that might be taken to reduce the identified risk(s).
          * 
          * @param mitigation
@@ -1513,6 +1528,21 @@ public class RiskAssessment extends DomainResource {
              */
             public Builder when(Element when) {
                 this.when = when;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting rationale.
+             * @see #rationale(String)
+             * 
+             * @param rationale
+             *     Explanation of prediction
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder rationale(java.lang.String rationale) {
+                this.rationale = rationale == null ? null : String.of(rationale);
                 return this;
             }
 

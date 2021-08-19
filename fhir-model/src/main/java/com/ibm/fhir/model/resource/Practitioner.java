@@ -571,6 +571,21 @@ public class Practitioner extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this practitioner's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this practitioner's record is in active use.
          * 
          * @param active
@@ -700,6 +715,21 @@ public class Practitioner extends DomainResource {
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting birthDate.
+         * @see #birthDate(Date)
+         * 
+         * @param birthDate
+         *     The date on which the practitioner was born
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder birthDate(java.time.LocalDate birthDate) {
+            this.birthDate = birthDate == null ? null : Date.of(birthDate);
             return this;
         }
 

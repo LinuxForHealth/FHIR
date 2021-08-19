@@ -982,6 +982,21 @@ public class CommunicationRequest extends DomainResource {
         }
 
         /**
+         * Convenience method for setting doNotPerform.
+         * @see #doNotPerform(Boolean)
+         * 
+         * @param doNotPerform
+         *     True if request is prohibiting action
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            return this;
+        }
+
+        /**
          * If true indicates that the CommunicationRequest is asking for the specified action to *not* occur.
          * 
          * @param doNotPerform

@@ -846,6 +846,21 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
+         * Convenience method for setting date.
+         * @see #date(Instant)
+         * 
+         * @param date
+         *     When this document reference was created
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder date(java.time.ZonedDateTime date) {
+            this.date = date == null ? null : Instant.of(date);
+            return this;
+        }
+
+        /**
          * When the document reference was created.
          * 
          * @param date
@@ -984,6 +999,21 @@ public class DocumentReference extends DomainResource {
          */
         public Builder relatesTo(Collection<RelatesTo> relatesTo) {
             this.relatesTo = new ArrayList<>(relatesTo);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting description.
+         * @see #description(String)
+         * 
+         * @param description
+         *     Human-readable description
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder description(java.lang.String description) {
+            this.description = description == null ? null : String.of(description);
             return this;
         }
 

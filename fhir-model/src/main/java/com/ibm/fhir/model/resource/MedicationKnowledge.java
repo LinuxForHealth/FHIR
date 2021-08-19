@@ -833,6 +833,25 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         /**
+         * Convenience method for setting synonym.
+         * @see #synonym(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param synonym
+         *     Additional names for a medication
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder synonym(java.lang.String... synonym) {
+            for (java.lang.String value : synonym) {
+                this.synonym.add(value == null ? null : String.of(value));
+            }
+            return this;
+        }
+
+        /**
          * Additional names for a medication, for example, the name(s) given to a medication in different countries. For example, 
          * acetaminophen and paracetamol or salbutamol and albuterol.
          * 
@@ -2314,6 +2333,21 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
+             * Convenience method for setting isActive.
+             * @see #isActive(Boolean)
+             * 
+             * @param isActive
+             *     Active ingredient indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder isActive(java.lang.Boolean isActive) {
+                this.isActive = isActive == null ? null : Boolean.of(isActive);
+                return this;
+            }
+
+            /**
              * Indication of whether this ingredient affects the therapeutic action of the drug.
              * 
              * @param isActive
@@ -2627,6 +2661,21 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
+             * Convenience method for setting source.
+             * @see #source(String)
+             * 
+             * @param source
+             *     The source or owner for the price information
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder source(java.lang.String source) {
+                this.source = source == null ? null : String.of(source);
+                return this;
+            }
+
+            /**
              * The source or owner that assigns the price to the medication.
              * 
              * @param source
@@ -2915,6 +2964,21 @@ public class MedicationKnowledge extends DomainResource {
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Name of the reviewing program
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
                 return this;
             }
 
@@ -3854,6 +3918,25 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 public Builder characteristic(Element characteristic) {
                     this.characteristic = characteristic;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting value.
+                 * @see #value(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param value
+                 *     The specific characteristic
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(java.lang.String... value) {
+                    for (java.lang.String _value : value) {
+                        this.value.add(_value == null ? null : String.of(_value));
+                    }
                     return this;
                 }
 
@@ -5396,6 +5479,23 @@ public class MedicationKnowledge extends DomainResource {
                  */
                 public Builder type(CodeableConcept type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting allowed.
+                 * @see #allowed(Boolean)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param allowed
+                 *     Specifies if regulation allows for changes in the medication when dispensing
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder allowed(java.lang.Boolean allowed) {
+                    this.allowed = allowed == null ? null : Boolean.of(allowed);
                     return this;
                 }
 

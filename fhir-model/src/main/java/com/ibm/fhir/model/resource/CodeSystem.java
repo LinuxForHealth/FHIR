@@ -950,6 +950,21 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the code system (Coding.version)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the code system when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the code system author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -968,6 +983,21 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this code system (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the code system. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -979,6 +1009,21 @@ public class CodeSystem extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this code system (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1013,6 +1058,21 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this code system is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * 
@@ -1040,6 +1100,21 @@ public class CodeSystem extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1207,6 +1282,21 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting caseSensitive.
+         * @see #caseSensitive(Boolean)
+         * 
+         * @param caseSensitive
+         *     If code comparison is case sensitive
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder caseSensitive(java.lang.Boolean caseSensitive) {
+            this.caseSensitive = caseSensitive == null ? null : Boolean.of(caseSensitive);
+            return this;
+        }
+
+        /**
          * If code comparison is case sensitive when codes within this system are compared to each other.
          * 
          * @param caseSensitive
@@ -1249,6 +1339,21 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
+         * Convenience method for setting compositional.
+         * @see #compositional(Boolean)
+         * 
+         * @param compositional
+         *     If code system defines a compositional grammar
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder compositional(java.lang.Boolean compositional) {
+            this.compositional = compositional == null ? null : Boolean.of(compositional);
+            return this;
+        }
+
+        /**
          * The code system defines a compositional (post-coordination) grammar.
          * 
          * @param compositional
@@ -1259,6 +1364,21 @@ public class CodeSystem extends DomainResource {
          */
         public Builder compositional(Boolean compositional) {
             this.compositional = compositional;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting versionNeeded.
+         * @see #versionNeeded(Boolean)
+         * 
+         * @param versionNeeded
+         *     If definitions are not stable
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder versionNeeded(java.lang.Boolean versionNeeded) {
+            this.versionNeeded = versionNeeded == null ? null : Boolean.of(versionNeeded);
             return this;
         }
 
@@ -1767,6 +1887,21 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     How or why the filter is used
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
+            }
+
+            /**
              * A description of how or why the filter is used.
              * 
              * @param description
@@ -1815,6 +1950,23 @@ public class CodeSystem extends DomainResource {
              */
             public Builder operator(Collection<FilterOperator> operator) {
                 this.operator = new ArrayList<>(operator);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting value.
+             * @see #value(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     What to use for the value
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(java.lang.String value) {
+                this.value = value == null ? null : String.of(value);
                 return this;
             }
 
@@ -2163,6 +2315,21 @@ public class CodeSystem extends DomainResource {
              */
             public Builder uri(Uri uri) {
                 this.uri = uri;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * @param description
+             *     Why the property is defined, and/or what it conveys
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
                 return this;
             }
 
@@ -2537,6 +2704,21 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
+             * Convenience method for setting display.
+             * @see #display(String)
+             * 
+             * @param display
+             *     Text to display to the user
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder display(java.lang.String display) {
+                this.display = display == null ? null : String.of(display);
+                return this;
+            }
+
+            /**
              * A human readable string that is the recommended default way to present this concept to a user.
              * 
              * @param display
@@ -2547,6 +2729,21 @@ public class CodeSystem extends DomainResource {
              */
             public Builder display(String display) {
                 this.display = display;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting definition.
+             * @see #definition(String)
+             * 
+             * @param definition
+             *     Formal definition
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder definition(java.lang.String definition) {
+                this.definition = definition == null ? null : String.of(definition);
                 return this;
             }
 
@@ -2980,6 +3177,23 @@ public class CodeSystem extends DomainResource {
                  */
                 public Builder use(Coding use) {
                     this.use = use;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting value.
+                 * @see #value(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     The text value for this designation
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = value == null ? null : String.of(value);
                     return this;
                 }
 

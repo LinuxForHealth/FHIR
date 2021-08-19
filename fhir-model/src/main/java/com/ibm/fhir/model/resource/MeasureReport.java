@@ -1523,6 +1523,21 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting count.
+                 * @see #count(Integer)
+                 * 
+                 * @param count
+                 *     Size of the population
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder count(java.lang.Integer count) {
+                    this.count = count == null ? null : Integer.of(count);
+                    return this;
+                }
+
+                /**
                  * The number of members of the population.
                  * 
                  * @param count
@@ -2803,6 +2818,21 @@ public class MeasureReport extends DomainResource {
                          */
                         public Builder code(CodeableConcept code) {
                             this.code = code;
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting count.
+                         * @see #count(Integer)
+                         * 
+                         * @param count
+                         *     Size of the population
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder count(java.lang.Integer count) {
+                            this.count = count == null ? null : Integer.of(count);
                             return this;
                         }
 

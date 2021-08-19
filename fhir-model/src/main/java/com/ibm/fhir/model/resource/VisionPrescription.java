@@ -1222,6 +1222,21 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
+             * Convenience method for setting axis.
+             * @see #axis(Integer)
+             * 
+             * @param axis
+             *     Lens meridian which contain no power for astigmatism
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder axis(java.lang.Integer axis) {
+                this.axis = axis == null ? null : Integer.of(axis);
+                return this;
+            }
+
+            /**
              * Adjustment for astigmatism measured in integer degrees.
              * 
              * @param axis
@@ -1340,6 +1355,21 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
+             * Convenience method for setting color.
+             * @see #color(String)
+             * 
+             * @param color
+             *     Color required
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder color(java.lang.String color) {
+                this.color = color == null ? null : String.of(color);
+                return this;
+            }
+
+            /**
              * Special color or pattern.
              * 
              * @param color
@@ -1350,6 +1380,21 @@ public class VisionPrescription extends DomainResource {
              */
             public Builder color(String color) {
                 this.color = color;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting brand.
+             * @see #brand(String)
+             * 
+             * @param brand
+             *     Brand required
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder brand(java.lang.String brand) {
+                this.brand = brand == null ? null : String.of(brand);
                 return this;
             }
 

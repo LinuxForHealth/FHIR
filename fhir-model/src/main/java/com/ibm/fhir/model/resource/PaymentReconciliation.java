@@ -772,6 +772,21 @@ public class PaymentReconciliation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting disposition.
+         * @see #disposition(String)
+         * 
+         * @param disposition
+         *     Disposition message
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder disposition(java.lang.String disposition) {
+            this.disposition = disposition == null ? null : String.of(disposition);
+            return this;
+        }
+
+        /**
          * A human readable description of the status of the request for the reconciliation.
          * 
          * @param disposition
@@ -782,6 +797,23 @@ public class PaymentReconciliation extends DomainResource {
          */
         public Builder disposition(String disposition) {
             this.disposition = disposition;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting paymentDate.
+         * @see #paymentDate(Date)
+         * 
+         * <p>This element is required.
+         * 
+         * @param paymentDate
+         *     When payment issued
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder paymentDate(java.time.LocalDate paymentDate) {
+            this.paymentDate = paymentDate == null ? null : Date.of(paymentDate);
             return this;
         }
 
@@ -1421,6 +1453,21 @@ public class PaymentReconciliation extends DomainResource {
             }
 
             /**
+             * Convenience method for setting date.
+             * @see #date(Date)
+             * 
+             * @param date
+             *     Date of commitment to pay
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder date(java.time.LocalDate date) {
+                this.date = date == null ? null : Date.of(date);
+                return this;
+            }
+
+            /**
              * The date from the response resource containing a commitment to pay.
              * 
              * @param date
@@ -1761,6 +1808,21 @@ public class PaymentReconciliation extends DomainResource {
              */
             public Builder type(NoteType type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Note explanatory text
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
                 return this;
             }
 

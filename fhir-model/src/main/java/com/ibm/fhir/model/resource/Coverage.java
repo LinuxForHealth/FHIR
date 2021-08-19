@@ -815,6 +815,21 @@ public class Coverage extends DomainResource {
         }
 
         /**
+         * Convenience method for setting subscriberId.
+         * @see #subscriberId(String)
+         * 
+         * @param subscriberId
+         *     ID assigned to the subscriber
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subscriberId(java.lang.String subscriberId) {
+            this.subscriberId = subscriberId == null ? null : String.of(subscriberId);
+            return this;
+        }
+
+        /**
          * The insurer assigned ID for the Subscriber.
          * 
          * @param subscriberId
@@ -846,6 +861,21 @@ public class Coverage extends DomainResource {
          */
         public Builder beneficiary(Reference beneficiary) {
             this.beneficiary = beneficiary;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting dependent.
+         * @see #dependent(String)
+         * 
+         * @param dependent
+         *     Dependent number
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder dependent(java.lang.String dependent) {
+            this.dependent = dependent == null ? null : String.of(dependent);
             return this;
         }
 
@@ -997,6 +1027,21 @@ public class Coverage extends DomainResource {
         }
 
         /**
+         * Convenience method for setting network.
+         * @see #network(String)
+         * 
+         * @param network
+         *     Insurer network
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder network(java.lang.String network) {
+            this.network = network == null ? null : String.of(network);
+            return this;
+        }
+
+        /**
          * The insurer-specific identifier for the insurer-defined network of providers to which the beneficiary may seek 
          * treatment which will be covered at the 'in-network' rate, otherwise 'out of network' terms and conditions apply.
          * 
@@ -1044,6 +1089,21 @@ public class Coverage extends DomainResource {
          */
         public Builder costToBeneficiary(Collection<CostToBeneficiary> costToBeneficiary) {
             this.costToBeneficiary = new ArrayList<>(costToBeneficiary);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting subrogation.
+         * @see #subrogation(Boolean)
+         * 
+         * @param subrogation
+         *     Reimbursement to insurer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subrogation(java.lang.Boolean subrogation) {
+            this.subrogation = subrogation == null ? null : Boolean.of(subrogation);
             return this;
         }
 
@@ -1424,6 +1484,23 @@ public class Coverage extends DomainResource {
             }
 
             /**
+             * Convenience method for setting value.
+             * @see #value(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value associated with the type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder value(java.lang.String value) {
+                this.value = value == null ? null : String.of(value);
+                return this;
+            }
+
+            /**
              * The alphanumeric string value associated with the insurer issued label.
              * 
              * <p>This element is required.
@@ -1436,6 +1513,21 @@ public class Coverage extends DomainResource {
              */
             public Builder value(String value) {
                 this.value = value;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * @param name
+             *     Human readable description of the type and value
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
                 return this;
             }
 

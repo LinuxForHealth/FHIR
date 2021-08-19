@@ -906,6 +906,21 @@ public class Goal extends DomainResource {
         }
 
         /**
+         * Convenience method for setting statusDate.
+         * @see #statusDate(Date)
+         * 
+         * @param statusDate
+         *     When goal status took effect
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder statusDate(java.time.LocalDate statusDate) {
+            this.statusDate = statusDate == null ? null : Date.of(statusDate);
+            return this;
+        }
+
+        /**
          * Identifies when the current status. I.e. When initially created, when achieved, when cancelled, etc.
          * 
          * @param statusDate
@@ -916,6 +931,21 @@ public class Goal extends DomainResource {
          */
         public Builder statusDate(Date statusDate) {
             this.statusDate = statusDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting statusReason.
+         * @see #statusReason(String)
+         * 
+         * @param statusReason
+         *     Reason for current status
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder statusReason(java.lang.String statusReason) {
+            this.statusReason = statusReason == null ? null : String.of(statusReason);
             return this;
         }
 

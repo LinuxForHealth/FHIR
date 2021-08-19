@@ -734,6 +734,21 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting multipleResultsAllowed.
+         * @see #multipleResultsAllowed(Boolean)
+         * 
+         * @param multipleResultsAllowed
+         *     Multiple results allowed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder multipleResultsAllowed(java.lang.Boolean multipleResultsAllowed) {
+            this.multipleResultsAllowed = multipleResultsAllowed == null ? null : Boolean.of(multipleResultsAllowed);
+            return this;
+        }
+
+        /**
          * Multiple results allowed for observations conforming to this ObservationDefinition.
          * 
          * @param multipleResultsAllowed
@@ -758,6 +773,21 @@ public class ObservationDefinition extends DomainResource {
          */
         public Builder method(CodeableConcept method) {
             this.method = method;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting preferredReportName.
+         * @see #preferredReportName(String)
+         * 
+         * @param preferredReportName
+         *     Preferred report name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder preferredReportName(java.lang.String preferredReportName) {
+            this.preferredReportName = preferredReportName == null ? null : String.of(preferredReportName);
             return this;
         }
 
@@ -1248,6 +1278,21 @@ public class ObservationDefinition extends DomainResource {
              */
             public Builder conversionFactor(Decimal conversionFactor) {
                 this.conversionFactor = conversionFactor;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting decimalPrecision.
+             * @see #decimalPrecision(Integer)
+             * 
+             * @param decimalPrecision
+             *     Decimal precision of observation quantitative results
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder decimalPrecision(java.lang.Integer decimalPrecision) {
+                this.decimalPrecision = decimalPrecision == null ? null : Integer.of(decimalPrecision);
                 return this;
             }
 
@@ -1750,6 +1795,21 @@ public class ObservationDefinition extends DomainResource {
              */
             public Builder gestationalAge(Range gestationalAge) {
                 this.gestationalAge = gestationalAge;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting condition.
+             * @see #condition(String)
+             * 
+             * @param condition
+             *     Condition associated with the reference range
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder condition(java.lang.String condition) {
+                this.condition = condition == null ? null : String.of(condition);
                 return this;
             }
 

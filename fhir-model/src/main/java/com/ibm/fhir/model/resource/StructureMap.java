@@ -819,6 +819,21 @@ public class StructureMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the structure map
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the structure map when it is referenced in a specification, 
          * model, design or instance. This is an arbitrary value managed by the structure map author and is not expected to be 
          * globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is 
@@ -836,6 +851,23 @@ public class StructureMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * <p>This element is required.
+         * 
+         * @param name
+         *     Name for this structure map (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the structure map. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -849,6 +881,21 @@ public class StructureMap extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this structure map (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -883,6 +930,21 @@ public class StructureMap extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this structure map is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -910,6 +972,21 @@ public class StructureMap extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1534,6 +1611,21 @@ public class StructureMap extends DomainResource {
             }
 
             /**
+             * Convenience method for setting alias.
+             * @see #alias(String)
+             * 
+             * @param alias
+             *     Name for type in this map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder alias(java.lang.String alias) {
+                this.alias = alias == null ? null : String.of(alias);
+                return this;
+            }
+
+            /**
              * The name used for this type in the map.
              * 
              * @param alias
@@ -1544,6 +1636,21 @@ public class StructureMap extends DomainResource {
              */
             public Builder alias(String alias) {
                 this.alias = alias;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting documentation.
+             * @see #documentation(String)
+             * 
+             * @param documentation
+             *     Documentation on use of structure
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = documentation == null ? null : String.of(documentation);
                 return this;
             }
 
@@ -1937,6 +2044,21 @@ public class StructureMap extends DomainResource {
              */
             public Builder typeMode(StructureMapGroupTypeMode typeMode) {
                 this.typeMode = typeMode;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting documentation.
+             * @see #documentation(String)
+             * 
+             * @param documentation
+             *     Additional description/explanation for group
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder documentation(java.lang.String documentation) {
+                this.documentation = documentation == null ? null : String.of(documentation);
                 return this;
             }
 
@@ -2346,6 +2468,21 @@ public class StructureMap extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting type.
+                 * @see #type(String)
+                 * 
+                 * @param type
+                 *     Type for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder type(java.lang.String type) {
+                    this.type = type == null ? null : String.of(type);
+                    return this;
+                }
+
+                /**
                  * Type for this instance of data.
                  * 
                  * @param type
@@ -2372,6 +2509,21 @@ public class StructureMap extends DomainResource {
                  */
                 public Builder mode(StructureMapInputMode mode) {
                     this.mode = mode;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting documentation.
+                 * @see #documentation(String)
+                 * 
+                 * @param documentation
+                 *     Documentation for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder documentation(java.lang.String documentation) {
+                    this.documentation = documentation == null ? null : String.of(documentation);
                     return this;
                 }
 
@@ -2870,6 +3022,21 @@ public class StructureMap extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting documentation.
+                 * @see #documentation(String)
+                 * 
+                 * @param documentation
+                 *     Documentation for this instance of data
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder documentation(java.lang.String documentation) {
+                    this.documentation = documentation == null ? null : String.of(documentation);
+                    return this;
+                }
+
+                /**
                  * Documentation for this instance of data.
                  * 
                  * @param documentation
@@ -3328,6 +3495,21 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting min.
+                     * @see #min(Integer)
+                     * 
+                     * @param min
+                     *     Specified minimum cardinality
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder min(java.lang.Integer min) {
+                        this.min = min == null ? null : Integer.of(min);
+                        return this;
+                    }
+
+                    /**
                      * Specified minimum cardinality for the element. This is optional; if present, it acts an implicit check on the input 
                      * content.
                      * 
@@ -3343,6 +3525,21 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting max.
+                     * @see #max(String)
+                     * 
+                     * @param max
+                     *     Specified maximum cardinality (number or *)
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder max(java.lang.String max) {
+                        this.max = max == null ? null : String.of(max);
+                        return this;
+                    }
+
+                    /**
                      * Specified maximum cardinality for the element - a number or a "*". This is optional; if present, it acts an implicit 
                      * check on the input content (* just serves as documentation; it's the default value).
                      * 
@@ -3354,6 +3551,21 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder max(String max) {
                         this.max = max;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting type.
+                     * @see #type(String)
+                     * 
+                     * @param type
+                     *     Rule only applies if source has this type
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder type(java.lang.String type) {
+                        this.type = type == null ? null : String.of(type);
                         return this;
                     }
 
@@ -3440,6 +3652,21 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting element.
+                     * @see #element(String)
+                     * 
+                     * @param element
+                     *     Optional field for this source
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder element(java.lang.String element) {
+                        this.element = element == null ? null : String.of(element);
+                        return this;
+                    }
+
+                    /**
                      * Optional field for this source.
                      * 
                      * @param element
@@ -3482,6 +3709,21 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting condition.
+                     * @see #condition(String)
+                     * 
+                     * @param condition
+                     *     FHIRPath expression - must be true or the rule does not apply
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder condition(java.lang.String condition) {
+                        this.condition = condition == null ? null : String.of(condition);
+                        return this;
+                    }
+
+                    /**
                      * FHIRPath expression - must be true or the rule does not apply.
                      * 
                      * @param condition
@@ -3496,6 +3738,21 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting check.
+                     * @see #check(String)
+                     * 
+                     * @param check
+                     *     FHIRPath expression - must be true or the mapping engine throws an error instead of completing
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder check(java.lang.String check) {
+                        this.check = check == null ? null : String.of(check);
+                        return this;
+                    }
+
+                    /**
                      * FHIRPath expression - must be true or the mapping engine throws an error instead of completing.
                      * 
                      * @param check
@@ -3506,6 +3763,21 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder check(String check) {
                         this.check = check;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting logMessage.
+                     * @see #logMessage(String)
+                     * 
+                     * @param logMessage
+                     *     Message to put in log if source exists (FHIRPath)
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder logMessage(java.lang.String logMessage) {
+                        this.logMessage = logMessage == null ? null : String.of(logMessage);
                         return this;
                     }
 
@@ -3932,6 +4204,21 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder contextType(StructureMapContextType contextType) {
                         this.contextType = contextType;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting element.
+                     * @see #element(String)
+                     * 
+                     * @param element
+                     *     Field to create in the context
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder element(java.lang.String element) {
+                        this.element = element == null ? null : String.of(element);
                         return this;
                     }
 
@@ -4578,6 +4865,27 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder name(Id name) {
                         this.name = name;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting variable.
+                     * @see #variable(List<String>)
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param variable
+                     *     Variable to pass to the rule or group
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder variable(java.lang.String... variable) {
+                        for (java.lang.String value : variable) {
+                            this.variable.add(value == null ? null : String.of(value));
+                        }
                         return this;
                     }
 

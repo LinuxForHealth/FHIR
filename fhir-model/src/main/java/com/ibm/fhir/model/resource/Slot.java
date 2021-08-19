@@ -772,6 +772,23 @@ public class Slot extends DomainResource {
         }
 
         /**
+         * Convenience method for setting start.
+         * @see #start(Instant)
+         * 
+         * <p>This element is required.
+         * 
+         * @param start
+         *     Date/Time that the slot is to begin
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder start(java.time.ZonedDateTime start) {
+            this.start = start == null ? null : Instant.of(start);
+            return this;
+        }
+
+        /**
          * Date/Time that the slot is to begin.
          * 
          * <p>This element is required.
@@ -784,6 +801,23 @@ public class Slot extends DomainResource {
          */
         public Builder start(Instant start) {
             this.start = start;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting end.
+         * @see #end(Instant)
+         * 
+         * <p>This element is required.
+         * 
+         * @param end
+         *     Date/Time that the slot is to conclude
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder end(java.time.ZonedDateTime end) {
+            this.end = end == null ? null : Instant.of(end);
             return this;
         }
 
@@ -804,6 +838,21 @@ public class Slot extends DomainResource {
         }
 
         /**
+         * Convenience method for setting overbooked.
+         * @see #overbooked(Boolean)
+         * 
+         * @param overbooked
+         *     This slot has already been overbooked, appointments are unlikely to be accepted for this time
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder overbooked(java.lang.Boolean overbooked) {
+            this.overbooked = overbooked == null ? null : Boolean.of(overbooked);
+            return this;
+        }
+
+        /**
          * This slot has already been overbooked, appointments are unlikely to be accepted for this time.
          * 
          * @param overbooked
@@ -814,6 +863,21 @@ public class Slot extends DomainResource {
          */
         public Builder overbooked(Boolean overbooked) {
             this.overbooked = overbooked;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting comment.
+         * @see #comment(String)
+         * 
+         * @param comment
+         *     Comments on the slot to describe any extended information. Such as custom constraints on the slot
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder comment(java.lang.String comment) {
+            this.comment = comment == null ? null : String.of(comment);
             return this;
         }
 

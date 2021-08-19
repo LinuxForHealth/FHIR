@@ -616,6 +616,21 @@ public class RelatedPerson extends DomainResource {
         }
 
         /**
+         * Convenience method for setting active.
+         * @see #active(Boolean)
+         * 
+         * @param active
+         *     Whether this related person's record is in active use
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder active(java.lang.Boolean active) {
+            this.active = active == null ? null : Boolean.of(active);
+            return this;
+        }
+
+        /**
          * Whether this related person record is in active use.
          * 
          * @param active
@@ -764,6 +779,21 @@ public class RelatedPerson extends DomainResource {
          */
         public Builder gender(AdministrativeGender gender) {
             this.gender = gender;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting birthDate.
+         * @see #birthDate(Date)
+         * 
+         * @param birthDate
+         *     The date on which the related person was born
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder birthDate(java.time.LocalDate birthDate) {
+            this.birthDate = birthDate == null ? null : Date.of(birthDate);
             return this;
         }
 
@@ -1184,6 +1214,21 @@ public class RelatedPerson extends DomainResource {
              */
             public Builder language(CodeableConcept language) {
                 this.language = language;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting preferred.
+             * @see #preferred(Boolean)
+             * 
+             * @param preferred
+             *     Language preference indicator
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder preferred(java.lang.Boolean preferred) {
+                this.preferred = preferred == null ? null : Boolean.of(preferred);
                 return this;
             }
 

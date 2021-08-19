@@ -1078,6 +1078,21 @@ public class Contract extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business edition
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * An edition identifier used for business purposes to label business significant variants.
          * 
          * @param version
@@ -1386,6 +1401,21 @@ public class Contract extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Computer friendly designation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying this Contract definition, derivative, or instance in any legal state. Provides 
          * additional information about its content. This name should be usable as an identifier for the module by machine 
          * processing applications such as code generation.
@@ -1398,6 +1428,21 @@ public class Contract extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Human Friendly name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -1417,6 +1462,21 @@ public class Contract extends DomainResource {
         }
 
         /**
+         * Convenience method for setting subtitle.
+         * @see #subtitle(String)
+         * 
+         * @param subtitle
+         *     Subordinate Friendly name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder subtitle(java.lang.String subtitle) {
+            this.subtitle = subtitle == null ? null : String.of(subtitle);
+            return this;
+        }
+
+        /**
          * An explanatory or alternate user-friendly title for this Contract definition, derivative, or instance in any legal 
          * state.t giving additional information about its content.
          * 
@@ -1428,6 +1488,25 @@ public class Contract extends DomainResource {
          */
         public Builder subtitle(String subtitle) {
             this.subtitle = subtitle;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting alias.
+         * @see #alias(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param alias
+         *     Acronym or short name
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder alias(java.lang.String... alias) {
+            for (java.lang.String value : alias) {
+                this.alias.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -2907,6 +2986,21 @@ public class Contract extends DomainResource {
             }
 
             /**
+             * Convenience method for setting text.
+             * @see #text(String)
+             * 
+             * @param text
+             *     Term Statement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder text(java.lang.String text) {
+                this.text = text == null ? null : String.of(text);
+                return this;
+            }
+
+            /**
              * Statement of a provision in a policy or a contract.
              * 
              * @param text
@@ -4100,6 +4194,21 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting text.
+                 * @see #text(String)
+                 * 
+                 * @param text
+                 *     Human readable offer text
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder text(java.lang.String text) {
+                    this.text = text == null ? null : String.of(text);
+                    return this;
+                }
+
+                /**
                  * Human readable form of this Contract Offer.
                  * 
                  * @param text
@@ -4110,6 +4219,25 @@ public class Contract extends DomainResource {
                  */
                 public Builder text(String text) {
                     this.text = text;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting linkId.
+                 * @see #linkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param linkId
+                 *     Pointer to text
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder linkId(java.lang.String... linkId) {
+                    for (java.lang.String value : linkId) {
+                        this.linkId.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 
@@ -5451,6 +5579,21 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting condition.
+                 * @see #condition(String)
+                 * 
+                 * @param condition
+                 *     Quality desctiption of asset
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder condition(java.lang.String condition) {
+                    this.condition = condition == null ? null : String.of(condition);
+                    return this;
+                }
+
+                /**
                  * Description of the quality and completeness of the asset that imay be a factor in its valuation.
                  * 
                  * @param condition
@@ -5567,6 +5710,21 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting text.
+                 * @see #text(String)
+                 * 
+                 * @param text
+                 *     Asset clause or question text
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder text(java.lang.String text) {
+                    this.text = text == null ? null : String.of(text);
+                    return this;
+                }
+
+                /**
                  * Clause or question text (Prose Object) concerning the asset in a linked form, such as a QuestionnaireResponse used in 
                  * the formation of the contract.
                  * 
@@ -5578,6 +5736,25 @@ public class Contract extends DomainResource {
                  */
                 public Builder text(String text) {
                     this.text = text;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting linkId.
+                 * @see #linkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param linkId
+                 *     Pointer to asset text
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder linkId(java.lang.String... linkId) {
+                    for (java.lang.String value : linkId) {
+                        this.linkId.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 
@@ -6049,6 +6226,21 @@ public class Contract extends DomainResource {
                      */
                     public Builder code(Collection<CodeableConcept> code) {
                         this.code = new ArrayList<>(code);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting text.
+                     * @see #text(String)
+                     * 
+                     * @param text
+                     *     Context description
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder text(java.lang.String text) {
+                        this.text = text == null ? null : String.of(text);
                         return this;
                     }
 
@@ -6646,6 +6838,21 @@ public class Contract extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting payment.
+                     * @see #payment(String)
+                     * 
+                     * @param payment
+                     *     Terms of valuation
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder payment(java.lang.String payment) {
+                        this.payment = payment == null ? null : String.of(payment);
+                        return this;
+                    }
+
+                    /**
                      * Terms of valuation.
                      * 
                      * @param payment
@@ -6716,6 +6923,25 @@ public class Contract extends DomainResource {
                      */
                     public Builder recipient(Reference recipient) {
                         this.recipient = recipient;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting linkId.
+                     * @see #linkId(List<String>)
+                     * 
+                     * <p>Adds new element(s) to the existing list
+                     * 
+                     * @param linkId
+                     *     Pointer to specific item
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder linkId(java.lang.String... linkId) {
+                        for (java.lang.String value : linkId) {
+                            this.linkId.add(value == null ? null : String.of(value));
+                        }
                         return this;
                     }
 
@@ -7421,6 +7647,21 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting doNotPerform.
+                 * @see #doNotPerform(Boolean)
+                 * 
+                 * @param doNotPerform
+                 *     True if the term prohibits the action
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder doNotPerform(java.lang.Boolean doNotPerform) {
+                    this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+                    return this;
+                }
+
+                /**
                  * True if the term prohibits the action.
                  * 
                  * @param doNotPerform
@@ -7502,6 +7743,25 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting linkId.
+                 * @see #linkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param linkId
+                 *     Pointer to specific item
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder linkId(java.lang.String... linkId) {
+                    for (java.lang.String value : linkId) {
+                        this.linkId.add(value == null ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
@@ -7570,6 +7830,25 @@ public class Contract extends DomainResource {
                  */
                 public Builder context(Reference context) {
                     this.context = context;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting contextLinkId.
+                 * @see #contextLinkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param contextLinkId
+                 *     Pointer to specific item
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder contextLinkId(java.lang.String... contextLinkId) {
+                    for (java.lang.String value : contextLinkId) {
+                        this.contextLinkId.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 
@@ -7687,6 +7966,25 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting requesterLinkId.
+                 * @see #requesterLinkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param requesterLinkId
+                 *     Pointer to specific item
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder requesterLinkId(java.lang.String... requesterLinkId) {
+                    for (java.lang.String value : requesterLinkId) {
+                        this.requesterLinkId.add(value == null ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
@@ -7794,6 +8092,25 @@ public class Contract extends DomainResource {
                  */
                 public Builder performer(Reference performer) {
                     this.performer = performer;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting performerLinkId.
+                 * @see #performerLinkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param performerLinkId
+                 *     Pointer to specific item
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder performerLinkId(java.lang.String... performerLinkId) {
+                    for (java.lang.String value : performerLinkId) {
+                        this.performerLinkId.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 
@@ -7922,6 +8239,25 @@ public class Contract extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting reason.
+                 * @see #reason(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param reason
+                 *     Why action is to be performed
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reason(java.lang.String... reason) {
+                    for (java.lang.String value : reason) {
+                        this.reason.add(value == null ? null : String.of(value));
+                    }
+                    return this;
+                }
+
+                /**
                  * Describes why the action is to be performed or not performed in textual form.
                  * 
                  * <p>Adds new element(s) to the existing list
@@ -7952,6 +8288,25 @@ public class Contract extends DomainResource {
                  */
                 public Builder reason(Collection<String> reason) {
                     this.reason = new ArrayList<>(reason);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting reasonLinkId.
+                 * @see #reasonLinkId(List<String>)
+                 * 
+                 * <p>Adds new element(s) to the existing list
+                 * 
+                 * @param reasonLinkId
+                 *     Pointer to specific item
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder reasonLinkId(java.lang.String... reasonLinkId) {
+                    for (java.lang.String value : reasonLinkId) {
+                        this.reasonLinkId.add(value == null ? null : String.of(value));
+                    }
                     return this;
                 }
 

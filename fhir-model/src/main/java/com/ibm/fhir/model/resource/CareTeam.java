@@ -678,6 +678,21 @@ public class CareTeam extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name of the team, such as crisis assessment team
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A label for human use intended to distinguish like teams. E.g. the "red" vs. "green" trauma teams.
          * 
          * @param name

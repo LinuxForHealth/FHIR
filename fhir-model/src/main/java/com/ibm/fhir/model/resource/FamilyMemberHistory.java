@@ -903,6 +903,21 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     The family member described
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * This will either be a name or a description; e.g. "Aunt Susan", "my cousin with the red hair".
          * 
          * @param name
@@ -985,6 +1000,21 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder age(Element age) {
             this.age = age;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting estimatedAge.
+         * @see #estimatedAge(Boolean)
+         * 
+         * @param estimatedAge
+         *     Age is estimated?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder estimatedAge(java.lang.Boolean estimatedAge) {
+            this.estimatedAge = estimatedAge == null ? null : Boolean.of(estimatedAge);
             return this;
         }
 
@@ -1565,6 +1595,21 @@ public class FamilyMemberHistory extends DomainResource {
              */
             public Builder outcome(CodeableConcept outcome) {
                 this.outcome = outcome;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting contributedToDeath.
+             * @see #contributedToDeath(Boolean)
+             * 
+             * @param contributedToDeath
+             *     Whether the condition contributed to the cause of death
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder contributedToDeath(java.lang.Boolean contributedToDeath) {
+                this.contributedToDeath = contributedToDeath == null ? null : Boolean.of(contributedToDeath);
                 return this;
             }
 

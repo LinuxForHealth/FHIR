@@ -827,6 +827,21 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the value set
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the value set when it is referenced in a specification, model, 
          * design or instance. This is an arbitrary value managed by the value set author and is not expected to be globally 
          * unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version is not available. There is also no 
@@ -844,6 +859,21 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this value set (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the value set. This name should be usable as an identifier for the module by 
          * machine processing applications such as code generation.
          * 
@@ -855,6 +885,21 @@ public class ValueSet extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this value set (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -890,6 +935,21 @@ public class ValueSet extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this value set is authored for testing purposes (or education/evaluation/marketing) 
          * and is not intended to be used for genuine usage.
          * 
@@ -915,6 +975,21 @@ public class ValueSet extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1051,6 +1126,21 @@ public class ValueSet extends DomainResource {
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting immutable.
+         * @see #immutable(Boolean)
+         * 
+         * @param immutable
+         *     Indicates whether or not any change to the content logical definition may occur
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder immutable(java.lang.Boolean immutable) {
+            this.immutable = immutable == null ? null : Boolean.of(immutable);
             return this;
         }
 
@@ -1435,6 +1525,21 @@ public class ValueSet extends DomainResource {
             }
 
             /**
+             * Convenience method for setting lockedDate.
+             * @see #lockedDate(Date)
+             * 
+             * @param lockedDate
+             *     Fixed date for references with no specified version (transitive)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder lockedDate(java.time.LocalDate lockedDate) {
+                this.lockedDate = lockedDate == null ? null : Date.of(lockedDate);
+                return this;
+            }
+
+            /**
              * The Locked Date is the effective date that is used to determine the version of all referenced Code Systems and Value 
              * Set Definitions included in the compose that are not already tied to a specific version.
              * 
@@ -1446,6 +1551,21 @@ public class ValueSet extends DomainResource {
              */
             public Builder lockedDate(Date lockedDate) {
                 this.lockedDate = lockedDate;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting inactive.
+             * @see #inactive(Boolean)
+             * 
+             * @param inactive
+             *     Whether inactive codes are in the value set
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder inactive(java.lang.Boolean inactive) {
+                this.inactive = inactive == null ? null : Boolean.of(inactive);
                 return this;
             }
 
@@ -1858,6 +1978,21 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting version.
+                 * @see #version(String)
+                 * 
+                 * @param version
+                 *     Specific version of the code system referred to
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder version(java.lang.String version) {
+                    this.version = version == null ? null : String.of(version);
+                    return this;
+                }
+
+                /**
                  * The version of the code system that the codes are selected from, or the special version '*' for all versions.
                  * 
                  * @param version
@@ -2260,6 +2395,21 @@ public class ValueSet extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting display.
+                     * @see #display(String)
+                     * 
+                     * @param display
+                     *     Text to display for this code for this value set in this valueset
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder display(java.lang.String display) {
+                        this.display = display == null ? null : String.of(display);
+                        return this;
+                    }
+
+                    /**
                      * The text to display to the user for this concept in the context of this valueset. If no display is provided, then 
                      * applications using the value set use the display specified for the code by the system.
                      * 
@@ -2617,6 +2767,23 @@ public class ValueSet extends DomainResource {
                         }
 
                         /**
+                         * Convenience method for setting value.
+                         * @see #value(String)
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     The text value for this designation
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = value == null ? null : String.of(value);
+                            return this;
+                        }
+
+                        /**
                          * The text value for this designation.
                          * 
                          * <p>This element is required.
@@ -2942,6 +3109,23 @@ public class ValueSet extends DomainResource {
                      */
                     public Builder op(FilterOperator op) {
                         this.op = op;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting value.
+                     * @see #value(String)
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     Code from the system, or regex criteria, or boolean value for exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     */
+                    public Builder value(java.lang.String value) {
+                        this.value = value == null ? null : String.of(value);
                         return this;
                     }
 
@@ -3326,6 +3510,21 @@ public class ValueSet extends DomainResource {
             }
 
             /**
+             * Convenience method for setting total.
+             * @see #total(Integer)
+             * 
+             * @param total
+             *     Total number of codes in the expansion
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder total(java.lang.Integer total) {
+                this.total = total == null ? null : Integer.of(total);
+                return this;
+            }
+
+            /**
              * The total number of concepts in the expansion. If the number of concept nodes in this resource is less than the stated 
              * number, then the server can return more using the offset parameter.
              * 
@@ -3337,6 +3536,21 @@ public class ValueSet extends DomainResource {
              */
             public Builder total(Integer total) {
                 this.total = total;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting offset.
+             * @see #offset(Integer)
+             * 
+             * @param offset
+             *     Offset at which this resource starts
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder offset(java.lang.Integer offset) {
+                this.offset = offset == null ? null : Integer.of(offset);
                 return this;
             }
 
@@ -3677,6 +3891,23 @@ public class ValueSet extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting name.
+                 * @see #name(String)
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param name
+                 *     Name as assigned by the client or server
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder name(java.lang.String name) {
+                    this.name = name == null ? null : String.of(name);
+                    return this;
                 }
 
                 /**
@@ -4091,6 +4322,21 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting _abstract.
+                 * @see #_abstract(Boolean)
+                 * 
+                 * @param _abstract
+                 *     If user cannot select this entry
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder _abstract(java.lang.Boolean _abstract) {
+                    this._abstract = _abstract == null ? null : Boolean.of(_abstract);
+                    return this;
+                }
+
+                /**
                  * If true, this entry is included in the expansion for navigational purposes, and the user cannot select the code 
                  * directly as a proper value.
                  * 
@@ -4102,6 +4348,21 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder _abstract(Boolean _abstract) {
                     this._abstract = _abstract;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting inactive.
+                 * @see #inactive(Boolean)
+                 * 
+                 * @param inactive
+                 *     If concept is inactive in the code system
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder inactive(java.lang.Boolean inactive) {
+                    this.inactive = inactive == null ? null : Boolean.of(inactive);
                     return this;
                 }
 
@@ -4118,6 +4379,21 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder inactive(Boolean inactive) {
                     this.inactive = inactive;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting version.
+                 * @see #version(String)
+                 * 
+                 * @param version
+                 *     Version in which this code/display is defined
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder version(java.lang.String version) {
+                    this.version = version == null ? null : String.of(version);
                     return this;
                 }
 
@@ -4149,6 +4425,21 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder code(Code code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting display.
+                 * @see #display(String)
+                 * 
+                 * @param display
+                 *     User display for the concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder display(java.lang.String display) {
+                    this.display = display == null ? null : String.of(display);
                     return this;
                 }
 

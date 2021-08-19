@@ -881,6 +881,21 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
+         * Convenience method for setting version.
+         * @see #version(String)
+         * 
+         * @param version
+         *     Business version of the terminology capabilities
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder version(java.lang.String version) {
+            this.version = version == null ? null : String.of(version);
+            return this;
+        }
+
+        /**
          * The identifier that is used to identify this version of the terminology capabilities when it is referenced in a 
          * specification, model, design or instance. This is an arbitrary value managed by the terminology capabilities author 
          * and is not expected to be globally unique. For example, it might be a timestamp (e.g. yyyymmdd) if a managed version 
@@ -898,6 +913,21 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name for this terminology capabilities (computer friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A natural language name identifying the terminology capabilities. This name should be usable as an identifier for the 
          * module by machine processing applications such as code generation.
          * 
@@ -909,6 +939,21 @@ public class TerminologyCapabilities extends DomainResource {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting title.
+         * @see #title(String)
+         * 
+         * @param title
+         *     Name for this terminology capabilities (human friendly)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder title(java.lang.String title) {
+            this.title = title == null ? null : String.of(title);
             return this;
         }
 
@@ -943,6 +988,21 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
+         * Convenience method for setting experimental.
+         * @see #experimental(Boolean)
+         * 
+         * @param experimental
+         *     For testing purposes, not real usage
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder experimental(java.lang.Boolean experimental) {
+            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            return this;
+        }
+
+        /**
          * A Boolean value to indicate that this terminology capabilities is authored for testing purposes (or 
          * education/evaluation/marketing) and is not intended to be used for genuine usage.
          * 
@@ -972,6 +1032,21 @@ public class TerminologyCapabilities extends DomainResource {
          */
         public Builder date(DateTime date) {
             this.date = date;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting publisher.
+         * @see #publisher(String)
+         * 
+         * @param publisher
+         *     Name of the publisher (organization or individual)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder publisher(java.lang.String publisher) {
+            this.publisher = publisher == null ? null : String.of(publisher);
             return this;
         }
 
@@ -1184,6 +1259,21 @@ public class TerminologyCapabilities extends DomainResource {
          */
         public Builder implementation(Implementation implementation) {
             this.implementation = implementation;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting lockedDate.
+         * @see #lockedDate(Boolean)
+         * 
+         * @param lockedDate
+         *     Whether lockedDate is supported
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder lockedDate(java.lang.Boolean lockedDate) {
+            this.lockedDate = lockedDate == null ? null : Boolean.of(lockedDate);
             return this;
         }
 
@@ -1585,6 +1675,23 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
+             * Convenience method for setting name.
+             * @see #name(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param name
+             *     A name the software is known by
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder name(java.lang.String name) {
+                this.name = name == null ? null : String.of(name);
+                return this;
+            }
+
+            /**
              * Name the software is known by.
              * 
              * <p>This element is required.
@@ -1597,6 +1704,21 @@ public class TerminologyCapabilities extends DomainResource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting version.
+             * @see #version(String)
+             * 
+             * @param version
+             *     Version covered by this statement
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder version(java.lang.String version) {
+                this.version = version == null ? null : String.of(version);
                 return this;
             }
 
@@ -1861,6 +1983,23 @@ public class TerminologyCapabilities extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting description.
+             * @see #description(String)
+             * 
+             * <p>This element is required.
+             * 
+             * @param description
+             *     Describes this specific instance
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder description(java.lang.String description) {
+                this.description = description == null ? null : String.of(description);
+                return this;
             }
 
             /**
@@ -2205,6 +2344,21 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
+             * Convenience method for setting subsumption.
+             * @see #subsumption(Boolean)
+             * 
+             * @param subsumption
+             *     Whether subsumption is supported
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder subsumption(java.lang.Boolean subsumption) {
+                this.subsumption = subsumption == null ? null : Boolean.of(subsumption);
+                return this;
+            }
+
+            /**
              * True if subsumption is supported for this version of the code system.
              * 
              * @param subsumption
@@ -2529,6 +2683,21 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting code.
+                 * @see #code(String)
+                 * 
+                 * @param code
+                 *     Version identifier for this version
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder code(java.lang.String code) {
+                    this.code = code == null ? null : String.of(code);
+                    return this;
+                }
+
+                /**
                  * For version-less code systems, there should be a single version with no identifier.
                  * 
                  * @param code
@@ -2543,6 +2712,21 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting isDefault.
+                 * @see #isDefault(Boolean)
+                 * 
+                 * @param isDefault
+                 *     If this is the default version for this code system
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder isDefault(java.lang.Boolean isDefault) {
+                    this.isDefault = isDefault == null ? null : Boolean.of(isDefault);
+                    return this;
+                }
+
+                /**
                  * If this is the default version for this code system.
                  * 
                  * @param isDefault
@@ -2553,6 +2737,21 @@ public class TerminologyCapabilities extends DomainResource {
                  */
                 public Builder isDefault(Boolean isDefault) {
                     this.isDefault = isDefault;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting compositional.
+                 * @see #compositional(Boolean)
+                 * 
+                 * @param compositional
+                 *     If compositional grammar is supported
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder compositional(java.lang.Boolean compositional) {
+                    this.compositional = compositional == null ? null : Boolean.of(compositional);
                     return this;
                 }
 
@@ -3274,6 +3473,21 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
+             * Convenience method for setting hierarchical.
+             * @see #hierarchical(Boolean)
+             * 
+             * @param hierarchical
+             *     Whether the server can return nested value sets
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder hierarchical(java.lang.Boolean hierarchical) {
+                this.hierarchical = hierarchical == null ? null : Boolean.of(hierarchical);
+                return this;
+            }
+
+            /**
              * Whether the server can return nested value sets.
              * 
              * @param hierarchical
@@ -3288,6 +3502,21 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
+             * Convenience method for setting paging.
+             * @see #paging(Boolean)
+             * 
+             * @param paging
+             *     Whether the server supports paging on expansion
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder paging(java.lang.Boolean paging) {
+                this.paging = paging == null ? null : Boolean.of(paging);
+                return this;
+            }
+
+            /**
              * Whether the server supports paging on expansion.
              * 
              * @param paging
@@ -3298,6 +3527,21 @@ public class TerminologyCapabilities extends DomainResource {
              */
             public Builder paging(Boolean paging) {
                 this.paging = paging;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting incomplete.
+             * @see #incomplete(Boolean)
+             * 
+             * @param incomplete
+             *     Allow request for incomplete expansions?
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder incomplete(java.lang.Boolean incomplete) {
+                this.incomplete = incomplete == null ? null : Boolean.of(incomplete);
                 return this;
             }
 
@@ -3623,6 +3867,21 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting documentation.
+                 * @see #documentation(String)
+                 * 
+                 * @param documentation
+                 *     Description of support for parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 */
+                public Builder documentation(java.lang.String documentation) {
+                    this.documentation = documentation == null ? null : String.of(documentation);
+                    return this;
+                }
+
+                /**
                  * Description of support for parameter.
                  * 
                  * @param documentation
@@ -3864,6 +4123,23 @@ public class TerminologyCapabilities extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting translations.
+             * @see #translations(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param translations
+             *     Whether translations are validated
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder translations(java.lang.Boolean translations) {
+                this.translations = translations == null ? null : Boolean.of(translations);
+                return this;
             }
 
             /**
@@ -4111,6 +4387,23 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
+             * Convenience method for setting needsMap.
+             * @see #needsMap(Boolean)
+             * 
+             * <p>This element is required.
+             * 
+             * @param needsMap
+             *     Whether the client must identify the map
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder needsMap(java.lang.Boolean needsMap) {
+                this.needsMap = needsMap == null ? null : Boolean.of(needsMap);
+                return this;
+            }
+
+            /**
              * Whether the client must identify the map.
              * 
              * <p>This element is required.
@@ -4351,6 +4644,21 @@ public class TerminologyCapabilities extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting translation.
+             * @see #translation(Boolean)
+             * 
+             * @param translation
+             *     If cross-system closure is supported
+             * 
+             * @return
+             *     A reference to this Builder instance
+             */
+            public Builder translation(java.lang.Boolean translation) {
+                this.translation = translation == null ? null : Boolean.of(translation);
+                return this;
             }
 
             /**

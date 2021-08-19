@@ -293,6 +293,21 @@ public class TriggerDefinition extends Element {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     Name or URI that identifies the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A formal name for the event. This may be an absolute URI that identifies the event formally (e.g. from a trigger 
          * registry), or a simple relative URI that identifies the event in a local context.
          * 

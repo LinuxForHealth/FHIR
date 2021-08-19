@@ -517,6 +517,22 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting shape.
+         * @see #shape(String)
+         * 
+         * @param shape
+         *     Where applicable, the shape can be specified An appropriate controlled vocabulary shall be used The term and the term 
+         *     identifier shall be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder shape(java.lang.String shape) {
+            this.shape = shape == null ? null : String.of(shape);
+            return this;
+        }
+
+        /**
          * Where applicable, the shape can be specified An appropriate controlled vocabulary shall be used The term and the term 
          * identifier shall be used.
          * 
@@ -529,6 +545,26 @@ public class ProdCharacteristic extends BackboneElement {
          */
         public Builder shape(String shape) {
             this.shape = shape;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting color.
+         * @see #color(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param color
+         *     Where applicable, the color can be specified An appropriate controlled vocabulary shall be used The term and the term 
+         *     identifier shall be used
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder color(java.lang.String... color) {
+            for (java.lang.String value : color) {
+                this.color.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
@@ -567,6 +603,25 @@ public class ProdCharacteristic extends BackboneElement {
          */
         public Builder color(Collection<String> color) {
             this.color = new ArrayList<>(color);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting imprint.
+         * @see #imprint(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param imprint
+         *     Where applicable, the imprint can be specified as text
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder imprint(java.lang.String... imprint) {
+            for (java.lang.String value : imprint) {
+                this.imprint.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 

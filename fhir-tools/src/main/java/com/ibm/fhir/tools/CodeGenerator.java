@@ -573,65 +573,19 @@ public class CodeGenerator {
             }
 
             if (isRepeating(elementDefinition)) {
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", cb);
-                if (!declaredBy) {
-                    cb.override();
-                }
-                cb.method(mods("public"), "Builder", fieldName, params(param(fieldType.replace("java.util.", "").replace("List<", "").replace(">",  "..."), fieldName)));
-                if (declaredBy) {
-                    String varName = "value";
-                    if ("value".equals(fieldName)) {
-                        varName = "_value";
-                    }
-                    String varType = fieldType.replace("java.util.", "").replace("List<", "").replace(">", "");
-                    cb._foreach(varType + " " + varName, fieldName)
-                        .invoke(_this(fieldName), "add", args(varName))
-                    ._end()
-                    ._return("this");
-                } else {
-                    cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+                if (hasPrimitiveTypeMapping(fieldType.replace("java.util.", "").replace("List<", "").replace(">", ""))) {
+                    generateJavaVarArgsSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
                 }
 
-                cb.end();
-                cb.newLine();
-
-                String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
-
-                if (containsBackboneElement(structureDefinition, "collection")) {
-                    paramType = "java.util." + paramType;
-                }
-
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "collection", cb);
-                if (!declaredBy) {
-                    cb.override();
-                }
-                cb.method(mods("public"), "Builder", fieldName, params(param(paramType, fieldName)));
-
-                if (declaredBy) {
-                    cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
-                    cb._return("this");
-                } else {
-                    cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
-                }
-
-                cb.end();
-                // end if isRepeating
+                generateVarArgsSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
+                generateCollectionSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
             } else {
-                generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", cb);
-                if (!declaredBy) {
-                    cb.override();
+                if (hasPrimitiveTypeMapping(fieldType)) {
+                    generateJavaSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
                 }
-                cb.method(mods("public"), "Builder", fieldName, params(param(fieldType, fieldName)));
-                if (declaredBy) {
-                    cb.assign(_this(fieldName), fieldName);
-                    cb._return("this");
-                } else {
-                    cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
-                }
-                cb.end();
-            }
 
-            cb.newLine();
+                generateFhirSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
+            }
         }
 
         if (isBase64Binary(structureDefinition)) {
@@ -771,6 +725,122 @@ public class CodeGenerator {
         cb.end();
 
         cb._end();
+    }
+
+    private void generateFhirSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
+            String fieldType) {
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", false, cb);
+        if (!declaredBy) {
+            cb.override();
+        }
+        cb.method(mods("public"), "Builder", fieldName, params(param(fieldType, fieldName)));
+        if (declaredBy) {
+            cb.assign(_this(fieldName), fieldName);
+            cb._return("this");
+        } else {
+            cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+        }
+        cb.end();
+        cb.newLine();
+    }
+
+    private void generateJavaSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
+            String fieldType) {
+        String primitiveType = getPrimitiveType(fieldType);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", true, cb);
+        if (!declaredBy) {
+            cb.override();
+        }
+        cb.method(mods("public"), "Builder", fieldName, params(param(primitiveType, fieldName)));
+        if (declaredBy) {
+            cb.assign(_this(fieldName), constructElementFromPrimitive(fieldName, fieldType));
+            cb._return("this");
+        } else {
+            cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+        }
+        cb.end();
+        cb.newLine();
+    }
+
+    private String constructElementFromPrimitive(String fieldName, String fieldType) {
+        return fieldName + " == null ? null : " + fieldType + ".of(" + fieldName + ")";
+    }
+
+    private void generateCollectionSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
+            String fieldType) {
+        String paramType = fieldType.replace("java.util.", "").replace("List<", "Collection<");
+
+        if (containsBackboneElement(structureDefinition, "collection")) {
+            paramType = "java.util." + paramType;
+        }
+
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "collection", false, cb);
+        if (!declaredBy) {
+            cb.override();
+        }
+        cb.method(mods("public"), "Builder", fieldName, params(param(paramType, fieldName)));
+
+        if (declaredBy) {
+            cb.assign(_this(fieldName), _new("ArrayList<>", args(fieldName)));
+            cb._return("this");
+        } else {
+            cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+        }
+
+        cb.end();
+        cb.newLine();
+    }
+
+    private void generateVarArgsSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
+            String fieldType) {
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", false, cb);
+        if (!declaredBy) {
+            cb.override();
+        }
+        cb.method(mods("public"), "Builder", fieldName, params(param(fieldType.replace("java.util.", "").replace("List<", "").replace(">",  "..."), fieldName)));
+        if (declaredBy) {
+            String varName = "value";
+            if ("value".equals(fieldName)) {
+                varName = "_value";
+            }
+            String varType = fieldType.replace("java.util.", "").replace("List<", "").replace(">", "");
+            cb._foreach(varType + " " + varName, fieldName)
+                .invoke(_this(fieldName), "add", args(varName))
+            ._end()
+            ._return("this");
+        } else {
+            cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+        }
+
+        cb.end();
+        cb.newLine();
+    }
+
+    private void generateJavaVarArgsSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
+            String fieldType) {
+        String varType = fieldType.replace("java.util.", "").replace("List<", "").replace(">", "");
+        String primitiveType = getPrimitiveType(varType);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", true, cb);
+        if (!declaredBy) {
+            cb.override();
+        }
+        cb.method(mods("public"), "Builder", fieldName, params(param(primitiveType + "...", fieldName)));
+        if (declaredBy) {
+            String varName = "value";
+            if ("value".equals(fieldName)) {
+                varName = "_value";
+            }
+
+            cb._foreach(primitiveType + " " + varName, fieldName)
+                .invoke(_this(fieldName), "add", args(constructElementFromPrimitive(varName, varType)))
+            ._end()
+            ._return("this");
+        } else {
+            cb._return("(Builder) super." + fieldName + "(" + fieldName + ")");
+        }
+
+        cb.end();
+        cb.newLine();
     }
 
     private void generateValidateMethod(JsonObject structureDefinition, String path, String className, String visibility, CodeBuilder cb, boolean nested) {
@@ -955,11 +1025,16 @@ public class CodeGenerator {
         return declaredBy;
     }
 
-    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType, CodeBuilder cb) {
+    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType,
+            boolean primitiveOverload, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
+        String fieldType = getFieldType(structureDefinition, elementDefinition);
         cb.javadocStart();
 
-        if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
+        if (primitiveOverload) {
+            cb.javadoc("Convenience method for setting " + fieldName + ".");
+            cb.javadocSee("#" + fieldName + "(" + fieldType + ")");
+        } else if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
             cb.javadoc("The byte array of the actual value");
         } else {
             cb.javadoc(Arrays.asList(definition.split(System.lineSeparator())), false, false, true);
@@ -989,7 +1064,6 @@ public class CodeGenerator {
             cb.javadoc("");
         }
         if (isRepeating(elementDefinition)) {
-            String fieldType = getFieldType(structureDefinition, elementDefinition);
             if (fieldType.equals("List<Reference>")) {
                 List<String> referenceTypes = getReferenceTypes(elementDefinition);
                 if (!referenceTypes.isEmpty()) {
@@ -4789,6 +4863,34 @@ public class CodeGenerator {
             return resourceMap;
         } catch (Exception e) {
             throw new Error(e);
+        }
+    }
+
+    private static boolean hasPrimitiveTypeMapping(String fhirType) {
+        switch(fhirType) {
+        case "String":
+        case "Integer":
+        case "Boolean":
+        case "Date":
+        case "Instant":
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    private static String getPrimitiveType(String fhirType) {
+        switch(fhirType) {
+        case "String":
+        case "Integer":
+        case "Boolean":
+            return "java.lang." + fhirType;
+        case "Date":
+            return "java.time.LocalDate";
+        case "Instant":
+            return "java.time.ZonedDateTime";
+        default:
+            return null;
         }
     }
 

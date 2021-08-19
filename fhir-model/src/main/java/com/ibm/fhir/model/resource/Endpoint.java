@@ -635,6 +635,21 @@ public class Endpoint extends DomainResource {
         }
 
         /**
+         * Convenience method for setting name.
+         * @see #name(String)
+         * 
+         * @param name
+         *     A name that this endpoint can be identified by
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder name(java.lang.String name) {
+            this.name = name == null ? null : String.of(name);
+            return this;
+        }
+
+        /**
          * A friendly name that this endpoint can be referred to with.
          * 
          * @param name
@@ -807,6 +822,25 @@ public class Endpoint extends DomainResource {
          */
         public Builder address(Url address) {
             this.address = address;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting header.
+         * @see #header(List<String>)
+         * 
+         * <p>Adds new element(s) to the existing list
+         * 
+         * @param header
+         *     Usage depends on the channel type
+         * 
+         * @return
+         *     A reference to this Builder instance
+         */
+        public Builder header(java.lang.String... header) {
+            for (java.lang.String value : header) {
+                this.header.add(value == null ? null : String.of(value));
+            }
             return this;
         }
 
