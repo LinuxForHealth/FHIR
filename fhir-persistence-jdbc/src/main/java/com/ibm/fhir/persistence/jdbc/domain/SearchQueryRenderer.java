@@ -683,7 +683,7 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     }
 
     /**
-     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. If the ctvs list is empty, then -1 is used to make
+     * Adds a filter predicate for COMMON_TOKEN_VALUE_ID. If the ctvs list is empty, then IS NULL is used to make
      * sure the row isn't produced. If there is a single match, the predicate is COMMON_TOKEN_VALUE_ID = {n}.
      * If there are multiple matches, the predicate is COMMON_TOKEN_VALUE_ID IN (1, 2, 3, ...).
      * The query uses literal values not bind variables on purpose (better performance).
@@ -695,8 +695,8 @@ public class SearchQueryRenderer implements SearchQueryVisitor<QueryData> {
     private void addCommonTokenValueIdFilter(WhereFragment where, String paramAlias, Collection<Long> ctvs) throws FHIRPersistenceException {
         final List<Long> ctvList = new ArrayList<>(ctvs);
         if (ctvList.isEmpty()) {
-            // use -1...resulting in no data
-            where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(-1L);
+            // the column is NOT NULL...resulting in no data
+            where.col(paramAlias, COMMON_TOKEN_VALUE_ID).isNull();
         } else if (ctvList.size() == 1) {
             where.col(paramAlias, COMMON_TOKEN_VALUE_ID).eq(ctvList.get(0));
         } else {
