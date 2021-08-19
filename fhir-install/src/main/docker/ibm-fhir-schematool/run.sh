@@ -190,7 +190,6 @@ function _call_db2 {
         ${SSL_STANZA} \
         --db-type db2 \
         ${INPUT} 2>&1 | tee ${SCHEMA_TOOL_LOCATION}/workarea/out.log
-    echo "$?" > response_code
     set +x
 }
 
