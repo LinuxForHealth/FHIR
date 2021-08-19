@@ -315,6 +315,10 @@ Canonical searches are processed following these rules:
 * The `:above` and `:below` modifiers are not supported with canonical search parameters.
 * Canonical references will be resolved via indexed search values. They will not be resolved via registry look-ups.
 
+Notes:
+* For search parameter definitions whose FHIRPath expression selects element types of both Reference and Canonical, the search parameter will be treated as a canonical search parameter, and will follow the rules described above for canonical searches.
+* For search parameter definitions whose FHIRPath expression selects a choice element, and one of the choice element types is Canonical, the search parameter will be treated as a canonical search parameter only if the choice element is explicitly specified to be of type Canonical (for example, if a reference search parameter is defined over an extension's `value` element, it must contain the `as canonical` clause in order to be treated as a canonical search parameter, i.e. `extension.where(url='http://example.org/canonical-value').value as canonical`.
+
 ### Searching on Special Positional Search
 Positional Search uses [UCUM units](https://unitsofmeasure.org/ucum.html) of distance measure along with common variants:
 
