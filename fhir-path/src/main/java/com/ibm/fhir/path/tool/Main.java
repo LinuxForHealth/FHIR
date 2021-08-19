@@ -350,7 +350,7 @@ public final class Main {
         }
 
         /**
-         * Custom JSON serialization of the element contained in the FHIRPathResourceNode
+         * Custom JSON serialization of the element contained in the FHIRPathElementNode
          * via the {@link com.ibm.fhir.model.type.Element} toString() implementation.
          */
         @Override
