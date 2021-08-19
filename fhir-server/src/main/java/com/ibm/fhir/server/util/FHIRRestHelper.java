@@ -2654,8 +2654,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<QueryParameter> chainedSearchParameters = new ArrayList<>();
             List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
-                if (!queryParameter.isReverseChained()) {
-                    if (queryParameter.isChained() && !queryParameter.isCanonical()) {
+                if (!queryParameter.isReverseChained() && !queryParameter.isCanonical()) {
+                    if (queryParameter.isChained()) {
                         chainedSearchParameters.add(queryParameter);
                     } else if (SearchConstants.Type.REFERENCE == queryParameter.getType()) {
                         // Look for logical ID-only value

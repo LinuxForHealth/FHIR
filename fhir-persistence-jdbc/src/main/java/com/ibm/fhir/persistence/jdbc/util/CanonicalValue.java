@@ -6,6 +6,8 @@
 
 package com.ibm.fhir.persistence.jdbc.util;
 
+import java.util.Objects;
+
 /**
  * A canonical value, with processing applied to identify the uri, version, and fragment
  */
@@ -52,12 +54,7 @@ public class CanonicalValue {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((fragment == null) ? 0 : fragment.hashCode());
-        result = prime * result + ((uri == null) ? 0 : uri.hashCode());
-        result = prime * result + ((version == null) ? 0 : version.hashCode());
-        return result;
+        return Objects.hash(fragment, uri, version);
     }
 
     @Override
