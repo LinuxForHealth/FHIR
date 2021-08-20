@@ -15,6 +15,7 @@ import static com.ibm.fhir.search.SearchConstants.LAST_UPDATED;
 import static com.ibm.fhir.search.SearchConstants.PROFILE;
 import static com.ibm.fhir.search.SearchConstants.SECURITY;
 import static com.ibm.fhir.search.SearchConstants.TAG;
+import static com.ibm.fhir.search.SearchConstants.URL;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -310,7 +311,8 @@ public class NewQueryBuilder {
     public Select buildIncludeQuery(Class<?> resourceType, FHIRSearchContext searchContext,
             InclusionParameter inclusionParm, List<Long> logicalResourceIds, String inclusionType) throws Exception {
         final String METHODNAME = "buildIncludeQuery";
-        log.entering(CLASSNAME, METHODNAME);
+        log.entering(CLASSNAME, METHODNAME,
+            new Object[] { resourceType.getSimpleName(), inclusionParm });
 
         // Build the special "include" query to fetch additional resources
         // that need to be included with the main search result
@@ -523,7 +525,8 @@ public class NewQueryBuilder {
                     domainModel.add(new QuantitySearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     break;
                 case URI:
-                    if (!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode())) {
+                    if ((!this.legacyWholeSystemSearchParamsEnabled && PROFILE.equals(queryParm.getCode()))
+                            || URL.equals(queryParm.getCode()) || queryParm.isCanonical()) {
                         domainModel.add(new CanonicalSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));
                     } else {
                         domainModel.add(new StringSearchParam(resourceType.getSimpleName(), queryParm.getCode(), queryParm));

@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2018, 2020
+ * (C) Copyright IBM Corp. 2018, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -167,4 +167,77 @@ public abstract class AbstractSearchReferenceTest extends AbstractPLSearchTest {
         assertSearchReturnsComposition("subject:Basic.missing-uri:missing", "true");
         assertSearchDoesntReturnComposition("subject:Basic.missing-uri:missing", "false");
     }
+
+    @Test
+    public void testSearchReference_canonical() throws Exception {
+        assertSearchReturnsSavedResource("canonical", "http://example.org/canonical");
+        assertSearchDoesntReturnSavedResource("canonical", "http://example.org/canonical|1.0");
+    }
+
+    @Test
+    public void testSearchReference_canonical_chained() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.canonical", "http://example.org/canonical");
+        assertSearchDoesntReturnComposition("subject:Basic.canonical", "http://example.org/canonical|1.0");
+    }
+
+    @Test
+    public void testSearchReference_canonical_revinclude() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("canonical", Collections.singletonList("http://example.org/canonical"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+
+        queryParms = new HashMap<>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("canonical", Collections.singletonList("http://example.org/canonical|1.0"));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertFalse(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+
+    @Test
+    public void testSearchReference_canonical_versioned() throws Exception {
+        assertSearchReturnsSavedResource("canonical-version", "http://example.org/canonical-version");
+        assertSearchReturnsSavedResource("canonical-version", "http://example.org/canonical-version|1.0");
+    }
+
+    @Test
+    public void testSearchReference_canonical_chained_versioned() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.canonical-version", "http://example.org/canonical-version");
+        assertSearchReturnsComposition("subject:Basic.canonical-version", "http://example.org/canonical-version|1.0");
+    }
+
+    @Test
+    public void testSearchReference_canonical_revinclude_versioned() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("canonical-version", Collections.singletonList("http://example.org/canonical-version"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+        
+        queryParms = new HashMap<>(1);
+        queryParms.put("_revinclude", Collections.singletonList("Composition:subject"));
+        queryParms.put("canonical-version", Collections.singletonList("http://example.org/canonical-version|1.0"));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, savedResource));
+        assertTrue(searchReturnsResource(Basic.class, queryParms, composition));
+    }
+
+    @Test
+    public void testSearchReference_canonical_missing() throws Exception {
+        assertSearchReturnsSavedResource("canonical:missing", "false");
+        assertSearchDoesntReturnSavedResource("canonical:missing", "true");
+
+        assertSearchReturnsSavedResource("missing-canonical:missing", "true");
+        assertSearchDoesntReturnSavedResource("missing-canonical:missing", "false");
+    }
+
+    @Test
+    public void testSearchReference_canonical_chained_missing() throws Exception {
+        assertSearchReturnsComposition("subject:Basic.canonical:missing", "false");
+        assertSearchDoesntReturnComposition("subject:Basic.canonical:missing", "true");
+
+        assertSearchReturnsComposition("subject:Basic.missing-canonical:missing", "true");
+        assertSearchDoesntReturnComposition("subject:Basic.missing-canonical:missing", "false");
+    }
+
 }

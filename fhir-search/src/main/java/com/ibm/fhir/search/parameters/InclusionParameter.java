@@ -19,15 +19,17 @@ public class InclusionParameter {
     private String searchParameterTargetType;
     private Modifier modifier;
     private boolean userSpecifiedTargetType;
+    private boolean isCanonical;
 
     public InclusionParameter(String joinRt, String searchParm, String searchParmTargetType, Modifier modifier,
-            boolean userSpecifiedTargetType) {
+            boolean userSpecifiedTargetType, boolean isCanonical) {
         super();
         this.joinResourceType = joinRt;
         this.searchParameter = searchParm;
         this.searchParameterTargetType = searchParmTargetType;
         this.modifier = modifier;
         this.userSpecifiedTargetType = userSpecifiedTargetType;
+        this.isCanonical = isCanonical;
     }
 
     public String getJoinResourceType() {
@@ -55,6 +57,10 @@ public class InclusionParameter {
         return userSpecifiedTargetType;
     }
 
+    public boolean isCanonical() {
+        return isCanonical;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -64,6 +70,7 @@ public class InclusionParameter {
         result = prime * result + ((searchParameterTargetType == null) ? 0 : searchParameterTargetType.hashCode());
         result = prime * result + ((modifier == null) ? 0 : modifier.hashCode());
         result = prime * result + Boolean.hashCode(userSpecifiedTargetType);
+        result = prime * result + Boolean.hashCode(isCanonical);
         return result;
     }
 
@@ -110,13 +117,22 @@ public class InclusionParameter {
         if (userSpecifiedTargetType != other.userSpecifiedTargetType) {
             return false;
         }
+        if (isCanonical != other.isCanonical) {
+            return false;
+        }
         return true;
     }
 
     @Override
     public String toString() {
-        return "InclusionParameter [joinResourceType=" + joinResourceType + ", searchParameter=" + searchParameter + ", searchParameterTargetType="
-                + searchParameterTargetType + ", modifier=" + modifier + ", userSpecifiedTargetType=" + userSpecifiedTargetType + "]";
+        return "InclusionParameter ["
+                + "joinResourceType=" + joinResourceType
+                + ", searchParameter=" + searchParameter
+                + ", searchParameterTargetType=" + searchParameterTargetType
+                + ", modifier=" + modifier
+                + ", userSpecifiedTargetType=" + userSpecifiedTargetType
+                + ", isCanonical=" + isCanonical
+                + "]";
     }
 
 }
