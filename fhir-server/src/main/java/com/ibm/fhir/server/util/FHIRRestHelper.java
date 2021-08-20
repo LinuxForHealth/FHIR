@@ -2654,6 +2654,9 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<QueryParameter> chainedSearchParameters = new ArrayList<>();
             List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
+                // We do not need to look at canonical references here. They will not contain versions of the
+                // form '.../_history/xx' nor logical ID-only references, which is what we want to check
+                // these search parameters for.
                 if (!queryParameter.isReverseChained() && !queryParameter.isCanonical()) {
                     if (queryParameter.isChained()) {
                         chainedSearchParameters.add(queryParameter);
