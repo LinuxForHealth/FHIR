@@ -7,6 +7,7 @@
 package com.ibm.fhir.operation.bulkdata.client;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -16,6 +17,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64.Encoder;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
@@ -42,6 +44,7 @@ import org.apache.http.util.EntityUtils;
 import com.ibm.fhir.config.FHIRRequestContext;
 import com.ibm.fhir.core.FHIRMediaType;
 import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.model.generator.exception.FHIRGeneratorException;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.ModelSupport;
@@ -693,7 +696,7 @@ public class BulkDataClient {
         String exitStatus = response.getExitStatus();
         log.fine(() -> "The Exit Status is '" + exitStatus + "'");
 
-        // Export Jobs
+        // Export Jobs with data in the exitStatus field
         if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
             List<String> resourceTypeInfs = Arrays.asList(exitStatus.split("\\s*:\\s*"));
             List<PollingLocationResponse.Output> outputList = new ArrayList<>();
@@ -732,9 +735,19 @@ public class BulkDataClient {
             }
             result.setOutput(outputList);
         }
-
+        // Export that has no data exported
+        else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
+            log.fine(() -> "Outputlist is empty");
+            try {
+                result.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
+            } catch (FHIRGeneratorException | IOException e) {
+                log.severe("Unexpected issue while serializing a fixed value");
+            }
+            List<PollingLocationResponse.Output> outputs = Collections.emptyList();
+            result.setOutput(outputs);
+        }
         // Import Jobs
-        if ("bulkimportchunkjob".equals(response.getJobName())) {
+        else if ("bulkimportchunkjob".equals(response.getJobName())) {
             // Currently there is no output
             log.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();

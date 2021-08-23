@@ -156,4 +156,9 @@ public class S3Preflight extends NopPreflight {
             throw util.buildExceptionWithIssue("S3: Configuration not set to import from storageDetail '" + getSource() + "'", IssueType.INVALID);
         }
     }
+
+    @Override
+    public boolean checkParquet() {
+        return ConfigurationFactory.getInstance().isStorageProviderParquetEnabled(getSource());
+    }
 }

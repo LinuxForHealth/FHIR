@@ -58,7 +58,7 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
 
     @Override
     public Basic getBasicResource() throws Exception {
-        Basic basic = TestUtil.readExampleResource("json/ibm/minimal/Basic-1.json");
+        Basic basic = TestUtil.getMinimalResource(Basic.class);
 
         Coding tag =
                 Coding.builder()

@@ -56,6 +56,8 @@ import com.ibm.fhir.core.context.FHIRPagingContext;
 import com.ibm.fhir.database.utils.api.DataAccessException;
 import com.ibm.fhir.database.utils.api.IConnectionProvider;
 import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
+import com.ibm.fhir.database.utils.api.UniqueConstraintViolationException;
+import com.ibm.fhir.database.utils.model.DbType;
 import com.ibm.fhir.database.utils.query.Select;
 import com.ibm.fhir.exception.FHIRException;
 import com.ibm.fhir.model.format.Format;
@@ -2128,6 +2130,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
                 addCompartmentParams(allParameters, fhirResource);
+                
+                // If this is a definitional resource, augment the extracted parameter list with a composite
+                // parameter that will be used for canonical searches. It will contain the url and version
+                // values.
+                addCanonicalCompositeParam(allParameters);
             }
 
 
@@ -2217,6 +2224,64 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 }
                 allParameters.add(pv);
             }
+        }
+    }
+
+    /**
+     * Augment the given allParameters list with ibm-internal parameters that represent the relationship
+     * between the url and version parameters. These parameter values are subsequently used in
+     * canonical reference searches. See {@link CompartmentUtil#makeCompartmentParamName(String)} for
+     * details on how the parameter name is composed.
+     * @param allParameters
+     */
+    protected void addCanonicalCompositeParam(List<ExtractedParameterValue> allParameters) throws FHIRSearchException {
+        StringParmVal urlParm = null;
+        TokenParmVal versionParm = null;
+        
+        // Look for url and version parameters
+        for (ExtractedParameterValue parameter : allParameters) {
+            if (parameter.getName().equals(SearchConstants.URL) && parameter instanceof StringParmVal) {
+                urlParm = (StringParmVal) parameter;
+            } else if (parameter.getName().equals(SearchConstants.VERSION) && parameter instanceof TokenParmVal) {
+                versionParm = (TokenParmVal) parameter;
+            }
+        }
+        
+        // If we found a url parameter, create the composite parameter. The version parameter
+        // can be null.
+        if (urlParm != null) {
+            // Create a canonical composite parameter
+            CompositeParmVal cp = new CompositeParmVal();
+            cp.setResourceType(urlParm.getResourceType());
+            cp.setName(SearchConstants.URL + SearchConstants.CANONICAL_SUFFIX);
+            cp.setUrl(urlParm.getUrl());
+            cp.setVersion(urlParm.getVersion());
+
+            // url
+            StringParmVal up = new StringParmVal();
+            up.setResourceType(cp.getResourceType());
+            up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+            up.setUrl(cp.getUrl());
+            up.setVersion(cp.getVersion());
+            up.setValueString(urlParm.getValueString());
+            cp.addComponent(up);
+
+            // version
+            StringParmVal vp = new StringParmVal();
+            vp.setResourceType(cp.getResourceType());
+            vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+            vp.setUrl(cp.getUrl());
+            vp.setVersion(cp.getVersion());
+            vp.setValueString(versionParm != null ? versionParm.getValueCode() : null);
+            cp.addComponent(vp);
+            
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("Adding canonical composite parameter: [" + cp.getResourceType() + "] " +
+                            up.getName() + " = " + up.getValueString() + ", " +
+                            vp.getName() + " = " + vp.getValueString());
+            }
+            
+            allParameters.add(cp);
         }
     }
 
@@ -2610,9 +2675,11 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             getTransaction().setRollbackOnly();
 
             // It's possible this is a deadlock exception, in which case it could be considered retryable
-            if (dax.isTransactionRetryable()) {
+            // If DB2 and a constraint violation, let's retry as it is also worth retrying.
+            if (dax.isTransactionRetryable()
+                    || (DbType.DB2.equals(connectionStrategy.getFlavor().getType()) && dax instanceof UniqueConstraintViolationException)) {
                 log.log(Level.WARNING, "Retryable error while performing reindex" + (rir != null ? (" of FHIR Resource '" + rir.getResourceType() + "/" + rir.getLogicalId() + "'") : ""), dax);
-                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.");
+                FHIRPersistenceDataAccessException fpx = new FHIRPersistenceDataAccessException("Data access error while performing a reindex operation.", dax);
                 fpx.setTransactionRetryable(true);
                 throw fpx;
             } else {

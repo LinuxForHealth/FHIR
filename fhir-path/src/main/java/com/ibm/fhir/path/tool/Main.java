@@ -227,7 +227,10 @@ public final class Main {
     }
 
     /**
-     * process the fhir path and output the nodes
+     * process the fhir path and output the nodes with each node separated by a newline
+     *
+     * <p>if {@code pretty} is set to true, each node is additionally prefixed by its index in the
+     *     collected result of the FHIRPath evaluation.
      */
     protected void processFhirPath() {
         if (!help) {
@@ -325,6 +328,9 @@ public final class Main {
 
     /**
      * facilitate the printing of various fhir path elements.
+     *
+     * <p>FHIR Resource and Element nodes are serialized using the fhir-model's toString implementation
+     * <p>FHIRPath value nodes are serialized using their raw values, with no quotation marks around strings
      */
     private static class OutputPrinter implements FHIRPathNodeVisitor {
 
@@ -333,6 +339,25 @@ public final class Main {
         public String getValue() {
             return value;
         }
+
+        /**
+         * Standard serialization of the resource contained in the FHIRPathResourceNode
+         * via the {@link com.ibm.fhir.model.resource.Resource} toString() implementation.
+         */
+        @Override
+        public void visit(FHIRPathResourceNode node) {
+            this.value = node.resource().toString();
+        }
+
+        /**
+         * Custom JSON serialization of the element contained in the FHIRPathElementNode
+         * via the {@link com.ibm.fhir.model.type.Element} toString() implementation.
+         */
+        @Override
+        public void visit(FHIRPathElementNode node) {
+            this.value = node.element().toString();
+        }
+
 
         @Override
         public void visit(FHIRPathBooleanValue value) {
@@ -357,19 +382,6 @@ public final class Main {
         }
 
         @Override
-        public void visit(FHIRPathElementNode node) {
-            StringBuilder builder = new StringBuilder();
-            OutputPrinter printer = new OutputPrinter();
-            String children = node.children().stream()
-                .map(m -> {
-                    m.accept(printer);
-                    return printer.getValue();
-                }).collect(Collectors.joining("\n"));
-            builder.append(children);
-            this.value = builder.toString();
-        }
-
-        @Override
         public void visit(FHIRPathIntegerValue value) {
             // Convert to String
             this.value = "" + value.number().intValue();
@@ -383,11 +395,6 @@ public final class Main {
         @Override
         public void visit(FHIRPathQuantityValue value) {
             this.value = value.value() + value.unit();
-        }
-
-        @Override
-        public void visit(FHIRPathResourceNode node) {
-            this.value = node.resource().toString();
         }
 
         @Override

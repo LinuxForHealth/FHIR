@@ -18,13 +18,9 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
-
-import jakarta.json.Json;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonObjectBuilder;
-import jakarta.json.JsonReader;
-import jakarta.json.JsonReaderFactory;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.JSONException;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -40,8 +36,16 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.ResourceType;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonObjectBuilder;
+import jakarta.json.JsonReader;
+import jakarta.json.JsonReaderFactory;
+
 public class TestUtil {
     private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
+
+    private static final Map<Class<? extends Resource>, Resource> minimalExampleMap = new ConcurrentHashMap<>();
 
     /**
      * This is a list of pre-defined locations that we'll search in when looking for a local data file.
@@ -283,16 +287,24 @@ public class TestUtil {
     }
 
     /**
-     * Create a minimal resource of the specified type. Only required fields are present and all data is absent.
+     * Get a minimal resource of the specified type. Only required fields are present and all data is absent.
      *
      * @param type
      *            the type of the resource to be returned
      * @return the resource
      * @throws Exception
-     * @implNote this function creates the resource via {@link #getMinimalResource(ResourceType, Format)} by specifying JSON format
+     * @implNote this function stores the created resources in a map and re-uses them. if an entry doesn't exist yet,
+     *            it creates the resource via {@link #getMinimalResource(ResourceType, Format)} using the JSON format
      */
-    public static <T extends Resource> T getMinimalResource(ResourceType type) throws Exception {
-        return getMinimalResource(type, Format.JSON);
+    public static <T extends Resource> T getMinimalResource(Class<T> type) throws Exception {
+        Resource minimalResource = minimalExampleMap.get(type);
+
+        if (minimalResource == null) {
+            minimalResource = getMinimalResource(type, Format.JSON);
+            minimalExampleMap.put(type, minimalResource);
+        }
+
+        return minimalResource.as(type);
     }
 
     /**
@@ -306,11 +318,11 @@ public class TestUtil {
      * @return the de-serialized resource
      * @throws Exception
      */
-    public static <T extends Resource> T getMinimalResource(ResourceType type, Format format) throws Exception {
+    public static <T extends Resource> T getMinimalResource(Class<T> type, Format format) throws Exception {
 
         // Build filename
         String formatString = format.toString().toLowerCase();
-        String fileName = formatString + "/ibm/minimal/" + type.getValue() + "-1." + formatString;
+        String fileName = formatString + "/ibm/minimal/" + type.getSimpleName() + "-1." + formatString;
 
         // Deserialize the file contents.
         try (Reader reader = ExamplesUtil.resourceReader(fileName)) {

@@ -26,22 +26,22 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
  * get the same connection back. Cooperates with the TransactionFactory
  * to provide a JEE-flavored experience, and makes it easy to write
  * code which will work in both J2SE and JEE environments.
- * 
+ *
  * Does not support distributed transactions.
  */
 public class PoolConnectionProvider implements IConnectionProvider {
     private static final Logger logger = Logger.getLogger(PoolConnectionProvider.class.getName());
-        
+
     // Concurrency control for the pool
     private final Lock lock = new ReentrantLock();
     private final Condition waitForConnectionCondition = lock.newCondition();
-    
+
     // The number of connections allocated
     int allocated;
-    
+
     // The list of free connections, available to be allocated
     private Queue<Connection> free = new LinkedList<>();
-    
+
     // The connection provider we are decorating with pooling abilities
     private final IConnectionProvider connectionProvider;
 
@@ -84,7 +84,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
             }
             return result;
         }
-        
+
         // No connection currently on this thread, so try to obtain the underlying
         // connection from the pool
         long startTime = System.nanoTime();
@@ -126,7 +126,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
         finally {
             lock.unlock();
         }
-        
+
         // It might take a while to establish a new connection, so we do this after
         // releasing the above lock to try and maximize concurrency.
         if (c == null) {
@@ -147,7 +147,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
                 throw x;
             }
         }
-        
+
         long endTime = System.nanoTime();
         double elapsed = (endTime-startTime) / 1e9;
         if (elapsed > 1.0) {
@@ -160,10 +160,10 @@ public class PoolConnectionProvider implements IConnectionProvider {
         result = new PooledConnection(this, c, this.closeOnAnyError);
         result.incOpenCount();
         activeConnection.set(result);
-        
+
         return result;
     }
-    
+
     /**
      * Called when the connection is closed, which in this case is pretty much a NOP,
      * because this connection will stay active on this thread until the transaction
@@ -172,7 +172,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
      */
     protected void returnConnection(PooledConnection pc, boolean reuse) {
         PooledConnection active = activeConnection.get();
-        
+
         // Just look out for programming errors
         if (active == null) {
             throw new IllegalStateException("No active connection");
@@ -184,7 +184,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
 
     /**
      * Remove the active connection on this thread. Called when the transaction completes
-     * @throws SQLException 
+     * @throws SQLException
      */
     protected void clearActiveConnection() throws SQLException {
         PooledConnection pc = activeConnection.get();
@@ -192,13 +192,13 @@ public class PoolConnectionProvider implements IConnectionProvider {
             // If the open count of current connection is bigger than 0, then it means the connection is
             // not "closed" yet, then we need to close it to reduce the open count by 1 before the connection
             // is added back to the connection pool.
-            // This could happen, e.g, in FHIRDbDAOImpl, the external connection is not closed after each 
-            // operation, instead, the connection should be closed only after the whole transaction is committed 
+            // This could happen, e.g, in FHIRDbDAOImpl, the external connection is not closed after each
+            // operation, instead, the connection should be closed only after the whole transaction is committed
             // or rolled back.
             if (pc.getOpenCount() > 0) {
                 pc.close();
             }
-            
+
             // remove this connection from thread-local
             this.activeConnection.remove();
             if (pc.getOpenCount() != 0) {
@@ -224,7 +224,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
                     // create a new connection
                     this.allocated--;
                 }
-                
+
                 // Wake up a thread waiting for an available connection
                 this.waitForConnectionCondition.signal();
             }
@@ -233,7 +233,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
             }
         }
     }
-    
+
     /**
      * Simple check to see if the exception is related to a connection error,
      * in which case the connection shouldn't be returned to the pool when closed
@@ -266,7 +266,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
         else {
             // NOP. This just means that no SQL statements were executed
             // and so there's nothing to do. Not a problem.
-            logger.warning("No work to commit; no connection was acquired on this thread");
+            logger.fine("No work to commit; no connection was acquired on this thread");
         }
     }
 
@@ -302,6 +302,7 @@ public class PoolConnectionProvider implements IConnectionProvider {
     /**
      * gets the pool size for the pooled connection
      */
+    @Override
     public int getPoolSize() {
         return this.maxPoolSize;
     }

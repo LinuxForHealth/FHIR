@@ -53,6 +53,7 @@ public class BatchContextAdapter {
         audit(ctx);
         search(ctx);
         systemWrite(ctx);
+        format(ctx);
         return ctx;
     }
 

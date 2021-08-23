@@ -399,5 +399,56 @@
             "xpath": "f:Basic/f:extension[@url='http://example.org/missing-uri']/f:valueUri",
             "xpathUsage": "normal"
         }
+    },
+    {
+        "fullUrl": "http://ibm.com/watsonhealth/fhir/SearchParameter/Basic-missing-canonical",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-missing-canonical",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-missing-canonical",
+            "name": "missing-canonical",
+            "status": "active",
+            "description": "test param",
+            "code": "missing-canonical",
+            "base": ["Basic"],
+            "type": "reference",
+            "expression": "Basic.extension.where(url='http://example.org/missing-canonical').value as canonical",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/missing-canonical']/f:valueUri",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-canonical",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-canonical",
+            "name": "canonical",
+            "status": "active",
+            "description": "test param",
+            "code": "canonical",
+            "base": ["Basic"],
+            "type": "reference",
+            "expression": "Basic.extension.where(url='http://example.org/canonical').value as canonical",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/canonical']/f:valueCanonical",
+            "xpathUsage": "normal"
+        }
+    },
+    {
+        "fullUrl": "http://ibm.com/fhir/SearchParameter/Basic-canonical-version",
+        "resource": {
+            "resourceType": "SearchParameter",
+            "id": "Basic-canonical-version",
+            "url": "http://ibm.com/fhir/SearchParameter/Basic-canonical-version",
+            "name": "canonical-version",
+            "status": "active",
+            "description": "test param",
+            "code": "canonical-version",
+            "base": ["Basic"],
+            "type": "reference",
+            "expression": "Basic.extension.where(url='http://example.org/canonical-version').value as canonical",
+            "xpath": "f:Basic/f:extension[@url='http://example.org/canonical-version']/f:valueCanonical",
+            "xpathUsage": "normal"
+        }
     }]
 }

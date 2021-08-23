@@ -20,7 +20,6 @@ import com.ibm.fhir.model.type.Id;
 import com.ibm.fhir.model.type.Identifier;
 import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.model.type.code.IdentifierUse;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.SaltHash;
 import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 
@@ -30,7 +29,7 @@ import com.ibm.fhir.model.visitor.ResourceFingerprintVisitor;
 public class ResourceFingerprintVisitorTest {
     @Test
     public void testEqualResources() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
 
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);
@@ -63,7 +62,7 @@ public class ResourceFingerprintVisitorTest {
 
     @Test
     public void testUnequalResources_add() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
 
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);
@@ -81,7 +80,7 @@ public class ResourceFingerprintVisitorTest {
 
     @Test
     public void testUnequalResources_remove() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
 
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);
@@ -97,7 +96,7 @@ public class ResourceFingerprintVisitorTest {
 
     @Test
     public void testUnequalResources_reorder() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         patient = patient.toBuilder()
                 .identifier(Identifier.builder()
                     .use(IdentifierUse.USUAL)
@@ -127,7 +126,7 @@ public class ResourceFingerprintVisitorTest {
 
     @Test
     public void testIgnoredPaths() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
 
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);
@@ -148,7 +147,7 @@ public class ResourceFingerprintVisitorTest {
 
     @Test
     public void testUnequalResources_extension() throws Exception {
-        Patient patient = TestUtil.getMinimalResource(ResourceType.PATIENT);
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
 
         ResourceFingerprintVisitor resourceFingerprintVisitor = new ResourceFingerprintVisitor();
         patient.accept(resourceFingerprintVisitor);

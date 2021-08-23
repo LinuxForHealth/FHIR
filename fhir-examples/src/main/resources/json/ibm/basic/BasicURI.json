@@ -15,6 +15,18 @@
     {
       "url": "http://example.org/uri",
       "valueUri": "http://åé"
+    },
+    {
+      "url": "http://example.org/canonical",
+      "valueCanonical": "urn:uuid:53fefa32-1111-2222-3333-55ee120877b7"
+    },
+    {
+      "url": "http://example.org/canonical",
+      "valueCanonical": "http://hl7.org/fhir/DSTU2"
+    },
+    {
+      "url": "http://example.org/canonical",
+      "valueCanonical": "http://åé"
     }
   ]
 }

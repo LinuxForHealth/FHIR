@@ -33,7 +33,6 @@ import com.ibm.fhir.client.FHIRParameters;
 import com.ibm.fhir.client.FHIRRequestHeader;
 import com.ibm.fhir.client.FHIRResponse;
 import com.ibm.fhir.core.FHIRMediaType;
-import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.resource.AllergyIntolerance;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.Bundle.Entry;
@@ -62,7 +61,6 @@ import com.ibm.fhir.model.type.Quantity;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
-import com.ibm.fhir.model.type.code.ResourceType;
 import com.ibm.fhir.model.util.FHIRUtil;
 
 public class SearchTest extends FHIRServerTestBase {
@@ -104,7 +102,7 @@ public class SearchTest extends FHIRServerTestBase {
         WebTarget target = getWebTarget();
 
         // Build a new Organization and then call the 'create' API.
-        Organization organization = TestUtil.getMinimalResource(ResourceType.ORGANIZATION, Format.JSON);
+        Organization organization = TestUtil.getMinimalResource(Organization.class);
 
         organization = organization.toBuilder().name(com.ibm.fhir.model.type.String.of("test")).build();
         Entity<Organization> entity =
@@ -1352,6 +1350,25 @@ public class SearchTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertNull(bundle.getTotal());
         assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNull(getNextLink(bundle));
+    }
+
+    @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })
+    public void testSearchPractitioner_total_none_exact_count() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Practitioner").queryParam("_id", practitionerId)
+                .queryParam("_count", "1")
+                .queryParam("_total", "none")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+        assertNotNull(bundle);
+        assertNull(bundle.getTotal());
+        assertTrue(bundle.getEntry().size() == 1);
+        assertNotNull(getSelfLink(bundle));
+        assertNotNull(getNextLink(bundle));
     }
 
     @Test(groups = { "server-search" }, dependsOnMethods = {"testCreatePractitioner" })

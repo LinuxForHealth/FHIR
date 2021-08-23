@@ -432,7 +432,7 @@ public class DeleteTest extends FHIRServerTestBase {
         final String TESTNAME = "testConditionalDeleteTwoResource";
 
         // Create 2 observations with the same tag (in a single request)
-        Observation obs = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
+        Observation obs = TestUtil.getMinimalResource(Observation.class);
         obs = obs.toBuilder()
                 .meta(Meta.builder()
                     .tag(Coding.builder().code(Code.of(TESTNAME)).build())
@@ -458,7 +458,7 @@ public class DeleteTest extends FHIRServerTestBase {
         final String TESTNAME = "testConditionalDeleteElevenResource";
 
         // Create 11 observations with the same tag (in a single request)
-        Observation obs = TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json");
+        Observation obs = TestUtil.getMinimalResource(Observation.class);
         obs = obs.toBuilder()
                 .meta(Meta.builder()
                     .tag(Coding.builder().code(Code.of(TESTNAME)).build())

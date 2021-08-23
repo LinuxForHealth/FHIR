@@ -63,7 +63,6 @@ import com.ibm.fhir.search.date.DateTimeHandler;
 import com.ibm.fhir.search.exception.FHIRSearchException;
 import com.ibm.fhir.search.util.ReferenceUtil;
 import com.ibm.fhir.search.util.ReferenceValue;
-import com.ibm.fhir.search.util.ReferenceValue.ReferenceType;
 import com.ibm.fhir.search.util.SearchUtil;
 import com.ibm.fhir.term.util.CodeSystemSupport;
 
@@ -170,6 +169,7 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             if (!REFERENCE.equals(searchParamType) && !URI.equals(searchParamType)) {
                 throw invalidComboException(searchParamType, canonical);
             }
+            
             StringParmVal p = new StringParmVal();
             p.setResourceType(resourceType);
             p.setName(searchParamCode);
@@ -177,6 +177,40 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setVersion(searchParamVersion);
             p.setValueString(canonical.getValue());
             result.add(p);
+
+            // For REFERENCE search parameters, we need to treat as both string and as composite.
+            if (REFERENCE.equals(this.searchParamType)) {
+                // Parse the canonical value into a uri and a version and then create as a composite
+                // parameter to correlate uri and version (even if version is null).
+                CanonicalValue canonicalValue = CanonicalSupport.createCanonicalValueFrom(canonical.getValue());
+                
+                // Composite for uri + version
+                CompositeParmVal cp = new CompositeParmVal();
+                cp.setResourceType(resourceType);
+                cp.setName(searchParamCode + SearchConstants.CANONICAL_SUFFIX);
+                cp.setUrl(searchParamUrl);
+                cp.setVersion(searchParamVersion);
+
+                // uri
+                StringParmVal up = new StringParmVal();
+                up.setResourceType(cp.getResourceType());
+                up.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_URI));
+                up.setUrl(cp.getUrl());
+                up.setVersion(cp.getVersion());
+                up.setValueString(canonicalValue.getUri());
+                cp.addComponent(up);
+
+                // version
+                StringParmVal vp = new StringParmVal();
+                vp.setResourceType(cp.getResourceType());
+                vp.setName(SearchUtil.makeCompositeSubCode(cp.getName(), SearchConstants.CANONICAL_COMPONENT_VERSION));
+                vp.setUrl(cp.getUrl());
+                vp.setVersion(cp.getVersion());
+                vp.setValueString(canonicalValue.getVersion());
+                cp.addComponent(vp);
+
+                result.add(cp);
+            }
         }
         return false;
     }
@@ -342,16 +376,15 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
                 throw invalidComboException(searchParamType, uri);
             }
 
-            // For REFERENCE search parameters, we need to treat Uris as tokens,
+            // For REFERENCE search parameters, we need to treat Uris as references,
             // not strings.
             if (REFERENCE.equals(this.searchParamType)) {
-                TokenParmVal p = new TokenParmVal();
-                p.setResourceType(resourceType);
-                p.setName(searchParamCode);
-                p.setUrl(searchParamUrl);
-                p.setVersion(searchParamVersion);
-                p.setValueCode(uri.getValue());
-                result.add(p);
+                try {
+                    result.add(buildReferenceParmVal(uri.getValue(), null));
+                } catch (FHIRSearchException e) {
+                    // Log the error, but skip it because we're not supposed to throw exceptions here
+                    log.log(Level.WARNING, "Error processing reference", e);
+                }
             } else {
                 StringParmVal p = new StringParmVal();
                 p.setResourceType(resourceType);
@@ -804,16 +837,9 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
         // the Service Base URL, or, if processing a resource from a bundle, which is relative
         // to the base URL implied by the Bundle.entry.fullUrl (see Resolving References in Bundles)"
         try {
-            final String baseUrl = ReferenceUtil.getBaseUrl(null);
-            ReferenceValue refValue = ReferenceUtil.createReferenceValueFrom(reference, baseUrl);
-            if (refValue.getType() != ReferenceType.LOGICAL && refValue.getType() != ReferenceType.INVALID && refValue.getType() != ReferenceType.DISPLAY_ONLY) {
-                ReferenceParmVal p = new ReferenceParmVal();
-                p.setResourceType(resourceType);
-                p.setRefValue(refValue);
-                p.setName(searchParamCode);
-                p.setUrl(searchParamUrl);
-                p.setVersion(searchParamVersion);
-                result.add(p);
+            if (reference.getReference() != null && reference.getReference().getValue() != null) {
+                result.add(buildReferenceParmVal(reference.getReference().getValue(),
+                    reference.getType() != null ? reference.getType().getValue() : null));
             }
             Identifier identifier = reference.getIdentifier();
             if (identifier != null && identifier.getValue() != null) {
@@ -959,6 +985,25 @@ public class JDBCParameterBuildingVisitor extends DefaultVisitor {
             p.setValueSystem(system.getValue());
         }
         p.setValueCode(caseSensitive ? code : SearchUtil.normalizeForSearch(code));
+    }
+    
+    /**
+     * Build a ReferenceParmVal from a reference value and type.
+     * 
+     * @param reference
+     * @param type
+     * @return
+     * @throws FHIRSearchException
+     */
+    private ReferenceParmVal buildReferenceParmVal(String reference, String type) throws FHIRSearchException {
+        ReferenceValue refValue = ReferenceUtil.createReferenceValueFrom(reference, type, ReferenceUtil.getBaseUrl(null));
+        ReferenceParmVal p = new ReferenceParmVal();
+        p.setResourceType(resourceType);
+        p.setRefValue(refValue);
+        p.setName(searchParamCode);
+        p.setUrl(searchParamUrl);
+        p.setVersion(searchParamVersion);
+        return p;
     }
 
     private IllegalArgumentException invalidComboException(SearchParamType paramType, Element value) {

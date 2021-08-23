@@ -61,29 +61,29 @@ public abstract class AbstractCompartmentTest extends AbstractPersistenceTest {
     public void createResources() throws Exception {
         checkReferenceTypes = FHIRModelConfig.getCheckReferenceTypes();
         FHIRModelConfig.setCheckReferenceTypes(false);
-        Observation.Builder observationBuilder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
-        Observation.Builder observation2Builder = ((Observation) TestUtil.readExampleResource("json/ibm/minimal/Observation-1.json")).toBuilder();
+        Observation.Builder observationBuilder = ((Observation) TestUtil.getMinimalResource(Observation.class)).toBuilder();
+        Observation.Builder observation2Builder = ((Observation) TestUtil.getMinimalResource(Observation.class)).toBuilder();
 
-        Patient patient = TestUtil.readExampleResource("json/ibm/minimal/Patient-1.json");
+        Patient patient = TestUtil.getMinimalResource(Patient.class);
         savedPatient = persistence.create(getDefaultPersistenceContext(), patient).getResource();
         observationBuilder.subject(buildReference(savedPatient));
         observationBuilder.performer(buildReference(savedPatient));
         // a logical ID-only reference to a patient
         observation2Builder.subject(Reference.builder().reference(string(savedPatient.getId())).build());
 
-        Device device = TestUtil.readExampleResource("json/ibm/minimal/Device-1.json");
+        Device device = TestUtil.getMinimalResource(Device.class);
         savedDevice = persistence.create(getDefaultPersistenceContext(), device).getResource();
         observationBuilder.device(buildReference(savedDevice));
 
-        Encounter encounter = TestUtil.readExampleResource("json/ibm/minimal/Encounter-1.json");
+        Encounter encounter = TestUtil.getMinimalResource(Encounter.class);
         savedEncounter = persistence.create(getDefaultPersistenceContext(), encounter).getResource();
         observationBuilder.encounter(buildReference(savedEncounter));
 
-        Practitioner practitioner = TestUtil.readExampleResource("json/ibm/minimal/Practitioner-1.json");
+        Practitioner practitioner = TestUtil.getMinimalResource(Practitioner.class);
         savedPractitioner = persistence.create(getDefaultPersistenceContext(), practitioner).getResource();
         observationBuilder.performer(buildReference(savedPractitioner));
 
-        RelatedPerson relatedPerson = TestUtil.readExampleResource("json/ibm/minimal/RelatedPerson-1.json");
+        RelatedPerson relatedPerson = TestUtil.getMinimalResource(RelatedPerson.class);
         savedRelatedPerson = persistence.create(getDefaultPersistenceContext(), relatedPerson).getResource();
         observationBuilder.performer(buildReference(savedRelatedPerson));
 

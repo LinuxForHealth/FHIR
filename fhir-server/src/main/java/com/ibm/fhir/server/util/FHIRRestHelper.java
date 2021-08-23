@@ -16,6 +16,7 @@ import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +52,7 @@ import com.ibm.fhir.core.FHIRConstants;
 import com.ibm.fhir.core.HTTPHandlingPreference;
 import com.ibm.fhir.core.HTTPReturnPreference;
 import com.ibm.fhir.core.context.FHIRPagingContext;
+import com.ibm.fhir.database.utils.api.LockException;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.patch.exception.FHIRPatchException;
@@ -133,6 +135,8 @@ import com.ibm.fhir.validation.exception.FHIRValidationException;
 public class FHIRRestHelper implements FHIRResourceHelpers {
     private static final Logger log =
             java.util.logging.Logger.getLogger(FHIRRestHelper.class.getName());
+
+    private static final SecureRandom RANDOM = new SecureRandom();
 
     private static final String LOCAL_REF_PREFIX = "urn:";
     private static final com.ibm.fhir.model.type.String SC_BAD_REQUEST_STRING = string(Integer.toString(SC_BAD_REQUEST));
@@ -1501,7 +1505,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     private FHIROperationException buildUnsupportedResourceTypeException(String resourceTypeName) {
-        String msg = "'" + resourceTypeName + "' is not a valid resource type.";
+        String msg = "'" + Encode.forHtml(resourceTypeName) + "' is not a valid resource type.";
         Issue issue = OperationOutcome.Issue.builder()
                 .severity(IssueSeverity.FATAL)
                 .code(IssueType.NOT_SUPPORTED.toBuilder()
@@ -2650,7 +2654,10 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             List<QueryParameter> chainedSearchParameters = new ArrayList<>();
             List<QueryParameter> logicalIdReferenceSearchParameters = new ArrayList<>();
             for (QueryParameter queryParameter : searchContext.getSearchParameters()) {
-                if (!queryParameter.isReverseChained()) {
+                // We do not need to look at canonical references here. They will not contain versions of the
+                // form '.../_history/xx' nor logical ID-only references, which is what we want to check
+                // these search parameters for.
+                if (!queryParameter.isReverseChained() && !queryParameter.isCanonical()) {
                     if (queryParameter.isChained()) {
                         chainedSearchParameters.add(queryParameter);
                     } else if (SearchConstants.Type.REFERENCE == queryParameter.getType()) {
@@ -2918,7 +2925,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             // to avoid unnecessarily paging through additional page numbers < 1
             int nextPageNumber = Math.max(context.getPageNumber() + 1, 1);
             if (nextPageNumber <= context.getLastPageNumber()
-                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() > 0)) {
+                    && (nextPageNumber == 1 || context.getTotalCount() != null || context.getMatchCount() == context.getPageSize())) {
 
                 // starting with the self URI
                 String nextLinkUrl = selfUri;
@@ -3087,8 +3094,122 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
 
     @Override
-    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
-        String resourceLogicalId) throws Exception {
+    public int doReindex(FHIROperationContext operationContext, OperationOutcome.Builder operationOutcomeResult, Instant tstamp,
+            List<Long> indexIds, String resourceLogicalId) throws Exception {
+        int result = 0;
+        // Since the try logic is slightly different in the code paths, we want to dispatch to separate methods to simplify the logic.
+        if (indexIds == null) {
+            result = doReindexSingle(operationOutcomeResult, tstamp, resourceLogicalId);
+        } else {
+            result = doReindexList(operationOutcomeResult, tstamp, indexIds);
+        }
+        return result;
+    }
+
+    /**
+     * encapsulates the logic to process a list with graduated backoff through the full list of indexIds
+     *
+     * @param operationOutcomeResult
+     * @param tstamp
+     * @param indexIds
+     * @return
+     * @throws Exception
+     */
+    public int doReindexList(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds) throws Exception {
+        // If the indexIds are empty or null, then it's not properly formed.
+        if (indexIds == null || indexIds.isEmpty()) {
+            throw new IllegalArgumentException("No indexIds sent to the $reindex list method");
+        }
+
+        /*
+         * How the backoff works...
+         * indexIds[1,2,3,4,5,6,7,8,9,10]
+         *
+         * Pass 1 left=0, right=10, max=10
+         * Result: Deadlock
+         *
+         * Pass2 left=0, right=1, max=10
+         * Move over by 1
+         * Result: Pass
+         *
+         * Pass3 left=1, right=2, max=10
+         * Move over by 1
+         * Result: Pass
+         *
+         * ... all the way up to 10
+         *
+         * Return total count back to caller.
+         *
+         * @implNote tried divide and conquer and it caused it to try large pass fail, small pass succeed, and therefore chose a small linear pass.
+         */
+
+        // Maximum attempts to retry across all windows.
+        final int TX_ATTEMPTS = 10;
+
+        int result = 0;
+        int max = indexIds.size();
+
+        int left = 0;
+        int right = max;
+
+        int window = 0;
+        int attempt = 1;
+        while (left < max && attempt <= TX_ATTEMPTS) {
+            window++;
+            if (log.isLoggable(Level.FINE)) {
+                log.fine("$reindex window [" + window + "/" + attempt + "] -> left=[" + left + "] right=[" + right + "] max=[" + max + "]");
+            }
+
+            boolean backoff = false;
+
+            List<Long> subListIndexIds = indexIds.subList(left, right);
+
+            FHIRTransactionHelper txn = new FHIRTransactionHelper(getTransaction());
+            txn.begin();
+            try {
+                FHIRPersistenceContext persistenceContext = null;
+                result += persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, subListIndexIds, null);
+            } catch (FHIRPersistenceDataAccessException x) {
+                // At this point, the transaction is marked for rollback
+                if (x.isTransactionRetryable() && ++attempt <= TX_ATTEMPTS) {
+                    if (x.getCause() instanceof LockException && ((LockException) x.getCause()).isDeadlock()) {
+                        backoff = true;
+                        long wait = RANDOM.nextInt(5000);
+                        log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, backing off [wait=" + wait + "ms]");
+                        Thread.sleep(wait);
+                    } else {
+                        log.info("attempt #" + window + "/" + attempt + " failed, retrying transaction, not backing off");
+                    }
+                } else {
+                    throw x;
+                }
+            } finally {
+                txn.end();
+            }
+
+            // backoff controls how we increment the window.
+            if (backoff) {
+                // we're now going to move over one at a time.
+                right = left + 1;
+            } else {
+                // we're sliding over by one more
+                left = right;
+                right += 1;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * do a single reindex on a specific resourceLogicalId
+     *
+     * @param operationOutcomeResult
+     * @param tstamp
+     * @param resourceLogicalId
+     * @return
+     * @throws Exception
+     */
+    public int doReindexSingle(OperationOutcome.Builder operationOutcomeResult, Instant tstamp, String resourceLogicalId) throws Exception {
         int result = 0;
         // handle some retries in case of deadlock exceptions
         final int TX_ATTEMPTS = 5;
@@ -3098,7 +3219,7 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             txn.begin();
             try {
                 FHIRPersistenceContext persistenceContext = null;
-                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, indexIds, resourceLogicalId);
+                result = persistence.reindex(persistenceContext, operationOutcomeResult, tstamp, null, resourceLogicalId);
                 attempt = TX_ATTEMPTS; // end the retry loop
             } catch (FHIRPersistenceDataAccessException x) {
                 if (x.isTransactionRetryable() && attempt < TX_ATTEMPTS) {
