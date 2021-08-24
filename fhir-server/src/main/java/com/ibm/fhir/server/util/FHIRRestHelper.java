@@ -459,13 +459,14 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
                     newResource = patch.apply(ior.getPrevResource());
                 } catch (FHIRPatchException e) {
                     String msg = "Invalid patch: " + e.getMessage();
+                    String path = e.getPath() != null ? e.getPath() : "<no-path>";
                     throw new FHIROperationException(msg, e).withIssue(Issue.builder()
                             .severity(IssueSeverity.ERROR)
                             .code(IssueType.INVALID)
                             .details(CodeableConcept.builder()
                                     .text(string(msg))
                                     .build())
-                            .expression(string(e.getPath()))
+                            .expression(string(path))
                             .build());
                 }
             }
