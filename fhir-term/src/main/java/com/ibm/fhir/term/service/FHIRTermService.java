@@ -1026,7 +1026,9 @@ public class FHIRTermService {
         if (!result && coding != null && coding.getCode() != null) {
             message = java.lang.String.format("Code '%s' is invalid", coding.getCode().getValue());
         }
-        if (result && outcome != null && coding != null && outcome.getDisplay() != null && coding.getDisplay() != null) {
+        if (result && outcome != null && coding != null &&
+                outcome.getDisplay() != null && coding.getDisplay() != null &&
+                outcome.getDisplay().getValue() != null && coding.getDisplay().getValue() != null) {
             java.lang.String system = null;
             if (coding.getSystem() != null) {
                 system = coding.getSystem().getValue();
