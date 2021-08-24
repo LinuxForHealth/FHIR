@@ -26,6 +26,7 @@ required_build(){
     # com.azure:azure-storage-blob:12.13.0
     # com.azure:azure-core-http-okhttp:1.7.2
     # com.azure:azure-core:1.17.0
+    sudo apt-get install -f libxml-xpath-perl
     AZURE_STORAGE_BLOB_VERSION=$(xpath -q -e  './project/dependencyManagement/dependencies/dependency[./groupId/text() = "com.azure" and ./artifactId/text() = "azure-storage-blob"]/version/text()' fhir-parent/pom.xml)
     if [ "${AZURE_STORAGE_BLOB_VERSION}" = "12.6.0" ]
     then
