@@ -18,8 +18,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
@@ -51,6 +49,9 @@ import com.ibm.fhir.model.type.code.BundleType;
 import com.ibm.fhir.model.type.code.DataAbsentReason;
 import com.ibm.fhir.model.type.code.HTTPVerb;
 import com.ibm.fhir.model.type.code.NarrativeStatus;
+
+import jakarta.json.Json;
+import jakarta.json.JsonArray;
 
 public class FHIRPatchTest extends FHIRServerTestBase {
     @Test(groups = { "fhir-patch" })
@@ -133,6 +134,39 @@ public class FHIRPatchTest extends FHIRServerTestBase {
         Patient updatedPatient = patientBuilder.build();
 
         Assert.assertEquals(updatedPatient, responsePatient);
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testJSONPatchRemoveOperationOnAlreadyRemoved() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        patientBuilder.active(null);
+
+        JsonArray array = Json.createPatchBuilder()
+                .remove("/active")
+                .build().toJsonArray();
+
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // And again...
+        patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
     }
 
     @Test(groups = { "fhir-patch" })
