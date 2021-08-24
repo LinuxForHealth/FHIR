@@ -180,7 +180,13 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
                     .given(of("1" + tag))
                     .build())
                 .meta(Meta.builder()
+                    .profile(Canonical.of("http://ibm.com/fhir/Profile/" + tag))
                     .tag(Coding.builder()
+                        .system(Uri.of("http://ibm.com/fhir/tag/" + tag))
+                        .code(Code.of(tag))
+                        .build())
+                    .security(Coding.builder()
+                        .system(Uri.of("http://ibm.com/fhir/security/" + tag))
                         .code(Code.of(tag))
                         .build())
                     .build())
@@ -1356,6 +1362,86 @@ public class SearchReverseChainTest extends FHIRServerTestBase {
         assertNotNull(bundle);
         assertEquals(bundle.getEntry().size(), 1);
         assertEquals(bundle.getEntry().get(0).getResource().getId(), libraryId);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithTagParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithTagParmSystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_tag", "http://ibm.com/fhir/tag/" + tag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithSecurityParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithSecurityParmSystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_security", "http://ibm.com/fhir/security/" + tag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
+    }
+
+    @Test(groups = { "server-search-reverse-chain" }, dependsOnMethods = {"testCreatePatient1"})
+    public void testSearchSingleReverseChainWithProfileParm() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Organization")
+                .queryParam("_has:Patient:organization:_profile", "http://ibm.com/fhir/Profile/" + tag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertEquals(bundle.getEntry().size(), 1);
+        assertEquals(bundle.getEntry().get(0).getResource().getId(), organization1Id);
     }
 
 }

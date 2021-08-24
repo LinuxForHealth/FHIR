@@ -1757,6 +1757,14 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             // need to use paramAlias as the common token values alias and generate a new alias for the parameter table.
             tokenValuesAlias = getParamAlias(getNextAliasIndex());
             tokenValueSearch = true;
+        } else {
+            ColumnExpNodeVisitor visitor = new ColumnExpNodeVisitor(); // gathers all columns used in the filter expression
+            Set<String> columns = filter.visit(visitor);
+            if (columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, CODE_SYSTEM_ID)) ||
+                    columns.contains(DataDefinitionUtil.getQualifiedName(paramAlias, TOKEN_VALUE))) {
+                tokenValuesAlias = getParamAlias(getNextAliasIndex());
+                tokenValueSearch = true;
+            }
         }
 
         if (Modifier.NOT.equals(queryParm.getModifier()) || Modifier.NOT_IN.equals(queryParm.getModifier())) {
@@ -1765,10 +1773,6 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             exists.from(parameterTable, alias(tokenValuesAlias))
                 .where(tokenValuesAlias, "LOGICAL_RESOURCE_ID").eq(lrAlias, "LOGICAL_RESOURCE_ID"); // correlate with the main query
             if (tokenValueSearch) {
-                if (Modifier.TEXT.equals(queryParm.getModifier())) {
-                    exists.from().where().and(tokenValuesAlias, "PARAMETER_NAME_ID")
-                        .eq(getParameterNameId(queryParm.getCode() + SearchConstants.TEXT_MODIFIER_SUFFIX));
-                }
                 // Join to common token values table and add filter predicate to the common token values join on clause
                 exists.from().innerJoin("COMMON_TOKEN_VALUES", alias(paramAlias), on(paramAlias, "COMMON_TOKEN_VALUE_ID")
                     .eq(tokenValuesAlias, "COMMON_TOKEN_VALUE_ID")
@@ -2083,10 +2087,16 @@ SELECT R0.RESOURCE_ID, R0.LOGICAL_RESOURCE_ID, R0.VERSION_ID, R0.LAST_UPDATED, R
             //                AND P3.PARAMETER_NAME_ID = 123                        -- 'name parameter'
             //                AND P3.STR_VALUE = 'Jones')                           -- 'name filter'
             final int aliasIndex = getNextAliasIndex();
-            final String paramTable = paramValuesTableName(queryData.getResourceType(), currentParm);
             final String paramAlias = getParamAlias(aliasIndex);
-
             WhereFragment pf = paramFilter(currentParm, paramAlias);
+            final String paramTable;
+            if (Type.TOKEN.equals(currentParm.getType()) &&
+                    !(TAG.equals(currentParm.getCode()) || SECURITY.equals(currentParm.getCode()))) {
+                paramTable = getTokenParamTable(pf.getExpression(), queryData.getResourceType(), paramAlias);
+            } else {
+                paramTable = paramValuesTableName(queryData.getResourceType(), currentParm);
+            }
+
             if (currentParm.getModifier() == Modifier.NOT) {
                 // Needs to be handled as a NOT EXISTS correlated subquery
                 SelectAdapter exists = Select.select("1");

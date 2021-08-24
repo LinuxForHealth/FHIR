@@ -228,6 +228,20 @@ public class SearchAllTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingTagSystemOnly() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_tag", "http://ibm.com/fhir/tag|");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+        
+        assertNotNull(bundle);
+        printOutResource(DEBUG_SEARCH, bundle);
+
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
     public void testSearchAllUsingSecurity() throws Exception {
         // <expression value="Resource.meta.security"/>
         // <xpath value="f:Resource/f:meta/f:security"/>
@@ -236,6 +250,20 @@ public class SearchAllTest extends FHIRServerTestBase {
 
         // Original - "http://ibm.com/fhir/security|security"
         parameters.searchParam("_security", "security");
+        FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
+        assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
+        Bundle bundle = response.getResource(Bundle.class);
+
+        assertNotNull(bundle);
+        printOutResource(DEBUG_SEARCH, bundle);
+
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-all" }, dependsOnMethods = { "testCreatePatient" })
+    public void testSearchAllUsingSecuritySystemOnly() throws Exception {
+        FHIRParameters parameters = new FHIRParameters();
+        parameters.searchParam("_security", "http://ibm.com/fhir/security|");
         FHIRResponse response = client.searchAll(parameters, false, headerTenant, headerDataStore);
         assertResponse(response.getResponse(), Response.Status.OK.getStatusCode());
         Bundle bundle = response.getResource(Bundle.class);
