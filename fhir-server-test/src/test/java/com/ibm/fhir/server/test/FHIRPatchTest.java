@@ -170,6 +170,64 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "fhir-patch" })
+    public void testJSONPatchOperationDoesNotExist() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        patientBuilder.active(null);
+
+        JsonArray array = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("op", "delete")
+                        .add("path", "/active")
+                    .build())
+                .build();
+
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testJSONPatchOperationReallyBadPath() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        patientBuilder.active(null);
+
+        JsonArray array = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("op", "remove")
+                        .add("path", "/activeFudge67891234!/1235~###&?")
+                    .build())
+                .build();
+
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test(groups = { "fhir-patch" })
     public void testJSONPatchReplaceOperation() throws Exception {
         WebTarget target = getWebTarget();
 
