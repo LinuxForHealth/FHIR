@@ -15,6 +15,8 @@ import javax.batch.runtime.context.StepContext;
 import javax.enterprise.context.Dependent;
 import javax.inject.Inject;
 
+import com.ibm.cloud.objectstorage.services.s3.model.AmazonS3Exception;
+
 /**
  * Enables Logging for the Given Step
  */
@@ -39,6 +41,12 @@ public class StepChunkListener implements ChunkListener {
         long jobExecutionId = jobCtx.getInstanceId();
         logger.log(Level.SEVERE, "StepChunkListener: job[" + jobCtx.getJobName() + "/" + jobExecutionId + "/" + stepExecutionId + "] --- " + ex.getMessage(), ex);
         logger.throwing("StepChunkListener", "onError", ex);
+        if (ex instanceof AmazonS3Exception) {
+            AmazonS3Exception s3ex = (AmazonS3Exception) ex;
+            if ("NoSuchBucket".equals(s3ex.getErrorCode())) {
+                jobCtx.setExitStatus("NO_SUCH_BUCKET");
+            }
+        }
     }
 
     @Override

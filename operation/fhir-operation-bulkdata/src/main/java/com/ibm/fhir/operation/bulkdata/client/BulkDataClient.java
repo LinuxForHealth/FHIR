@@ -353,6 +353,8 @@ public class BulkDataClient {
                  */
                 if (OperationConstants.FAILED_BAD_SOURCE.equals(bulkExportJobExecutionResponse.getExitStatus())) {
                     throw export.buildOperationException("A bad source input was used during a call to $import", IssueType.INVALID);
+                } else if (OperationConstants.NO_SUCH_BUCKET.equals(bulkExportJobExecutionResponse.getExitStatus())) {
+                    throw export.buildOperationException("No such bucket exists for the storageProvider", IssueType.INVALID);
                 } else {
                     throw export.buildOperationException("The job has failed", IssueType.EXCEPTION);
                 }
