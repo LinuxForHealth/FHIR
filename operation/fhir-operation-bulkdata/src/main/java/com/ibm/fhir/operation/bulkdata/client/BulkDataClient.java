@@ -683,7 +683,10 @@ public class BulkDataClient {
         String request = response.getJobParameters().getIncomingUrl();
         log.fine(response.getJobName());
         result.setRequest(request);
-        result.setRequiresAccessToken(false);
+
+        // Per the storageProvider setting the output to indicate that the use of an access token is required.
+        boolean requireAccessToken = adapter.getStorageProviderUsesRequestAccessToken(source);
+        result.setRequiresAccessToken(requireAccessToken);
 
         // Outputs lastUpdatedTime as yyyy-MM-dd'T'HH:mm:ss
         String lastUpdatedTime = response.getLastUpdatedTime();
@@ -734,6 +737,10 @@ public class BulkDataClient {
                 }
             }
             result.setOutput(outputList);
+
+            // Errors need to be added.
+            List<PollingLocationResponse.Output> errors = Collections.emptyList();
+            result.setError(errors);
         }
         // Export that has no data exported
         else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
@@ -745,6 +752,9 @@ public class BulkDataClient {
             }
             List<PollingLocationResponse.Output> outputs = Collections.emptyList();
             result.setOutput(outputs);
+
+            List<PollingLocationResponse.Output> errors = Collections.emptyList();
+            result.setError(errors);
         }
         // Import Jobs
         else if ("bulkimportchunkjob".equals(response.getJobName())) {

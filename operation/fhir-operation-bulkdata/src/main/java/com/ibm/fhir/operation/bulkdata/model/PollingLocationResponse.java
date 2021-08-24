@@ -26,7 +26,6 @@ import com.ibm.fhir.model.util.JsonSupport;
 
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
-import jakarta.json.JsonReaderFactory;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
 
@@ -35,8 +34,6 @@ import jakarta.json.stream.JsonGeneratorFactory;
  * This response object is intent for the polling location.
  */
 public class PollingLocationResponse {
-    private static final JsonReaderFactory JSON_READER_FACTORY = Json.createReaderFactory(null);
-
     public static final OperationOutcome EMPTY_RESULTS_DURING_EXPORT = OperationOutcome.builder()
             .issue(Issue.builder()
                 .severity(IssueSeverity.INFORMATION)
