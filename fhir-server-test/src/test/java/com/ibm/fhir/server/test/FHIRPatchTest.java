@@ -377,6 +377,76 @@ public class FHIRPatchTest extends FHIRServerTestBase {
     }
 
     @Test(groups = { "fhir-patch" })
+    public void testJSONPatchOperationWithTestDoesNotCreateNewVersionOfResource() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        patientBuilder.active(null);
+
+        // https://datatracker.ietf.org/doc/html/rfc6902#section-4.6
+        // [{"op":"test","path":"/name/0/given/0","value":"Jack"}]
+        JsonArray array = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("op", "test")
+                        .add("path", "/name/0/given/0")
+                        .add("value", "John")
+                    .build())
+                .build();
+
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.OK.getStatusCode());
+
+        // Next, call the 'read' API to retrieve the new patient and verify it.
+        response = target.path("Patient/" + patient.getId()).request(FHIRMediaType.APPLICATION_FHIR_JSON).get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Patient responsePatient = response.readEntity(Patient.class);
+        assertEquals("1", responsePatient.getMeta().getVersionId().getValue());
+    }
+
+    @Test(groups = { "fhir-patch" })
+    public void testJSONPatchOperationWithTestDoesNotCreateNewVersionOfResourceWithBadValue() throws Exception {
+        WebTarget target = getWebTarget();
+
+        // Build a new Patient and then call the 'create' API.
+        Patient patient = buildPatient();
+
+        Entity<Patient> entity = Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
+        Response response = target.path("Patient/" + patient.getId()).request().put(entity, Response.class);
+        assertResponse(response, Response.Status.CREATED.getStatusCode());
+
+        // create a copy of the patient and update it using the model API
+        Patient.Builder patientBuilder = patient.toBuilder();
+        patientBuilder.active(null);
+
+        // https://datatracker.ietf.org/doc/html/rfc6902#section-4.6
+        // [{"op":"test","path":"/name/0/given/0","value":"Jack"}]
+        JsonArray array = Json.createArrayBuilder()
+                .add(Json.createObjectBuilder()
+                        .add("op", "test")
+                        .add("path", "/name/0/given/0")
+                        .add("value", "Jack")
+                    .build())
+                .build();
+
+        Entity<JsonArray> patchEntity = Entity.entity(array, FHIRMediaType.APPLICATION_JSON_PATCH);
+        response = target.path("Patient/" + patient.getId())
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .method("PATCH", patchEntity, Response.class);
+        assertResponse(response, Response.Status.BAD_REQUEST.getStatusCode());
+    }
+
+    @Test(groups = { "fhir-patch" })
     public void testJSONPatchReplaceOperation() throws Exception {
         WebTarget target = getWebTarget();
 
