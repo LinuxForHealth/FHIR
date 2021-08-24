@@ -6,7 +6,9 @@
 
 package com.ibm.fhir.persistence.test.common;
 
+import static com.ibm.fhir.model.type.Code.code;
 import static com.ibm.fhir.model.type.String.string;
+import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.AssertJUnit.assertEquals;
 import static org.testng.AssertJUnit.assertNotNull;
 import static org.testng.AssertJUnit.assertTrue;
@@ -27,16 +29,20 @@ import org.testng.annotations.Test;
 import com.ibm.fhir.model.config.FHIRModelConfig;
 import com.ibm.fhir.model.resource.Device;
 import com.ibm.fhir.model.resource.Encounter;
+import com.ibm.fhir.model.resource.Library;
 import com.ibm.fhir.model.resource.Observation;
 import com.ibm.fhir.model.resource.Organization;
 import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.test.TestUtil;
+import com.ibm.fhir.model.type.Canonical;
 import com.ibm.fhir.model.type.Code;
 import com.ibm.fhir.model.type.CodeableConcept;
 import com.ibm.fhir.model.type.Coding;
 import com.ibm.fhir.model.type.HumanName;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
+import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.ObservationStatus;
 
 /**
@@ -60,6 +66,7 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     private static Organization savedOrg1;
     private static Organization savedOrg2;
     private static Organization savedOrg3;
+    private static Library savedLibrary1;
     private static boolean checkReferenceTypes = true;
     private static Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -75,6 +82,9 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         Observation observation = TestUtil.getMinimalResource(Observation.class);
         Patient patient = TestUtil.getMinimalResource(Patient.class);
         Device device = TestUtil.getMinimalResource(Device.class);
+        Library library = TestUtil.getMinimalResource(Library.class);
+        Coding uniqueTag = Coding.builder().system(uri("http://ibm.com/fhir/tag")).code(code(now.toString())).build();
+        Coding uniqueSecurity = Coding.builder().system(uri("http://ibm.com/fhir/security")).code(code(now.toString())).build();
 
         // Organizations that will be referenced by a Patient
         savedOrg1 = org.toBuilder().active(com.ibm.fhir.model.type.Boolean.of(true)).build();
@@ -92,7 +102,13 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         savedObservation1 = persistence.create(getDefaultPersistenceContext(), observation).getResource();
 
         // a Patient that will be referenced by Observations and references an Organization
-        savedPatient1 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg2.getId())).build();
+        savedPatient1 = patient.toBuilder()
+                .meta(Meta.builder()
+                    .tag(uniqueTag)
+                    .security(uniqueSecurity)
+                    .profile(Canonical.of("http://ibm.com/fhir/profile/" + now.toString())).build())
+                .managingOrganization(reference("Organization/" + savedOrg2.getId()))
+                .build();
         savedPatient1 = persistence.create(getDefaultPersistenceContext(), savedPatient1).getResource();
 
         // an Observation with a reference to a Patient and a logical ID-only reference to another observation
@@ -128,10 +144,15 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         savedPatient3 = patient.toBuilder().managingOrganization(reference("Organization/" + savedOrg1.getId())).build();
         savedPatient3 = persistence.create(getDefaultPersistenceContext(), savedPatient3).getResource();
 
-        // an Observation with a reference to a Patient
+        // a Library that is referenced by an Observation
+        savedLibrary1 = library.toBuilder().url(Uri.of("http://ibm.com/fhir/Library/abc")).version(string("1.0")).build();
+        savedLibrary1 = persistence.create(getDefaultPersistenceContext(), savedLibrary1).getResource();
+
+        // an Observation with a reference to a Patient and a Library
         savedObservation5 = observation.toBuilder()
                                        .subject(reference("Patient/" + savedPatient3.getId()))
                                        .status(ObservationStatus.FINAL)
+                                       .focus(reference("Library/" + savedLibrary1.getId()))
                                        .build();
         savedObservation5 = persistence.create(getDefaultPersistenceContext(), savedObservation5).getResource();
 
@@ -165,7 +186,8 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
     public void deleteResources() throws Exception {
         Resource[] resources = {savedPatient1, savedPatient2, savedPatient3, savedPatient4,
                 savedObservation1, savedObservation2, savedObservation3, savedObservation4, savedObservation5,
-                savedObservation6, savedEncounter1, savedDevice1, savedDevice2, savedOrg1, savedOrg2, savedOrg3};
+                savedObservation6, savedEncounter1, savedDevice1, savedDevice2, savedOrg1, savedOrg2, savedOrg3,
+                savedLibrary1};
 
         if (persistence.isDeleteSupported()) {
             if (persistence.isTransactional()) {
@@ -218,6 +240,54 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         assertEquals(1, resources.size());
         assertEquals("Patient", resources.get(0).getClass().getSimpleName());
         assertEquals(savedPatient3.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries for Organizations which are referenced by Patients with a specified profile.
+     * One patient is found containing the profile, thus one Organization is returned.
+     * @throws Exception
+     */
+    @Test
+    public void testReverseChainWithProfile() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Patient:organization:_profile", Collections.singletonList("http://ibm.com/fhir/profile/" + now.toString()));
+        List<Resource> resources = runQueryTest(Organization.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Organization", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedOrg2.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries for Organizations which are referenced by Patients with a specified tag.
+     * One patient is found containing the tag, thus one Organization is returned.
+     * @throws Exception
+     */
+    @Test
+    public void testReverseChainWithTag() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Patient:organization:_tag", Collections.singletonList("http://ibm.com/fhir/tag|" + now.toString()));
+        List<Resource> resources = runQueryTest(Organization.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Organization", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedOrg2.getId(), resources.get(0).getId());
+    }
+
+    /**
+     * This test queries for Organizations which are referenced by Patients with a specified security.
+     * One patient is found containing the security, thus one Organization is returned.
+     * @throws Exception
+     */
+    @Test
+    public void testReverseChainWithSecurity() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("_has:Patient:organization:_security", Collections.singletonList("http://ibm.com/fhir/security|" + now.toString()));
+        List<Resource> resources = runQueryTest(Organization.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Organization", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedOrg2.getId(), resources.get(0).getId());
     }
 
     /**
@@ -543,6 +613,82 @@ public abstract class AbstractReverseChainTest extends AbstractPersistenceTest {
         }
         assertTrue(resourceIds.contains(savedObservation2.getId()));
         assertTrue(resourceIds.contains(savedObservation3.getId()));
+    }
+
+    /**
+     * This test queries for Observations which reference Patients with a specified profile.
+     * One patient is found containing the profile, thus two Observations are returned.
+     * @throws Exception
+     */
+    @Test
+    public void testChainWithProfile() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("patient:Patient._profile", Collections.singletonList("http://ibm.com/fhir/profile/" + now.toString()));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        List<String> resourceIds = new ArrayList<>();
+        for (Resource resource : resources) {
+            resourceIds.add(resource.getId());
+        }
+        assertTrue(resourceIds.contains(savedObservation2.getId()));
+        assertTrue(resourceIds.contains(savedObservation3.getId()));
+    }
+
+    /**
+     * This test queries for Observations which reference Patients with a specified tag.
+     * One patient is found containing the tag, thus two Observations are returned.
+     * @throws Exception
+     */
+    @Test
+    public void testChainWithTag() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("patient:Patient._tag", Collections.singletonList("http://ibm.com/fhir/tag|" + now.toString()));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        List<String> resourceIds = new ArrayList<>();
+        for (Resource resource : resources) {
+            resourceIds.add(resource.getId());
+        }
+        assertTrue(resourceIds.contains(savedObservation2.getId()));
+        assertTrue(resourceIds.contains(savedObservation3.getId()));
+    }
+
+    /**
+     * This test queries for Observations which reference Patients with a specified security.
+     * One patient is found containing the security, thus two Observations are returned.
+     * @throws Exception
+     */
+    @Test
+    public void testChainWithSecurity() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("patient:Patient._security", Collections.singletonList("http://ibm.com/fhir/security|" + now.toString()));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(2, resources.size());
+        List<String> resourceIds = new ArrayList<>();
+        for (Resource resource : resources) {
+            resourceIds.add(resource.getId());
+        }
+        assertTrue(resourceIds.contains(savedObservation2.getId()));
+        assertTrue(resourceIds.contains(savedObservation3.getId()));
+    }
+
+    /**
+     * This test queries for Observations which reference Libraries with a specified url.
+     * One library is found containing the url, thus one Observation is returned.
+     * @throws Exception
+     */
+    @Test
+    public void testChainWithUrl() throws Exception {
+        Map<String, List<String>> queryParms = new HashMap<String, List<String>>();
+        queryParms.put("focus:Library.url", Collections.singletonList("http://ibm.com/fhir/Library/abc|1.0"));
+        List<Resource> resources = runQueryTest(Observation.class, queryParms);
+        assertNotNull(resources);
+        assertEquals(1, resources.size());
+        assertEquals("Observation", resources.get(0).getClass().getSimpleName());
+        assertEquals(savedObservation5.getId(), resources.get(0).getId());
     }
 
     /**

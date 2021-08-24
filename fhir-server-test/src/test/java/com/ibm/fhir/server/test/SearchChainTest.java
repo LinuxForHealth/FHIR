@@ -6,11 +6,14 @@
 
 package com.ibm.fhir.server.test;
 
+import static com.ibm.fhir.model.type.Code.code;
+import static com.ibm.fhir.model.type.Uri.uri;
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
 import java.time.Instant;
+import java.util.UUID;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
@@ -31,6 +34,8 @@ import com.ibm.fhir.model.resource.Patient;
 import com.ibm.fhir.model.resource.Procedure;
 import com.ibm.fhir.model.test.TestUtil;
 import com.ibm.fhir.model.type.Canonical;
+import com.ibm.fhir.model.type.Coding;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.AdministrativeGender;
@@ -48,14 +53,24 @@ public class SearchChainTest extends FHIRServerTestBase {
     private String measureReportId;
     private String measureId;
     private String libraryId;
+    private String strUniqueTag = UUID.randomUUID().toString();
 
     @Test(groups = { "server-search-chain" })
     public void testCreatePatient() throws Exception {
         WebTarget target = getWebTarget();
 
+        Coding security = Coding.builder().system(uri("http://ibm.com/fhir/security/" + strUniqueTag)).code(code(strUniqueTag)).build();
+        Coding tag = Coding.builder().system(uri("http://ibm.com/fhir/tag/" + strUniqueTag)).code(code(strUniqueTag)).build();
+
         // Build a new Patient and then call the 'create' API.
         Patient patient = TestUtil.readLocalResource("Patient_JohnDoe.json");
-        patient = patient.toBuilder().gender(AdministrativeGender.MALE).build();
+        patient = patient.toBuilder()
+                .meta(Meta.builder()
+                    .security(security)
+                    .tag(tag)
+                    .profile(Canonical.of("http://ibm.com/fhir/profile/Profile/" + strUniqueTag))
+                    .build())
+                .gender(AdministrativeGender.MALE).build();
 
         Entity<Patient> entity =
                 Entity.entity(patient, FHIRMediaType.APPLICATION_FHIR_JSON);
@@ -282,6 +297,76 @@ public class SearchChainTest extends FHIRServerTestBase {
 
         assertNotNull(bundle);
         assertTrue(bundle.getEntry().size() == 0);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithProfile() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._profile", "http://ibm.com/fhir/profile/Profile/" + strUniqueTag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithTag() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._tag", "http://ibm.com/fhir/tag/" + strUniqueTag + "|" + strUniqueTag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithTagSystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._tag", "http://ibm.com/fhir/tag/" + strUniqueTag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithSecurity() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._security", "http://ibm.com/fhir/security/" + strUniqueTag + "|" + strUniqueTag)
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
+    }
+
+    @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateProcedure"})
+    public void testSearchPatientWithSecuritySystemOnly() {
+        WebTarget target = getWebTarget();
+        Response response =
+                target.path("Procedure").queryParam("subject:Patient._security", "http://ibm.com/fhir/security/" + strUniqueTag + "|")
+                .request(FHIRMediaType.APPLICATION_FHIR_JSON)
+                .get();
+        assertResponse(response, Response.Status.OK.getStatusCode());
+        Bundle bundle = response.readEntity(Bundle.class);
+
+        assertNotNull(bundle);
+        assertTrue(bundle.getEntry().size() >= 1);
     }
 
     @Test(groups = { "server-search-chain" }, dependsOnMethods = {"testCreatePatient" , "testCreateEncounter"})

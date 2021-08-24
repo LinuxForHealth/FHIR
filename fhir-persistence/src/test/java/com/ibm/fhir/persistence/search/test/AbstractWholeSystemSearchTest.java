@@ -227,6 +227,14 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     }
 
     @Test
+    public void testSearchAllUsingSecuritySystemOnly() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_security", SECURITY_SYSTEM + "|");
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
     public void testSearchAllUsingSource() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, "_source", SOURCE);
         assertNotNull(resources);
@@ -277,6 +285,14 @@ public abstract class AbstractWholeSystemSearchTest extends AbstractPLSearchTest
     @Test
     public void testSearchAllUsingTagModifierBelow() throws Exception {
         List<Resource> resources = runQueryTest(Resource.class, "_tag:below", TAG_SYSTEM2 + "|HOPERAT");
+        assertNotNull(resources);
+        assertEquals(resources.size(), 1, "Number of resources returned");
+        assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");
+    }
+
+    @Test
+    public void testSearchAllUsingTagSystemOnly() throws Exception {
+        List<Resource> resources = runQueryTest(Resource.class, "_tag", TAG_SYSTEM2 + "|");
         assertNotNull(resources);
         assertEquals(resources.size(), 1, "Number of resources returned");
         assertTrue(isResourceInResponse(savedResource, resources), "Expected resource not found in the response");

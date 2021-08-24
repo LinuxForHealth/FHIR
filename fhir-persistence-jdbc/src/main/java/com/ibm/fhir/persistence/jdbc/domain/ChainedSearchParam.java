@@ -6,6 +6,11 @@
 
 package com.ibm.fhir.persistence.jdbc.domain;
 
+import static com.ibm.fhir.search.SearchConstants.PROFILE;
+import static com.ibm.fhir.search.SearchConstants.SECURITY;
+import static com.ibm.fhir.search.SearchConstants.TAG;
+import static com.ibm.fhir.search.SearchConstants.URL;
+
 import java.util.logging.Logger;
 
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -85,8 +90,13 @@ public class ChainedSearchParam extends SearchParam {
             msp.visit(currentSubQuery, visitor);
         } else if (currentParm.getType() == Type.COMPOSITE) {
             visitor.addCompositeParam(currentSubQuery, currentParm);
-        } else if (currentParm.isCanonical()) {
+        } else if (currentParm.isCanonical() || PROFILE.equals(currentParm.getCode()) ||
+                (currentParm.getType() == Type.URI && URL.equals(currentParm.getCode()))) {
             visitor.addCanonicalParam(currentSubQuery, ((QueryData)currentSubQuery).getResourceType(), currentParm);
+        } else if (TAG.equals(currentParm.getCode())) {
+            visitor.addTagParam(currentSubQuery, ((QueryData)currentSubQuery).getResourceType(), currentParm);
+        } else if (SECURITY.equals(currentParm.getCode())) {
+            visitor.addSecurityParam(currentSubQuery, ((QueryData)currentSubQuery).getResourceType(), currentParm);
         } else {
             visitor.addFilter(currentSubQuery, getRootResourceType(), currentParm);
         }
