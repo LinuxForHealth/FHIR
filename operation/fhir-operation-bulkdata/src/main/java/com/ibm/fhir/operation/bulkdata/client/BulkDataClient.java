@@ -73,7 +73,7 @@ import com.ibm.fhir.search.compartment.CompartmentUtil;
 public class BulkDataClient {
 
     private static final String CLASSNAME = BulkDataClient.class.getName();
-    private static final Logger log = Logger.getLogger(CLASSNAME);
+    private static final Logger LOG = Logger.getLogger(CLASSNAME);
 
     private static final Encoder encoder = java.util.Base64.getUrlEncoder().withoutPadding();
 
@@ -231,8 +231,8 @@ public class BulkDataClient {
         }
 
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("Job instance request: " + entityStr);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Job instance request: " + entityStr);
         }
 
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances";
@@ -250,8 +250,8 @@ public class BulkDataClient {
             handleStandardResponseStatus(status);
 
             // Debug / Dev only
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("$export response (HTTP " + status + ")");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("$export response (HTTP " + status + ")");
             }
 
             if (status != 201) {
@@ -330,8 +330,8 @@ public class BulkDataClient {
 
             verifyTenant(bulkExportJobExecutionResponse.getJobParameters());
 
-            if (log.isLoggable(Level.FINE)) {
-                log.warning("Logging the JobExecutionResponse Details -> \n"
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.warning("Logging the JobExecutionResponse Details -> \n"
                         + JobExecutionResponse.Writer.generate(bulkExportJobExecutionResponse, false));
             }
 
@@ -383,7 +383,7 @@ public class BulkDataClient {
         } catch (FHIROperationException fe) {
             throw fe;
         } catch (Exception ex) {
-            ex.printStackTrace();
+            LOG.throwing(CLASSNAME, "status", ex);
             throw export.buildOperationException("An unexpected error has ocurred while checking the status - "
                     + ex.getMessage(), IssueType.TRANSIENT);
         }
@@ -415,8 +415,8 @@ public class BulkDataClient {
             throw export.buildOperationException("Server Side Error for Batch Framework", IssueType.EXCEPTION);
         }
 
-        if (httpStatus == 200 && log.isLoggable(Level.FINE)) {
-            log.fine("Successuflly accessed job");
+        if (httpStatus == 200 && LOG.isLoggable(Level.FINE)) {
+            LOG.fine("Successuflly accessed job");
         }
     }
 
@@ -519,8 +519,8 @@ public class BulkDataClient {
                     try {
                         // Skip consuming the body
                         int statusCodeAgain = stopAgainResponse.getStatusLine().getStatusCode();
-                        if (log.isLoggable(Level.FINE)) {
-                            log.fine("status code for stop on location is '" + statusCodeAgain + "' at location '" + location + "'");
+                        if (LOG.isLoggable(Level.FINE)) {
+                            LOG.fine("status code for stop on location is '" + statusCodeAgain + "' at location '" + location + "'");
                         }
                     } finally {
                         stop.releaseConnection();
@@ -557,20 +557,23 @@ public class BulkDataClient {
 
     /**
      * deletes the job
+     *
+     * @param job
+     * @return
+     * @throws Exception
      */
     private Response.Status runDeleteJobForTenant(String job) throws Exception {
         Response.Status status = Response.Status.NO_CONTENT;
 
         try {
-            // Example: https://localhost:9443/ibm/api/batch/jobexecutions/9
+            // Example: https://localhost:9443/ibm/api/batch/jobinstances/9
             // We choose to purgeJobStoreOnly=false which is the default.
             // The logs are purged when deleted.
             // The tenant is known, and now we need to query to delete the Job.
 
-            HttpWrapper wrapper = new HttpWrapper();
             CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
 
-            String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job;
+            String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances/" + job;
             HttpDelete delete = new HttpDelete(baseUrl);
             CloseableHttpResponse deleteResponse = cli.execute(delete);
 
@@ -578,10 +581,10 @@ public class BulkDataClient {
                 HttpEntity entity = deleteResponse.getEntity();
 
                 // Debug Logging outputs the API response.
-                if (log.isLoggable(Level.FINE)) {
+                if (LOG.isLoggable(Level.FINE)) {
                     String responseString = new BasicResponseHandler().handleResponse(deleteResponse);
-                    log.fine("Delete Job for Tenant Status " + deleteResponse.getStatusLine().getStatusCode());
-                    log.fine("The Response body is [" + responseString + "]");
+                    LOG.fine("Delete Job for Tenant Status " + deleteResponse.getStatusLine().getStatusCode());
+                    LOG.fine("The Response body is [" + responseString + "]");
                 }
 
                 if (Status.NO_CONTENT.getStatusCode() != deleteResponse.getStatusLine().getStatusCode()
@@ -600,6 +603,7 @@ public class BulkDataClient {
         } catch (FHIROperationException ex) {
             throw ex;
         } catch (Exception ex) {
+            LOG.throwing(CLASSNAME, "runDeleteJobForTenant", ex);
             throw export.buildOperationException("An unexpected error has ocurred while deleting the job", IssueType.TRANSIENT);
         }
         return status;
@@ -613,7 +617,7 @@ public class BulkDataClient {
 
         try {
             JobExecutionResponse response = null;
-            HttpWrapper wrapper = new HttpWrapper();
+
             CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
 
             HttpGet get = new HttpGet(baseUrl);
@@ -626,10 +630,10 @@ public class BulkDataClient {
 
                 String responseString = new BasicResponseHandler().handleResponse(getResponse);
                 // Debug Logging outputs the API response.
-                if (log.isLoggable(Level.FINE)) {
+                if (LOG.isLoggable(Level.FINE)) {
 
-                    log.fine("Delete Job for Tenant Status " + getResponse.getStatusLine().getStatusCode());
-                    log.fine("The Response body is [" + responseString + "]");
+                    LOG.fine("Delete Job for Tenant Status " + getResponse.getStatusLine().getStatusCode());
+                    LOG.fine("The Response body is [" + responseString + "]");
                 }
 
                 if (responseString == null || responseString.isEmpty() || responseString.startsWith("Unexpected request/response.")) {
@@ -662,7 +666,7 @@ public class BulkDataClient {
         String fhirTenant = adapter.getTenant();
         if (jobParameters == null || jobParameters.getFhirTenant() == null
                 || !jobParameters.getFhirTenant().equals(fhirTenant)) {
-            log.warning("Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters.getFhirTenant() + "]");
+            LOG.warning("Tenant not authorized to access job [" + fhirTenant + "] jobParameter [" + jobParameters.getFhirTenant() + "]");
             throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
         }
     }
@@ -683,7 +687,7 @@ public class BulkDataClient {
         String baseUrl = adapter.getStorageProviderEndpointExternal(source);
 
         String request = response.getJobParameters().getIncomingUrl();
-        log.fine(response.getJobName());
+        LOG.fine(response.getJobName());
         result.setRequest(request);
 
         // Per the storageProvider setting the output to indicate that the use of an access token is required.
@@ -699,7 +703,7 @@ public class BulkDataClient {
         // e.g, Patient[1000,1000,200]:Observation[1000,1000,200],
         // COMPLETED means no file exported.
         String exitStatus = response.getExitStatus();
-        log.fine(() -> "The Exit Status is '" + exitStatus + "'");
+        LOG.fine(() -> "The Exit Status is '" + exitStatus + "'");
 
         // Export Jobs with data in the exitStatus field
         if (!"COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
@@ -714,7 +718,7 @@ public class BulkDataClient {
                     StorageType storageType = adapter.getStorageProviderStorageType(source);
                     String sUrl;
 
-                    log.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
+                    LOG.fine(() -> "Storage Type is " + storageType + " " + StorageType.IBMCOS.equals(storageType) + " " + StorageType.AWSS3.equals(storageType));
                     if (StorageType.IBMCOS.equals(storageType) || StorageType.AWSS3.equals(storageType)) {
                         String region = adapter.getStorageProviderLocation(source);
                         String bucketName = adapter.getStorageProviderBucketName(source);
@@ -746,11 +750,11 @@ public class BulkDataClient {
         }
         // Export that has no data exported
         else if ("COMPLETED".equals(exitStatus) && !"bulkimportchunkjob".equals(response.getJobName())) {
-            log.fine(() -> "Outputlist is empty");
+            LOG.fine(() -> "Outputlist is empty");
             try {
                 result.addOperationOutcomeToExtension(PollingLocationResponse.EMPTY_RESULTS_DURING_EXPORT);
             } catch (FHIRGeneratorException | IOException e) {
-                log.severe("Unexpected issue while serializing a fixed value");
+                LOG.severe("Unexpected issue while serializing a fixed value");
             }
             List<PollingLocationResponse.Output> outputs = Collections.emptyList();
             result.setOutput(outputs);
@@ -761,7 +765,7 @@ public class BulkDataClient {
         // Import Jobs
         else if ("bulkimportchunkjob".equals(response.getJobName())) {
             // Currently there is no output
-            log.fine("Hit the case where we don't form output with counts");
+            LOG.fine("Hit the case where we don't form output with counts");
             List<Input> inputs = response.getJobParameters().getInputs();
 
             List<PollingLocationResponse.Output> outputs = new ArrayList<>();
@@ -822,9 +826,9 @@ public class BulkDataClient {
         String entityStr = JobInstanceRequest.Writer.generate(builder.build(), true);
 
         String baseUrl = adapter.getCoreApiBatchUrl() + "/jobinstances";
-        if (log.isLoggable(Level.FINE)) {
-            log.fine("The Base URL " + baseUrl);
-            log.fine("The Entity posted to the server " + entityStr);
+        if (LOG.isLoggable(Level.FINE)) {
+            LOG.fine("The Base URL " + baseUrl);
+            LOG.fine("The Entity posted to the server " + entityStr);
         }
 
         CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
@@ -840,8 +844,8 @@ public class BulkDataClient {
             handleStandardResponseStatus(status);
 
             // Debug / Dev only
-            if (log.isLoggable(Level.FINE)) {
-                log.fine("$import response (HTTP " + status + ")");
+            if (LOG.isLoggable(Level.FINE)) {
+                LOG.fine("$import response (HTTP " + status + ")");
             }
 
             if (status != 201) {
@@ -878,7 +882,7 @@ public class BulkDataClient {
             keyGen.init(256);
             bytes = keyGen.generateKey().getEncoded();
         } catch (NoSuchAlgorithmException e) {
-            log.warning("Algorithm 'AES' is not supported; using SecureRandom instead");
+            LOG.warning("Algorithm 'AES' is not supported; using SecureRandom instead");
             bytes = new byte[32];
             RANDOM.nextBytes(bytes);
         }
