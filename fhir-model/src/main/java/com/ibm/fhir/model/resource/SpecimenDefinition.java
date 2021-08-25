@@ -520,17 +520,18 @@ public class SpecimenDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting timeAspect.
-         * @see #timeAspect(String)
+         * Convenience method for setting {@code timeAspect}.
          * 
          * @param timeAspect
          *     Time aspect for collection
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #timeAspect(com.ibm.fhir.model.type.String)
          */
         public Builder timeAspect(java.lang.String timeAspect) {
-            this.timeAspect = timeAspect == null ? null : String.of(timeAspect);
+            this.timeAspect = (timeAspect == null) ? null : String.of(timeAspect);
             return this;
         }
 
@@ -984,17 +985,18 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting isDerived.
-             * @see #isDerived(Boolean)
+             * Convenience method for setting {@code isDerived}.
              * 
              * @param isDerived
              *     Primary or secondary specimen
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #isDerived(com.ibm.fhir.model.type.Boolean)
              */
             public Builder isDerived(java.lang.Boolean isDerived) {
-                this.isDerived = isDerived == null ? null : Boolean.of(isDerived);
+                this.isDerived = (isDerived == null) ? null : Boolean.of(isDerived);
                 return this;
             }
 
@@ -1057,17 +1059,18 @@ public class SpecimenDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting requirement.
-             * @see #requirement(String)
+             * Convenience method for setting {@code requirement}.
              * 
              * @param requirement
              *     Specimen requirements
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #requirement(com.ibm.fhir.model.type.String)
              */
             public Builder requirement(java.lang.String requirement) {
-                this.requirement = requirement == null ? null : String.of(requirement);
+                this.requirement = (requirement == null) ? null : String.of(requirement);
                 return this;
             }
 
@@ -1587,17 +1590,18 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Container description
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -1626,6 +1630,22 @@ public class SpecimenDefinition extends DomainResource {
                  */
                 public Builder capacity(SimpleQuantity capacity) {
                     this.capacity = capacity;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code minimumVolume} with choice type String.
+                 * 
+                 * @param minimumVolume
+                 *     Minimum volume
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #minimumVolume(Element)
+                 */
+                public Builder minimumVolume(java.lang.String minimumVolume) {
+                    this.minimumVolume = (minimumVolume == null) ? null : String.of(minimumVolume);
                     return this;
                 }
 
@@ -1686,17 +1706,18 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting preparation.
-                 * @see #preparation(String)
+                 * Convenience method for setting {@code preparation}.
                  * 
                  * @param preparation
                  *     Specimen container preparation
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #preparation(com.ibm.fhir.model.type.String)
                  */
                 public Builder preparation(java.lang.String preparation) {
-                    this.preparation = preparation == null ? null : String.of(preparation);
+                    this.preparation = (preparation == null) ? null : String.of(preparation);
                     return this;
                 }
 
@@ -2315,17 +2336,18 @@ public class SpecimenDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting instruction.
-                 * @see #instruction(String)
+                 * Convenience method for setting {@code instruction}.
                  * 
                  * @param instruction
                  *     Preservation instruction
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #instruction(com.ibm.fhir.model.type.String)
                  */
                 public Builder instruction(java.lang.String instruction) {
-                    this.instruction = instruction == null ? null : String.of(instruction);
+                    this.instruction = (instruction == null) ? null : String.of(instruction);
                     return this;
                 }
 

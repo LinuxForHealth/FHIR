@@ -349,8 +349,7 @@ public class Signature extends Element {
         }
 
         /**
-         * Convenience method for setting when.
-         * @see #when(Instant)
+         * Convenience method for setting {@code when}.
          * 
          * <p>This element is required.
          * 
@@ -359,9 +358,11 @@ public class Signature extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #when(com.ibm.fhir.model.type.Instant)
          */
         public Builder when(java.time.ZonedDateTime when) {
-            this.when = when == null ? null : Instant.of(when);
+            this.when = (when == null) ? null : Instant.of(when);
             return this;
         }
 

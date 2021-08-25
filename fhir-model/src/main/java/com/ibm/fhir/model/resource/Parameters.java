@@ -557,8 +557,7 @@ public class Parameters extends Resource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -567,9 +566,11 @@ public class Parameters extends Resource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -586,6 +587,86 @@ public class Parameters extends Resource {
              */
             public Builder name(String name) {
                 this.name = name;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * @param value
+             *     If parameter is a data type
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 

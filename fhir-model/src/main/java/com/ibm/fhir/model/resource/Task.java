@@ -1255,17 +1255,18 @@ public class Task extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Human-readable explanation of task
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -2371,6 +2372,96 @@ public class Task extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Content to use in performing the task
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
              * The value of the input parameter as a basic type.
              * 
              * <p>This element is required.
@@ -2708,6 +2799,96 @@ public class Task extends DomainResource {
              */
             public Builder type(CodeableConcept type) {
                 this.type = type;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Result of output
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 

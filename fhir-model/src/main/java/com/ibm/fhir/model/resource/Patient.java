@@ -714,17 +714,18 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this patient's record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -832,17 +833,18 @@ public class Patient extends DomainResource {
         }
 
         /**
-         * Convenience method for setting birthDate.
-         * @see #birthDate(Date)
+         * Convenience method for setting {@code birthDate}.
          * 
          * @param birthDate
          *     The date of birth for the individual
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #birthDate(com.ibm.fhir.model.type.Date)
          */
         public Builder birthDate(java.time.LocalDate birthDate) {
-            this.birthDate = birthDate == null ? null : Date.of(birthDate);
+            this.birthDate = (birthDate == null) ? null : Date.of(birthDate);
             return this;
         }
 
@@ -857,6 +859,22 @@ public class Patient extends DomainResource {
          */
         public Builder birthDate(Date birthDate) {
             this.birthDate = birthDate;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type Boolean.
+         * 
+         * @param deceased
+         *     Indicates if the individual is deceased or not
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.lang.Boolean deceased) {
+            this.deceased = (deceased == null) ? null : Boolean.of(deceased);
             return this;
         }
 
@@ -925,6 +943,38 @@ public class Patient extends DomainResource {
          */
         public Builder maritalStatus(CodeableConcept maritalStatus) {
             this.maritalStatus = maritalStatus;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code multipleBirth} with choice type Boolean.
+         * 
+         * @param multipleBirth
+         *     Whether patient is part of a multiple birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #multipleBirth(Element)
+         */
+        public Builder multipleBirth(java.lang.Boolean multipleBirth) {
+            this.multipleBirth = (multipleBirth == null) ? null : Boolean.of(multipleBirth);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code multipleBirth} with choice type Integer.
+         * 
+         * @param multipleBirth
+         *     Whether patient is part of a multiple birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #multipleBirth(Element)
+         */
+        public Builder multipleBirth(java.lang.Integer multipleBirth) {
+            this.multipleBirth = (multipleBirth == null) ? null : Integer.of(multipleBirth);
             return this;
         }
 
@@ -1934,17 +1984,18 @@ public class Patient extends DomainResource {
             }
 
             /**
-             * Convenience method for setting preferred.
-             * @see #preferred(Boolean)
+             * Convenience method for setting {@code preferred}.
              * 
              * @param preferred
              *     Language preference indicator
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
              */
             public Builder preferred(java.lang.Boolean preferred) {
-                this.preferred = preferred == null ? null : Boolean.of(preferred);
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
                 return this;
             }
 

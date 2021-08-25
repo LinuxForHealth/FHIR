@@ -669,17 +669,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
         }
 
         /**
-         * Convenience method for setting quantity.
-         * @see #quantity(Integer)
+         * Convenience method for setting {@code quantity}.
          * 
          * @param quantity
          *     The amount of this biologically derived product
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #quantity(com.ibm.fhir.model.type.Integer)
          */
         public Builder quantity(java.lang.Integer quantity) {
-            this.quantity = quantity == null ? null : Integer.of(quantity);
+            this.quantity = (quantity == null) ? null : Integer.of(quantity);
             return this;
         }
 
@@ -1462,17 +1463,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of of processing
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1789,17 +1791,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of manipulation
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2118,17 +2121,18 @@ public class BiologicallyDerivedProduct extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of storage
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

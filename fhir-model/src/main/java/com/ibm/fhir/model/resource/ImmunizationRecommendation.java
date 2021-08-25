@@ -1192,17 +1192,18 @@ public class ImmunizationRecommendation extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Protocol details
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1221,17 +1222,18 @@ public class ImmunizationRecommendation extends DomainResource {
             }
 
             /**
-             * Convenience method for setting series.
-             * @see #series(String)
+             * Convenience method for setting {@code series}.
              * 
              * @param series
              *     Name of vaccination series
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #series(com.ibm.fhir.model.type.String)
              */
             public Builder series(java.lang.String series) {
-                this.series = series == null ? null : String.of(series);
+                this.series = (series == null) ? null : String.of(series);
                 return this;
             }
 
@@ -1246,6 +1248,22 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             public Builder series(String series) {
                 this.series = series;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code doseNumber} with choice type String.
+             * 
+             * @param doseNumber
+             *     Recommended dose number within series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #doseNumber(Element)
+             */
+            public Builder doseNumber(java.lang.String doseNumber) {
+                this.doseNumber = (doseNumber == null) ? null : String.of(doseNumber);
                 return this;
             }
 
@@ -1266,6 +1284,22 @@ public class ImmunizationRecommendation extends DomainResource {
              */
             public Builder doseNumber(Element doseNumber) {
                 this.doseNumber = doseNumber;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code seriesDoses} with choice type String.
+             * 
+             * @param seriesDoses
+             *     Recommended number of doses for immunity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #seriesDoses(Element)
+             */
+            public Builder seriesDoses(java.lang.String seriesDoses) {
+                this.seriesDoses = (seriesDoses == null) ? null : String.of(seriesDoses);
                 return this;
             }
 

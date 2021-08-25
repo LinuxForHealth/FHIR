@@ -865,17 +865,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the charge item definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -900,17 +901,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this charge item definition (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1051,17 +1053,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1097,17 +1100,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1261,17 +1265,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting approvalDate.
-         * @see #approvalDate(Date)
+         * Convenience method for setting {@code approvalDate}.
          * 
          * @param approvalDate
          *     When the charge item definition was approved by publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
          */
         public Builder approvalDate(java.time.LocalDate approvalDate) {
-            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
             return this;
         }
 
@@ -1291,17 +1296,18 @@ public class ChargeItemDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lastReviewDate.
-         * @see #lastReviewDate(Date)
+         * Convenience method for setting {@code lastReviewDate}.
          * 
          * @param lastReviewDate
          *     When the charge item definition was last reviewed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
          */
         public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
-            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1764,17 +1770,18 @@ public class ChargeItemDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Natural language description of the condition
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1793,17 +1800,18 @@ public class ChargeItemDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting language.
-             * @see #language(String)
+             * Convenience method for setting {@code language}.
              * 
              * @param language
              *     Language of the expression
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #language(com.ibm.fhir.model.type.String)
              */
             public Builder language(java.lang.String language) {
-                this.language = language == null ? null : String.of(language);
+                this.language = (language == null) ? null : String.of(language);
                 return this;
             }
 
@@ -1823,17 +1831,18 @@ public class ChargeItemDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(String)
+             * Convenience method for setting {@code expression}.
              * 
              * @param expression
              *     Boolean-valued expression
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String expression) {
-                this.expression = expression == null ? null : String.of(expression);
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 

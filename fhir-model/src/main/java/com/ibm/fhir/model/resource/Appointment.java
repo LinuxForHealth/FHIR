@@ -1137,17 +1137,18 @@ public class Appointment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Shown on a subject line in a meeting request, or appointment list
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1201,17 +1202,18 @@ public class Appointment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting start.
-         * @see #start(Instant)
+         * Convenience method for setting {@code start}.
          * 
          * @param start
          *     When appointment is to take place
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #start(com.ibm.fhir.model.type.Instant)
          */
         public Builder start(java.time.ZonedDateTime start) {
-            this.start = start == null ? null : Instant.of(start);
+            this.start = (start == null) ? null : Instant.of(start);
             return this;
         }
 
@@ -1230,17 +1232,18 @@ public class Appointment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting end.
-         * @see #end(Instant)
+         * Convenience method for setting {@code end}.
          * 
          * @param end
          *     When appointment is to conclude
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #end(com.ibm.fhir.model.type.Instant)
          */
         public Builder end(java.time.ZonedDateTime end) {
-            this.end = end == null ? null : Instant.of(end);
+            this.end = (end == null) ? null : Instant.of(end);
             return this;
         }
 
@@ -1336,17 +1339,18 @@ public class Appointment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting comment.
-         * @see #comment(String)
+         * Convenience method for setting {@code comment}.
          * 
          * @param comment
          *     Additional comments
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
          */
         public Builder comment(java.lang.String comment) {
-            this.comment = comment == null ? null : String.of(comment);
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 
@@ -1365,17 +1369,18 @@ public class Appointment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting patientInstruction.
-         * @see #patientInstruction(String)
+         * Convenience method for setting {@code patientInstruction}.
          * 
          * @param patientInstruction
          *     Detailed information and instructions for the patient
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #patientInstruction(com.ibm.fhir.model.type.String)
          */
         public Builder patientInstruction(java.lang.String patientInstruction) {
-            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
+            this.patientInstruction = (patientInstruction == null) ? null : String.of(patientInstruction);
             return this;
         }
 

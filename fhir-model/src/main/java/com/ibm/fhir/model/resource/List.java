@@ -707,17 +707,18 @@ public class List extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Descriptive name for the list
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1241,17 +1242,18 @@ public class List extends DomainResource {
             }
 
             /**
-             * Convenience method for setting deleted.
-             * @see #deleted(Boolean)
+             * Convenience method for setting {@code deleted}.
              * 
              * @param deleted
              *     If this item is actually marked as deleted
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #deleted(com.ibm.fhir.model.type.Boolean)
              */
             public Builder deleted(java.lang.Boolean deleted) {
-                this.deleted = deleted == null ? null : Boolean.of(deleted);
+                this.deleted = (deleted == null) ? null : Boolean.of(deleted);
                 return this;
             }
 

@@ -805,6 +805,22 @@ public class DeviceDefinition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code manufacturer} with choice type String.
+         * 
+         * @param manufacturer
+         *     Name of device manufacturer
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #manufacturer(Element)
+         */
+        public Builder manufacturer(java.lang.String manufacturer) {
+            this.manufacturer = (manufacturer == null) ? null : String.of(manufacturer);
+            return this;
+        }
+
+        /**
          * A name of the manufacturer.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -864,17 +880,18 @@ public class DeviceDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting modelNumber.
-         * @see #modelNumber(String)
+         * Convenience method for setting {@code modelNumber}.
          * 
          * @param modelNumber
          *     The model number for the device
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #modelNumber(com.ibm.fhir.model.type.String)
          */
         public Builder modelNumber(java.lang.String modelNumber) {
-            this.modelNumber = modelNumber == null ? null : String.of(modelNumber);
+            this.modelNumber = (modelNumber == null) ? null : String.of(modelNumber);
             return this;
         }
 
@@ -945,8 +962,7 @@ public class DeviceDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(List<String>)
+         * Convenience method for setting {@code version}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -955,10 +971,12 @@ public class DeviceDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String... version) {
             for (java.lang.String value : version) {
-                this.version.add(value == null ? null : String.of(value));
+                this.version.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1663,8 +1681,7 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting deviceIdentifier.
-             * @see #deviceIdentifier(String)
+             * Convenience method for setting {@code deviceIdentifier}.
              * 
              * <p>This element is required.
              * 
@@ -1674,9 +1691,11 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #deviceIdentifier(com.ibm.fhir.model.type.String)
              */
             public Builder deviceIdentifier(java.lang.String deviceIdentifier) {
-                this.deviceIdentifier = deviceIdentifier == null ? null : String.of(deviceIdentifier);
+                this.deviceIdentifier = (deviceIdentifier == null) ? null : String.of(deviceIdentifier);
                 return this;
             }
 
@@ -1990,8 +2009,7 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -2000,9 +2018,11 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2289,8 +2309,7 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting systemType.
-             * @see #systemType(String)
+             * Convenience method for setting {@code systemType}.
              * 
              * <p>This element is required.
              * 
@@ -2299,9 +2318,11 @@ public class DeviceDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #systemType(com.ibm.fhir.model.type.String)
              */
             public Builder systemType(java.lang.String systemType) {
-                this.systemType = systemType == null ? null : String.of(systemType);
+                this.systemType = (systemType == null) ? null : String.of(systemType);
                 return this;
             }
 
@@ -2322,17 +2343,18 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     The version of the standard that is used to operate and communicate
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -3277,17 +3299,18 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting alternate.
-             * @see #alternate(Boolean)
+             * Convenience method for setting {@code alternate}.
              * 
              * @param alternate
              *     Indicates an alternative material of the device
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #alternate(com.ibm.fhir.model.type.Boolean)
              */
             public Builder alternate(java.lang.Boolean alternate) {
-                this.alternate = alternate == null ? null : Boolean.of(alternate);
+                this.alternate = (alternate == null) ? null : Boolean.of(alternate);
                 return this;
             }
 
@@ -3306,17 +3329,18 @@ public class DeviceDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting allergenicIndicator.
-             * @see #allergenicIndicator(Boolean)
+             * Convenience method for setting {@code allergenicIndicator}.
              * 
              * @param allergenicIndicator
              *     Whether the substance is a known or suspected allergen
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #allergenicIndicator(com.ibm.fhir.model.type.Boolean)
              */
             public Builder allergenicIndicator(java.lang.Boolean allergenicIndicator) {
-                this.allergenicIndicator = allergenicIndicator == null ? null : Boolean.of(allergenicIndicator);
+                this.allergenicIndicator = (allergenicIndicator == null) ? null : Boolean.of(allergenicIndicator);
                 return this;
             }
 

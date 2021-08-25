@@ -279,17 +279,18 @@ public class Quantity extends Element {
         }
 
         /**
-         * Convenience method for setting unit.
-         * @see #unit(String)
+         * Convenience method for setting {@code unit}.
          * 
          * @param unit
          *     Unit representation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #unit(com.ibm.fhir.model.type.String)
          */
         public Builder unit(java.lang.String unit) {
-            this.unit = unit == null ? null : String.of(unit);
+            this.unit = (unit == null) ? null : String.of(unit);
             return this;
         }
 

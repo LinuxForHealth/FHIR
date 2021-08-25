@@ -1815,6 +1815,22 @@ public class DeviceRequest extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     Value of detail
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
              * The value of the device detail.
              * 
              * <p>This is a choice element with the following allowed types:

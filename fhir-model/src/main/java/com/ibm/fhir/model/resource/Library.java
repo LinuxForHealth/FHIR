@@ -1032,17 +1032,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1067,17 +1068,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this library (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1097,17 +1099,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this library (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1126,17 +1129,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting subtitle.
-         * @see #subtitle(String)
+         * Convenience method for setting {@code subtitle}.
          * 
          * @param subtitle
          *     Subordinate title of the library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
          */
         public Builder subtitle(java.lang.String subtitle) {
-            this.subtitle = subtitle == null ? null : String.of(subtitle);
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1171,17 +1175,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1258,17 +1263,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1421,17 +1427,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting usage.
-         * @see #usage(String)
+         * Convenience method for setting {@code usage}.
          * 
          * @param usage
          *     Describes the clinical usage of the library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
          */
         public Builder usage(java.lang.String usage) {
-            this.usage = usage == null ? null : String.of(usage);
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -1465,17 +1472,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting approvalDate.
-         * @see #approvalDate(Date)
+         * Convenience method for setting {@code approvalDate}.
          * 
          * @param approvalDate
          *     When the library was approved by publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
          */
         public Builder approvalDate(java.time.LocalDate approvalDate) {
-            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
             return this;
         }
 
@@ -1495,17 +1503,18 @@ public class Library extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lastReviewDate.
-         * @see #lastReviewDate(Date)
+         * Convenience method for setting {@code lastReviewDate}.
          * 
          * @param lastReviewDate
          *     When the library was last reviewed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
          */
         public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
-            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 

@@ -616,17 +616,18 @@ public class RelatedPerson extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this related person's record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -783,17 +784,18 @@ public class RelatedPerson extends DomainResource {
         }
 
         /**
-         * Convenience method for setting birthDate.
-         * @see #birthDate(Date)
+         * Convenience method for setting {@code birthDate}.
          * 
          * @param birthDate
          *     The date on which the related person was born
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #birthDate(com.ibm.fhir.model.type.Date)
          */
         public Builder birthDate(java.time.LocalDate birthDate) {
-            this.birthDate = birthDate == null ? null : Date.of(birthDate);
+            this.birthDate = (birthDate == null) ? null : Date.of(birthDate);
             return this;
         }
 
@@ -1218,17 +1220,18 @@ public class RelatedPerson extends DomainResource {
             }
 
             /**
-             * Convenience method for setting preferred.
-             * @see #preferred(Boolean)
+             * Convenience method for setting {@code preferred}.
              * 
              * @param preferred
              *     Language preference indicator
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
              */
             public Builder preferred(java.lang.Boolean preferred) {
-                this.preferred = preferred == null ? null : Boolean.of(preferred);
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
                 return this;
             }
 

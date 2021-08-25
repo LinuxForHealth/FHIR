@@ -593,17 +593,18 @@ public class TestReport extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Informal name of the executed TestScript
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -690,17 +691,18 @@ public class TestReport extends DomainResource {
         }
 
         /**
-         * Convenience method for setting tester.
-         * @see #tester(String)
+         * Convenience method for setting {@code tester}.
          * 
          * @param tester
          *     Name of the tester producing this report (Organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #tester(com.ibm.fhir.model.type.String)
          */
         public Builder tester(java.lang.String tester) {
-            this.tester = tester == null ? null : String.of(tester);
+            this.tester = (tester == null) ? null : String.of(tester);
             return this;
         }
 
@@ -1147,17 +1149,18 @@ public class TestReport extends DomainResource {
             }
 
             /**
-             * Convenience method for setting display.
-             * @see #display(String)
+             * Convenience method for setting {@code display}.
              * 
              * @param display
              *     The display name of the participant
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #display(com.ibm.fhir.model.type.String)
              */
             public Builder display(java.lang.String display) {
-                this.display = display == null ? null : String.of(display);
+                this.display = (display == null) ? null : String.of(display);
                 return this;
             }
 
@@ -2323,17 +2326,18 @@ public class TestReport extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting detail.
-                     * @see #detail(String)
+                     * Convenience method for setting {@code detail}.
                      * 
                      * @param detail
                      *     A link to further details on the result
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #detail(com.ibm.fhir.model.type.String)
                      */
                     public Builder detail(java.lang.String detail) {
-                        this.detail = detail == null ? null : String.of(detail);
+                        this.detail = (detail == null) ? null : String.of(detail);
                         return this;
                     }
 
@@ -2618,17 +2622,18 @@ public class TestReport extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Tracking/logging name of this test
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2647,17 +2652,18 @@ public class TestReport extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Tracking/reporting short description of the test
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

@@ -681,17 +681,18 @@ public class Invoice extends DomainResource {
         }
 
         /**
-         * Convenience method for setting cancelledReason.
-         * @see #cancelledReason(String)
+         * Convenience method for setting {@code cancelledReason}.
          * 
          * @param cancelledReason
          *     Reason for cancellation of this Invoice
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #cancelledReason(com.ibm.fhir.model.type.String)
          */
         public Builder cancelledReason(java.lang.String cancelledReason) {
-            this.cancelledReason = cancelledReason == null ? null : String.of(cancelledReason);
+            this.cancelledReason = (cancelledReason == null) ? null : String.of(cancelledReason);
             return this;
         }
 

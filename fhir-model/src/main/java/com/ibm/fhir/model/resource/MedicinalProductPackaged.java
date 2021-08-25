@@ -572,17 +572,18 @@ public class MedicinalProductPackaged extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Textual description
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 

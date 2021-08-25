@@ -424,8 +424,7 @@ public class SubstanceProtein extends DomainResource {
         }
 
         /**
-         * Convenience method for setting numberOfSubunits.
-         * @see #numberOfSubunits(Integer)
+         * Convenience method for setting {@code numberOfSubunits}.
          * 
          * @param numberOfSubunits
          *     Number of linear sequences of amino acids linked through peptide bonds. The number of subunits constituting the 
@@ -433,9 +432,11 @@ public class SubstanceProtein extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #numberOfSubunits(com.ibm.fhir.model.type.Integer)
          */
         public Builder numberOfSubunits(java.lang.Integer numberOfSubunits) {
-            this.numberOfSubunits = numberOfSubunits == null ? null : Integer.of(numberOfSubunits);
+            this.numberOfSubunits = (numberOfSubunits == null) ? null : Integer.of(numberOfSubunits);
             return this;
         }
 
@@ -456,8 +457,7 @@ public class SubstanceProtein extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disulfideLinkage.
-         * @see #disulfideLinkage(List<String>)
+         * Convenience method for setting {@code disulfideLinkage}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -469,10 +469,12 @@ public class SubstanceProtein extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disulfideLinkage(com.ibm.fhir.model.type.String)
          */
         public Builder disulfideLinkage(java.lang.String... disulfideLinkage) {
             for (java.lang.String value : disulfideLinkage) {
-                this.disulfideLinkage.add(value == null ? null : String.of(value));
+                this.disulfideLinkage.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -939,8 +941,7 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
-             * Convenience method for setting subunit.
-             * @see #subunit(Integer)
+             * Convenience method for setting {@code subunit}.
              * 
              * @param subunit
              *     Index of primary sequences of amino acids linked through peptide bonds in order of decreasing length. Sequences of the 
@@ -949,9 +950,11 @@ public class SubstanceProtein extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #subunit(com.ibm.fhir.model.type.Integer)
              */
             public Builder subunit(java.lang.Integer subunit) {
-                this.subunit = subunit == null ? null : Integer.of(subunit);
+                this.subunit = (subunit == null) ? null : Integer.of(subunit);
                 return this;
             }
 
@@ -974,8 +977,7 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
-             * Convenience method for setting sequence.
-             * @see #sequence(String)
+             * Convenience method for setting {@code sequence}.
              * 
              * @param sequence
              *     The sequence information shall be provided enumerating the amino acids from N- to C-terminal end using standard single-
@@ -986,9 +988,11 @@ public class SubstanceProtein extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #sequence(com.ibm.fhir.model.type.String)
              */
             public Builder sequence(java.lang.String sequence) {
-                this.sequence = sequence == null ? null : String.of(sequence);
+                this.sequence = (sequence == null) ? null : String.of(sequence);
                 return this;
             }
 
@@ -1015,17 +1019,18 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
-             * Convenience method for setting length.
-             * @see #length(Integer)
+             * Convenience method for setting {@code length}.
              * 
              * @param length
              *     Length of linear sequences of amino acids contained in the subunit
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #length(com.ibm.fhir.model.type.Integer)
              */
             public Builder length(java.lang.Integer length) {
-                this.length = length == null ? null : Integer.of(length);
+                this.length = (length == null) ? null : Integer.of(length);
                 return this;
             }
 
@@ -1080,17 +1085,18 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
-             * Convenience method for setting nTerminalModification.
-             * @see #nTerminalModification(String)
+             * Convenience method for setting {@code nTerminalModification}.
              * 
              * @param nTerminalModification
              *     The name of the fragment modified at the N-terminal of the SubstanceProtein shall be specified
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #nTerminalModification(com.ibm.fhir.model.type.String)
              */
             public Builder nTerminalModification(java.lang.String nTerminalModification) {
-                this.nTerminalModification = nTerminalModification == null ? null : String.of(nTerminalModification);
+                this.nTerminalModification = (nTerminalModification == null) ? null : String.of(nTerminalModification);
                 return this;
             }
 
@@ -1123,17 +1129,18 @@ public class SubstanceProtein extends DomainResource {
             }
 
             /**
-             * Convenience method for setting cTerminalModification.
-             * @see #cTerminalModification(String)
+             * Convenience method for setting {@code cTerminalModification}.
              * 
              * @param cTerminalModification
              *     The modification at the C-terminal shall be specified
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #cTerminalModification(com.ibm.fhir.model.type.String)
              */
             public Builder cTerminalModification(java.lang.String cTerminalModification) {
-                this.cTerminalModification = cTerminalModification == null ? null : String.of(cTerminalModification);
+                this.cTerminalModification = (cTerminalModification == null) ? null : String.of(cTerminalModification);
                 return this;
             }
 

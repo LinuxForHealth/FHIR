@@ -918,17 +918,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the search parameter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -950,8 +951,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -960,9 +960,11 @@ public class SearchParameter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1016,17 +1018,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1062,17 +1065,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1297,17 +1301,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting expression.
-         * @see #expression(String)
+         * Convenience method for setting {@code expression}.
          * 
          * @param expression
          *     FHIRPath expression that extracts the values
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #expression(com.ibm.fhir.model.type.String)
          */
         public Builder expression(java.lang.String expression) {
-            this.expression = expression == null ? null : String.of(expression);
+            this.expression = (expression == null) ? null : String.of(expression);
             return this;
         }
 
@@ -1326,17 +1331,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting xpath.
-         * @see #xpath(String)
+         * Convenience method for setting {@code xpath}.
          * 
          * @param xpath
          *     XPath that extracts the values
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #xpath(com.ibm.fhir.model.type.String)
          */
         public Builder xpath(java.lang.String xpath) {
-            this.xpath = xpath == null ? null : String.of(xpath);
+            this.xpath = (xpath == null) ? null : String.of(xpath);
             return this;
         }
 
@@ -1403,17 +1409,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting multipleOr.
-         * @see #multipleOr(Boolean)
+         * Convenience method for setting {@code multipleOr}.
          * 
          * @param multipleOr
          *     Allow multiple values per parameter (or)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #multipleOr(com.ibm.fhir.model.type.Boolean)
          */
         public Builder multipleOr(java.lang.Boolean multipleOr) {
-            this.multipleOr = multipleOr == null ? null : Boolean.of(multipleOr);
+            this.multipleOr = (multipleOr == null) ? null : Boolean.of(multipleOr);
             return this;
         }
 
@@ -1433,17 +1440,18 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting multipleAnd.
-         * @see #multipleAnd(Boolean)
+         * Convenience method for setting {@code multipleAnd}.
          * 
          * @param multipleAnd
          *     Allow multiple parameters (and)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #multipleAnd(com.ibm.fhir.model.type.Boolean)
          */
         public Builder multipleAnd(java.lang.Boolean multipleAnd) {
-            this.multipleAnd = multipleAnd == null ? null : Boolean.of(multipleAnd);
+            this.multipleAnd = (multipleAnd == null) ? null : Boolean.of(multipleAnd);
             return this;
         }
 
@@ -1531,8 +1539,7 @@ public class SearchParameter extends DomainResource {
         }
 
         /**
-         * Convenience method for setting chain.
-         * @see #chain(List<String>)
+         * Convenience method for setting {@code chain}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1541,10 +1548,12 @@ public class SearchParameter extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #chain(com.ibm.fhir.model.type.String)
          */
         public Builder chain(java.lang.String... chain) {
             for (java.lang.String value : chain) {
-                this.chain.add(value == null ? null : String.of(value));
+                this.chain.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1930,8 +1939,7 @@ public class SearchParameter extends DomainResource {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(String)
+             * Convenience method for setting {@code expression}.
              * 
              * <p>This element is required.
              * 
@@ -1940,9 +1948,11 @@ public class SearchParameter extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String expression) {
-                this.expression = expression == null ? null : String.of(expression);
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 

@@ -757,17 +757,18 @@ public class Location extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name of the location as used by humans
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -786,8 +787,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * Convenience method for setting alias.
-         * @see #alias(List<String>)
+         * Convenience method for setting {@code alias}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -796,10 +796,12 @@ public class Location extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
          */
         public Builder alias(java.lang.String... alias) {
             for (java.lang.String value : alias) {
-                this.alias.add(value == null ? null : String.of(value));
+                this.alias.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -839,8 +841,7 @@ public class Location extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Additional details about the location that could be displayed as further information to identify the location beyond 
@@ -848,9 +849,11 @@ public class Location extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1069,17 +1072,18 @@ public class Location extends DomainResource {
         }
 
         /**
-         * Convenience method for setting availabilityExceptions.
-         * @see #availabilityExceptions(String)
+         * Convenience method for setting {@code availabilityExceptions}.
          * 
          * @param availabilityExceptions
          *     Description of availability exceptions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #availabilityExceptions(com.ibm.fhir.model.type.String)
          */
         public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
-            this.availabilityExceptions = availabilityExceptions == null ? null : String.of(availabilityExceptions);
+            this.availabilityExceptions = (availabilityExceptions == null) ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -1798,17 +1802,18 @@ public class Location extends DomainResource {
             }
 
             /**
-             * Convenience method for setting allDay.
-             * @see #allDay(Boolean)
+             * Convenience method for setting {@code allDay}.
              * 
              * @param allDay
              *     The Location is open all day
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #allDay(com.ibm.fhir.model.type.Boolean)
              */
             public Builder allDay(java.lang.Boolean allDay) {
-                this.allDay = allDay == null ? null : Boolean.of(allDay);
+                this.allDay = (allDay == null) ? null : Boolean.of(allDay);
                 return this;
             }
 

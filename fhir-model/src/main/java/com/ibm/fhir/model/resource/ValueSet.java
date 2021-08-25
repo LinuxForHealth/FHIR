@@ -827,17 +827,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the value set
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -859,17 +860,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this value set (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -889,17 +891,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this value set (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -935,17 +938,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -979,17 +983,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1130,17 +1135,18 @@ public class ValueSet extends DomainResource {
         }
 
         /**
-         * Convenience method for setting immutable.
-         * @see #immutable(Boolean)
+         * Convenience method for setting {@code immutable}.
          * 
          * @param immutable
          *     Indicates whether or not any change to the content logical definition may occur
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #immutable(com.ibm.fhir.model.type.Boolean)
          */
         public Builder immutable(java.lang.Boolean immutable) {
-            this.immutable = immutable == null ? null : Boolean.of(immutable);
+            this.immutable = (immutable == null) ? null : Boolean.of(immutable);
             return this;
         }
 
@@ -1525,17 +1531,18 @@ public class ValueSet extends DomainResource {
             }
 
             /**
-             * Convenience method for setting lockedDate.
-             * @see #lockedDate(Date)
+             * Convenience method for setting {@code lockedDate}.
              * 
              * @param lockedDate
              *     Fixed date for references with no specified version (transitive)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #lockedDate(com.ibm.fhir.model.type.Date)
              */
             public Builder lockedDate(java.time.LocalDate lockedDate) {
-                this.lockedDate = lockedDate == null ? null : Date.of(lockedDate);
+                this.lockedDate = (lockedDate == null) ? null : Date.of(lockedDate);
                 return this;
             }
 
@@ -1555,17 +1562,18 @@ public class ValueSet extends DomainResource {
             }
 
             /**
-             * Convenience method for setting inactive.
-             * @see #inactive(Boolean)
+             * Convenience method for setting {@code inactive}.
              * 
              * @param inactive
              *     Whether inactive codes are in the value set
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #inactive(com.ibm.fhir.model.type.Boolean)
              */
             public Builder inactive(java.lang.Boolean inactive) {
-                this.inactive = inactive == null ? null : Boolean.of(inactive);
+                this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                 return this;
             }
 
@@ -1978,17 +1986,18 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting version.
-                 * @see #version(String)
+                 * Convenience method for setting {@code version}.
                  * 
                  * @param version
                  *     Specific version of the code system referred to
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #version(com.ibm.fhir.model.type.String)
                  */
                 public Builder version(java.lang.String version) {
-                    this.version = version == null ? null : String.of(version);
+                    this.version = (version == null) ? null : String.of(version);
                     return this;
                 }
 
@@ -2395,17 +2404,18 @@ public class ValueSet extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting display.
-                     * @see #display(String)
+                     * Convenience method for setting {@code display}.
                      * 
                      * @param display
                      *     Text to display for this code for this value set in this valueset
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #display(com.ibm.fhir.model.type.String)
                      */
                     public Builder display(java.lang.String display) {
-                        this.display = display == null ? null : String.of(display);
+                        this.display = (display == null) ? null : String.of(display);
                         return this;
                     }
 
@@ -2767,8 +2777,7 @@ public class ValueSet extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting value.
-                         * @see #value(String)
+                         * Convenience method for setting {@code value}.
                          * 
                          * <p>This element is required.
                          * 
@@ -2777,9 +2786,11 @@ public class ValueSet extends DomainResource {
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
                          */
                         public Builder value(java.lang.String value) {
-                            this.value = value == null ? null : String.of(value);
+                            this.value = (value == null) ? null : String.of(value);
                             return this;
                         }
 
@@ -3113,8 +3124,7 @@ public class ValueSet extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting value.
-                     * @see #value(String)
+                     * Convenience method for setting {@code value}.
                      * 
                      * <p>This element is required.
                      * 
@@ -3123,9 +3133,11 @@ public class ValueSet extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #value(com.ibm.fhir.model.type.String)
                      */
                     public Builder value(java.lang.String value) {
-                        this.value = value == null ? null : String.of(value);
+                        this.value = (value == null) ? null : String.of(value);
                         return this;
                     }
 
@@ -3510,17 +3522,18 @@ public class ValueSet extends DomainResource {
             }
 
             /**
-             * Convenience method for setting total.
-             * @see #total(Integer)
+             * Convenience method for setting {@code total}.
              * 
              * @param total
              *     Total number of codes in the expansion
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #total(com.ibm.fhir.model.type.Integer)
              */
             public Builder total(java.lang.Integer total) {
-                this.total = total == null ? null : Integer.of(total);
+                this.total = (total == null) ? null : Integer.of(total);
                 return this;
             }
 
@@ -3540,17 +3553,18 @@ public class ValueSet extends DomainResource {
             }
 
             /**
-             * Convenience method for setting offset.
-             * @see #offset(Integer)
+             * Convenience method for setting {@code offset}.
              * 
              * @param offset
              *     Offset at which this resource starts
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #offset(com.ibm.fhir.model.type.Integer)
              */
             public Builder offset(java.lang.Integer offset) {
-                this.offset = offset == null ? null : Integer.of(offset);
+                this.offset = (offset == null) ? null : Integer.of(offset);
                 return this;
             }
 
@@ -3894,8 +3908,7 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting name.
-                 * @see #name(String)
+                 * Convenience method for setting {@code name}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3904,9 +3917,11 @@ public class ValueSet extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
                  */
                 public Builder name(java.lang.String name) {
-                    this.name = name == null ? null : String.of(name);
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -3924,6 +3939,54 @@ public class ValueSet extends DomainResource {
                  */
                 public Builder name(String name) {
                     this.name = name;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * @param value
+                 *     Value of the named parameter
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
                     return this;
                 }
 
@@ -4322,17 +4385,18 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting _abstract.
-                 * @see #_abstract(Boolean)
+                 * Convenience method for setting {@code _abstract}.
                  * 
                  * @param _abstract
                  *     If user cannot select this entry
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #_abstract(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder _abstract(java.lang.Boolean _abstract) {
-                    this._abstract = _abstract == null ? null : Boolean.of(_abstract);
+                    this._abstract = (_abstract == null) ? null : Boolean.of(_abstract);
                     return this;
                 }
 
@@ -4352,17 +4416,18 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting inactive.
-                 * @see #inactive(Boolean)
+                 * Convenience method for setting {@code inactive}.
                  * 
                  * @param inactive
                  *     If concept is inactive in the code system
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #inactive(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder inactive(java.lang.Boolean inactive) {
-                    this.inactive = inactive == null ? null : Boolean.of(inactive);
+                    this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                     return this;
                 }
 
@@ -4383,17 +4448,18 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting version.
-                 * @see #version(String)
+                 * Convenience method for setting {@code version}.
                  * 
                  * @param version
                  *     Version in which this code/display is defined
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #version(com.ibm.fhir.model.type.String)
                  */
                 public Builder version(java.lang.String version) {
-                    this.version = version == null ? null : String.of(version);
+                    this.version = (version == null) ? null : String.of(version);
                     return this;
                 }
 
@@ -4429,17 +4495,18 @@ public class ValueSet extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting display.
-                 * @see #display(String)
+                 * Convenience method for setting {@code display}.
                  * 
                  * @param display
                  *     User display for the concept
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
                  */
                 public Builder display(java.lang.String display) {
-                    this.display = display == null ? null : String.of(display);
+                    this.display = (display == null) ? null : String.of(display);
                     return this;
                 }
 

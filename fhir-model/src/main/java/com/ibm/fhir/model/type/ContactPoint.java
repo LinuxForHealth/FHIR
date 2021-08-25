@@ -272,17 +272,18 @@ public class ContactPoint extends Element {
         }
 
         /**
-         * Convenience method for setting value.
-         * @see #value(String)
+         * Convenience method for setting {@code value}.
          * 
          * @param value
          *     The actual contact point details
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #value(com.ibm.fhir.model.type.String)
          */
         public Builder value(java.lang.String value) {
-            this.value = value == null ? null : String.of(value);
+            this.value = (value == null) ? null : String.of(value);
             return this;
         }
 

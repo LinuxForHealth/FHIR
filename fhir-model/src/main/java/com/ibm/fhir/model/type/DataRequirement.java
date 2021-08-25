@@ -421,8 +421,7 @@ public class DataRequirement extends Element {
         }
 
         /**
-         * Convenience method for setting mustSupport.
-         * @see #mustSupport(List<String>)
+         * Convenience method for setting {@code mustSupport}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -431,10 +430,12 @@ public class DataRequirement extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #mustSupport(com.ibm.fhir.model.type.String)
          */
         public Builder mustSupport(java.lang.String... mustSupport) {
             for (java.lang.String value : mustSupport) {
-                this.mustSupport.add(value == null ? null : String.of(value));
+                this.mustSupport.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -909,17 +910,18 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * @param path
              *     A code-valued attribute to filter on
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -942,17 +944,18 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * Convenience method for setting searchParam.
-             * @see #searchParam(String)
+             * Convenience method for setting {@code searchParam}.
              * 
              * @param searchParam
              *     A coded (token) parameter to search on
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #searchParam(com.ibm.fhir.model.type.String)
              */
             public Builder searchParam(java.lang.String searchParam) {
-                this.searchParam = searchParam == null ? null : String.of(searchParam);
+                this.searchParam = (searchParam == null) ? null : String.of(searchParam);
                 return this;
             }
 
@@ -1296,17 +1299,18 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * @param path
              *     A date-valued attribute to filter on
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -1329,17 +1333,18 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * Convenience method for setting searchParam.
-             * @see #searchParam(String)
+             * Convenience method for setting {@code searchParam}.
              * 
              * @param searchParam
              *     A date valued parameter to search on
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #searchParam(com.ibm.fhir.model.type.String)
              */
             public Builder searchParam(java.lang.String searchParam) {
-                this.searchParam = searchParam == null ? null : String.of(searchParam);
+                this.searchParam = (searchParam == null) ? null : String.of(searchParam);
                 return this;
             }
 
@@ -1634,8 +1639,7 @@ public class DataRequirement extends Element {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * <p>This element is required.
              * 
@@ -1644,9 +1648,11 @@ public class DataRequirement extends Element {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 

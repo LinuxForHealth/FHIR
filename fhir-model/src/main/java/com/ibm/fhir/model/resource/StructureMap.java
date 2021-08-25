@@ -819,17 +819,18 @@ public class StructureMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the structure map
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -851,8 +852,7 @@ public class StructureMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -861,9 +861,11 @@ public class StructureMap extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -885,17 +887,18 @@ public class StructureMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this structure map (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -930,17 +933,18 @@ public class StructureMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -976,17 +980,18 @@ public class StructureMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1611,17 +1616,18 @@ public class StructureMap extends DomainResource {
             }
 
             /**
-             * Convenience method for setting alias.
-             * @see #alias(String)
+             * Convenience method for setting {@code alias}.
              * 
              * @param alias
              *     Name for type in this map
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #alias(com.ibm.fhir.model.type.String)
              */
             public Builder alias(java.lang.String alias) {
-                this.alias = alias == null ? null : String.of(alias);
+                this.alias = (alias == null) ? null : String.of(alias);
                 return this;
             }
 
@@ -1640,17 +1646,18 @@ public class StructureMap extends DomainResource {
             }
 
             /**
-             * Convenience method for setting documentation.
-             * @see #documentation(String)
+             * Convenience method for setting {@code documentation}.
              * 
              * @param documentation
              *     Documentation on use of structure
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
              */
             public Builder documentation(java.lang.String documentation) {
-                this.documentation = documentation == null ? null : String.of(documentation);
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 
@@ -2048,17 +2055,18 @@ public class StructureMap extends DomainResource {
             }
 
             /**
-             * Convenience method for setting documentation.
-             * @see #documentation(String)
+             * Convenience method for setting {@code documentation}.
              * 
              * @param documentation
              *     Additional description/explanation for group
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
              */
             public Builder documentation(java.lang.String documentation) {
-                this.documentation = documentation == null ? null : String.of(documentation);
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 
@@ -2468,17 +2476,18 @@ public class StructureMap extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting type.
-                 * @see #type(String)
+                 * Convenience method for setting {@code type}.
                  * 
                  * @param type
                  *     Type for this instance of data
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #type(com.ibm.fhir.model.type.String)
                  */
                 public Builder type(java.lang.String type) {
-                    this.type = type == null ? null : String.of(type);
+                    this.type = (type == null) ? null : String.of(type);
                     return this;
                 }
 
@@ -2513,17 +2522,18 @@ public class StructureMap extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting documentation.
-                 * @see #documentation(String)
+                 * Convenience method for setting {@code documentation}.
                  * 
                  * @param documentation
                  *     Documentation for this instance of data
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #documentation(com.ibm.fhir.model.type.String)
                  */
                 public Builder documentation(java.lang.String documentation) {
-                    this.documentation = documentation == null ? null : String.of(documentation);
+                    this.documentation = (documentation == null) ? null : String.of(documentation);
                     return this;
                 }
 
@@ -3022,17 +3032,18 @@ public class StructureMap extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting documentation.
-                 * @see #documentation(String)
+                 * Convenience method for setting {@code documentation}.
                  * 
                  * @param documentation
                  *     Documentation for this instance of data
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #documentation(com.ibm.fhir.model.type.String)
                  */
                 public Builder documentation(java.lang.String documentation) {
-                    this.documentation = documentation == null ? null : String.of(documentation);
+                    this.documentation = (documentation == null) ? null : String.of(documentation);
                     return this;
                 }
 
@@ -3495,17 +3506,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting min.
-                     * @see #min(Integer)
+                     * Convenience method for setting {@code min}.
                      * 
                      * @param min
                      *     Specified minimum cardinality
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #min(com.ibm.fhir.model.type.Integer)
                      */
                     public Builder min(java.lang.Integer min) {
-                        this.min = min == null ? null : Integer.of(min);
+                        this.min = (min == null) ? null : Integer.of(min);
                         return this;
                     }
 
@@ -3525,17 +3537,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting max.
-                     * @see #max(String)
+                     * Convenience method for setting {@code max}.
                      * 
                      * @param max
                      *     Specified maximum cardinality (number or *)
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #max(com.ibm.fhir.model.type.String)
                      */
                     public Builder max(java.lang.String max) {
-                        this.max = max == null ? null : String.of(max);
+                        this.max = (max == null) ? null : String.of(max);
                         return this;
                     }
 
@@ -3555,17 +3568,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting type.
-                     * @see #type(String)
+                     * Convenience method for setting {@code type}.
                      * 
                      * @param type
                      *     Rule only applies if source has this type
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #type(com.ibm.fhir.model.type.String)
                      */
                     public Builder type(java.lang.String type) {
-                        this.type = type == null ? null : String.of(type);
+                        this.type = (type == null) ? null : String.of(type);
                         return this;
                     }
 
@@ -3580,6 +3594,86 @@ public class StructureMap extends DomainResource {
                      */
                     public Builder type(String type) {
                         this.type = type;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Boolean.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.Boolean defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Boolean.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Date.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.time.LocalDate defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Date.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Instant.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.time.ZonedDateTime defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Instant.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type Integer.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.Integer defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : Integer.of(defaultValue);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code defaultValue} with choice type String.
+                     * 
+                     * @param defaultValue
+                     *     Default value if no value exists
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #defaultValue(Element)
+                     */
+                    public Builder defaultValue(java.lang.String defaultValue) {
+                        this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
                         return this;
                     }
 
@@ -3652,17 +3746,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting element.
-                     * @see #element(String)
+                     * Convenience method for setting {@code element}.
                      * 
                      * @param element
                      *     Optional field for this source
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #element(com.ibm.fhir.model.type.String)
                      */
                     public Builder element(java.lang.String element) {
-                        this.element = element == null ? null : String.of(element);
+                        this.element = (element == null) ? null : String.of(element);
                         return this;
                     }
 
@@ -3709,17 +3804,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting condition.
-                     * @see #condition(String)
+                     * Convenience method for setting {@code condition}.
                      * 
                      * @param condition
                      *     FHIRPath expression - must be true or the rule does not apply
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #condition(com.ibm.fhir.model.type.String)
                      */
                     public Builder condition(java.lang.String condition) {
-                        this.condition = condition == null ? null : String.of(condition);
+                        this.condition = (condition == null) ? null : String.of(condition);
                         return this;
                     }
 
@@ -3738,17 +3834,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting check.
-                     * @see #check(String)
+                     * Convenience method for setting {@code check}.
                      * 
                      * @param check
                      *     FHIRPath expression - must be true or the mapping engine throws an error instead of completing
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #check(com.ibm.fhir.model.type.String)
                      */
                     public Builder check(java.lang.String check) {
-                        this.check = check == null ? null : String.of(check);
+                        this.check = (check == null) ? null : String.of(check);
                         return this;
                     }
 
@@ -3767,17 +3864,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting logMessage.
-                     * @see #logMessage(String)
+                     * Convenience method for setting {@code logMessage}.
                      * 
                      * @param logMessage
                      *     Message to put in log if source exists (FHIRPath)
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #logMessage(com.ibm.fhir.model.type.String)
                      */
                     public Builder logMessage(java.lang.String logMessage) {
-                        this.logMessage = logMessage == null ? null : String.of(logMessage);
+                        this.logMessage = (logMessage == null) ? null : String.of(logMessage);
                         return this;
                     }
 
@@ -4208,17 +4306,18 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting element.
-                     * @see #element(String)
+                     * Convenience method for setting {@code element}.
                      * 
                      * @param element
                      *     Field to create in the context
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #element(com.ibm.fhir.model.type.String)
                      */
                     public Builder element(java.lang.String element) {
-                        this.element = element == null ? null : String.of(element);
+                        this.element = (element == null) ? null : String.of(element);
                         return this;
                     }
 
@@ -4579,6 +4678,60 @@ public class StructureMap extends DomainResource {
                         }
 
                         /**
+                         * Convenience method for setting {@code value} with choice type String.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.String value) {
+                            this.value = (value == null) ? null : String.of(value);
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value} with choice type Boolean.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.Boolean value) {
+                            this.value = (value == null) ? null : Boolean.of(value);
+                            return this;
+                        }
+
+                        /**
+                         * Convenience method for setting {@code value} with choice type Integer.
+                         * 
+                         * <p>This element is required.
+                         * 
+                         * @param value
+                         *     Parameter value - variable or literal
+                         * 
+                         * @return
+                         *     A reference to this Builder instance
+                         * 
+                         * @see #value(Element)
+                         */
+                        public Builder value(java.lang.Integer value) {
+                            this.value = (value == null) ? null : Integer.of(value);
+                            return this;
+                        }
+
+                        /**
                          * Parameter value - variable or literal.
                          * 
                          * <p>This element is required.
@@ -4869,8 +5022,7 @@ public class StructureMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting variable.
-                     * @see #variable(List<String>)
+                     * Convenience method for setting {@code variable}.
                      * 
                      * <p>Adds new element(s) to the existing list
                      * 
@@ -4881,10 +5033,12 @@ public class StructureMap extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #variable(com.ibm.fhir.model.type.String)
                      */
                     public Builder variable(java.lang.String... variable) {
                         for (java.lang.String value : variable) {
-                            this.variable.add(value == null ? null : String.of(value));
+                            this.variable.add((value == null) ? null : String.of(value));
                         }
                         return this;
                     }

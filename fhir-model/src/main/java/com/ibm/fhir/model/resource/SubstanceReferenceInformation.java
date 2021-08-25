@@ -417,17 +417,18 @@ public class SubstanceReferenceInformation extends DomainResource {
         }
 
         /**
-         * Convenience method for setting comment.
-         * @see #comment(String)
+         * Convenience method for setting {@code comment}.
          * 
          * @param comment
          *     Todo
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
          */
         public Builder comment(java.lang.String comment) {
-            this.comment = comment == null ? null : String.of(comment);
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 
@@ -2063,6 +2064,22 @@ public class SubstanceReferenceInformation extends DomainResource {
              */
             public Builder organismType(CodeableConcept organismType) {
                 this.organismType = organismType;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Todo
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 

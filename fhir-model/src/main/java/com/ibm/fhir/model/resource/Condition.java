@@ -943,6 +943,22 @@ public class Condition extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code onset} with choice type String.
+         * 
+         * @param onset
+         *     Estimated or actual date, date-time, or age
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #onset(Element)
+         */
+        public Builder onset(java.lang.String onset) {
+            this.onset = (onset == null) ? null : String.of(onset);
+            return this;
+        }
+
+        /**
          * Estimated or actual date or date-time the condition began, in the opinion of the clinician.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -962,6 +978,22 @@ public class Condition extends DomainResource {
          */
         public Builder onset(Element onset) {
             this.onset = onset;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code abatement} with choice type String.
+         * 
+         * @param abatement
+         *     When in resolution/remission
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #abatement(Element)
+         */
+        public Builder abatement(java.lang.String abatement) {
+            this.abatement = (abatement == null) ? null : String.of(abatement);
             return this;
         }
 

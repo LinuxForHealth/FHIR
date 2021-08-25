@@ -252,17 +252,18 @@ public class Reference extends Element {
         }
 
         /**
-         * Convenience method for setting reference.
-         * @see #reference(String)
+         * Convenience method for setting {@code reference}.
          * 
          * @param reference
          *     Literal reference, Relative, internal or absolute URL
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #reference(com.ibm.fhir.model.type.String)
          */
         public Builder reference(java.lang.String reference) {
-            this.reference = reference == null ? null : String.of(reference);
+            this.reference = (reference == null) ? null : String.of(reference);
             return this;
         }
 
@@ -323,17 +324,18 @@ public class Reference extends Element {
         }
 
         /**
-         * Convenience method for setting display.
-         * @see #display(String)
+         * Convenience method for setting {@code display}.
          * 
          * @param display
          *     Text alternative for the resource
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #display(com.ibm.fhir.model.type.String)
          */
         public Builder display(java.lang.String display) {
-            this.display = display == null ? null : String.of(display);
+            this.display = (display == null) ? null : String.of(display);
             return this;
         }
 

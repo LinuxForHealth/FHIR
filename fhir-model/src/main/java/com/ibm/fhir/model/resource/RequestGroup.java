@@ -1798,17 +1798,18 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * Convenience method for setting prefix.
-             * @see #prefix(String)
+             * Convenience method for setting {@code prefix}.
              * 
              * @param prefix
              *     User-visible prefix for the action (e.g. 1. or A.)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #prefix(com.ibm.fhir.model.type.String)
              */
             public Builder prefix(java.lang.String prefix) {
-                this.prefix = prefix == null ? null : String.of(prefix);
+                this.prefix = (prefix == null) ? null : String.of(prefix);
                 return this;
             }
 
@@ -1827,17 +1828,18 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * Convenience method for setting title.
-             * @see #title(String)
+             * Convenience method for setting {@code title}.
              * 
              * @param title
              *     User-visible title
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #title(com.ibm.fhir.model.type.String)
              */
             public Builder title(java.lang.String title) {
-                this.title = title == null ? null : String.of(title);
+                this.title = (title == null) ? null : String.of(title);
                 return this;
             }
 
@@ -1856,17 +1858,18 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Short description of the action
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1885,17 +1888,18 @@ public class RequestGroup extends DomainResource {
             }
 
             /**
-             * Convenience method for setting textEquivalent.
-             * @see #textEquivalent(String)
+             * Convenience method for setting {@code textEquivalent}.
              * 
              * @param textEquivalent
              *     Static text equivalent of the action, used if the dynamic aspects cannot be interpreted by the receiving system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #textEquivalent(com.ibm.fhir.model.type.String)
              */
             public Builder textEquivalent(java.lang.String textEquivalent) {
-                this.textEquivalent = textEquivalent == null ? null : String.of(textEquivalent);
+                this.textEquivalent = (textEquivalent == null) ? null : String.of(textEquivalent);
                 return this;
             }
 

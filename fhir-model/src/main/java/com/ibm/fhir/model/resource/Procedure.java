@@ -1231,6 +1231,22 @@ public class Procedure extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code performed} with choice type String.
+         * 
+         * @param performed
+         *     When the procedure was performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #performed(Element)
+         */
+        public Builder performed(java.lang.String performed) {
+            this.performed = (performed == null) ? null : String.of(performed);
+            return this;
+        }
+
+        /**
          * Estimated or actual date, date-time, period, or age when the procedure was performed. Allows a period to support 
          * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
          * 

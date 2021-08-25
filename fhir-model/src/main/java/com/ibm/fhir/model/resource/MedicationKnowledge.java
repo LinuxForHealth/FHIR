@@ -833,8 +833,7 @@ public class MedicationKnowledge extends DomainResource {
         }
 
         /**
-         * Convenience method for setting synonym.
-         * @see #synonym(List<String>)
+         * Convenience method for setting {@code synonym}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -843,10 +842,12 @@ public class MedicationKnowledge extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #synonym(com.ibm.fhir.model.type.String)
          */
         public Builder synonym(java.lang.String... synonym) {
             for (java.lang.String value : synonym) {
-                this.synonym.add(value == null ? null : String.of(value));
+                this.synonym.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -2333,17 +2334,18 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
-             * Convenience method for setting isActive.
-             * @see #isActive(Boolean)
+             * Convenience method for setting {@code isActive}.
              * 
              * @param isActive
              *     Active ingredient indicator
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #isActive(com.ibm.fhir.model.type.Boolean)
              */
             public Builder isActive(java.lang.Boolean isActive) {
-                this.isActive = isActive == null ? null : Boolean.of(isActive);
+                this.isActive = (isActive == null) ? null : Boolean.of(isActive);
                 return this;
             }
 
@@ -2661,17 +2663,18 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
-             * Convenience method for setting source.
-             * @see #source(String)
+             * Convenience method for setting {@code source}.
              * 
              * @param source
              *     The source or owner for the price information
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #source(com.ibm.fhir.model.type.String)
              */
             public Builder source(java.lang.String source) {
-                this.source = source == null ? null : String.of(source);
+                this.source = (source == null) ? null : String.of(source);
                 return this;
             }
 
@@ -2968,17 +2971,18 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Name of the reviewing program
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -3922,8 +3926,7 @@ public class MedicationKnowledge extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting value.
-                 * @see #value(List<String>)
+                 * Convenience method for setting {@code value}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3932,10 +3935,12 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #value(com.ibm.fhir.model.type.String)
                  */
                 public Builder value(java.lang.String... value) {
                     for (java.lang.String _value : value) {
-                        this.value.add(_value == null ? null : String.of(_value));
+                        this.value.add((_value == null) ? null : String.of(_value));
                     }
                     return this;
                 }
@@ -4815,6 +4820,22 @@ public class MedicationKnowledge extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * @param value
+             *     Description of the characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
              * Description of the characteristic.
              * 
              * <p>This is a choice element with the following allowed types:
@@ -5483,8 +5504,7 @@ public class MedicationKnowledge extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting allowed.
-                 * @see #allowed(Boolean)
+                 * Convenience method for setting {@code allowed}.
                  * 
                  * <p>This element is required.
                  * 
@@ -5493,9 +5513,11 @@ public class MedicationKnowledge extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #allowed(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder allowed(java.lang.Boolean allowed) {
-                    this.allowed = allowed == null ? null : Boolean.of(allowed);
+                    this.allowed = (allowed == null) ? null : Boolean.of(allowed);
                     return this;
                 }
 

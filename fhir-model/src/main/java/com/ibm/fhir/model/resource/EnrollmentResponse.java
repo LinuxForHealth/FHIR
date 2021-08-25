@@ -559,17 +559,18 @@ public class EnrollmentResponse extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disposition.
-         * @see #disposition(String)
+         * Convenience method for setting {@code disposition}.
          * 
          * @param disposition
          *     Disposition Message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
          */
         public Builder disposition(java.lang.String disposition) {
-            this.disposition = disposition == null ? null : String.of(disposition);
+            this.disposition = (disposition == null) ? null : String.of(disposition);
             return this;
         }
 

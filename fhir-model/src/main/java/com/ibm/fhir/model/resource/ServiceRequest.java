@@ -1332,17 +1332,18 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * Convenience method for setting doNotPerform.
-         * @see #doNotPerform(Boolean)
+         * Convenience method for setting {@code doNotPerform}.
          * 
          * @param doNotPerform
          *     True if service/procedure should not be performed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
          */
         public Builder doNotPerform(java.lang.Boolean doNotPerform) {
-            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
             return this;
         }
 
@@ -1497,6 +1498,22 @@ public class ServiceRequest extends DomainResource {
          */
         public Builder occurrence(Element occurrence) {
             this.occurrence = occurrence;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code asNeeded} with choice type Boolean.
+         * 
+         * @param asNeeded
+         *     Preconditions for service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #asNeeded(Element)
+         */
+        public Builder asNeeded(java.lang.Boolean asNeeded) {
+            this.asNeeded = (asNeeded == null) ? null : Boolean.of(asNeeded);
             return this;
         }
 
@@ -2004,17 +2021,18 @@ public class ServiceRequest extends DomainResource {
         }
 
         /**
-         * Convenience method for setting patientInstruction.
-         * @see #patientInstruction(String)
+         * Convenience method for setting {@code patientInstruction}.
          * 
          * @param patientInstruction
          *     Patient or consumer-oriented instructions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #patientInstruction(com.ibm.fhir.model.type.String)
          */
         public Builder patientInstruction(java.lang.String patientInstruction) {
-            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
+            this.patientInstruction = (patientInstruction == null) ? null : String.of(patientInstruction);
             return this;
         }
 

@@ -815,17 +815,18 @@ public class Coverage extends DomainResource {
         }
 
         /**
-         * Convenience method for setting subscriberId.
-         * @see #subscriberId(String)
+         * Convenience method for setting {@code subscriberId}.
          * 
          * @param subscriberId
          *     ID assigned to the subscriber
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #subscriberId(com.ibm.fhir.model.type.String)
          */
         public Builder subscriberId(java.lang.String subscriberId) {
-            this.subscriberId = subscriberId == null ? null : String.of(subscriberId);
+            this.subscriberId = (subscriberId == null) ? null : String.of(subscriberId);
             return this;
         }
 
@@ -865,17 +866,18 @@ public class Coverage extends DomainResource {
         }
 
         /**
-         * Convenience method for setting dependent.
-         * @see #dependent(String)
+         * Convenience method for setting {@code dependent}.
          * 
          * @param dependent
          *     Dependent number
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #dependent(com.ibm.fhir.model.type.String)
          */
         public Builder dependent(java.lang.String dependent) {
-            this.dependent = dependent == null ? null : String.of(dependent);
+            this.dependent = (dependent == null) ? null : String.of(dependent);
             return this;
         }
 
@@ -1027,17 +1029,18 @@ public class Coverage extends DomainResource {
         }
 
         /**
-         * Convenience method for setting network.
-         * @see #network(String)
+         * Convenience method for setting {@code network}.
          * 
          * @param network
          *     Insurer network
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #network(com.ibm.fhir.model.type.String)
          */
         public Builder network(java.lang.String network) {
-            this.network = network == null ? null : String.of(network);
+            this.network = (network == null) ? null : String.of(network);
             return this;
         }
 
@@ -1093,17 +1096,18 @@ public class Coverage extends DomainResource {
         }
 
         /**
-         * Convenience method for setting subrogation.
-         * @see #subrogation(Boolean)
+         * Convenience method for setting {@code subrogation}.
          * 
          * @param subrogation
          *     Reimbursement to insurer
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #subrogation(com.ibm.fhir.model.type.Boolean)
          */
         public Builder subrogation(java.lang.Boolean subrogation) {
-            this.subrogation = subrogation == null ? null : Boolean.of(subrogation);
+            this.subrogation = (subrogation == null) ? null : Boolean.of(subrogation);
             return this;
         }
 
@@ -1484,8 +1488,7 @@ public class Coverage extends DomainResource {
             }
 
             /**
-             * Convenience method for setting value.
-             * @see #value(String)
+             * Convenience method for setting {@code value}.
              * 
              * <p>This element is required.
              * 
@@ -1494,9 +1497,11 @@ public class Coverage extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #value(com.ibm.fhir.model.type.String)
              */
             public Builder value(java.lang.String value) {
-                this.value = value == null ? null : String.of(value);
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
@@ -1517,17 +1522,18 @@ public class Coverage extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Human readable description of the type and value
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 

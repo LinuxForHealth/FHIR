@@ -752,8 +752,7 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * Convenience method for setting recorded.
-         * @see #recorded(Instant)
+         * Convenience method for setting {@code recorded}.
          * 
          * <p>This element is required.
          * 
@@ -762,9 +761,11 @@ public class AuditEvent extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #recorded(com.ibm.fhir.model.type.Instant)
          */
         public Builder recorded(java.time.ZonedDateTime recorded) {
-            this.recorded = recorded == null ? null : Instant.of(recorded);
+            this.recorded = (recorded == null) ? null : Instant.of(recorded);
             return this;
         }
 
@@ -799,17 +800,18 @@ public class AuditEvent extends DomainResource {
         }
 
         /**
-         * Convenience method for setting outcomeDesc.
-         * @see #outcomeDesc(String)
+         * Convenience method for setting {@code outcomeDesc}.
          * 
          * @param outcomeDesc
          *     Description of the event outcome
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #outcomeDesc(com.ibm.fhir.model.type.String)
          */
         public Builder outcomeDesc(java.lang.String outcomeDesc) {
-            this.outcomeDesc = outcomeDesc == null ? null : String.of(outcomeDesc);
+            this.outcomeDesc = (outcomeDesc == null) ? null : String.of(outcomeDesc);
             return this;
         }
 
@@ -1471,17 +1473,18 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting altId.
-             * @see #altId(String)
+             * Convenience method for setting {@code altId}.
              * 
              * @param altId
              *     Alternative User identity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #altId(com.ibm.fhir.model.type.String)
              */
             public Builder altId(java.lang.String altId) {
-                this.altId = altId == null ? null : String.of(altId);
+                this.altId = (altId == null) ? null : String.of(altId);
                 return this;
             }
 
@@ -1501,17 +1504,18 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Human friendly name for the agent
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1530,8 +1534,7 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting requestor.
-             * @see #requestor(Boolean)
+             * Convenience method for setting {@code requestor}.
              * 
              * <p>This element is required.
              * 
@@ -1540,9 +1543,11 @@ public class AuditEvent extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #requestor(com.ibm.fhir.model.type.Boolean)
              */
             public Builder requestor(java.lang.Boolean requestor) {
-                this.requestor = requestor == null ? null : Boolean.of(requestor);
+                this.requestor = (requestor == null) ? null : Boolean.of(requestor);
                 return this;
             }
 
@@ -1946,17 +1951,18 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting address.
-                 * @see #address(String)
+                 * Convenience method for setting {@code address}.
                  * 
                  * @param address
                  *     Identifier for the network access point of the user device
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #address(com.ibm.fhir.model.type.String)
                  */
                 public Builder address(java.lang.String address) {
-                    this.address = address == null ? null : String.of(address);
+                    this.address = (address == null) ? null : String.of(address);
                     return this;
                 }
 
@@ -2256,17 +2262,18 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting site.
-             * @see #site(String)
+             * Convenience method for setting {@code site}.
              * 
              * @param site
              *     Logical source location within the enterprise
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #site(com.ibm.fhir.model.type.String)
              */
             public Builder site(java.lang.String site) {
-                this.site = site == null ? null : String.of(site);
+                this.site = (site == null) ? null : String.of(site);
                 return this;
             }
 
@@ -2830,17 +2837,18 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Descriptor for entity
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2859,17 +2867,18 @@ public class AuditEvent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Descriptive text
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -3186,8 +3195,7 @@ public class AuditEvent extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting type.
-                 * @see #type(String)
+                 * Convenience method for setting {@code type}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3196,9 +3204,11 @@ public class AuditEvent extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #type(com.ibm.fhir.model.type.String)
                  */
                 public Builder type(java.lang.String type) {
-                    this.type = type == null ? null : String.of(type);
+                    this.type = (type == null) ? null : String.of(type);
                     return this;
                 }
 
@@ -3215,6 +3225,24 @@ public class AuditEvent extends DomainResource {
                  */
                 public Builder type(String type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Property value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
                     return this;
                 }
 

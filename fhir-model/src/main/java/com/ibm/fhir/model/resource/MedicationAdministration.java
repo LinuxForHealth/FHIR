@@ -1997,17 +1997,18 @@ public class MedicationAdministration extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Free text dosage instructions e.g. SIG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 

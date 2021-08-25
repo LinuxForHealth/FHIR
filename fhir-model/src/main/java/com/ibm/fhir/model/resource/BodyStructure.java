@@ -526,17 +526,18 @@ public class BodyStructure extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -620,17 +621,18 @@ public class BodyStructure extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Text description
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 

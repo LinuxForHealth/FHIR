@@ -293,17 +293,18 @@ public class TriggerDefinition extends Element {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name or URI that identifies the event
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -319,6 +320,22 @@ public class TriggerDefinition extends Element {
          */
         public Builder name(String name) {
             this.name = name;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code timing} with choice type Date.
+         * 
+         * @param timing
+         *     Timing of the event
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #timing(Element)
+         */
+        public Builder timing(java.time.LocalDate timing) {
+            this.timing = (timing == null) ? null : Date.of(timing);
             return this;
         }
 

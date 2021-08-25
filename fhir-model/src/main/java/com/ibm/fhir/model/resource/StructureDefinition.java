@@ -1167,17 +1167,18 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the structure definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1199,8 +1200,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -1209,9 +1209,11 @@ public class StructureDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1233,17 +1235,18 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this structure definition (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1278,17 +1281,18 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1324,17 +1328,18 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1603,8 +1608,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting _abstract.
-         * @see #_abstract(Boolean)
+         * Convenience method for setting {@code _abstract}.
          * 
          * <p>This element is required.
          * 
@@ -1613,9 +1617,11 @@ public class StructureDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #_abstract(com.ibm.fhir.model.type.Boolean)
          */
         public Builder _abstract(java.lang.Boolean _abstract) {
-            this._abstract = _abstract == null ? null : Boolean.of(_abstract);
+            this._abstract = (_abstract == null) ? null : Boolean.of(_abstract);
             return this;
         }
 
@@ -1671,8 +1677,7 @@ public class StructureDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting contextInvariant.
-         * @see #contextInvariant(List<String>)
+         * Convenience method for setting {@code contextInvariant}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1681,10 +1686,12 @@ public class StructureDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #contextInvariant(com.ibm.fhir.model.type.String)
          */
         public Builder contextInvariant(java.lang.String... contextInvariant) {
             for (java.lang.String value : contextInvariant) {
-                this.contextInvariant.add(value == null ? null : String.of(value));
+                this.contextInvariant.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -2154,17 +2161,18 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Names what this mapping refers to
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2183,17 +2191,18 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Versions, Issues, Scope limitations etc.
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 
@@ -2485,8 +2494,7 @@ public class StructureDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(String)
+             * Convenience method for setting {@code expression}.
              * 
              * <p>This element is required.
              * 
@@ -2495,9 +2503,11 @@ public class StructureDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String expression) {
-                this.expression = expression == null ? null : String.of(expression);
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 

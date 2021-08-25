@@ -1028,17 +1028,18 @@ public class Media extends DomainResource {
         }
 
         /**
-         * Convenience method for setting issued.
-         * @see #issued(Instant)
+         * Convenience method for setting {@code issued}.
          * 
          * @param issued
          *     Date/Time this version was made available
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #issued(com.ibm.fhir.model.type.Instant)
          */
         public Builder issued(java.time.ZonedDateTime issued) {
-            this.issued = issued == null ? null : Instant.of(issued);
+            this.issued = (issued == null) ? null : Instant.of(issued);
             return this;
         }
 
@@ -1130,17 +1131,18 @@ public class Media extends DomainResource {
         }
 
         /**
-         * Convenience method for setting deviceName.
-         * @see #deviceName(String)
+         * Convenience method for setting {@code deviceName}.
          * 
          * @param deviceName
          *     Name of the device/manufacturer
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #deviceName(com.ibm.fhir.model.type.String)
          */
         public Builder deviceName(java.lang.String deviceName) {
-            this.deviceName = deviceName == null ? null : String.of(deviceName);
+            this.deviceName = (deviceName == null) ? null : String.of(deviceName);
             return this;
         }
 

@@ -1006,17 +1006,18 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the capability statement
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1038,17 +1039,18 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this capability statement (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1068,17 +1070,18 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this capability statement (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1113,17 +1116,18 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1161,17 +1165,18 @@ public class CapabilityStatement extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1996,8 +2001,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -2006,9 +2010,11 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2029,17 +2035,18 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     Version covered by this statement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -2343,8 +2350,7 @@ public class CapabilityStatement extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * <p>This element is required.
              * 
@@ -2353,9 +2359,11 @@ public class CapabilityStatement extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -3271,17 +3279,18 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting cors.
-                 * @see #cors(Boolean)
+                 * Convenience method for setting {@code cors}.
                  * 
                  * @param cors
                  *     Adds CORS Headers (http://enable-cors.org/)
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #cors(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder cors(java.lang.Boolean cors) {
-                    this.cors = cors == null ? null : Boolean.of(cors);
+                    this.cors = (cors == null) ? null : Boolean.of(cors);
                     return this;
                 }
 
@@ -4031,17 +4040,18 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting readHistory.
-                 * @see #readHistory(Boolean)
+                 * Convenience method for setting {@code readHistory}.
                  * 
                  * @param readHistory
                  *     Whether vRead can return past versions
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #readHistory(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder readHistory(java.lang.Boolean readHistory) {
-                    this.readHistory = readHistory == null ? null : Boolean.of(readHistory);
+                    this.readHistory = (readHistory == null) ? null : Boolean.of(readHistory);
                     return this;
                 }
 
@@ -4060,17 +4070,18 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting updateCreate.
-                 * @see #updateCreate(Boolean)
+                 * Convenience method for setting {@code updateCreate}.
                  * 
                  * @param updateCreate
                  *     If update can commit to a new identity
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #updateCreate(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder updateCreate(java.lang.Boolean updateCreate) {
-                    this.updateCreate = updateCreate == null ? null : Boolean.of(updateCreate);
+                    this.updateCreate = (updateCreate == null) ? null : Boolean.of(updateCreate);
                     return this;
                 }
 
@@ -4091,17 +4102,18 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting conditionalCreate.
-                 * @see #conditionalCreate(Boolean)
+                 * Convenience method for setting {@code conditionalCreate}.
                  * 
                  * @param conditionalCreate
                  *     If allows/uses conditional create
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #conditionalCreate(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder conditionalCreate(java.lang.Boolean conditionalCreate) {
-                    this.conditionalCreate = conditionalCreate == null ? null : Boolean.of(conditionalCreate);
+                    this.conditionalCreate = (conditionalCreate == null) ? null : Boolean.of(conditionalCreate);
                     return this;
                 }
 
@@ -4134,17 +4146,18 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting conditionalUpdate.
-                 * @see #conditionalUpdate(Boolean)
+                 * Convenience method for setting {@code conditionalUpdate}.
                  * 
                  * @param conditionalUpdate
                  *     If allows/uses conditional update
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #conditionalUpdate(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder conditionalUpdate(java.lang.Boolean conditionalUpdate) {
-                    this.conditionalUpdate = conditionalUpdate == null ? null : Boolean.of(conditionalUpdate);
+                    this.conditionalUpdate = (conditionalUpdate == null) ? null : Boolean.of(conditionalUpdate);
                     return this;
                 }
 
@@ -4211,8 +4224,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting searchInclude.
-                 * @see #searchInclude(List<String>)
+                 * Convenience method for setting {@code searchInclude}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -4221,10 +4233,12 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #searchInclude(com.ibm.fhir.model.type.String)
                  */
                 public Builder searchInclude(java.lang.String... searchInclude) {
                     for (java.lang.String value : searchInclude) {
-                        this.searchInclude.add(value == null ? null : String.of(value));
+                        this.searchInclude.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -4264,8 +4278,7 @@ public class CapabilityStatement extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting searchRevInclude.
-                 * @see #searchRevInclude(List<String>)
+                 * Convenience method for setting {@code searchRevInclude}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -4274,10 +4287,12 @@ public class CapabilityStatement extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #searchRevInclude(com.ibm.fhir.model.type.String)
                  */
                 public Builder searchRevInclude(java.lang.String... searchRevInclude) {
                     for (java.lang.String value : searchRevInclude) {
-                        this.searchRevInclude.add(value == null ? null : String.of(value));
+                        this.searchRevInclude.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -4986,8 +5001,7 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting name.
-                     * @see #name(String)
+                     * Convenience method for setting {@code name}.
                      * 
                      * <p>This element is required.
                      * 
@@ -4996,9 +5010,11 @@ public class CapabilityStatement extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #name(com.ibm.fhir.model.type.String)
                      */
                     public Builder name(java.lang.String name) {
-                        this.name = name == null ? null : String.of(name);
+                        this.name = (name == null) ? null : String.of(name);
                         return this;
                     }
 
@@ -5344,8 +5360,7 @@ public class CapabilityStatement extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting name.
-                     * @see #name(String)
+                     * Convenience method for setting {@code name}.
                      * 
                      * <p>This element is required.
                      * 
@@ -5354,9 +5369,11 @@ public class CapabilityStatement extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #name(com.ibm.fhir.model.type.String)
                      */
                     public Builder name(java.lang.String name) {
-                        this.name = name == null ? null : String.of(name);
+                        this.name = (name == null) ? null : String.of(name);
                         return this;
                     }
 

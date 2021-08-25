@@ -1129,17 +1129,18 @@ public class MedicationRequest extends DomainResource {
         }
 
         /**
-         * Convenience method for setting doNotPerform.
-         * @see #doNotPerform(Boolean)
+         * Convenience method for setting {@code doNotPerform}.
          * 
          * @param doNotPerform
          *     True if request is prohibiting action
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
          */
         public Builder doNotPerform(java.lang.Boolean doNotPerform) {
-            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
             return this;
         }
 
@@ -1154,6 +1155,22 @@ public class MedicationRequest extends DomainResource {
          */
         public Builder doNotPerform(Boolean doNotPerform) {
             this.doNotPerform = doNotPerform;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code reported} with choice type Boolean.
+         * 
+         * @param reported
+         *     Reported rather than primary record
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #reported(Element)
+         */
+        public Builder reported(java.lang.Boolean reported) {
+            this.reported = (reported == null) ? null : Boolean.of(reported);
             return this;
         }
 
@@ -2916,6 +2933,24 @@ public class MedicationRequest extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code allowed} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param allowed
+             *     Whether substitution is allowed or not
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #allowed(Element)
+             */
+            public Builder allowed(java.lang.Boolean allowed) {
+                this.allowed = (allowed == null) ? null : Boolean.of(allowed);
+                return this;
             }
 
             /**

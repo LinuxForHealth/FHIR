@@ -1247,17 +1247,18 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting overrideReason.
-         * @see #overrideReason(String)
+         * Convenience method for setting {@code overrideReason}.
          * 
          * @param overrideReason
          *     Reason for overriding the list price/factor
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #overrideReason(com.ibm.fhir.model.type.String)
          */
         public Builder overrideReason(java.lang.String overrideReason) {
-            this.overrideReason = overrideReason == null ? null : String.of(overrideReason);
+            this.overrideReason = (overrideReason == null) ? null : String.of(overrideReason);
             return this;
         }
 

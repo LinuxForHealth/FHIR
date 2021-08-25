@@ -261,17 +261,18 @@ public class Expression extends Element {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Natural language description of the condition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -321,17 +322,18 @@ public class Expression extends Element {
         }
 
         /**
-         * Convenience method for setting expression.
-         * @see #expression(String)
+         * Convenience method for setting {@code expression}.
          * 
          * @param expression
          *     Expression in specified language
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #expression(com.ibm.fhir.model.type.String)
          */
         public Builder expression(java.lang.String expression) {
-            this.expression = expression == null ? null : String.of(expression);
+            this.expression = (expression == null) ? null : String.of(expression);
             return this;
         }
 

@@ -955,17 +955,18 @@ public class Medication extends DomainResource {
             }
 
             /**
-             * Convenience method for setting isActive.
-             * @see #isActive(Boolean)
+             * Convenience method for setting {@code isActive}.
              * 
              * @param isActive
              *     Active ingredient indicator
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #isActive(com.ibm.fhir.model.type.Boolean)
              */
             public Builder isActive(java.lang.Boolean isActive) {
-                this.isActive = isActive == null ? null : Boolean.of(isActive);
+                this.isActive = (isActive == null) ? null : Boolean.of(isActive);
                 return this;
             }
 
@@ -1246,17 +1247,18 @@ public class Medication extends DomainResource {
             }
 
             /**
-             * Convenience method for setting lotNumber.
-             * @see #lotNumber(String)
+             * Convenience method for setting {@code lotNumber}.
              * 
              * @param lotNumber
              *     Identifier assigned to batch
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #lotNumber(com.ibm.fhir.model.type.String)
              */
             public Builder lotNumber(java.lang.String lotNumber) {
-                this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+                this.lotNumber = (lotNumber == null) ? null : String.of(lotNumber);
                 return this;
             }
 

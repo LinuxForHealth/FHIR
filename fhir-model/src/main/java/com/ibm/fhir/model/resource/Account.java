@@ -612,17 +612,18 @@ public class Account extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Human-readable label
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -770,17 +771,18 @@ public class Account extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Explanation of purpose/use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1445,17 +1447,18 @@ public class Account extends DomainResource {
             }
 
             /**
-             * Convenience method for setting onHold.
-             * @see #onHold(Boolean)
+             * Convenience method for setting {@code onHold}.
              * 
              * @param onHold
              *     Credit or other hold applied
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #onHold(com.ibm.fhir.model.type.Boolean)
              */
             public Builder onHold(java.lang.Boolean onHold) {
-                this.onHold = onHold == null ? null : Boolean.of(onHold);
+                this.onHold = (onHold == null) ? null : Boolean.of(onHold);
                 return this;
             }
 

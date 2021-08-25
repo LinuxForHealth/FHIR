@@ -468,17 +468,18 @@ public class MedicinalProductIngredient extends DomainResource {
         }
 
         /**
-         * Convenience method for setting allergenicIndicator.
-         * @see #allergenicIndicator(Boolean)
+         * Convenience method for setting {@code allergenicIndicator}.
          * 
          * @param allergenicIndicator
          *     If the ingredient is a known or suspected allergen
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #allergenicIndicator(com.ibm.fhir.model.type.Boolean)
          */
         public Builder allergenicIndicator(java.lang.Boolean allergenicIndicator) {
-            this.allergenicIndicator = allergenicIndicator == null ? null : Boolean.of(allergenicIndicator);
+            this.allergenicIndicator = (allergenicIndicator == null) ? null : Boolean.of(allergenicIndicator);
             return this;
         }
 
@@ -1368,17 +1369,18 @@ public class MedicinalProductIngredient extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting measurementPoint.
-                 * @see #measurementPoint(String)
+                 * Convenience method for setting {@code measurementPoint}.
                  * 
                  * @param measurementPoint
                  *     For when strength is measured at a particular point or distance
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #measurementPoint(com.ibm.fhir.model.type.String)
                  */
                 public Builder measurementPoint(java.lang.String measurementPoint) {
-                    this.measurementPoint = measurementPoint == null ? null : String.of(measurementPoint);
+                    this.measurementPoint = (measurementPoint == null) ? null : String.of(measurementPoint);
                     return this;
                 }
 
@@ -1817,17 +1819,18 @@ public class MedicinalProductIngredient extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting measurementPoint.
-                     * @see #measurementPoint(String)
+                     * Convenience method for setting {@code measurementPoint}.
                      * 
                      * @param measurementPoint
                      *     For when strength is measured at a particular point or distance
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #measurementPoint(com.ibm.fhir.model.type.String)
                      */
                     public Builder measurementPoint(java.lang.String measurementPoint) {
-                        this.measurementPoint = measurementPoint == null ? null : String.of(measurementPoint);
+                        this.measurementPoint = (measurementPoint == null) ? null : String.of(measurementPoint);
                         return this;
                     }
 

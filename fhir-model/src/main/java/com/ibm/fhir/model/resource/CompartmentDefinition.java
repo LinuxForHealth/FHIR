@@ -639,17 +639,18 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the compartment definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -671,8 +672,7 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -681,9 +681,11 @@ public class CompartmentDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -721,17 +723,18 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -767,17 +770,18 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -912,8 +916,7 @@ public class CompartmentDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting search.
-         * @see #search(Boolean)
+         * Convenience method for setting {@code search}.
          * 
          * <p>This element is required.
          * 
@@ -922,9 +925,11 @@ public class CompartmentDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #search(com.ibm.fhir.model.type.Boolean)
          */
         public Builder search(java.lang.Boolean search) {
-            this.search = search == null ? null : Boolean.of(search);
+            this.search = (search == null) ? null : Boolean.of(search);
             return this;
         }
 
@@ -1288,8 +1293,7 @@ public class CompartmentDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting param.
-             * @see #param(List<String>)
+             * Convenience method for setting {@code param}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -1298,10 +1302,12 @@ public class CompartmentDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #param(com.ibm.fhir.model.type.String)
              */
             public Builder param(java.lang.String... param) {
                 for (java.lang.String value : param) {
-                    this.param.add(value == null ? null : String.of(value));
+                    this.param.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -1343,17 +1349,18 @@ public class CompartmentDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting documentation.
-             * @see #documentation(String)
+             * Convenience method for setting {@code documentation}.
              * 
              * @param documentation
              *     Additional documentation about the resource and compartment
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
              */
             public Builder documentation(java.lang.String documentation) {
-                this.documentation = documentation == null ? null : String.of(documentation);
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 

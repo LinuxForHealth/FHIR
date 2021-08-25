@@ -982,17 +982,18 @@ public class CommunicationRequest extends DomainResource {
         }
 
         /**
-         * Convenience method for setting doNotPerform.
-         * @see #doNotPerform(Boolean)
+         * Convenience method for setting {@code doNotPerform}.
          * 
          * @param doNotPerform
          *     True if request is prohibiting action
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
          */
         public Builder doNotPerform(java.lang.Boolean doNotPerform) {
-            this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+            this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
             return this;
         }
 
@@ -1684,6 +1685,24 @@ public class CommunicationRequest extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code content} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param content
+             *     Message part content
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #content(Element)
+             */
+            public Builder content(java.lang.String content) {
+                this.content = (content == null) ? null : String.of(content);
+                return this;
             }
 
             /**

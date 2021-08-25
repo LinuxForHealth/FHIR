@@ -735,17 +735,18 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Textual description of the substance
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -808,17 +809,18 @@ public class SubstanceSpecification extends DomainResource {
         }
 
         /**
-         * Convenience method for setting comment.
-         * @see #comment(String)
+         * Convenience method for setting {@code comment}.
          * 
          * @param comment
          *     Textual comment about this record of a substance
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
          */
         public Builder comment(java.lang.String comment) {
-            this.comment = comment == null ? null : String.of(comment);
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 
@@ -1538,17 +1540,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Textual name for this moiety substance
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1595,17 +1598,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting molecularFormula.
-             * @see #molecularFormula(String)
+             * Convenience method for setting {@code molecularFormula}.
              * 
              * @param molecularFormula
              *     Molecular formula
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #molecularFormula(com.ibm.fhir.model.type.String)
              */
             public Builder molecularFormula(java.lang.String molecularFormula) {
-                this.molecularFormula = molecularFormula == null ? null : String.of(molecularFormula);
+                this.molecularFormula = (molecularFormula == null) ? null : String.of(molecularFormula);
                 return this;
             }
 
@@ -1620,6 +1624,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder molecularFormula(String molecularFormula) {
                 this.molecularFormula = molecularFormula;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Quantitative value for this moiety
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 
@@ -1976,17 +1996,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting parameters.
-             * @see #parameters(String)
+             * Convenience method for setting {@code parameters}.
              * 
              * @param parameters
              *     Parameters that were used in the measurement of a property (e.g. for viscosity: measured at 20C with a pH of 7.1)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #parameters(com.ibm.fhir.model.type.String)
              */
             public Builder parameters(java.lang.String parameters) {
-                this.parameters = parameters == null ? null : String.of(parameters);
+                this.parameters = (parameters == null) ? null : String.of(parameters);
                 return this;
             }
 
@@ -2027,6 +2048,22 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder definingSubstance(Element definingSubstance) {
                 this.definingSubstance = definingSubstance;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     Quantitative value for this property
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 
@@ -2436,17 +2473,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting molecularFormula.
-             * @see #molecularFormula(String)
+             * Convenience method for setting {@code molecularFormula}.
              * 
              * @param molecularFormula
              *     Molecular formula
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #molecularFormula(com.ibm.fhir.model.type.String)
              */
             public Builder molecularFormula(java.lang.String molecularFormula) {
-                this.molecularFormula = molecularFormula == null ? null : String.of(molecularFormula);
+                this.molecularFormula = (molecularFormula == null) ? null : String.of(molecularFormula);
                 return this;
             }
 
@@ -2465,8 +2503,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting molecularFormulaByMoiety.
-             * @see #molecularFormulaByMoiety(String)
+             * Convenience method for setting {@code molecularFormulaByMoiety}.
              * 
              * @param molecularFormulaByMoiety
              *     Specified per moiety according to the Hill system, i.e. first C, then H, then alphabetical, each moiety separated by a 
@@ -2474,9 +2511,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #molecularFormulaByMoiety(com.ibm.fhir.model.type.String)
              */
             public Builder molecularFormulaByMoiety(java.lang.String molecularFormulaByMoiety) {
-                this.molecularFormulaByMoiety = molecularFormulaByMoiety == null ? null : String.of(molecularFormulaByMoiety);
+                this.molecularFormulaByMoiety = (molecularFormulaByMoiety == null) ? null : String.of(molecularFormulaByMoiety);
                 return this;
             }
 
@@ -3578,17 +3617,18 @@ public class SubstanceSpecification extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting representation.
-                 * @see #representation(String)
+                 * Convenience method for setting {@code representation}.
                  * 
                  * @param representation
                  *     The structural representation as text string in a format e.g. InChI, SMILES, MOLFILE, CDX
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #representation(com.ibm.fhir.model.type.String)
                  */
                 public Builder representation(java.lang.String representation) {
-                    this.representation = representation == null ? null : String.of(representation);
+                    this.representation = (representation == null) ? null : String.of(representation);
                     return this;
                 }
 
@@ -3961,17 +4001,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Any comment can be provided in this field, if necessary
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 
@@ -4445,8 +4486,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -4455,9 +4495,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -4506,17 +4548,18 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting preferred.
-             * @see #preferred(Boolean)
+             * Convenience method for setting {@code preferred}.
              * 
              * @param preferred
              *     If this is the preferred name for this substance
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
              */
             public Builder preferred(java.lang.Boolean preferred) {
-                this.preferred = preferred == null ? null : Boolean.of(preferred);
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
                 return this;
             }
 
@@ -5488,8 +5531,7 @@ public class SubstanceSpecification extends DomainResource {
             }
 
             /**
-             * Convenience method for setting isDefining.
-             * @see #isDefining(Boolean)
+             * Convenience method for setting {@code isDefining}.
              * 
              * @param isDefining
              *     For example where an enzyme strongly bonds with a particular substance, this is a defining relationship for that 
@@ -5497,9 +5539,11 @@ public class SubstanceSpecification extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #isDefining(com.ibm.fhir.model.type.Boolean)
              */
             public Builder isDefining(java.lang.Boolean isDefining) {
-                this.isDefining = isDefining == null ? null : Boolean.of(isDefining);
+                this.isDefining = (isDefining == null) ? null : Boolean.of(isDefining);
                 return this;
             }
 
@@ -5516,6 +5560,23 @@ public class SubstanceSpecification extends DomainResource {
              */
             public Builder isDefining(Boolean isDefining) {
                 this.isDefining = isDefining;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code amount} with choice type String.
+             * 
+             * @param amount
+             *     A numeric factor for the relationship, for instance to express that the salt of a substance has some percentage of the 
+             *     active substance in relation to some other
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #amount(Element)
+             */
+            public Builder amount(java.lang.String amount) {
+                this.amount = (amount == null) ? null : String.of(amount);
                 return this;
             }
 

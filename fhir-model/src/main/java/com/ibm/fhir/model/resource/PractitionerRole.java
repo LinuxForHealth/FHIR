@@ -641,17 +641,18 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this practitioner role record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -980,17 +981,18 @@ public class PractitionerRole extends DomainResource {
         }
 
         /**
-         * Convenience method for setting availabilityExceptions.
-         * @see #availabilityExceptions(String)
+         * Convenience method for setting {@code availabilityExceptions}.
          * 
          * @param availabilityExceptions
          *     Description of availability exceptions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #availabilityExceptions(com.ibm.fhir.model.type.String)
          */
         public Builder availabilityExceptions(java.lang.String availabilityExceptions) {
-            this.availabilityExceptions = availabilityExceptions == null ? null : String.of(availabilityExceptions);
+            this.availabilityExceptions = (availabilityExceptions == null) ? null : String.of(availabilityExceptions);
             return this;
         }
 
@@ -1391,17 +1393,18 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * Convenience method for setting allDay.
-             * @see #allDay(Boolean)
+             * Convenience method for setting {@code allDay}.
              * 
              * @param allDay
              *     Always available? e.g. 24 hour service
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #allDay(com.ibm.fhir.model.type.Boolean)
              */
             public Builder allDay(java.lang.Boolean allDay) {
-                this.allDay = allDay == null ? null : Boolean.of(allDay);
+                this.allDay = (allDay == null) ? null : Boolean.of(allDay);
                 return this;
             }
 
@@ -1691,8 +1694,7 @@ public class PractitionerRole extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * <p>This element is required.
              * 
@@ -1701,9 +1703,11 @@ public class PractitionerRole extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

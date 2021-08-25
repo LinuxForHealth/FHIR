@@ -295,17 +295,18 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * Convenience method for setting label.
-         * @see #label(String)
+         * Convenience method for setting {@code label}.
          * 
          * @param label
          *     Short label
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #label(com.ibm.fhir.model.type.String)
          */
         public Builder label(java.lang.String label) {
-            this.label = label == null ? null : String.of(label);
+            this.label = (label == null) ? null : String.of(label);
             return this;
         }
 
@@ -325,17 +326,18 @@ public class RelatedArtifact extends Element {
         }
 
         /**
-         * Convenience method for setting display.
-         * @see #display(String)
+         * Convenience method for setting {@code display}.
          * 
          * @param display
          *     Brief description of the related artifact
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #display(com.ibm.fhir.model.type.String)
          */
         public Builder display(java.lang.String display) {
-            this.display = display == null ? null : String.of(display);
+            this.display = (display == null) ? null : String.of(display);
             return this;
         }
 

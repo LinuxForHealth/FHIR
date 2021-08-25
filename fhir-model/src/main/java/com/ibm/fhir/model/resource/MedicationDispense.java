@@ -2106,8 +2106,7 @@ public class MedicationDispense extends DomainResource {
             }
 
             /**
-             * Convenience method for setting wasSubstituted.
-             * @see #wasSubstituted(Boolean)
+             * Convenience method for setting {@code wasSubstituted}.
              * 
              * <p>This element is required.
              * 
@@ -2116,9 +2115,11 @@ public class MedicationDispense extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #wasSubstituted(com.ibm.fhir.model.type.Boolean)
              */
             public Builder wasSubstituted(java.lang.Boolean wasSubstituted) {
-                this.wasSubstituted = wasSubstituted == null ? null : Boolean.of(wasSubstituted);
+                this.wasSubstituted = (wasSubstituted == null) ? null : Boolean.of(wasSubstituted);
                 return this;
             }
 

@@ -2045,17 +2045,18 @@ public class MedicinalProductPharmaceutical extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting supportingInformation.
-                     * @see #supportingInformation(String)
+                     * Convenience method for setting {@code supportingInformation}.
                      * 
                      * @param supportingInformation
                      *     Extra information about the withdrawal period
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #supportingInformation(com.ibm.fhir.model.type.String)
                      */
                     public Builder supportingInformation(java.lang.String supportingInformation) {
-                        this.supportingInformation = supportingInformation == null ? null : String.of(supportingInformation);
+                        this.supportingInformation = (supportingInformation == null) ? null : String.of(supportingInformation);
                         return this;
                     }
 

@@ -1642,8 +1642,7 @@ public class Consent extends DomainResource {
             }
 
             /**
-             * Convenience method for setting verified.
-             * @see #verified(Boolean)
+             * Convenience method for setting {@code verified}.
              * 
              * <p>This element is required.
              * 
@@ -1652,9 +1651,11 @@ public class Consent extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #verified(com.ibm.fhir.model.type.Boolean)
              */
             public Builder verified(java.lang.Boolean verified) {
-                this.verified = verified == null ? null : Boolean.of(verified);
+                this.verified = (verified == null) ? null : Boolean.of(verified);
                 return this;
             }
 

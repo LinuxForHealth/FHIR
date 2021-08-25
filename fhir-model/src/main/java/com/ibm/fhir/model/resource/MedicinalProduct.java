@@ -800,8 +800,7 @@ public class MedicinalProduct extends DomainResource {
         }
 
         /**
-         * Convenience method for setting specialMeasures.
-         * @see #specialMeasures(List<String>)
+         * Convenience method for setting {@code specialMeasures}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -810,10 +809,12 @@ public class MedicinalProduct extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #specialMeasures(com.ibm.fhir.model.type.String)
          */
         public Builder specialMeasures(java.lang.String... specialMeasures) {
             for (java.lang.String value : specialMeasures) {
-                this.specialMeasures.add(value == null ? null : String.of(value));
+                this.specialMeasures.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1642,8 +1643,7 @@ public class MedicinalProduct extends DomainResource {
             }
 
             /**
-             * Convenience method for setting productName.
-             * @see #productName(String)
+             * Convenience method for setting {@code productName}.
              * 
              * <p>This element is required.
              * 
@@ -1652,9 +1652,11 @@ public class MedicinalProduct extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #productName(com.ibm.fhir.model.type.String)
              */
             public Builder productName(java.lang.String productName) {
-                this.productName = productName == null ? null : String.of(productName);
+                this.productName = (productName == null) ? null : String.of(productName);
                 return this;
             }
 
@@ -1994,8 +1996,7 @@ public class MedicinalProduct extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting part.
-                 * @see #part(String)
+                 * Convenience method for setting {@code part}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2004,9 +2005,11 @@ public class MedicinalProduct extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #part(com.ibm.fhir.model.type.String)
                  */
                 public Builder part(java.lang.String part) {
-                    this.part = part == null ? null : String.of(part);
+                    this.part = (part == null) ? null : String.of(part);
                     return this;
                 }
 

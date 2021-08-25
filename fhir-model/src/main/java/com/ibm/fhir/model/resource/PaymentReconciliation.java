@@ -772,17 +772,18 @@ public class PaymentReconciliation extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disposition.
-         * @see #disposition(String)
+         * Convenience method for setting {@code disposition}.
          * 
          * @param disposition
          *     Disposition message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
          */
         public Builder disposition(java.lang.String disposition) {
-            this.disposition = disposition == null ? null : String.of(disposition);
+            this.disposition = (disposition == null) ? null : String.of(disposition);
             return this;
         }
 
@@ -801,8 +802,7 @@ public class PaymentReconciliation extends DomainResource {
         }
 
         /**
-         * Convenience method for setting paymentDate.
-         * @see #paymentDate(Date)
+         * Convenience method for setting {@code paymentDate}.
          * 
          * <p>This element is required.
          * 
@@ -811,9 +811,11 @@ public class PaymentReconciliation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #paymentDate(com.ibm.fhir.model.type.Date)
          */
         public Builder paymentDate(java.time.LocalDate paymentDate) {
-            this.paymentDate = paymentDate == null ? null : Date.of(paymentDate);
+            this.paymentDate = (paymentDate == null) ? null : Date.of(paymentDate);
             return this;
         }
 
@@ -1453,17 +1455,18 @@ public class PaymentReconciliation extends DomainResource {
             }
 
             /**
-             * Convenience method for setting date.
-             * @see #date(Date)
+             * Convenience method for setting {@code date}.
              * 
              * @param date
              *     Date of commitment to pay
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #date(com.ibm.fhir.model.type.Date)
              */
             public Builder date(java.time.LocalDate date) {
-                this.date = date == null ? null : Date.of(date);
+                this.date = (date == null) ? null : Date.of(date);
                 return this;
             }
 
@@ -1812,17 +1815,18 @@ public class PaymentReconciliation extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Note explanatory text
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 

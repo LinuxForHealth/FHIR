@@ -1222,17 +1222,18 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * Convenience method for setting axis.
-             * @see #axis(Integer)
+             * Convenience method for setting {@code axis}.
              * 
              * @param axis
              *     Lens meridian which contain no power for astigmatism
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #axis(com.ibm.fhir.model.type.Integer)
              */
             public Builder axis(java.lang.Integer axis) {
-                this.axis = axis == null ? null : Integer.of(axis);
+                this.axis = (axis == null) ? null : Integer.of(axis);
                 return this;
             }
 
@@ -1355,17 +1356,18 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * Convenience method for setting color.
-             * @see #color(String)
+             * Convenience method for setting {@code color}.
              * 
              * @param color
              *     Color required
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #color(com.ibm.fhir.model.type.String)
              */
             public Builder color(java.lang.String color) {
-                this.color = color == null ? null : String.of(color);
+                this.color = (color == null) ? null : String.of(color);
                 return this;
             }
 
@@ -1384,17 +1386,18 @@ public class VisionPrescription extends DomainResource {
             }
 
             /**
-             * Convenience method for setting brand.
-             * @see #brand(String)
+             * Convenience method for setting {@code brand}.
              * 
              * @param brand
              *     Brand required
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #brand(com.ibm.fhir.model.type.String)
              */
             public Builder brand(java.lang.String brand) {
-                this.brand = brand == null ? null : String.of(brand);
+                this.brand = (brand == null) ? null : String.of(brand);
                 return this;
             }
 

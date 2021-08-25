@@ -880,6 +880,22 @@ public class AllergyIntolerance extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code onset} with choice type String.
+         * 
+         * @param onset
+         *     When allergy or intolerance was identified
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #onset(Element)
+         */
+        public Builder onset(java.lang.String onset) {
+            this.onset = (onset == null) ? null : String.of(onset);
+            return this;
+        }
+
+        /**
          * Estimated or actual date, date-time, or age when allergy or intolerance was identified.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -1487,17 +1503,18 @@ public class AllergyIntolerance extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of the event as a whole
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

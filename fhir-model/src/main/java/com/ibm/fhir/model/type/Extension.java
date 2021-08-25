@@ -203,6 +203,86 @@ public class Extension extends Element {
         }
 
         /**
+         * Convenience method for setting {@code value} with choice type Boolean.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.Boolean value) {
+            this.value = (value == null) ? null : Boolean.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Date.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.time.LocalDate value) {
+            this.value = (value == null) ? null : Date.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Instant.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.time.ZonedDateTime value) {
+            this.value = (value == null) ? null : Instant.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Integer.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.Integer value) {
+            this.value = (value == null) ? null : Integer.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type String.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.String value) {
+            this.value = (value == null) ? null : String.of(value);
+            return this;
+        }
+
+        /**
          * Value of extension - must be one of a constrained set of the data types (see [Extensibility](extensibility.html) for a 
          * list).
          * 

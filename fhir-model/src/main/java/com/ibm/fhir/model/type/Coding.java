@@ -247,17 +247,18 @@ public class Coding extends Element {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Version of the system - if relevant
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -293,17 +294,18 @@ public class Coding extends Element {
         }
 
         /**
-         * Convenience method for setting display.
-         * @see #display(String)
+         * Convenience method for setting {@code display}.
          * 
          * @param display
          *     Representation defined by the system
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #display(com.ibm.fhir.model.type.String)
          */
         public Builder display(java.lang.String display) {
-            this.display = display == null ? null : String.of(display);
+            this.display = (display == null) ? null : String.of(display);
             return this;
         }
 
@@ -322,17 +324,18 @@ public class Coding extends Element {
         }
 
         /**
-         * Convenience method for setting userSelected.
-         * @see #userSelected(Boolean)
+         * Convenience method for setting {@code userSelected}.
          * 
          * @param userSelected
          *     If this coding was chosen directly by the user
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #userSelected(com.ibm.fhir.model.type.Boolean)
          */
         public Builder userSelected(java.lang.Boolean userSelected) {
-            this.userSelected = userSelected == null ? null : Boolean.of(userSelected);
+            this.userSelected = (userSelected == null) ? null : Boolean.of(userSelected);
             return this;
         }
 

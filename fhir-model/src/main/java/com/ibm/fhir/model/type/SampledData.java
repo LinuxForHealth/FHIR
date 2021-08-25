@@ -369,17 +369,18 @@ public class SampledData extends Element {
         }
 
         /**
-         * Convenience method for setting data.
-         * @see #data(String)
+         * Convenience method for setting {@code data}.
          * 
          * @param data
          *     Decimal values with spaces, or "E" | "U" | "L"
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #data(com.ibm.fhir.model.type.String)
          */
         public Builder data(java.lang.String data) {
-            this.data = data == null ? null : String.of(data);
+            this.data = (data == null) ? null : String.of(data);
             return this;
         }
 

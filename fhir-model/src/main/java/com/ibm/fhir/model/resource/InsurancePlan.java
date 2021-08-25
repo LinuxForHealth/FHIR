@@ -701,17 +701,18 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Official name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -730,8 +731,7 @@ public class InsurancePlan extends DomainResource {
         }
 
         /**
-         * Convenience method for setting alias.
-         * @see #alias(List<String>)
+         * Convenience method for setting {@code alias}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -740,10 +740,12 @@ public class InsurancePlan extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
          */
         public Builder alias(java.lang.String... alias) {
             for (java.lang.String value : alias) {
-                this.alias.add(value == null ? null : String.of(value));
+                this.alias.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -2095,17 +2097,18 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting requirement.
-                 * @see #requirement(String)
+                 * Convenience method for setting {@code requirement}.
                  * 
                  * @param requirement
                  *     Referral requirements
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #requirement(com.ibm.fhir.model.type.String)
                  */
                 public Builder requirement(java.lang.String requirement) {
-                    this.requirement = requirement == null ? null : String.of(requirement);
+                    this.requirement = (requirement == null) ? null : String.of(requirement);
                     return this;
                 }
 
@@ -3279,17 +3282,18 @@ public class InsurancePlan extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting comment.
-                 * @see #comment(String)
+                 * Convenience method for setting {@code comment}.
                  * 
                  * @param comment
                  *     Additional cost information
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #comment(com.ibm.fhir.model.type.String)
                  */
                 public Builder comment(java.lang.String comment) {
-                    this.comment = comment == null ? null : String.of(comment);
+                    this.comment = (comment == null) ? null : String.of(comment);
                     return this;
                 }
 

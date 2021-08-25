@@ -1111,17 +1111,18 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disposition.
-         * @see #disposition(String)
+         * Convenience method for setting {@code disposition}.
          * 
          * @param disposition
          *     Disposition Message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
          */
         public Builder disposition(java.lang.String disposition) {
-            this.disposition = disposition == null ? null : String.of(disposition);
+            this.disposition = (disposition == null) ? null : String.of(disposition);
             return this;
         }
 
@@ -1140,17 +1141,18 @@ public class ClaimResponse extends DomainResource {
         }
 
         /**
-         * Convenience method for setting preAuthRef.
-         * @see #preAuthRef(String)
+         * Convenience method for setting {@code preAuthRef}.
          * 
          * @param preAuthRef
          *     Preauthorization reference
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #preAuthRef(com.ibm.fhir.model.type.String)
          */
         public Builder preAuthRef(java.lang.String preAuthRef) {
-            this.preAuthRef = preAuthRef == null ? null : String.of(preAuthRef);
+            this.preAuthRef = (preAuthRef == null) ? null : String.of(preAuthRef);
             return this;
         }
 
@@ -3913,6 +3915,22 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code serviced} with choice type Date.
+             * 
+             * @param serviced
+             *     Date or dates of service or product delivery
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #serviced(Element)
+             */
+            public Builder serviced(java.time.LocalDate serviced) {
+                this.serviced = (serviced == null) ? null : Date.of(serviced);
+                return this;
+            }
+
+            /**
              * The date or dates when the service or product was supplied, performed or completed.
              * 
              * <p>This is a choice element with the following allowed types:
@@ -6031,17 +6049,18 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting date.
-             * @see #date(Date)
+             * Convenience method for setting {@code date}.
              * 
              * @param date
              *     Expected date of payment
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #date(com.ibm.fhir.model.type.Date)
              */
             public Builder date(java.time.LocalDate date) {
-                this.date = date == null ? null : Date.of(date);
+                this.date = (date == null) ? null : Date.of(date);
                 return this;
             }
 
@@ -6417,8 +6436,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * <p>This element is required.
              * 
@@ -6427,9 +6445,11 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -6787,8 +6807,7 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting focal.
-             * @see #focal(Boolean)
+             * Convenience method for setting {@code focal}.
              * 
              * <p>This element is required.
              * 
@@ -6797,9 +6816,11 @@ public class ClaimResponse extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #focal(com.ibm.fhir.model.type.Boolean)
              */
             public Builder focal(java.lang.Boolean focal) {
-                this.focal = focal == null ? null : Boolean.of(focal);
+                this.focal = (focal == null) ? null : Boolean.of(focal);
                 return this;
             }
 
@@ -6842,17 +6863,18 @@ public class ClaimResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting businessArrangement.
-             * @see #businessArrangement(String)
+             * Convenience method for setting {@code businessArrangement}.
              * 
              * @param businessArrangement
              *     Additional provider contract number
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #businessArrangement(com.ibm.fhir.model.type.String)
              */
             public Builder businessArrangement(java.lang.String businessArrangement) {
-                this.businessArrangement = businessArrangement == null ? null : String.of(businessArrangement);
+                this.businessArrangement = (businessArrangement == null) ? null : String.of(businessArrangement);
                 return this;
             }
 

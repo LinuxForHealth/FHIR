@@ -799,17 +799,18 @@ public class DetectedIssue extends DomainResource {
         }
 
         /**
-         * Convenience method for setting detail.
-         * @see #detail(String)
+         * Convenience method for setting {@code detail}.
          * 
          * @param detail
          *     Description and context
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #detail(com.ibm.fhir.model.type.String)
          */
         public Builder detail(java.lang.String detail) {
-            this.detail = detail == null ? null : String.of(detail);
+            this.detail = (detail == null) ? null : String.of(detail);
             return this;
         }
 

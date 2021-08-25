@@ -774,17 +774,18 @@ public class OperationOutcome extends DomainResource {
             }
 
             /**
-             * Convenience method for setting diagnostics.
-             * @see #diagnostics(String)
+             * Convenience method for setting {@code diagnostics}.
              * 
              * @param diagnostics
              *     Additional diagnostic information about the issue
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #diagnostics(com.ibm.fhir.model.type.String)
              */
             public Builder diagnostics(java.lang.String diagnostics) {
-                this.diagnostics = diagnostics == null ? null : String.of(diagnostics);
+                this.diagnostics = (diagnostics == null) ? null : String.of(diagnostics);
                 return this;
             }
 
@@ -803,8 +804,7 @@ public class OperationOutcome extends DomainResource {
             }
 
             /**
-             * Convenience method for setting location.
-             * @see #location(List<String>)
+             * Convenience method for setting {@code location}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -813,10 +813,12 @@ public class OperationOutcome extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #location(com.ibm.fhir.model.type.String)
              */
             public Builder location(java.lang.String... location) {
                 for (java.lang.String value : location) {
-                    this.location.add(value == null ? null : String.of(value));
+                    this.location.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -866,8 +868,7 @@ public class OperationOutcome extends DomainResource {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(List<String>)
+             * Convenience method for setting {@code expression}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -876,10 +877,12 @@ public class OperationOutcome extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String... expression) {
                 for (java.lang.String value : expression) {
-                    this.expression.add(value == null ? null : String.of(value));
+                    this.expression.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }

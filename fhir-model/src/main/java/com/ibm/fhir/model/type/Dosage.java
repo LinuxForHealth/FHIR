@@ -465,17 +465,18 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting sequence.
-         * @see #sequence(Integer)
+         * Convenience method for setting {@code sequence}.
          * 
          * @param sequence
          *     The order of the dosage instructions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #sequence(com.ibm.fhir.model.type.Integer)
          */
         public Builder sequence(java.lang.Integer sequence) {
-            this.sequence = sequence == null ? null : Integer.of(sequence);
+            this.sequence = (sequence == null) ? null : Integer.of(sequence);
             return this;
         }
 
@@ -494,17 +495,18 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting text.
-         * @see #text(String)
+         * Convenience method for setting {@code text}.
          * 
          * @param text
          *     Free text dosage instructions e.g. SIG
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
          */
         public Builder text(java.lang.String text) {
-            this.text = text == null ? null : String.of(text);
+            this.text = (text == null) ? null : String.of(text);
             return this;
         }
 
@@ -561,17 +563,18 @@ public class Dosage extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting patientInstruction.
-         * @see #patientInstruction(String)
+         * Convenience method for setting {@code patientInstruction}.
          * 
          * @param patientInstruction
          *     Patient or consumer oriented instructions
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #patientInstruction(com.ibm.fhir.model.type.String)
          */
         public Builder patientInstruction(java.lang.String patientInstruction) {
-            this.patientInstruction = patientInstruction == null ? null : String.of(patientInstruction);
+            this.patientInstruction = (patientInstruction == null) ? null : String.of(patientInstruction);
             return this;
         }
 
@@ -600,6 +603,22 @@ public class Dosage extends BackboneElement {
          */
         public Builder timing(Timing timing) {
             this.timing = timing;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code asNeeded} with choice type Boolean.
+         * 
+         * @param asNeeded
+         *     Take "as needed" (for x)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #asNeeded(Element)
+         */
+        public Builder asNeeded(java.lang.Boolean asNeeded) {
+            this.asNeeded = (asNeeded == null) ? null : Boolean.of(asNeeded);
             return this;
         }
 

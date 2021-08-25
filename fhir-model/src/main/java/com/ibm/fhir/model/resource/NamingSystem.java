@@ -643,8 +643,7 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -653,9 +652,11 @@ public class NamingSystem extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -727,17 +728,18 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -790,17 +792,18 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting responsible.
-         * @see #responsible(String)
+         * Convenience method for setting {@code responsible}.
          * 
          * @param responsible
          *     Who maintains system namespace?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #responsible(com.ibm.fhir.model.type.String)
          */
         public Builder responsible(java.lang.String responsible) {
-            this.responsible = responsible == null ? null : String.of(responsible);
+            this.responsible = (responsible == null) ? null : String.of(responsible);
             return this;
         }
 
@@ -921,17 +924,18 @@ public class NamingSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting usage.
-         * @see #usage(String)
+         * Convenience method for setting {@code usage}.
          * 
          * @param usage
          *     How/where is it used
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #usage(com.ibm.fhir.model.type.String)
          */
         public Builder usage(java.lang.String usage) {
-            this.usage = usage == null ? null : String.of(usage);
+            this.usage = (usage == null) ? null : String.of(usage);
             return this;
         }
 
@@ -1332,8 +1336,7 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting value.
-             * @see #value(String)
+             * Convenience method for setting {@code value}.
              * 
              * <p>This element is required.
              * 
@@ -1342,9 +1345,11 @@ public class NamingSystem extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #value(com.ibm.fhir.model.type.String)
              */
             public Builder value(java.lang.String value) {
-                this.value = value == null ? null : String.of(value);
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
@@ -1365,17 +1370,18 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting preferred.
-             * @see #preferred(Boolean)
+             * Convenience method for setting {@code preferred}.
              * 
              * @param preferred
              *     Is this the id that should be used for this type
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #preferred(com.ibm.fhir.model.type.Boolean)
              */
             public Builder preferred(java.lang.Boolean preferred) {
-                this.preferred = preferred == null ? null : Boolean.of(preferred);
+                this.preferred = (preferred == null) ? null : Boolean.of(preferred);
                 return this;
             }
 
@@ -1394,17 +1400,18 @@ public class NamingSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Notes about identifier usage
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

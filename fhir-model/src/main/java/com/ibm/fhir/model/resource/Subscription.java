@@ -519,17 +519,18 @@ public class Subscription extends DomainResource {
         }
 
         /**
-         * Convenience method for setting end.
-         * @see #end(Instant)
+         * Convenience method for setting {@code end}.
          * 
          * @param end
          *     When to automatically delete the subscription
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #end(com.ibm.fhir.model.type.Instant)
          */
         public Builder end(java.time.ZonedDateTime end) {
-            this.end = end == null ? null : Instant.of(end);
+            this.end = (end == null) ? null : Instant.of(end);
             return this;
         }
 
@@ -548,8 +549,7 @@ public class Subscription extends DomainResource {
         }
 
         /**
-         * Convenience method for setting reason.
-         * @see #reason(String)
+         * Convenience method for setting {@code reason}.
          * 
          * <p>This element is required.
          * 
@@ -558,9 +558,11 @@ public class Subscription extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #reason(com.ibm.fhir.model.type.String)
          */
         public Builder reason(java.lang.String reason) {
-            this.reason = reason == null ? null : String.of(reason);
+            this.reason = (reason == null) ? null : String.of(reason);
             return this;
         }
 
@@ -581,8 +583,7 @@ public class Subscription extends DomainResource {
         }
 
         /**
-         * Convenience method for setting criteria.
-         * @see #criteria(String)
+         * Convenience method for setting {@code criteria}.
          * 
          * <p>This element is required.
          * 
@@ -591,9 +592,11 @@ public class Subscription extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #criteria(com.ibm.fhir.model.type.String)
          */
         public Builder criteria(java.lang.String criteria) {
-            this.criteria = criteria == null ? null : String.of(criteria);
+            this.criteria = (criteria == null) ? null : String.of(criteria);
             return this;
         }
 
@@ -614,17 +617,18 @@ public class Subscription extends DomainResource {
         }
 
         /**
-         * Convenience method for setting error.
-         * @see #error(String)
+         * Convenience method for setting {@code error}.
          * 
          * @param error
          *     Latest error note
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #error(com.ibm.fhir.model.type.String)
          */
         public Builder error(java.lang.String error) {
-            this.error = error == null ? null : String.of(error);
+            this.error = (error == null) ? null : String.of(error);
             return this;
         }
 
@@ -1013,8 +1017,7 @@ public class Subscription extends DomainResource {
             }
 
             /**
-             * Convenience method for setting header.
-             * @see #header(List<String>)
+             * Convenience method for setting {@code header}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -1023,10 +1026,12 @@ public class Subscription extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #header(com.ibm.fhir.model.type.String)
              */
             public Builder header(java.lang.String... header) {
                 for (java.lang.String value : header) {
-                    this.header.add(value == null ? null : String.of(value));
+                    this.header.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }

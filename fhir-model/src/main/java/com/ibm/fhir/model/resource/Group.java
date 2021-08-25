@@ -572,17 +572,18 @@ public class Group extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this group's record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -617,8 +618,7 @@ public class Group extends DomainResource {
         }
 
         /**
-         * Convenience method for setting actual.
-         * @see #actual(Boolean)
+         * Convenience method for setting {@code actual}.
          * 
          * <p>This element is required.
          * 
@@ -627,9 +627,11 @@ public class Group extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #actual(com.ibm.fhir.model.type.Boolean)
          */
         public Builder actual(java.lang.Boolean actual) {
-            this.actual = actual == null ? null : Boolean.of(actual);
+            this.actual = (actual == null) ? null : Boolean.of(actual);
             return this;
         }
 
@@ -665,17 +667,18 @@ public class Group extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Label for Group
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1119,6 +1122,24 @@ public class Group extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value held by characteristic
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
              * The value of the trait that holds (or does not hold - see 'exclude') for members of the group.
              * 
              * <p>This element is required.
@@ -1144,8 +1165,7 @@ public class Group extends DomainResource {
             }
 
             /**
-             * Convenience method for setting exclude.
-             * @see #exclude(Boolean)
+             * Convenience method for setting {@code exclude}.
              * 
              * <p>This element is required.
              * 
@@ -1154,9 +1174,11 @@ public class Group extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #exclude(com.ibm.fhir.model.type.Boolean)
              */
             public Builder exclude(java.lang.Boolean exclude) {
-                this.exclude = exclude == null ? null : Boolean.of(exclude);
+                this.exclude = (exclude == null) ? null : Boolean.of(exclude);
                 return this;
             }
 
@@ -1504,17 +1526,18 @@ public class Group extends DomainResource {
             }
 
             /**
-             * Convenience method for setting inactive.
-             * @see #inactive(Boolean)
+             * Convenience method for setting {@code inactive}.
              * 
              * @param inactive
              *     If member is no longer in group
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #inactive(com.ibm.fhir.model.type.Boolean)
              */
             public Builder inactive(java.lang.Boolean inactive) {
-                this.inactive = inactive == null ? null : Boolean.of(inactive);
+                this.inactive = (inactive == null) ? null : Boolean.of(inactive);
                 return this;
             }
 

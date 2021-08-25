@@ -200,6 +200,22 @@ public class Annotation extends Element {
         }
 
         /**
+         * Convenience method for setting {@code author} with choice type String.
+         * 
+         * @param author
+         *     Individual responsible for the annotation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #author(Element)
+         */
+        public Builder author(java.lang.String author) {
+            this.author = (author == null) ? null : String.of(author);
+            return this;
+        }
+
+        /**
          * The individual responsible for making the annotation.
          * 
          * <p>This is a choice element with the following allowed types:

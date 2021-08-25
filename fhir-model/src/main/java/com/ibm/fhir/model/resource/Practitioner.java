@@ -571,17 +571,18 @@ public class Practitioner extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether this practitioner's record is in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -719,17 +720,18 @@ public class Practitioner extends DomainResource {
         }
 
         /**
-         * Convenience method for setting birthDate.
-         * @see #birthDate(Date)
+         * Convenience method for setting {@code birthDate}.
          * 
          * @param birthDate
          *     The date on which the practitioner was born
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #birthDate(com.ibm.fhir.model.type.Date)
          */
         public Builder birthDate(java.time.LocalDate birthDate) {
-            this.birthDate = birthDate == null ? null : Date.of(birthDate);
+            this.birthDate = (birthDate == null) ? null : Date.of(birthDate);
             return this;
         }
 

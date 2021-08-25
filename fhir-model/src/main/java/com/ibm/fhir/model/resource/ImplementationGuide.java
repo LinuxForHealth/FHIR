@@ -801,17 +801,18 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the implementation guide
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -833,8 +834,7 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -843,9 +843,11 @@ public class ImplementationGuide extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -867,17 +869,18 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this implementation guide (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -912,17 +915,18 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -958,17 +962,18 @@ public class ImplementationGuide extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1620,17 +1625,18 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     Version of the IG
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -2647,8 +2653,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting name.
-                 * @see #name(String)
+                 * Convenience method for setting {@code name}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2657,9 +2662,11 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
                  */
                 public Builder name(java.lang.String name) {
-                    this.name = name == null ? null : String.of(name);
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -2680,17 +2687,18 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Human readable text describing the package
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3087,17 +3095,18 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting name.
-                 * @see #name(String)
+                 * Convenience method for setting {@code name}.
                  * 
                  * @param name
                  *     Human Name for the resource
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
                  */
                 public Builder name(java.lang.String name) {
-                    this.name = name == null ? null : String.of(name);
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -3117,17 +3126,18 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Reason why included in guide
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3142,6 +3152,22 @@ public class ImplementationGuide extends DomainResource {
                  */
                 public Builder description(String description) {
                     this.description = description;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code example} with choice type Boolean.
+                 * 
+                 * @param example
+                 *     Is an example/What is this an example of?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #example(Element)
+                 */
+                public Builder example(java.lang.Boolean example) {
+                    this.example = (example == null) ? null : Boolean.of(example);
                     return this;
                 }
 
@@ -3504,8 +3530,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting title.
-                 * @see #title(String)
+                 * Convenience method for setting {@code title}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3514,9 +3539,11 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #title(com.ibm.fhir.model.type.String)
                  */
                 public Builder title(java.lang.String title) {
-                    this.title = title == null ? null : String.of(title);
+                    this.title = (title == null) ? null : String.of(title);
                     return this;
                 }
 
@@ -3867,8 +3894,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting value.
-                 * @see #value(String)
+                 * Convenience method for setting {@code value}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3877,9 +3903,11 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #value(com.ibm.fhir.model.type.String)
                  */
                 public Builder value(java.lang.String value) {
-                    this.value = value == null ? null : String.of(value);
+                    this.value = (value == null) ? null : String.of(value);
                     return this;
                 }
 
@@ -4182,8 +4210,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting source.
-                 * @see #source(String)
+                 * Convenience method for setting {@code source}.
                  * 
                  * <p>This element is required.
                  * 
@@ -4192,9 +4219,11 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #source(com.ibm.fhir.model.type.String)
                  */
                 public Builder source(java.lang.String source) {
-                    this.source = source == null ? null : String.of(source);
+                    this.source = (source == null) ? null : String.of(source);
                     return this;
                 }
 
@@ -4215,17 +4244,18 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting scope.
-                 * @see #scope(String)
+                 * Convenience method for setting {@code scope}.
                  * 
                  * @param scope
                  *     The scope in which the template applies
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #scope(com.ibm.fhir.model.type.String)
                  */
                 public Builder scope(java.lang.String scope) {
-                    this.scope = scope == null ? null : String.of(scope);
+                    this.scope = (scope == null) ? null : String.of(scope);
                     return this;
                 }
 
@@ -4640,8 +4670,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * Convenience method for setting image.
-             * @see #image(List<String>)
+             * Convenience method for setting {@code image}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -4650,10 +4679,12 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #image(com.ibm.fhir.model.type.String)
              */
             public Builder image(java.lang.String... image) {
                 for (java.lang.String value : image) {
-                    this.image.add(value == null ? null : String.of(value));
+                    this.image.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -4693,8 +4724,7 @@ public class ImplementationGuide extends DomainResource {
             }
 
             /**
-             * Convenience method for setting other.
-             * @see #other(List<String>)
+             * Convenience method for setting {@code other}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -4703,10 +4733,12 @@ public class ImplementationGuide extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #other(com.ibm.fhir.model.type.String)
              */
             public Builder other(java.lang.String... other) {
                 for (java.lang.String value : other) {
-                    this.other.add(value == null ? null : String.of(value));
+                    this.other.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -5037,6 +5069,22 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code example} with choice type Boolean.
+                 * 
+                 * @param example
+                 *     Is an example/What is this an example of?
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #example(Element)
+                 */
+                public Builder example(java.lang.Boolean example) {
+                    this.example = (example == null) ? null : Boolean.of(example);
+                    return this;
+                }
+
+                /**
                  * If true or a reference, indicates the resource is an example instance. If a reference is present, indicates that the 
                  * example is an example of the specified profile.
                  * 
@@ -5337,8 +5385,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting name.
-                 * @see #name(String)
+                 * Convenience method for setting {@code name}.
                  * 
                  * <p>This element is required.
                  * 
@@ -5347,9 +5394,11 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
                  */
                 public Builder name(java.lang.String name) {
-                    this.name = name == null ? null : String.of(name);
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -5370,17 +5419,18 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting title.
-                 * @see #title(String)
+                 * Convenience method for setting {@code title}.
                  * 
                  * @param title
                  *     Title of the page, for references
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #title(com.ibm.fhir.model.type.String)
                  */
                 public Builder title(java.lang.String title) {
-                    this.title = title == null ? null : String.of(title);
+                    this.title = (title == null) ? null : String.of(title);
                     return this;
                 }
 
@@ -5399,8 +5449,7 @@ public class ImplementationGuide extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting anchor.
-                 * @see #anchor(List<String>)
+                 * Convenience method for setting {@code anchor}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -5409,10 +5458,12 @@ public class ImplementationGuide extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #anchor(com.ibm.fhir.model.type.String)
                  */
                 public Builder anchor(java.lang.String... anchor) {
                     for (java.lang.String value : anchor) {
-                        this.anchor.add(value == null ? null : String.of(value));
+                        this.anchor.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }

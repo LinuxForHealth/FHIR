@@ -952,17 +952,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the questionnaire
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -984,17 +985,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this questionnaire (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1014,17 +1016,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this questionnaire (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1093,17 +1096,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1173,17 +1177,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1351,17 +1356,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting approvalDate.
-         * @see #approvalDate(Date)
+         * Convenience method for setting {@code approvalDate}.
          * 
          * @param approvalDate
          *     When the questionnaire was approved by publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
          */
         public Builder approvalDate(java.time.LocalDate approvalDate) {
-            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
             return this;
         }
 
@@ -1381,17 +1387,18 @@ public class Questionnaire extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lastReviewDate.
-         * @see #lastReviewDate(Date)
+         * Convenience method for setting {@code lastReviewDate}.
          * 
          * @param lastReviewDate
          *     When the questionnaire was last reviewed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
          */
         public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
-            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -2043,8 +2050,7 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting linkId.
-             * @see #linkId(String)
+             * Convenience method for setting {@code linkId}.
              * 
              * <p>This element is required.
              * 
@@ -2053,9 +2059,11 @@ public class Questionnaire extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #linkId(com.ibm.fhir.model.type.String)
              */
             public Builder linkId(java.lang.String linkId) {
-                this.linkId = linkId == null ? null : String.of(linkId);
+                this.linkId = (linkId == null) ? null : String.of(linkId);
                 return this;
             }
 
@@ -2139,17 +2147,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting prefix.
-             * @see #prefix(String)
+             * Convenience method for setting {@code prefix}.
              * 
              * @param prefix
              *     E.g. "1(a)", "2.5.3"
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #prefix(com.ibm.fhir.model.type.String)
              */
             public Builder prefix(java.lang.String prefix) {
-                this.prefix = prefix == null ? null : String.of(prefix);
+                this.prefix = (prefix == null) ? null : String.of(prefix);
                 return this;
             }
 
@@ -2169,17 +2178,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Primary text for the item
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -2265,17 +2275,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting required.
-             * @see #required(Boolean)
+             * Convenience method for setting {@code required}.
              * 
              * @param required
              *     Whether the item must be included in data results
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #required(com.ibm.fhir.model.type.Boolean)
              */
             public Builder required(java.lang.Boolean required) {
-                this.required = required == null ? null : Boolean.of(required);
+                this.required = (required == null) ? null : Boolean.of(required);
                 return this;
             }
 
@@ -2295,17 +2306,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting repeats.
-             * @see #repeats(Boolean)
+             * Convenience method for setting {@code repeats}.
              * 
              * @param repeats
              *     Whether the item may repeat
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #repeats(com.ibm.fhir.model.type.Boolean)
              */
             public Builder repeats(java.lang.Boolean repeats) {
-                this.repeats = repeats == null ? null : Boolean.of(repeats);
+                this.repeats = (repeats == null) ? null : Boolean.of(repeats);
                 return this;
             }
 
@@ -2325,17 +2337,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting readOnly.
-             * @see #readOnly(Boolean)
+             * Convenience method for setting {@code readOnly}.
              * 
              * @param readOnly
              *     Don't allow human editing
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #readOnly(com.ibm.fhir.model.type.Boolean)
              */
             public Builder readOnly(java.lang.Boolean readOnly) {
-                this.readOnly = readOnly == null ? null : Boolean.of(readOnly);
+                this.readOnly = (readOnly == null) ? null : Boolean.of(readOnly);
                 return this;
             }
 
@@ -2354,17 +2367,18 @@ public class Questionnaire extends DomainResource {
             }
 
             /**
-             * Convenience method for setting maxLength.
-             * @see #maxLength(Integer)
+             * Convenience method for setting {@code maxLength}.
              * 
              * @param maxLength
              *     No more than this many characters
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #maxLength(com.ibm.fhir.model.type.Integer)
              */
             public Builder maxLength(java.lang.Integer maxLength) {
-                this.maxLength = maxLength == null ? null : Integer.of(maxLength);
+                this.maxLength = (maxLength == null) ? null : Integer.of(maxLength);
                 return this;
             }
 
@@ -2801,8 +2815,7 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting question.
-                 * @see #question(String)
+                 * Convenience method for setting {@code question}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2811,9 +2824,11 @@ public class Questionnaire extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #question(com.ibm.fhir.model.type.String)
                  */
                 public Builder question(java.lang.String question) {
-                    this.question = question == null ? null : String.of(question);
+                    this.question = (question == null) ? null : String.of(question);
                     return this;
                 }
 
@@ -2846,6 +2861,78 @@ public class Questionnaire extends DomainResource {
                  */
                 public Builder operator(QuestionnaireItemOperator operator) {
                     this.operator = operator;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Boolean.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.Boolean answer) {
+                    this.answer = (answer == null) ? null : Boolean.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.Integer answer) {
+                    this.answer = (answer == null) ? null : Integer.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.time.LocalDate answer) {
+                    this.answer = (answer == null) ? null : Date.of(answer);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code answer} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param answer
+                 *     Value for question comparison based on operator
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #answer(Element)
+                 */
+                public Builder answer(java.lang.String answer) {
+                    this.answer = (answer == null) ? null : String.of(answer);
                     return this;
                 }
 
@@ -3138,6 +3225,60 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalDate value) {
+                    this.value = (value == null) ? null : Date.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Answer value
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
+                }
+
+                /**
                  * A potential answer that's allowed as the answer to this question.
                  * 
                  * <p>This element is required.
@@ -3164,17 +3305,18 @@ public class Questionnaire extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting initialSelected.
-                 * @see #initialSelected(Boolean)
+                 * Convenience method for setting {@code initialSelected}.
                  * 
                  * @param initialSelected
                  *     Whether option is selected by default
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #initialSelected(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder initialSelected(java.lang.Boolean initialSelected) {
-                    this.initialSelected = initialSelected == null ? null : Boolean.of(initialSelected);
+                    this.initialSelected = (initialSelected == null) ? null : Boolean.of(initialSelected);
                     return this;
                 }
 
@@ -3427,6 +3569,78 @@ public class Questionnaire extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Date.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalDate value) {
+                    this.value = (value == null) ? null : Date.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Actual value for initializing the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
                 }
 
                 /**

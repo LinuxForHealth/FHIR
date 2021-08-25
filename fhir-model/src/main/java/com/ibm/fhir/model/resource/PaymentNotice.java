@@ -695,17 +695,18 @@ public class PaymentNotice extends DomainResource {
         }
 
         /**
-         * Convenience method for setting paymentDate.
-         * @see #paymentDate(Date)
+         * Convenience method for setting {@code paymentDate}.
          * 
          * @param paymentDate
          *     Payment or clearing date
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #paymentDate(com.ibm.fhir.model.type.Date)
          */
         public Builder paymentDate(java.time.LocalDate paymentDate) {
-            this.paymentDate = paymentDate == null ? null : Date.of(paymentDate);
+            this.paymentDate = (paymentDate == null) ? null : Date.of(paymentDate);
             return this;
         }
 
