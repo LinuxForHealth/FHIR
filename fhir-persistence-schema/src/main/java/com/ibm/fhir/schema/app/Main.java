@@ -701,7 +701,10 @@ public class Main {
      *            the tenant's name
      * @param tenantKey
      *            tenant key
-     * @param skip indicates the tenant exists
+     * @param skip
+     *            whether or not to skip over cases where this tenantName/tenantKey combination already exists
+     *
+     * @throws IllegalArgumentException if the tenantName/tenantKey combination already exists and the {@code skip} argument is false
      *
      * @return indicates if the tenantName/tenantKey exists
      */
