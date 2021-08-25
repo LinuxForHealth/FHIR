@@ -377,7 +377,7 @@ public class ActivityDefinition extends DomainResource {
      * A code or group definition that describes the intended subject of the activity being defined.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -649,7 +649,8 @@ public class ActivityDefinition extends DomainResource {
      * The period, timing or frequency upon which the described activity is to occur.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Timing}, {@link DateTime}, {@link Age}, {@link Period}, {@link Range} or {@link 
+     *     Duration} that may be null.
      */
     public Element getTiming() {
         return timing;
@@ -679,7 +680,7 @@ public class ActivityDefinition extends DomainResource {
      * Identifies the food, drug or other product being consumed or supplied in the activity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
      */
     public Element getProduct() {
         return product;

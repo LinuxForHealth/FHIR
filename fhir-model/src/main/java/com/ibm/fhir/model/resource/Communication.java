@@ -1581,7 +1581,7 @@ public class Communication extends DomainResource {
          * A communicated content (or for multi-part communications, one portion of the communication).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link String}, {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;

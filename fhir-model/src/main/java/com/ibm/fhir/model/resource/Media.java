@@ -275,7 +275,7 @@ public class Media extends DomainResource {
      * The date and time(s) at which the media was collected.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getCreated() {
         return created;

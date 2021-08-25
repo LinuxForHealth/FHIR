@@ -221,7 +221,7 @@ public class RiskAssessment extends DomainResource {
      * The date (and possibly time) the risk assessment was performed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1205,7 +1205,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates how likely the outcome is (in the specified timeframe).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Decimal} or {@link Range} that may be null.
          */
         public Element getProbability() {
             return probability;
@@ -1237,7 +1237,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates the period of time or age range of the subject to which the specified probability applies.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Period} or {@link Range} that may be null.
          */
         public Element getWhen() {
             return when;

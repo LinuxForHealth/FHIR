@@ -109,7 +109,7 @@ public class TriggerDefinition extends Element {
      * The timing of the event (if this is a periodic trigger).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Timing}, {@link Reference}, {@link Date} or {@link DateTime} that may be null.
      */
     public Element getTiming() {
         return timing;

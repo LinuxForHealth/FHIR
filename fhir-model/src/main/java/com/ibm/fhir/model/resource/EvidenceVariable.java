@@ -1790,7 +1790,8 @@ public class EvidenceVariable extends DomainResource {
          * last year).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Reference}, {@link Canonical}, {@link CodeableConcept}, {@link Expression}, {@link 
+         *     DataRequirement} or {@link TriggerDefinition} that is non-null.
          */
         public Element getDefinition() {
             return definition;
@@ -1820,7 +1821,7 @@ public class EvidenceVariable extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period}, {@link Duration} or {@link Timing} that may be null.
          */
         public Element getParticipantEffective() {
             return participantEffective;

@@ -362,7 +362,7 @@ public class PlanDefinition extends DomainResource {
      * A code or group definition that describes the intended subject of the plan definition.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -2547,7 +2547,7 @@ public class PlanDefinition extends DomainResource {
              * is achieved at any value at or above the low value.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Quantity}, {@link Range} or {@link CodeableConcept} that may be null.
              */
             public Element getDetail() {
                 return detail;
@@ -3042,7 +3042,7 @@ public class PlanDefinition extends DomainResource {
          * A code or group definition that describes the intended subject of the action and its children, if any.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getSubject() {
             return subject;
@@ -3102,7 +3102,8 @@ public class PlanDefinition extends DomainResource {
          * An optional value describing when the action should be performed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Duration}, {@link Range} or {@link 
+         *     Timing} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -3183,7 +3184,7 @@ public class PlanDefinition extends DomainResource {
          * describes a series of actions to be taken.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Canonical} or {@link Uri} that may be null.
          */
         public Element getDefinition() {
             return definition;
@@ -4651,7 +4652,7 @@ public class PlanDefinition extends DomainResource {
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Duration} or {@link Range} that may be null.
              */
             public Element getOffset() {
                 return offset;

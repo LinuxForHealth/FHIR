@@ -296,7 +296,7 @@ public class MedicationRequest extends DomainResource {
      * truth record. It may also indicate the source of the report.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link Reference} that may be null.
      */
     public Element getReported() {
         return reported;
@@ -308,7 +308,7 @@ public class MedicationRequest extends DomainResource {
      * of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -2744,7 +2744,7 @@ public class MedicationRequest extends DomainResource {
          * True if the prescriber allows a different drug to be dispensed from what was prescribed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Boolean} or {@link CodeableConcept} that is non-null.
          */
         public Element getAllowed() {
             return allowed;

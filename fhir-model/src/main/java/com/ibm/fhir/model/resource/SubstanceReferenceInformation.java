@@ -1766,7 +1766,7 @@ public class SubstanceReferenceInformation extends DomainResource {
          * Todo.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;

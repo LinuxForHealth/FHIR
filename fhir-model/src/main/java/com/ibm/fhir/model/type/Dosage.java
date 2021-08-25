@@ -158,7 +158,7 @@ public class Dosage extends BackboneElement {
      * indicates the precondition for taking the Medication (CodeableConcept).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link CodeableConcept} that may be null.
      */
     public Element getAsNeeded() {
         return asNeeded;
@@ -845,7 +845,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per dose.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Range} or {@link SimpleQuantity} that may be null.
          */
         public Element getDose() {
             return dose;
@@ -855,7 +855,7 @@ public class Dosage extends BackboneElement {
          * Amount of medication per unit of time.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Ratio}, {@link Range} or {@link SimpleQuantity} that may be null.
          */
         public Element getRate() {
             return rate;

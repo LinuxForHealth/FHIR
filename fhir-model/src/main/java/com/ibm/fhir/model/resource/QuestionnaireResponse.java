@@ -1352,7 +1352,9 @@ public class QuestionnaireResponse extends DomainResource {
              * The answer (or one of the answers) provided by the respondent to the question.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that may 
+             *     be null.
              */
             public Element getValue() {
                 return value;

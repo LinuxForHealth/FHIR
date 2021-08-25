@@ -460,7 +460,7 @@ public class Contract extends DomainResource {
      * Narrows the range of legal concerns to focus on the achievement of specific contractual objectives.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getTopic() {
         return topic;
@@ -583,7 +583,7 @@ public class Contract extends DomainResource {
      * considered the "source of truth" and which would be the basis for legal action related to enforcement of this Contract.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Attachment} or {@link Reference} that may be null.
      */
     public Element getLegallyBinding() {
         return legallyBinding;
@@ -2583,7 +2583,7 @@ public class Contract extends DomainResource {
          * The entity that the term applies to.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getTopic() {
             return topic;
@@ -4713,7 +4713,9 @@ public class Contract extends DomainResource {
                  * research.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that is non-null.
+                 *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+                 *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that is 
+                 *     non-null.
                  */
                 public Element getValue() {
                     return value;
@@ -6419,7 +6421,7 @@ public class Contract extends DomainResource {
                  * Specific type of Contract Valued Item that may be priced.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
                  */
                 public Element getEntity() {
                     return entity;
@@ -7333,7 +7335,7 @@ public class Contract extends DomainResource {
              * When action happens.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
              */
             public Element getOccurrence() {
                 return occurrence;
@@ -9295,7 +9297,7 @@ public class Contract extends DomainResource {
          * understandability.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -9556,7 +9558,7 @@ public class Contract extends DomainResource {
          * Contract legal text in human renderable form.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -9816,7 +9818,7 @@ public class Contract extends DomainResource {
          * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;

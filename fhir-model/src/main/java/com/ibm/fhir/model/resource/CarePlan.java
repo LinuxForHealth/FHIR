@@ -2286,7 +2286,7 @@ public class CarePlan extends DomainResource {
              * The period, timing or frequency upon which the described activity is to occur.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Timing}, {@link Period} or {@link String} that may be null.
              */
             public Element getScheduled() {
                 return scheduled;
@@ -2316,7 +2316,7 @@ public class CarePlan extends DomainResource {
              * Identifies the food, drug or other product to be consumed or supplied in the activity.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
              */
             public Element getProduct() {
                 return product;

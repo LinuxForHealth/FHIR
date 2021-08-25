@@ -894,7 +894,8 @@ public class Group extends DomainResource {
          * The value of the trait that holds (or does not hold - see 'exclude') for members of the group.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Boolean}, {@link Quantity}, {@link Range} or {@link 
+         *     Reference} that is non-null.
          */
         public Element getValue() {
             return value;

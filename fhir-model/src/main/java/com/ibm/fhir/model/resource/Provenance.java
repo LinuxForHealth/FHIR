@@ -143,7 +143,7 @@ public class Provenance extends DomainResource {
      * The period during which the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
      */
     public Element getOccurred() {
         return occurred;

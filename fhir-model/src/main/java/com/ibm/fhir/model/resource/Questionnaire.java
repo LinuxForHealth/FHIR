@@ -2628,7 +2628,8 @@ public class Questionnaire extends DomainResource {
              * A value that the referenced question is tested using the specified operator in order for the item to be enabled.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Coding}, {@link Quantity} or {@link Reference} that is non-null.
              */
             public Element getAnswer() {
                 return answer;
@@ -3033,7 +3034,8 @@ public class Questionnaire extends DomainResource {
              * A potential answer that's allowed as the answer to this question.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Integer}, {@link Date}, {@link Time}, {@link String}, {@link Coding} or {@link 
+             *     Reference} that is non-null.
              */
             public Element getValue() {
                 return value;
@@ -3395,7 +3397,9 @@ public class Questionnaire extends DomainResource {
              * The actual value to for an initial answer.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that is 
+             *     non-null.
              */
             public Element getValue() {
                 return value;

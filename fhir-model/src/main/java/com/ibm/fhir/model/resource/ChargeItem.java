@@ -256,7 +256,7 @@ public class ChargeItem extends DomainResource {
      * Date/time(s) or duration when the charged service was applied.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -397,7 +397,7 @@ public class ChargeItem extends DomainResource {
      * Identifies the device, food, drug or other product being charged either by type code or reference to an instance.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
      */
     public Element getProduct() {
         return product;

@@ -256,7 +256,7 @@ public class Goal extends DomainResource {
      * The date or event after which the goal should begin being pursued.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link CodeableConcept} that may be null.
      */
     public Element getStart() {
         return start;
@@ -1282,7 +1282,8 @@ public class Goal extends DomainResource {
          * goal is achieved at any focus value at or above the low value.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range}, {@link CodeableConcept}, {@link String}, {@link Boolean}, 
+         *     {@link Integer} or {@link Ratio} that may be null.
          */
         public Element getDetail() {
             return detail;
@@ -1292,7 +1293,7 @@ public class Goal extends DomainResource {
          * Indicates either the date or the duration after start by which the goal should be met.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Duration} that may be null.
          */
         public Element getDue() {
             return due;

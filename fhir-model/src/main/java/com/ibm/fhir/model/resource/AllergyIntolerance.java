@@ -267,7 +267,8 @@ public class AllergyIntolerance extends DomainResource {
      * Estimated or actual date, date-time, or age when allergy or intolerance was identified.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Range} or {@link String} that may be 
+     *     null.
      */
     public Element getOnset() {
         return onset;

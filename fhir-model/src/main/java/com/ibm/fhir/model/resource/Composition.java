@@ -1511,7 +1511,7 @@ public class Composition extends DomainResource {
          * The target composition/document of this relationship.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Identifier} or {@link Reference} that is non-null.
          */
         public Element getTarget() {
             return target;

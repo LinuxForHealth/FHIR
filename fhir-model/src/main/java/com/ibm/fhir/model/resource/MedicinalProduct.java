@@ -2908,7 +2908,7 @@ public class MedicinalProduct extends DomainResource {
          * Condition for which the medicinal use applies.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getIndication() {
             return indication;

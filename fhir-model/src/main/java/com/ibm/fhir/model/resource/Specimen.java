@@ -1076,7 +1076,7 @@ public class Specimen extends DomainResource {
          * Time when specimen was collected from subject - the physiologically relevant time.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
          */
         public Element getCollected() {
             return collected;
@@ -1128,7 +1128,7 @@ public class Specimen extends DomainResource {
          * Abstinence or reduction from some or all food, drink, or both, for a period of time prior to sample collection.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Duration} that may be null.
          */
         public Element getFastingStatus() {
             return fastingStatus;
@@ -1551,7 +1551,7 @@ public class Specimen extends DomainResource {
          * period of time the sample was in formalin.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
          */
         public Element getTime() {
             return time;
@@ -1980,7 +1980,7 @@ public class Specimen extends DomainResource {
          * Introduced substance to preserve, maintain or enhance the specimen. Examples: Formalin, Citrate, EDTA.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getAdditive() {
             return additive;

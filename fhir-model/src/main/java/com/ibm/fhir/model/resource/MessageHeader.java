@@ -117,7 +117,7 @@ public class MessageHeader extends DomainResource {
      * to the EventDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link Coding} or {@link Uri} that is non-null.
      */
     public Element getEvent() {
         return event;

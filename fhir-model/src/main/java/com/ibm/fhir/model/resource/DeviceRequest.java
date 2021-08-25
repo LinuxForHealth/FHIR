@@ -275,7 +275,7 @@ public class DeviceRequest extends DomainResource {
      * The details of the device to be used.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link Reference} or {@link CodeableConcept} that is non-null.
      */
     public Element getCode() {
         return code;
@@ -317,7 +317,7 @@ public class DeviceRequest extends DomainResource {
      * Oct 2013 and 1 Nov 2013".
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1619,7 +1619,8 @@ public class DeviceRequest extends DomainResource {
          * The value of the device detail.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Range} or {@link Boolean} that may be 
+         *     null.
          */
         public Element getValue() {
             return value;

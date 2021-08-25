@@ -763,7 +763,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * Nominal position of the recommended dose in a series (e.g. dose 2 is the next recommended dose).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
          */
         public Element getDoseNumber() {
             return doseNumber;
@@ -773,7 +773,7 @@ public class ImmunizationRecommendation extends DomainResource {
          * The recommended number of doses to achieve immunity.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
          */
         public Element getSeriesDoses() {
             return seriesDoses;

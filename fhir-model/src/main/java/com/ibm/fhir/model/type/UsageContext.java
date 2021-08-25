@@ -79,7 +79,8 @@ public class UsageContext extends Element {
      * code.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Range} or {@link Reference} that is non-
+     *     null.
      */
     public Element getValue() {
         return value;

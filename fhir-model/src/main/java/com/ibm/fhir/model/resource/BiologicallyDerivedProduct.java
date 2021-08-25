@@ -929,7 +929,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of product collection.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
          */
         public Element getCollected() {
             return collected;
@@ -1271,7 +1271,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of processing.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
          */
         public Element getTime() {
             return time;
@@ -1609,7 +1609,7 @@ public class BiologicallyDerivedProduct extends DomainResource {
          * Time of manipulation.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
          */
         public Element getTime() {
             return time;

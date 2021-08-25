@@ -3316,7 +3316,7 @@ public class ClaimResponse extends DomainResource {
          * The date or dates when the service or product was supplied, performed or completed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getServiced() {
             return serviced;
@@ -3326,7 +3326,7 @@ public class ClaimResponse extends DomainResource {
          * Where the product or service was provided.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;

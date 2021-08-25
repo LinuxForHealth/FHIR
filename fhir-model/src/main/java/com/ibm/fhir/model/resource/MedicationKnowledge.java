@@ -2099,7 +2099,7 @@ public class MedicationKnowledge extends DomainResource {
          * The actual ingredient - either a substance (simple ingredient) or another medication.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getItem() {
             return item;
@@ -3062,7 +3062,7 @@ public class MedicationKnowledge extends DomainResource {
          * Indication for use that apply to the specific administration guidelines.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getIndication() {
             return indication;
@@ -3712,7 +3712,7 @@ public class MedicationKnowledge extends DomainResource {
              * Specific characteristic that is relevant to the administration guideline (e.g. height, weight, gender).
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link CodeableConcept} or {@link SimpleQuantity} that is non-null.
              */
             public Element getCharacteristic() {
                 return characteristic;
@@ -4624,7 +4624,8 @@ public class MedicationKnowledge extends DomainResource {
          * Description of the characteristic.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link String}, {@link SimpleQuantity} or {@link Base64Binary} 
+         *     that may be null.
          */
         public Element getValue() {
             return value;

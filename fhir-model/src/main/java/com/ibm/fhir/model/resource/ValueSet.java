@@ -3726,7 +3726,8 @@ public class ValueSet extends DomainResource {
              * The value of the parameter.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link String}, {@link Boolean}, {@link Integer}, {@link Decimal}, {@link Uri}, {@link 
+             *     Code} or {@link DateTime} that may be null.
              */
             public Element getValue() {
                 return value;

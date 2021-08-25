@@ -44,7 +44,7 @@ public class Annotation extends Element {
      * The individual responsible for making the annotation.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Reference} or {@link String} that may be null.
      */
     public Element getAuthor() {
         return author;

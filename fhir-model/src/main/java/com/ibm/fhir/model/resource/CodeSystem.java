@@ -3296,7 +3296,8 @@ public class CodeSystem extends DomainResource {
              * The value of this property.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Code}, {@link Coding}, {@link String}, {@link Integer}, {@link Boolean}, {@link 
+             *     DateTime} or {@link Decimal} that is non-null.
              */
             public Element getValue() {
                 return value;

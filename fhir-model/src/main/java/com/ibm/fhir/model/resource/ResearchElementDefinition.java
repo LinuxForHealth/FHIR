@@ -330,7 +330,7 @@ public class ResearchElementDefinition extends DomainResource {
      * assumed, but the subject of the ResearchElementDefinition can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -2112,7 +2112,8 @@ public class ResearchElementDefinition extends DomainResource {
          * last year).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Canonical}, {@link Expression} or {@link DataRequirement} 
+         *     that is non-null.
          */
         public Element getDefinition() {
             return definition;
@@ -2162,7 +2163,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period}, {@link Duration} or {@link Timing} that may be null.
          */
         public Element getStudyEffective() {
             return studyEffective;
@@ -2202,7 +2203,7 @@ public class ResearchElementDefinition extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period}, {@link Duration} or {@link Timing} that may be null.
          */
         public Element getParticipantEffective() {
             return participantEffective;

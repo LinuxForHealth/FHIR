@@ -126,7 +126,7 @@ public class DataRequirement extends Element {
      * The intended subjects of the data requirement. If this element is not provided, a Patient subject is assumed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;
@@ -1114,7 +1114,7 @@ public class DataRequirement extends Element {
          * only those data items that fall within Duration before now.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period} or {@link Duration} that may be null.
          */
         public Element getValue() {
             return value;

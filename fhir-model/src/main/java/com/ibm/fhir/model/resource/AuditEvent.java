@@ -3013,7 +3013,7 @@ public class AuditEvent extends DomainResource {
              * The value of the extra detail.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link String} or {@link Base64Binary} that is non-null.
              */
             public Element getValue() {
                 return value;

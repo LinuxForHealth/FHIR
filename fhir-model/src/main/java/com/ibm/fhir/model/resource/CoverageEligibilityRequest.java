@@ -181,7 +181,7 @@ public class CoverageEligibilityRequest extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link Period} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -2390,7 +2390,7 @@ public class CoverageEligibilityRequest extends DomainResource {
              * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
              */
             public Element getDiagnosis() {
                 return diagnosis;

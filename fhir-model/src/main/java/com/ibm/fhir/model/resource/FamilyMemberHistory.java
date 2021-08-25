@@ -283,7 +283,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The actual or approximate date of birth of the relative.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period}, {@link Date} or {@link String} that may be null.
      */
     public Element getBorn() {
         return born;
@@ -293,7 +293,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The age of the relative at the time the family member history is recorded.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Age}, {@link Range} or {@link String} that may be null.
      */
     public Element getAge() {
         return age;
@@ -314,7 +314,8 @@ public class FamilyMemberHistory extends DomainResource {
      * record.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean}, {@link Age}, {@link Range}, {@link Date} or {@link String} that may be 
+     *     null.
      */
     public Element getDeceased() {
         return deceased;
@@ -1458,7 +1459,7 @@ public class FamilyMemberHistory extends DomainResource {
          * occurrences, this describes the first known occurrence.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Age}, {@link Range}, {@link Period} or {@link String} that may be null.
          */
         public Element getOnset() {
             return onset;

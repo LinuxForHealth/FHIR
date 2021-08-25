@@ -1305,7 +1305,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this moiety.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -1761,7 +1761,7 @@ public class SubstanceSpecification extends DomainResource {
          * A substance upon which a defining property depends (e.g. for solubility: in water, in alcohol).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
          */
         public Element getDefiningSubstance() {
             return definingSubstance;
@@ -1771,7 +1771,7 @@ public class SubstanceSpecification extends DomainResource {
          * Quantitative value for this property.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;
@@ -5223,7 +5223,7 @@ public class SubstanceSpecification extends DomainResource {
          * A pointer to another substance, as a resource or just a representational code.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
          */
         public Element getSubstance() {
             return substance;
@@ -5255,7 +5255,7 @@ public class SubstanceSpecification extends DomainResource {
          * active substance in relation to some other.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link Range}, {@link Ratio} or {@link String} that may be null.
          */
         public Element getAmount() {
             return amount;

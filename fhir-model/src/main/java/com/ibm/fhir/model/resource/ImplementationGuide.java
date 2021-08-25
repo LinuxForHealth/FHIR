@@ -2831,7 +2831,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean} or {@link Canonical} that may be null.
              */
             public Element getExample() {
                 return example;
@@ -3281,7 +3281,7 @@ public class ImplementationGuide extends DomainResource {
              * The source address for the page.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Url} or {@link Reference} that is non-null.
              */
             public Element getName() {
                 return name;
@@ -4856,7 +4856,7 @@ public class ImplementationGuide extends DomainResource {
              * example is an example of the specified profile.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean} or {@link Canonical} that may be null.
              */
             public Element getExample() {
                 return example;

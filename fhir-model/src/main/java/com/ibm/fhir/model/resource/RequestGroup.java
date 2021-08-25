@@ -1441,7 +1441,8 @@ public class RequestGroup extends DomainResource {
          * An optional value describing when the action should be performed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Duration}, {@link Range} or {@link 
+         *     Timing} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -2665,7 +2666,7 @@ public class RequestGroup extends DomainResource {
              * A duration or range of durations to apply to the relationship. For example, 30-60 minutes before.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Duration} or {@link Range} that may be null.
              */
             public Element getOffset() {
                 return offset;

@@ -320,7 +320,7 @@ public class Library extends DomainResource {
      * A code or group definition that describes the intended subject of the contents of the library.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;

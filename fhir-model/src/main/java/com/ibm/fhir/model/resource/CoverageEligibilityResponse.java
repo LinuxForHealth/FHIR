@@ -189,7 +189,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link Period} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -2356,7 +2356,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which is permitted under the coverage.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getAllowed() {
                     return allowed;
@@ -2366,7 +2366,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which have been consumed to date.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getUsed() {
                     return used;

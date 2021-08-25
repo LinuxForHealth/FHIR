@@ -300,7 +300,8 @@ public class Condition extends DomainResource {
      * Estimated or actual date or date-time the condition began, in the opinion of the clinician.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Range} or {@link String} that may be 
+     *     null.
      */
     public Element getOnset() {
         return onset;
@@ -312,7 +313,8 @@ public class Condition extends DomainResource {
      * but they can abate.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Age}, {@link Period}, {@link Range} or {@link String} that may be 
+     *     null.
      */
     public Element getAbatement() {
         return abatement;

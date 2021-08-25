@@ -3202,7 +3202,15 @@ public class StructureMap extends DomainResource {
                  * A value to use if there is no existing value in the source object.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+                 *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+                 *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+                 *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+                 *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+                 *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+                 *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+                 *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+                 *     or {@link Meta} that may be null.
                  */
                 public Element getDefaultValue() {
                     return defaultValue;
@@ -4501,7 +4509,8 @@ public class StructureMap extends DomainResource {
                      * Parameter value - variable or literal.
                      * 
                      * @return
-                     *     An immutable object of type {@link Element} that is non-null.
+                     *     An immutable object of type {@link Id}, {@link String}, {@link Boolean}, {@link Integer} or {@link Decimal} that is 
+                     *     non-null.
                      */
                     public Element getValue() {
                         return value;

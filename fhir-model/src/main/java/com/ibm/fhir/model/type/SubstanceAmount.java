@@ -47,7 +47,7 @@ public class SubstanceAmount extends BackboneElement {
      * the average. If only a single definite value for a given element is given, it would be captured in this field.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Quantity}, {@link Range} or {@link String} that may be null.
      */
     public Element getAmount() {
         return amount;

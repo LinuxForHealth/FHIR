@@ -398,7 +398,7 @@ public class Measure extends DomainResource {
      * of the measure can be anything.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getSubject() {
         return subject;

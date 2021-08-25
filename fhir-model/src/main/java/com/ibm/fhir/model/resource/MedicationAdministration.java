@@ -237,7 +237,7 @@ public class MedicationAdministration extends DomainResource {
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -280,7 +280,7 @@ public class MedicationAdministration extends DomainResource {
      * appropriate.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that is non-null.
      */
     public Element getEffective() {
         return effective;
@@ -1795,7 +1795,7 @@ public class MedicationAdministration extends DomainResource {
          * hours. Other examples: 200 mcg/min or 200 mcg/1 minute; 1 liter/8 hours.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Ratio} or {@link SimpleQuantity} that may be null.
          */
         public Element getRate() {
             return rate;

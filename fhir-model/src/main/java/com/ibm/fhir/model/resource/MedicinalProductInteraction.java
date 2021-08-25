@@ -675,7 +675,7 @@ public class MedicinalProductInteraction extends DomainResource {
          * The specific medication, food or laboratory test that interacts.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that is non-null.
          */
         public Element getItem() {
             return item;

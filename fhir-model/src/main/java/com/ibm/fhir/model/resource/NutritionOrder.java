@@ -3392,7 +3392,7 @@ public class NutritionOrder extends DomainResource {
              * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link SimpleQuantity} or {@link Ratio} that may be null.
              */
             public Element getRate() {
                 return rate;

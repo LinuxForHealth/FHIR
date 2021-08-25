@@ -211,7 +211,7 @@ public class MedicationDispense extends DomainResource {
      * Indicates the reason why a dispense was not performed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getStatusReason() {
         return statusReason;
@@ -233,7 +233,7 @@ public class MedicationDispense extends DomainResource {
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getMedication() {
         return medication;

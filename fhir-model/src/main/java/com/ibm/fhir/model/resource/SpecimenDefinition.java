@@ -1315,7 +1315,7 @@ public class SpecimenDefinition extends DomainResource {
              * The minimum volume to be conditioned in the container.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link SimpleQuantity} or {@link String} that may be null.
              */
             public Element getMinimumVolume() {
                 return minimumVolume;
@@ -1799,7 +1799,7 @@ public class SpecimenDefinition extends DomainResource {
                  * Citrate, EDTA.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that is non-null.
+                 *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
                  */
                 public Element getAdditive() {
                     return additive;

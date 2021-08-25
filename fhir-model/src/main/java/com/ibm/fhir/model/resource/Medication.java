@@ -719,7 +719,7 @@ public class Medication extends DomainResource {
          * The actual ingredient - either a substance (simple ingredient) or another medication of a medication.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getItem() {
             return item;

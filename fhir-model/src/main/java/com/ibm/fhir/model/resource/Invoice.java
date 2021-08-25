@@ -1383,7 +1383,7 @@ public class Invoice extends DomainResource {
          * the lineItem, inline billing codes can be added using the CodeableConcept data type instead of the Reference.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that is non-null.
          */
         public Element getChargeItem() {
             return chargeItem;

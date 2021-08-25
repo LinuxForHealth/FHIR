@@ -1066,7 +1066,7 @@ public class Substance extends DomainResource {
          * Another substance that is a component of this substance.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getSubstance() {
             return substance;

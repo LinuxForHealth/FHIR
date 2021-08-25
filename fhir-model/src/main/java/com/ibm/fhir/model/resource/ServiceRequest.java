@@ -391,7 +391,7 @@ public class ServiceRequest extends DomainResource {
      * example, 20 half day visits per month), or a range (2.0 to 1.8 Gy per fraction).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Quantity}, {@link Ratio} or {@link Range} that may be null.
      */
     public Element getQuantity() {
         return quantity;
@@ -422,7 +422,7 @@ public class ServiceRequest extends DomainResource {
      * The date/time at which the requested service should occur.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -433,7 +433,7 @@ public class ServiceRequest extends DomainResource {
      * flare-up", etc.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link CodeableConcept} that may be null.
      */
     public Element getAsNeeded() {
         return asNeeded;

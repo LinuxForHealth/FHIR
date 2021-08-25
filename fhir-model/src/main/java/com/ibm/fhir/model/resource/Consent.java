@@ -323,7 +323,7 @@ public class Consent extends DomainResource {
      * original consent document.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Attachment} or {@link Reference} that may be null.
      */
     public Element getSource() {
         return source;

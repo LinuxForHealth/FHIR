@@ -277,7 +277,7 @@ public class Immunization extends DomainResource {
      * Date vaccine administered or was to be administered.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link DateTime} or {@link String} that is non-null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -2748,7 +2748,7 @@ public class Immunization extends DomainResource {
          * Nominal position in a series.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that is non-null.
          */
         public Element getDoseNumber() {
             return doseNumber;
@@ -2758,7 +2758,7 @@ public class Immunization extends DomainResource {
          * The recommended number of doses to achieve immunity.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
          */
         public Element getSeriesDoses() {
             return seriesDoses;

@@ -1891,17 +1891,47 @@ public class CodeGenerator {
         cb.javadoc("");
         boolean isRequired = isRequired(elementDefinition);
         if (isRepeating(elementDefinition)) {
-            String reference = getFieldType(structureDefinition, elementDefinition, false);
-            reference = reference.substring(reference.lastIndexOf(".") + 1);
             String emptyHint = isRequired ? " that is non-empty." : " that may be empty.";
-            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + emptyHint);
+
+            String reference;
+            if (isChoiceElement(elementDefinition)) {
+                reference = buildChoiceTypeString(elementDefinition);
+            } else {
+                reference = getFieldType(structureDefinition, elementDefinition, false);
+                reference = reference.substring(reference.lastIndexOf(".") + 1);
+                reference = javadocLink(reference);
+            }
+
+            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + reference + emptyHint);
         } else {
-            // Processes the JavaDoc Link into an absolute path where available.
-            String reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
             String nullHint = isRequired ? " that is non-null." : " that may be null.";
-            cb.javadocReturn("An immutable object of type " + javadocLink(reference) + nullHint);
+
+            String reference;
+            if (isChoiceElement(elementDefinition)) {
+                reference = buildChoiceTypeString(elementDefinition);
+            } else {
+                // Processes the JavaDoc Link into an absolute path where available.
+                reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
+                reference = javadocLink(reference);
+            }
+
+            cb.javadocReturn("An immutable object of type " + reference + nullHint);
         }
         cb.javadocEnd();
+    }
+
+    private String buildChoiceTypeString(JsonObject elementDefinition) {
+        StringBuilder sb = new StringBuilder();
+        List<String> choiceTypeNames = getChoiceTypeNames(elementDefinition);
+        String delim = "";
+        for (int i = 0; i < choiceTypeNames.size(); i++) {
+            if (i > 0 && i == choiceTypeNames.size() - 1) {
+                delim = " or ";
+            }
+            sb.append(delim + javadocLink(choiceTypeNames.get(i)));
+            delim = ", ";
+        }
+        return sb.toString();
     }
 
     private void generateFactoryMethods(JsonObject structureDefinition, CodeBuilder cb) {

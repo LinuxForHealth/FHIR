@@ -228,7 +228,7 @@ public class Patient extends DomainResource {
      * Indicates if the individual is deceased or not.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link DateTime} that may be null.
      */
     public Element getDeceased() {
         return deceased;
@@ -258,7 +258,7 @@ public class Patient extends DomainResource {
      * Indicates whether the patient is part of a multiple (boolean) or indicates the actual birth order (integer).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean} or {@link Integer} that may be null.
      */
     public Element getMultipleBirth() {
         return multipleBirth;

@@ -368,7 +368,7 @@ public class Observation extends DomainResource {
      * specimen collection, but very often the source of the date/time is not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period}, {@link Timing} or {@link Instant} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -399,7 +399,9 @@ public class Observation extends DomainResource {
      * The information determined as a result of making the observation, if the information has a simple value.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Quantity}, {@link CodeableConcept}, {@link String}, {@link Boolean}, {@link 
+     *     Integer}, {@link Range}, {@link Ratio}, {@link SampledData}, {@link Time}, {@link DateTime} or {@link Period} that may 
+     *     be null.
      */
     public Element getValue() {
         return value;
@@ -2356,7 +2358,9 @@ public class Observation extends DomainResource {
          * The information determined as a result of making the observation, if the information has a simple value.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link CodeableConcept}, {@link String}, {@link Boolean}, {@link 
+         *     Integer}, {@link Range}, {@link Ratio}, {@link SampledData}, {@link Time}, {@link DateTime} or {@link Period} that may 
+         *     be null.
          */
         public Element getValue() {
             return value;

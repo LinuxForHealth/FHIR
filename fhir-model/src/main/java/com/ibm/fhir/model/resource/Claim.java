@@ -2691,7 +2691,7 @@ public class Claim extends DomainResource {
          * The date when or period to which this information refers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -2702,7 +2702,8 @@ public class Claim extends DomainResource {
          * actual inclusion of the data.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Boolean}, {@link String}, {@link Quantity}, {@link Attachment} or {@link Reference} 
+         *     that may be null.
          */
         public Element getValue() {
             return value;
@@ -3172,7 +3173,7 @@ public class Claim extends DomainResource {
          * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getDiagnosis() {
             return diagnosis;
@@ -3619,7 +3620,7 @@ public class Claim extends DomainResource {
          * The code or reference to a Procedure resource which identifies the clinical intervention performed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getProcedure() {
             return procedure;
@@ -4600,7 +4601,7 @@ public class Claim extends DomainResource {
          * The physical location of the accident event.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -5112,7 +5113,7 @@ public class Claim extends DomainResource {
          * The date or dates when the service or product was supplied, performed or completed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getServiced() {
             return serviced;
@@ -5122,7 +5123,7 @@ public class Claim extends DomainResource {
          * Where the product or service was provided.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;

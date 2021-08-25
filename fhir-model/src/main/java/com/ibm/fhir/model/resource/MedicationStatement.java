@@ -234,7 +234,7 @@ public class MedicationStatement extends DomainResource {
      * medication or a simple attribute carrying a code that identifies the medication from a known list of medications.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getMedication() {
         return medication;
@@ -265,7 +265,7 @@ public class MedicationStatement extends DomainResource {
      * not taking, when the MedicationStatement.taken element is No).
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;

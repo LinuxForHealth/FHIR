@@ -218,7 +218,7 @@ public class ClinicalImpression extends DomainResource {
      * The point in time or period over which the subject was assessed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;

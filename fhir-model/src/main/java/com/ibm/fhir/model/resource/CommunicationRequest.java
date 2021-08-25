@@ -310,7 +310,7 @@ public class CommunicationRequest extends DomainResource {
      * The time when this communication is to occur.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1511,7 +1511,7 @@ public class CommunicationRequest extends DomainResource {
          * The communicated content (or for multi-part communications, one portion of the communication).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link String}, {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;

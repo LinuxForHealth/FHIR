@@ -147,7 +147,7 @@ public class DeviceDefinition extends DomainResource {
      * A name of the manufacturer.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link String} or {@link Reference} that may be null.
      */
     public Element getManufacturer() {
         return manufacturer;

@@ -230,7 +230,7 @@ public class DiagnosticReport extends DomainResource {
      * not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;

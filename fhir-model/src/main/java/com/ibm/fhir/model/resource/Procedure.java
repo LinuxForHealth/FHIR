@@ -340,7 +340,8 @@ public class Procedure extends DomainResource {
      * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period}, {@link String}, {@link Age} or {@link Range} that may be 
+     *     null.
      */
     public Element getPerformed() {
         return performed;

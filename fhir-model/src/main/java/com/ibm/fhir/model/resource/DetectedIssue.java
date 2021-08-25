@@ -184,7 +184,7 @@ public class DetectedIssue extends DomainResource {
      * The date or period when the detected issue was initially identified.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getIdentified() {
         return identified;

@@ -336,7 +336,7 @@ public class ConceptMap extends DomainResource {
      * mappings.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getSource() {
         return source;
@@ -347,7 +347,7 @@ public class ConceptMap extends DomainResource {
      * value sets, but the value set provides important context about how the concept mapping choices are made.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getTarget() {
         return target;
