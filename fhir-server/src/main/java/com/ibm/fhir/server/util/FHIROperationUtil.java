@@ -159,6 +159,9 @@ public final class FHIROperationUtil {
         Parameters.Builder parametersBuilder = Parameters.builder();
         parametersBuilder.id("InputParameters");
         for (OperationDefinition.Parameter parameterDefinition : definition.getParameter()) {
+            if (parameterDefinition.getType() == null) {
+                continue;
+            }
             String parameterTypeName = parameterDefinition.getType().getValue();
             String resourceTypeName = resource.getClass().getSimpleName();
             if ((resourceTypeName.equals(parameterTypeName) || "Resource".equals(parameterTypeName))
