@@ -29,6 +29,7 @@ import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.Uri;
 import com.ibm.fhir.model.type.code.BundleType;
+import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.registry.FHIRRegistry;
 import com.ibm.fhir.server.operation.spi.AbstractOperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
@@ -51,7 +52,7 @@ public class DocumentOperation extends AbstractOperation {
 
             Resource resource = resourceHelper.doRead("Composition", logicalId, false, false, null).getResource();
             if (resource == null) {
-                throw new FHIROperationException("Could not find composition with id: " + logicalId);
+                throw FHIROperationUtil.buildExceptionWithIssue("Could not find composition with id: " + logicalId, IssueType.INVALID);
             }
 
             composition = (Composition) resource;
@@ -70,7 +71,6 @@ public class DocumentOperation extends AbstractOperation {
                     }
 
                     if (persist) {
-                        // FHIRResourceHelper resourceHelper = (FHIRResourceHelper) operationContext.getProperty(FHIROperationContext.PROPNAME_RESOURCE_HELPER;
                         FHIRRestOperationResponse response = resourceHelper.doCreate("Bundle", bundle, null, false);
                         // Use the responded bundle to create response to client.
                         bundle = (Bundle)response.getResource();
@@ -79,7 +79,6 @@ public class DocumentOperation extends AbstractOperation {
                     }
                 }
             }
-
 
             return FHIROperationUtil.getOutputParameters(bundle);
         } catch (FHIROperationException e) {

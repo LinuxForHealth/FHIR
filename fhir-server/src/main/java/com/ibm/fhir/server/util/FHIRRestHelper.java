@@ -478,7 +478,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
             if (ior.getPrevResource() != null) {
                 performVersionAwareUpdateCheck(ior.getPrevResource(), ifMatchValue);
 
-                if (skippableUpdate && !isDeleted) {
+                // In the case of a patch, we should not be updating meaninglessly.
+                if ((skippableUpdate || patch != null) && !isDeleted) {
                     ResourceFingerprintVisitor fingerprinter = new ResourceFingerprintVisitor();
                     ior.getPrevResource().accept(fingerprinter);
                     SaltHash baseline = fingerprinter.getSaltAndHash();

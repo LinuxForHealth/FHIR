@@ -55,6 +55,7 @@ public class OperationConstants {
     public static final List<String> STOPPED_STATUS = Collections.unmodifiableList(Arrays.asList("STOPPED"));
 
     public static final String FAILED_BAD_SOURCE = "FAILED_BAD_SOURCE";
+    public static final String NO_SUCH_BUCKET = "NO_SUCH_BUCKET";
 
     // Import
     public static final String PARAM_INPUT_FORMAT = "inputFormat";
