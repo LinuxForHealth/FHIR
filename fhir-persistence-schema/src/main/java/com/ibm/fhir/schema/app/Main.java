@@ -158,6 +158,9 @@ public class Main {
     private boolean dropJavaBatchSchema = false;
     private boolean grantJavaBatchSchema = false;
 
+    // Tenant Key
+    private boolean skipIfTenantExists = false;
+
     // The database user we will grant tenant data access privileges to
     private String grantTo;
 
@@ -655,7 +658,7 @@ public class Main {
         final String tenantSalt = getRandomKey();
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
+        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, false);
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 GetTenantDAO tid = new GetTenantDAO(schema.getAdminSchemaName(), addKeyForTenant);
@@ -698,8 +701,14 @@ public class Main {
      *            the tenant's name
      * @param tenantKey
      *            tenant key
+     * @param skip
+     *            whether or not to skip over cases where this tenantName/tenantKey combination already exists
+     *
+     * @throws IllegalArgumentException if the tenantName/tenantKey combination already exists and the {@code skip} argument is false
+     *
+     * @return indicates if the tenantName/tenantKey exists
      */
-    protected void checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey) {
+    protected boolean checkIfTenantNameAndTenantKeyExists(Db2Adapter adapter, String tenantName, String tenantKey, boolean skip) {
         try (ITransaction tx = TransactionFactory.openTransaction(connectionPool)) {
             try {
                 final String sql =
@@ -712,7 +721,11 @@ public class Main {
                     if (stmt.execute()) {
                         try (ResultSet resultSet = stmt.getResultSet();) {
                             if (resultSet.next()) {
-                                throw new IllegalArgumentException("tenantName and tenantKey already exists");
+                                if (skip) {
+                                    return true;
+                                } else {
+                                    throw new IllegalArgumentException("tenantName and tenantKey already exists");
+                                }
                             }
                         }
                     } else {
@@ -727,6 +740,7 @@ public class Main {
                 throw x;
             }
         }
+        return false;
     }
 
     /**
@@ -757,7 +771,12 @@ public class Main {
         final String tenantSalt = getRandomKey();
 
         Db2Adapter adapter = new Db2Adapter(connectionPool);
-        checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey);
+
+        // Conditionally skip if the tenant name and key exist (this enables idempotency)
+        boolean skip = checkIfTenantNameAndTenantKeyExists(adapter, tenantName, tenantKey, skipIfTenantExists);
+        if (skip) {
+            return;
+        }
 
         if (tenantKeyFileName == null) {
             logger.info("Allocating new tenant: " + tenantName + " [key=" + tenantKey + "]");
@@ -1644,6 +1663,10 @@ public class Main {
                 default:
                     break;
                 }
+                break;
+            // Skips the allocateTenant action if the tenant exists (e.g. a shortcircuit)
+            case "--skip-allocate-if-tenant-exists":
+                skipIfTenantExists = true;
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument: '" + arg + "'");
