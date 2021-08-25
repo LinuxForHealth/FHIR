@@ -186,7 +186,7 @@ public class SupplyRequest extends DomainResource {
      * a code that identifies the item from a known list.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
      */
     public Element getItem() {
         return item;
@@ -216,7 +216,7 @@ public class SupplyRequest extends DomainResource {
      * When the request should be fulfilled.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1126,7 +1126,8 @@ public class SupplyRequest extends DomainResource {
          * The value of the device detail.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Quantity}, {@link Range} or {@link Boolean} that may be 
+         *     null.
          */
         public Element getValue() {
             return value;
@@ -1318,6 +1319,22 @@ public class SupplyRequest extends DomainResource {
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     Value of detail
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
                 return this;
             }
 

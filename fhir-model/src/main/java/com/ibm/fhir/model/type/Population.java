@@ -43,7 +43,7 @@ public class Population extends BackboneElement {
      * The age of the specific population.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Range} or {@link CodeableConcept} that may be null.
      */
     public Element getAge() {
         return age;

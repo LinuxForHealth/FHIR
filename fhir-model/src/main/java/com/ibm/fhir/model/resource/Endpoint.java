@@ -635,17 +635,18 @@ public class Endpoint extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     A name that this endpoint can be identified by
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -826,8 +827,7 @@ public class Endpoint extends DomainResource {
         }
 
         /**
-         * Convenience method for setting header.
-         * @see #header(List<String>)
+         * Convenience method for setting {@code header}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -836,10 +836,12 @@ public class Endpoint extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #header(com.ibm.fhir.model.type.String)
          */
         public Builder header(java.lang.String... header) {
             for (java.lang.String value : header) {
-                this.header.add(value == null ? null : String.of(value));
+                this.header.add((value == null) ? null : String.of(value));
             }
             return this;
         }

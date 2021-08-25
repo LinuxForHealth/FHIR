@@ -189,7 +189,7 @@ public class CoverageEligibilityResponse extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link Period} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -760,6 +760,22 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code serviced} with choice type Date.
+         * 
+         * @param serviced
+         *     Estimated date or dates of service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #serviced(Element)
+         */
+        public Builder serviced(java.time.LocalDate serviced) {
+            this.serviced = (serviced == null) ? null : Date.of(serviced);
+            return this;
+        }
+
+        /**
          * The date or dates when the enclosed suite of services were performed or completed.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -854,17 +870,18 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disposition.
-         * @see #disposition(String)
+         * Convenience method for setting {@code disposition}.
          * 
          * @param disposition
          *     Disposition Message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
          */
         public Builder disposition(java.lang.String disposition) {
-            this.disposition = disposition == null ? null : String.of(disposition);
+            this.disposition = (disposition == null) ? null : String.of(disposition);
             return this;
         }
 
@@ -938,17 +955,18 @@ public class CoverageEligibilityResponse extends DomainResource {
         }
 
         /**
-         * Convenience method for setting preAuthRef.
-         * @see #preAuthRef(String)
+         * Convenience method for setting {@code preAuthRef}.
          * 
          * @param preAuthRef
          *     Preauthorization reference
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #preAuthRef(com.ibm.fhir.model.type.String)
          */
         public Builder preAuthRef(java.lang.String preAuthRef) {
-            this.preAuthRef = preAuthRef == null ? null : String.of(preAuthRef);
+            this.preAuthRef = (preAuthRef == null) ? null : String.of(preAuthRef);
             return this;
         }
 
@@ -1353,17 +1371,18 @@ public class CoverageEligibilityResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting inforce.
-             * @see #inforce(Boolean)
+             * Convenience method for setting {@code inforce}.
              * 
              * @param inforce
              *     Coverage inforce indicator
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #inforce(com.ibm.fhir.model.type.Boolean)
              */
             public Builder inforce(java.lang.Boolean inforce) {
-                this.inforce = inforce == null ? null : Boolean.of(inforce);
+                this.inforce = (inforce == null) ? null : Boolean.of(inforce);
                 return this;
             }
 
@@ -2009,17 +2028,18 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting excluded.
-                 * @see #excluded(Boolean)
+                 * Convenience method for setting {@code excluded}.
                  * 
                  * @param excluded
                  *     Excluded from the plan
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #excluded(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder excluded(java.lang.Boolean excluded) {
-                    this.excluded = excluded == null ? null : Boolean.of(excluded);
+                    this.excluded = (excluded == null) ? null : Boolean.of(excluded);
                     return this;
                 }
 
@@ -2039,17 +2059,18 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting name.
-                 * @see #name(String)
+                 * Convenience method for setting {@code name}.
                  * 
                  * @param name
                  *     Short name for the benefit
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #name(com.ibm.fhir.model.type.String)
                  */
                 public Builder name(java.lang.String name) {
-                    this.name = name == null ? null : String.of(name);
+                    this.name = (name == null) ? null : String.of(name);
                     return this;
                 }
 
@@ -2068,17 +2089,18 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Description of the benefit or services covered
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -2173,17 +2195,18 @@ public class CoverageEligibilityResponse extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting authorizationRequired.
-                 * @see #authorizationRequired(Boolean)
+                 * Convenience method for setting {@code authorizationRequired}.
                  * 
                  * @param authorizationRequired
                  *     Authorization required flag
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #authorizationRequired(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder authorizationRequired(java.lang.Boolean authorizationRequired) {
-                    this.authorizationRequired = authorizationRequired == null ? null : Boolean.of(authorizationRequired);
+                    this.authorizationRequired = (authorizationRequired == null) ? null : Boolean.of(authorizationRequired);
                     return this;
                 }
 
@@ -2333,7 +2356,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which is permitted under the coverage.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getAllowed() {
                     return allowed;
@@ -2343,7 +2366,7 @@ public class CoverageEligibilityResponse extends DomainResource {
                  * The quantity of the benefit which have been consumed to date.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
                  */
                 public Element getUsed() {
                     return used;
@@ -2546,6 +2569,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                     }
 
                     /**
+                     * Convenience method for setting {@code allowed} with choice type String.
+                     * 
+                     * @param allowed
+                     *     Benefits allowed
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #allowed(Element)
+                     */
+                    public Builder allowed(java.lang.String allowed) {
+                        this.allowed = (allowed == null) ? null : String.of(allowed);
+                        return this;
+                    }
+
+                    /**
                      * The quantity of the benefit which is permitted under the coverage.
                      * 
                      * <p>This is a choice element with the following allowed types:
@@ -2563,6 +2602,22 @@ public class CoverageEligibilityResponse extends DomainResource {
                      */
                     public Builder allowed(Element allowed) {
                         this.allowed = allowed;
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code used} with choice type String.
+                     * 
+                     * @param used
+                     *     Benefits used
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #used(Element)
+                     */
+                    public Builder used(java.lang.String used) {
+                        this.used = (used == null) ? null : String.of(used);
                         return this;
                     }
 

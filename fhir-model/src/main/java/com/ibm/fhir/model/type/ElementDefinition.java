@@ -523,7 +523,15 @@ public class ElementDefinition extends BackboneElement {
      * abstract is false').
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getDefaultValue() {
         return defaultValue;
@@ -557,7 +565,15 @@ public class ElementDefinition extends BackboneElement {
      * elements/attributes must also be missing.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getFixed() {
         return fixed;
@@ -581,7 +597,15 @@ public class ElementDefinition extends BackboneElement {
      * <p>3. If an array: it must match (recursively) the pattern value.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+     *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+     *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+     *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+     *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+     *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+     *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+     *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+     *     or {@link Meta} that may be null.
      */
     public Element getPattern() {
         return pattern;
@@ -602,7 +626,8 @@ public class ElementDefinition extends BackboneElement {
      * instant, time, decimal, integer, and Quantity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date}, {@link DateTime}, {@link Instant}, {@link Time}, {@link Decimal}, {@link 
+     *     Integer}, {@link PositiveInt}, {@link UnsignedInt} or {@link Quantity} that may be null.
      */
     public Element getMinValue() {
         return minValue;
@@ -613,7 +638,8 @@ public class ElementDefinition extends BackboneElement {
      * instant, time, decimal, integer, and Quantity.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date}, {@link DateTime}, {@link Instant}, {@link Time}, {@link Decimal}, {@link 
+     *     Integer}, {@link PositiveInt}, {@link UnsignedInt} or {@link Quantity} that may be null.
      */
     public Element getMaxValue() {
         return maxValue;
@@ -1053,8 +1079,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting path.
-         * @see #path(String)
+         * Convenience method for setting {@code path}.
          * 
          * <p>This element is required.
          * 
@@ -1063,9 +1088,11 @@ public class ElementDefinition extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #path(com.ibm.fhir.model.type.String)
          */
         public Builder path(java.lang.String path) {
-            this.path = path == null ? null : String.of(path);
+            this.path = (path == null) ? null : String.of(path);
             return this;
         }
 
@@ -1121,17 +1148,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting sliceName.
-         * @see #sliceName(String)
+         * Convenience method for setting {@code sliceName}.
          * 
          * @param sliceName
          *     Name for this particular element (in a set of slices)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #sliceName(com.ibm.fhir.model.type.String)
          */
         public Builder sliceName(java.lang.String sliceName) {
-            this.sliceName = sliceName == null ? null : String.of(sliceName);
+            this.sliceName = (sliceName == null) ? null : String.of(sliceName);
             return this;
         }
 
@@ -1152,17 +1180,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting sliceIsConstraining.
-         * @see #sliceIsConstraining(Boolean)
+         * Convenience method for setting {@code sliceIsConstraining}.
          * 
          * @param sliceIsConstraining
          *     If this slice definition constrains an inherited slice definition (or not)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #sliceIsConstraining(com.ibm.fhir.model.type.Boolean)
          */
         public Builder sliceIsConstraining(java.lang.Boolean sliceIsConstraining) {
-            this.sliceIsConstraining = sliceIsConstraining == null ? null : Boolean.of(sliceIsConstraining);
+            this.sliceIsConstraining = (sliceIsConstraining == null) ? null : Boolean.of(sliceIsConstraining);
             return this;
         }
 
@@ -1183,17 +1212,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting label.
-         * @see #label(String)
+         * Convenience method for setting {@code label}.
          * 
          * @param label
          *     Name for element to display with or prompt for element
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #label(com.ibm.fhir.model.type.String)
          */
         public Builder label(java.lang.String label) {
-            this.label = label == null ? null : String.of(label);
+            this.label = (label == null) ? null : String.of(label);
             return this;
         }
 
@@ -1265,17 +1295,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting _short.
-         * @see #_short(String)
+         * Convenience method for setting {@code _short}.
          * 
          * @param _short
          *     Concise definition for space-constrained presentation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #_short(com.ibm.fhir.model.type.String)
          */
         public Builder _short(java.lang.String _short) {
-            this._short = _short == null ? null : String.of(_short);
+            this._short = (_short == null) ? null : String.of(_short);
             return this;
         }
 
@@ -1341,8 +1372,7 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting alias.
-         * @see #alias(List<String>)
+         * Convenience method for setting {@code alias}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1351,10 +1381,12 @@ public class ElementDefinition extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
          */
         public Builder alias(java.lang.String... alias) {
             for (java.lang.String value : alias) {
-                this.alias.add(value == null ? null : String.of(value));
+                this.alias.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1408,17 +1440,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting max.
-         * @see #max(String)
+         * Convenience method for setting {@code max}.
          * 
          * @param max
          *     Maximum Cardinality (a number or *)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #max(com.ibm.fhir.model.type.String)
          */
         public Builder max(java.lang.String max) {
-            this.max = max == null ? null : String.of(max);
+            this.max = (max == null) ? null : String.of(max);
             return this;
         }
 
@@ -1501,6 +1534,86 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder type(Collection<Type> type) {
             this.type = new ArrayList<>(type);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Boolean.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.Boolean defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Boolean.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Date.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.time.LocalDate defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Date.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Instant.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.time.ZonedDateTime defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Instant.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type Integer.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.Integer defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : Integer.of(defaultValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code defaultValue} with choice type String.
+         * 
+         * @param defaultValue
+         *     Specified value if missing from instance
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #defaultValue(Element)
+         */
+        public Builder defaultValue(java.lang.String defaultValue) {
+            this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
             return this;
         }
 
@@ -1589,17 +1702,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting orderMeaning.
-         * @see #orderMeaning(String)
+         * Convenience method for setting {@code orderMeaning}.
          * 
          * @param orderMeaning
          *     What the order of the elements means
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #orderMeaning(com.ibm.fhir.model.type.String)
          */
         public Builder orderMeaning(java.lang.String orderMeaning) {
-            this.orderMeaning = orderMeaning == null ? null : String.of(orderMeaning);
+            this.orderMeaning = (orderMeaning == null) ? null : String.of(orderMeaning);
             return this;
         }
 
@@ -1615,6 +1729,86 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder orderMeaning(String orderMeaning) {
             this.orderMeaning = orderMeaning;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Boolean.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.Boolean fixed) {
+            this.fixed = (fixed == null) ? null : Boolean.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Date.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.time.LocalDate fixed) {
+            this.fixed = (fixed == null) ? null : Date.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Instant.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.time.ZonedDateTime fixed) {
+            this.fixed = (fixed == null) ? null : Instant.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type Integer.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.Integer fixed) {
+            this.fixed = (fixed == null) ? null : Integer.of(fixed);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code fixed} with choice type String.
+         * 
+         * @param fixed
+         *     Value must be exactly this
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #fixed(Element)
+         */
+        public Builder fixed(java.lang.String fixed) {
+            this.fixed = (fixed == null) ? null : String.of(fixed);
             return this;
         }
 
@@ -1685,6 +1879,86 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder fixed(Element fixed) {
             this.fixed = fixed;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Boolean.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.Boolean pattern) {
+            this.pattern = (pattern == null) ? null : Boolean.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Date.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.time.LocalDate pattern) {
+            this.pattern = (pattern == null) ? null : Date.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Instant.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.time.ZonedDateTime pattern) {
+            this.pattern = (pattern == null) ? null : Instant.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type Integer.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.Integer pattern) {
+            this.pattern = (pattern == null) ? null : Integer.of(pattern);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code pattern} with choice type String.
+         * 
+         * @param pattern
+         *     Value must have at least these property values
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #pattern(Element)
+         */
+        public Builder pattern(java.lang.String pattern) {
+            this.pattern = (pattern == null) ? null : String.of(pattern);
             return this;
         }
 
@@ -1805,6 +2079,54 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code minValue} with choice type Date.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.time.LocalDate minValue) {
+            this.minValue = (minValue == null) ? null : Date.of(minValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Instant.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.time.ZonedDateTime minValue) {
+            this.minValue = (minValue == null) ? null : Instant.of(minValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code minValue} with choice type Integer.
+         * 
+         * @param minValue
+         *     Minimum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #minValue(Element)
+         */
+        public Builder minValue(java.lang.Integer minValue) {
+            this.minValue = (minValue == null) ? null : Integer.of(minValue);
+            return this;
+        }
+
+        /**
          * The minimum allowed value for the element. The value is inclusive. This is allowed for the types date, dateTime, 
          * instant, time, decimal, integer, and Quantity.
          * 
@@ -1829,6 +2151,54 @@ public class ElementDefinition extends BackboneElement {
          */
         public Builder minValue(Element minValue) {
             this.minValue = minValue;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Date.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.time.LocalDate maxValue) {
+            this.maxValue = (maxValue == null) ? null : Date.of(maxValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Instant.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.time.ZonedDateTime maxValue) {
+            this.maxValue = (maxValue == null) ? null : Instant.of(maxValue);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code maxValue} with choice type Integer.
+         * 
+         * @param maxValue
+         *     Maximum Allowed Value (for some types)
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #maxValue(Element)
+         */
+        public Builder maxValue(java.lang.Integer maxValue) {
+            this.maxValue = (maxValue == null) ? null : Integer.of(maxValue);
             return this;
         }
 
@@ -1861,17 +2231,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting maxLength.
-         * @see #maxLength(Integer)
+         * Convenience method for setting {@code maxLength}.
          * 
          * @param maxLength
          *     Max length for strings
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #maxLength(com.ibm.fhir.model.type.Integer)
          */
         public Builder maxLength(java.lang.Integer maxLength) {
-            this.maxLength = maxLength == null ? null : Integer.of(maxLength);
+            this.maxLength = (maxLength == null) ? null : Integer.of(maxLength);
             return this;
         }
 
@@ -1961,17 +2332,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting mustSupport.
-         * @see #mustSupport(Boolean)
+         * Convenience method for setting {@code mustSupport}.
          * 
          * @param mustSupport
          *     If the element must be supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #mustSupport(com.ibm.fhir.model.type.Boolean)
          */
         public Builder mustSupport(java.lang.Boolean mustSupport) {
-            this.mustSupport = mustSupport == null ? null : Boolean.of(mustSupport);
+            this.mustSupport = (mustSupport == null) ? null : Boolean.of(mustSupport);
             return this;
         }
 
@@ -1992,17 +2364,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting isModifier.
-         * @see #isModifier(Boolean)
+         * Convenience method for setting {@code isModifier}.
          * 
          * @param isModifier
          *     If this modifies the meaning of other elements
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #isModifier(com.ibm.fhir.model.type.Boolean)
          */
         public Builder isModifier(java.lang.Boolean isModifier) {
-            this.isModifier = isModifier == null ? null : Boolean.of(isModifier);
+            this.isModifier = (isModifier == null) ? null : Boolean.of(isModifier);
             return this;
         }
 
@@ -2024,17 +2397,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting isModifierReason.
-         * @see #isModifierReason(String)
+         * Convenience method for setting {@code isModifierReason}.
          * 
          * @param isModifierReason
          *     Reason that this element is marked as a modifier
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #isModifierReason(com.ibm.fhir.model.type.String)
          */
         public Builder isModifierReason(java.lang.String isModifierReason) {
-            this.isModifierReason = isModifierReason == null ? null : String.of(isModifierReason);
+            this.isModifierReason = (isModifierReason == null) ? null : String.of(isModifierReason);
             return this;
         }
 
@@ -2053,17 +2427,18 @@ public class ElementDefinition extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting isSummary.
-         * @see #isSummary(Boolean)
+         * Convenience method for setting {@code isSummary}.
          * 
          * @param isSummary
          *     Include when _summary = true?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #isSummary(com.ibm.fhir.model.type.Boolean)
          */
         public Builder isSummary(java.lang.Boolean isSummary) {
-            this.isSummary = isSummary == null ? null : Boolean.of(isSummary);
+            this.isSummary = (isSummary == null) ? null : Boolean.of(isSummary);
             return this;
         }
 
@@ -2509,17 +2884,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Text description of how slicing works (or not)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2539,17 +2915,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting ordered.
-             * @see #ordered(Boolean)
+             * Convenience method for setting {@code ordered}.
              * 
              * @param ordered
              *     If elements must be in same order as slices
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #ordered(com.ibm.fhir.model.type.Boolean)
              */
             public Builder ordered(java.lang.Boolean ordered) {
-                this.ordered = ordered == null ? null : Boolean.of(ordered);
+                this.ordered = (ordered == null) ? null : Boolean.of(ordered);
                 return this;
             }
 
@@ -2859,8 +3236,7 @@ public class ElementDefinition extends BackboneElement {
                 }
 
                 /**
-                 * Convenience method for setting path.
-                 * @see #path(String)
+                 * Convenience method for setting {@code path}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2869,9 +3245,11 @@ public class ElementDefinition extends BackboneElement {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #path(com.ibm.fhir.model.type.String)
                  */
                 public Builder path(java.lang.String path) {
-                    this.path = path == null ? null : String.of(path);
+                    this.path = (path == null) ? null : String.of(path);
                     return this;
                 }
 
@@ -3168,8 +3546,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * <p>This element is required.
              * 
@@ -3178,9 +3555,11 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -3219,8 +3598,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting max.
-             * @see #max(String)
+             * Convenience method for setting {@code max}.
              * 
              * <p>This element is required.
              * 
@@ -3229,9 +3607,11 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
              */
             public Builder max(java.lang.String max) {
-                this.max = max == null ? null : String.of(max);
+                this.max = (max == null) ? null : String.of(max);
                 return this;
             }
 
@@ -3812,7 +4192,15 @@ public class ElementDefinition extends BackboneElement {
          * The actual value for the element, which must be one of the types allowed for this element.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Base64Binary}, {@link Boolean}, {@link Canonical}, {@link Code}, {@link Date}, 
+         *     {@link DateTime}, {@link Decimal}, {@link Id}, {@link Instant}, {@link Integer}, {@link Markdown}, {@link Oid}, {@link 
+         *     PositiveInt}, {@link String}, {@link Time}, {@link UnsignedInt}, {@link Uri}, {@link Url}, {@link Uuid}, {@link 
+         *     Address}, {@link Age}, {@link Annotation}, {@link Attachment}, {@link CodeableConcept}, {@link Coding}, {@link 
+         *     ContactPoint}, {@link Count}, {@link Distance}, {@link Duration}, {@link HumanName}, {@link Identifier}, {@link 
+         *     Money}, {@link Period}, {@link Quantity}, {@link Range}, {@link Ratio}, {@link Reference}, {@link SampledData}, {@link 
+         *     Signature}, {@link Timing}, {@link ContactDetail}, {@link Contributor}, {@link DataRequirement}, {@link Expression}, 
+         *     {@link ParameterDefinition}, {@link RelatedArtifact}, {@link TriggerDefinition}, {@link UsageContext}, {@link Dosage} 
+         *     or {@link Meta} that is non-null.
          */
         public Element getValue() {
             return value;
@@ -3992,8 +4380,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting label.
-             * @see #label(String)
+             * Convenience method for setting {@code label}.
              * 
              * <p>This element is required.
              * 
@@ -4002,9 +4389,11 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #label(com.ibm.fhir.model.type.String)
              */
             public Builder label(java.lang.String label) {
-                this.label = label == null ? null : String.of(label);
+                this.label = (label == null) ? null : String.of(label);
                 return this;
             }
 
@@ -4021,6 +4410,96 @@ public class ElementDefinition extends BackboneElement {
              */
             public Builder label(String label) {
                 this.label = label;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Date.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalDate value) {
+                this.value = (value == null) ? null : Date.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Instant.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.ZonedDateTime value) {
+                this.value = (value == null) ? null : Instant.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param value
+             *     Value of Example (one of allowed types)
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
@@ -4460,17 +4939,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting requirements.
-             * @see #requirements(String)
+             * Convenience method for setting {@code requirements}.
              * 
              * @param requirements
              *     Why this constraint is necessary or appropriate
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #requirements(com.ibm.fhir.model.type.String)
              */
             public Builder requirements(java.lang.String requirements) {
-                this.requirements = requirements == null ? null : String.of(requirements);
+                this.requirements = (requirements == null) ? null : String.of(requirements);
                 return this;
             }
 
@@ -4505,8 +4985,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting human.
-             * @see #human(String)
+             * Convenience method for setting {@code human}.
              * 
              * <p>This element is required.
              * 
@@ -4515,9 +4994,11 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #human(com.ibm.fhir.model.type.String)
              */
             public Builder human(java.lang.String human) {
-                this.human = human == null ? null : String.of(human);
+                this.human = (human == null) ? null : String.of(human);
                 return this;
             }
 
@@ -4538,17 +5019,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(String)
+             * Convenience method for setting {@code expression}.
              * 
              * @param expression
              *     FHIRPath expression of constraint
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String expression) {
-                this.expression = expression == null ? null : String.of(expression);
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 
@@ -4567,17 +5049,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting xpath.
-             * @see #xpath(String)
+             * Convenience method for setting {@code xpath}.
              * 
              * @param xpath
              *     XPath expression of constraint
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #xpath(com.ibm.fhir.model.type.String)
              */
             public Builder xpath(java.lang.String xpath) {
-                this.xpath = xpath == null ? null : String.of(xpath);
+                this.xpath = (xpath == null) ? null : String.of(xpath);
                 return this;
             }
 
@@ -4908,17 +5391,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Human explanation of the value set
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -5271,8 +5755,7 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting map.
-             * @see #map(String)
+             * Convenience method for setting {@code map}.
              * 
              * <p>This element is required.
              * 
@@ -5281,9 +5764,11 @@ public class ElementDefinition extends BackboneElement {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #map(com.ibm.fhir.model.type.String)
              */
             public Builder map(java.lang.String map) {
-                this.map = map == null ? null : String.of(map);
+                this.map = (map == null) ? null : String.of(map);
                 return this;
             }
 
@@ -5304,17 +5789,18 @@ public class ElementDefinition extends BackboneElement {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Comments about the mapping or its use
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

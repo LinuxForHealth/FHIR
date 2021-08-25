@@ -1127,17 +1127,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the effect evidence synthesis
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1159,17 +1160,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this effect evidence synthesis (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1189,17 +1191,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this effect evidence synthesis (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1250,17 +1253,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1448,17 +1452,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting approvalDate.
-         * @see #approvalDate(Date)
+         * Convenience method for setting {@code approvalDate}.
          * 
          * @param approvalDate
          *     When the effect evidence synthesis was approved by publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
          */
         public Builder approvalDate(java.time.LocalDate approvalDate) {
-            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
             return this;
         }
 
@@ -1478,17 +1483,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lastReviewDate.
-         * @see #lastReviewDate(Date)
+         * Convenience method for setting {@code lastReviewDate}.
          * 
          * @param lastReviewDate
          *     When the effect evidence synthesis was last reviewed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
          */
         public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
-            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -2273,17 +2279,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of sample size
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2302,17 +2309,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             /**
-             * Convenience method for setting numberOfStudies.
-             * @see #numberOfStudies(Integer)
+             * Convenience method for setting {@code numberOfStudies}.
              * 
              * @param numberOfStudies
              *     How many studies?
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #numberOfStudies(com.ibm.fhir.model.type.Integer)
              */
             public Builder numberOfStudies(java.lang.Integer numberOfStudies) {
-                this.numberOfStudies = numberOfStudies == null ? null : Integer.of(numberOfStudies);
+                this.numberOfStudies = (numberOfStudies == null) ? null : Integer.of(numberOfStudies);
                 return this;
             }
 
@@ -2331,17 +2339,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             /**
-             * Convenience method for setting numberOfParticipants.
-             * @see #numberOfParticipants(Integer)
+             * Convenience method for setting {@code numberOfParticipants}.
              * 
              * @param numberOfParticipants
              *     How many participants?
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #numberOfParticipants(com.ibm.fhir.model.type.Integer)
              */
             public Builder numberOfParticipants(java.lang.Integer numberOfParticipants) {
-                this.numberOfParticipants = numberOfParticipants == null ? null : Integer.of(numberOfParticipants);
+                this.numberOfParticipants = (numberOfParticipants == null) ? null : Integer.of(numberOfParticipants);
                 return this;
             }
 
@@ -2648,17 +2657,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of results by exposure
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -3060,17 +3070,18 @@ public class EffectEvidenceSynthesis extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of effect estimate
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

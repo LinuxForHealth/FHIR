@@ -117,7 +117,7 @@ public class MessageHeader extends DomainResource {
      * to the EventDefinition.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link Coding} or {@link Uri} that is non-null.
      */
     public Element getEvent() {
         return event;
@@ -1096,17 +1096,18 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Name of system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1488,17 +1489,18 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Name of system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1517,17 +1519,18 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * Convenience method for setting software.
-             * @see #software(String)
+             * Convenience method for setting {@code software}.
              * 
              * @param software
              *     Name of software running the system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #software(com.ibm.fhir.model.type.String)
              */
             public Builder software(java.lang.String software) {
-                this.software = software == null ? null : String.of(software);
+                this.software = (software == null) ? null : String.of(software);
                 return this;
             }
 
@@ -1546,17 +1549,18 @@ public class MessageHeader extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     Version of software running
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 

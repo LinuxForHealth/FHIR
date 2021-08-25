@@ -368,7 +368,7 @@ public class Observation extends DomainResource {
      * specimen collection, but very often the source of the date/time is not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period}, {@link Timing} or {@link Instant} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -399,7 +399,9 @@ public class Observation extends DomainResource {
      * The information determined as a result of making the observation, if the information has a simple value.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Quantity}, {@link CodeableConcept}, {@link String}, {@link Boolean}, {@link 
+     *     Integer}, {@link Range}, {@link Ratio}, {@link SampledData}, {@link Time}, {@link DateTime} or {@link Period} that may 
+     *     be null.
      */
     public Element getValue() {
         return value;
@@ -1216,6 +1218,22 @@ public class Observation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code effective} with choice type Instant.
+         * 
+         * @param effective
+         *     Clinically relevant time/time-period for observation
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #effective(Element)
+         */
+        public Builder effective(java.time.ZonedDateTime effective) {
+            this.effective = (effective == null) ? null : Instant.of(effective);
+            return this;
+        }
+
+        /**
          * The time or time-period the observed value is asserted as being true. For biological subjects - e.g. human patients - 
          * this is usually called the "physiologically relevant time". This is usually either the time of the procedure or of 
          * specimen collection, but very often the source of the date/time is not known, only the date/time itself.
@@ -1240,17 +1258,18 @@ public class Observation extends DomainResource {
         }
 
         /**
-         * Convenience method for setting issued.
-         * @see #issued(Instant)
+         * Convenience method for setting {@code issued}.
          * 
          * @param issued
          *     Date/Time this version was made available
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #issued(com.ibm.fhir.model.type.Instant)
          */
         public Builder issued(java.time.ZonedDateTime issued) {
-            this.issued = issued == null ? null : Instant.of(issued);
+            this.issued = (issued == null) ? null : Instant.of(issued);
             return this;
         }
 
@@ -1320,6 +1339,54 @@ public class Observation extends DomainResource {
          */
         public Builder performer(Collection<Reference> performer) {
             this.performer = new ArrayList<>(performer);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type String.
+         * 
+         * @param value
+         *     Actual result
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.String value) {
+            this.value = (value == null) ? null : String.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Boolean.
+         * 
+         * @param value
+         *     Actual result
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.Boolean value) {
+            this.value = (value == null) ? null : Boolean.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Integer.
+         * 
+         * @param value
+         *     Actual result
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.lang.Integer value) {
+            this.value = (value == null) ? null : Integer.of(value);
             return this;
         }
 
@@ -2168,17 +2235,18 @@ public class Observation extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Text based reference range in an observation
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -2290,7 +2358,9 @@ public class Observation extends DomainResource {
          * The information determined as a result of making the observation, if the information has a simple value.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Quantity}, {@link CodeableConcept}, {@link String}, {@link Boolean}, {@link 
+         *     Integer}, {@link Range}, {@link Ratio}, {@link SampledData}, {@link Time}, {@link DateTime} or {@link Period} that may 
+         *     be null.
          */
         public Element getValue() {
             return value;
@@ -2529,6 +2599,54 @@ public class Observation extends DomainResource {
              */
             public Builder code(CodeableConcept code) {
                 this.code = code;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * @param value
+             *     Actual component result
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     Actual component result
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Integer.
+             * 
+             * @param value
+             *     Actual component result
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Integer value) {
+                this.value = (value == null) ? null : Integer.of(value);
                 return this;
             }
 

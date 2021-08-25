@@ -582,17 +582,18 @@ public class Organization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting active.
-         * @see #active(Boolean)
+         * Convenience method for setting {@code active}.
          * 
          * @param active
          *     Whether the organization's record is still in active use
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #active(com.ibm.fhir.model.type.Boolean)
          */
         public Builder active(java.lang.Boolean active) {
-            this.active = active == null ? null : Boolean.of(active);
+            this.active = (active == null) ? null : Boolean.of(active);
             return this;
         }
 
@@ -645,17 +646,18 @@ public class Organization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name used for the organization
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -674,8 +676,7 @@ public class Organization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting alias.
-         * @see #alias(List<String>)
+         * Convenience method for setting {@code alias}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -684,10 +685,12 @@ public class Organization extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
          */
         public Builder alias(java.lang.String... alias) {
             for (java.lang.String value : alias) {
-                this.alias.add(value == null ? null : String.of(value));
+                this.alias.add((value == null) ? null : String.of(value));
             }
             return this;
         }

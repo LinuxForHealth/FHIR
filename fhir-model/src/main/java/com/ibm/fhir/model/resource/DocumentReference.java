@@ -846,17 +846,18 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * Convenience method for setting date.
-         * @see #date(Instant)
+         * Convenience method for setting {@code date}.
          * 
          * @param date
          *     When this document reference was created
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #date(com.ibm.fhir.model.type.Instant)
          */
         public Builder date(java.time.ZonedDateTime date) {
-            this.date = date == null ? null : Instant.of(date);
+            this.date = (date == null) ? null : Instant.of(date);
             return this;
         }
 
@@ -1003,17 +1004,18 @@ public class DocumentReference extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Human-readable description
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 

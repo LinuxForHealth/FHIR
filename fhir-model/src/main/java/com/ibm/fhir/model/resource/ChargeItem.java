@@ -256,7 +256,7 @@ public class ChargeItem extends DomainResource {
      * Date/time(s) or duration when the charged service was applied.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -397,7 +397,7 @@ public class ChargeItem extends DomainResource {
      * Identifies the device, food, drug or other product being charged either by type code or reference to an instance.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Reference} or {@link CodeableConcept} that may be null.
      */
     public Element getProduct() {
         return product;
@@ -1247,17 +1247,18 @@ public class ChargeItem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting overrideReason.
-         * @see #overrideReason(String)
+         * Convenience method for setting {@code overrideReason}.
          * 
          * @param overrideReason
          *     Reason for overriding the list price/factor
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #overrideReason(com.ibm.fhir.model.type.String)
          */
         public Builder overrideReason(java.lang.String overrideReason) {
-            this.overrideReason = overrideReason == null ? null : String.of(overrideReason);
+            this.overrideReason = (overrideReason == null) ? null : String.of(overrideReason);
             return this;
         }
 

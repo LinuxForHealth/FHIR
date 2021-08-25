@@ -670,17 +670,18 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the graph definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -702,8 +703,7 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -712,9 +712,11 @@ public class GraphDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -752,17 +754,18 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -798,17 +801,18 @@ public class GraphDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1357,17 +1361,18 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * @param path
              *     Path in the resource that contains the link
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -1386,17 +1391,18 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting sliceName.
-             * @see #sliceName(String)
+             * Convenience method for setting {@code sliceName}.
              * 
              * @param sliceName
              *     Which slice (if profiled)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #sliceName(com.ibm.fhir.model.type.String)
              */
             public Builder sliceName(java.lang.String sliceName) {
-                this.sliceName = sliceName == null ? null : String.of(sliceName);
+                this.sliceName = (sliceName == null) ? null : String.of(sliceName);
                 return this;
             }
 
@@ -1415,17 +1421,18 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting min.
-             * @see #min(Integer)
+             * Convenience method for setting {@code min}.
              * 
              * @param min
              *     Minimum occurrences for this link
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #min(com.ibm.fhir.model.type.Integer)
              */
             public Builder min(java.lang.Integer min) {
-                this.min = min == null ? null : Integer.of(min);
+                this.min = (min == null) ? null : Integer.of(min);
                 return this;
             }
 
@@ -1444,17 +1451,18 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting max.
-             * @see #max(String)
+             * Convenience method for setting {@code max}.
              * 
              * @param max
              *     Maximum occurrences for this link
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
              */
             public Builder max(java.lang.String max) {
-                this.max = max == null ? null : String.of(max);
+                this.max = (max == null) ? null : String.of(max);
                 return this;
             }
 
@@ -1473,17 +1481,18 @@ public class GraphDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Why this link is specified
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1853,17 +1862,18 @@ public class GraphDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting params.
-                 * @see #params(String)
+                 * Convenience method for setting {@code params}.
                  * 
                  * @param params
                  *     Criteria for reverse lookup
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #params(com.ibm.fhir.model.type.String)
                  */
                 public Builder params(java.lang.String params) {
-                    this.params = params == null ? null : String.of(params);
+                    this.params = (params == null) ? null : String.of(params);
                     return this;
                 }
 
@@ -2335,17 +2345,18 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting expression.
-                     * @see #expression(String)
+                     * Convenience method for setting {@code expression}.
                      * 
                      * @param expression
                      *     Custom rule, as a FHIRPath expression
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #expression(com.ibm.fhir.model.type.String)
                      */
                     public Builder expression(java.lang.String expression) {
-                        this.expression = expression == null ? null : String.of(expression);
+                        this.expression = (expression == null) ? null : String.of(expression);
                         return this;
                     }
 
@@ -2364,17 +2375,18 @@ public class GraphDefinition extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting description.
-                     * @see #description(String)
+                     * Convenience method for setting {@code description}.
                      * 
                      * @param description
                      *     Documentation for FHIRPath expression
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
                      */
                     public Builder description(java.lang.String description) {
-                        this.description = description == null ? null : String.of(description);
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 

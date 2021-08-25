@@ -1104,17 +1104,18 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Human-friendly name for the care plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1133,17 +1134,18 @@ public class CarePlan extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Summary of nature of plan
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -2284,7 +2286,7 @@ public class CarePlan extends DomainResource {
              * The period, timing or frequency upon which the described activity is to occur.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Timing}, {@link Period} or {@link String} that may be null.
              */
             public Element getScheduled() {
                 return scheduled;
@@ -2314,7 +2316,7 @@ public class CarePlan extends DomainResource {
              * Identifies the food, drug or other product to be consumed or supplied in the activity.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
              */
             public Element getProduct() {
                 return product;
@@ -2868,17 +2870,18 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting doNotPerform.
-                 * @see #doNotPerform(Boolean)
+                 * Convenience method for setting {@code doNotPerform}.
                  * 
                  * @param doNotPerform
                  *     If true, activity is prohibiting action
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder doNotPerform(java.lang.Boolean doNotPerform) {
-                    this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+                    this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
                     return this;
                 }
 
@@ -2894,6 +2897,22 @@ public class CarePlan extends DomainResource {
                  */
                 public Builder doNotPerform(Boolean doNotPerform) {
                     this.doNotPerform = doNotPerform;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code scheduled} with choice type String.
+                 * 
+                 * @param scheduled
+                 *     When activity is to occur
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #scheduled(Element)
+                 */
+                public Builder scheduled(java.lang.String scheduled) {
+                    this.scheduled = (scheduled == null) ? null : String.of(scheduled);
                     return this;
                 }
 
@@ -3050,17 +3069,18 @@ public class CarePlan extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Extra info describing activity to perform
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 

@@ -336,7 +336,7 @@ public class ConceptMap extends DomainResource {
      * mappings.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getSource() {
         return source;
@@ -347,7 +347,7 @@ public class ConceptMap extends DomainResource {
      * value sets, but the value set provides important context about how the concept mapping choices are made.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Uri} or {@link Canonical} that may be null.
      */
     public Element getTarget() {
         return target;
@@ -761,17 +761,18 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the concept map
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -793,17 +794,18 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this concept map (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -823,17 +825,18 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this concept map (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -868,17 +871,18 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -914,17 +918,18 @@ public class ConceptMap extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1517,17 +1522,18 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * Convenience method for setting sourceVersion.
-             * @see #sourceVersion(String)
+             * Convenience method for setting {@code sourceVersion}.
              * 
              * @param sourceVersion
              *     Specific version of the code system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #sourceVersion(com.ibm.fhir.model.type.String)
              */
             public Builder sourceVersion(java.lang.String sourceVersion) {
-                this.sourceVersion = sourceVersion == null ? null : String.of(sourceVersion);
+                this.sourceVersion = (sourceVersion == null) ? null : String.of(sourceVersion);
                 return this;
             }
 
@@ -1560,17 +1566,18 @@ public class ConceptMap extends DomainResource {
             }
 
             /**
-             * Convenience method for setting targetVersion.
-             * @see #targetVersion(String)
+             * Convenience method for setting {@code targetVersion}.
              * 
              * @param targetVersion
              *     Specific version of the code system
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #targetVersion(com.ibm.fhir.model.type.String)
              */
             public Builder targetVersion(java.lang.String targetVersion) {
-                this.targetVersion = targetVersion == null ? null : String.of(targetVersion);
+                this.targetVersion = (targetVersion == null) ? null : String.of(targetVersion);
                 return this;
             }
 
@@ -1921,17 +1928,18 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting display.
-                 * @see #display(String)
+                 * Convenience method for setting {@code display}.
                  * 
                  * @param display
                  *     Display for the code
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
                  */
                 public Builder display(java.lang.String display) {
-                    this.display = display == null ? null : String.of(display);
+                    this.display = (display == null) ? null : String.of(display);
                     return this;
                 }
 
@@ -2317,17 +2325,18 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting display.
-                     * @see #display(String)
+                     * Convenience method for setting {@code display}.
                      * 
                      * @param display
                      *     Display for the code
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #display(com.ibm.fhir.model.type.String)
                      */
                     public Builder display(java.lang.String display) {
-                        this.display = display == null ? null : String.of(display);
+                        this.display = (display == null) ? null : String.of(display);
                         return this;
                     }
 
@@ -2363,17 +2372,18 @@ public class ConceptMap extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting comment.
-                     * @see #comment(String)
+                     * Convenience method for setting {@code comment}.
                      * 
                      * @param comment
                      *     Description of status/issues in mapping
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #comment(com.ibm.fhir.model.type.String)
                      */
                     public Builder comment(java.lang.String comment) {
-                        this.comment = comment == null ? null : String.of(comment);
+                        this.comment = (comment == null) ? null : String.of(comment);
                         return this;
                     }
 
@@ -2787,8 +2797,7 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting value.
-                         * @see #value(String)
+                         * Convenience method for setting {@code value}.
                          * 
                          * <p>This element is required.
                          * 
@@ -2797,9 +2806,11 @@ public class ConceptMap extends DomainResource {
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
                          */
                         public Builder value(java.lang.String value) {
-                            this.value = value == null ? null : String.of(value);
+                            this.value = (value == null) ? null : String.of(value);
                             return this;
                         }
 
@@ -2820,17 +2831,18 @@ public class ConceptMap extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting display.
-                         * @see #display(String)
+                         * Convenience method for setting {@code display}.
                          * 
                          * @param display
                          *     Display for the code (if value is a code)
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #display(com.ibm.fhir.model.type.String)
                          */
                         public Builder display(java.lang.String display) {
-                            this.display = display == null ? null : String.of(display);
+                            this.display = (display == null) ? null : String.of(display);
                             return this;
                         }
 
@@ -3179,17 +3191,18 @@ public class ConceptMap extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting display.
-                 * @see #display(String)
+                 * Convenience method for setting {@code display}.
                  * 
                  * @param display
                  *     Display for the code
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #display(com.ibm.fhir.model.type.String)
                  */
                 public Builder display(java.lang.String display) {
-                    this.display = display == null ? null : String.of(display);
+                    this.display = (display == null) ? null : String.of(display);
                     return this;
                 }
 

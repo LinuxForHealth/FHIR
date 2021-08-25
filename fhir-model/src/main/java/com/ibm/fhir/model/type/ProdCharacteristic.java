@@ -517,8 +517,7 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting shape.
-         * @see #shape(String)
+         * Convenience method for setting {@code shape}.
          * 
          * @param shape
          *     Where applicable, the shape can be specified An appropriate controlled vocabulary shall be used The term and the term 
@@ -526,9 +525,11 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #shape(com.ibm.fhir.model.type.String)
          */
         public Builder shape(java.lang.String shape) {
-            this.shape = shape == null ? null : String.of(shape);
+            this.shape = (shape == null) ? null : String.of(shape);
             return this;
         }
 
@@ -549,8 +550,7 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting color.
-         * @see #color(List<String>)
+         * Convenience method for setting {@code color}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -560,10 +560,12 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #color(com.ibm.fhir.model.type.String)
          */
         public Builder color(java.lang.String... color) {
             for (java.lang.String value : color) {
-                this.color.add(value == null ? null : String.of(value));
+                this.color.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -607,8 +609,7 @@ public class ProdCharacteristic extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting imprint.
-         * @see #imprint(List<String>)
+         * Convenience method for setting {@code imprint}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -617,10 +618,12 @@ public class ProdCharacteristic extends BackboneElement {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #imprint(com.ibm.fhir.model.type.String)
          */
         public Builder imprint(java.lang.String... imprint) {
             for (java.lang.String value : imprint) {
-                this.imprint.add(value == null ? null : String.of(value));
+                this.imprint.add((value == null) ? null : String.of(value));
             }
             return this;
         }

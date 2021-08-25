@@ -950,17 +950,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the code system (Coding.version)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -983,17 +984,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this code system (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1013,17 +1015,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this code system (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1058,17 +1061,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1104,17 +1108,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1282,17 +1287,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting caseSensitive.
-         * @see #caseSensitive(Boolean)
+         * Convenience method for setting {@code caseSensitive}.
          * 
          * @param caseSensitive
          *     If code comparison is case sensitive
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #caseSensitive(com.ibm.fhir.model.type.Boolean)
          */
         public Builder caseSensitive(java.lang.Boolean caseSensitive) {
-            this.caseSensitive = caseSensitive == null ? null : Boolean.of(caseSensitive);
+            this.caseSensitive = (caseSensitive == null) ? null : Boolean.of(caseSensitive);
             return this;
         }
 
@@ -1339,17 +1345,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting compositional.
-         * @see #compositional(Boolean)
+         * Convenience method for setting {@code compositional}.
          * 
          * @param compositional
          *     If code system defines a compositional grammar
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #compositional(com.ibm.fhir.model.type.Boolean)
          */
         public Builder compositional(java.lang.Boolean compositional) {
-            this.compositional = compositional == null ? null : Boolean.of(compositional);
+            this.compositional = (compositional == null) ? null : Boolean.of(compositional);
             return this;
         }
 
@@ -1368,17 +1375,18 @@ public class CodeSystem extends DomainResource {
         }
 
         /**
-         * Convenience method for setting versionNeeded.
-         * @see #versionNeeded(Boolean)
+         * Convenience method for setting {@code versionNeeded}.
          * 
          * @param versionNeeded
          *     If definitions are not stable
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #versionNeeded(com.ibm.fhir.model.type.Boolean)
          */
         public Builder versionNeeded(java.lang.Boolean versionNeeded) {
-            this.versionNeeded = versionNeeded == null ? null : Boolean.of(versionNeeded);
+            this.versionNeeded = (versionNeeded == null) ? null : Boolean.of(versionNeeded);
             return this;
         }
 
@@ -1887,17 +1895,18 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     How or why the filter is used
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -1954,8 +1963,7 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting value.
-             * @see #value(String)
+             * Convenience method for setting {@code value}.
              * 
              * <p>This element is required.
              * 
@@ -1964,9 +1972,11 @@ public class CodeSystem extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #value(com.ibm.fhir.model.type.String)
              */
             public Builder value(java.lang.String value) {
-                this.value = value == null ? null : String.of(value);
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
@@ -2319,17 +2329,18 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Why the property is defined, and/or what it conveys
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2704,17 +2715,18 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting display.
-             * @see #display(String)
+             * Convenience method for setting {@code display}.
              * 
              * @param display
              *     Text to display to the user
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #display(com.ibm.fhir.model.type.String)
              */
             public Builder display(java.lang.String display) {
-                this.display = display == null ? null : String.of(display);
+                this.display = (display == null) ? null : String.of(display);
                 return this;
             }
 
@@ -2733,17 +2745,18 @@ public class CodeSystem extends DomainResource {
             }
 
             /**
-             * Convenience method for setting definition.
-             * @see #definition(String)
+             * Convenience method for setting {@code definition}.
              * 
              * @param definition
              *     Formal definition
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #definition(com.ibm.fhir.model.type.String)
              */
             public Builder definition(java.lang.String definition) {
-                this.definition = definition == null ? null : String.of(definition);
+                this.definition = (definition == null) ? null : String.of(definition);
                 return this;
             }
 
@@ -3181,8 +3194,7 @@ public class CodeSystem extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting value.
-                 * @see #value(String)
+                 * Convenience method for setting {@code value}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3191,9 +3203,11 @@ public class CodeSystem extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #value(com.ibm.fhir.model.type.String)
                  */
                 public Builder value(java.lang.String value) {
-                    this.value = value == null ? null : String.of(value);
+                    this.value = (value == null) ? null : String.of(value);
                     return this;
                 }
 
@@ -3282,7 +3296,8 @@ public class CodeSystem extends DomainResource {
              * The value of this property.
              * 
              * @return
-             *     An immutable object of type {@link Element} that is non-null.
+             *     An immutable object of type {@link Code}, {@link Coding}, {@link String}, {@link Integer}, {@link Boolean}, {@link 
+             *     DateTime} or {@link Decimal} that is non-null.
              */
             public Element getValue() {
                 return value;
@@ -3476,6 +3491,60 @@ public class CodeSystem extends DomainResource {
                  */
                 public Builder code(Code code) {
                     this.code = code;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Value of the property for this concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Value of the property for this concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * <p>This element is required.
+                 * 
+                 * @param value
+                 *     Value of the property for this concept
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
                     return this;
                 }
 

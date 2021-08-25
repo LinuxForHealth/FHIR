@@ -277,7 +277,7 @@ public class Immunization extends DomainResource {
      * Date vaccine administered or was to be administered.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link DateTime} or {@link String} that is non-null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1035,6 +1035,24 @@ public class Immunization extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code occurrence} with choice type String.
+         * 
+         * <p>This element is required.
+         * 
+         * @param occurrence
+         *     Vaccine administration date
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #occurrence(Element)
+         */
+        public Builder occurrence(java.lang.String occurrence) {
+            this.occurrence = (occurrence == null) ? null : String.of(occurrence);
+            return this;
+        }
+
+        /**
          * Date vaccine administered or was to be administered.
          * 
          * <p>This element is required.
@@ -1072,17 +1090,18 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting primarySource.
-         * @see #primarySource(Boolean)
+         * Convenience method for setting {@code primarySource}.
          * 
          * @param primarySource
          *     Indicates context the data was recorded in
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #primarySource(com.ibm.fhir.model.type.Boolean)
          */
         public Builder primarySource(java.lang.Boolean primarySource) {
-            this.primarySource = primarySource == null ? null : Boolean.of(primarySource);
+            this.primarySource = (primarySource == null) ? null : Boolean.of(primarySource);
             return this;
         }
 
@@ -1155,17 +1174,18 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lotNumber.
-         * @see #lotNumber(String)
+         * Convenience method for setting {@code lotNumber}.
          * 
          * @param lotNumber
          *     Vaccine lot number
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lotNumber(com.ibm.fhir.model.type.String)
          */
         public Builder lotNumber(java.lang.String lotNumber) {
-            this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+            this.lotNumber = (lotNumber == null) ? null : String.of(lotNumber);
             return this;
         }
 
@@ -1184,17 +1204,18 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting expirationDate.
-         * @see #expirationDate(Date)
+         * Convenience method for setting {@code expirationDate}.
          * 
          * @param expirationDate
          *     Vaccine expiration date
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #expirationDate(com.ibm.fhir.model.type.Date)
          */
         public Builder expirationDate(java.time.LocalDate expirationDate) {
-            this.expirationDate = expirationDate == null ? null : Date.of(expirationDate);
+            this.expirationDate = (expirationDate == null) ? null : Date.of(expirationDate);
             return this;
         }
 
@@ -1405,17 +1426,18 @@ public class Immunization extends DomainResource {
         }
 
         /**
-         * Convenience method for setting isSubpotent.
-         * @see #isSubpotent(Boolean)
+         * Convenience method for setting {@code isSubpotent}.
          * 
          * @param isSubpotent
          *     Dose potency
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #isSubpotent(com.ibm.fhir.model.type.Boolean)
          */
         public Builder isSubpotent(java.lang.Boolean isSubpotent) {
-            this.isSubpotent = isSubpotent == null ? null : Boolean.of(isSubpotent);
+            this.isSubpotent = (isSubpotent == null) ? null : Boolean.of(isSubpotent);
             return this;
         }
 
@@ -2237,17 +2259,18 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * Convenience method for setting documentType.
-             * @see #documentType(String)
+             * Convenience method for setting {@code documentType}.
              * 
              * @param documentType
              *     Educational material document identifier
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #documentType(com.ibm.fhir.model.type.String)
              */
             public Builder documentType(java.lang.String documentType) {
-                this.documentType = documentType == null ? null : String.of(documentType);
+                this.documentType = (documentType == null) ? null : String.of(documentType);
                 return this;
             }
 
@@ -2600,17 +2623,18 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * Convenience method for setting reported.
-             * @see #reported(Boolean)
+             * Convenience method for setting {@code reported}.
              * 
              * @param reported
              *     Indicates self-reported reaction
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #reported(com.ibm.fhir.model.type.Boolean)
              */
             public Builder reported(java.lang.Boolean reported) {
-                this.reported = reported == null ? null : Boolean.of(reported);
+                this.reported = (reported == null) ? null : Boolean.of(reported);
                 return this;
             }
 
@@ -2724,7 +2748,7 @@ public class Immunization extends DomainResource {
          * Nominal position in a series.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that is non-null.
          */
         public Element getDoseNumber() {
             return doseNumber;
@@ -2734,7 +2758,7 @@ public class Immunization extends DomainResource {
          * The recommended number of doses to achieve immunity.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link PositiveInt} or {@link String} that may be null.
          */
         public Element getSeriesDoses() {
             return seriesDoses;
@@ -2931,17 +2955,18 @@ public class Immunization extends DomainResource {
             }
 
             /**
-             * Convenience method for setting series.
-             * @see #series(String)
+             * Convenience method for setting {@code series}.
              * 
              * @param series
              *     Name of vaccine series
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #series(com.ibm.fhir.model.type.String)
              */
             public Builder series(java.lang.String series) {
-                this.series = series == null ? null : String.of(series);
+                this.series = (series == null) ? null : String.of(series);
                 return this;
             }
 
@@ -3013,6 +3038,24 @@ public class Immunization extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code doseNumber} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param doseNumber
+             *     Dose number within series
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #doseNumber(Element)
+             */
+            public Builder doseNumber(java.lang.String doseNumber) {
+                this.doseNumber = (doseNumber == null) ? null : String.of(doseNumber);
+                return this;
+            }
+
+            /**
              * Nominal position in a series.
              * 
              * <p>This element is required.
@@ -3031,6 +3074,22 @@ public class Immunization extends DomainResource {
              */
             public Builder doseNumber(Element doseNumber) {
                 this.doseNumber = doseNumber;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code seriesDoses} with choice type String.
+             * 
+             * @param seriesDoses
+             *     Recommended number of doses for immunity
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #seriesDoses(Element)
+             */
+            public Builder seriesDoses(java.lang.String seriesDoses) {
+                this.seriesDoses = (seriesDoses == null) ? null : String.of(seriesDoses);
                 return this;
             }
 

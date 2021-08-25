@@ -494,8 +494,7 @@ public class SubstancePolymer extends DomainResource {
         }
 
         /**
-         * Convenience method for setting modification.
-         * @see #modification(List<String>)
+         * Convenience method for setting {@code modification}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -504,10 +503,12 @@ public class SubstancePolymer extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #modification(com.ibm.fhir.model.type.String)
          */
         public Builder modification(java.lang.String... modification) {
             for (java.lang.String value : modification) {
-                this.modification.add(value == null ? null : String.of(value));
+                this.modification.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1215,17 +1216,18 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting isDefining.
-                 * @see #isDefining(Boolean)
+                 * Convenience method for setting {@code isDefining}.
                  * 
                  * @param isDefining
                  *     Todo
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #isDefining(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder isDefining(java.lang.Boolean isDefining) {
-                    this.isDefining = isDefining == null ? null : Boolean.of(isDefining);
+                    this.isDefining = (isDefining == null) ? null : Boolean.of(isDefining);
                     return this;
                 }
 
@@ -1538,17 +1540,18 @@ public class SubstancePolymer extends DomainResource {
             }
 
             /**
-             * Convenience method for setting numberOfUnits.
-             * @see #numberOfUnits(Integer)
+             * Convenience method for setting {@code numberOfUnits}.
              * 
              * @param numberOfUnits
              *     Todo
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #numberOfUnits(com.ibm.fhir.model.type.Integer)
              */
             public Builder numberOfUnits(java.lang.Integer numberOfUnits) {
-                this.numberOfUnits = numberOfUnits == null ? null : Integer.of(numberOfUnits);
+                this.numberOfUnits = (numberOfUnits == null) ? null : Integer.of(numberOfUnits);
                 return this;
             }
 
@@ -1567,17 +1570,18 @@ public class SubstancePolymer extends DomainResource {
             }
 
             /**
-             * Convenience method for setting averageMolecularFormula.
-             * @see #averageMolecularFormula(String)
+             * Convenience method for setting {@code averageMolecularFormula}.
              * 
              * @param averageMolecularFormula
              *     Todo
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #averageMolecularFormula(com.ibm.fhir.model.type.String)
              */
             public Builder averageMolecularFormula(java.lang.String averageMolecularFormula) {
-                this.averageMolecularFormula = averageMolecularFormula == null ? null : String.of(averageMolecularFormula);
+                this.averageMolecularFormula = (averageMolecularFormula == null) ? null : String.of(averageMolecularFormula);
                 return this;
             }
 
@@ -1955,17 +1959,18 @@ public class SubstancePolymer extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting repeatUnit.
-                 * @see #repeatUnit(String)
+                 * Convenience method for setting {@code repeatUnit}.
                  * 
                  * @param repeatUnit
                  *     Todo
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #repeatUnit(com.ibm.fhir.model.type.String)
                  */
                 public Builder repeatUnit(java.lang.String repeatUnit) {
-                    this.repeatUnit = repeatUnit == null ? null : String.of(repeatUnit);
+                    this.repeatUnit = (repeatUnit == null) ? null : String.of(repeatUnit);
                     return this;
                 }
 
@@ -2612,17 +2617,18 @@ public class SubstancePolymer extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting representation.
-                     * @see #representation(String)
+                     * Convenience method for setting {@code representation}.
                      * 
                      * @param representation
                      *     Todo
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #representation(com.ibm.fhir.model.type.String)
                      */
                     public Builder representation(java.lang.String representation) {
-                        this.representation = representation == null ? null : String.of(representation);
+                        this.representation = (representation == null) ? null : String.of(representation);
                         return this;
                     }
 

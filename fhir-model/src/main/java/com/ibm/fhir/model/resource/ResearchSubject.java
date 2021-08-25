@@ -586,17 +586,18 @@ public class ResearchSubject extends DomainResource {
         }
 
         /**
-         * Convenience method for setting assignedArm.
-         * @see #assignedArm(String)
+         * Convenience method for setting {@code assignedArm}.
          * 
          * @param assignedArm
          *     What path should be followed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #assignedArm(com.ibm.fhir.model.type.String)
          */
         public Builder assignedArm(java.lang.String assignedArm) {
-            this.assignedArm = assignedArm == null ? null : String.of(assignedArm);
+            this.assignedArm = (assignedArm == null) ? null : String.of(assignedArm);
             return this;
         }
 
@@ -615,17 +616,18 @@ public class ResearchSubject extends DomainResource {
         }
 
         /**
-         * Convenience method for setting actualArm.
-         * @see #actualArm(String)
+         * Convenience method for setting {@code actualArm}.
          * 
          * @param actualArm
          *     What path was followed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #actualArm(com.ibm.fhir.model.type.String)
          */
         public Builder actualArm(java.lang.String actualArm) {
-            this.actualArm = actualArm == null ? null : String.of(actualArm);
+            this.actualArm = (actualArm == null) ? null : String.of(actualArm);
             return this;
         }
 

@@ -882,8 +882,7 @@ public class Composition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * <p>This element is required.
          * 
@@ -892,9 +891,11 @@ public class Composition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1510,7 +1511,7 @@ public class Composition extends DomainResource {
          * The target composition/document of this relationship.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Identifier} or {@link Reference} that is non-null.
          */
         public Element getTarget() {
             return target;
@@ -2514,17 +2515,18 @@ public class Composition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting title.
-             * @see #title(String)
+             * Convenience method for setting {@code title}.
              * 
              * @param title
              *     Label for section (e.g. for ToC)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #title(com.ibm.fhir.model.type.String)
              */
             public Builder title(java.lang.String title) {
-                this.title = title == null ? null : String.of(title);
+                this.title = (title == null) ? null : String.of(title);
                 return this;
             }
 

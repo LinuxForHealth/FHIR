@@ -1322,17 +1322,18 @@ public class ImagingStudy extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Institution-generated description
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1925,17 +1926,18 @@ public class ImagingStudy extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     A short human readable summary of the series
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2823,17 +2825,18 @@ public class ImagingStudy extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting title.
-                 * @see #title(String)
+                 * Convenience method for setting {@code title}.
                  * 
                  * @param title
                  *     Description of instance
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #title(com.ibm.fhir.model.type.String)
                  */
                 public Builder title(java.lang.String title) {
-                    this.title = title == null ? null : String.of(title);
+                    this.title = (title == null) ? null : String.of(title);
                     return this;
                 }
 

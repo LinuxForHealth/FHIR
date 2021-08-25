@@ -316,17 +316,18 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * Convenience method for setting min.
-         * @see #min(Integer)
+         * Convenience method for setting {@code min}.
          * 
          * @param min
          *     Minimum cardinality
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #min(com.ibm.fhir.model.type.Integer)
          */
         public Builder min(java.lang.Integer min) {
-            this.min = min == null ? null : Integer.of(min);
+            this.min = (min == null) ? null : Integer.of(min);
             return this;
         }
 
@@ -345,17 +346,18 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * Convenience method for setting max.
-         * @see #max(String)
+         * Convenience method for setting {@code max}.
          * 
          * @param max
          *     Maximum cardinality (a number of *)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #max(com.ibm.fhir.model.type.String)
          */
         public Builder max(java.lang.String max) {
-            this.max = max == null ? null : String.of(max);
+            this.max = (max == null) ? null : String.of(max);
             return this;
         }
 
@@ -374,17 +376,18 @@ public class ParameterDefinition extends Element {
         }
 
         /**
-         * Convenience method for setting documentation.
-         * @see #documentation(String)
+         * Convenience method for setting {@code documentation}.
          * 
          * @param documentation
          *     A brief description of the parameter
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #documentation(com.ibm.fhir.model.type.String)
          */
         public Builder documentation(java.lang.String documentation) {
-            this.documentation = documentation == null ? null : String.of(documentation);
+            this.documentation = (documentation == null) ? null : String.of(documentation);
             return this;
         }
 

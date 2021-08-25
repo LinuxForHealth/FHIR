@@ -283,7 +283,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The actual or approximate date of birth of the relative.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period}, {@link Date} or {@link String} that may be null.
      */
     public Element getBorn() {
         return born;
@@ -293,7 +293,7 @@ public class FamilyMemberHistory extends DomainResource {
      * The age of the relative at the time the family member history is recorded.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Age}, {@link Range} or {@link String} that may be null.
      */
     public Element getAge() {
         return age;
@@ -314,7 +314,8 @@ public class FamilyMemberHistory extends DomainResource {
      * record.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Boolean}, {@link Age}, {@link Range}, {@link Date} or {@link String} that may be 
+     *     null.
      */
     public Element getDeceased() {
         return deceased;
@@ -903,17 +904,18 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     The family member described
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -962,6 +964,38 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code born} with choice type Date.
+         * 
+         * @param born
+         *     (approximate) date of birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #born(Element)
+         */
+        public Builder born(java.time.LocalDate born) {
+            this.born = (born == null) ? null : Date.of(born);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code born} with choice type String.
+         * 
+         * @param born
+         *     (approximate) date of birth
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #born(Element)
+         */
+        public Builder born(java.lang.String born) {
+            this.born = (born == null) ? null : String.of(born);
+            return this;
+        }
+
+        /**
          * The actual or approximate date of birth of the relative.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -979,6 +1013,22 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder born(Element born) {
             this.born = born;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code age} with choice type String.
+         * 
+         * @param age
+         *     (approximate) age
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #age(Element)
+         */
+        public Builder age(java.lang.String age) {
+            this.age = (age == null) ? null : String.of(age);
             return this;
         }
 
@@ -1004,17 +1054,18 @@ public class FamilyMemberHistory extends DomainResource {
         }
 
         /**
-         * Convenience method for setting estimatedAge.
-         * @see #estimatedAge(Boolean)
+         * Convenience method for setting {@code estimatedAge}.
          * 
          * @param estimatedAge
          *     Age is estimated?
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #estimatedAge(com.ibm.fhir.model.type.Boolean)
          */
         public Builder estimatedAge(java.lang.Boolean estimatedAge) {
-            this.estimatedAge = estimatedAge == null ? null : Boolean.of(estimatedAge);
+            this.estimatedAge = (estimatedAge == null) ? null : Boolean.of(estimatedAge);
             return this;
         }
 
@@ -1029,6 +1080,54 @@ public class FamilyMemberHistory extends DomainResource {
          */
         public Builder estimatedAge(Boolean estimatedAge) {
             this.estimatedAge = estimatedAge;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type Boolean.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.lang.Boolean deceased) {
+            this.deceased = (deceased == null) ? null : Boolean.of(deceased);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type Date.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.time.LocalDate deceased) {
+            this.deceased = (deceased == null) ? null : Date.of(deceased);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code deceased} with choice type String.
+         * 
+         * @param deceased
+         *     Dead? How old/when?
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #deceased(Element)
+         */
+        public Builder deceased(java.lang.String deceased) {
+            this.deceased = (deceased == null) ? null : String.of(deceased);
             return this;
         }
 
@@ -1360,7 +1459,7 @@ public class FamilyMemberHistory extends DomainResource {
          * occurrences, this describes the first known occurrence.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Age}, {@link Range}, {@link Period} or {@link String} that may be null.
          */
         public Element getOnset() {
             return onset;
@@ -1599,17 +1698,18 @@ public class FamilyMemberHistory extends DomainResource {
             }
 
             /**
-             * Convenience method for setting contributedToDeath.
-             * @see #contributedToDeath(Boolean)
+             * Convenience method for setting {@code contributedToDeath}.
              * 
              * @param contributedToDeath
              *     Whether the condition contributed to the cause of death
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #contributedToDeath(com.ibm.fhir.model.type.Boolean)
              */
             public Builder contributedToDeath(java.lang.Boolean contributedToDeath) {
-                this.contributedToDeath = contributedToDeath == null ? null : Boolean.of(contributedToDeath);
+                this.contributedToDeath = (contributedToDeath == null) ? null : Boolean.of(contributedToDeath);
                 return this;
             }
 
@@ -1625,6 +1725,22 @@ public class FamilyMemberHistory extends DomainResource {
              */
             public Builder contributedToDeath(Boolean contributedToDeath) {
                 this.contributedToDeath = contributedToDeath;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code onset} with choice type String.
+             * 
+             * @param onset
+             *     When condition first manifested
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #onset(Element)
+             */
+            public Builder onset(java.lang.String onset) {
+                this.onset = (onset == null) ? null : String.of(onset);
                 return this;
             }
 

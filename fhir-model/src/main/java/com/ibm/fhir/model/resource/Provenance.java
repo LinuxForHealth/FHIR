@@ -143,7 +143,7 @@ public class Provenance extends DomainResource {
      * The period during which the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
      */
     public Element getOccurred() {
         return occurred;
@@ -619,8 +619,7 @@ public class Provenance extends DomainResource {
         }
 
         /**
-         * Convenience method for setting recorded.
-         * @see #recorded(Instant)
+         * Convenience method for setting {@code recorded}.
          * 
          * <p>This element is required.
          * 
@@ -629,9 +628,11 @@ public class Provenance extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #recorded(com.ibm.fhir.model.type.Instant)
          */
         public Builder recorded(java.time.ZonedDateTime recorded) {
-            this.recorded = recorded == null ? null : Instant.of(recorded);
+            this.recorded = (recorded == null) ? null : Instant.of(recorded);
             return this;
         }
 

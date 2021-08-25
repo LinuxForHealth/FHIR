@@ -172,7 +172,7 @@ public class DeviceUseStatement extends DomainResource {
      * How often the device was used.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Timing}, {@link Period} or {@link DateTime} that may be null.
      */
     public Element getTiming() {
         return timing;

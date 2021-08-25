@@ -1705,17 +1705,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting instruction.
-             * @see #instruction(String)
+             * Convenience method for setting {@code instruction}.
              * 
              * @param instruction
              *     Instructions or additional information about the oral diet
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #instruction(com.ibm.fhir.model.type.String)
              */
             public Builder instruction(java.lang.String instruction) {
-                this.instruction = instruction == null ? null : String.of(instruction);
+                this.instruction = (instruction == null) ? null : String.of(instruction);
                 return this;
             }
 
@@ -2609,17 +2610,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting productName.
-             * @see #productName(String)
+             * Convenience method for setting {@code productName}.
              * 
              * @param productName
              *     Product or brand name of the nutritional supplement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #productName(com.ibm.fhir.model.type.String)
              */
             public Builder productName(java.lang.String productName) {
-                this.productName = productName == null ? null : String.of(productName);
+                this.productName = (productName == null) ? null : String.of(productName);
                 return this;
             }
 
@@ -2688,17 +2690,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting instruction.
-             * @see #instruction(String)
+             * Convenience method for setting {@code instruction}.
              * 
              * @param instruction
              *     Instructions or additional information about the oral supplement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #instruction(com.ibm.fhir.model.type.String)
              */
             public Builder instruction(java.lang.String instruction) {
-                this.instruction = instruction == null ? null : String.of(instruction);
+                this.instruction = (instruction == null) ? null : String.of(instruction);
                 return this;
             }
 
@@ -3121,17 +3124,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting baseFormulaProductName.
-             * @see #baseFormulaProductName(String)
+             * Convenience method for setting {@code baseFormulaProductName}.
              * 
              * @param baseFormulaProductName
              *     Product or brand name of the enteral or infant formula
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #baseFormulaProductName(com.ibm.fhir.model.type.String)
              */
             public Builder baseFormulaProductName(java.lang.String baseFormulaProductName) {
-                this.baseFormulaProductName = baseFormulaProductName == null ? null : String.of(baseFormulaProductName);
+                this.baseFormulaProductName = (baseFormulaProductName == null) ? null : String.of(baseFormulaProductName);
                 return this;
             }
 
@@ -3165,17 +3169,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting additiveProductName.
-             * @see #additiveProductName(String)
+             * Convenience method for setting {@code additiveProductName}.
              * 
              * @param additiveProductName
              *     Product or brand name of the modular additive
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #additiveProductName(com.ibm.fhir.model.type.String)
              */
             public Builder additiveProductName(java.lang.String additiveProductName) {
-                this.additiveProductName = additiveProductName == null ? null : String.of(additiveProductName);
+                this.additiveProductName = (additiveProductName == null) ? null : String.of(additiveProductName);
                 return this;
             }
 
@@ -3278,17 +3283,18 @@ public class NutritionOrder extends DomainResource {
             }
 
             /**
-             * Convenience method for setting administrationInstruction.
-             * @see #administrationInstruction(String)
+             * Convenience method for setting {@code administrationInstruction}.
              * 
              * @param administrationInstruction
              *     Formula feeding instructions expressed as text
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #administrationInstruction(com.ibm.fhir.model.type.String)
              */
             public Builder administrationInstruction(java.lang.String administrationInstruction) {
-                this.administrationInstruction = administrationInstruction == null ? null : String.of(administrationInstruction);
+                this.administrationInstruction = (administrationInstruction == null) ? null : String.of(administrationInstruction);
                 return this;
             }
 
@@ -3386,7 +3392,7 @@ public class NutritionOrder extends DomainResource {
              * The rate of administration of formula via a feeding pump, e.g. 60 mL per hour, according to the specified schedule.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link SimpleQuantity} or {@link Ratio} that may be null.
              */
             public Element getRate() {
                 return rate;

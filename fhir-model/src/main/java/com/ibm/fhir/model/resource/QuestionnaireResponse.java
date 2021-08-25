@@ -1142,8 +1142,7 @@ public class QuestionnaireResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting linkId.
-             * @see #linkId(String)
+             * Convenience method for setting {@code linkId}.
              * 
              * <p>This element is required.
              * 
@@ -1152,9 +1151,11 @@ public class QuestionnaireResponse extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #linkId(com.ibm.fhir.model.type.String)
              */
             public Builder linkId(java.lang.String linkId) {
-                this.linkId = linkId == null ? null : String.of(linkId);
+                this.linkId = (linkId == null) ? null : String.of(linkId);
                 return this;
             }
 
@@ -1189,17 +1190,18 @@ public class QuestionnaireResponse extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Name for group or question text
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -1350,7 +1352,9 @@ public class QuestionnaireResponse extends DomainResource {
              * The answer (or one of the answers) provided by the respondent to the question.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+             *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that may 
+             *     be null.
              */
             public Element getValue() {
                 return value;
@@ -1539,6 +1543,70 @@ public class QuestionnaireResponse extends DomainResource {
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
                     return (Builder) super.modifierExtension(modifierExtension);
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Boolean.
+                 * 
+                 * @param value
+                 *     Single-valued answer to the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Boolean value) {
+                    this.value = (value == null) ? null : Boolean.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Integer.
+                 * 
+                 * @param value
+                 *     Single-valued answer to the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.Integer value) {
+                    this.value = (value == null) ? null : Integer.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type Date.
+                 * 
+                 * @param value
+                 *     Single-valued answer to the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.time.LocalDate value) {
+                    this.value = (value == null) ? null : Date.of(value);
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code value} with choice type String.
+                 * 
+                 * @param value
+                 *     Single-valued answer to the question
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #value(Element)
+                 */
+                public Builder value(java.lang.String value) {
+                    this.value = (value == null) ? null : String.of(value);
+                    return this;
                 }
 
                 /**

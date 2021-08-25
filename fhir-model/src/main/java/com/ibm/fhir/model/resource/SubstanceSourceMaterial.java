@@ -633,17 +633,18 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * Convenience method for setting organismName.
-         * @see #organismName(String)
+         * Convenience method for setting {@code organismName}.
          * 
          * @param organismName
          *     The organism accepted Scientific name shall be provided based on the organism taxonomy
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #organismName(com.ibm.fhir.model.type.String)
          */
         public Builder organismName(java.lang.String organismName) {
-            this.organismName = organismName == null ? null : String.of(organismName);
+            this.organismName = (organismName == null) ? null : String.of(organismName);
             return this;
         }
 
@@ -700,8 +701,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * Convenience method for setting parentSubstanceName.
-         * @see #parentSubstanceName(List<String>)
+         * Convenience method for setting {@code parentSubstanceName}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -710,10 +710,12 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #parentSubstanceName(com.ibm.fhir.model.type.String)
          */
         public Builder parentSubstanceName(java.lang.String... parentSubstanceName) {
             for (java.lang.String value : parentSubstanceName) {
-                this.parentSubstanceName.add(value == null ? null : String.of(value));
+                this.parentSubstanceName.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -795,8 +797,7 @@ public class SubstanceSourceMaterial extends DomainResource {
         }
 
         /**
-         * Convenience method for setting geographicalLocation.
-         * @see #geographicalLocation(List<String>)
+         * Convenience method for setting {@code geographicalLocation}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -805,10 +806,12 @@ public class SubstanceSourceMaterial extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #geographicalLocation(com.ibm.fhir.model.type.String)
          */
         public Builder geographicalLocation(java.lang.String... geographicalLocation) {
             for (java.lang.String value : geographicalLocation) {
-                this.geographicalLocation.add(value == null ? null : String.of(value));
+                this.geographicalLocation.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -1232,17 +1235,18 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * Convenience method for setting fraction.
-             * @see #fraction(String)
+             * Convenience method for setting {@code fraction}.
              * 
              * @param fraction
              *     This element is capturing information about the fraction of a plant part, or human plasma for fractionation
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #fraction(com.ibm.fhir.model.type.String)
              */
             public Builder fraction(java.lang.String fraction) {
-                this.fraction = fraction == null ? null : String.of(fraction);
+                this.fraction = (fraction == null) ? null : String.of(fraction);
                 return this;
             }
 
@@ -1691,8 +1695,7 @@ public class SubstanceSourceMaterial extends DomainResource {
             }
 
             /**
-             * Convenience method for setting intraspecificDescription.
-             * @see #intraspecificDescription(String)
+             * Convenience method for setting {@code intraspecificDescription}.
              * 
              * @param intraspecificDescription
              *     The intraspecific description of an organism shall be specified based on a controlled vocabulary. For Influenza 
@@ -1700,9 +1703,11 @@ public class SubstanceSourceMaterial extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #intraspecificDescription(com.ibm.fhir.model.type.String)
              */
             public Builder intraspecificDescription(java.lang.String intraspecificDescription) {
-                this.intraspecificDescription = intraspecificDescription == null ? null : String.of(intraspecificDescription);
+                this.intraspecificDescription = (intraspecificDescription == null) ? null : String.of(intraspecificDescription);
                 return this;
             }
 
@@ -2054,8 +2059,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting authorDescription.
-                 * @see #authorDescription(String)
+                 * Convenience method for setting {@code authorDescription}.
                  * 
                  * @param authorDescription
                  *     The author of an organism species shall be specified. The author year of an organism shall also be specified when 
@@ -2063,9 +2067,11 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #authorDescription(com.ibm.fhir.model.type.String)
                  */
                 public Builder authorDescription(java.lang.String authorDescription) {
-                    this.authorDescription = authorDescription == null ? null : String.of(authorDescription);
+                    this.authorDescription = (authorDescription == null) ? null : String.of(authorDescription);
                     return this;
                 }
 
@@ -2386,8 +2392,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting maternalOrganismId.
-                 * @see #maternalOrganismId(String)
+                 * Convenience method for setting {@code maternalOrganismId}.
                  * 
                  * @param maternalOrganismId
                  *     The identifier of the maternal species constituting the hybrid organism shall be specified based on a controlled 
@@ -2396,9 +2401,11 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #maternalOrganismId(com.ibm.fhir.model.type.String)
                  */
                 public Builder maternalOrganismId(java.lang.String maternalOrganismId) {
-                    this.maternalOrganismId = maternalOrganismId == null ? null : String.of(maternalOrganismId);
+                    this.maternalOrganismId = (maternalOrganismId == null) ? null : String.of(maternalOrganismId);
                     return this;
                 }
 
@@ -2421,8 +2428,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting maternalOrganismName.
-                 * @see #maternalOrganismName(String)
+                 * Convenience method for setting {@code maternalOrganismName}.
                  * 
                  * @param maternalOrganismName
                  *     The name of the maternal species constituting the hybrid organism shall be specified. For plants, the parents aren’t 
@@ -2430,9 +2436,11 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #maternalOrganismName(com.ibm.fhir.model.type.String)
                  */
                 public Builder maternalOrganismName(java.lang.String maternalOrganismName) {
-                    this.maternalOrganismName = maternalOrganismName == null ? null : String.of(maternalOrganismName);
+                    this.maternalOrganismName = (maternalOrganismName == null) ? null : String.of(maternalOrganismName);
                     return this;
                 }
 
@@ -2453,8 +2461,7 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting paternalOrganismId.
-                 * @see #paternalOrganismId(String)
+                 * Convenience method for setting {@code paternalOrganismId}.
                  * 
                  * @param paternalOrganismId
                  *     The identifier of the paternal species constituting the hybrid organism shall be specified based on a controlled 
@@ -2462,9 +2469,11 @@ public class SubstanceSourceMaterial extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #paternalOrganismId(com.ibm.fhir.model.type.String)
                  */
                 public Builder paternalOrganismId(java.lang.String paternalOrganismId) {
-                    this.paternalOrganismId = paternalOrganismId == null ? null : String.of(paternalOrganismId);
+                    this.paternalOrganismId = (paternalOrganismId == null) ? null : String.of(paternalOrganismId);
                     return this;
                 }
 
@@ -2485,17 +2494,18 @@ public class SubstanceSourceMaterial extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting paternalOrganismName.
-                 * @see #paternalOrganismName(String)
+                 * Convenience method for setting {@code paternalOrganismName}.
                  * 
                  * @param paternalOrganismName
                  *     The name of the paternal species constituting the hybrid organism shall be specified
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #paternalOrganismName(com.ibm.fhir.model.type.String)
                  */
                 public Builder paternalOrganismName(java.lang.String paternalOrganismName) {
-                    this.paternalOrganismName = paternalOrganismName == null ? null : String.of(paternalOrganismName);
+                    this.paternalOrganismName = (paternalOrganismName == null) ? null : String.of(paternalOrganismName);
                     return this;
                 }
 

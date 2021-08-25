@@ -47,7 +47,7 @@ public class SubstanceAmount extends BackboneElement {
      * the average. If only a single definite value for a given element is given, it would be captured in this field.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Quantity}, {@link Range} or {@link String} that may be null.
      */
     public Element getAmount() {
         return amount;
@@ -273,6 +273,23 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
+         * Convenience method for setting {@code amount} with choice type String.
+         * 
+         * @param amount
+         *     Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
+         *     the average. If only a single definite value for a given element is given, it would be captured in this field
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #amount(Element)
+         */
+        public Builder amount(java.lang.String amount) {
+            this.amount = (amount == null) ? null : String.of(amount);
+            return this;
+        }
+
+        /**
          * Used to capture quantitative values for a variety of elements. If only limits are given, the arithmetic mean would be 
          * the average. If only a single definite value for a given element is given, it would be captured in this field.
          * 
@@ -318,17 +335,18 @@ public class SubstanceAmount extends BackboneElement {
         }
 
         /**
-         * Convenience method for setting amountText.
-         * @see #amountText(String)
+         * Convenience method for setting {@code amountText}.
          * 
          * @param amountText
          *     A textual comment on a numeric value
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #amountText(com.ibm.fhir.model.type.String)
          */
         public Builder amountText(java.lang.String amountText) {
-            this.amountText = amountText == null ? null : String.of(amountText);
+            this.amountText = (amountText == null) ? null : String.of(amountText);
             return this;
         }
 

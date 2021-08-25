@@ -175,7 +175,7 @@ public class SupplyDelivery extends DomainResource {
      * The date or time(s) the activity occurred.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -920,7 +920,7 @@ public class SupplyDelivery extends DomainResource {
          * details of the item or a code that identifies the item from a known list.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getItem() {
             return item;

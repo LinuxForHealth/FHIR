@@ -218,7 +218,7 @@ public class ClinicalImpression extends DomainResource {
      * The point in time or period over which the subject was assessed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -806,17 +806,18 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     Why/how the assessment was performed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -1073,17 +1074,18 @@ public class ClinicalImpression extends DomainResource {
         }
 
         /**
-         * Convenience method for setting summary.
-         * @see #summary(String)
+         * Convenience method for setting {@code summary}.
          * 
          * @param summary
          *     Summary of the assessment
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #summary(com.ibm.fhir.model.type.String)
          */
         public Builder summary(java.lang.String summary) {
-            this.summary = summary == null ? null : String.of(summary);
+            this.summary = (summary == null) ? null : String.of(summary);
             return this;
         }
 
@@ -1955,17 +1957,18 @@ public class ClinicalImpression extends DomainResource {
             }
 
             /**
-             * Convenience method for setting basis.
-             * @see #basis(String)
+             * Convenience method for setting {@code basis}.
              * 
              * @param basis
              *     Which investigations support finding
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #basis(com.ibm.fhir.model.type.String)
              */
             public Builder basis(java.lang.String basis) {
-                this.basis = basis == null ? null : String.of(basis);
+                this.basis = (basis == null) ? null : String.of(basis);
                 return this;
             }
 

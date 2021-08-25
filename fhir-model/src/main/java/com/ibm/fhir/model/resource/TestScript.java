@@ -973,17 +973,18 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the test script
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1005,8 +1006,7 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -1015,9 +1015,11 @@ public class TestScript extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1039,17 +1041,18 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this test script (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1084,17 +1087,18 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1130,17 +1134,18 @@ public class TestScript extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1840,8 +1845,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting index.
-             * @see #index(Integer)
+             * Convenience method for setting {@code index}.
              * 
              * <p>This element is required.
              * 
@@ -1850,9 +1854,11 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #index(com.ibm.fhir.model.type.Integer)
              */
             public Builder index(java.lang.Integer index) {
-                this.index = index == null ? null : Integer.of(index);
+                this.index = (index == null) ? null : Integer.of(index);
                 return this;
             }
 
@@ -2144,8 +2150,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting index.
-             * @see #index(Integer)
+             * Convenience method for setting {@code index}.
              * 
              * <p>This element is required.
              * 
@@ -2154,9 +2159,11 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #index(com.ibm.fhir.model.type.Integer)
              */
             public Builder index(java.lang.Integer index) {
-                this.index = index == null ? null : Integer.of(index);
+                this.index = (index == null) ? null : Integer.of(index);
                 return this;
             }
 
@@ -2775,17 +2782,18 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     Short description
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3140,8 +3148,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting required.
-                 * @see #required(Boolean)
+                 * Convenience method for setting {@code required}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3150,9 +3157,11 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #required(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder required(java.lang.Boolean required) {
-                    this.required = required == null ? null : Boolean.of(required);
+                    this.required = (required == null) ? null : Boolean.of(required);
                     return this;
                 }
 
@@ -3174,8 +3183,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting validated.
-                 * @see #validated(Boolean)
+                 * Convenience method for setting {@code validated}.
                  * 
                  * <p>This element is required.
                  * 
@@ -3184,9 +3192,11 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #validated(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder validated(java.lang.Boolean validated) {
-                    this.validated = validated == null ? null : Boolean.of(validated);
+                    this.validated = (validated == null) ? null : Boolean.of(validated);
                     return this;
                 }
 
@@ -3208,17 +3218,18 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting description.
-                 * @see #description(String)
+                 * Convenience method for setting {@code description}.
                  * 
                  * @param description
                  *     The expected capabilities of the server
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #description(com.ibm.fhir.model.type.String)
                  */
                 public Builder description(java.lang.String description) {
-                    this.description = description == null ? null : String.of(description);
+                    this.description = (description == null) ? null : String.of(description);
                     return this;
                 }
 
@@ -3237,8 +3248,7 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting origin.
-                 * @see #origin(List<Integer>)
+                 * Convenience method for setting {@code origin}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3247,10 +3257,12 @@ public class TestScript extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #origin(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder origin(java.lang.Integer... origin) {
                     for (java.lang.Integer value : origin) {
-                        this.origin.add(value == null ? null : Integer.of(value));
+                        this.origin.add((value == null) ? null : Integer.of(value));
                     }
                     return this;
                 }
@@ -3290,17 +3302,18 @@ public class TestScript extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting destination.
-                 * @see #destination(Integer)
+                 * Convenience method for setting {@code destination}.
                  * 
                  * @param destination
                  *     Which server these requirements apply to
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #destination(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder destination(java.lang.Integer destination) {
-                    this.destination = destination == null ? null : Integer.of(destination);
+                    this.destination = (destination == null) ? null : Integer.of(destination);
                     return this;
                 }
 
@@ -3650,8 +3663,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting autocreate.
-             * @see #autocreate(Boolean)
+             * Convenience method for setting {@code autocreate}.
              * 
              * <p>This element is required.
              * 
@@ -3660,9 +3672,11 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #autocreate(com.ibm.fhir.model.type.Boolean)
              */
             public Builder autocreate(java.lang.Boolean autocreate) {
-                this.autocreate = autocreate == null ? null : Boolean.of(autocreate);
+                this.autocreate = (autocreate == null) ? null : Boolean.of(autocreate);
                 return this;
             }
 
@@ -3685,8 +3699,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting autodelete.
-             * @see #autodelete(Boolean)
+             * Convenience method for setting {@code autodelete}.
              * 
              * <p>This element is required.
              * 
@@ -3695,9 +3708,11 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #autodelete(com.ibm.fhir.model.type.Boolean)
              */
             public Builder autodelete(java.lang.Boolean autodelete) {
-                this.autodelete = autodelete == null ? null : Boolean.of(autodelete);
+                this.autodelete = (autodelete == null) ? null : Boolean.of(autodelete);
                 return this;
             }
 
@@ -4087,8 +4102,7 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -4097,9 +4111,11 @@ public class TestScript extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -4120,17 +4136,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting defaultValue.
-             * @see #defaultValue(String)
+             * Convenience method for setting {@code defaultValue}.
              * 
              * @param defaultValue
              *     Default, hard-coded, or user-defined value for this variable
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #defaultValue(com.ibm.fhir.model.type.String)
              */
             public Builder defaultValue(java.lang.String defaultValue) {
-                this.defaultValue = defaultValue == null ? null : String.of(defaultValue);
+                this.defaultValue = (defaultValue == null) ? null : String.of(defaultValue);
                 return this;
             }
 
@@ -4149,17 +4166,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Natural language description of the variable
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -4178,17 +4196,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting expression.
-             * @see #expression(String)
+             * Convenience method for setting {@code expression}.
              * 
              * @param expression
              *     The FHIRPath expression against the fixture body
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #expression(com.ibm.fhir.model.type.String)
              */
             public Builder expression(java.lang.String expression) {
-                this.expression = expression == null ? null : String.of(expression);
+                this.expression = (expression == null) ? null : String.of(expression);
                 return this;
             }
 
@@ -4208,17 +4227,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting headerField.
-             * @see #headerField(String)
+             * Convenience method for setting {@code headerField}.
              * 
              * @param headerField
              *     HTTP header field name for source
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #headerField(com.ibm.fhir.model.type.String)
              */
             public Builder headerField(java.lang.String headerField) {
-                this.headerField = headerField == null ? null : String.of(headerField);
+                this.headerField = (headerField == null) ? null : String.of(headerField);
                 return this;
             }
 
@@ -4237,17 +4257,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting hint.
-             * @see #hint(String)
+             * Convenience method for setting {@code hint}.
              * 
              * @param hint
              *     Hint help text for default value to enter
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #hint(com.ibm.fhir.model.type.String)
              */
             public Builder hint(java.lang.String hint) {
-                this.hint = hint == null ? null : String.of(hint);
+                this.hint = (hint == null) ? null : String.of(hint);
                 return this;
             }
 
@@ -4266,17 +4287,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting path.
-             * @see #path(String)
+             * Convenience method for setting {@code path}.
              * 
              * @param path
              *     XPath or JSONPath against the fixture body
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #path(com.ibm.fhir.model.type.String)
              */
             public Builder path(java.lang.String path) {
-                this.path = path == null ? null : String.of(path);
+                this.path = (path == null) ? null : String.of(path);
                 return this;
             }
 
@@ -5409,17 +5431,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting label.
-                     * @see #label(String)
+                     * Convenience method for setting {@code label}.
                      * 
                      * @param label
                      *     Tracking/logging operation label
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #label(com.ibm.fhir.model.type.String)
                      */
                     public Builder label(java.lang.String label) {
-                        this.label = label == null ? null : String.of(label);
+                        this.label = (label == null) ? null : String.of(label);
                         return this;
                     }
 
@@ -5438,17 +5461,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting description.
-                     * @see #description(String)
+                     * Convenience method for setting {@code description}.
                      * 
                      * @param description
                      *     Tracking/reporting operation description
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
                      */
                     public Builder description(java.lang.String description) {
-                        this.description = description == null ? null : String.of(description);
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 
@@ -5495,17 +5519,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting destination.
-                     * @see #destination(Integer)
+                     * Convenience method for setting {@code destination}.
                      * 
                      * @param destination
                      *     Server responding to the request
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #destination(com.ibm.fhir.model.type.Integer)
                      */
                     public Builder destination(java.lang.Integer destination) {
-                        this.destination = destination == null ? null : Integer.of(destination);
+                        this.destination = (destination == null) ? null : Integer.of(destination);
                         return this;
                     }
 
@@ -5525,8 +5550,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting encodeRequestUrl.
-                     * @see #encodeRequestUrl(Boolean)
+                     * Convenience method for setting {@code encodeRequestUrl}.
                      * 
                      * <p>This element is required.
                      * 
@@ -5535,9 +5559,11 @@ public class TestScript extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #encodeRequestUrl(com.ibm.fhir.model.type.Boolean)
                      */
                     public Builder encodeRequestUrl(java.lang.Boolean encodeRequestUrl) {
-                        this.encodeRequestUrl = encodeRequestUrl == null ? null : Boolean.of(encodeRequestUrl);
+                        this.encodeRequestUrl = (encodeRequestUrl == null) ? null : Boolean.of(encodeRequestUrl);
                         return this;
                     }
 
@@ -5573,17 +5599,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting origin.
-                     * @see #origin(Integer)
+                     * Convenience method for setting {@code origin}.
                      * 
                      * @param origin
                      *     Server initiating the request
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #origin(com.ibm.fhir.model.type.Integer)
                      */
                     public Builder origin(java.lang.Integer origin) {
-                        this.origin = origin == null ? null : Integer.of(origin);
+                        this.origin = (origin == null) ? null : Integer.of(origin);
                         return this;
                     }
 
@@ -5603,17 +5630,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting params.
-                     * @see #params(String)
+                     * Convenience method for setting {@code params}.
                      * 
                      * @param params
                      *     Explicitly defined path parameters
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #params(com.ibm.fhir.model.type.String)
                      */
                     public Builder params(java.lang.String params) {
-                        this.params = params == null ? null : String.of(params);
+                        this.params = (params == null) ? null : String.of(params);
                         return this;
                     }
 
@@ -5722,17 +5750,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting url.
-                     * @see #url(String)
+                     * Convenience method for setting {@code url}.
                      * 
                      * @param url
                      *     Request URL
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #url(com.ibm.fhir.model.type.String)
                      */
                     public Builder url(java.lang.String url) {
-                        this.url = url == null ? null : String.of(url);
+                        this.url = (url == null) ? null : String.of(url);
                         return this;
                     }
 
@@ -6013,8 +6042,7 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting field.
-                         * @see #field(String)
+                         * Convenience method for setting {@code field}.
                          * 
                          * <p>This element is required.
                          * 
@@ -6023,9 +6051,11 @@ public class TestScript extends DomainResource {
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #field(com.ibm.fhir.model.type.String)
                          */
                         public Builder field(java.lang.String field) {
-                            this.field = field == null ? null : String.of(field);
+                            this.field = (field == null) ? null : String.of(field);
                             return this;
                         }
 
@@ -6046,8 +6076,7 @@ public class TestScript extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting value.
-                         * @see #value(String)
+                         * Convenience method for setting {@code value}.
                          * 
                          * <p>This element is required.
                          * 
@@ -6056,9 +6085,11 @@ public class TestScript extends DomainResource {
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #value(com.ibm.fhir.model.type.String)
                          */
                         public Builder value(java.lang.String value) {
-                            this.value = value == null ? null : String.of(value);
+                            this.value = (value == null) ? null : String.of(value);
                             return this;
                         }
 
@@ -6708,17 +6739,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting label.
-                     * @see #label(String)
+                     * Convenience method for setting {@code label}.
                      * 
                      * @param label
                      *     Tracking/logging assertion label
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #label(com.ibm.fhir.model.type.String)
                      */
                     public Builder label(java.lang.String label) {
-                        this.label = label == null ? null : String.of(label);
+                        this.label = (label == null) ? null : String.of(label);
                         return this;
                     }
 
@@ -6737,17 +6769,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting description.
-                     * @see #description(String)
+                     * Convenience method for setting {@code description}.
                      * 
                      * @param description
                      *     Tracking/reporting assertion description
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #description(com.ibm.fhir.model.type.String)
                      */
                     public Builder description(java.lang.String description) {
-                        this.description = description == null ? null : String.of(description);
+                        this.description = (description == null) ? null : String.of(description);
                         return this;
                     }
 
@@ -6780,17 +6813,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting compareToSourceId.
-                     * @see #compareToSourceId(String)
+                     * Convenience method for setting {@code compareToSourceId}.
                      * 
                      * @param compareToSourceId
                      *     Id of the source fixture to be evaluated
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourceId(com.ibm.fhir.model.type.String)
                      */
                     public Builder compareToSourceId(java.lang.String compareToSourceId) {
-                        this.compareToSourceId = compareToSourceId == null ? null : String.of(compareToSourceId);
+                        this.compareToSourceId = (compareToSourceId == null) ? null : String.of(compareToSourceId);
                         return this;
                     }
 
@@ -6810,17 +6844,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting compareToSourceExpression.
-                     * @see #compareToSourceExpression(String)
+                     * Convenience method for setting {@code compareToSourceExpression}.
                      * 
                      * @param compareToSourceExpression
                      *     The FHIRPath expression to evaluate against the source fixture
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourceExpression(com.ibm.fhir.model.type.String)
                      */
                     public Builder compareToSourceExpression(java.lang.String compareToSourceExpression) {
-                        this.compareToSourceExpression = compareToSourceExpression == null ? null : String.of(compareToSourceExpression);
+                        this.compareToSourceExpression = (compareToSourceExpression == null) ? null : String.of(compareToSourceExpression);
                         return this;
                     }
 
@@ -6840,17 +6875,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting compareToSourcePath.
-                     * @see #compareToSourcePath(String)
+                     * Convenience method for setting {@code compareToSourcePath}.
                      * 
                      * @param compareToSourcePath
                      *     XPath or JSONPath expression to evaluate against the source fixture
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #compareToSourcePath(com.ibm.fhir.model.type.String)
                      */
                     public Builder compareToSourcePath(java.lang.String compareToSourcePath) {
-                        this.compareToSourcePath = compareToSourcePath == null ? null : String.of(compareToSourcePath);
+                        this.compareToSourcePath = (compareToSourcePath == null) ? null : String.of(compareToSourcePath);
                         return this;
                     }
 
@@ -6884,17 +6920,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting expression.
-                     * @see #expression(String)
+                     * Convenience method for setting {@code expression}.
                      * 
                      * @param expression
                      *     The FHIRPath expression to be evaluated
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #expression(com.ibm.fhir.model.type.String)
                      */
                     public Builder expression(java.lang.String expression) {
-                        this.expression = expression == null ? null : String.of(expression);
+                        this.expression = (expression == null) ? null : String.of(expression);
                         return this;
                     }
 
@@ -6913,17 +6950,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting headerField.
-                     * @see #headerField(String)
+                     * Convenience method for setting {@code headerField}.
                      * 
                      * @param headerField
                      *     HTTP header field name
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #headerField(com.ibm.fhir.model.type.String)
                      */
                     public Builder headerField(java.lang.String headerField) {
-                        this.headerField = headerField == null ? null : String.of(headerField);
+                        this.headerField = (headerField == null) ? null : String.of(headerField);
                         return this;
                     }
 
@@ -6942,17 +6980,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting minimumId.
-                     * @see #minimumId(String)
+                     * Convenience method for setting {@code minimumId}.
                      * 
                      * @param minimumId
                      *     Fixture Id of minimum content resource
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #minimumId(com.ibm.fhir.model.type.String)
                      */
                     public Builder minimumId(java.lang.String minimumId) {
-                        this.minimumId = minimumId == null ? null : String.of(minimumId);
+                        this.minimumId = (minimumId == null) ? null : String.of(minimumId);
                         return this;
                     }
 
@@ -6971,17 +7010,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting navigationLinks.
-                     * @see #navigationLinks(Boolean)
+                     * Convenience method for setting {@code navigationLinks}.
                      * 
                      * @param navigationLinks
                      *     Perform validation on navigation links?
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #navigationLinks(com.ibm.fhir.model.type.Boolean)
                      */
                     public Builder navigationLinks(java.lang.Boolean navigationLinks) {
-                        this.navigationLinks = navigationLinks == null ? null : Boolean.of(navigationLinks);
+                        this.navigationLinks = (navigationLinks == null) ? null : Boolean.of(navigationLinks);
                         return this;
                     }
 
@@ -7014,17 +7054,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting path.
-                     * @see #path(String)
+                     * Convenience method for setting {@code path}.
                      * 
                      * @param path
                      *     XPath or JSONPath expression
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #path(com.ibm.fhir.model.type.String)
                      */
                     public Builder path(java.lang.String path) {
-                        this.path = path == null ? null : String.of(path);
+                        this.path = (path == null) ? null : String.of(path);
                         return this;
                     }
 
@@ -7057,17 +7098,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting requestURL.
-                     * @see #requestURL(String)
+                     * Convenience method for setting {@code requestURL}.
                      * 
                      * @param requestURL
                      *     Request URL comparison value
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #requestURL(com.ibm.fhir.model.type.String)
                      */
                     public Builder requestURL(java.lang.String requestURL) {
-                        this.requestURL = requestURL == null ? null : String.of(requestURL);
+                        this.requestURL = (requestURL == null) ? null : String.of(requestURL);
                         return this;
                     }
 
@@ -7116,17 +7158,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting responseCode.
-                     * @see #responseCode(String)
+                     * Convenience method for setting {@code responseCode}.
                      * 
                      * @param responseCode
                      *     HTTP response code to test
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #responseCode(com.ibm.fhir.model.type.String)
                      */
                     public Builder responseCode(java.lang.String responseCode) {
-                        this.responseCode = responseCode == null ? null : String.of(responseCode);
+                        this.responseCode = (responseCode == null) ? null : String.of(responseCode);
                         return this;
                     }
 
@@ -7173,17 +7216,18 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting value.
-                     * @see #value(String)
+                     * Convenience method for setting {@code value}.
                      * 
                      * @param value
                      *     The value to compare to
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #value(com.ibm.fhir.model.type.String)
                      */
                     public Builder value(java.lang.String value) {
-                        this.value = value == null ? null : String.of(value);
+                        this.value = (value == null) ? null : String.of(value);
                         return this;
                     }
 
@@ -7202,8 +7246,7 @@ public class TestScript extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting warningOnly.
-                     * @see #warningOnly(Boolean)
+                     * Convenience method for setting {@code warningOnly}.
                      * 
                      * <p>This element is required.
                      * 
@@ -7212,9 +7255,11 @@ public class TestScript extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #warningOnly(com.ibm.fhir.model.type.Boolean)
                      */
                     public Builder warningOnly(java.lang.Boolean warningOnly) {
-                        this.warningOnly = warningOnly == null ? null : Boolean.of(warningOnly);
+                        this.warningOnly = (warningOnly == null) ? null : Boolean.of(warningOnly);
                         return this;
                     }
 
@@ -7520,17 +7565,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Tracking/logging name of this test
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -7549,17 +7595,18 @@ public class TestScript extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Tracking/reporting short description of the test
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 

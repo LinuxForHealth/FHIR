@@ -734,17 +734,18 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting multipleResultsAllowed.
-         * @see #multipleResultsAllowed(Boolean)
+         * Convenience method for setting {@code multipleResultsAllowed}.
          * 
          * @param multipleResultsAllowed
          *     Multiple results allowed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #multipleResultsAllowed(com.ibm.fhir.model.type.Boolean)
          */
         public Builder multipleResultsAllowed(java.lang.Boolean multipleResultsAllowed) {
-            this.multipleResultsAllowed = multipleResultsAllowed == null ? null : Boolean.of(multipleResultsAllowed);
+            this.multipleResultsAllowed = (multipleResultsAllowed == null) ? null : Boolean.of(multipleResultsAllowed);
             return this;
         }
 
@@ -777,17 +778,18 @@ public class ObservationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting preferredReportName.
-         * @see #preferredReportName(String)
+         * Convenience method for setting {@code preferredReportName}.
          * 
          * @param preferredReportName
          *     Preferred report name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #preferredReportName(com.ibm.fhir.model.type.String)
          */
         public Builder preferredReportName(java.lang.String preferredReportName) {
-            this.preferredReportName = preferredReportName == null ? null : String.of(preferredReportName);
+            this.preferredReportName = (preferredReportName == null) ? null : String.of(preferredReportName);
             return this;
         }
 
@@ -1282,17 +1284,18 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting decimalPrecision.
-             * @see #decimalPrecision(Integer)
+             * Convenience method for setting {@code decimalPrecision}.
              * 
              * @param decimalPrecision
              *     Decimal precision of observation quantitative results
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #decimalPrecision(com.ibm.fhir.model.type.Integer)
              */
             public Builder decimalPrecision(java.lang.Integer decimalPrecision) {
-                this.decimalPrecision = decimalPrecision == null ? null : Integer.of(decimalPrecision);
+                this.decimalPrecision = (decimalPrecision == null) ? null : Integer.of(decimalPrecision);
                 return this;
             }
 
@@ -1799,17 +1802,18 @@ public class ObservationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting condition.
-             * @see #condition(String)
+             * Convenience method for setting {@code condition}.
              * 
              * @param condition
              *     Condition associated with the reference range
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #condition(com.ibm.fhir.model.type.String)
              */
             public Builder condition(java.lang.String condition) {
-                this.condition = condition == null ? null : String.of(condition);
+                this.condition = (condition == null) ? null : String.of(condition);
                 return this;
             }
 

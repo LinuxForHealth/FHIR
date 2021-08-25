@@ -230,7 +230,7 @@ public class DiagnosticReport extends DomainResource {
      * not known, only the date/time itself.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getEffective() {
         return effective;
@@ -925,17 +925,18 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * Convenience method for setting issued.
-         * @see #issued(Instant)
+         * Convenience method for setting {@code issued}.
          * 
          * @param issued
          *     DateTime this version was made
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #issued(com.ibm.fhir.model.type.Instant)
          */
         public Builder issued(java.time.ZonedDateTime issued) {
-            this.issued = issued == null ? null : Instant.of(issued);
+            this.issued = (issued == null) ? null : Instant.of(issued);
             return this;
         }
 
@@ -1227,17 +1228,18 @@ public class DiagnosticReport extends DomainResource {
         }
 
         /**
-         * Convenience method for setting conclusion.
-         * @see #conclusion(String)
+         * Convenience method for setting {@code conclusion}.
          * 
          * @param conclusion
          *     Clinical conclusion (interpretation) of test results
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #conclusion(com.ibm.fhir.model.type.String)
          */
         public Builder conclusion(java.lang.String conclusion) {
-            this.conclusion = conclusion == null ? null : String.of(conclusion);
+            this.conclusion = (conclusion == null) ? null : String.of(conclusion);
             return this;
         }
 
@@ -1612,17 +1614,18 @@ public class DiagnosticReport extends DomainResource {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Comment about the image (e.g. explanation)
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

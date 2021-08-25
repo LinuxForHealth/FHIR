@@ -958,17 +958,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting distinctIdentifier.
-         * @see #distinctIdentifier(String)
+         * Convenience method for setting {@code distinctIdentifier}.
          * 
          * @param distinctIdentifier
          *     The distinct identification string
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #distinctIdentifier(com.ibm.fhir.model.type.String)
          */
         public Builder distinctIdentifier(java.lang.String distinctIdentifier) {
-            this.distinctIdentifier = distinctIdentifier == null ? null : String.of(distinctIdentifier);
+            this.distinctIdentifier = (distinctIdentifier == null) ? null : String.of(distinctIdentifier);
             return this;
         }
 
@@ -988,17 +989,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting manufacturer.
-         * @see #manufacturer(String)
+         * Convenience method for setting {@code manufacturer}.
          * 
          * @param manufacturer
          *     Name of device manufacturer
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #manufacturer(com.ibm.fhir.model.type.String)
          */
         public Builder manufacturer(java.lang.String manufacturer) {
-            this.manufacturer = manufacturer == null ? null : String.of(manufacturer);
+            this.manufacturer = (manufacturer == null) ? null : String.of(manufacturer);
             return this;
         }
 
@@ -1045,17 +1047,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lotNumber.
-         * @see #lotNumber(String)
+         * Convenience method for setting {@code lotNumber}.
          * 
          * @param lotNumber
          *     Lot number of manufacture
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lotNumber(com.ibm.fhir.model.type.String)
          */
         public Builder lotNumber(java.lang.String lotNumber) {
-            this.lotNumber = lotNumber == null ? null : String.of(lotNumber);
+            this.lotNumber = (lotNumber == null) ? null : String.of(lotNumber);
             return this;
         }
 
@@ -1074,17 +1077,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting serialNumber.
-         * @see #serialNumber(String)
+         * Convenience method for setting {@code serialNumber}.
          * 
          * @param serialNumber
          *     Serial number assigned by the manufacturer
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #serialNumber(com.ibm.fhir.model.type.String)
          */
         public Builder serialNumber(java.lang.String serialNumber) {
-            this.serialNumber = serialNumber == null ? null : String.of(serialNumber);
+            this.serialNumber = (serialNumber == null) ? null : String.of(serialNumber);
             return this;
         }
 
@@ -1141,17 +1145,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting modelNumber.
-         * @see #modelNumber(String)
+         * Convenience method for setting {@code modelNumber}.
          * 
          * @param modelNumber
          *     The model number for the device
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #modelNumber(com.ibm.fhir.model.type.String)
          */
         public Builder modelNumber(java.lang.String modelNumber) {
-            this.modelNumber = modelNumber == null ? null : String.of(modelNumber);
+            this.modelNumber = (modelNumber == null) ? null : String.of(modelNumber);
             return this;
         }
 
@@ -1170,17 +1175,18 @@ public class Device extends DomainResource {
         }
 
         /**
-         * Convenience method for setting partNumber.
-         * @see #partNumber(String)
+         * Convenience method for setting {@code partNumber}.
          * 
          * @param partNumber
          *     The part number of the device
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #partNumber(com.ibm.fhir.model.type.String)
          */
         public Builder partNumber(java.lang.String partNumber) {
-            this.partNumber = partNumber == null ? null : String.of(partNumber);
+            this.partNumber = (partNumber == null) ? null : String.of(partNumber);
             return this;
         }
 
@@ -1880,17 +1886,18 @@ public class Device extends DomainResource {
             }
 
             /**
-             * Convenience method for setting deviceIdentifier.
-             * @see #deviceIdentifier(String)
+             * Convenience method for setting {@code deviceIdentifier}.
              * 
              * @param deviceIdentifier
              *     Mandatory fixed portion of UDI
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #deviceIdentifier(com.ibm.fhir.model.type.String)
              */
             public Builder deviceIdentifier(java.lang.String deviceIdentifier) {
-                this.deviceIdentifier = deviceIdentifier == null ? null : String.of(deviceIdentifier);
+                this.deviceIdentifier = (deviceIdentifier == null) ? null : String.of(deviceIdentifier);
                 return this;
             }
 
@@ -1964,17 +1971,18 @@ public class Device extends DomainResource {
             }
 
             /**
-             * Convenience method for setting carrierHRF.
-             * @see #carrierHRF(String)
+             * Convenience method for setting {@code carrierHRF}.
              * 
              * @param carrierHRF
              *     UDI Human Readable Barcode String
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #carrierHRF(com.ibm.fhir.model.type.String)
              */
             public Builder carrierHRF(java.lang.String carrierHRF) {
-                this.carrierHRF = carrierHRF == null ? null : String.of(carrierHRF);
+                this.carrierHRF = (carrierHRF == null) ? null : String.of(carrierHRF);
                 return this;
             }
 
@@ -2262,8 +2270,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -2272,9 +2279,11 @@ public class Device extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -2577,17 +2586,18 @@ public class Device extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     The version of the standard that is used to operate and communicate
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -2897,8 +2907,7 @@ public class Device extends DomainResource {
             }
 
             /**
-             * Convenience method for setting value.
-             * @see #value(String)
+             * Convenience method for setting {@code value}.
              * 
              * <p>This element is required.
              * 
@@ -2907,9 +2916,11 @@ public class Device extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #value(com.ibm.fhir.model.type.String)
              */
             public Builder value(java.lang.String value) {
-                this.value = value == null ? null : String.of(value);
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 

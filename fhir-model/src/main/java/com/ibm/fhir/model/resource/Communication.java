@@ -1581,7 +1581,7 @@ public class Communication extends DomainResource {
          * A communicated content (or for multi-part communications, one portion of the communication).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link String}, {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -1755,6 +1755,24 @@ public class Communication extends DomainResource {
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
                 return (Builder) super.modifierExtension(modifierExtension);
+            }
+
+            /**
+             * Convenience method for setting {@code content} with choice type String.
+             * 
+             * <p>This element is required.
+             * 
+             * @param content
+             *     Message part content
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #content(Element)
+             */
+            public Builder content(java.lang.String content) {
+                this.content = (content == null) ? null : String.of(content);
+                return this;
             }
 
             /**

@@ -435,17 +435,18 @@ public class Bundle extends Resource {
         }
 
         /**
-         * Convenience method for setting timestamp.
-         * @see #timestamp(Instant)
+         * Convenience method for setting {@code timestamp}.
          * 
          * @param timestamp
          *     When the bundle was assembled
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #timestamp(com.ibm.fhir.model.type.Instant)
          */
         public Builder timestamp(java.time.ZonedDateTime timestamp) {
-            this.timestamp = timestamp == null ? null : Instant.of(timestamp);
+            this.timestamp = (timestamp == null) ? null : Instant.of(timestamp);
             return this;
         }
 
@@ -820,8 +821,7 @@ public class Bundle extends Resource {
             }
 
             /**
-             * Convenience method for setting relation.
-             * @see #relation(String)
+             * Convenience method for setting {@code relation}.
              * 
              * <p>This element is required.
              * 
@@ -830,9 +830,11 @@ public class Bundle extends Resource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #relation(com.ibm.fhir.model.type.String)
              */
             public Builder relation(java.lang.String relation) {
-                this.relation = relation == null ? null : String.of(relation);
+                this.relation = (relation == null) ? null : String.of(relation);
                 return this;
             }
 
@@ -1953,17 +1955,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting ifNoneMatch.
-                 * @see #ifNoneMatch(String)
+                 * Convenience method for setting {@code ifNoneMatch}.
                  * 
                  * @param ifNoneMatch
                  *     For managing cache currency
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #ifNoneMatch(com.ibm.fhir.model.type.String)
                  */
                 public Builder ifNoneMatch(java.lang.String ifNoneMatch) {
-                    this.ifNoneMatch = ifNoneMatch == null ? null : String.of(ifNoneMatch);
+                    this.ifNoneMatch = (ifNoneMatch == null) ? null : String.of(ifNoneMatch);
                     return this;
                 }
 
@@ -1983,17 +1986,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting ifModifiedSince.
-                 * @see #ifModifiedSince(Instant)
+                 * Convenience method for setting {@code ifModifiedSince}.
                  * 
                  * @param ifModifiedSince
                  *     For managing cache currency
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #ifModifiedSince(com.ibm.fhir.model.type.Instant)
                  */
                 public Builder ifModifiedSince(java.time.ZonedDateTime ifModifiedSince) {
-                    this.ifModifiedSince = ifModifiedSince == null ? null : Instant.of(ifModifiedSince);
+                    this.ifModifiedSince = (ifModifiedSince == null) ? null : Instant.of(ifModifiedSince);
                     return this;
                 }
 
@@ -2013,17 +2017,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting ifMatch.
-                 * @see #ifMatch(String)
+                 * Convenience method for setting {@code ifMatch}.
                  * 
                  * @param ifMatch
                  *     For managing update contention
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #ifMatch(com.ibm.fhir.model.type.String)
                  */
                 public Builder ifMatch(java.lang.String ifMatch) {
-                    this.ifMatch = ifMatch == null ? null : String.of(ifMatch);
+                    this.ifMatch = (ifMatch == null) ? null : String.of(ifMatch);
                     return this;
                 }
 
@@ -2043,17 +2048,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting ifNoneExist.
-                 * @see #ifNoneExist(String)
+                 * Convenience method for setting {@code ifNoneExist}.
                  * 
                  * @param ifNoneExist
                  *     For conditional creates
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #ifNoneExist(com.ibm.fhir.model.type.String)
                  */
                 public Builder ifNoneExist(java.lang.String ifNoneExist) {
-                    this.ifNoneExist = ifNoneExist == null ? null : String.of(ifNoneExist);
+                    this.ifNoneExist = (ifNoneExist == null) ? null : String.of(ifNoneExist);
                     return this;
                 }
 
@@ -2385,8 +2391,7 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting status.
-                 * @see #status(String)
+                 * Convenience method for setting {@code status}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2395,9 +2400,11 @@ public class Bundle extends Resource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #status(com.ibm.fhir.model.type.String)
                  */
                 public Builder status(java.lang.String status) {
-                    this.status = status == null ? null : String.of(status);
+                    this.status = (status == null) ? null : String.of(status);
                     return this;
                 }
 
@@ -2433,17 +2440,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting etag.
-                 * @see #etag(String)
+                 * Convenience method for setting {@code etag}.
                  * 
                  * @param etag
                  *     The Etag for the resource (if relevant)
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #etag(com.ibm.fhir.model.type.String)
                  */
                 public Builder etag(java.lang.String etag) {
-                    this.etag = etag == null ? null : String.of(etag);
+                    this.etag = (etag == null) ? null : String.of(etag);
                     return this;
                 }
 
@@ -2463,17 +2471,18 @@ public class Bundle extends Resource {
                 }
 
                 /**
-                 * Convenience method for setting lastModified.
-                 * @see #lastModified(Instant)
+                 * Convenience method for setting {@code lastModified}.
                  * 
                  * @param lastModified
                  *     Server's date time modified
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #lastModified(com.ibm.fhir.model.type.Instant)
                  */
                 public Builder lastModified(java.time.ZonedDateTime lastModified) {
-                    this.lastModified = lastModified == null ? null : Instant.of(lastModified);
+                    this.lastModified = (lastModified == null) ? null : Instant.of(lastModified);
                     return this;
                 }
 

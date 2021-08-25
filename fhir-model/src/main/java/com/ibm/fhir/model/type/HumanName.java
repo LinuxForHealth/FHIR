@@ -296,17 +296,18 @@ public class HumanName extends Element {
         }
 
         /**
-         * Convenience method for setting text.
-         * @see #text(String)
+         * Convenience method for setting {@code text}.
          * 
          * @param text
          *     Text representation of the full name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
          */
         public Builder text(java.lang.String text) {
-            this.text = text == null ? null : String.of(text);
+            this.text = (text == null) ? null : String.of(text);
             return this;
         }
 
@@ -326,17 +327,18 @@ public class HumanName extends Element {
         }
 
         /**
-         * Convenience method for setting family.
-         * @see #family(String)
+         * Convenience method for setting {@code family}.
          * 
          * @param family
          *     Family name (often called 'Surname')
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #family(com.ibm.fhir.model.type.String)
          */
         public Builder family(java.lang.String family) {
-            this.family = family == null ? null : String.of(family);
+            this.family = (family == null) ? null : String.of(family);
             return this;
         }
 
@@ -356,8 +358,7 @@ public class HumanName extends Element {
         }
 
         /**
-         * Convenience method for setting given.
-         * @see #given(List<String>)
+         * Convenience method for setting {@code given}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -366,10 +367,12 @@ public class HumanName extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #given(com.ibm.fhir.model.type.String)
          */
         public Builder given(java.lang.String... given) {
             for (java.lang.String value : given) {
-                this.given.add(value == null ? null : String.of(value));
+                this.given.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -409,8 +412,7 @@ public class HumanName extends Element {
         }
 
         /**
-         * Convenience method for setting prefix.
-         * @see #prefix(List<String>)
+         * Convenience method for setting {@code prefix}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -419,10 +421,12 @@ public class HumanName extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #prefix(com.ibm.fhir.model.type.String)
          */
         public Builder prefix(java.lang.String... prefix) {
             for (java.lang.String value : prefix) {
-                this.prefix.add(value == null ? null : String.of(value));
+                this.prefix.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -464,8 +468,7 @@ public class HumanName extends Element {
         }
 
         /**
-         * Convenience method for setting suffix.
-         * @see #suffix(List<String>)
+         * Convenience method for setting {@code suffix}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -474,10 +477,12 @@ public class HumanName extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #suffix(com.ibm.fhir.model.type.String)
          */
         public Builder suffix(java.lang.String... suffix) {
             for (java.lang.String value : suffix) {
-                this.suffix.add(value == null ? null : String.of(value));
+                this.suffix.add((value == null) ? null : String.of(value));
             }
             return this;
         }

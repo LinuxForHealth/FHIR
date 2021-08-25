@@ -181,7 +181,7 @@ public class CoverageEligibilityRequest extends DomainResource {
      * The date or dates when the enclosed suite of services were performed or completed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Date} or {@link Period} that may be null.
      */
     public Element getServiced() {
         return serviced;
@@ -742,6 +742,22 @@ public class CoverageEligibilityRequest extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code serviced} with choice type Date.
+         * 
+         * @param serviced
+         *     Estimated date or dates of service
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #serviced(Element)
+         */
+        public Builder serviced(java.time.LocalDate serviced) {
+            this.serviced = (serviced == null) ? null : Date.of(serviced);
+            return this;
+        }
+
+        /**
          * The date or dates when the enclosed suite of services were performed or completed.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -1292,17 +1308,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * Convenience method for setting appliesToAll.
-             * @see #appliesToAll(Boolean)
+             * Convenience method for setting {@code appliesToAll}.
              * 
              * @param appliesToAll
              *     Applies to all items
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #appliesToAll(com.ibm.fhir.model.type.Boolean)
              */
             public Builder appliesToAll(java.lang.Boolean appliesToAll) {
-                this.appliesToAll = appliesToAll == null ? null : Boolean.of(appliesToAll);
+                this.appliesToAll = (appliesToAll == null) ? null : Boolean.of(appliesToAll);
                 return this;
             }
 
@@ -1589,17 +1606,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * Convenience method for setting focal.
-             * @see #focal(Boolean)
+             * Convenience method for setting {@code focal}.
              * 
              * @param focal
              *     Applicable coverage
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #focal(com.ibm.fhir.model.type.Boolean)
              */
             public Builder focal(java.lang.Boolean focal) {
-                this.focal = focal == null ? null : Boolean.of(focal);
+                this.focal = (focal == null) ? null : Boolean.of(focal);
                 return this;
             }
 
@@ -1640,17 +1658,18 @@ public class CoverageEligibilityRequest extends DomainResource {
             }
 
             /**
-             * Convenience method for setting businessArrangement.
-             * @see #businessArrangement(String)
+             * Convenience method for setting {@code businessArrangement}.
              * 
              * @param businessArrangement
              *     Additional provider contract number
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #businessArrangement(com.ibm.fhir.model.type.String)
              */
             public Builder businessArrangement(java.lang.String businessArrangement) {
-                this.businessArrangement = businessArrangement == null ? null : String.of(businessArrangement);
+                this.businessArrangement = (businessArrangement == null) ? null : String.of(businessArrangement);
                 return this;
             }
 
@@ -2371,7 +2390,7 @@ public class CoverageEligibilityRequest extends DomainResource {
              * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
              */
             public Element getDiagnosis() {
                 return diagnosis;

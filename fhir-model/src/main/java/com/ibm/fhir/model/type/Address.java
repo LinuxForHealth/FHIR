@@ -374,17 +374,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting text.
-         * @see #text(String)
+         * Convenience method for setting {@code text}.
          * 
          * @param text
          *     Text representation of the address
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
          */
         public Builder text(java.lang.String text) {
-            this.text = text == null ? null : String.of(text);
+            this.text = (text == null) ? null : String.of(text);
             return this;
         }
 
@@ -404,8 +405,7 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting line.
-         * @see #line(List<String>)
+         * Convenience method for setting {@code line}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -414,10 +414,12 @@ public class Address extends Element {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #line(com.ibm.fhir.model.type.String)
          */
         public Builder line(java.lang.String... line) {
             for (java.lang.String value : line) {
-                this.line.add(value == null ? null : String.of(value));
+                this.line.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -459,17 +461,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting city.
-         * @see #city(String)
+         * Convenience method for setting {@code city}.
          * 
          * @param city
          *     Name of city, town etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #city(com.ibm.fhir.model.type.String)
          */
         public Builder city(java.lang.String city) {
-            this.city = city == null ? null : String.of(city);
+            this.city = (city == null) ? null : String.of(city);
             return this;
         }
 
@@ -488,17 +491,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting district.
-         * @see #district(String)
+         * Convenience method for setting {@code district}.
          * 
          * @param district
          *     District name (aka county)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #district(com.ibm.fhir.model.type.String)
          */
         public Builder district(java.lang.String district) {
-            this.district = district == null ? null : String.of(district);
+            this.district = (district == null) ? null : String.of(district);
             return this;
         }
 
@@ -517,17 +521,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting state.
-         * @see #state(String)
+         * Convenience method for setting {@code state}.
          * 
          * @param state
          *     Sub-unit of country (abbreviations ok)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #state(com.ibm.fhir.model.type.String)
          */
         public Builder state(java.lang.String state) {
-            this.state = state == null ? null : String.of(state);
+            this.state = (state == null) ? null : String.of(state);
             return this;
         }
 
@@ -547,17 +552,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting postalCode.
-         * @see #postalCode(String)
+         * Convenience method for setting {@code postalCode}.
          * 
          * @param postalCode
          *     Postal code for area
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #postalCode(com.ibm.fhir.model.type.String)
          */
         public Builder postalCode(java.lang.String postalCode) {
-            this.postalCode = postalCode == null ? null : String.of(postalCode);
+            this.postalCode = (postalCode == null) ? null : String.of(postalCode);
             return this;
         }
 
@@ -576,17 +582,18 @@ public class Address extends Element {
         }
 
         /**
-         * Convenience method for setting country.
-         * @see #country(String)
+         * Convenience method for setting {@code country}.
          * 
          * @param country
          *     Country (e.g. can be ISO 3166 2 or 3 letter code)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #country(com.ibm.fhir.model.type.String)
          */
         public Builder country(java.lang.String country) {
-            this.country = country == null ? null : String.of(country);
+            this.country = (country == null) ? null : String.of(country);
             return this;
         }
 

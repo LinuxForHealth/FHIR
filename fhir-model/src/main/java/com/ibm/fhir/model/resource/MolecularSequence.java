@@ -716,8 +716,7 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * Convenience method for setting coordinateSystem.
-         * @see #coordinateSystem(Integer)
+         * Convenience method for setting {@code coordinateSystem}.
          * 
          * <p>This element is required.
          * 
@@ -727,9 +726,11 @@ public class MolecularSequence extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #coordinateSystem(com.ibm.fhir.model.type.Integer)
          */
         public Builder coordinateSystem(java.lang.Integer coordinateSystem) {
-            this.coordinateSystem = coordinateSystem == null ? null : Integer.of(coordinateSystem);
+            this.coordinateSystem = (coordinateSystem == null) ? null : Integer.of(coordinateSystem);
             return this;
         }
 
@@ -896,17 +897,18 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * Convenience method for setting observedSeq.
-         * @see #observedSeq(String)
+         * Convenience method for setting {@code observedSeq}.
          * 
          * @param observedSeq
          *     Sequence that was observed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #observedSeq(com.ibm.fhir.model.type.String)
          */
         public Builder observedSeq(java.lang.String observedSeq) {
-            this.observedSeq = observedSeq == null ? null : String.of(observedSeq);
+            this.observedSeq = (observedSeq == null) ? null : String.of(observedSeq);
             return this;
         }
 
@@ -962,17 +964,18 @@ public class MolecularSequence extends DomainResource {
         }
 
         /**
-         * Convenience method for setting readCoverage.
-         * @see #readCoverage(Integer)
+         * Convenience method for setting {@code readCoverage}.
          * 
          * @param readCoverage
          *     Average number of reads representing a given nucleotide in the reconstructed sequence
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #readCoverage(com.ibm.fhir.model.type.Integer)
          */
         public Builder readCoverage(java.lang.Integer readCoverage) {
-            this.readCoverage = readCoverage == null ? null : Integer.of(readCoverage);
+            this.readCoverage = (readCoverage == null) ? null : Integer.of(readCoverage);
             return this;
         }
 
@@ -1553,17 +1556,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting genomeBuild.
-             * @see #genomeBuild(String)
+             * Convenience method for setting {@code genomeBuild}.
              * 
              * @param genomeBuild
              *     The Genome Build used for reference, following GRCh build versions e.g. 'GRCh 37'
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #genomeBuild(com.ibm.fhir.model.type.String)
              */
             public Builder genomeBuild(java.lang.String genomeBuild) {
-                this.genomeBuild = genomeBuild == null ? null : String.of(genomeBuild);
+                this.genomeBuild = (genomeBuild == null) ? null : String.of(genomeBuild);
                 return this;
             }
 
@@ -1633,17 +1637,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting referenceSeqString.
-             * @see #referenceSeqString(String)
+             * Convenience method for setting {@code referenceSeqString}.
              * 
              * @param referenceSeqString
              *     A string to represent reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #referenceSeqString(com.ibm.fhir.model.type.String)
              */
             public Builder referenceSeqString(java.lang.String referenceSeqString) {
-                this.referenceSeqString = referenceSeqString == null ? null : String.of(referenceSeqString);
+                this.referenceSeqString = (referenceSeqString == null) ? null : String.of(referenceSeqString);
                 return this;
             }
 
@@ -1677,17 +1682,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting windowStart.
-             * @see #windowStart(Integer)
+             * Convenience method for setting {@code windowStart}.
              * 
              * @param windowStart
              *     Start position of the window on the reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #windowStart(com.ibm.fhir.model.type.Integer)
              */
             public Builder windowStart(java.lang.Integer windowStart) {
-                this.windowStart = windowStart == null ? null : Integer.of(windowStart);
+                this.windowStart = (windowStart == null) ? null : Integer.of(windowStart);
                 return this;
             }
 
@@ -1707,17 +1713,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting windowEnd.
-             * @see #windowEnd(Integer)
+             * Convenience method for setting {@code windowEnd}.
              * 
              * @param windowEnd
              *     End position of the window on the reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #windowEnd(com.ibm.fhir.model.type.Integer)
              */
             public Builder windowEnd(java.lang.Integer windowEnd) {
-                this.windowEnd = windowEnd == null ? null : Integer.of(windowEnd);
+                this.windowEnd = (windowEnd == null) ? null : Integer.of(windowEnd);
                 return this;
             }
 
@@ -2075,17 +2082,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting start.
-             * @see #start(Integer)
+             * Convenience method for setting {@code start}.
              * 
              * @param start
              *     Start position of the variant on the reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #start(com.ibm.fhir.model.type.Integer)
              */
             public Builder start(java.lang.Integer start) {
-                this.start = start == null ? null : Integer.of(start);
+                this.start = (start == null) ? null : Integer.of(start);
                 return this;
             }
 
@@ -2105,17 +2113,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting end.
-             * @see #end(Integer)
+             * Convenience method for setting {@code end}.
              * 
              * @param end
              *     End position of the variant on the reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #end(com.ibm.fhir.model.type.Integer)
              */
             public Builder end(java.lang.Integer end) {
-                this.end = end == null ? null : Integer.of(end);
+                this.end = (end == null) ? null : Integer.of(end);
                 return this;
             }
 
@@ -2136,17 +2145,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting observedAllele.
-             * @see #observedAllele(String)
+             * Convenience method for setting {@code observedAllele}.
              * 
              * @param observedAllele
              *     Allele that was observed
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #observedAllele(com.ibm.fhir.model.type.String)
              */
             public Builder observedAllele(java.lang.String observedAllele) {
-                this.observedAllele = observedAllele == null ? null : String.of(observedAllele);
+                this.observedAllele = (observedAllele == null) ? null : String.of(observedAllele);
                 return this;
             }
 
@@ -2168,17 +2178,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting referenceAllele.
-             * @see #referenceAllele(String)
+             * Convenience method for setting {@code referenceAllele}.
              * 
              * @param referenceAllele
              *     Allele in the reference sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #referenceAllele(com.ibm.fhir.model.type.String)
              */
             public Builder referenceAllele(java.lang.String referenceAllele) {
-                this.referenceAllele = referenceAllele == null ? null : String.of(referenceAllele);
+                this.referenceAllele = (referenceAllele == null) ? null : String.of(referenceAllele);
                 return this;
             }
 
@@ -2200,17 +2211,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting cigar.
-             * @see #cigar(String)
+             * Convenience method for setting {@code cigar}.
              * 
              * @param cigar
              *     Extended CIGAR string for aligning the sequence with reference bases
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #cigar(com.ibm.fhir.model.type.String)
              */
             public Builder cigar(java.lang.String cigar) {
-                this.cigar = cigar == null ? null : String.of(cigar);
+                this.cigar = (cigar == null) ? null : String.of(cigar);
                 return this;
             }
 
@@ -2792,17 +2804,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting start.
-             * @see #start(Integer)
+             * Convenience method for setting {@code start}.
              * 
              * @param start
              *     Start position of the sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #start(com.ibm.fhir.model.type.Integer)
              */
             public Builder start(java.lang.Integer start) {
-                this.start = start == null ? null : Integer.of(start);
+                this.start = (start == null) ? null : Integer.of(start);
                 return this;
             }
 
@@ -2822,17 +2835,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting end.
-             * @see #end(Integer)
+             * Convenience method for setting {@code end}.
              * 
              * @param end
              *     End position of the sequence
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #end(com.ibm.fhir.model.type.Integer)
              */
             public Builder end(java.lang.Integer end) {
-                this.end = end == null ? null : Integer.of(end);
+                this.end = (end == null) ? null : Integer.of(end);
                 return this;
             }
 
@@ -3364,8 +3378,7 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting score.
-                 * @see #score(List<Integer>)
+                 * Convenience method for setting {@code score}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3374,10 +3387,12 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #score(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder score(java.lang.Integer... score) {
                     for (java.lang.Integer value : score) {
-                        this.score.add(value == null ? null : Integer.of(value));
+                        this.score.add((value == null) ? null : Integer.of(value));
                     }
                     return this;
                 }
@@ -3417,8 +3432,7 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting numTP.
-                 * @see #numTP(List<Integer>)
+                 * Convenience method for setting {@code numTP}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3427,10 +3441,12 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #numTP(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder numTP(java.lang.Integer... numTP) {
                     for (java.lang.Integer value : numTP) {
-                        this.numTP.add(value == null ? null : Integer.of(value));
+                        this.numTP.add((value == null) ? null : Integer.of(value));
                     }
                     return this;
                 }
@@ -3470,8 +3486,7 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting numFP.
-                 * @see #numFP(List<Integer>)
+                 * Convenience method for setting {@code numFP}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3480,10 +3495,12 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #numFP(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder numFP(java.lang.Integer... numFP) {
                     for (java.lang.Integer value : numFP) {
-                        this.numFP.add(value == null ? null : Integer.of(value));
+                        this.numFP.add((value == null) ? null : Integer.of(value));
                     }
                     return this;
                 }
@@ -3523,8 +3540,7 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting numFN.
-                 * @see #numFN(List<Integer>)
+                 * Convenience method for setting {@code numFN}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -3533,10 +3549,12 @@ public class MolecularSequence extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #numFN(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder numFN(java.lang.Integer... numFN) {
                     for (java.lang.Integer value : numFN) {
-                        this.numFN.add(value == null ? null : Integer.of(value));
+                        this.numFN.add((value == null) ? null : Integer.of(value));
                     }
                     return this;
                 }
@@ -4044,17 +4062,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Repository's name
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -4073,17 +4092,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting datasetId.
-             * @see #datasetId(String)
+             * Convenience method for setting {@code datasetId}.
              * 
              * @param datasetId
              *     Id of the dataset that used to call for dataset in repository
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #datasetId(com.ibm.fhir.model.type.String)
              */
             public Builder datasetId(java.lang.String datasetId) {
-                this.datasetId = datasetId == null ? null : String.of(datasetId);
+                this.datasetId = (datasetId == null) ? null : String.of(datasetId);
                 return this;
             }
 
@@ -4103,17 +4123,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting variantsetId.
-             * @see #variantsetId(String)
+             * Convenience method for setting {@code variantsetId}.
              * 
              * @param variantsetId
              *     Id of the variantset that used to call for variantset in repository
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #variantsetId(com.ibm.fhir.model.type.String)
              */
             public Builder variantsetId(java.lang.String variantsetId) {
-                this.variantsetId = variantsetId == null ? null : String.of(variantsetId);
+                this.variantsetId = (variantsetId == null) ? null : String.of(variantsetId);
                 return this;
             }
 
@@ -4133,17 +4154,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting readsetId.
-             * @see #readsetId(String)
+             * Convenience method for setting {@code readsetId}.
              * 
              * @param readsetId
              *     Id of the read
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #readsetId(com.ibm.fhir.model.type.String)
              */
             public Builder readsetId(java.lang.String readsetId) {
-                this.readsetId = readsetId == null ? null : String.of(readsetId);
+                this.readsetId = (readsetId == null) ? null : String.of(readsetId);
                 return this;
             }
 
@@ -4487,17 +4509,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting exact.
-             * @see #exact(Boolean)
+             * Convenience method for setting {@code exact}.
              * 
              * @param exact
              *     Does the structural variant have base pair resolution breakpoints?
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #exact(com.ibm.fhir.model.type.Boolean)
              */
             public Builder exact(java.lang.Boolean exact) {
-                this.exact = exact == null ? null : Boolean.of(exact);
+                this.exact = (exact == null) ? null : Boolean.of(exact);
                 return this;
             }
 
@@ -4516,17 +4539,18 @@ public class MolecularSequence extends DomainResource {
             }
 
             /**
-             * Convenience method for setting length.
-             * @see #length(Integer)
+             * Convenience method for setting {@code length}.
              * 
              * @param length
              *     Structural variant length
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #length(com.ibm.fhir.model.type.Integer)
              */
             public Builder length(java.lang.Integer length) {
-                this.length = length == null ? null : Integer.of(length);
+                this.length = (length == null) ? null : Integer.of(length);
                 return this;
             }
 
@@ -4818,17 +4842,18 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting start.
-                 * @see #start(Integer)
+                 * Convenience method for setting {@code start}.
                  * 
                  * @param start
                  *     Structural variant outer start
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #start(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder start(java.lang.Integer start) {
-                    this.start = start == null ? null : Integer.of(start);
+                    this.start = (start == null) ? null : Integer.of(start);
                     return this;
                 }
 
@@ -4848,17 +4873,18 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting end.
-                 * @see #end(Integer)
+                 * Convenience method for setting {@code end}.
                  * 
                  * @param end
                  *     Structural variant outer end
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #end(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder end(java.lang.Integer end) {
-                    this.end = end == null ? null : Integer.of(end);
+                    this.end = (end == null) ? null : Integer.of(end);
                     return this;
                 }
 
@@ -5121,17 +5147,18 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting start.
-                 * @see #start(Integer)
+                 * Convenience method for setting {@code start}.
                  * 
                  * @param start
                  *     Structural variant inner start
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #start(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder start(java.lang.Integer start) {
-                    this.start = start == null ? null : Integer.of(start);
+                    this.start = (start == null) ? null : Integer.of(start);
                     return this;
                 }
 
@@ -5151,17 +5178,18 @@ public class MolecularSequence extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting end.
-                 * @see #end(Integer)
+                 * Convenience method for setting {@code end}.
                  * 
                  * @param end
                  *     Structural variant inner end
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #end(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder end(java.lang.Integer end) {
-                    this.end = end == null ? null : Integer.of(end);
+                    this.end = (end == null) ? null : Integer.of(end);
                     return this;
                 }
 

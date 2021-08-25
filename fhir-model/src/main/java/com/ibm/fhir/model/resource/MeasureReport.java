@@ -1523,17 +1523,18 @@ public class MeasureReport extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting count.
-                 * @see #count(Integer)
+                 * Convenience method for setting {@code count}.
                  * 
                  * @param count
                  *     Size of the population
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #count(com.ibm.fhir.model.type.Integer)
                  */
                 public Builder count(java.lang.Integer count) {
-                    this.count = count == null ? null : Integer.of(count);
+                    this.count = (count == null) ? null : Integer.of(count);
                     return this;
                 }
 
@@ -2822,17 +2823,18 @@ public class MeasureReport extends DomainResource {
                         }
 
                         /**
-                         * Convenience method for setting count.
-                         * @see #count(Integer)
+                         * Convenience method for setting {@code count}.
                          * 
                          * @param count
                          *     Size of the population
                          * 
                          * @return
                          *     A reference to this Builder instance
+                         * 
+                         * @see #count(com.ibm.fhir.model.type.Integer)
                          */
                         public Builder count(java.lang.Integer count) {
-                            this.count = count == null ? null : Integer.of(count);
+                            this.count = (count == null) ? null : Integer.of(count);
                             return this;
                         }
 

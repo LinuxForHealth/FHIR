@@ -488,17 +488,18 @@ public class Basic extends DomainResource {
         }
 
         /**
-         * Convenience method for setting created.
-         * @see #created(Date)
+         * Convenience method for setting {@code created}.
          * 
          * @param created
          *     When created
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #created(com.ibm.fhir.model.type.Date)
          */
         public Builder created(java.time.LocalDate created) {
-            this.created = created == null ? null : Date.of(created);
+            this.created = (created == null) ? null : Date.of(created);
             return this;
         }
 

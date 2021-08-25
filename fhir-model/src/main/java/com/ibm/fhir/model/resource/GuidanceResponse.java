@@ -131,7 +131,7 @@ public class GuidanceResponse extends DomainResource {
      * An identifier, CodeableConcept or canonical reference to the guidance that was requested.
      * 
      * @return
-     *     An immutable object of type {@link Element} that is non-null.
+     *     An immutable object of type {@link Uri}, {@link Canonical} or {@link CodeableConcept} that is non-null.
      */
     public Element getModule() {
         return module;

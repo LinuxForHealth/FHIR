@@ -221,7 +221,7 @@ public class RiskAssessment extends DomainResource {
      * The date (and possibly time) the risk assessment was performed.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime} or {@link Period} that may be null.
      */
     public Element getOccurrence() {
         return occurrence;
@@ -1030,17 +1030,18 @@ public class RiskAssessment extends DomainResource {
         }
 
         /**
-         * Convenience method for setting mitigation.
-         * @see #mitigation(String)
+         * Convenience method for setting {@code mitigation}.
          * 
          * @param mitigation
          *     How to reduce risk
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #mitigation(com.ibm.fhir.model.type.String)
          */
         public Builder mitigation(java.lang.String mitigation) {
-            this.mitigation = mitigation == null ? null : String.of(mitigation);
+            this.mitigation = (mitigation == null) ? null : String.of(mitigation);
             return this;
         }
 
@@ -1204,7 +1205,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates how likely the outcome is (in the specified timeframe).
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Decimal} or {@link Range} that may be null.
          */
         public Element getProbability() {
             return probability;
@@ -1236,7 +1237,7 @@ public class RiskAssessment extends DomainResource {
          * Indicates the period of time or age range of the subject to which the specified probability applies.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Period} or {@link Range} that may be null.
          */
         public Element getWhen() {
             return when;
@@ -1532,17 +1533,18 @@ public class RiskAssessment extends DomainResource {
             }
 
             /**
-             * Convenience method for setting rationale.
-             * @see #rationale(String)
+             * Convenience method for setting {@code rationale}.
              * 
              * @param rationale
              *     Explanation of prediction
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #rationale(com.ibm.fhir.model.type.String)
              */
             public Builder rationale(java.lang.String rationale) {
-                this.rationale = rationale == null ? null : String.of(rationale);
+                this.rationale = (rationale == null) ? null : String.of(rationale);
                 return this;
             }
 

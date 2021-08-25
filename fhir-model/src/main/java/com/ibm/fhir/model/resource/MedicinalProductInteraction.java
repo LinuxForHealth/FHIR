@@ -500,17 +500,18 @@ public class MedicinalProductInteraction extends DomainResource {
         }
 
         /**
-         * Convenience method for setting description.
-         * @see #description(String)
+         * Convenience method for setting {@code description}.
          * 
          * @param description
          *     The interaction described
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #description(com.ibm.fhir.model.type.String)
          */
         public Builder description(java.lang.String description) {
-            this.description = description == null ? null : String.of(description);
+            this.description = (description == null) ? null : String.of(description);
             return this;
         }
 
@@ -674,7 +675,7 @@ public class MedicinalProductInteraction extends DomainResource {
          * The specific medication, food or laboratory test that interacts.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Reference} or {@link CodeableConcept} that is non-null.
          */
         public Element getItem() {
             return item;

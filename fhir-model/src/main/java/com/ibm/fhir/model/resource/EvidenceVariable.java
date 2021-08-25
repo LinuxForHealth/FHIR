@@ -941,17 +941,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the evidence variable
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -976,17 +977,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this evidence variable (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1006,17 +1008,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this evidence variable (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1035,17 +1038,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting shortTitle.
-         * @see #shortTitle(String)
+         * Convenience method for setting {@code shortTitle}.
          * 
          * @param shortTitle
          *     Title for use in informal contexts
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #shortTitle(com.ibm.fhir.model.type.String)
          */
         public Builder shortTitle(java.lang.String shortTitle) {
-            this.shortTitle = shortTitle == null ? null : String.of(shortTitle);
+            this.shortTitle = (shortTitle == null) ? null : String.of(shortTitle);
             return this;
         }
 
@@ -1065,17 +1069,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting subtitle.
-         * @see #subtitle(String)
+         * Convenience method for setting {@code subtitle}.
          * 
          * @param subtitle
          *     Subordinate title of the EvidenceVariable
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
          */
         public Builder subtitle(java.lang.String subtitle) {
-            this.subtitle = subtitle == null ? null : String.of(subtitle);
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1126,17 +1131,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1324,17 +1330,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting approvalDate.
-         * @see #approvalDate(Date)
+         * Convenience method for setting {@code approvalDate}.
          * 
          * @param approvalDate
          *     When the evidence variable was approved by publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #approvalDate(com.ibm.fhir.model.type.Date)
          */
         public Builder approvalDate(java.time.LocalDate approvalDate) {
-            this.approvalDate = approvalDate == null ? null : Date.of(approvalDate);
+            this.approvalDate = (approvalDate == null) ? null : Date.of(approvalDate);
             return this;
         }
 
@@ -1354,17 +1361,18 @@ public class EvidenceVariable extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lastReviewDate.
-         * @see #lastReviewDate(Date)
+         * Convenience method for setting {@code lastReviewDate}.
          * 
          * @param lastReviewDate
          *     When the evidence variable was last reviewed
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lastReviewDate(com.ibm.fhir.model.type.Date)
          */
         public Builder lastReviewDate(java.time.LocalDate lastReviewDate) {
-            this.lastReviewDate = lastReviewDate == null ? null : Date.of(lastReviewDate);
+            this.lastReviewDate = (lastReviewDate == null) ? null : Date.of(lastReviewDate);
             return this;
         }
 
@@ -1782,7 +1790,8 @@ public class EvidenceVariable extends DomainResource {
          * last year).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Reference}, {@link Canonical}, {@link CodeableConcept}, {@link Expression}, {@link 
+         *     DataRequirement} or {@link TriggerDefinition} that is non-null.
          */
         public Element getDefinition() {
             return definition;
@@ -1812,7 +1821,7 @@ public class EvidenceVariable extends DomainResource {
          * Indicates what effective period the study covers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link DateTime}, {@link Period}, {@link Duration} or {@link Timing} that may be null.
          */
         public Element getParticipantEffective() {
             return participantEffective;
@@ -2039,17 +2048,18 @@ public class EvidenceVariable extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Natural language description of the characteristic
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2137,17 +2147,18 @@ public class EvidenceVariable extends DomainResource {
             }
 
             /**
-             * Convenience method for setting exclude.
-             * @see #exclude(Boolean)
+             * Convenience method for setting {@code exclude}.
              * 
              * @param exclude
              *     Whether the characteristic includes or excludes members
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #exclude(com.ibm.fhir.model.type.Boolean)
              */
             public Builder exclude(java.lang.Boolean exclude) {
-                this.exclude = exclude == null ? null : Boolean.of(exclude);
+                this.exclude = (exclude == null) ? null : Boolean.of(exclude);
                 return this;
             }
 

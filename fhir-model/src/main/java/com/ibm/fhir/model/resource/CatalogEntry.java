@@ -613,8 +613,7 @@ public class CatalogEntry extends DomainResource {
         }
 
         /**
-         * Convenience method for setting orderable.
-         * @see #orderable(Boolean)
+         * Convenience method for setting {@code orderable}.
          * 
          * <p>This element is required.
          * 
@@ -623,9 +622,11 @@ public class CatalogEntry extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #orderable(com.ibm.fhir.model.type.Boolean)
          */
         public Builder orderable(java.lang.Boolean orderable) {
-            this.orderable = orderable == null ? null : Boolean.of(orderable);
+            this.orderable = (orderable == null) ? null : Boolean.of(orderable);
             return this;
         }
 

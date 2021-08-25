@@ -1641,17 +1641,18 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * Convenience method for setting disposition.
-         * @see #disposition(String)
+         * Convenience method for setting {@code disposition}.
          * 
          * @param disposition
          *     Disposition Message
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #disposition(com.ibm.fhir.model.type.String)
          */
         public Builder disposition(java.lang.String disposition) {
-            this.disposition = disposition == null ? null : String.of(disposition);
+            this.disposition = (disposition == null) ? null : String.of(disposition);
             return this;
         }
 
@@ -1670,8 +1671,7 @@ public class ExplanationOfBenefit extends DomainResource {
         }
 
         /**
-         * Convenience method for setting preAuthRef.
-         * @see #preAuthRef(List<String>)
+         * Convenience method for setting {@code preAuthRef}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1680,10 +1680,12 @@ public class ExplanationOfBenefit extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #preAuthRef(com.ibm.fhir.model.type.String)
          */
         public Builder preAuthRef(java.lang.String... preAuthRef) {
             for (java.lang.String value : preAuthRef) {
-                this.preAuthRef.add(value == null ? null : String.of(value));
+                this.preAuthRef.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -3251,17 +3253,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting responsible.
-             * @see #responsible(Boolean)
+             * Convenience method for setting {@code responsible}.
              * 
              * @param responsible
              *     Indicator of the lead practitioner
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #responsible(com.ibm.fhir.model.type.Boolean)
              */
             public Builder responsible(java.lang.Boolean responsible) {
-                this.responsible = responsible == null ? null : Boolean.of(responsible);
+                this.responsible = (responsible == null) ? null : Boolean.of(responsible);
                 return this;
             }
 
@@ -3429,7 +3432,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The date when or period to which this information refers.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getTiming() {
             return timing;
@@ -3440,7 +3443,8 @@ public class ExplanationOfBenefit extends DomainResource {
          * actual inclusion of the data.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Boolean}, {@link String}, {@link Quantity}, {@link Attachment} or {@link Reference} 
+         *     that may be null.
          */
         public Element getValue() {
             return value;
@@ -3699,6 +3703,22 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code timing} with choice type Date.
+             * 
+             * @param timing
+             *     When it occurred
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #timing(Element)
+             */
+            public Builder timing(java.time.LocalDate timing) {
+                this.timing = (timing == null) ? null : Date.of(timing);
+                return this;
+            }
+
+            /**
              * The date when or period to which this information refers.
              * 
              * <p>This is a choice element with the following allowed types:
@@ -3715,6 +3735,38 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder timing(Element timing) {
                 this.timing = timing;
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type Boolean.
+             * 
+             * @param value
+             *     Data to be provided
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.Boolean value) {
+                this.value = (value == null) ? null : Boolean.of(value);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code value} with choice type String.
+             * 
+             * @param value
+             *     Data to be provided
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.lang.String value) {
+                this.value = (value == null) ? null : String.of(value);
                 return this;
             }
 
@@ -3862,7 +3914,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The nature of illness or problem in a coded form or as a reference to an external defined Condition.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getDiagnosis() {
             return diagnosis;
@@ -4309,7 +4361,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The code or reference to a Procedure resource which identifies the clinical intervention performed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that is non-null.
          */
         public Element getProcedure() {
             return procedure;
@@ -4929,8 +4981,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting focal.
-             * @see #focal(Boolean)
+             * Convenience method for setting {@code focal}.
              * 
              * <p>This element is required.
              * 
@@ -4939,9 +4990,11 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #focal(com.ibm.fhir.model.type.Boolean)
              */
             public Builder focal(java.lang.Boolean focal) {
-                this.focal = focal == null ? null : Boolean.of(focal);
+                this.focal = (focal == null) ? null : Boolean.of(focal);
                 return this;
             }
 
@@ -4984,8 +5037,7 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting preAuthRef.
-             * @see #preAuthRef(List<String>)
+             * Convenience method for setting {@code preAuthRef}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -4994,10 +5046,12 @@ public class ExplanationOfBenefit extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #preAuthRef(com.ibm.fhir.model.type.String)
              */
             public Builder preAuthRef(java.lang.String... preAuthRef) {
                 for (java.lang.String value : preAuthRef) {
-                    this.preAuthRef.add(value == null ? null : String.of(value));
+                    this.preAuthRef.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -5128,7 +5182,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The physical location of the accident event.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -5315,17 +5369,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting date.
-             * @see #date(Date)
+             * Convenience method for setting {@code date}.
              * 
              * @param date
              *     When the incident occurred
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #date(com.ibm.fhir.model.type.Date)
              */
             public Builder date(java.time.LocalDate date) {
-                this.date = date == null ? null : Date.of(date);
+                this.date = (date == null) ? null : Date.of(date);
                 return this;
             }
 
@@ -5633,7 +5688,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The date or dates when the service or product was supplied, performed or completed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getServiced() {
             return serviced;
@@ -5643,7 +5698,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Where the product or service was provided.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -6304,6 +6359,22 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder programCode(Collection<CodeableConcept> programCode) {
                 this.programCode = new ArrayList<>(programCode);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code serviced} with choice type Date.
+             * 
+             * @param serviced
+             *     Date or dates of service or product delivery
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #serviced(Element)
+             */
+            public Builder serviced(java.time.LocalDate serviced) {
+                this.serviced = (serviced == null) ? null : Date.of(serviced);
                 return this;
             }
 
@@ -8872,7 +8943,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * The date or dates when the service or product was supplied, performed or completed.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Date} or {@link Period} that may be null.
          */
         public Element getServiced() {
             return serviced;
@@ -8882,7 +8953,7 @@ public class ExplanationOfBenefit extends DomainResource {
          * Where the product or service was provided.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept}, {@link Address} or {@link Reference} that may be null.
          */
         public Element getLocation() {
             return location;
@@ -9469,6 +9540,22 @@ public class ExplanationOfBenefit extends DomainResource {
              */
             public Builder programCode(Collection<CodeableConcept> programCode) {
                 this.programCode = new ArrayList<>(programCode);
+                return this;
+            }
+
+            /**
+             * Convenience method for setting {@code serviced} with choice type Date.
+             * 
+             * @param serviced
+             *     Date or dates of service or product delivery
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #serviced(Element)
+             */
+            public Builder serviced(java.time.LocalDate serviced) {
+                this.serviced = (serviced == null) ? null : Date.of(serviced);
                 return this;
             }
 
@@ -11570,17 +11657,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting date.
-             * @see #date(Date)
+             * Convenience method for setting {@code date}.
              * 
              * @param date
              *     Expected date of payment
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #date(com.ibm.fhir.model.type.Date)
              */
             public Builder date(java.time.LocalDate date) {
-                this.date = date == null ? null : Date.of(date);
+                this.date = (date == null) ? null : Date.of(date);
                 return this;
             }
 
@@ -11945,17 +12033,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Note explanatory text
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -12374,17 +12463,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting excluded.
-             * @see #excluded(Boolean)
+             * Convenience method for setting {@code excluded}.
              * 
              * @param excluded
              *     Excluded from the plan
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #excluded(com.ibm.fhir.model.type.Boolean)
              */
             public Builder excluded(java.lang.Boolean excluded) {
-                this.excluded = excluded == null ? null : Boolean.of(excluded);
+                this.excluded = (excluded == null) ? null : Boolean.of(excluded);
                 return this;
             }
 
@@ -12404,17 +12494,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * @param name
              *     Short name for the benefit
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -12433,17 +12524,18 @@ public class ExplanationOfBenefit extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * @param description
              *     Description of the benefit or services covered
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -12618,7 +12710,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The quantity of the benefit which is permitted under the coverage.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link UnsignedInt}, {@link String} or {@link Money} that may be null.
              */
             public Element getAllowed() {
                 return allowed;
@@ -12628,7 +12720,7 @@ public class ExplanationOfBenefit extends DomainResource {
              * The quantity of the benefit which have been consumed to date.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link UnsignedInt} or {@link Money} that may be null.
              */
             public Element getUsed() {
                 return used;
@@ -12827,6 +12919,22 @@ public class ExplanationOfBenefit extends DomainResource {
                  */
                 public Builder type(CodeableConcept type) {
                     this.type = type;
+                    return this;
+                }
+
+                /**
+                 * Convenience method for setting {@code allowed} with choice type String.
+                 * 
+                 * @param allowed
+                 *     Benefits allowed
+                 * 
+                 * @return
+                 *     A reference to this Builder instance
+                 * 
+                 * @see #allowed(Element)
+                 */
+                public Builder allowed(java.lang.String allowed) {
+                    this.allowed = (allowed == null) ? null : String.of(allowed);
                     return this;
                 }
 

@@ -908,17 +908,18 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the operation definition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -940,8 +941,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * <p>This element is required.
          * 
@@ -950,9 +950,11 @@ public class OperationDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -974,17 +976,18 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this operation definition (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1035,17 +1038,18 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1081,17 +1085,18 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1244,17 +1249,18 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting affectsState.
-         * @see #affectsState(Boolean)
+         * Convenience method for setting {@code affectsState}.
          * 
          * @param affectsState
          *     Whether content is changed by the operation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #affectsState(com.ibm.fhir.model.type.Boolean)
          */
         public Builder affectsState(java.lang.Boolean affectsState) {
-            this.affectsState = affectsState == null ? null : Boolean.of(affectsState);
+            this.affectsState = (affectsState == null) ? null : Boolean.of(affectsState);
             return this;
         }
 
@@ -1352,8 +1358,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting system.
-         * @see #system(Boolean)
+         * Convenience method for setting {@code system}.
          * 
          * <p>This element is required.
          * 
@@ -1362,9 +1367,11 @@ public class OperationDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #system(com.ibm.fhir.model.type.Boolean)
          */
         public Builder system(java.lang.Boolean system) {
-            this.system = system == null ? null : Boolean.of(system);
+            this.system = (system == null) ? null : Boolean.of(system);
             return this;
         }
 
@@ -1386,8 +1393,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting type.
-         * @see #type(Boolean)
+         * Convenience method for setting {@code type}.
          * 
          * <p>This element is required.
          * 
@@ -1396,9 +1402,11 @@ public class OperationDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #type(com.ibm.fhir.model.type.Boolean)
          */
         public Builder type(java.lang.Boolean type) {
-            this.type = type == null ? null : Boolean.of(type);
+            this.type = (type == null) ? null : Boolean.of(type);
             return this;
         }
 
@@ -1420,8 +1428,7 @@ public class OperationDefinition extends DomainResource {
         }
 
         /**
-         * Convenience method for setting instance.
-         * @see #instance(Boolean)
+         * Convenience method for setting {@code instance}.
          * 
          * <p>This element is required.
          * 
@@ -1430,9 +1437,11 @@ public class OperationDefinition extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #instance(com.ibm.fhir.model.type.Boolean)
          */
         public Builder instance(java.lang.Boolean instance) {
-            this.instance = instance == null ? null : Boolean.of(instance);
+            this.instance = (instance == null) ? null : Boolean.of(instance);
             return this;
         }
 
@@ -2049,8 +2058,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting min.
-             * @see #min(Integer)
+             * Convenience method for setting {@code min}.
              * 
              * <p>This element is required.
              * 
@@ -2059,9 +2067,11 @@ public class OperationDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #min(com.ibm.fhir.model.type.Integer)
              */
             public Builder min(java.lang.Integer min) {
-                this.min = min == null ? null : Integer.of(min);
+                this.min = (min == null) ? null : Integer.of(min);
                 return this;
             }
 
@@ -2082,8 +2092,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting max.
-             * @see #max(String)
+             * Convenience method for setting {@code max}.
              * 
              * <p>This element is required.
              * 
@@ -2092,9 +2101,11 @@ public class OperationDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #max(com.ibm.fhir.model.type.String)
              */
             public Builder max(java.lang.String max) {
-                this.max = max == null ? null : String.of(max);
+                this.max = (max == null) ? null : String.of(max);
                 return this;
             }
 
@@ -2115,17 +2126,18 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting documentation.
-             * @see #documentation(String)
+             * Convenience method for setting {@code documentation}.
              * 
              * @param documentation
              *     Description of meaning/use
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #documentation(com.ibm.fhir.model.type.String)
              */
             public Builder documentation(java.lang.String documentation) {
-                this.documentation = documentation == null ? null : String.of(documentation);
+                this.documentation = (documentation == null) ? null : String.of(documentation);
                 return this;
             }
 
@@ -2849,8 +2861,7 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting source.
-                 * @see #source(String)
+                 * Convenience method for setting {@code source}.
                  * 
                  * <p>This element is required.
                  * 
@@ -2859,9 +2870,11 @@ public class OperationDefinition extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #source(com.ibm.fhir.model.type.String)
                  */
                 public Builder source(java.lang.String source) {
-                    this.source = source == null ? null : String.of(source);
+                    this.source = (source == null) ? null : String.of(source);
                     return this;
                 }
 
@@ -2883,17 +2896,18 @@ public class OperationDefinition extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting sourceId.
-                 * @see #sourceId(String)
+                 * Convenience method for setting {@code sourceId}.
                  * 
                  * @param sourceId
                  *     Element id of reference
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #sourceId(com.ibm.fhir.model.type.String)
                  */
                 public Builder sourceId(java.lang.String sourceId) {
-                    this.sourceId = sourceId == null ? null : String.of(sourceId);
+                    this.sourceId = (sourceId == null) ? null : String.of(sourceId);
                     return this;
                 }
 
@@ -3159,8 +3173,7 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting parameterName.
-             * @see #parameterName(List<String>)
+             * Convenience method for setting {@code parameterName}.
              * 
              * <p>Adds new element(s) to the existing list
              * 
@@ -3169,10 +3182,12 @@ public class OperationDefinition extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #parameterName(com.ibm.fhir.model.type.String)
              */
             public Builder parameterName(java.lang.String... parameterName) {
                 for (java.lang.String value : parameterName) {
-                    this.parameterName.add(value == null ? null : String.of(value));
+                    this.parameterName.add((value == null) ? null : String.of(value));
                 }
                 return this;
             }
@@ -3212,17 +3227,18 @@ public class OperationDefinition extends DomainResource {
             }
 
             /**
-             * Convenience method for setting comment.
-             * @see #comment(String)
+             * Convenience method for setting {@code comment}.
              * 
              * @param comment
              *     Comments to go on overload
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #comment(com.ibm.fhir.model.type.String)
              */
             public Builder comment(java.lang.String comment) {
-                this.comment = comment == null ? null : String.of(comment);
+                this.comment = (comment == null) ? null : String.of(comment);
                 return this;
             }
 

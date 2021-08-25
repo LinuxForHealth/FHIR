@@ -772,8 +772,7 @@ public class Slot extends DomainResource {
         }
 
         /**
-         * Convenience method for setting start.
-         * @see #start(Instant)
+         * Convenience method for setting {@code start}.
          * 
          * <p>This element is required.
          * 
@@ -782,9 +781,11 @@ public class Slot extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #start(com.ibm.fhir.model.type.Instant)
          */
         public Builder start(java.time.ZonedDateTime start) {
-            this.start = start == null ? null : Instant.of(start);
+            this.start = (start == null) ? null : Instant.of(start);
             return this;
         }
 
@@ -805,8 +806,7 @@ public class Slot extends DomainResource {
         }
 
         /**
-         * Convenience method for setting end.
-         * @see #end(Instant)
+         * Convenience method for setting {@code end}.
          * 
          * <p>This element is required.
          * 
@@ -815,9 +815,11 @@ public class Slot extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #end(com.ibm.fhir.model.type.Instant)
          */
         public Builder end(java.time.ZonedDateTime end) {
-            this.end = end == null ? null : Instant.of(end);
+            this.end = (end == null) ? null : Instant.of(end);
             return this;
         }
 
@@ -838,17 +840,18 @@ public class Slot extends DomainResource {
         }
 
         /**
-         * Convenience method for setting overbooked.
-         * @see #overbooked(Boolean)
+         * Convenience method for setting {@code overbooked}.
          * 
          * @param overbooked
          *     This slot has already been overbooked, appointments are unlikely to be accepted for this time
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #overbooked(com.ibm.fhir.model.type.Boolean)
          */
         public Builder overbooked(java.lang.Boolean overbooked) {
-            this.overbooked = overbooked == null ? null : Boolean.of(overbooked);
+            this.overbooked = (overbooked == null) ? null : Boolean.of(overbooked);
             return this;
         }
 
@@ -867,17 +870,18 @@ public class Slot extends DomainResource {
         }
 
         /**
-         * Convenience method for setting comment.
-         * @see #comment(String)
+         * Convenience method for setting {@code comment}.
          * 
          * @param comment
          *     Comments on the slot to describe any extended information. Such as custom constraints on the slot
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #comment(com.ibm.fhir.model.type.String)
          */
         public Builder comment(java.lang.String comment) {
-            this.comment = comment == null ? null : String.of(comment);
+            this.comment = (comment == null) ? null : String.of(comment);
             return this;
         }
 

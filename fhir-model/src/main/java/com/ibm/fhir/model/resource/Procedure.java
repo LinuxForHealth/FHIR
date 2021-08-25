@@ -340,7 +340,8 @@ public class Procedure extends DomainResource {
      * complex procedures that span more than one date, and also allows for the length of the procedure to be captured.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link DateTime}, {@link Period}, {@link String}, {@link Age} or {@link Range} that may be 
+     *     null.
      */
     public Element getPerformed() {
         return performed;
@@ -1227,6 +1228,22 @@ public class Procedure extends DomainResource {
          */
         public Builder encounter(Reference encounter) {
             this.encounter = encounter;
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code performed} with choice type String.
+         * 
+         * @param performed
+         *     When the procedure was performed
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #performed(Element)
+         */
+        public Builder performed(java.lang.String performed) {
+            this.performed = (performed == null) ? null : String.of(performed);
             return this;
         }
 

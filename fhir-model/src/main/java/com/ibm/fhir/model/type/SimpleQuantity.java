@@ -188,14 +188,15 @@ public class SimpleQuantity extends Quantity {
         }
 
         /**
-         * Convenience method for setting unit.
-         * @see #unit(String)
+         * Convenience method for setting {@code unit}.
          * 
          * @param unit
          *     Unit representation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #unit(com.ibm.fhir.model.type.String)
          */
         @Override
         public Builder unit(java.lang.String unit) {

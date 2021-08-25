@@ -881,17 +881,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business version of the terminology capabilities
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -913,17 +914,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Name for this terminology capabilities (computer friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -943,17 +945,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Name for this terminology capabilities (human friendly)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -988,17 +991,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting experimental.
-         * @see #experimental(Boolean)
+         * Convenience method for setting {@code experimental}.
          * 
          * @param experimental
          *     For testing purposes, not real usage
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #experimental(com.ibm.fhir.model.type.Boolean)
          */
         public Builder experimental(java.lang.Boolean experimental) {
-            this.experimental = experimental == null ? null : Boolean.of(experimental);
+            this.experimental = (experimental == null) ? null : Boolean.of(experimental);
             return this;
         }
 
@@ -1036,17 +1040,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting publisher.
-         * @see #publisher(String)
+         * Convenience method for setting {@code publisher}.
          * 
          * @param publisher
          *     Name of the publisher (organization or individual)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #publisher(com.ibm.fhir.model.type.String)
          */
         public Builder publisher(java.lang.String publisher) {
-            this.publisher = publisher == null ? null : String.of(publisher);
+            this.publisher = (publisher == null) ? null : String.of(publisher);
             return this;
         }
 
@@ -1263,17 +1268,18 @@ public class TerminologyCapabilities extends DomainResource {
         }
 
         /**
-         * Convenience method for setting lockedDate.
-         * @see #lockedDate(Boolean)
+         * Convenience method for setting {@code lockedDate}.
          * 
          * @param lockedDate
          *     Whether lockedDate is supported
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #lockedDate(com.ibm.fhir.model.type.Boolean)
          */
         public Builder lockedDate(java.lang.Boolean lockedDate) {
-            this.lockedDate = lockedDate == null ? null : Boolean.of(lockedDate);
+            this.lockedDate = (lockedDate == null) ? null : Boolean.of(lockedDate);
             return this;
         }
 
@@ -1675,8 +1681,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting name.
-             * @see #name(String)
+             * Convenience method for setting {@code name}.
              * 
              * <p>This element is required.
              * 
@@ -1685,9 +1690,11 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #name(com.ibm.fhir.model.type.String)
              */
             public Builder name(java.lang.String name) {
-                this.name = name == null ? null : String.of(name);
+                this.name = (name == null) ? null : String.of(name);
                 return this;
             }
 
@@ -1708,17 +1715,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting version.
-             * @see #version(String)
+             * Convenience method for setting {@code version}.
              * 
              * @param version
              *     Version covered by this statement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #version(com.ibm.fhir.model.type.String)
              */
             public Builder version(java.lang.String version) {
-                this.version = version == null ? null : String.of(version);
+                this.version = (version == null) ? null : String.of(version);
                 return this;
             }
 
@@ -1986,8 +1994,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting description.
-             * @see #description(String)
+             * Convenience method for setting {@code description}.
              * 
              * <p>This element is required.
              * 
@@ -1996,9 +2003,11 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #description(com.ibm.fhir.model.type.String)
              */
             public Builder description(java.lang.String description) {
-                this.description = description == null ? null : String.of(description);
+                this.description = (description == null) ? null : String.of(description);
                 return this;
             }
 
@@ -2344,17 +2353,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting subsumption.
-             * @see #subsumption(Boolean)
+             * Convenience method for setting {@code subsumption}.
              * 
              * @param subsumption
              *     Whether subsumption is supported
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #subsumption(com.ibm.fhir.model.type.Boolean)
              */
             public Builder subsumption(java.lang.Boolean subsumption) {
-                this.subsumption = subsumption == null ? null : Boolean.of(subsumption);
+                this.subsumption = (subsumption == null) ? null : Boolean.of(subsumption);
                 return this;
             }
 
@@ -2683,17 +2693,18 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting code.
-                 * @see #code(String)
+                 * Convenience method for setting {@code code}.
                  * 
                  * @param code
                  *     Version identifier for this version
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #code(com.ibm.fhir.model.type.String)
                  */
                 public Builder code(java.lang.String code) {
-                    this.code = code == null ? null : String.of(code);
+                    this.code = (code == null) ? null : String.of(code);
                     return this;
                 }
 
@@ -2712,17 +2723,18 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting isDefault.
-                 * @see #isDefault(Boolean)
+                 * Convenience method for setting {@code isDefault}.
                  * 
                  * @param isDefault
                  *     If this is the default version for this code system
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #isDefault(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder isDefault(java.lang.Boolean isDefault) {
-                    this.isDefault = isDefault == null ? null : Boolean.of(isDefault);
+                    this.isDefault = (isDefault == null) ? null : Boolean.of(isDefault);
                     return this;
                 }
 
@@ -2741,17 +2753,18 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting compositional.
-                 * @see #compositional(Boolean)
+                 * Convenience method for setting {@code compositional}.
                  * 
                  * @param compositional
                  *     If compositional grammar is supported
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #compositional(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder compositional(java.lang.Boolean compositional) {
-                    this.compositional = compositional == null ? null : Boolean.of(compositional);
+                    this.compositional = (compositional == null) ? null : Boolean.of(compositional);
                     return this;
                 }
 
@@ -3473,17 +3486,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting hierarchical.
-             * @see #hierarchical(Boolean)
+             * Convenience method for setting {@code hierarchical}.
              * 
              * @param hierarchical
              *     Whether the server can return nested value sets
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #hierarchical(com.ibm.fhir.model.type.Boolean)
              */
             public Builder hierarchical(java.lang.Boolean hierarchical) {
-                this.hierarchical = hierarchical == null ? null : Boolean.of(hierarchical);
+                this.hierarchical = (hierarchical == null) ? null : Boolean.of(hierarchical);
                 return this;
             }
 
@@ -3502,17 +3516,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting paging.
-             * @see #paging(Boolean)
+             * Convenience method for setting {@code paging}.
              * 
              * @param paging
              *     Whether the server supports paging on expansion
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #paging(com.ibm.fhir.model.type.Boolean)
              */
             public Builder paging(java.lang.Boolean paging) {
-                this.paging = paging == null ? null : Boolean.of(paging);
+                this.paging = (paging == null) ? null : Boolean.of(paging);
                 return this;
             }
 
@@ -3531,17 +3546,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting incomplete.
-             * @see #incomplete(Boolean)
+             * Convenience method for setting {@code incomplete}.
              * 
              * @param incomplete
              *     Allow request for incomplete expansions?
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #incomplete(com.ibm.fhir.model.type.Boolean)
              */
             public Builder incomplete(java.lang.Boolean incomplete) {
-                this.incomplete = incomplete == null ? null : Boolean.of(incomplete);
+                this.incomplete = (incomplete == null) ? null : Boolean.of(incomplete);
                 return this;
             }
 
@@ -3867,17 +3883,18 @@ public class TerminologyCapabilities extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting documentation.
-                 * @see #documentation(String)
+                 * Convenience method for setting {@code documentation}.
                  * 
                  * @param documentation
                  *     Description of support for parameter
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #documentation(com.ibm.fhir.model.type.String)
                  */
                 public Builder documentation(java.lang.String documentation) {
-                    this.documentation = documentation == null ? null : String.of(documentation);
+                    this.documentation = (documentation == null) ? null : String.of(documentation);
                     return this;
                 }
 
@@ -4126,8 +4143,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting translations.
-             * @see #translations(Boolean)
+             * Convenience method for setting {@code translations}.
              * 
              * <p>This element is required.
              * 
@@ -4136,9 +4152,11 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #translations(com.ibm.fhir.model.type.Boolean)
              */
             public Builder translations(java.lang.Boolean translations) {
-                this.translations = translations == null ? null : Boolean.of(translations);
+                this.translations = (translations == null) ? null : Boolean.of(translations);
                 return this;
             }
 
@@ -4387,8 +4405,7 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting needsMap.
-             * @see #needsMap(Boolean)
+             * Convenience method for setting {@code needsMap}.
              * 
              * <p>This element is required.
              * 
@@ -4397,9 +4414,11 @@ public class TerminologyCapabilities extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #needsMap(com.ibm.fhir.model.type.Boolean)
              */
             public Builder needsMap(java.lang.Boolean needsMap) {
-                this.needsMap = needsMap == null ? null : Boolean.of(needsMap);
+                this.needsMap = (needsMap == null) ? null : Boolean.of(needsMap);
                 return this;
             }
 
@@ -4647,17 +4666,18 @@ public class TerminologyCapabilities extends DomainResource {
             }
 
             /**
-             * Convenience method for setting translation.
-             * @see #translation(Boolean)
+             * Convenience method for setting {@code translation}.
              * 
              * @param translation
              *     If cross-system closure is supported
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #translation(com.ibm.fhir.model.type.Boolean)
              */
             public Builder translation(java.lang.Boolean translation) {
-                this.translation = translation == null ? null : Boolean.of(translation);
+                this.translation = (translation == null) ? null : Boolean.of(translation);
                 return this;
             }
 

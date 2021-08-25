@@ -460,7 +460,7 @@ public class Contract extends DomainResource {
      * Narrows the range of legal concerns to focus on the achievement of specific contractual objectives.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
      */
     public Element getTopic() {
         return topic;
@@ -583,7 +583,7 @@ public class Contract extends DomainResource {
      * considered the "source of truth" and which would be the basis for legal action related to enforcement of this Contract.
      * 
      * @return
-     *     An immutable object of type {@link Element} that may be null.
+     *     An immutable object of type {@link Attachment} or {@link Reference} that may be null.
      */
     public Element getLegallyBinding() {
         return legallyBinding;
@@ -1078,17 +1078,18 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * Convenience method for setting version.
-         * @see #version(String)
+         * Convenience method for setting {@code version}.
          * 
          * @param version
          *     Business edition
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #version(com.ibm.fhir.model.type.String)
          */
         public Builder version(java.lang.String version) {
-            this.version = version == null ? null : String.of(version);
+            this.version = (version == null) ? null : String.of(version);
             return this;
         }
 
@@ -1401,17 +1402,18 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * Convenience method for setting name.
-         * @see #name(String)
+         * Convenience method for setting {@code name}.
          * 
          * @param name
          *     Computer friendly designation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #name(com.ibm.fhir.model.type.String)
          */
         public Builder name(java.lang.String name) {
-            this.name = name == null ? null : String.of(name);
+            this.name = (name == null) ? null : String.of(name);
             return this;
         }
 
@@ -1432,17 +1434,18 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * Convenience method for setting title.
-         * @see #title(String)
+         * Convenience method for setting {@code title}.
          * 
          * @param title
          *     Human Friendly name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #title(com.ibm.fhir.model.type.String)
          */
         public Builder title(java.lang.String title) {
-            this.title = title == null ? null : String.of(title);
+            this.title = (title == null) ? null : String.of(title);
             return this;
         }
 
@@ -1462,17 +1465,18 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * Convenience method for setting subtitle.
-         * @see #subtitle(String)
+         * Convenience method for setting {@code subtitle}.
          * 
          * @param subtitle
          *     Subordinate Friendly name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #subtitle(com.ibm.fhir.model.type.String)
          */
         public Builder subtitle(java.lang.String subtitle) {
-            this.subtitle = subtitle == null ? null : String.of(subtitle);
+            this.subtitle = (subtitle == null) ? null : String.of(subtitle);
             return this;
         }
 
@@ -1492,8 +1496,7 @@ public class Contract extends DomainResource {
         }
 
         /**
-         * Convenience method for setting alias.
-         * @see #alias(List<String>)
+         * Convenience method for setting {@code alias}.
          * 
          * <p>Adds new element(s) to the existing list
          * 
@@ -1502,10 +1505,12 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #alias(com.ibm.fhir.model.type.String)
          */
         public Builder alias(java.lang.String... alias) {
             for (java.lang.String value : alias) {
-                this.alias.add(value == null ? null : String.of(value));
+                this.alias.add((value == null) ? null : String.of(value));
             }
             return this;
         }
@@ -2578,7 +2583,7 @@ public class Contract extends DomainResource {
          * The entity that the term applies to.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
          */
         public Element getTopic() {
             return topic;
@@ -2986,17 +2991,18 @@ public class Contract extends DomainResource {
             }
 
             /**
-             * Convenience method for setting text.
-             * @see #text(String)
+             * Convenience method for setting {@code text}.
              * 
              * @param text
              *     Term Statement
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @see #text(com.ibm.fhir.model.type.String)
              */
             public Builder text(java.lang.String text) {
-                this.text = text == null ? null : String.of(text);
+                this.text = (text == null) ? null : String.of(text);
                 return this;
             }
 
@@ -4194,17 +4200,18 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting text.
-                 * @see #text(String)
+                 * Convenience method for setting {@code text}.
                  * 
                  * @param text
                  *     Human readable offer text
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #text(com.ibm.fhir.model.type.String)
                  */
                 public Builder text(java.lang.String text) {
-                    this.text = text == null ? null : String.of(text);
+                    this.text = (text == null) ? null : String.of(text);
                     return this;
                 }
 
@@ -4223,8 +4230,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting linkId.
-                 * @see #linkId(List<String>)
+                 * Convenience method for setting {@code linkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -4233,10 +4239,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #linkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder linkId(java.lang.String... linkId) {
                     for (java.lang.String value : linkId) {
-                        this.linkId.add(value == null ? null : String.of(value));
+                        this.linkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -4705,7 +4713,9 @@ public class Contract extends DomainResource {
                  * research.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that is non-null.
+                 *     An immutable object of type {@link Boolean}, {@link Decimal}, {@link Integer}, {@link Date}, {@link DateTime}, {@link 
+                 *     Time}, {@link String}, {@link Uri}, {@link Attachment}, {@link Coding}, {@link Quantity} or {@link Reference} that is 
+                 *     non-null.
                  */
                 public Element getValue() {
                     return value;
@@ -4879,6 +4889,78 @@ public class Contract extends DomainResource {
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
                         return (Builder) super.modifierExtension(modifierExtension);
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value} with choice type Boolean.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(Element)
+                     */
+                    public Builder value(java.lang.Boolean value) {
+                        this.value = (value == null) ? null : Boolean.of(value);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value} with choice type Integer.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(Element)
+                     */
+                    public Builder value(java.lang.Integer value) {
+                        this.value = (value == null) ? null : Integer.of(value);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value} with choice type Date.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(Element)
+                     */
+                    public Builder value(java.time.LocalDate value) {
+                        this.value = (value == null) ? null : Date.of(value);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value} with choice type String.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(Element)
+                     */
+                    public Builder value(java.lang.String value) {
+                        this.value = (value == null) ? null : String.of(value);
+                        return this;
                     }
 
                     /**
@@ -5579,17 +5661,18 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting condition.
-                 * @see #condition(String)
+                 * Convenience method for setting {@code condition}.
                  * 
                  * @param condition
                  *     Quality desctiption of asset
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #condition(com.ibm.fhir.model.type.String)
                  */
                 public Builder condition(java.lang.String condition) {
-                    this.condition = condition == null ? null : String.of(condition);
+                    this.condition = (condition == null) ? null : String.of(condition);
                     return this;
                 }
 
@@ -5710,17 +5793,18 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting text.
-                 * @see #text(String)
+                 * Convenience method for setting {@code text}.
                  * 
                  * @param text
                  *     Asset clause or question text
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #text(com.ibm.fhir.model.type.String)
                  */
                 public Builder text(java.lang.String text) {
-                    this.text = text == null ? null : String.of(text);
+                    this.text = (text == null) ? null : String.of(text);
                     return this;
                 }
 
@@ -5740,8 +5824,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting linkId.
-                 * @see #linkId(List<String>)
+                 * Convenience method for setting {@code linkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -5750,10 +5833,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #linkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder linkId(java.lang.String... linkId) {
                     for (java.lang.String value : linkId) {
-                        this.linkId.add(value == null ? null : String.of(value));
+                        this.linkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -6230,17 +6315,18 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting text.
-                     * @see #text(String)
+                     * Convenience method for setting {@code text}.
                      * 
                      * @param text
                      *     Context description
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #text(com.ibm.fhir.model.type.String)
                      */
                     public Builder text(java.lang.String text) {
-                        this.text = text == null ? null : String.of(text);
+                        this.text = (text == null) ? null : String.of(text);
                         return this;
                     }
 
@@ -6335,7 +6421,7 @@ public class Contract extends DomainResource {
                  * Specific type of Contract Valued Item that may be priced.
                  * 
                  * @return
-                 *     An immutable object of type {@link Element} that may be null.
+                 *     An immutable object of type {@link CodeableConcept} or {@link Reference} that may be null.
                  */
                 public Element getEntity() {
                     return entity;
@@ -6838,17 +6924,18 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting payment.
-                     * @see #payment(String)
+                     * Convenience method for setting {@code payment}.
                      * 
                      * @param payment
                      *     Terms of valuation
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #payment(com.ibm.fhir.model.type.String)
                      */
                     public Builder payment(java.lang.String payment) {
-                        this.payment = payment == null ? null : String.of(payment);
+                        this.payment = (payment == null) ? null : String.of(payment);
                         return this;
                     }
 
@@ -6927,8 +7014,7 @@ public class Contract extends DomainResource {
                     }
 
                     /**
-                     * Convenience method for setting linkId.
-                     * @see #linkId(List<String>)
+                     * Convenience method for setting {@code linkId}.
                      * 
                      * <p>Adds new element(s) to the existing list
                      * 
@@ -6937,10 +7023,12 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @see #linkId(com.ibm.fhir.model.type.String)
                      */
                     public Builder linkId(java.lang.String... linkId) {
                         for (java.lang.String value : linkId) {
-                            this.linkId.add(value == null ? null : String.of(value));
+                            this.linkId.add((value == null) ? null : String.of(value));
                         }
                         return this;
                     }
@@ -7247,7 +7335,7 @@ public class Contract extends DomainResource {
              * When action happens.
              * 
              * @return
-             *     An immutable object of type {@link Element} that may be null.
+             *     An immutable object of type {@link DateTime}, {@link Period} or {@link Timing} that may be null.
              */
             public Element getOccurrence() {
                 return occurrence;
@@ -7647,17 +7735,18 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting doNotPerform.
-                 * @see #doNotPerform(Boolean)
+                 * Convenience method for setting {@code doNotPerform}.
                  * 
                  * @param doNotPerform
                  *     True if the term prohibits the action
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #doNotPerform(com.ibm.fhir.model.type.Boolean)
                  */
                 public Builder doNotPerform(java.lang.Boolean doNotPerform) {
-                    this.doNotPerform = doNotPerform == null ? null : Boolean.of(doNotPerform);
+                    this.doNotPerform = (doNotPerform == null) ? null : Boolean.of(doNotPerform);
                     return this;
                 }
 
@@ -7743,8 +7832,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting linkId.
-                 * @see #linkId(List<String>)
+                 * Convenience method for setting {@code linkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -7753,10 +7841,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #linkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder linkId(java.lang.String... linkId) {
                     for (java.lang.String value : linkId) {
-                        this.linkId.add(value == null ? null : String.of(value));
+                        this.linkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -7834,8 +7924,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting contextLinkId.
-                 * @see #contextLinkId(List<String>)
+                 * Convenience method for setting {@code contextLinkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -7844,10 +7933,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #contextLinkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder contextLinkId(java.lang.String... contextLinkId) {
                     for (java.lang.String value : contextLinkId) {
-                        this.contextLinkId.add(value == null ? null : String.of(value));
+                        this.contextLinkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -7966,8 +8057,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting requesterLinkId.
-                 * @see #requesterLinkId(List<String>)
+                 * Convenience method for setting {@code requesterLinkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -7976,10 +8066,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #requesterLinkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder requesterLinkId(java.lang.String... requesterLinkId) {
                     for (java.lang.String value : requesterLinkId) {
-                        this.requesterLinkId.add(value == null ? null : String.of(value));
+                        this.requesterLinkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -8096,8 +8188,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting performerLinkId.
-                 * @see #performerLinkId(List<String>)
+                 * Convenience method for setting {@code performerLinkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -8106,10 +8197,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #performerLinkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder performerLinkId(java.lang.String... performerLinkId) {
                     for (java.lang.String value : performerLinkId) {
-                        this.performerLinkId.add(value == null ? null : String.of(value));
+                        this.performerLinkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -8239,8 +8332,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting reason.
-                 * @see #reason(List<String>)
+                 * Convenience method for setting {@code reason}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -8249,10 +8341,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #reason(com.ibm.fhir.model.type.String)
                  */
                 public Builder reason(java.lang.String... reason) {
                     for (java.lang.String value : reason) {
-                        this.reason.add(value == null ? null : String.of(value));
+                        this.reason.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -8292,8 +8386,7 @@ public class Contract extends DomainResource {
                 }
 
                 /**
-                 * Convenience method for setting reasonLinkId.
-                 * @see #reasonLinkId(List<String>)
+                 * Convenience method for setting {@code reasonLinkId}.
                  * 
                  * <p>Adds new element(s) to the existing list
                  * 
@@ -8302,10 +8395,12 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @see #reasonLinkId(com.ibm.fhir.model.type.String)
                  */
                 public Builder reasonLinkId(java.lang.String... reasonLinkId) {
                     for (java.lang.String value : reasonLinkId) {
-                        this.reasonLinkId.add(value == null ? null : String.of(value));
+                        this.reasonLinkId.add((value == null) ? null : String.of(value));
                     }
                     return this;
                 }
@@ -9202,7 +9297,7 @@ public class Contract extends DomainResource {
          * understandability.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -9463,7 +9558,7 @@ public class Contract extends DomainResource {
          * Contract legal text in human renderable form.
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;
@@ -9723,7 +9818,7 @@ public class Contract extends DomainResource {
          * Computable Contract conveyed using a policy rule language (e.g. XACML, DKAL, SecPal).
          * 
          * @return
-         *     An immutable object of type {@link Element} that is non-null.
+         *     An immutable object of type {@link Attachment} or {@link Reference} that is non-null.
          */
         public Element getContent() {
             return content;

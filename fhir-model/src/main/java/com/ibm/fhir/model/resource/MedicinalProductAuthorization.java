@@ -1447,7 +1447,7 @@ public class MedicinalProductAuthorization extends DomainResource {
          * Date of procedure.
          * 
          * @return
-         *     An immutable object of type {@link Element} that may be null.
+         *     An immutable object of type {@link Period} or {@link DateTime} that may be null.
          */
         public Element getDate() {
             return date;

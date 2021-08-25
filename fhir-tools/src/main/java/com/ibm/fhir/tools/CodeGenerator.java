@@ -577,11 +577,27 @@ public class CodeGenerator {
                     generateJavaVarArgsSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
                 }
 
+                if (isChoiceElement(elementDefinition)) {
+                    for (String choiceType : getChoiceTypeNames(elementDefinition)) {
+                        if (hasPrimitiveTypeMapping(choiceType)) {
+                            generateJavaVarArgsSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, choiceType);
+                        }
+                    }
+                }
+
                 generateVarArgsSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
                 generateCollectionSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
             } else {
                 if (hasPrimitiveTypeMapping(fieldType)) {
                     generateJavaSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
+                }
+
+                if (isChoiceElement(elementDefinition)) {
+                    for (String choiceType : getChoiceTypeNames(elementDefinition)) {
+                        if (hasPrimitiveTypeMapping(choiceType)) {
+                            generateJavaSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, choiceType);
+                        }
+                    }
                 }
 
                 generateFhirSetter(structureDefinition, cb, elementDefinition, declaredBy, fieldName, fieldType);
@@ -729,7 +745,7 @@ public class CodeGenerator {
 
     private void generateFhirSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
             String fieldType) {
-        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", false, cb);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, fieldType, "single", false, cb);
         if (!declaredBy) {
             cb.override();
         }
@@ -747,7 +763,7 @@ public class CodeGenerator {
     private void generateJavaSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
             String fieldType) {
         String primitiveType = getPrimitiveType(fieldType);
-        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "single", true, cb);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, fieldType, "single", true, cb);
         if (!declaredBy) {
             cb.override();
         }
@@ -763,7 +779,7 @@ public class CodeGenerator {
     }
 
     private String constructElementFromPrimitive(String fieldName, String fieldType) {
-        return fieldName + " == null ? null : " + fieldType + ".of(" + fieldName + ")";
+        return "(" + fieldName + " == null) ? null : " + fieldType + ".of(" + fieldName + ")";
     }
 
     private void generateCollectionSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
@@ -774,7 +790,7 @@ public class CodeGenerator {
             paramType = "java.util." + paramType;
         }
 
-        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "collection", false, cb);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, fieldType, "collection", false, cb);
         if (!declaredBy) {
             cb.override();
         }
@@ -793,7 +809,7 @@ public class CodeGenerator {
 
     private void generateVarArgsSetter(JsonObject structureDefinition, CodeBuilder cb, JsonObject elementDefinition, boolean declaredBy, String fieldName,
             String fieldType) {
-        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", false, cb);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, fieldType, "varargs", false, cb);
         if (!declaredBy) {
             cb.override();
         }
@@ -820,7 +836,7 @@ public class CodeGenerator {
             String fieldType) {
         String varType = fieldType.replace("java.util.", "").replace("List<", "").replace(">", "");
         String primitiveType = getPrimitiveType(varType);
-        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, "varargs", true, cb);
+        generateBuilderMethodJavadoc(structureDefinition, elementDefinition, fieldName, varType, "varargs", true, cb);
         if (!declaredBy) {
             cb.override();
         }
@@ -1025,15 +1041,17 @@ public class CodeGenerator {
         return declaredBy;
     }
 
-    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String paramType,
+    private void generateBuilderMethodJavadoc(JsonObject structureDefinition, JsonObject elementDefinition, String fieldName, String fieldType, String paramType,
             boolean primitiveOverload, CodeBuilder cb) {
         String definition = elementDefinition.getString("definition");
-        String fieldType = getFieldType(structureDefinition, elementDefinition);
         cb.javadocStart();
 
         if (primitiveOverload) {
-            cb.javadoc("Convenience method for setting " + fieldName + ".");
-            cb.javadocSee("#" + fieldName + "(" + fieldType + ")");
+            String msg = "Convenience method for setting {@code " + fieldName + "}";
+            if (isChoiceElement(elementDefinition)) {
+                msg += " with choice type " + fieldType;
+            }
+            cb.javadoc(msg + ".");
         } else if (isBase64Binary(structureDefinition) && "value".equals(fieldName)) {
             cb.javadoc("The byte array of the actual value");
         } else {
@@ -1077,7 +1095,7 @@ public class CodeGenerator {
                 }
             }
         }
-        if (isChoiceElement(elementDefinition)) {
+        if (isChoiceElement(elementDefinition) && !primitiveOverload) {
             cb.javadoc("<p>This is a choice element with the following allowed types:", false);
             cb.javadoc("<ul>", false);
             for (String choiceTypeName : getChoiceTypeNames(elementDefinition)) {
@@ -1122,6 +1140,12 @@ public class CodeGenerator {
         cb.javadoc("");
 
         cb.javadocReturn("A reference to this Builder instance");
+
+        if (primitiveOverload) {
+            cb.javadoc("");
+            String seeType = isChoiceElement(elementDefinition) ? "Element" : "com.ibm.fhir.model.type." + fieldType;
+            cb.javadocSee("#" + fieldName + "(" + seeType + ")");
+        }
         cb.javadocEnd();
     }
 
@@ -1867,17 +1891,47 @@ public class CodeGenerator {
         cb.javadoc("");
         boolean isRequired = isRequired(elementDefinition);
         if (isRepeating(elementDefinition)) {
-            String reference = getFieldType(structureDefinition, elementDefinition, false);
-            reference = reference.substring(reference.lastIndexOf(".") + 1);
             String emptyHint = isRequired ? " that is non-empty." : " that may be empty.";
-            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + javadocLink(reference) + emptyHint);
+
+            String reference;
+            if (isChoiceElement(elementDefinition)) {
+                reference = buildChoiceTypeString(elementDefinition);
+            } else {
+                reference = getFieldType(structureDefinition, elementDefinition, false);
+                reference = reference.substring(reference.lastIndexOf(".") + 1);
+                reference = javadocLink(reference);
+            }
+
+            cb.javadocReturn("An unmodifiable list containing immutable objects of type " + reference + emptyHint);
         } else {
-            // Processes the JavaDoc Link into an absolute path where available.
-            String reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
             String nullHint = isRequired ? " that is non-null." : " that may be null.";
-            cb.javadocReturn("An immutable object of type " + javadocLink(reference) + nullHint);
+
+            String reference;
+            if (isChoiceElement(elementDefinition)) {
+                reference = buildChoiceTypeString(elementDefinition);
+            } else {
+                // Processes the JavaDoc Link into an absolute path where available.
+                reference = getFieldTypeForJavaDocLink(structureDefinition, elementDefinition, fieldType);
+                reference = javadocLink(reference);
+            }
+
+            cb.javadocReturn("An immutable object of type " + reference + nullHint);
         }
         cb.javadocEnd();
+    }
+
+    private String buildChoiceTypeString(JsonObject elementDefinition) {
+        StringBuilder sb = new StringBuilder();
+        List<String> choiceTypeNames = getChoiceTypeNames(elementDefinition);
+        String delim = "";
+        for (int i = 0; i < choiceTypeNames.size(); i++) {
+            if (i > 0 && i == choiceTypeNames.size() - 1) {
+                delim = " or ";
+            }
+            sb.append(delim + javadocLink(choiceTypeNames.get(i)));
+            delim = ", ";
+        }
+        return sb.toString();
     }
 
     private void generateFactoryMethods(JsonObject structureDefinition, CodeBuilder cb) {

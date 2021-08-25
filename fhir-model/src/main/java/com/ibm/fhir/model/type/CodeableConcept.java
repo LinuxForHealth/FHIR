@@ -214,17 +214,18 @@ public class CodeableConcept extends Element {
         }
 
         /**
-         * Convenience method for setting text.
-         * @see #text(String)
+         * Convenience method for setting {@code text}.
          * 
          * @param text
          *     Plain text representation of the concept
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @see #text(com.ibm.fhir.model.type.String)
          */
         public Builder text(java.lang.String text) {
-            this.text = text == null ? null : String.of(text);
+            this.text = (text == null) ? null : String.of(text);
             return this;
         }
 
