@@ -34,7 +34,7 @@ import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.String;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
 
-public class ReferenceMappingVistorTest {
+public class ReferenceMappingVisitorTest {
     public boolean DEBUG = false;
 
     private Patient patient;

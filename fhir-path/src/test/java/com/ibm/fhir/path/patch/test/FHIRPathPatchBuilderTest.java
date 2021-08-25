@@ -225,9 +225,14 @@ public class FHIRPathPatchBuilderTest {
     }
 
     private Patient deleteViaBuilder(Patient patient) {
+        List<HumanName> names = new ArrayList<>(patient.getName());
+        names.add(0, names.remove(0).toBuilder()
+                .given(Collections.emptySet())
+                .build());
         return patient.toBuilder()
                 .identifier(Collections.emptySet())
                 .active((Boolean)null)
+                .name(names)
                 .build();
     }
 
@@ -235,6 +240,7 @@ public class FHIRPathPatchBuilderTest {
         return FHIRPathPatch.builder()
                 .delete("Patient.active")
                 .delete("Patient.identifier")
+                .delete("Patient.name[0].given")
                 .build();
     }
 

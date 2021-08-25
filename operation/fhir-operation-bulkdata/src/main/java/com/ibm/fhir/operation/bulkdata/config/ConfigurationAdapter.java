@@ -535,4 +535,12 @@ public interface ConfigurationAdapter {
      * @return
      */
     S3HostStyle getS3HostStyleByStorageProvider(String provider);
+
+    /**
+     * reports back to the client if the StorageProvider supports requestAccessTokens
+     *
+     * @param provider
+     * @return
+     */
+    boolean getStorageProviderUsesRequestAccessToken(String provider);
 }

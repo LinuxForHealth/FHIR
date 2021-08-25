@@ -171,4 +171,9 @@ public class V2ConfigurationImpl extends AbstractSystemConfigurationImpl {
         String type = FHIRConfigHelper.getStringProperty("fhirServer/bulkdata/core/systemExportImpl", "fast");
         return "fast".equals(type);
     }
+
+    @Override
+    public boolean getStorageProviderUsesRequestAccessToken(String provider) {
+        return FHIRConfigHelper.getBooleanProperty("fhirServer/bulkdata/storageProviders/" + provider + "/requiresAccessToken", Boolean.FALSE);
+    }
 }
