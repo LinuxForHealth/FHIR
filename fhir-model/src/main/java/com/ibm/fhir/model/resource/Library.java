@@ -860,7 +860,8 @@ public class Library extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -877,13 +878,17 @@ public class Library extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -896,7 +901,8 @@ public class Library extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -915,13 +921,17 @@ public class Library extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -939,7 +949,8 @@ public class Library extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -963,13 +974,17 @@ public class Library extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -998,7 +1013,8 @@ public class Library extends DomainResource {
          * specification, model, design or an instance. e.g. CMS or NQF identifiers for a measure artifact. Note that at least 
          * one identifier is required for non-experimental active artifacts.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the library
@@ -1018,13 +1034,17 @@ public class Library extends DomainResource {
          * specification, model, design or an instance. e.g. CMS or NQF identifiers for a measure artifact. Note that at least 
          * one identifier is required for non-experimental active artifacts.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Additional identifier for the library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -1295,7 +1315,8 @@ public class Library extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
@@ -1313,13 +1334,17 @@ public class Library extends DomainResource {
         /**
          * Contact details to assist a user in finding and communicating with the publisher.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for the publisher
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactDetail> contact) {
             this.contact = new ArrayList<>(contact);
@@ -1345,7 +1370,8 @@ public class Library extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate library instances.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
@@ -1365,13 +1391,17 @@ public class Library extends DomainResource {
          * general categories (gender, age, ...) or may be references to specific programs (insurance plans, studies, ...) and 
          * may be used to assist with indexing and searching for appropriate library instances.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param useContext
          *     The context that the content is intended to support
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder useContext(Collection<UsageContext> useContext) {
             this.useContext = new ArrayList<>(useContext);
@@ -1381,7 +1411,8 @@ public class Library extends DomainResource {
         /**
          * A legal or geographic region in which the library is intended to be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for library (if applicable)
@@ -1399,13 +1430,17 @@ public class Library extends DomainResource {
         /**
          * A legal or geographic region in which the library is intended to be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param jurisdiction
          *     Intended jurisdiction for library (if applicable)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder jurisdiction(Collection<CodeableConcept> jurisdiction) {
             this.jurisdiction = new ArrayList<>(jurisdiction);
@@ -1551,7 +1586,8 @@ public class Library extends DomainResource {
          * Descriptive topics related to the content of the library. Topics provide a high-level categorization of the library 
          * that can be useful for filtering and searching.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment, etc.
@@ -1570,13 +1606,17 @@ public class Library extends DomainResource {
          * Descriptive topics related to the content of the library. Topics provide a high-level categorization of the library 
          * that can be useful for filtering and searching.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param topic
          *     E.g. Education, Treatment, Assessment, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder topic(Collection<CodeableConcept> topic) {
             this.topic = new ArrayList<>(topic);
@@ -1586,7 +1626,8 @@ public class Library extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
@@ -1604,13 +1645,17 @@ public class Library extends DomainResource {
         /**
          * An individiual or organization primarily involved in the creation and maintenance of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param author
          *     Who authored the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder author(Collection<ContactDetail> author) {
             this.author = new ArrayList<>(author);
@@ -1620,7 +1665,8 @@ public class Library extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
@@ -1638,13 +1684,17 @@ public class Library extends DomainResource {
         /**
          * An individual or organization primarily responsible for internal coherence of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param editor
          *     Who edited the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder editor(Collection<ContactDetail> editor) {
             this.editor = new ArrayList<>(editor);
@@ -1654,7 +1704,8 @@ public class Library extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
@@ -1672,13 +1723,17 @@ public class Library extends DomainResource {
         /**
          * An individual or organization primarily responsible for review of some aspect of the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param reviewer
          *     Who reviewed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder reviewer(Collection<ContactDetail> reviewer) {
             this.reviewer = new ArrayList<>(reviewer);
@@ -1688,7 +1743,8 @@ public class Library extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
@@ -1706,13 +1762,17 @@ public class Library extends DomainResource {
         /**
          * An individual or organization responsible for officially endorsing the content for use in some setting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param endorser
          *     Who endorsed the content
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder endorser(Collection<ContactDetail> endorser) {
             this.endorser = new ArrayList<>(endorser);
@@ -1722,7 +1782,8 @@ public class Library extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
@@ -1740,13 +1801,17 @@ public class Library extends DomainResource {
         /**
          * Related artifacts such as additional documentation, justification, or bibliographic references.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param relatedArtifact
          *     Additional documentation, citations, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relatedArtifact(Collection<RelatedArtifact> relatedArtifact) {
             this.relatedArtifact = new ArrayList<>(relatedArtifact);
@@ -1756,7 +1821,8 @@ public class Library extends DomainResource {
         /**
          * The parameter element defines parameters used by the library.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Parameters defined by the library
@@ -1774,13 +1840,17 @@ public class Library extends DomainResource {
         /**
          * The parameter element defines parameters used by the library.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param parameter
          *     Parameters defined by the library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder parameter(Collection<ParameterDefinition> parameter) {
             this.parameter = new ArrayList<>(parameter);
@@ -1791,7 +1861,8 @@ public class Library extends DomainResource {
          * Describes a set of data that must be provided in order to be able to successfully perform the computations defined by 
          * the library.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dataRequirement
          *     What data is referenced by this library
@@ -1810,13 +1881,17 @@ public class Library extends DomainResource {
          * Describes a set of data that must be provided in order to be able to successfully perform the computations defined by 
          * the library.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param dataRequirement
          *     What data is referenced by this library
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder dataRequirement(Collection<DataRequirement> dataRequirement) {
             this.dataRequirement = new ArrayList<>(dataRequirement);
@@ -1827,7 +1902,8 @@ public class Library extends DomainResource {
          * The content of the library as an Attachment. The content may be a reference to a url, or may be directly embedded as a 
          * base-64 string. Either way, the contentType of the attachment determines how to interpret the content.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param content
          *     Contents of the library, either embedded or referenced
@@ -1846,13 +1922,17 @@ public class Library extends DomainResource {
          * The content of the library as an Attachment. The content may be a reference to a url, or may be directly embedded as a 
          * base-64 string. Either way, the contentType of the attachment determines how to interpret the content.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param content
          *     Contents of the library, either embedded or referenced
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder content(Collection<Attachment> content) {
             this.content = new ArrayList<>(content);

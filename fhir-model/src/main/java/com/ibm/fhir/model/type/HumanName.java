@@ -249,7 +249,8 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -268,13 +269,17 @@ public class HumanName extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -360,7 +365,8 @@ public class HumanName extends Element {
         /**
          * Convenience method for setting {@code given}.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
@@ -380,7 +386,8 @@ public class HumanName extends Element {
         /**
          * Given name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
@@ -398,13 +405,17 @@ public class HumanName extends Element {
         /**
          * Given name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param given
          *     Given names (not always 'first'). Includes middle names
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder given(Collection<String> given) {
             this.given = new ArrayList<>(given);
@@ -414,7 +425,8 @@ public class HumanName extends Element {
         /**
          * Convenience method for setting {@code prefix}.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prefix
          *     Parts that come before the name
@@ -435,7 +447,8 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prefix
          *     Parts that come before the name
@@ -454,13 +467,17 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the start of the name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param prefix
          *     Parts that come before the name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder prefix(Collection<String> prefix) {
             this.prefix = new ArrayList<>(prefix);
@@ -470,7 +487,8 @@ public class HumanName extends Element {
         /**
          * Convenience method for setting {@code suffix}.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param suffix
          *     Parts that come after the name
@@ -491,7 +509,8 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param suffix
          *     Parts that come after the name
@@ -510,13 +529,17 @@ public class HumanName extends Element {
          * Part of the name that is acquired as a title due to academic, legal, employment or nobility status, etc. and that 
          * appears at the end of the name.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param suffix
          *     Parts that come after the name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder suffix(Collection<String> suffix) {
             this.suffix = new ArrayList<>(suffix);

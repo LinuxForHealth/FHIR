@@ -162,7 +162,8 @@ public class Extension extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -181,13 +182,17 @@ public class Extension extends Element {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -287,6 +292,22 @@ public class Extension extends Element {
          */
         public Builder value(java.lang.String value) {
             this.value = (value == null) ? null : String.of(value);
+            return this;
+        }
+
+        /**
+         * Convenience method for setting {@code value} with choice type Time.
+         * 
+         * @param value
+         *     Value of extension
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.time.LocalTime value) {
+            this.value = (value == null) ? null : Time.of(value);
             return this;
         }
 

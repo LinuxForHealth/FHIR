@@ -451,7 +451,8 @@ public class Endpoint extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -468,13 +469,17 @@ public class Endpoint extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -487,7 +492,8 @@ public class Endpoint extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -506,13 +512,17 @@ public class Endpoint extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -530,7 +540,8 @@ public class Endpoint extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -554,13 +565,17 @@ public class Endpoint extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -570,7 +585,8 @@ public class Endpoint extends DomainResource {
         /**
          * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifies this endpoint across multiple systems
@@ -588,13 +604,17 @@ public class Endpoint extends DomainResource {
         /**
          * Identifier for the organization that is used to identify the endpoint across multiple disparate systems.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Identifies this endpoint across multiple systems
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -688,7 +708,8 @@ public class Endpoint extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
@@ -707,13 +728,17 @@ public class Endpoint extends DomainResource {
          * Contact details for a human to contact about the subscription. The primary use of this for system administrator 
          * troubleshooting.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contact
          *     Contact details for source (e.g. troubleshooting)
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder contact(Collection<ContactPoint> contact) {
             this.contact = new ArrayList<>(contact);
@@ -737,7 +762,8 @@ public class Endpoint extends DomainResource {
         /**
          * The payload type describes the acceptable content that can be communicated on the endpoint.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -757,7 +783,8 @@ public class Endpoint extends DomainResource {
         /**
          * The payload type describes the acceptable content that can be communicated on the endpoint.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>This element is required.
          * 
@@ -766,6 +793,9 @@ public class Endpoint extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder payloadType(Collection<CodeableConcept> payloadType) {
             this.payloadType = new ArrayList<>(payloadType);
@@ -776,7 +806,8 @@ public class Endpoint extends DomainResource {
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param payloadMimeType
          *     Mimetype to send. If not specified, the content could be anything (including no payload, if the connectionType defined 
@@ -796,7 +827,8 @@ public class Endpoint extends DomainResource {
          * The mime type to send the payload in - e.g. application/fhir+xml, application/fhir+json. If the mime type is not 
          * specified, then the sender could send any content (including no content depending on the connectionType).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param payloadMimeType
          *     Mimetype to send. If not specified, the content could be anything (including no payload, if the connectionType defined 
@@ -804,6 +836,9 @@ public class Endpoint extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder payloadMimeType(Collection<Code> payloadMimeType) {
             this.payloadMimeType = new ArrayList<>(payloadMimeType);
@@ -829,7 +864,8 @@ public class Endpoint extends DomainResource {
         /**
          * Convenience method for setting {@code header}.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param header
          *     Usage depends on the channel type
@@ -849,7 +885,8 @@ public class Endpoint extends DomainResource {
         /**
          * Additional headers / information to send as part of the notification.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param header
          *     Usage depends on the channel type
@@ -867,13 +904,17 @@ public class Endpoint extends DomainResource {
         /**
          * Additional headers / information to send as part of the notification.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param header
          *     Usage depends on the channel type
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder header(Collection<String> header) {
             this.header = new ArrayList<>(header);

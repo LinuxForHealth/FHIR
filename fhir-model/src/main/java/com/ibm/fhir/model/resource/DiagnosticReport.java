@@ -590,7 +590,8 @@ public class DiagnosticReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -607,13 +608,17 @@ public class DiagnosticReport extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -626,7 +631,8 @@ public class DiagnosticReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -645,13 +651,17 @@ public class DiagnosticReport extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -669,7 +679,8 @@ public class DiagnosticReport extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -693,13 +704,17 @@ public class DiagnosticReport extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -709,7 +724,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Identifiers assigned to this report by the performer or other systems.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier for report
@@ -727,13 +743,17 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Identifiers assigned to this report by the performer or other systems.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business identifier for report
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -743,7 +763,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Details concerning a service requested.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -770,7 +791,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Details concerning a service requested.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -786,6 +808,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -812,7 +837,8 @@ public class DiagnosticReport extends DomainResource {
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Service category
@@ -831,13 +857,17 @@ public class DiagnosticReport extends DomainResource {
          * A code that classifies the clinical discipline, department or diagnostic service that created the report (e.g. 
          * cardiology, biochemistry, hematology, MRI). This is used for searching, sorting and display purposes.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Service category
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -958,7 +988,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * The diagnostic service that is responsible for issuing the report.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -984,7 +1015,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * The diagnostic service that is responsible for issuing the report.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -999,6 +1031,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder performer(Collection<Reference> performer) {
             this.performer = new ArrayList<>(performer);
@@ -1008,7 +1043,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1034,7 +1070,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * The practitioner or organization that is responsible for the report's conclusions and interpretations.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1049,6 +1086,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder resultsInterpreter(Collection<Reference> resultsInterpreter) {
             this.resultsInterpreter = new ArrayList<>(resultsInterpreter);
@@ -1058,7 +1098,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Details about the specimens on which this diagnostic report is based.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1081,7 +1122,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * Details about the specimens on which this diagnostic report is based.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1093,6 +1135,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder specimen(Collection<Reference> specimen) {
             this.specimen = new ArrayList<>(specimen);
@@ -1102,7 +1147,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * [Observations](observation.html) that are part of this diagnostic report.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1125,7 +1171,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * [Observations](observation.html) that are part of this diagnostic report.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1137,6 +1184,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder result(Collection<Reference> result) {
             this.result = new ArrayList<>(result);
@@ -1148,7 +1198,8 @@ public class DiagnosticReport extends DomainResource {
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1173,7 +1224,8 @@ public class DiagnosticReport extends DomainResource {
          * imaging performed by DICOM enabled modalities, but this is not required. A fully enabled PACS viewer can use this 
          * information to provide views of the source images.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1185,6 +1237,9 @@ public class DiagnosticReport extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder imagingStudy(Collection<Reference> imagingStudy) {
             this.imagingStudy = new ArrayList<>(imagingStudy);
@@ -1195,7 +1250,8 @@ public class DiagnosticReport extends DomainResource {
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param media
          *     Key images associated with this report
@@ -1214,13 +1270,17 @@ public class DiagnosticReport extends DomainResource {
          * A list of key images associated with this report. The images are generally created during the diagnostic process, and 
          * may be directly of the patient, or of treated specimens (i.e. slides of interest).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param media
          *     Key images associated with this report
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder media(Collection<Media> media) {
             this.media = new ArrayList<>(media);
@@ -1260,7 +1320,8 @@ public class DiagnosticReport extends DomainResource {
         /**
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
@@ -1278,13 +1339,17 @@ public class DiagnosticReport extends DomainResource {
         /**
          * One or more codes that represent the summary conclusion (interpretation/impression) of the diagnostic report.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param conclusionCode
          *     Codes for the clinical conclusion of test results
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder conclusionCode(Collection<CodeableConcept> conclusionCode) {
             this.conclusionCode = new ArrayList<>(conclusionCode);
@@ -1295,7 +1360,8 @@ public class DiagnosticReport extends DomainResource {
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param presentedForm
          *     Entire report as issued
@@ -1314,13 +1380,17 @@ public class DiagnosticReport extends DomainResource {
          * Rich text representation of the entire result as issued by the diagnostic service. Multiple formats are allowed but 
          * they SHALL be semantically equivalent.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param presentedForm
          *     Entire report as issued
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder presentedForm(Collection<Attachment> presentedForm) {
             this.presentedForm = new ArrayList<>(presentedForm);
@@ -1533,7 +1603,8 @@ public class DiagnosticReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -1552,13 +1623,17 @@ public class DiagnosticReport extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -1576,7 +1651,8 @@ public class DiagnosticReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -1600,13 +1676,17 @@ public class DiagnosticReport extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

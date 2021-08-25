@@ -802,7 +802,8 @@ public class Observation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -819,13 +820,17 @@ public class Observation extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -838,7 +843,8 @@ public class Observation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -857,13 +863,17 @@ public class Observation extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -881,7 +891,8 @@ public class Observation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -905,13 +916,17 @@ public class Observation extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -921,7 +936,8 @@ public class Observation extends DomainResource {
         /**
          * A unique identifier assigned to this observation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business Identifier for observation
@@ -939,13 +955,17 @@ public class Observation extends DomainResource {
         /**
          * A unique identifier assigned to this observation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Business Identifier for observation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -956,7 +976,8 @@ public class Observation extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this event. For example, a MedicationRequest may 
          * require a patient to have laboratory test performed before it is dispensed.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -985,7 +1006,8 @@ public class Observation extends DomainResource {
          * A plan, proposal or order that is fulfilled in whole or in part by this event. For example, a MedicationRequest may 
          * require a patient to have laboratory test performed before it is dispensed.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1002,6 +1024,9 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder basedOn(Collection<Reference> basedOn) {
             this.basedOn = new ArrayList<>(basedOn);
@@ -1012,7 +1037,8 @@ public class Observation extends DomainResource {
          * A larger event of which this particular Observation is a component or step. For example, an observation as part of a 
          * procedure.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1041,7 +1067,8 @@ public class Observation extends DomainResource {
          * A larger event of which this particular Observation is a component or step. For example, an observation as part of a 
          * procedure.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1058,6 +1085,9 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder partOf(Collection<Reference> partOf) {
             this.partOf = new ArrayList<>(partOf);
@@ -1083,7 +1113,8 @@ public class Observation extends DomainResource {
         /**
          * A code that classifies the general type of observation being made.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Classification of type of observation
@@ -1101,13 +1132,17 @@ public class Observation extends DomainResource {
         /**
          * A code that classifies the general type of observation being made.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param category
          *     Classification of type of observation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder category(Collection<CodeableConcept> category) {
             this.category = new ArrayList<>(category);
@@ -1162,7 +1197,8 @@ public class Observation extends DomainResource {
          * Observation resource to capture whether the mother is trained to change her child's tracheostomy tube. In this 
          * example, the child is the patient of record and the mother is the focus.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focus
          *     What the observation is about, when it is not about the subject of record
@@ -1185,13 +1221,17 @@ public class Observation extends DomainResource {
          * Observation resource to capture whether the mother is trained to change her child's tracheostomy tube. In this 
          * example, the child is the patient of record and the mother is the focus.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param focus
          *     What the observation is about, when it is not about the subject of record
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder focus(Collection<Reference> focus) {
             this.focus = new ArrayList<>(focus);
@@ -1291,7 +1331,8 @@ public class Observation extends DomainResource {
         /**
          * Who was responsible for asserting the observed value as "true".
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1319,7 +1360,8 @@ public class Observation extends DomainResource {
         /**
          * Who was responsible for asserting the observed value as "true".
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1336,6 +1378,9 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder performer(Collection<Reference> performer) {
             this.performer = new ArrayList<>(performer);
@@ -1391,6 +1436,22 @@ public class Observation extends DomainResource {
         }
 
         /**
+         * Convenience method for setting {@code value} with choice type Time.
+         * 
+         * @param value
+         *     Actual result
+         * 
+         * @return
+         *     A reference to this Builder instance
+         * 
+         * @see #value(Element)
+         */
+        public Builder value(java.time.LocalTime value) {
+            this.value = (value == null) ? null : Time.of(value);
+            return this;
+        }
+
+        /**
          * The information determined as a result of making the observation, if the information has a simple value.
          * 
          * <p>This is a choice element with the following allowed types:
@@ -1436,7 +1497,8 @@ public class Observation extends DomainResource {
         /**
          * A categorical assessment of an observation value. For example, high, low, normal.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param interpretation
          *     High, low, normal, etc.
@@ -1454,13 +1516,17 @@ public class Observation extends DomainResource {
         /**
          * A categorical assessment of an observation value. For example, high, low, normal.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param interpretation
          *     High, low, normal, etc.
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder interpretation(Collection<CodeableConcept> interpretation) {
             this.interpretation = new ArrayList<>(interpretation);
@@ -1470,7 +1536,8 @@ public class Observation extends DomainResource {
         /**
          * Comments about the observation or the results.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the observation
@@ -1488,13 +1555,17 @@ public class Observation extends DomainResource {
         /**
          * Comments about the observation or the results.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param note
          *     Comments about the observation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder note(Collection<Annotation> note) {
             this.note = new ArrayList<>(note);
@@ -1573,7 +1644,8 @@ public class Observation extends DomainResource {
          * interpreted as an "OR". In other words, to represent two distinct target populations, two `referenceRange` elements 
          * would be used.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param referenceRange
          *     Provides guide for interpretation
@@ -1593,13 +1665,17 @@ public class Observation extends DomainResource {
          * interpreted as an "OR". In other words, to represent two distinct target populations, two `referenceRange` elements 
          * would be used.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param referenceRange
          *     Provides guide for interpretation
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder referenceRange(Collection<ReferenceRange> referenceRange) {
             this.referenceRange = new ArrayList<>(referenceRange);
@@ -1610,7 +1686,8 @@ public class Observation extends DomainResource {
          * This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that 
          * includes the target as a member of the group.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1636,7 +1713,8 @@ public class Observation extends DomainResource {
          * This observation is a group observation (e.g. a battery, a panel of tests, a set of vital sign measurements) that 
          * includes the target as a member of the group.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1650,6 +1728,9 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder hasMember(Collection<Reference> hasMember) {
             this.hasMember = new ArrayList<>(hasMember);
@@ -1660,7 +1741,8 @@ public class Observation extends DomainResource {
          * The target resource that represents a measurement from which this observation value is derived. For example, a 
          * calculated anion gap or a fetal measurement based on an ultrasound image.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1689,7 +1771,8 @@ public class Observation extends DomainResource {
          * The target resource that represents a measurement from which this observation value is derived. For example, a 
          * calculated anion gap or a fetal measurement based on an ultrasound image.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1706,6 +1789,9 @@ public class Observation extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder derivedFrom(Collection<Reference> derivedFrom) {
             this.derivedFrom = new ArrayList<>(derivedFrom);
@@ -1717,7 +1803,8 @@ public class Observation extends DomainResource {
          * value pairs that share the same attributes. Examples include systolic and diastolic component observations for blood 
          * pressure measurement and multiple component observations for genetics observations.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param component
          *     Component results
@@ -1737,13 +1824,17 @@ public class Observation extends DomainResource {
          * value pairs that share the same attributes. Examples include systolic and diastolic component observations for blood 
          * pressure measurement and multiple component observations for genetics observations.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param component
          *     Component results
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder component(Collection<Component> component) {
             this.component = new ArrayList<>(component);
@@ -2052,7 +2143,8 @@ public class Observation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2071,13 +2163,17 @@ public class Observation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2095,7 +2191,8 @@ public class Observation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2119,13 +2216,17 @@ public class Observation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2185,7 +2286,8 @@ public class Observation extends DomainResource {
              * populations. For example, to represent a target population of African American females, both a code of female and a 
              * code for African American would be used.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param appliesTo
              *     Reference range population
@@ -2206,13 +2308,17 @@ public class Observation extends DomainResource {
              * populations. For example, to represent a target population of African American females, both a code of female and a 
              * code for African American would be used.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param appliesTo
              *     Reference range population
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder appliesTo(Collection<CodeableConcept> appliesTo) {
                 this.appliesTo = new ArrayList<>(appliesTo);
@@ -2506,7 +2612,8 @@ public class Observation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2525,13 +2632,17 @@ public class Observation extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2549,7 +2660,8 @@ public class Observation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2573,13 +2685,17 @@ public class Observation extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2651,6 +2767,22 @@ public class Observation extends DomainResource {
             }
 
             /**
+             * Convenience method for setting {@code value} with choice type Time.
+             * 
+             * @param value
+             *     Actual component result
+             * 
+             * @return
+             *     A reference to this Builder instance
+             * 
+             * @see #value(Element)
+             */
+            public Builder value(java.time.LocalTime value) {
+                this.value = (value == null) ? null : Time.of(value);
+                return this;
+            }
+
+            /**
              * The information determined as a result of making the observation, if the information has a simple value.
              * 
              * <p>This is a choice element with the following allowed types:
@@ -2696,7 +2828,8 @@ public class Observation extends DomainResource {
             /**
              * A categorical assessment of an observation value. For example, high, low, normal.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param interpretation
              *     High, low, normal, etc.
@@ -2714,13 +2847,17 @@ public class Observation extends DomainResource {
             /**
              * A categorical assessment of an observation value. For example, high, low, normal.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param interpretation
              *     High, low, normal, etc.
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder interpretation(Collection<CodeableConcept> interpretation) {
                 this.interpretation = new ArrayList<>(interpretation);
@@ -2730,7 +2867,8 @@ public class Observation extends DomainResource {
             /**
              * Guidance on how to interpret the value by comparison to a normal or recommended range.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param referenceRange
              *     Provides guide for interpretation of component result
@@ -2748,13 +2886,17 @@ public class Observation extends DomainResource {
             /**
              * Guidance on how to interpret the value by comparison to a normal or recommended range.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param referenceRange
              *     Provides guide for interpretation of component result
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder referenceRange(Collection<Observation.ReferenceRange> referenceRange) {
                 this.referenceRange = new ArrayList<>(referenceRange);

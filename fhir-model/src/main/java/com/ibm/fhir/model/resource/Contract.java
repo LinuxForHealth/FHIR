@@ -913,7 +913,8 @@ public class Contract extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
@@ -930,13 +931,17 @@ public class Contract extends DomainResource {
          * These resources do not have an independent existence apart from the resource that contains them - they cannot be 
          * identified independently, and nor can they have their own independent transaction scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param contained
          *     Contained, inline Resources
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder contained(Collection<Resource> contained) {
@@ -949,7 +954,8 @@ public class Contract extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
@@ -968,13 +974,17 @@ public class Contract extends DomainResource {
          * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
          * of the definition of the extension.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param extension
          *     Additional content defined by implementations
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder extension(Collection<Extension> extension) {
@@ -992,7 +1002,8 @@ public class Contract extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
@@ -1016,13 +1027,17 @@ public class Contract extends DomainResource {
          * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
          * change the meaning of modifierExtension itself).
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param modifierExtension
          *     Extensions that cannot be ignored
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         @Override
         public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -1032,7 +1047,8 @@ public class Contract extends DomainResource {
         /**
          * Unique identifier for this Contract or a derivative that references a Source Contract.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Contract number
@@ -1050,13 +1066,17 @@ public class Contract extends DomainResource {
         /**
          * Unique identifier for this Contract or a derivative that references a Source Contract.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param identifier
          *     Contract number
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder identifier(Collection<Identifier> identifier) {
             this.identifier = new ArrayList<>(identifier);
@@ -1230,7 +1250,8 @@ public class Contract extends DomainResource {
         /**
          * The target entity impacted by or of interest to parties to the agreement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subject
          *     Contract Target Entity
@@ -1248,13 +1269,17 @@ public class Contract extends DomainResource {
         /**
          * The target entity impacted by or of interest to parties to the agreement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subject
          *     Contract Target Entity
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subject(Collection<Reference> subject) {
             this.subject = new ArrayList<>(subject);
@@ -1266,7 +1291,8 @@ public class Contract extends DomainResource {
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1291,7 +1317,8 @@ public class Contract extends DomainResource {
          * purpose of achieving some form of collective action such as the promulgation, administration and enforcement of 
          * contracts and policies.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1303,6 +1330,9 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder authority(Collection<Reference> authority) {
             this.authority = new ArrayList<>(authority);
@@ -1314,7 +1344,8 @@ public class Contract extends DomainResource {
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1339,7 +1370,8 @@ public class Contract extends DomainResource {
          * principles, policies, processes or procedures for managing rights, actions, or behaviors of parties or principals 
          * relative to resources.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1351,6 +1383,9 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder domain(Collection<Reference> domain) {
             this.domain = new ArrayList<>(domain);
@@ -1360,7 +1395,8 @@ public class Contract extends DomainResource {
         /**
          * Sites in which the contract is complied with, exercised, or in force.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1383,7 +1419,8 @@ public class Contract extends DomainResource {
         /**
          * Sites in which the contract is complied with, exercised, or in force.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1395,6 +1432,9 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder site(Collection<Reference> site) {
             this.site = new ArrayList<>(site);
@@ -1498,7 +1538,8 @@ public class Contract extends DomainResource {
         /**
          * Convenience method for setting {@code alias}.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     Acronym or short name
@@ -1519,7 +1560,8 @@ public class Contract extends DomainResource {
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     Acronym or short name
@@ -1538,13 +1580,17 @@ public class Contract extends DomainResource {
          * Alternative representation of the title for this Contract definition, derivative, or instance in any legal state., e.
          * g., a domain specific contract number related to legislation.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param alias
          *     Acronym or short name
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder alias(Collection<String> alias) {
             this.alias = new ArrayList<>(alias);
@@ -1627,7 +1673,8 @@ public class Contract extends DomainResource {
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subType
          *     Subtype within the context of type
@@ -1646,13 +1693,17 @@ public class Contract extends DomainResource {
          * Sub-category for the Contract that distinguishes the kinds of systems that would be interested in the Contract within 
          * the context of the Contract's scope.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param subType
          *     Subtype within the context of type
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder subType(Collection<CodeableConcept> subType) {
             this.subType = new ArrayList<>(subType);
@@ -1677,7 +1728,8 @@ public class Contract extends DomainResource {
         /**
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param term
          *     Contract Term List
@@ -1695,13 +1747,17 @@ public class Contract extends DomainResource {
         /**
          * One or more Contract Provisions, which may be related and conveyed as a group, and may contain nested groups.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param term
          *     Contract Term List
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder term(Collection<Term> term) {
             this.term = new ArrayList<>(term);
@@ -1711,7 +1767,8 @@ public class Contract extends DomainResource {
         /**
          * Information that may be needed by/relevant to the performer in their execution of this term action.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Extra Information
@@ -1729,13 +1786,17 @@ public class Contract extends DomainResource {
         /**
          * Information that may be needed by/relevant to the performer in their execution of this term action.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param supportingInfo
          *     Extra Information
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder supportingInfo(Collection<Reference> supportingInfo) {
             this.supportingInfo = new ArrayList<>(supportingInfo);
@@ -1748,7 +1809,8 @@ public class Contract extends DomainResource {
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1774,7 +1836,8 @@ public class Contract extends DomainResource {
          * The Provence.entity indicates the target that was changed in the update. http://build.fhir.org/provenance-definitions.
          * html#Provenance.entity.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * <p>Allowed resource types for the references:
          * <ul>
@@ -1786,6 +1849,9 @@ public class Contract extends DomainResource {
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder relevantHistory(Collection<Reference> relevantHistory) {
             this.relevantHistory = new ArrayList<>(relevantHistory);
@@ -1797,7 +1863,8 @@ public class Contract extends DomainResource {
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param signer
          *     Contract Signatory
@@ -1817,13 +1884,17 @@ public class Contract extends DomainResource {
          * any person or organization bound by the contract, and any ancillary parties, which facilitate the execution of the 
          * contract such as a notary or witness.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param signer
          *     Contract Signatory
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder signer(Collection<Signer> signer) {
             this.signer = new ArrayList<>(signer);
@@ -1836,7 +1907,8 @@ public class Contract extends DomainResource {
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param friendly
          *     Contract Friendly Language
@@ -1857,13 +1929,17 @@ public class Contract extends DomainResource {
          * layperson in accordance with best practices for communication styles that ensure that those agreeing to or signing the 
          * Contract understand the roles, actions, obligations, responsibilities, and implication of the agreement.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param friendly
          *     Contract Friendly Language
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder friendly(Collection<Friendly> friendly) {
             this.friendly = new ArrayList<>(friendly);
@@ -1873,7 +1949,8 @@ public class Contract extends DomainResource {
         /**
          * List of Legal expressions or representations of this Contract.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param legal
          *     Contract Legal Language
@@ -1891,13 +1968,17 @@ public class Contract extends DomainResource {
         /**
          * List of Legal expressions or representations of this Contract.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param legal
          *     Contract Legal Language
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder legal(Collection<Legal> legal) {
             this.legal = new ArrayList<>(legal);
@@ -1907,7 +1988,8 @@ public class Contract extends DomainResource {
         /**
          * List of Computable Policy Rule Language Representations of this Contract.
          * 
-         * <p>Adds new element(s) to the existing list
+         * <p>Adds new element(s) to the existing list.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param rule
          *     Computable Contract Language
@@ -1925,13 +2007,17 @@ public class Contract extends DomainResource {
         /**
          * List of Computable Policy Rule Language Representations of this Contract.
          * 
-         * <p>Replaces the existing list with a new one containing elements from the Collection
+         * <p>Replaces the existing list with a new one containing elements from the Collection.
+         * If any of the elements are null, calling {@link #build()} will fail.
          * 
          * @param rule
          *     Computable Contract Language
          * 
          * @return
          *     A reference to this Builder instance
+         * 
+         * @throws NullPointerException
+         *     If the passed collection is null
          */
         public Builder rule(Collection<Rule> rule) {
             this.rule = new ArrayList<>(rule);
@@ -2273,7 +2359,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2292,13 +2379,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2316,7 +2407,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2340,13 +2432,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -2818,7 +2914,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -2837,13 +2934,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -2861,7 +2962,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -2885,13 +2987,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3024,7 +3130,8 @@ public class Contract extends DomainResource {
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Protection for the Term
@@ -3043,13 +3150,17 @@ public class Contract extends DomainResource {
              * Security labels that protect the handling of information about the term and its elements, which may be specifically 
              * identified..
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param securityLabel
              *     Protection for the Term
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder securityLabel(Collection<SecurityLabel> securityLabel) {
                 this.securityLabel = new ArrayList<>(securityLabel);
@@ -3075,7 +3186,8 @@ public class Contract extends DomainResource {
             /**
              * Contract Term Asset List.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param asset
              *     Contract Term Asset List
@@ -3093,13 +3205,17 @@ public class Contract extends DomainResource {
             /**
              * Contract Term Asset List.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param asset
              *     Contract Term Asset List
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder asset(Collection<Asset> asset) {
                 this.asset = new ArrayList<>(asset);
@@ -3110,7 +3226,8 @@ public class Contract extends DomainResource {
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     Entity being ascribed responsibility
@@ -3129,13 +3246,17 @@ public class Contract extends DomainResource {
              * An actor taking a role in an activity for which it can be assigned some degree of responsibility for the activity 
              * taking place.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param action
              *     Entity being ascribed responsibility
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder action(Collection<Action> action) {
                 this.action = new ArrayList<>(action);
@@ -3145,7 +3266,8 @@ public class Contract extends DomainResource {
             /**
              * Nested group of Contract Provisions.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param group
              *     Nested Contract Term Group
@@ -3163,13 +3285,17 @@ public class Contract extends DomainResource {
             /**
              * Nested group of Contract Provisions.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param group
              *     Nested Contract Term Group
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder group(Collection<Contract.Term> group) {
                 this.group = new ArrayList<>(group);
@@ -3411,7 +3537,8 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3430,13 +3557,17 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3454,7 +3585,8 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -3478,13 +3610,17 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -3494,7 +3630,8 @@ public class Contract extends DomainResource {
                 /**
                  * Number used to link this term or term element to the applicable Security Label.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param number
                  *     Link to Security Labels
@@ -3512,13 +3649,17 @@ public class Contract extends DomainResource {
                 /**
                  * Number used to link this term or term element to the applicable Security Label.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param number
                  *     Link to Security Labels
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder number(Collection<UnsignedInt> number) {
                     this.number = new ArrayList<>(number);
@@ -3546,7 +3687,8 @@ public class Contract extends DomainResource {
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param category
                  *     Applicable Policy
@@ -3565,13 +3707,17 @@ public class Contract extends DomainResource {
                  * Security label privacy tag that species the applicable privacy and security policies governing this term and/or term 
                  * elements.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param category
                  *     Applicable Policy
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder category(Collection<Coding> category) {
                     this.category = new ArrayList<>(category);
@@ -3581,7 +3727,8 @@ public class Contract extends DomainResource {
                 /**
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param control
                  *     Handling Instructions
@@ -3599,13 +3746,17 @@ public class Contract extends DomainResource {
                 /**
                  * Security label privacy tag that species the manner in which term and/or term elements are to be protected.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param control
                  *     Handling Instructions
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder control(Collection<Coding> control) {
                     this.control = new ArrayList<>(control);
@@ -3939,7 +4090,8 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -3958,13 +4110,17 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -3982,7 +4138,8 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -4006,13 +4163,17 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4022,7 +4183,8 @@ public class Contract extends DomainResource {
                 /**
                  * Unique identifier for this particular Contract Provision.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param identifier
                  *     Offer business ID
@@ -4040,13 +4202,17 @@ public class Contract extends DomainResource {
                 /**
                  * Unique identifier for this particular Contract Provision.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param identifier
                  *     Offer business ID
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder identifier(Collection<Identifier> identifier) {
                     this.identifier = new ArrayList<>(identifier);
@@ -4056,7 +4222,8 @@ public class Contract extends DomainResource {
                 /**
                  * Offer Recipient.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param party
                  *     Offer Recipient
@@ -4074,13 +4241,17 @@ public class Contract extends DomainResource {
                 /**
                  * Offer Recipient.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param party
                  *     Offer Recipient
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder party(Collection<Party> party) {
                     this.party = new ArrayList<>(party);
@@ -4134,7 +4305,8 @@ public class Contract extends DomainResource {
                 /**
                  * How the decision about a Contract was conveyed.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
@@ -4152,13 +4324,17 @@ public class Contract extends DomainResource {
                 /**
                  * How the decision about a Contract was conveyed.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param decisionMode
                  *     How decision is conveyed
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder decisionMode(Collection<CodeableConcept> decisionMode) {
                     this.decisionMode = new ArrayList<>(decisionMode);
@@ -4168,7 +4344,8 @@ public class Contract extends DomainResource {
                 /**
                  * Response to offer text.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param answer
                  *     Response to offer text
@@ -4186,13 +4363,17 @@ public class Contract extends DomainResource {
                 /**
                  * Response to offer text.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param answer
                  *     Response to offer text
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder answer(Collection<Answer> answer) {
                     this.answer = new ArrayList<>(answer);
@@ -4232,7 +4413,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code linkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to text
@@ -4252,7 +4434,8 @@ public class Contract extends DomainResource {
                 /**
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to text
@@ -4270,13 +4453,17 @@ public class Contract extends DomainResource {
                 /**
                  * The id of the clause or question text of the offer in the referenced questionnaire/response.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to text
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder linkId(Collection<String> linkId) {
                     this.linkId = new ArrayList<>(linkId);
@@ -4286,7 +4473,8 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the offer.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
@@ -4304,13 +4492,17 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the offer.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Offer restriction numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
                     this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
@@ -4498,7 +4690,8 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4517,13 +4710,17 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4541,7 +4738,8 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4565,13 +4763,17 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4581,7 +4783,8 @@ public class Contract extends DomainResource {
                     /**
                      * Participant in the offer.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -4612,7 +4815,8 @@ public class Contract extends DomainResource {
                     /**
                      * Participant in the offer.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -4632,6 +4836,9 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder reference(Collection<Reference> reference) {
                         this.reference = new ArrayList<>(reference);
@@ -4811,7 +5018,8 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -4830,13 +5038,17 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -4854,7 +5066,8 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -4878,13 +5091,17 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -4942,6 +5159,24 @@ public class Contract extends DomainResource {
                      */
                     public Builder value(java.time.LocalDate value) {
                         this.value = (value == null) ? null : Date.of(value);
+                        return this;
+                    }
+
+                    /**
+                     * Convenience method for setting {@code value} with choice type Time.
+                     * 
+                     * <p>This element is required.
+                     * 
+                     * @param value
+                     *     The actual answer response
+                     * 
+                     * @return
+                     *     A reference to this Builder instance
+                     * 
+                     * @see #value(Element)
+                     */
+                    public Builder value(java.time.LocalTime value) {
+                        this.value = (value == null) ? null : Time.of(value);
                         return this;
                     }
 
@@ -5415,7 +5650,8 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -5434,13 +5670,17 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -5458,7 +5698,8 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -5482,13 +5723,17 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -5512,7 +5757,8 @@ public class Contract extends DomainResource {
                 /**
                  * Target entity type about which the term may be concerned.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param type
                  *     Asset category
@@ -5530,13 +5776,17 @@ public class Contract extends DomainResource {
                 /**
                  * Target entity type about which the term may be concerned.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param type
                  *     Asset category
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder type(Collection<CodeableConcept> type) {
                     this.type = new ArrayList<>(type);
@@ -5546,7 +5796,8 @@ public class Contract extends DomainResource {
                 /**
                  * Associated entities.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param typeReference
                  *     Associated entities
@@ -5564,13 +5815,17 @@ public class Contract extends DomainResource {
                 /**
                  * Associated entities.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param typeReference
                  *     Associated entities
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder typeReference(Collection<Reference> typeReference) {
                     this.typeReference = new ArrayList<>(typeReference);
@@ -5580,7 +5835,8 @@ public class Contract extends DomainResource {
                 /**
                  * May be a subtype or part of an offered asset.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param subtype
                  *     Asset sub-category
@@ -5598,13 +5854,17 @@ public class Contract extends DomainResource {
                 /**
                  * May be a subtype or part of an offered asset.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param subtype
                  *     Asset sub-category
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder subtype(Collection<CodeableConcept> subtype) {
                     this.subtype = new ArrayList<>(subtype);
@@ -5629,7 +5889,8 @@ public class Contract extends DomainResource {
                 /**
                  * Circumstance of the asset.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param context
                  *     Circumstance of the asset
@@ -5647,13 +5908,17 @@ public class Contract extends DomainResource {
                 /**
                  * Circumstance of the asset.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param context
                  *     Circumstance of the asset
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder context(Collection<Context> context) {
                     this.context = new ArrayList<>(context);
@@ -5693,7 +5958,8 @@ public class Contract extends DomainResource {
                 /**
                  * Type of Asset availability for use or ownership.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param periodType
                  *     Asset availability types
@@ -5711,13 +5977,17 @@ public class Contract extends DomainResource {
                 /**
                  * Type of Asset availability for use or ownership.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param periodType
                  *     Asset availability types
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder periodType(Collection<CodeableConcept> periodType) {
                     this.periodType = new ArrayList<>(periodType);
@@ -5727,7 +5997,8 @@ public class Contract extends DomainResource {
                 /**
                  * Asset relevant contractual time period.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param period
                  *     Time period of the asset
@@ -5745,13 +6016,17 @@ public class Contract extends DomainResource {
                 /**
                  * Asset relevant contractual time period.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param period
                  *     Time period of the asset
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder period(Collection<Period> period) {
                     this.period = new ArrayList<>(period);
@@ -5761,7 +6036,8 @@ public class Contract extends DomainResource {
                 /**
                  * Time period of asset use.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param usePeriod
                  *     Time period
@@ -5779,13 +6055,17 @@ public class Contract extends DomainResource {
                 /**
                  * Time period of asset use.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param usePeriod
                  *     Time period
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder usePeriod(Collection<Period> usePeriod) {
                     this.usePeriod = new ArrayList<>(usePeriod);
@@ -5826,7 +6106,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code linkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to asset text
@@ -5846,7 +6127,8 @@ public class Contract extends DomainResource {
                 /**
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to asset text
@@ -5864,13 +6146,17 @@ public class Contract extends DomainResource {
                 /**
                  * Id [identifier??] of the clause or question text about the asset in the referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to asset text
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder linkId(Collection<String> linkId) {
                     this.linkId = new ArrayList<>(linkId);
@@ -5880,7 +6166,8 @@ public class Contract extends DomainResource {
                 /**
                  * Response to assets.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param answer
                  *     Response to assets
@@ -5898,13 +6185,17 @@ public class Contract extends DomainResource {
                 /**
                  * Response to assets.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param answer
                  *     Response to assets
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder answer(Collection<Contract.Term.Offer.Answer> answer) {
                     this.answer = new ArrayList<>(answer);
@@ -5914,7 +6205,8 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the asset.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
@@ -5932,13 +6224,17 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the asset.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Asset restriction numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
                     this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
@@ -5948,7 +6244,8 @@ public class Contract extends DomainResource {
                 /**
                  * Contract Valued Item List.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
@@ -5966,13 +6263,17 @@ public class Contract extends DomainResource {
                 /**
                  * Contract Valued Item List.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param valuedItem
                  *     Contract Valued Item List
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder valuedItem(Collection<ValuedItem> valuedItem) {
                     this.valuedItem = new ArrayList<>(valuedItem);
@@ -6185,7 +6486,8 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6204,13 +6506,17 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -6228,7 +6534,8 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6252,13 +6559,17 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -6283,7 +6594,8 @@ public class Contract extends DomainResource {
                     /**
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param code
                      *     Codeable asset context
@@ -6301,13 +6613,17 @@ public class Contract extends DomainResource {
                     /**
                      * Coded representation of the context generally or of the Referenced entity, such as the asset holder type or location.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param code
                      *     Codeable asset context
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder code(Collection<CodeableConcept> code) {
                         this.code = new ArrayList<>(code);
@@ -6719,7 +7035,8 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -6738,13 +7055,17 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -6762,7 +7083,8 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -6786,13 +7108,17 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7016,7 +7342,8 @@ public class Contract extends DomainResource {
                     /**
                      * Convenience method for setting {@code linkId}.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param linkId
                      *     Pointer to specific item
@@ -7037,7 +7364,8 @@ public class Contract extends DomainResource {
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param linkId
                      *     Pointer to specific item
@@ -7056,13 +7384,17 @@ public class Contract extends DomainResource {
                      * Id of the clause or question text related to the context of this valuedItem in the referenced form or 
                      * QuestionnaireResponse.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param linkId
                      *     Pointer to specific item
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder linkId(Collection<String> linkId) {
                         this.linkId = new ArrayList<>(linkId);
@@ -7072,7 +7404,8 @@ public class Contract extends DomainResource {
                     /**
                      * A set of security labels that define which terms are controlled by this condition.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
@@ -7090,13 +7423,17 @@ public class Contract extends DomainResource {
                     /**
                      * A set of security labels that define which terms are controlled by this condition.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param securityLabelNumber
                      *     Security Labels that define affected terms
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
                         this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
@@ -7654,7 +7991,8 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
@@ -7673,13 +8011,17 @@ public class Contract extends DomainResource {
                  * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                  * of the definition of the extension.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param extension
                  *     Additional content defined by implementations
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder extension(Collection<Extension> extension) {
@@ -7697,7 +8039,8 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
@@ -7721,13 +8064,17 @@ public class Contract extends DomainResource {
                  * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                  * change the meaning of modifierExtension itself).
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param modifierExtension
                  *     Extensions that cannot be ignored even if unrecognized
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 @Override
                 public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -7784,7 +8131,8 @@ public class Contract extends DomainResource {
                 /**
                  * Entity of the action.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param subject
                  *     Entity of the action
@@ -7802,13 +8150,17 @@ public class Contract extends DomainResource {
                 /**
                  * Entity of the action.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param subject
                  *     Entity of the action
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder subject(Collection<Subject> subject) {
                     this.subject = new ArrayList<>(subject);
@@ -7834,7 +8186,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code linkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to specific item
@@ -7855,7 +8208,8 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to specific item
@@ -7874,13 +8228,17 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param linkId
                  *     Pointer to specific item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder linkId(Collection<String> linkId) {
                     this.linkId = new ArrayList<>(linkId);
@@ -7926,7 +8284,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code contextLinkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
@@ -7947,7 +8306,8 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
@@ -7966,13 +8326,17 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param contextLinkId
                  *     Pointer to specific item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder contextLinkId(Collection<String> contextLinkId) {
                     this.contextLinkId = new ArrayList<>(contextLinkId);
@@ -8003,7 +8367,8 @@ public class Contract extends DomainResource {
                 /**
                  * Who or what initiated the action and has responsibility for its activation.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -8032,7 +8397,8 @@ public class Contract extends DomainResource {
                 /**
                  * Who or what initiated the action and has responsibility for its activation.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -8050,6 +8416,9 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder requester(Collection<Reference> requester) {
                     this.requester = new ArrayList<>(requester);
@@ -8059,7 +8428,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code requesterLinkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
@@ -8080,7 +8450,8 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
@@ -8099,13 +8470,17 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the requester of this action in the referenced form or 
                  * QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param requesterLinkId
                  *     Pointer to specific item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder requesterLinkId(Collection<String> requesterLinkId) {
                     this.requesterLinkId = new ArrayList<>(requesterLinkId);
@@ -8115,7 +8490,8 @@ public class Contract extends DomainResource {
                 /**
                  * The type of individual that is desired or required to perform or not perform the action.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param performerType
                  *     Kind of service performer
@@ -8133,13 +8509,17 @@ public class Contract extends DomainResource {
                 /**
                  * The type of individual that is desired or required to perform or not perform the action.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param performerType
                  *     Kind of service performer
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder performerType(Collection<CodeableConcept> performerType) {
                     this.performerType = new ArrayList<>(performerType);
@@ -8190,7 +8570,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code performerLinkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
@@ -8211,7 +8592,8 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
@@ -8230,13 +8612,17 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param performerLinkId
                  *     Pointer to specific item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder performerLinkId(Collection<String> performerLinkId) {
                     this.performerLinkId = new ArrayList<>(performerLinkId);
@@ -8246,7 +8632,8 @@ public class Contract extends DomainResource {
                 /**
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
@@ -8264,13 +8651,17 @@ public class Contract extends DomainResource {
                 /**
                  * Rationale for the action to be performed or not performed. Describes why the action is permitted or prohibited.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonCode
                  *     Why is action (not) needed?
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reasonCode(Collection<CodeableConcept> reasonCode) {
                     this.reasonCode = new ArrayList<>(reasonCode);
@@ -8280,7 +8671,8 @@ public class Contract extends DomainResource {
                 /**
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -8308,7 +8700,8 @@ public class Contract extends DomainResource {
                 /**
                  * Indicates another resource whose existence justifies permitting or not permitting this action.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * <p>Allowed resource types for the references:
                  * <ul>
@@ -8325,6 +8718,9 @@ public class Contract extends DomainResource {
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reasonReference(Collection<Reference> reasonReference) {
                     this.reasonReference = new ArrayList<>(reasonReference);
@@ -8334,7 +8730,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code reason}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reason
                  *     Why action is to be performed
@@ -8354,7 +8751,8 @@ public class Contract extends DomainResource {
                 /**
                  * Describes why the action is to be performed or not performed in textual form.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reason
                  *     Why action is to be performed
@@ -8372,13 +8770,17 @@ public class Contract extends DomainResource {
                 /**
                  * Describes why the action is to be performed or not performed in textual form.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reason
                  *     Why action is to be performed
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reason(Collection<String> reason) {
                     this.reason = new ArrayList<>(reason);
@@ -8388,7 +8790,8 @@ public class Contract extends DomainResource {
                 /**
                  * Convenience method for setting {@code reasonLinkId}.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
@@ -8409,7 +8812,8 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
@@ -8428,13 +8832,17 @@ public class Contract extends DomainResource {
                  * Id [identifier??] of the clause or question text related to the reason type or reference of this action in the 
                  * referenced form or QuestionnaireResponse.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param reasonLinkId
                  *     Pointer to specific item
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder reasonLinkId(Collection<String> reasonLinkId) {
                     this.reasonLinkId = new ArrayList<>(reasonLinkId);
@@ -8444,7 +8852,8 @@ public class Contract extends DomainResource {
                 /**
                  * Comments made about the term action made by the requester, performer, subject or other participants.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param note
                  *     Comments about the action
@@ -8462,13 +8871,17 @@ public class Contract extends DomainResource {
                 /**
                  * Comments made about the term action made by the requester, performer, subject or other participants.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param note
                  *     Comments about the action
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder note(Collection<Annotation> note) {
                     this.note = new ArrayList<>(note);
@@ -8478,7 +8891,8 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the action.
                  * 
-                 * <p>Adds new element(s) to the existing list
+                 * <p>Adds new element(s) to the existing list.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
@@ -8496,13 +8910,17 @@ public class Contract extends DomainResource {
                 /**
                  * Security labels that protects the action.
                  * 
-                 * <p>Replaces the existing list with a new one containing elements from the Collection
+                 * <p>Replaces the existing list with a new one containing elements from the Collection.
+                 * If any of the elements are null, calling {@link #build()} will fail.
                  * 
                  * @param securityLabelNumber
                  *     Action restriction numbers
                  * 
                  * @return
                  *     A reference to this Builder instance
+                 * 
+                 * @throws NullPointerException
+                 *     If the passed collection is null
                  */
                 public Builder securityLabelNumber(Collection<UnsignedInt> securityLabelNumber) {
                     this.securityLabelNumber = new ArrayList<>(securityLabelNumber);
@@ -8722,7 +9140,8 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
@@ -8741,13 +9160,17 @@ public class Contract extends DomainResource {
                      * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
                      * of the definition of the extension.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param extension
                      *     Additional content defined by implementations
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder extension(Collection<Extension> extension) {
@@ -8765,7 +9188,8 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
@@ -8789,13 +9213,17 @@ public class Contract extends DomainResource {
                      * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
                      * change the meaning of modifierExtension itself).
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * @param modifierExtension
                      *     Extensions that cannot be ignored even if unrecognized
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     @Override
                     public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -8805,7 +9233,8 @@ public class Contract extends DomainResource {
                     /**
                      * The entity the action is performed or not performed on or for.
                      * 
-                     * <p>Adds new element(s) to the existing list
+                     * <p>Adds new element(s) to the existing list.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -8836,7 +9265,8 @@ public class Contract extends DomainResource {
                     /**
                      * The entity the action is performed or not performed on or for.
                      * 
-                     * <p>Replaces the existing list with a new one containing elements from the Collection
+                     * <p>Replaces the existing list with a new one containing elements from the Collection.
+                     * If any of the elements are null, calling {@link #build()} will fail.
                      * 
                      * <p>This element is required.
                      * 
@@ -8856,6 +9286,9 @@ public class Contract extends DomainResource {
                      * 
                      * @return
                      *     A reference to this Builder instance
+                     * 
+                     * @throws NullPointerException
+                     *     If the passed collection is null
                      */
                     public Builder reference(Collection<Reference> reference) {
                         this.reference = new ArrayList<>(reference);
@@ -9073,7 +9506,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9092,13 +9526,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -9116,7 +9554,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9140,13 +9579,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -9197,7 +9640,8 @@ public class Contract extends DomainResource {
             /**
              * Legally binding Contract DSIG signature contents in Base64.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -9217,7 +9661,8 @@ public class Contract extends DomainResource {
             /**
              * Legally binding Contract DSIG signature contents in Base64.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * <p>This element is required.
              * 
@@ -9226,6 +9671,9 @@ public class Contract extends DomainResource {
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             public Builder signature(Collection<Signature> signature) {
                 this.signature = new ArrayList<>(signature);
@@ -9393,7 +9841,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9412,13 +9861,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -9436,7 +9889,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9460,13 +9914,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -9654,7 +10112,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9673,13 +10132,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -9697,7 +10160,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9721,13 +10185,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {
@@ -9914,7 +10382,8 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
@@ -9933,13 +10402,17 @@ public class Contract extends DomainResource {
              * extensions. Though any implementer can define an extension, there is a set of requirements that SHALL be met as part 
              * of the definition of the extension.
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param extension
              *     Additional content defined by implementations
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder extension(Collection<Extension> extension) {
@@ -9957,7 +10430,8 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Adds new element(s) to the existing list
+             * <p>Adds new element(s) to the existing list.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
@@ -9981,13 +10455,17 @@ public class Contract extends DomainResource {
              * <p>Modifier extensions SHALL NOT change the meaning of any elements on Resource or DomainResource (including cannot 
              * change the meaning of modifierExtension itself).
              * 
-             * <p>Replaces the existing list with a new one containing elements from the Collection
+             * <p>Replaces the existing list with a new one containing elements from the Collection.
+             * If any of the elements are null, calling {@link #build()} will fail.
              * 
              * @param modifierExtension
              *     Extensions that cannot be ignored even if unrecognized
              * 
              * @return
              *     A reference to this Builder instance
+             * 
+             * @throws NullPointerException
+             *     If the passed collection is null
              */
             @Override
             public Builder modifierExtension(Collection<Extension> modifierExtension) {

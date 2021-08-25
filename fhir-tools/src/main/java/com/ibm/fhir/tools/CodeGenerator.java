@@ -1064,11 +1064,13 @@ public class CodeGenerator {
             break;
         case "varargs":
             cb.javadoc("");
-            cb.javadoc("<p>Adds new element(s) to the existing list", false);
+            cb.javadoc("<p>Adds new element(s) to the existing list.", false);
+            cb.javadoc("If any of the elements are null, calling " + javadocLink("#build()") + " will fail.");
             break;
         case "collection":
             cb.javadoc("");
-            cb.javadoc("<p>Replaces the existing list with a new one containing elements from the Collection", false);
+            cb.javadoc("<p>Replaces the existing list with a new one containing elements from the Collection.", false);
+            cb.javadoc("If any of the elements are null, calling " + javadocLink("#build()") + " will fail.");
             break;
         }
         cb.javadoc("");
@@ -1140,6 +1142,11 @@ public class CodeGenerator {
         cb.javadoc("");
 
         cb.javadocReturn("A reference to this Builder instance");
+
+        if ("collection".equals(paramType)) {
+            cb.javadoc("");
+            cb.javadocThrows("NullPointerException", "If the passed collection is null");
+        }
 
         if (primitiveOverload) {
             cb.javadoc("");
@@ -4925,6 +4932,7 @@ public class CodeGenerator {
         case "String":
         case "Integer":
         case "Boolean":
+        case "Time":
         case "Date":
         case "Instant":
             return true;
@@ -4939,6 +4947,8 @@ public class CodeGenerator {
         case "Integer":
         case "Boolean":
             return "java.lang." + fhirType;
+        case "Time":
+            return "java.time.LocalTime";
         case "Date":
             return "java.time.LocalDate";
         case "Instant":

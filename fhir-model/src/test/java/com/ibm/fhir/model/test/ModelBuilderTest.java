@@ -12,6 +12,7 @@ import static org.testng.Assert.assertEquals;
 import java.time.LocalDate;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 
 import org.testng.annotations.Test;
 
@@ -88,13 +89,21 @@ public class ModelBuilderTest {
             .build();
     }
 
-    // This one throws a NullPointerException rather than the expected IllegalStateException...is that an issue?
-//    @Test(expectedExceptions = IllegalStateException.class)
-//    public void testCollectionWithNull() {
-//        Basic.builder()
-//            .code(CodeableConcept.builder()
-//                .coding((Collection<Coding>)null)
-//                .build())
-//            .build();
-//    }
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void testCollectionWithNull() {
+        Basic.builder()
+            .code(CodeableConcept.builder()
+                .coding((Coding)null)
+                .build())
+            .build();
+    }
+
+    @Test(expectedExceptions = NullPointerException.class)
+    public void testNullCollection() {
+        Basic.builder()
+            .code(CodeableConcept.builder()
+                .coding((Collection<Coding>)null)
+                .build())
+            .build();
+    }
 }
