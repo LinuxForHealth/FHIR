@@ -243,12 +243,14 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
 
                     if (Status.CONFLICT.getStatusCode() == status) {
                         result = Response.Status.ACCEPTED;
-                    } else if (status == Status.INTERNAL_SERVER_ERROR.getStatusCode()) {
+                        return;
+                    } else if (status == Status.INTERNAL_SERVER_ERROR.getStatusCode() && timesContinued == 2) {
                         throw export.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
                     } else if (Status.NO_CONTENT.getStatusCode() != status
                             && Status.BAD_REQUEST.getStatusCode() != status) {
                         LOG.fine(() -> "CONTENT STATUS -> " + status);
                         result = Response.Status.ACCEPTED;
+                        return;
                     }
 
                     // Finally, when !LOGGING we want to make sure the responseString is populated.
@@ -261,11 +263,10 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                     delete.releaseConnection();
                     deleteResponse.close();
                 }
-                timesContinued = 5;
+                timesContinued++;
             } catch (HttpResponseException ex) {
                 // org.apache.http.client.HttpResponseException: status code: 409, reason phrase: Conflict
                 LOG.throwing(CLASSNAME, "runDeleteJobForTenant", ex);
-
                 stopJob(jobDetails, job);
                 timesContinued++;
             } catch (FHIROperationException ex) {
