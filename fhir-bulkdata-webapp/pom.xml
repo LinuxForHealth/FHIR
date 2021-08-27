@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <fhir.bulk.war.name>fhir-bulkdata-webapp</fhir.bulk.war.name>
     </properties>
-  
+
     <parent>
         <groupId>com.ibm.fhir</groupId>
         <artifactId>fhir-parent</artifactId>
         <version>4.9.0-SNAPSHOT</version>
         <relativePath>../fhir-parent</relativePath>
     </parent>
-      
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>fhir-bulkdata-webapp</artifactId>
 
@@ -59,13 +59,6 @@
         <dependency>
             <groupId>org.glassfish</groupId>
             <artifactId>jakarta.json</artifactId>
-        </dependency>
-        <dependency>
-            <!-- This is provided, yet never used. -->
-            <groupId>${project.groupId}</groupId>
-            <artifactId>fhir-server</artifactId>
-            <version>${project.version}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
