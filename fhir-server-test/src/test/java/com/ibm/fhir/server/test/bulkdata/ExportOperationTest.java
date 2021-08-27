@@ -134,6 +134,25 @@ public class ExportOperationTest extends FHIRServerTestBase {
          */
     }
 
+    /**
+     * Deletes the given job at the given path.
+     * @param path
+     * @param mimeType
+     * @param provider
+     * @param outcome
+     * @return
+     */
+    public Response deleteJob(String path, String mimeType, String provider, String outcome) {
+        return getWebTarget()
+                     .path(path)
+                     .request(mimeType)
+                     .header("X-FHIR-TENANT-ID", tenantName)
+                     .header("X-FHIR-DSID", dataStoreId)
+                     .header("X-FHIR-BULKDATA-PROVIDER", provider)
+                     .header("X-FHIR-BULKDATA-PROVIDER-OUTCOME", outcome)
+                     .delete(Response.class);
+    }
+
     public Response doPost(String path, String mimeType, String outputFormat, Instant since, List<String> types, List<String> typeFilters, String provider,
         String outcome)
         throws FHIRGeneratorException, IOException {
@@ -356,7 +375,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             SSLContext sslContext = sslContextBuilder.build();
 
             return new SSLConnectionSocketFactory(sslContext, verifier);
-        }catch(NoSuchAlgorithmException|KeyStoreException|KeyManagementException e){
+        }catch (NoSuchAlgorithmException|KeyStoreException|KeyManagementException e) {
             log.warning("Default Algorithm for Http Client not found " + e.getMessage());
         }
         return SSLConnectionSocketFactory.getSocketFactory();
@@ -1036,4 +1055,89 @@ public class ExportOperationTest extends FHIRServerTestBase {
             assertTrue(obj.containsKey("outcome"));
         }
     }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testStopOfAnExportOfACompletedJob() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("2123-01-01T08:21:26.94-04:00"), // Date far in the future... intentionally
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            // We're doing a tight loop here so we can then subsequently DELETE it.
+            do {
+                response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 mean export is finished
+                assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
+
+            do {
+                response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 means deleted
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
+        }
+    }
+
+    @Test(groups = { TEST_GROUP_NAME })
+    public void testStopOfAnExportOfNotYetCompletedJob() throws Exception {
+        if (ON) {
+            List<String> types = Arrays.asList("Patient", "Coverage");
+            Response response = doPost(
+                    BASE_VALID_URL,
+                    FHIRMediaType.APPLICATION_FHIR_JSON, FORMAT_NDJSON,
+                    Instant.of("1900-01-01T08:21:26.94-04:00"), // Date far in the past... intentionally
+                    types,
+                    null,
+                    "default",
+                    "default");
+            assertEquals(response.getStatus(), Response.Status.ACCEPTED.getStatusCode());
+
+            // check the content-location that's returned.
+            String contentLocation = response.getHeaderString("Content-Location");
+            if (DEBUG) {
+                System.out.println("Content Location: " + contentLocation);
+            }
+
+            assertTrue(contentLocation.contains(BASE_VALID_STATUS_URL));
+            exportStatusUrl = contentLocation;
+
+            // We're doing a tight loop here so we can do an immediate DELETE it.
+            do {
+                response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
+                // 202 accept means the request is still under processing
+                // 200 means deleted
+                if (DEBUG) {
+                    System.out.println(response.getStatus());
+                }
+                Thread.sleep(1000);
+            } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
+            String body = response.readEntity(String.class);
+            if (DEBUG) {
+                System.out.println(body);
+            }
+            assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
+        }
+    }
+
 }
