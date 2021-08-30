@@ -30,7 +30,6 @@ jersey-container-servlet-2.30.1.jar
 json4s-ast_2.12-3.7.0-M5.jar
 json4s-core_2.12-3.7.0-M5.jar
 json4s-jackson_2.12-3.7.0-M5.jar
-jul-to-slf4j-1.7.30.jar
 kryo-shaded-4.0.2.jar
 log4j-1.2.17.jar
 metrics-core-4.1.1.jar
@@ -43,7 +42,6 @@ parquet-format-2.4.0.jar
 parquet-hadoop-1.10.1.jar
 scala-reflect-2.12.10.jar
 scala-xml_2.12-1.2.0.jar
-slf4j-nop-1.7.32.jar
 spark-catalyst_2.12-3.1.2.jar
 spark-core_2.12-3.1.2.jar
 spark-hive_2.12-3.1.2.jar
@@ -61,7 +59,7 @@ xbean-asm7-shaded-4.15.jar)
 
 # Set the workspace
 if [ -z "${WORKSPACE}" ]
-then 
+then
     echo "WORKSPACE NOT SET - e.g. 'export WORKSPACE=~/git/wffh/2021/FHIR'"
 fi
 
@@ -86,9 +84,6 @@ mkdir -p deps/
 # Get STOCATOR
 curl -o cache-repo/stocator-1.1.3.jar -L https://repo1.maven.org/maven2/com/ibm/stocator/stocator/1.1.3/stocator-1.1.3.jar
 
-# Get SLF47 (notice NOP)
-curl -o cache-repo/slf4j-nop-1.7.32.jar -L https://repo1.maven.org/maven2/org/slf4j/slf4j-nop/1.7.32/slf4j-nop-1.7.32.jar
-
 # Get Guava
 curl -o cache-repo/guava-14.0.1.jar -L https://repo1.maven.org/maven2/com/google/guava/guava/14.0.1/guava-14.0.1.jar
 
@@ -112,7 +107,7 @@ curl -L -o cache-repo/spark-tags_2.12-3.1.2.jar https://repo1.maven.org/maven2/o
 curl -L -o cache-repo/spark-unsafe_2.12-3.1.2.jar https://repo1.maven.org/maven2/org/apache/spark/spark-unsafe_2.12/3.1.2/spark-unsafe_2.12-3.1.2.jar
 
 for JAR in ${JARS[@]}
-do 
+do
     if [ ! -f cache-repo/${JAR} ]
     then
         echo "NOT_FOUND: ${JAR}"
