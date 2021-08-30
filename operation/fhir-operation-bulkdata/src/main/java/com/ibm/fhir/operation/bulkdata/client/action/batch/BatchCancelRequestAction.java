@@ -224,11 +224,10 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                 // The logs are purged when deleted.
                 // The tenant is known, and now we need to query to delete the Job.
 
-                String baseUrl = batchUrl + "/jobinstances/" + job;
+                String baseUrl = batchUrl + "/v4/jobinstances?jobInstanceId=" + job;
                 HttpDelete delete = new HttpDelete(baseUrl);
-                CloseableHttpResponse deleteResponse = cli.execute(delete);
 
-                try {
+                try (CloseableHttpResponse deleteResponse = cli.execute(delete)) {
                     HttpEntity entity = deleteResponse.getEntity();
 
                     // Debug Logging outputs the API response.
@@ -249,6 +248,10 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                     } else if (Status.NO_CONTENT.getStatusCode() != status
                             && Status.BAD_REQUEST.getStatusCode() != status) {
                         LOG.fine(() -> "CONTENT STATUS -> " + status);
+                        if (responseString == null) {
+                            responseString = new BasicResponseHandler().handleResponse(deleteResponse);
+                            System.out.println(responseString);
+                        }
                         result = Response.Status.ACCEPTED;
                         return;
                     }
@@ -261,7 +264,6 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                     EntityUtils.consume(entity);
                 } finally {
                     delete.releaseConnection();
-                    deleteResponse.close();
                 }
                 timesContinued++;
             } catch (HttpResponseException ex) {
