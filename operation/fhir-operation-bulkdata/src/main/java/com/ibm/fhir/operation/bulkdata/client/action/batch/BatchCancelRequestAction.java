@@ -224,7 +224,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                 // The logs are purged when deleted.
                 // The tenant is known, and now we need to query to delete the Job.
 
-                String baseUrl = batchUrl + "/v4/jobinstances?jobInstanceId=" + job;
+                String baseUrl = batchUrl + "/v4/jobinstances/" + job;
                 HttpDelete delete = new HttpDelete(baseUrl);
 
                 try (CloseableHttpResponse deleteResponse = cli.execute(delete)) {
@@ -240,18 +240,18 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                         LOG.fine("The Response body is [" + responseString + "]");
                     }
 
-                    if (Status.CONFLICT.getStatusCode() == status) {
+                    // 409 or 200
+                    if (Status.CONFLICT.getStatusCode() == status || Status.OK.getStatusCode() == status) {
                         result = Response.Status.ACCEPTED;
                         return;
                     } else if (status == Status.INTERNAL_SERVER_ERROR.getStatusCode() && timesContinued == 2) {
                         throw export.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
-                    } else if (Status.NO_CONTENT.getStatusCode() != status
+                    }
+                    // Anything other than NO_CONTENT and BAD_REQUEST then fall through... else, we retry...
+                    else if (Status.NO_CONTENT.getStatusCode() != status
                             && Status.BAD_REQUEST.getStatusCode() != status) {
                         LOG.fine(() -> "CONTENT STATUS -> " + status);
-                        if (responseString == null) {
-                            responseString = new BasicResponseHandler().handleResponse(deleteResponse);
-                            System.out.println(responseString);
-                        }
+                        EntityUtils.consume(entity);
                         result = Response.Status.ACCEPTED;
                         return;
                     }
