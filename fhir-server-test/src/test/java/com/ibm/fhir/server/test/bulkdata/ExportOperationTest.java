@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -1080,20 +1081,22 @@ public class ExportOperationTest extends FHIRServerTestBase {
             exportStatusUrl = contentLocation;
 
             // We're doing a tight loop here so we can then subsequently DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
             do {
                 response = doGet(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
                 // 202 accept means the request is still under processing
                 // 200 mean export is finished
                 assertEquals(Status.Family.familyOf(response.getStatus()), Status.Family.SUCCESSFUL);
-                Thread.sleep(1000);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
             } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
             assertEquals(response.getStatus(), Response.Status.OK.getStatusCode());
 
+            startTime = ZonedDateTime.now();
             do {
                 response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
                 // 202 accept means the request is still under processing
                 // 200 means deleted
-                Thread.sleep(1000);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
             } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
             assertEquals(response.getStatus(), Response.Status.NOT_FOUND.getStatusCode());
         }
@@ -1123,6 +1126,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
             exportStatusUrl = contentLocation;
 
             // We're doing a tight loop here so we can do an immediate DELETE it.
+            ZonedDateTime startTime = ZonedDateTime.now();
             do {
                 response = deleteJob(exportStatusUrl, FHIRMediaType.APPLICATION_FHIR_JSON, "default", "default");
                 // 202 accept means the request is still under processing
@@ -1130,7 +1134,7 @@ public class ExportOperationTest extends FHIRServerTestBase {
                 if (DEBUG) {
                     System.out.println(response.getStatus());
                 }
-                Thread.sleep(1000);
+                waitForSetPeriodOfTime(startTime, 5, 1000);
             } while (response.getStatus() == Response.Status.ACCEPTED.getStatusCode());
             String body = response.readEntity(String.class);
             if (DEBUG) {
@@ -1140,4 +1144,18 @@ public class ExportOperationTest extends FHIRServerTestBase {
         }
     }
 
+    /**
+     * convenience method for ending a test of the job framework.
+     * @param startTime
+     * @param maxMinutes
+     * @param waitTime
+     * @throws Exception
+     */
+    public void waitForSetPeriodOfTime(ZonedDateTime startTime, int maxMinutes, long waitTime) throws Exception {
+        if (ZonedDateTime.now().minusMinutes(maxMinutes).isAfter(startTime)) {
+            throw new Exception("Exceeded time alloted " + maxMinutes);
+        } else if (waitTime >= 0){
+            Thread.sleep(waitTime);
+        }
+    }
 }
