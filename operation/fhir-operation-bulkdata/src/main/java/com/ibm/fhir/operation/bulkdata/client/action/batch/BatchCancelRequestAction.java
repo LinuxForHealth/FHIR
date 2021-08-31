@@ -294,6 +294,8 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                                 throw export.buildOperationException("The existing job has failed to delete", IssueType.EXCEPTION);
                             }
                             break;
+                        default:
+                            LOG.fine("Status [" + status + "] Times Continued [" + timesContinued + "]");
                     }
 
                     EntityUtils.consume(entity);
@@ -303,14 +305,15 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                 timesContinued++;
 
                 // Add a sleep to not hammer it.
-                Thread.sleep(100);
+                if (result.getStatusCode() == 202) {
+                    Thread.sleep(100);
+                }
             } catch (FHIROperationException ex) {
                 throw ex;
             } catch (Exception ex) {
                 LOG.throwing(CLASSNAME, "runDeleteJobForTenant", ex);
                 throw export.buildOperationException("An unexpected error has occurred while deleting the job", IssueType.TRANSIENT);
             }
-
         }
     }
 }
