@@ -19,11 +19,16 @@ import javax.ws.rs.core.Response.Status;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -60,11 +65,21 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
     private CloseableHttpClient cli = null;
     private String batchUrl = null;
 
+    private HttpClientContext ctx = null;
+
     private Response.Status result = Response.Status.FORBIDDEN;
 
     @Override
     public void prepare(CloseableHttpClient cli, String batchUrl, String batchUser, String batchPass) {
         this.cli = cli;
+
+        // Configure the local context.
+        CredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(batchUser, batchPass));
+        ctx = HttpClientContext.create();
+        ctx.setCredentialsProvider(credsProvider);
+
         this.batchUrl = batchUrl;
     }
 
@@ -121,7 +136,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
             String baseUrl = batchUrl + "/v4/jobinstances/" + job + "/jobexecutions";
             HttpGet get = new HttpGet(baseUrl);
 
-            try (CloseableHttpResponse getResponse = cli.execute(get)) {
+            try (CloseableHttpResponse getResponse = cli.execute(get, ctx)) {
                 HttpEntity entity = getResponse.getEntity();
 
                 int status = getResponse.getStatusLine().getStatusCode();
@@ -184,7 +199,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
             String baseUrl = batchUrl + "/jobexecutions/" + jobExecution.getExecutionId() + "?action=stop&purgeJobStoreOnly=false&permitRedirect=false";
 
             HttpPut stop = new HttpPut(baseUrl);
-            try (CloseableHttpResponse stopResponse = cli.execute(stop)){
+            try (CloseableHttpResponse stopResponse = cli.execute(stop, ctx)){
                 HttpEntity entity = stop.getEntity();
 
                 int statusCode = stopResponse.getStatusLine().getStatusCode();
@@ -238,7 +253,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
             String baseUrl = location + "?action=stop";
             HttpPut stopAgain = new HttpPut(baseUrl);
 
-            try (CloseableHttpResponse stopAgainResponse = cli.execute(stopAgain)) {
+            try (CloseableHttpResponse stopAgainResponse = cli.execute(stopAgain, ctx)) {
                 // Skip consuming the body
                 int statusCodeAgain = stopAgainResponse.getStatusLine().getStatusCode();
                 if (LOG.isLoggable(Level.FINE)) {
@@ -272,7 +287,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                 String baseUrl = batchUrl + "/v4/jobinstances/" + job + "?purgeJobStoreOnly=true";
                 HttpDelete delete = new HttpDelete(baseUrl);
 
-                try (CloseableHttpResponse deleteResponse = cli.execute(delete)) {
+                try (CloseableHttpResponse deleteResponse = cli.execute(delete, ctx)) {
                     HttpEntity entity = deleteResponse.getEntity();
 
                     // Debug Logging outputs the API response.

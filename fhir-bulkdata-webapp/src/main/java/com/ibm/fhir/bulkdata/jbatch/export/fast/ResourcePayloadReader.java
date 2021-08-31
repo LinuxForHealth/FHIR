@@ -285,7 +285,6 @@ public class ResourcePayloadReader extends AbstractItemReader {
     @Override
     public Object readItem() throws Exception {
         logger.entering(CLASS, "readItem");
-        Thread.sleep(10000);
 
         // Not typical for Java batch implementations, readItem is called just once per transaction.
         // We therefore only return from this method if we've processed all the data, or to
