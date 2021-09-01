@@ -11,7 +11,6 @@ import javax.ws.rs.core.Response;
 import org.apache.http.impl.client.CloseableHttpClient;
 
 import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
 
 /**
  * Bulk Data Client Action
@@ -32,12 +31,14 @@ public interface BulkDataClientAction extends AutoCloseable {
 
     /**
      * Runs the given client action
+     *
+     * @param tenant
      * @param job the identifier uniquely identifying the logical id of the job
-     * @param jobDetails the details of the current job
+     *
      *
      * @throws FHIROperationException indicating a failure to run the action
      */
-    void run(JobExecutionResponse jobDetails, String job) throws FHIROperationException;
+    void run(String tenant, String job) throws FHIROperationException;
 
     /**
      * get the result

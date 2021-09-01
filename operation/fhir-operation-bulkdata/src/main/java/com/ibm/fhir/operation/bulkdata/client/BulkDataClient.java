@@ -428,65 +428,13 @@ public class BulkDataClient {
      * @throws FHIROperationException
      */
     public Response.Status delete(String job) throws FHIROperationException {
-        JobExecutionResponse response = runVerificationOfTenantForJob(job);
         try (BatchCancelRequestAction action = new BatchCancelRequestAction()) {
             action.prepare(wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword()),
                         adapter.getCoreApiBatchUrl(),
                         adapter.getCoreApiBatchUser(),
                         adapter.getCoreApiBatchPassword());
-            action.run(response, job);
+            action.run(adapter.getTenant(), job);
             return action.getResult();
-        }
-    }
-
-    /**
-     * checks the job is owned by the tenant.
-     *
-     * @returns JobExecutionResponse which can be used for further downstream decisions
-     *
-     * @throws FHIROperationException
-     */
-    private JobExecutionResponse runVerificationOfTenantForJob(String job) throws FHIROperationException {
-        String baseUrl = adapter.getCoreApiBatchUrl() + "/jobexecutions/" + job;
-
-        try {
-            JobExecutionResponse response = null;
-
-            CloseableHttpClient cli = wrapper.getHttpClient(adapter.getCoreApiBatchUser(), adapter.getCoreApiBatchPassword());
-
-            HttpGet get = new HttpGet(baseUrl);
-            CloseableHttpResponse getResponse = cli.execute(get);
-
-            try {
-                HttpEntity entity = getResponse.getEntity();
-
-                handleStandardResponseStatus(getResponse.getStatusLine().getStatusCode());
-
-                String responseString = new BasicResponseHandler().handleResponse(getResponse);
-                // Debug Logging outputs the API response.
-                if (LOG.isLoggable(Level.FINE)) {
-
-                    LOG.fine("Delete Job for Tenant Status " + getResponse.getStatusLine().getStatusCode());
-                    LOG.fine("The Response body is [" + responseString + "]");
-                }
-
-                if (responseString == null || responseString.isEmpty() || responseString.startsWith("Unexpected request/response.")) {
-                    throw export.buildOperationException("Invalid job id sent to $bulkdata-status", IssueType.INVALID);
-                }
-
-                response = JobExecutionResponse.Parser.parse(responseString);
-                verifyTenant(response.getJobParameters());
-
-                EntityUtils.consume(entity);
-            } finally {
-                get.releaseConnection();
-                getResponse.close();
-            }
-            return response;
-        } catch (FHIROperationException fe) {
-            throw fe;
-        } catch (Exception ex) {
-            throw export.buildOperationException("An unexpected error has occurred while deleting the job", IssueType.EXCEPTION);
         }
     }
 

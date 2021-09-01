@@ -14,6 +14,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -37,6 +39,7 @@ import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.operation.bulkdata.client.action.BulkDataClientAction;
 import com.ibm.fhir.operation.bulkdata.model.JobExecutionResponse;
+import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
 import com.ibm.fhir.operation.bulkdata.util.BulkDataExportUtil;
 
 /**
@@ -101,18 +104,106 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
     }
 
     @Override
-    public void run(JobExecutionResponse jobDetails, String job) throws FHIROperationException {
+    public void run(String tenant, String job) throws FHIROperationException {
+        verifyJobExists(job);
+
         List<JobExecutionResponse> jobExecutions = readJobExecutionsDetails(job);
+
+        verifyTenant(jobExecutions, tenant);
 
         // Stop the Job's execution across all JobExecutions
         stopJobExecutions(jobExecutions);
 
-        // Delete The Job
-        deleteJob(job);
+        if (supportsDeleteJob()) {
+            // Delete The Job
+            deleteJob(job);
+        } else {
+            // The following is marked as not-found
+            throw export.buildOperationException("The Job is stopped intentionally with an in memory database.", IssueType.NOT_FOUND);
+        }
 
         // Check for a server-side error
         if (Status.INTERNAL_SERVER_ERROR == result) {
             throw export.buildOperationException("Canceling the Bulk Data Request has failed for the job; the content is not abandonded", IssueType.EXCEPTION);
+        }
+    }
+
+    /**
+     * @return True when there is a fhirbatchDb jndi instance, else, we have to assume this is in memory ONLY (also known as False).
+     */
+    private boolean supportsDeleteJob() {
+        try {
+            Context ctx = new InitialContext();
+            ctx.lookup("jdbc/fhirbatchDB");
+            return true;
+        } catch (Exception ex) {
+            LOG.throwing(CLASSNAME, "supportsDeleteJob", ex);
+            return false;
+        }
+    }
+
+    /**
+     * verify the tenant
+     *
+     * @param tenant
+     * @param job
+     * @throws FHIROperationException
+     */
+    private void verifyJobExists(String job) throws FHIROperationException {
+        try {
+            // URL: https://{{SERVER_HOSTNAME}}/ibm/api/batch/jobinstances/140
+            // -> This approach with the API on jobinstance with ?jobInstanceId=140 uses unsupported search feature on Derby
+            // Status:
+            // 200 - Array and Iterate over the Array
+            // 400 - Doesn't exist, then translate to 404.
+            // Else, Server Side error, flow back as 500
+            String baseUrl = batchUrl + "/v4/jobinstances/" + job;
+            HttpGet get = new HttpGet(baseUrl);
+
+            try (CloseableHttpResponse getResponse = cli.execute(get, ctx)) {
+                HttpEntity entity = getResponse.getEntity();
+
+                int status = getResponse.getStatusLine().getStatusCode();
+                switch (status) {
+                    case 200:
+                        String responseString = IOUtils.toString(new InputStreamReader(getResponse.getEntity().getContent()));
+                        LOG.fine(() -> "Job Execution Detail for Tenant Status [" + status + "] body is [" + responseString + "]");
+                        break;
+                    case 400:
+                    case 500: // Unfortunately, it's the signal on the Derby in memory persistence.
+                        throw export.buildOperationException("The Job is not found.", IssueType.NOT_FOUND);
+                    default:
+                        throw export.buildOperationException("An unexpected response caused an error during job verification during stop/delete", IssueType.TRANSIENT);
+                }
+
+                EntityUtils.consume(entity);
+            } finally {
+                get.releaseConnection();
+            }
+        } catch (FHIROperationException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            LOG.throwing(CLASSNAME, "verifyTenant", ex);
+            throw export.buildOperationException("An unexpected error has occurred while reading the job instance details during a stop/delete", IssueType.TRANSIENT);
+        }
+    }
+
+    /**
+     * verifies the tenant is correct.
+     *
+     * @param jobExecutions
+     * @param tenant
+     * @throws FHIROperationException
+     */
+    private void verifyTenant(List<JobExecutionResponse> jobExecutions, String tenant) throws FHIROperationException {
+        JobExecutionResponse jer = jobExecutions.get(0);
+        JobParameter jobParameters = jer.getJobParameters();
+
+        if (jobParameters == null || jobParameters.getFhirTenant() == null
+                || !jobParameters.getFhirTenant().equals(tenant)) {
+            String jobTenant =  jobParameters != null ? jobParameters.getFhirTenant() : "<null>";
+            LOG.warning("Tenant not authorized to access job [" + tenant + "] jobParameter [" + jobTenant + "]");
+            throw export.buildOperationException("Tenant not authorized to access job", IssueType.FORBIDDEN);
         }
     }
 
@@ -148,7 +239,7 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                         break;
                     case 400:
                         LOG.fine(() -> "Job is not found while reading the job execution response, this is actually OK");
-                        break;
+                        throw export.buildOperationException("Batch Job not found", IssueType.NOT_FOUND);
                     default:
                         throw export.buildOperationException("An unexpected error has occurred while reading the job details during a stop/delete", IssueType.TRANSIENT);
                 }
@@ -275,13 +366,20 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
      * @throws FHIROperationException
      */
     private void deleteJob(String job) throws FHIROperationException {
+        // Here is the complicated thing about the Batch API.
+        // There is an in-memory persistence layer. The in-memory persistence layer DOES NOT support DB purge.
+        // @see https://github.com/OpenLiberty/open-liberty/blob/2fd4a880754c37a988c5ed9ac4f1ea5988e465d6/dev/com.ibm.jbatch.container/src/com/ibm/jbatch/container/services/impl/MemoryPersistenceManagerImpl.java#L1297
+        // and it uses this in memory Object
+        // @see https://github.com/OpenLiberty/open-liberty/blob/2fd4a880754c37a988c5ed9ac4f1ea5988e465d6/dev/com.ibm.jbatch.container/src/com/ibm/jbatch/container/services/impl/MemoryPersistenceManagerImpl.java#L109
+        // which is not going to support delete/purge.
+
         // Manage the times it loops through the deleteJob when there are active executions.
         int timesContinued = 0;
         while (timesContinued <= 5 && result.getStatusCode() != 202) {
             try {
                 // Example: https://localhost:9443/ibm/api/batch/jobinstances/9
-                // We choose to purgeJobStoreOnly=false which is the default.
-                // The logs are purged when deleted.
+                // We choose to purgeJobStoreOnly=true
+                // The logs are not purged when deleted.
                 // The tenant is known, and now we need to query to delete the Job.
 
                 String baseUrl = batchUrl + "/v4/jobinstances/" + job + "?purgeJobStoreOnly=true";
@@ -319,8 +417,8 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
                 }
                 timesContinued++;
 
-                // Add a sleep to not hammer it.
-                if (result.getStatusCode() == 202) {
+                // Add a sleep to not hammer it when it's not successful.
+                if (result.getStatusCode() != 202) {
                     Thread.sleep(100);
                 }
             } catch (FHIROperationException ex) {
