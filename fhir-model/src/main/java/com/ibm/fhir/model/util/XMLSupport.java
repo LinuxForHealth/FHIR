@@ -27,10 +27,6 @@ public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
 
-    private static final String XML_INPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLInputFactoryImpl";
-    private static final String XML_OUTPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLOutputFactoryImpl";
-    private static final String TRANSFORMER_FACTORY_IMPL = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
-
     private static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
     private static final XMLOutputFactory XML_OUTPUT_FACTORY = createXMLOutputFactory();
     private static final TransformerFactory TRANSFORMER_FACTORY = createTransformerFactory();
@@ -186,7 +182,7 @@ public final class XMLSupport {
 
     private static XMLInputFactory createXMLInputFactory() {
         try {
-            XMLInputFactory factory = (XMLInputFactory) Class.forName(XML_INPUT_FACTORY_IMPL).getConstructor().newInstance();
+            XMLInputFactory factory = XMLInputFactory.newFactory();
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
             factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
             return factory;
@@ -197,7 +193,7 @@ public final class XMLSupport {
 
     private static XMLOutputFactory createXMLOutputFactory() {
         try {
-            return (XMLOutputFactory) Class.forName(XML_OUTPUT_FACTORY_IMPL).getConstructor().newInstance();
+            return XMLOutputFactory.newFactory();
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -205,7 +201,7 @@ public final class XMLSupport {
 
     private static TransformerFactory createTransformerFactory() {
         try {
-            TransformerFactory factory = (TransformerFactory) Class.forName(TRANSFORMER_FACTORY_IMPL).getConstructor().newInstance();
+            TransformerFactory factory = TransformerFactory.newInstance();
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             return factory;
         } catch (Exception e) {
