@@ -27,6 +27,14 @@ public final class XMLSupport {
     public static final String FHIR_NS_URI = "http://hl7.org/fhir";
     public static final String XHTML_NS_URI = "http://www.w3.org/1999/xhtml";
 
+    private static final String PROP_XML_INPUT_FACTORY = "javax.xml.stream.XMLInputFactory";
+    private static final String PROP_XML_OUTPUT_FACTORY = "javax.xml.stream.XMLOutputFactory";
+    private static final String PROP_TRANSFORMER_FACTORY = "javax.xml.stream.XMLTransformerFactory";
+
+    private static final String XML_INPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLInputFactoryImpl";
+    private static final String XML_OUTPUT_FACTORY_IMPL = "com.sun.xml.internal.stream.XMLOutputFactoryImpl";
+    private static final String TRANSFORMER_FACTORY_IMPL = "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl";
+
     private static final XMLInputFactory XML_INPUT_FACTORY = createXMLInputFactory();
     private static final XMLOutputFactory XML_OUTPUT_FACTORY = createXMLOutputFactory();
     private static final TransformerFactory TRANSFORMER_FACTORY = createTransformerFactory();
@@ -182,7 +190,15 @@ public final class XMLSupport {
 
     private static XMLInputFactory createXMLInputFactory() {
         try {
+            boolean isSet = System.getProperty(PROP_XML_INPUT_FACTORY) != null;
+            if (!isSet) {
+                System.setProperty(PROP_XML_INPUT_FACTORY, XML_INPUT_FACTORY_IMPL);
+            }
             XMLInputFactory factory = XMLInputFactory.newFactory();
+            if (!isSet) {
+                System.clearProperty(PROP_XML_INPUT_FACTORY);
+            }
+
             factory.setProperty(XMLInputFactory.SUPPORT_DTD, false);
             factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
             return factory;
@@ -193,7 +209,16 @@ public final class XMLSupport {
 
     private static XMLOutputFactory createXMLOutputFactory() {
         try {
-            return XMLOutputFactory.newFactory();
+            boolean isSet = System.getProperty(PROP_XML_OUTPUT_FACTORY) != null;
+            if (!isSet) {
+                System.setProperty(PROP_XML_OUTPUT_FACTORY, XML_OUTPUT_FACTORY_IMPL);
+            }
+            XMLOutputFactory factory = XMLOutputFactory.newFactory();
+            if (!isSet) {
+                System.clearProperty(PROP_XML_OUTPUT_FACTORY);
+            }
+
+            return factory;
         } catch (Exception e) {
             throw new Error(e);
         }
@@ -201,7 +226,15 @@ public final class XMLSupport {
 
     private static TransformerFactory createTransformerFactory() {
         try {
+            boolean isSet = System.getProperty(PROP_TRANSFORMER_FACTORY) != null;
+            if (!isSet) {
+                System.setProperty(PROP_TRANSFORMER_FACTORY, TRANSFORMER_FACTORY_IMPL);
+            }
             TransformerFactory factory = TransformerFactory.newInstance();
+            if (!isSet) {
+                System.clearProperty(PROP_TRANSFORMER_FACTORY);
+            }
+
             factory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
             return factory;
         } catch (Exception e) {
