@@ -281,7 +281,7 @@ public class JobInstanceResponse {
         }
 
         /**
-         * parsers an array of JobInstanceResponses
+         * parses an array of JobInstanceResponses
          * @param jsonString
          * @return
          * @throws FHIROperationException
