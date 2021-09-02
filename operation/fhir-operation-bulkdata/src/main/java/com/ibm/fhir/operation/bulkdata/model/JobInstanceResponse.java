@@ -13,9 +13,12 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
+import com.ibm.fhir.exception.FHIROperationException;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -25,8 +28,6 @@ import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonValue;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
-
-import com.ibm.fhir.exception.FHIROperationException;
 
 /**
  * BulkImportJob's JSON response
@@ -272,96 +273,123 @@ public class JobInstanceResponse {
 
         public static JobInstanceResponse parse(String jsonString) throws FHIROperationException {
             try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
-
                 return JobInstanceResponse.Parser.parse(in);
-
             } catch (Exception e) {
                 throw new FHIROperationException(
                         "Problem parsing the submission response from the job server", e);
             }
         }
 
+        /**
+         * parses an array of JobInstanceResponses
+         * @param jsonString
+         * @return
+         * @throws FHIROperationException
+         */
+        public static List<JobInstanceResponse> parseArray(String jsonString) throws FHIROperationException {
+            List<JobInstanceResponse> jers = new ArrayList<>();
+            try (InputStream in = new ByteArrayInputStream(jsonString.getBytes());
+                    JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                JsonArray arr = jsonReader.readArray();
+                Iterator<JsonValue> iter = arr.iterator();
+                while (iter.hasNext()) {
+                    JsonObject jsonObject = iter.next().asJsonObject();
+                    jers.add(JobInstanceResponse.Parser.parse(jsonObject));
+                }
+            } catch (Exception e) {
+                throw new FHIROperationException(
+                        "Problem parsing the submission response from the job server", e);
+            }
+            return jers;
+        }
+
         public static JobInstanceResponse parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader = JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
-                JobInstanceResponse.Builder builder = JobInstanceResponse.builder();
-
-                if (jsonObject.containsKey("jobName")) {
-                    String jobName = jsonObject.getString("jobName");
-                    builder.jobName(jobName);
-                }
-
-                if (jsonObject.containsKey("instanceId")) {
-                    Integer instanceId = jsonObject.getInt("instanceId");
-                    builder.instanceId(instanceId);
-                }
-
-                if (jsonObject.containsKey("appName")) {
-                    String appName = jsonObject.getString("appName");
-                    builder.appName(appName);
-                }
-
-                if (jsonObject.containsKey("batchStatus")) {
-                    String batchStatus = jsonObject.getString("batchStatus");
-                    builder.batchStatus(batchStatus);
-                }
-
-                if (jsonObject.containsKey("jobXMLName")) {
-                    String jobXMLName = jsonObject.getString("jobXMLName");
-                    builder.jobXMLName(jobXMLName);
-                }
-
-                if (jsonObject.containsKey("instanceName")) {
-                    String instanceName = jsonObject.getString("instanceName");
-                    builder.instanceName(instanceName);
-                }
-
-                if (jsonObject.containsKey("instanceState")) {
-                    String instanceState = jsonObject.getString("instanceState");
-                    builder.instanceState(instanceState);
-                }
-
-                if (jsonObject.containsKey("submitter")) {
-                    String submitter = jsonObject.getString("submitter");
-                    builder.submitter(submitter);
-                }
-
-                if (jsonObject.containsKey("lastUpdatedTime")) {
-                    String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
-                    builder.lastUpdatedTime(lastUpdatedTime);
-                }
-
-                int jobExecutionId = 0;
-                if (jsonObject.containsKey("_links")) {
-                    JsonArray arr = jsonObject.getJsonArray("_links");
-                    ListIterator<JsonValue> iter = arr.listIterator();
-                    while (iter.hasNext()) {
-                        JsonValue v = iter.next();
-                        JsonObject vObj = v.asJsonObject();
-
-                        if (vObj.containsKey("rel") && vObj.containsKey("href")) {
-                            String rel = vObj.getString("rel");
-                            String href = vObj.getString("href");
-                            builder.link(rel, href);
-                            if (rel.equalsIgnoreCase("job execution")) {
-                                // e.g, https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
-                                // Get the job execution id of the job instance at the end of the url, because the same job instance can be
-                                // started, stopped and then restarted multipe times, so need to find the last job execution id and use it
-                                // as the current job execution id.
-                                int tmpJobExecutionId =
-                                        Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
-                                jobExecutionId =
-                                        jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
-                            }
-                        }
-                    }
-                }
-                builder.executionId(jobExecutionId);
-
-                return builder.build();
+                return parse(jsonObject);
             } catch (Exception e) {
                 throw new FHIROperationException("Problem parsing the Bulk Export Job's response from the server", e);
             }
+        }
+
+        public static JobInstanceResponse parse(JsonObject jsonObject) throws FHIROperationException {
+            JobInstanceResponse.Builder builder = JobInstanceResponse.builder();
+
+            if (jsonObject.containsKey("jobName")) {
+                String jobName = jsonObject.getString("jobName");
+                builder.jobName(jobName);
+            }
+
+            if (jsonObject.containsKey("instanceId")) {
+                Integer instanceId = jsonObject.getInt("instanceId");
+                builder.instanceId(instanceId);
+            }
+
+            if (jsonObject.containsKey("appName")) {
+                String appName = jsonObject.getString("appName");
+                builder.appName(appName);
+            }
+
+            if (jsonObject.containsKey("batchStatus")) {
+                String batchStatus = jsonObject.getString("batchStatus");
+                builder.batchStatus(batchStatus);
+            }
+
+            if (jsonObject.containsKey("jobXMLName")) {
+                String jobXMLName = jsonObject.getString("jobXMLName");
+                builder.jobXMLName(jobXMLName);
+            }
+
+            if (jsonObject.containsKey("instanceName")) {
+                String instanceName = jsonObject.getString("instanceName");
+                builder.instanceName(instanceName);
+            }
+
+            if (jsonObject.containsKey("instanceState")) {
+                String instanceState = jsonObject.getString("instanceState");
+                builder.instanceState(instanceState);
+            }
+
+            if (jsonObject.containsKey("submitter")) {
+                String submitter = jsonObject.getString("submitter");
+                builder.submitter(submitter);
+            }
+
+            if (jsonObject.containsKey("lastUpdatedTime")) {
+                String lastUpdatedTime = jsonObject.getString("lastUpdatedTime");
+                builder.lastUpdatedTime(lastUpdatedTime);
+            }
+
+            int jobExecutionId = 0;
+            if (jsonObject.containsKey("_links")) {
+                JsonArray arr = jsonObject.getJsonArray("_links");
+                ListIterator<JsonValue> iter = arr.listIterator();
+                while (iter.hasNext()) {
+                    JsonValue v = iter.next();
+                    JsonObject vObj = v.asJsonObject();
+
+                    if (vObj.containsKey("rel") && vObj.containsKey("href")) {
+                        String rel = vObj.getString("rel");
+                        String href = vObj.getString("href");
+                        builder.link(rel, href);
+                        if (rel.equalsIgnoreCase("job execution")) {
+                            // e.g, https://localhost:9443/ibm/api/batch/jobinstances/9/jobexecutions/2
+                            // Get the job execution id of the job instance at the end of the url, because the same job
+                            // instance can be
+                            // started, stopped and then restarted multipe times, so need to find the last job execution
+                            // id and use it
+                            // as the current job execution id.
+                            int tmpJobExecutionId =
+                                    Integer.parseInt(href.substring(href.indexOf("jobexecutions") + 14));
+                            jobExecutionId =
+                                    jobExecutionId < tmpJobExecutionId ? tmpJobExecutionId : jobExecutionId;
+                        }
+                    }
+                }
+            }
+            builder.executionId(jobExecutionId);
+
+            return builder.build();
         }
 
     }

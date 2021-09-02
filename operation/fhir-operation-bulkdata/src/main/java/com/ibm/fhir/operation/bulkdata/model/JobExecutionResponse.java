@@ -13,9 +13,15 @@ import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
+import com.ibm.fhir.exception.FHIROperationException;
+import com.ibm.fhir.operation.bulkdata.model.type.Input;
+import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
+import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
@@ -25,11 +31,6 @@ import jakarta.json.JsonReaderFactory;
 import jakarta.json.JsonValue;
 import jakarta.json.stream.JsonGenerator;
 import jakarta.json.stream.JsonGeneratorFactory;
-
-import com.ibm.fhir.exception.FHIROperationException;
-import com.ibm.fhir.operation.bulkdata.model.type.Input;
-import com.ibm.fhir.operation.bulkdata.model.type.JobParameter;
-import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
 
 /**
  * BulkImportJob's JSON response
@@ -59,6 +60,7 @@ import com.ibm.fhir.operation.bulkdata.model.type.StorageDetail;
  */
 public class JobExecutionResponse {
     private String jobName;
+    private Integer executionId;
     private Integer instanceId;
     private String appName;
     private String submitter;
@@ -86,6 +88,14 @@ public class JobExecutionResponse {
 
     public void setJobName(String jobName) {
         this.jobName = jobName;
+    }
+
+    public Integer getExecutionId() {
+        return executionId;
+    }
+
+    public void setExecutionId(Integer executionId) {
+        this.executionId = executionId;
     }
 
     public Integer getInstanceId() {
@@ -210,6 +220,11 @@ public class JobExecutionResponse {
 
         public Builder instanceId(Integer instanceId) {
             response.setInstanceId(instanceId);
+            return this;
+        }
+
+        public Builder executionId(Integer executionId) {
+            response.setExecutionId(executionId);
             return this;
         }
 
@@ -368,10 +383,44 @@ public class JobExecutionResponse {
             }
         }
 
+        /**
+         * parses an array of job execution response
+         * @param jsonString
+         * @return
+         * @throws FHIROperationException
+         */
+        public static List<JobExecutionResponse> parseArray(String jsonString) throws FHIROperationException {
+            try (InputStream in = new ByteArrayInputStream(jsonString.getBytes())) {
+                try (JsonReader jsonReader =
+                        JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
+                    List<JobExecutionResponse> res = new ArrayList<>();
+                    JsonArray arr = jsonReader.readArray();
+                    Iterator<JsonValue> iter = arr.iterator();
+                    while(iter.hasNext()) {
+                        JsonObject jsonObject = iter.next().asJsonObject();
+                        res.add(parse(jsonObject));
+                    }
+                    return res;
+                }
+            } catch (Exception e) {
+                throw new FHIROperationException(
+                        "Problem parsing the Bulk Export Job's from jsonString response from the server", e);
+            }
+        }
+
         public static JobExecutionResponse parse(InputStream in) throws FHIROperationException {
             try (JsonReader jsonReader =
                     JSON_READER_FACTORY.createReader(in, StandardCharsets.UTF_8)) {
                 JsonObject jsonObject = jsonReader.readObject();
+                return parse(jsonObject);
+            } catch (Exception e) {
+                throw new FHIROperationException(
+                        "Problem parsing the Bulk Export Job's from jsonString response from the server", e);
+            }
+        }
+
+        public static JobExecutionResponse parse(JsonObject jsonObject) throws FHIROperationException, IOException {
+
                 JobExecutionResponse.Builder builder = JobExecutionResponse.builder();
 
                 if (jsonObject.containsKey("jobName")) {
@@ -382,6 +431,11 @@ public class JobExecutionResponse {
                 if (jsonObject.containsKey("instanceId")) {
                     Integer instanceId = jsonObject.getInt("instanceId");
                     builder.instanceId(instanceId);
+                }
+
+                if (jsonObject.containsKey("executionId")) {
+                    Integer executionId = jsonObject.getInt("executionId");
+                    builder.executionId(executionId);
                 }
 
                 if (jsonObject.containsKey("appName")) {
@@ -445,9 +499,6 @@ public class JobExecutionResponse {
                 }
 
                 return builder.build();
-            } catch (Exception e) {
-                throw new FHIROperationException("Problem parsing the Bulk Export Job's response from the server", e);
-            }
         }
     }
 
@@ -478,6 +529,10 @@ public class JobExecutionResponse {
 
                     if (obj.getInstanceId() != null) {
                         generator.write("instanceId", obj.getInstanceId());
+                    }
+
+                    if (obj.getExecutionId() != null) {
+                        generator.write("executionId", obj.getExecutionId());
                     }
 
                     if (obj.getAppName() != null) {
@@ -538,5 +593,13 @@ public class JobExecutionResponse {
             }
             return o;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "JobExecutionResponse [jobName=" + jobName + ", executionId=" + executionId + ", instanceId=" + instanceId + ", appName=" + appName
+                + ", submitter=" + submitter + ", batchStatus=" + batchStatus + ", exitStatus=" + exitStatus + ", jobXMLName=" + jobXMLName + ", instanceName="
+                + instanceName + ", lastUpdatedTime=" + lastUpdatedTime + ", instanceState=" + instanceState + ", _links=" + _links + ", jobParameters="
+                + jobParameters + "]";
     }
 }
