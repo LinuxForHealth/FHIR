@@ -22,7 +22,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.AmazonS3Exception;
  */
 @Dependent
 public class StepChunkListener implements ChunkListener {
-    private static final Logger logger = Logger.getLogger(StepChunkListener.class.getName());
+    private static final Logger LOG = Logger.getLogger(StepChunkListener.class.getName());
 
     @Inject
     StepContext stepCtx;
@@ -39,12 +39,14 @@ public class StepChunkListener implements ChunkListener {
     public void onError(Exception ex) throws Exception {
         long stepExecutionId = stepCtx.getStepExecutionId();
         long jobExecutionId = jobCtx.getInstanceId();
-        logger.log(Level.SEVERE, "StepChunkListener: job[" + jobCtx.getJobName() + "/" + jobExecutionId + "/" + stepExecutionId + "] --- " + ex.getMessage(), ex);
-        logger.throwing("StepChunkListener", "onError", ex);
-        if (ex instanceof AmazonS3Exception) {
-            AmazonS3Exception s3ex = (AmazonS3Exception) ex;
-            if ("NoSuchBucket".equals(s3ex.getErrorCode())) {
-                jobCtx.setExitStatus("NO_SUCH_BUCKET");
+        LOG.log(Level.SEVERE, "StepChunkListener: job[" + jobCtx.getJobName() + "/" + jobExecutionId + "/" + stepExecutionId + "] --- " + ex.getMessage(), ex);
+        LOG.throwing("StepChunkListener", "onError", ex);
+
+        LOG.fine("excause" + ex.getCause());
+        if (ex.getCause() instanceof AmazonS3Exception) {
+            AmazonS3Exception exceptionCausedByS3Error = (AmazonS3Exception) ex.getCause();
+            if ("NoSuchBucket".equals(exceptionCausedByS3Error.getErrorCode())) {
+                stepCtx.setExitStatus("NO_SUCH_BUCKET");
             }
         }
     }
