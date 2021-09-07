@@ -34,5 +34,7 @@
     </webApplication>
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
+    
+    <variable name="BATCH_DB_SCHEMA" defaultValue="FHIR_JBATCH"/>
+    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 </server>
