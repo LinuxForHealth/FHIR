@@ -6,6 +6,7 @@
 
 package com.ibm.fhir.server.test;
 
+import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.assertTrue;
 
@@ -24,11 +25,21 @@ import com.ibm.fhir.examples.ExamplesUtil;
 import com.ibm.fhir.model.format.Format;
 import com.ibm.fhir.model.parser.FHIRParser;
 import com.ibm.fhir.model.resource.Patient;
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.test.TestUtil;
 
 public class ConvertOperationTest extends FHIRServerTestBase {
     private static final String CONVERT_OPERATION_NAME = "$convert";
     private static final String CONTENT_TYPE_HEADER_NAME = "Content-type";
     private static final String ACCEPT_HEADER_NAME = "Accept";
+
+    @Test
+    public void testXMLandJSON() throws Exception {
+        Resource patientFromJson = TestUtil.readExampleResource("json/ibm/complete-mock/Patient-1.json");
+        Resource patientFromXml = TestUtil.readExampleResource("xml/ibm/complete-mock/Patient-1.xml");
+
+        assertEquals(patientFromJson, patientFromXml);
+    }
 
     @Test
     public void testConvertOperation1() throws Exception {
@@ -58,7 +69,7 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             Patient patientFromXML = FHIRParser.parser(Format.XML).parse(new StringReader(output));
             assertNotNull(patientFromXML);
 
-            assertTrue(patientFromXML.equals(patientFromJson));
+            assertEquals(patientFromXML, patientFromJson);
         }
     }
 
@@ -90,7 +101,7 @@ public class ConvertOperationTest extends FHIRServerTestBase {
             Patient patientFromJson = FHIRParser.parser(Format.JSON).parse(new StringReader(output));
             assertNotNull(patientFromJson);
 
-            assertTrue(patientFromJson.equals(patientFromXML));
+            assertEquals(patientFromJson, patientFromXML);
         }
     }
 }

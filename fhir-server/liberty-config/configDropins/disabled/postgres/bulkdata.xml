@@ -1,14 +1,14 @@
 <server description="fhir-server">
     <!-- 
-        This configDropin work with Db2 and user-password
+        This configDropin work with PostgreSQL and user-password
     -->
     <featureManager>
         <feature>batch-1.0</feature>
         <feature>batchManagement-1.0</feature>
-        <feature>jdbc-4.1</feature>
-        <feature>servlet-4.0</feature>
-        <feature>transportSecurity-1.0</feature>
     </featureManager>
+    
+    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
+    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
 
     <authorization-roles id="com.ibm.ws.batch">
         <security-role id="batchAdmin" name="batchAdmin">
@@ -51,7 +51,4 @@
             ssl="${BATCH_DB_SSL}"
             sslCert="${BATCH_DB_SSL_CERT_PATH}"/>
     </dataSource>
-
-    <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="FHIR_JBATCH" tablePrefix="" createTables="false"/>
 </server>
