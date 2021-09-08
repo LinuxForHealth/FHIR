@@ -23,6 +23,7 @@ import java.util.zip.GZIPInputStream;
 
 import com.ibm.fhir.persistence.ResourcePayload;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * DAO to fetch the payload objects for a list of resource ids
@@ -107,7 +108,7 @@ public class FetchPayloadsForIdsDAO {
                 // we can save a ton of CPU. The stream is closed by ResultSet (according to the docs). ResultSet
                 // will be closed when the PreparedStatement is closed
                 String logicalId = rs.getString(1);
-                Instant lastUpdated = Instant.ofEpochMilli(rs.getTimestamp(2).getTime());
+                Instant lastUpdated = rs.getTimestamp(2, CalendarHelper.getCalendarForUTC()).toInstant();
                 long resourceId = rs.getLong(3);
                 InputStream is = new GZIPInputStream(rs.getBinaryStream(4));
                 ResourcePayload rp =  new ResourcePayload(logicalId, lastUpdated, resourceId, is);

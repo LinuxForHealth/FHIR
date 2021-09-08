@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +27,7 @@ import com.ibm.fhir.persistence.jdbc.dao.api.IResourceReferenceDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ParameterDAO;
 import com.ibm.fhir.persistence.jdbc.dao.api.ResourceIndexRecord;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * PostgreSQL specialization of the DAO used to assist the reindex custom operation
@@ -136,22 +138,23 @@ public class PostgresReindexResourceDAO extends ReindexResourceDAO {
             throw new IllegalArgumentException("logicalId specified without a resourceType");
         }
 
+        final Calendar UTC = CalendarHelper.getCalendarForUTC();
         try (PreparedStatement stmt = connection.prepareStatement(update)) {
             if (resourceTypeId != null && logicalId != null) {
                 // specific resource
-                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp), UTC);
                 stmt.setInt(2, resourceTypeId);
                 stmt.setString(3, logicalId);
-                stmt.setTimestamp(4, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(4, Timestamp.from(reindexTstamp), UTC);
             } else if (resourceTypeId != null) {
                 // limit to resource type
-                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp), UTC);
                 stmt.setInt(2, resourceTypeId);
-                stmt.setTimestamp(3, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(3, Timestamp.from(reindexTstamp), UTC);
             } else {
                 // any resource type
-                stmt.setTimestamp(1, Timestamp.from(reindexTstamp));
-                stmt.setTimestamp(2, Timestamp.from(reindexTstamp));
+                stmt.setTimestamp(1, Timestamp.from(reindexTstamp), UTC);
+                stmt.setTimestamp(2, Timestamp.from(reindexTstamp), UTC);
             }
 
             stmt.execute();

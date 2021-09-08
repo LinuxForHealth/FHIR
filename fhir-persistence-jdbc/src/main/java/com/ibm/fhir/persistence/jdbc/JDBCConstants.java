@@ -119,9 +119,11 @@ public class JDBCConstants {
     public static final String DEFAULT_TOKEN_SYSTEM = "default-token-system";
 
     /**
-     * Calendar object to use while inserting Timestamp objects into the database.
+     * This Calendar object is not thread-safe! Use CalendarHelper#getCalendarForUTC() instead.
      */
-    public static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    // DO NOT USE
+    // public static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    // DO NOT USE
 
     /**
      * Maps search parameter types to the currently supported list of modifiers for that type.

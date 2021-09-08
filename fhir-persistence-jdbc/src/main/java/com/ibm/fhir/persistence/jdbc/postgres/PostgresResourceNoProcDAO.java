@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.postgres;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
-
 import java.io.InputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -17,6 +15,7 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -41,6 +40,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
@@ -191,6 +191,7 @@ public class PostgresResourceNoProcDAO extends ResourceDAOImpl {
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
 
+        final Calendar UTC = CalendarHelper.getCalendarForUTC();
         Long v_logical_resource_id = null;
         Long v_current_resource_id = null;
         Long v_resource_id = null;
