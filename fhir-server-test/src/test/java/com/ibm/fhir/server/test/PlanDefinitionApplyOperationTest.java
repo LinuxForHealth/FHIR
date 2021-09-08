@@ -173,6 +173,41 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
         assertNotNull(carePlan);
     }
 
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
+    public void testSubjectPatient_GET() {
+        List<String> subjects = Arrays.asList("Patient/" + patientId);
+
+        // Valid - Instance Level.
+        // ApplyOperationResult result =
+        // runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects,
+        // null, practitionerId, null, null, null, null, null, null);
+
+        Response response =
+                doGet(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, "Practitioner/" + practitionerId, "Organization/my-org", null, null, null, null, null);
+        assertEquals(response.getStatus(), 200);
+
+        CarePlan carePlan = response.readEntity(CarePlan.class);
+        if (DEBUG_APPLY) {
+            System.out.println(carePlan);
+        }
+        assertNotNull(carePlan);
+    }
+
+    @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")
+    public void testSubjectPatient_GET_nonPrimitiveParameters() {
+        List<String> subjects = Arrays.asList("Patient/" + patientId);
+
+        // Valid - Instance Level.
+        // ApplyOperationResult result =
+        // runIndividualPlanDefinition(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects,
+        // null, practitionerId, null, null, null, null, null, null);
+
+        Response response =
+                doGet(FHIRMediaType.APPLICATION_FHIR_JSON, false, false, planDefinitionId, subjects, null, "Practitioner/" + practitionerId, "Organization/my-org", "user-type", "user-language", "user-task-context", "my-setting", "my-setting-context");
+        assertEquals(response.getStatus(), 400);
+    }
+
     public Response doPost(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject, String encounter, String practitioner,
         String organization, String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
 
@@ -217,6 +252,50 @@ public class PlanDefinitionApplyOperationTest extends FHIRServerTestBase {
 
         Entity<Parameters> entity = Entity.entity(parameters, FHIRMediaType.APPLICATION_FHIR_JSON);
         return target.request(mimeType).post(entity, Response.class);
+    }
+
+    public Response doGet(String mimeType, boolean root, boolean invalid, String planDefinition, List<String> subject, String encounter, String practitioner,
+        String organization, String userType, String userLanguage, String userTaskContext, String setting, String settingContext) {
+
+        WebTarget target = getWebTarget();
+
+        // valid && root by default
+        // URL: [base]/PlanDefinition/$apply
+        String path = BASE_VALID_URL;
+        if (invalid && root) {
+            // URL: [base]/Patient/$apply
+            // Result in 400
+            path = String.format(BASE_INVALID_URL, "Patient");
+        } else if (invalid && !root) {
+            // URL: [base]/Patient/[ID]/$apply
+            // Result in 400
+            path = String.format(RESOURCE_INVALID_URL, "Patient", planDefinition);
+        } else if (!invalid && !root) {
+            // URL: [base]/PlanDefinition/[ID]/$apply
+            path = String.format(RESOURCE_VALID_URL, planDefinition);
+        }
+
+        target = target.path(path);
+
+        // Only if at the root.
+        if (root) {
+            target = addQueryParameter(target, "planDefinition", planDefinition);
+        }
+        target = addQueryParameterList(target, "subject", subject);
+        target = addQueryParameter(target, "encounter", encounter);
+        target = addQueryParameter(target, "practitioner", practitioner);
+        target = addQueryParameter(target, "organization", organization);
+        target = addQueryParameter(target, "userType", userType);
+        target = addQueryParameter(target, "userLanguage", userLanguage);
+        target = addQueryParameter(target, "userTaskContext", userTaskContext);
+        target = addQueryParameter(target, "setting", setting);
+        target = addQueryParameter(target, "settingContext", settingContext);
+
+        if (DEBUG_APPLY) {
+            System.out.println("URL -> " + target.getUri());
+        }
+
+        return target.request(mimeType).accept(FHIRMediaType.APPLICATION_FHIR_JSON).get();
     }
 
     @Test(groups = { TEST_GROUP_NAME }, dependsOnMethods = "loadTestData")

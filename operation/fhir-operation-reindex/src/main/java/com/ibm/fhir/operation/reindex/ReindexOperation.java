@@ -78,12 +78,6 @@ public class ReindexOperation extends AbstractOperation {
             String logicalId, String versionId, Parameters parameters, FHIRResourceHelpers resourceHelper)
             throws FHIROperationException {
 
-        // Allow only POST because we're changing the state of the database
-        String method = (String) operationContext.getProperty(FHIROperationContext.PROPNAME_METHOD_TYPE);
-        if (!"POST".equalsIgnoreCase(method)) {
-            throw FHIROperationUtil.buildExceptionWithIssue("HTTP method not supported: " + method, IssueType.NOT_SUPPORTED);
-        }
-
         try {
             Instant tstamp = Instant.now();
             List<Long> indexIds = null;
