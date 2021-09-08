@@ -109,8 +109,11 @@ public class FHIRConfiguration {
     public static final String PROPERTY_PERSISTENCE_FACTORY = "fhirServer/persistence/factoryClassname";
     public static final String PROPERTY_DATASOURCES = "fhirServer/persistence/datasources";
     public static final String PROPERTY_JDBC_ENABLE_READ_ONLY_REPLICAS = "fhirServer/persistence/jdbc/enableReadOnlyReplicas";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_CODE_SYSTEMS_CACHE = "fhirServer/persistence/jdbc/enableCodeSystemsCache";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_PARAMETER_NAMES_CACHE = "fhirServer/persistence/jdbc/enableParameterNamesCache";
+    @Deprecated
     public static final String PROPERTY_JDBC_ENABLE_RESOURCE_TYPES_CACHE = "fhirServer/persistence/jdbc/enableResourceTypesCache";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_SYSTEM_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefSystemCacheSize";
     public static final String PROPERTY_JDBC_EXTERNAL_REF_VALUE_CACHE_SIZE = "fhirServer/persistence/jdbc/externalRefValueCacheSize";
@@ -123,7 +126,7 @@ public class FHIRConfiguration {
     public static final String PROPERTY_USE_STORED_COMPARTMENT_PARAM = "fhirServer/search/useStoredCompartmentParam";
     @Deprecated
     public static final String PROPERTY_SEARCH_ENABLE_OPT_QUERY_BUILDER = "fhirServer/search/enableOptQueryBuilder";
-    
+
     public static final String PROPERTY_SEARCH_ENABLE_LEGACY_WHOLE_SYSTEM_SEARCH_PARAMS = "fhirServer/search/enableLegacyWholeSystemSearchParams";
 
     // bulkdata

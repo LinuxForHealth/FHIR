@@ -19,6 +19,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessExceptio
 /**
  * This class provides a static cache for FHIR Resource type names.
  */
+@Deprecated
 public class ResourceTypesCache {
     private static final String CLASSNAME = ResourceTypesCache.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);

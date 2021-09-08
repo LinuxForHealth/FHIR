@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 /**
  * This cache updater writes its Resource Types cache candidates to the ResourceTypesCache upon a transaction commit.
  */
+@Deprecated
 public class ResourceTypesCacheUpdater extends CacheUpdater {
     private static final String CLASSNAME = ResourceTypesCacheUpdater.class.getName();
     private static final Logger log = Logger.getLogger(CLASSNAME);
@@ -24,12 +25,12 @@ public class ResourceTypesCacheUpdater extends CacheUpdater {
     public void commitCacheCandidates() {
         final String METHODNAME = "commitCacheCandidates";
         log.entering(CLASSNAME, METHODNAME);
-        
+
         ResourceTypesCache.putResourceTypeIds(this.getTenantDatastoreCacheName(), this.getCacheCandidates());
-        
+
         log.exiting(CLASSNAME, METHODNAME);
 
     }
 }
 
- 
+
