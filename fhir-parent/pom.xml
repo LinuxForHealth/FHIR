@@ -66,6 +66,7 @@
         <fhir-examples.version>4.9.0-SNAPSHOT</fhir-examples.version>
         <fhir-tools.version>4.9.0-SNAPSHOT</fhir-tools.version>
         <maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+        <version.infinispan>12.1.6.Final</version.infinispan>
     </properties>
 
     <modules>
@@ -247,6 +248,13 @@
                 <groupId>org.apache.derby</groupId>
                 <artifactId>derbytools</artifactId>
                 <version>${derby.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-bom</artifactId>
+                <version>${version.infinispan}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.derby</groupId>

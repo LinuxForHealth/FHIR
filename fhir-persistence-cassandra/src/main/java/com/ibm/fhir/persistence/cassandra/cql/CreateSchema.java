@@ -8,6 +8,8 @@ package com.ibm.fhir.persistence.cassandra.cql;
 
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.LOGICAL_RESOURCES;
 import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_CHUNKS;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_TRACKING;
+import static com.ibm.fhir.persistence.cassandra.cql.SchemaConstants.PAYLOAD_RECONCILIATION;
 
 import java.util.logging.Logger;
 
@@ -44,8 +46,10 @@ public class CreateSchema {
         useKeyspace(session);
         createLogicalResourcesTable(session);
         createPayloadChunksTable(session);
-
-        logger.info("Schema definition complete for keySpace '" + this.keySpace + "'");
+        createPayloadTrackingTable(session);
+        createPayloadReconciliationTable(session);
+        
+       logger.info("Schema definition complete for keySpace '" + this.keySpace + "'");
     }
 
     /**
@@ -72,7 +76,7 @@ public class CreateSchema {
 
     protected void createLogicalResourcesTable(CqlSession session) {
         // partition by partition_id (application-defined, like patient logical id)
-        // cluster within each partition by resource_type_id, payload_id
+        // cluster within each partition by resource_type_id, logical_id, version
         final String cql = "CREATE TABLE IF NOT EXISTS " + LOGICAL_RESOURCES + " ("
                 + "partition_id           text, "
                 + "resource_type_id        int, "
@@ -105,6 +109,54 @@ public class CreateSchema {
                 + "chunk        blob, "
                 + "PRIMARY KEY (payload_id, ordinal)"
                 + ") WITH CLUSTERING ORDER BY (ordinal ASC)";
+
+        logger.info("Running: " + cql);
+        session.execute(cql);
+    }
+    
+    /**
+     * Create the table to track the insertion of payload records. This is used
+     * by the reconciliation process to make sure that payload records are attached
+     * to a logical resource in the RDBMS system of record. Records in this table
+     * can be removed once they have been reconciled, but this is not required.
+     * @param session
+     */
+    protected void createPayloadTrackingTable(CqlSession session) {
+        // partition by partition_id (application-defined, like patient logical id)
+        // cluster within each partition by resource_type_id, payload_id
+        final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_TRACKING + " ("
+                + "partition_id         smallint, "
+                + "tstamp                 bigint, "
+                + "resource_type_id          int, "
+                + "logical_id               text, "
+                + "version                   int, "
+                + "payload_partition_id     text, "
+                + "PRIMARY KEY (partition_id, tstamp, resource_type_id, logical_id, version)"
+                + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
+
+        logger.info("Running: " + cql);
+        session.execute(cql);
+    }
+
+    /**
+     * Create the table to track the reconciliation of payload records. This tells
+     * the reconciliation service where to start scanning the payload_tracking table
+     * within each partition. The reconciliation scanner needs to be careful to
+     * avoid issues with clock drift in clusters so should stop attempting to
+     * reconcile records more recent than the ingestion transaction timeout value (e.g.
+     * 2 minutes by default). Some systems may be configured with even larger
+     * timeouts, so this must be taken into account. This is to ensure that
+     * reconciliation doesn't miss records which appear after but with timestamps before
+     * the latest tstamp in a given partition. Handling this doesn't generate any
+     * logical inconsistencies, but may require a small amount of work to be repeated.
+     * @param session
+     */
+    protected void createPayloadReconciliationTable(CqlSession session) {
+        final String cql = "CREATE TABLE IF NOT EXISTS " + PAYLOAD_RECONCILIATION + " ("
+                + "partition_id   smallint, " // FK to payload_tracking table
+                + "tstamp           bigint  " // FK to payload_tracking table
+                + "PRIMARY KEY (partition_id, tstamp)"
+                + ") WITH CLUSTERING ORDER BY (tstamp ASC)";
 
         logger.info("Running: " + cql);
         session.execute(cql);

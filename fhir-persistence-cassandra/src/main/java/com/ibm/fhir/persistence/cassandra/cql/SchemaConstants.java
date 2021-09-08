@@ -16,4 +16,6 @@ public class SchemaConstants {
 
     public static final String LOGICAL_RESOURCES = "logical_resources";
     public static final String PAYLOAD_CHUNKS = "payload_chunks";
+    public static final String PAYLOAD_TRACKING = "payload_tracking";
+    public static final String PAYLOAD_RECONCILIATION = "payload_reconciliation";
 }

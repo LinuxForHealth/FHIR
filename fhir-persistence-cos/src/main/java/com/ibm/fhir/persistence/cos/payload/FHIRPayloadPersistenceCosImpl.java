@@ -22,6 +22,7 @@ import com.ibm.fhir.persistence.cos.client.COSPayloadClient;
 import com.ibm.fhir.persistence.cos.impl.COSClientManager;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.payload.FHIRPayloadPersistence;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 import com.ibm.fhir.search.SearchConstants;
 
 
@@ -33,7 +34,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     private static final Logger logger = Logger.getLogger(FHIRPayloadPersistenceCosImpl.class.getName());
 
     @Override
-    public void storePayload(String partitionId, String resourceTypeName, int resourceTypeId, String logicalId, int version, byte[] compressedPayload)
+    public void storePayload(String resourceTypeName, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream)
         throws FHIRPersistenceException {
         long start = System.nanoTime();
 
@@ -43,7 +44,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
 
         try {
             final String objectName = makeObjectName(resourceTypeId, logicalId, version);
-            cpc.write(objectName, compressedPayload);
+            cpc.write(objectName, payloadStream);
         } finally {
             if (logger.isLoggable(Level.FINE)) {
                 long elapsed = System.nanoTime() - start;
@@ -53,7 +54,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     }
 
     @Override
-    public <T extends Resource> T readResource(Class<T> resourceType, String partitionId, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
+    public <T extends Resource> T readResource(Class<T> resourceType, int resourceTypeId, String logicalId, int version, List<String> elements) throws FHIRPersistenceException {
         final long start = System.nanoTime();
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
@@ -123,7 +124,7 @@ public class FHIRPayloadPersistenceCosImpl implements FHIRPayloadPersistence {
     }
 
     @Override
-    public void deletePayload(String partitionId, int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
+    public void deletePayload(int resourceTypeId, String logicalId, int version) throws FHIRPersistenceException {
         COSPayloadClient cpc = COSClientManager.getClientForTenantDatasource();
 
         final String objectName = makeObjectName(resourceTypeId, logicalId, version);

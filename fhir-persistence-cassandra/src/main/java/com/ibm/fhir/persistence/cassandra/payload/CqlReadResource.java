@@ -111,8 +111,9 @@ public class CqlReadResource {
                     // The payload is small enough to fit in the current row, so no need for an
                     // extra read
                     ByteBuffer bb = row.getByteBuffer(2);
-                    InputStream in = new GZIPInputStream(new CqlPayloadStream(bb));
-                    result = parseStream(resourceType, in);
+                    try (InputStream in = new GZIPInputStream(new CqlPayloadStream(bb))) {
+                        result = parseStream(resourceType, in);
+                    }
                 }
             } else {
                 // resource doesn't exist.
@@ -139,7 +140,6 @@ public class CqlReadResource {
      * @return
      */
     private <T extends Resource> T readFromChunks(Class<T> resourceType, CqlSession session, String payloadId) throws IOException, FHIRParserException {
-        T result;
         Select statement =
                 selectFrom("payload_chunks")
                 .column("chunk")
@@ -150,9 +150,9 @@ public class CqlReadResource {
 
         PreparedStatement ps = session.prepare(statement.build());
         ResultSet chunks = session.execute(ps.bind(logicalId, version));
-        InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(chunks));
-
-        return parseStream(resourceType, in);
+        try (InputStream in = new GZIPInputStream(new CqlChunkedPayloadStream(chunks))) {
+            return parseStream(resourceType, in);
+        }
     }
 
     /**

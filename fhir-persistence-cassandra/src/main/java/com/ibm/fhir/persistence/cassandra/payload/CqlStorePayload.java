@@ -31,6 +31,7 @@ import com.datastax.oss.driver.api.core.cql.SimpleStatement;
 import com.datastax.oss.driver.api.querybuilder.insert.RegularInsert;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
  * DAO to store the resource record and payload data chunks
@@ -47,17 +48,17 @@ public class CqlStorePayload {
     private final String logicalId;
 
     // The compressed payload
-    private final byte[] payload;
+    private final InputOutputByteStream payloadStream;
 
     // The anticipated version
     private final int version;
 
-    public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, byte[] payload) {
+    public CqlStorePayload(String partitionId, int resourceTypeId, String logicalId, int version, InputOutputByteStream payloadStream) {
         this.partitionId = partitionId;
         this.logicalId = logicalId;
         this.resourceTypeId = resourceTypeId;
         this.version = version;
-        this.payload = payload;
+        this.payloadStream = payloadStream;
     }
 
     /**
@@ -74,10 +75,13 @@ public class CqlStorePayload {
         // the payload exceeds the chunk size. If it doesn't, we store
         // it in the main resource table, avoiding the cost of a second
         // random read when we need to access it again.
-        final String payloadId = payload.length > CHUNK_SIZE ? UUID.randomUUID().toString() : null;
+        final String payloadId = payloadStream.size() > CHUNK_SIZE ? UUID.randomUUID().toString() : null;
         storeResource(session, payloadId);
 
         if (payloadId != null) {
+            // payload too big for the main resource table, so break it
+            // into smaller chunks and store as adjacent rows in a child
+            // table
             storePayloadChunks(session, payloadId);
         }
     }
@@ -113,8 +117,7 @@ public class CqlStorePayload {
             bsb.setString(4, payloadId);
         } else {
             // small enough, so we store directly in the main logical_resources table
-            ByteBuffer bb = ByteBuffer.wrap(payload);
-            bsb.setByteBuffer(4, bb);
+            bsb.setByteBuffer(4, payloadStream.wrap());
         }
 
         try {
@@ -151,12 +154,14 @@ public class CqlStorePayload {
         List<BatchableStatement<?>> statements = new ArrayList<>();
         int ordinal = 0;
         int offset = 0;
-        while (offset < payload.length) {
+        ByteBuffer bb = payloadStream.wrap();
+        byte[] buffer = new byte[CHUNK_SIZE];
+        while (offset < payloadStream.size()) {
             // shame we have to copy the array here
-            // TODO consume the array directly as an InputStream
-            int to = Math.min(offset + CHUNK_SIZE, payload.length);
-            byte[] chunk = Arrays.copyOfRange(payload, offset, to);
-            statements.add(ps.bind(partitionId, payloadId, ordinal++, chunk));
+            int len = Math.min(CHUNK_SIZE, payloadStream.size() - offset);
+            bb.get(buffer, offset, len);
+            
+            statements.add(ps.bind(partitionId, payloadId, ordinal++, buffer));
             offset += CHUNK_SIZE;
         }
 

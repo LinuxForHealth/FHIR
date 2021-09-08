@@ -1,0 +1,57 @@
+/*
+ * (C) Copyright IBM Corp. 2021
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+ 
+package com.ibm.fhir.server.rest;
+
+import javax.ws.rs.core.MultivaluedMap;
+
+import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+
+/**
+ * Executes an invoke (custom) operation on the visitor
+ */
+public class FHIRRestOperationInvoke extends FHIRRestOperationBase {
+
+    private final FHIROperationContext operationContext;
+    private final String method;
+    private final String resourceTypeName;
+    private String logicalId;
+    private String versionId;
+    private String operationName;
+    private Resource resource;
+    private MultivaluedMap<String, String> queryParameters;
+
+    /**
+     * Public constructor
+     * @param operationContext
+     * @param resourceTypeName
+     * @param logicalId
+     * @param versionId
+     * @param operationName
+     * @param resource
+     * @param queryParameters
+     */
+    public FHIRRestOperationInvoke(int entryIndex, FHIROperationContext operationContext, String method,
+        String resourceTypeName,
+        String logicalId, String versionId, String operationName,
+        Resource resource, MultivaluedMap<String, String> queryParameters) {
+        super(entryIndex);
+        this.operationContext = operationContext;
+        this.method = method;
+        this.resourceTypeName = resourceTypeName;
+        this.logicalId = logicalId;
+        this.versionId = versionId;
+        this.operationName = operationName;
+        this.resource = resource;
+        this.queryParameters = queryParameters;
+    }
+
+    @Override
+    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
+        return visitor.doInvoke(getEntryIndex(), operationContext, resourceTypeName, logicalId, versionId, operationName, resource, queryParameters);
+    }
+}

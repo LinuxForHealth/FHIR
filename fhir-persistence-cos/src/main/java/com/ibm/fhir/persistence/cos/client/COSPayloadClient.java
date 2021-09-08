@@ -36,6 +36,7 @@ import com.ibm.cloud.objectstorage.services.s3.model.S3Object;
 import com.ibm.cloud.objectstorage.services.s3.model.S3ObjectInputStream;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
+import com.ibm.fhir.persistence.util.InputOutputByteStream;
 
 /**
  * Encapsulates the AmazonS3 client for handling COS payloads
@@ -97,8 +98,10 @@ public class COSPayloadClient {
         if (item != null) {
             try (S3ObjectInputStream s3InStream = item.getObjectContent()) {
                 // The resources we store are compressed, so provide the function with
-                // the decompressed stream
-                return fn.apply(new GZIPInputStream(s3InStream));
+                // the decompressed stream. Important to close this to avoid leaks
+                try (InputStream dataStream = new GZIPInputStream(s3InStream)) {
+                    return fn.apply(dataStream);
+                }
             } catch (IOException x) {
                 logger.log(Level.SEVERE, "error closing stream for '" + bucketName + ":" + objectName + "'");
                 throw new IllegalStateException("error closing object stream", x);
@@ -137,6 +140,36 @@ public class COSPayloadClient {
             }
         } else {
             logger.warning("Writing failed for [" + bucketName + "]/" + objectName + ", bytes: " + compressedPayload.length);
+            throw new RuntimeException("Write to COS failed");
+        }
+    }
+
+    /**
+     * Write the payload held in the ioStream object to the given objectName as key
+     * @param objectName
+     * @param ioStream
+     * @throws FHIRPersistenceException
+     */
+    public void write(String objectName, InputOutputByteStream ioStream) throws FHIRPersistenceException {
+        final String bucketName = getBucketName();
+
+        // Set up the metadata for the call to S3/COS
+        ObjectMetadata omd = new ObjectMetadata();
+        omd.setContentLength(ioStream.size());
+        omd.setContentType("binary");
+
+        if (logger.isLoggable(Level.FINE)) {
+            logger.info("Writing to COS '" + bucketName + ":" + objectName + "', bytes: " + ioStream.size());
+        }
+
+        // Write the object to the target key (objectName) in the given bucket
+        PutObjectResult result = client.putObject(new PutObjectRequest(bucketName, objectName, ioStream.inputStream(), omd));
+        if (result != null) {
+            if (logger.isLoggable(Level.FINE)) {
+                logger.fine("Wrote [" + bucketName + "]/" + objectName + ", ETag: " + result.getETag());
+            }
+        } else {
+            logger.warning("Writing failed for [" + bucketName + "]/" + objectName + ", bytes: " + ioStream.size());
             throw new RuntimeException("Write to COS failed");
         }
     }

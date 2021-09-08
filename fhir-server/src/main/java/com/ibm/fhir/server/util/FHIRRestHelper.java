@@ -125,6 +125,9 @@ import com.ibm.fhir.server.operation.spi.FHIROperation;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRResourceHelpers;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.rest.FHIRRestOperation;
+import com.ibm.fhir.server.rest.FHIRRestOperationVisitorImpl;
+import com.ibm.fhir.server.rest.FHIRRestOperationVisitorPrepare;
 import com.ibm.fhir.validation.FHIRValidator;
 import com.ibm.fhir.validation.exception.FHIRValidationException;
 
@@ -1015,27 +1018,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         return doSearch(type, compartment, compartmentId, queryParameters, requestUri, contextResource, true);
     }
 
-    /**
-     * Performs heavy lifting associated with a 'search' operation.
-     *
-     * @param type
-     *            the resource type associated with the search
-     * @param compartment
-     *            the compartment associated with the search
-     * @param compartmentId
-     *            the ID of the compartment associated with the search
-     * @param queryParameters
-     *            a Map containing the query parameters from the request URL
-     * @param requestUri
-     *            the request URI
-     * @param contextResource
-     *            a FHIR resource associated with this request
-     * @param checkInteractionAllowed
-     *            if true, check if this interaction is allowed per the tenant configuration; if false, assume interaction is allowed
-     * @return a Bundle containing the search result set
-     * @throws Exception
-     */
-    private Bundle doSearch(String type, String compartment, String compartmentId,
+    @Override
+    public Bundle doSearch(String type, String compartment, String compartmentId,
             MultivaluedMap<String, String> queryParameters, String requestUri,
             Resource contextResource, boolean checkInteractionAllowed) throws Exception {
         log.entering(this.getClass().getName(), "doSearch");
@@ -1588,8 +1572,12 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             // Process entries.
             BundleType.Value bundleType = requestBundle.getType().getValueAsEnum();
-            List<Entry> responseEntries = processEntriesByMethod(requestBundle, validationResponseEntries,
-                    bundleType == BundleType.Value.TRANSACTION, localRefMap, bundleRequestCorrelationId, skippableUpdates);
+            
+            // Translate the entries in the bundle to a list of FHIRRestOperation commands which we
+            // then process in order
+            FHIRRestBundleHelper bundleHelper = new FHIRRestBundleHelper();
+            List<FHIRRestOperation> bundleOps = bundleHelper.translateBundleEntries(requestBundle, validationResponseEntries, skippableUpdates, localRefMap, bundleRequestCorrelationId, skippableUpdates);
+            List<Entry> responseEntries = processBundleOperations(bundleOps, localRefMap, bundleType == BundleType.Value.TRANSACTION);
 
             // Build the response bundle.
             // TODO add support for posting history bundles
@@ -1613,6 +1601,27 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
 
             log.exiting(this.getClass().getName(), "processBundleEntries");
         }
+    }
+    
+    private List<Entry> processBundleOperations(List<FHIRRestOperation> bundleOps, Map<String, String> localRefMap, boolean transaction) throws Exception {
+        List<Entry> result = new ArrayList<>(bundleOps.size());
+        
+        // Run the prepare for all the bundle operations first. This allows us to perform
+        // some async operations which we can fetch the results for later, which can
+        // significantly reduce the overall request response time - especially important
+        // for large bundles.
+        // TODO: handle exceptions/fast fail
+        FHIRRestOperationVisitorPrepare prepare = new FHIRRestOperationVisitorPrepare(this, bundleRequestCorrelationId, localRefMap, transaction);
+        for (FHIRRestOperation operation: bundleOps) {
+            operation.accept(prepare);
+        }
+
+        FHIRRestOperationVisitorImpl persist = new FHIRRestOperationVisitorImpl(this, bundleRequestCorrelationId, localRefMap);
+        for (FHIRRestOperation operation: bundleOps) {
+            operation.accept(persist);
+        }
+        
+        return result;
     }
 
     /**
@@ -1996,7 +2005,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationContext
      * @param method
      */
-    private void updateOperationContext(FHIROperationContext operationContext, String method) {
+    @Override
+    public void updateOperationContext(FHIROperationContext operationContext, String method) {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
         operationContext.setProperty(FHIROperationContext.PROPNAME_HTTP_HEADERS, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_HTTP_HEADERS));
@@ -3634,7 +3644,8 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
      * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
-    private void checkResourceType(String type) throws FHIROperationException {
+    @Override 
+    public void checkResourceType(String type) throws FHIROperationException {
         if (!ModelSupport.isResourceType(type)) {
             throw buildUnsupportedResourceTypeException(type);
         }

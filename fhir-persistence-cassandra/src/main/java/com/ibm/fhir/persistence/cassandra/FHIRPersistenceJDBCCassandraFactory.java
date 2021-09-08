@@ -19,6 +19,7 @@ public class FHIRPersistenceJDBCCassandraFactory extends FHIRPersistenceJDBCFact
     @Override
     public FHIRPayloadPersistence getPayloadPersistence() throws FHIRPersistenceException {
         // Store the payload in Cassandra
-        return new FHIRPayloadPersistenceCassandraImpl();
+        // TODO use a real strategy
+        return new FHIRPayloadPersistenceCassandraImpl(FHIRPayloadPersistenceCassandraImpl.defaultPartitionStrategy());
     };
 }

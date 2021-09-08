@@ -270,6 +270,28 @@ public interface FHIRResourceHelpers {
     Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
             String requestUri, Resource contextResource) throws Exception;
 
+    /**
+     * Performs heavy lifting associated with a 'search' operation.
+     *
+     * @param type
+     *            the resource type associated with the search
+     * @param compartment
+     *            the compartment type to search in, or null if not a compartment search
+     * @param compartmentId
+     *            the specific compartment to search in, or null if not a compartment search
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     *            the request URI
+     * @param contextResource
+     *            the resource context
+     * @param checkIfInteractionAllowed
+     *            if true, check that the search interaction is permitted
+     * @return a Bundle containing the search result set
+     * @throws Exception
+     */
+    Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters,
+        String requestUri, Resource contextResource, boolean checkIfInteractionAllowed) throws Exception;
 
     /**
      * Helper method which invokes a custom operation.
@@ -350,4 +372,6 @@ public interface FHIRResourceHelpers {
      */
     List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
 
+    void updateOperationContext(FHIROperationContext operationContext, String method);
+    void checkResourceType(String type) throws FHIROperationException;
 }

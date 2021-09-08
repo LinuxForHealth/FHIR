@@ -110,7 +110,7 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     MultiResourceResult<Resource> search(FHIRPersistenceContext context, Class<? extends Resource> resourceType) throws FHIRPersistenceException;
-
+    
     /**
      * Returns true iff the persistence layer implementation supports transactions.
      */
