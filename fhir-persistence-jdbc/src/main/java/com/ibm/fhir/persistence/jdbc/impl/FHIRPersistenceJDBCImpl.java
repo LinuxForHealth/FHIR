@@ -1848,6 +1848,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
      * Calls some cache analysis methods and aggregates the output into a single String.
      * @return
      */
+    @Deprecated
     private String performCacheDiagnostics() {
 
         StringBuffer diags = new StringBuffer();
@@ -2130,7 +2131,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 // These references are stored as tokens and are used by the search query builder
                 // for compartment-based searches
                 addCompartmentParams(allParameters, fhirResource);
-                
+
                 // If this is a definitional resource, augment the extracted parameter list with a composite
                 // parameter that will be used for canonical searches. It will contain the url and version
                 // values.
@@ -2237,7 +2238,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
     protected void addCanonicalCompositeParam(List<ExtractedParameterValue> allParameters) throws FHIRSearchException {
         StringParmVal urlParm = null;
         TokenParmVal versionParm = null;
-        
+
         // Look for url and version parameters
         for (ExtractedParameterValue parameter : allParameters) {
             if (parameter.getName().equals(SearchConstants.URL) && parameter instanceof StringParmVal) {
@@ -2246,7 +2247,7 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
                 versionParm = (TokenParmVal) parameter;
             }
         }
-        
+
         // If we found a url parameter, create the composite parameter. The version parameter
         // can be null.
         if (urlParm != null) {
@@ -2274,13 +2275,13 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             vp.setVersion(cp.getVersion());
             vp.setValueString(versionParm != null ? versionParm.getValueCode() : null);
             cp.addComponent(vp);
-            
+
             if (log.isLoggable(Level.FINE)) {
                 log.fine("Adding canonical composite parameter: [" + cp.getResourceType() + "] " +
                             up.getName() + " = " + up.getValueString() + ", " +
                             vp.getName() + " = " + vp.getValueString());
             }
-            
+
             allParameters.add(cp);
         }
     }

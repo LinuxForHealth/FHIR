@@ -1,5 +1,5 @@
 /*
- * (C) Copyright IBM Corp. 2017, 2020
+ * (C) Copyright IBM Corp. 2017, 2021
  *
  * SPDX-License-Identifier: Apache-2.0
  */
@@ -13,7 +13,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 
 /**
- * This Data Access Object interface defines methods for creating, updating, 
+ * This Data Access Object interface defines methods for creating, updating,
  * and retrieving rows in the IBM FHIR Server parameter-related tables.
  */
 public interface ParameterDAO extends FHIRDbDAO {
@@ -25,7 +25,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Map<String,Integer> readAllSearchParameterNames() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-    
+
     /**
      * Reads all rows in the Code_Systems table and returns the data as a Map
      * @return Map<String, Long> - A map containing key=system-name, value=system-id
@@ -33,7 +33,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @throws FHIRPersistenceDataAccessException
      */
     Map<String,Integer> readAllCodeSystems() throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
-    
+
     /**
      * Reads the id associated with the name of the passed Parameter from the Parameter_Names table. If the id for the passed name is not present
      * in the database, an id is generated, persisted, and returned.
@@ -72,7 +72,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      */
     Integer readCodeSystemId(String systemName) throws FHIRPersistenceDBConnectException, FHIRPersistenceDataAccessException;
 
-    
+
     /**
      * Acquire and return the id associated with the passed parameter name.
      * @param parameterName The name of a valid FHIR search parameter.
@@ -96,6 +96,7 @@ public interface ParameterDAO extends FHIRDbDAO {
      * @param codeSystemId The id corresponding to the code system name.
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     void addCodeSystemsCacheCandidate(String codeSystemName, Integer codeSystemId) throws FHIRPersistenceException;
 
     /**
