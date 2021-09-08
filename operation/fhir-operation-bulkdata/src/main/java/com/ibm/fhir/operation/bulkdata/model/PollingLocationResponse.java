@@ -10,6 +10,8 @@ import static com.ibm.fhir.model.type.String.string;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -81,6 +83,13 @@ public class PollingLocationResponse {
 
     public void setOutput(List<Output> output) {
         this.output = output;
+    }
+
+    public void addOutput(Collection<Output> output) {
+        if (this.output == null) {
+            this.output = new ArrayList<>();
+        }
+        this.output.addAll(output);
     }
 
     public List<Output> getError() {

@@ -11,7 +11,7 @@
             </properties>
         </listener>
     </listeners>
-    <step id="step1">
+    <step id="step1" start-limit="3">
         <listeners>
             <listener ref="com.ibm.fhir.bulkdata.jbatch.listener.StepChunkListener"></listener>
         </listeners>

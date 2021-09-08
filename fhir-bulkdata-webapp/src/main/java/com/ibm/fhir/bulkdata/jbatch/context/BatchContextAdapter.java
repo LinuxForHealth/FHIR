@@ -37,7 +37,7 @@ public class BatchContextAdapter {
         this.props = props;
     }
 
-    public BulkDataContext getStepContextForPatientExportPartitionMapper() {
+    public BulkDataContext getStepContextForExportPartitionMapper() {
         BulkDataContext ctx = new BulkDataContext();
         context(ctx);
         source(ctx);

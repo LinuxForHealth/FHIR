@@ -115,11 +115,9 @@ public class BatchCancelRequestAction implements BulkDataClientAction {
         stopJobExecutions(jobExecutions);
 
         if (supportsDeleteJob()) {
-            // Delete The Job
             deleteJob(job);
         } else {
-            // The following is marked as not-found
-            throw export.buildOperationException("The Job is stopped intentionally with an in memory database.", IssueType.NOT_FOUND);
+            throw export.buildOperationException("Job deletion is not supported with the configured (in-memory) database.", IssueType.NOT_SUPPORTED);
         }
 
         // Check for a server-side error
