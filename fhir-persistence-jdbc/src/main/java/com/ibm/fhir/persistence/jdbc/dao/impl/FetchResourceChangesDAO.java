@@ -23,13 +23,13 @@ import com.ibm.fhir.database.utils.api.IDatabaseTranslator;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord;
 import com.ibm.fhir.persistence.ResourceChangeLogRecord.ChangeType;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 
 /**
  * Simple DAO to read records from the RESOURCE_CHANGE_LOG table
  */
 public class FetchResourceChangesDAO {
     private static final Logger logger = Logger.getLogger(FetchResourceChangesDAO.class.getName());
-    private static final Calendar UTC_CALENDAR = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     private final IDatabaseTranslator translator;
     private final String schemaName;
@@ -114,7 +114,7 @@ public class FetchResourceChangesDAO {
         try (PreparedStatement ps = c.prepareStatement(SQL)) {
             int a = 1;
             if (this.fromTstamp != null) {
-                ps.setTimestamp(a++, Timestamp.from(this.fromTstamp), UTC_CALENDAR);
+                ps.setTimestamp(a++, Timestamp.from(this.fromTstamp), CalendarHelper.getCalendarForUTC());
             }
 
             if (this.afterResourceId != null) {
@@ -135,7 +135,7 @@ public class FetchResourceChangesDAO {
                 default:
                     throw new FHIRPersistenceException("Invalid ChangeType in change log"); // DBA can find the bad row if it ever happens
                 }
-                ResourceChangeLogRecord record = new ResourceChangeLogRecord(rs.getString(2), rs.getString(3), rs.getInt(5), rs.getLong(1), rs.getTimestamp(4, UTC_CALENDAR).toInstant(), ct);
+                ResourceChangeLogRecord record = new ResourceChangeLogRecord(rs.getString(2), rs.getString(3), rs.getInt(5), rs.getLong(1), rs.getTimestamp(4, CalendarHelper.getCalendarForUTC()).toInstant(), ct);
                 result.add(record);
             }
         } catch (SQLException x) {

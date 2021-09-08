@@ -6,8 +6,6 @@
 
 package com.ibm.fhir.persistence.jdbc.derby;
 
-import static com.ibm.fhir.persistence.jdbc.JDBCConstants.UTC;
-
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -40,6 +39,7 @@ import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDBConnectException
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceDataAccessException;
 import com.ibm.fhir.persistence.jdbc.exception.FHIRPersistenceFKVException;
 import com.ibm.fhir.persistence.jdbc.impl.ParameterTransactionDataImpl;
+import com.ibm.fhir.persistence.jdbc.util.CalendarHelper;
 import com.ibm.fhir.persistence.jdbc.util.ParameterTableSupport;
 import com.ibm.fhir.persistence.jdbc.util.ResourceTypesCache;
 
@@ -207,6 +207,7 @@ public class DerbyResourceDAO extends ResourceDAOImpl {
     public long storeResource(String tablePrefix, List<ExtractedParameterValue> parameters, String p_logical_id, InputStream p_payload, Timestamp p_last_updated, boolean p_is_deleted,
         String p_source_key, Integer p_version, String p_parameterHashB64, Connection conn, ParameterDAO parameterDao) throws Exception {
 
+        final Calendar UTC = CalendarHelper.getCalendarForUTC();
         final String METHODNAME = "storeResource() for " + tablePrefix + " resource";
         logger.entering(CLASSNAME, METHODNAME);
 

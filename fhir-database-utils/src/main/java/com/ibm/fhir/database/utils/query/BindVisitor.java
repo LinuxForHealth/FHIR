@@ -28,7 +28,6 @@ import com.ibm.fhir.database.utils.query.expression.BindMarkerNodeVisitor;
  * for looser coupling.
  */
 public class BindVisitor implements BindMarkerNodeVisitor {
-    private static final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
     private static final Logger logger = Logger.getLogger(BindVisitor.class.getName());
 
     // the statement to bind values to
@@ -40,6 +39,9 @@ public class BindVisitor implements BindMarkerNodeVisitor {
     // Keep track of the parameter index
     private int parameterIndex = 1;
 
+    // Do not make static - Calendar is not thread-safe
+    private final Calendar UTC = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    
     /**
      * Public constructor
      * @param ps
