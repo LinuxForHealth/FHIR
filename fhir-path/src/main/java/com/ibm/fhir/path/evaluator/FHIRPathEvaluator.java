@@ -373,7 +373,17 @@ public class FHIRPathEvaluator {
             if (arguments.isEmpty()) {
                 return !getCurrentContext().isEmpty() ? SINGLETON_TRUE : SINGLETON_FALSE;
             }
-            return evaluatesToTrue(visit(arguments.get(0))) ? SINGLETON_TRUE : SINGLETON_FALSE;
+
+            for (FHIRPathNode node : getCurrentContext()) {
+                pushContext(singleton(node));
+                if (evaluatesToTrue(visit(arguments.get(0)))) {
+                    popContext();
+                    return SINGLETON_TRUE;
+                }
+                popContext();
+            }
+
+            return SINGLETON_FALSE;
         }
 
         private Collection<FHIRPathNode> getCurrentContext() {
@@ -873,7 +883,9 @@ public class FHIRPathEvaluator {
                 return afterEvaluation(ctx, SINGLETON_FALSE);
             }
 
-            if (!validateEqualityOperands(left, right)) {
+            // for quantity operands: Attempting to operate on quantities with invalid units will result in empty ({ }).
+            // for temporal operands: If one input has a value for the precision and the other does not, the comparison stops and the result is empty ({ })
+            if (!isEqualityOperationValid(left, right)) {
                 return afterEvaluation(ctx, empty());
             }
 
@@ -898,7 +910,7 @@ public class FHIRPathEvaluator {
             return afterEvaluation(ctx, result);
         }
 
-        private boolean validateEqualityOperands(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
+        private boolean isEqualityOperationValid(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
             if (left.size() != right.size()) {
                 throw new IllegalArgumentException();
             }
@@ -914,12 +926,6 @@ public class FHIRPathEvaluator {
                         !getTemporalValue(leftNode).precision().equals(getTemporalValue(rightNode).precision())) {
                     return false;
                 }
-                // TODO: change to this when we update to a newer version of the test file
-                /*
-                if (hasTemporalValue(leftNode) && hasTemporalValue(rightNode) && !leftNode.isComparableTo(rightNode)) {
-                    return false;
-                }
-                */
             }
 
             return true;
@@ -1213,7 +1219,7 @@ public class FHIRPathEvaluator {
             beforeEvaluation(ctx);
             String number = ctx.NUMBER().getText();
             String text = ctx.unit().getText();
-            String unit = text.substring(1, text.length() - 1);
+            String unit = text.startsWith("'") ? text.substring(1, text.length() - 1) : text;
             return afterEvaluation(ctx, singleton(FHIRPathQuantityValue.quantityValue(new BigDecimal(number), unit)));
         }
 
