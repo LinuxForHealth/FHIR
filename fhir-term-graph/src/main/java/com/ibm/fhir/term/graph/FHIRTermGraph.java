@@ -8,7 +8,7 @@ package com.ibm.fhir.term.graph;
 
 import java.util.stream.Stream;
 
-import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversalSource;
 import org.janusgraph.core.JanusGraph;
 import org.janusgraph.core.JanusGraphIndexQuery.Result;
