@@ -885,7 +885,7 @@ public class FHIRPathEvaluator {
 
             // for quantity operands: Attempting to operate on quantities with invalid units will result in empty ({ }).
             // for temporal operands: If one input has a value for the precision and the other does not, the comparison stops and the result is empty ({ })
-            if (!isEqualityOperationValid(left, right)) {
+            if (!equalityOperandsAreValid(left, right)) {
                 return afterEvaluation(ctx, empty());
             }
 
@@ -910,7 +910,7 @@ public class FHIRPathEvaluator {
             return afterEvaluation(ctx, result);
         }
 
-        private boolean isEqualityOperationValid(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
+        private boolean equalityOperandsAreValid(Collection<FHIRPathNode> left, Collection<FHIRPathNode> right) {
             if (left.size() != right.size()) {
                 throw new IllegalArgumentException();
             }
