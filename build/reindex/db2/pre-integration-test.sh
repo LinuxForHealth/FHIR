@@ -31,7 +31,7 @@ config(){
     # Setup the Configurations for Reindex
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
@@ -41,7 +41,7 @@ config(){
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
+    cp ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-db2.xml ${DIST}/overrides
 
     # Move over the test configurations
     echo "Copying over the fhir-server-config.json and updating publishing"

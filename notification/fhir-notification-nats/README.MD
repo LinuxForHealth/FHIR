@@ -2,7 +2,7 @@
 The fhir-notification-nats module is designed to publish patient records to a [NATS](http://nats.io) streaming cluster for pub/sub, so published patient records can be consumed by designated downstream applications.  
 
 ## Configure IBM FHIR
-In fhir-server/liberty-config/config/default/fhir-server-config.json, find the default NATS configuration shown here:  
+In fhir-server-webapp/src/main/liberty/config/config/default/fhir-server-config.json, find the default NATS configuration shown here:  
 
 ```json
     "nats": {

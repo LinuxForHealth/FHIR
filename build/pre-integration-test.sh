@@ -63,13 +63,13 @@ java -jar ${SIT}/fhir-server-dist/tools/fhir-persistence-schema-*-cli.jar \
 
 echo "Copying configuration to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/config/*
-cp -pr ${WORKSPACE}/fhir-server/liberty-config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
+cp -pr ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 cp -pr ${WORKSPACE}/fhir-server/liberty-config-tenants/config/* ${SIT}/wlp/usr/servers/fhir-server/config/
 
 # Only copy over the Derby datasource definition for this instance
 rm -f ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource-*.xml
 mkdir -p ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides
-cp -p ${WORKSPACE}/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource.xml
+cp -p ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${SIT}/wlp/usr/servers/fhir-server/configDropins/overrides/datasource.xml
 
 echo "Copying test artifacts to install location..."
 rm -rf ${SIT}/wlp/usr/servers/fhir-server/userlib/fhir-operation-*-tests.jar

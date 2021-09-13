@@ -90,7 +90,7 @@ New-Item -Path $CONFIGS_DROPINS -Name 'defaults' -ItemType 'directory'
 New-Item -Path $CONFIGS_DROPINS -Name 'overrides' -ItemType 'directory'
 
 # Copy over the Files for default, tenant1, tenant2
-$DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\config\*'
+$DR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\config\*'
 $DR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\config\'
 Copy-Item $DR_ITEM -Destination $DR_ITEM_DST -Recurse
 
@@ -98,13 +98,13 @@ $DR_ITEM1=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config-tenants\config\*
 Copy-Item $DR_ITEM1 -Destination $DR_ITEM_DST -Recurse
 
 # Only copy over the Derby datasource definition for this instance
-$OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\defaults\datasource.xml'
+$OVR_ITEM=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\defaults\datasource.xml'
 $OVR_ITEM_DST=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\defaults\datasource.xml'
 Copy-Item $OVR_ITEM -Destination $OVR_ITEM_DST
-$OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\datasource-derby.xml'
+$OVR_ITEM2=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\datasource-derby.xml'
 $OVR_ITEM_DST2=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\datasource-derby.xml'
 Copy-Item $OVR_ITEM2 -Destination $OVR_ITEM_DST2
-$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server\liberty-config\configDropins\disabled\jvm.options'
+$OVR_ITEM3=[string]$DIR_WORKSPACE + '\fhir-server-webapp\src\main\liberty\config\configDropins\disabled\jvm.options'
 $OVR_ITEM_DST3=[string]$DIR_WORKSPACE + '\SIT\wlp\usr\servers\fhir-server\configDropins\overrides\jvm.options'
 Copy-Item $OVR_ITEM3 -Destination $OVR_ITEM_DST3
 

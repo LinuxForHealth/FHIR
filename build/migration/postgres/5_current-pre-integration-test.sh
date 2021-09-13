@@ -25,7 +25,7 @@ config(){
     # Setup the Configurations for Migration
     echo "Copying fhir configuration files..."
     mkdir -p ${DIST}/config
-    cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config/config $DIST
+    cp -pr ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/config $DIST
     cp -pr ${WORKSPACE}/fhir/fhir-server/liberty-config-tenants/config/* $DIST/config
 
     echo "Copying test artifacts to install location..."
@@ -37,8 +37,8 @@ config(){
 
     echo "Copying over the overrides for the datasource"
     mkdir -p ${DIST}/overrides
-    cp ${WORKSPACE}/fhir/fhir-server/liberty-config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
-    cp -p ${WORKSPACE}/fhir/fhir-server/liberty-config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
+    cp ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-postgresql.xml ${DIST}/overrides
+    cp -p ${WORKSPACE}/fhir/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/datasource-derby.xml ${DIST}/overrides
     if [ -d ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target ]
     then
         find ${WORKSPACE}/fhir/operation/fhir-operation-term-cache/target -iname '*.jar' -exec cp -f {} ${USERLIB} \;
