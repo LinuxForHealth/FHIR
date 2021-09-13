@@ -388,8 +388,8 @@ The IBM FHIR Server Bulk Data modules utilize Java Batch (JSR-352) from the Libe
 1. Associate it with a ServiceId (no need to create an Administration user, a simple user has sufficient privileges) using the same procedure you followed for the fhir-server ServiceId user.
 
 1. Create the datasource
-    1. Db2 with IAM https://github.com/IBM/FHIR/blob/main/fhir-server/liberty-config/configDropins/disabled/db2-cloud/bulkdata.xml
-    1. Db2 with Db2Auth https://github.com/IBM/FHIR/blob/main/fhir-server/liberty-config/configDropins/disabled/db2/bulkdata.xml
+    1. Db2 with IAM https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2-cloud/bulkdata.xml
+    1. Db2 with Db2Auth https://github.com/IBM/FHIR/blob/main/fhir-server-webapp/src/main/liberty/config/configDropins/disabled/db2/bulkdata.xml
 
 - Note: The Java Batch is configured in `bulkdata.xml` and included from the IBM FHIR Server's `server.xml` which is installed to `{wlp}/usr/server/defaultServer`. (fhir-server is installed locally)
 - Note: While this feature is not required, it's best to configure this datasource while configuring the main datasource.

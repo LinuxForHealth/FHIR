@@ -7,8 +7,8 @@
 # ----------------------------------------------------------------------------
 
 cp -f ${WORKSPACE}/build/certificates/tmp/fhirKeyStore.p12 \
-    ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirKeyStore.p12
+    ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/resources/security/fhirKeyStore.p12
 cp -f ${WORKSPACE}/build/certificates/tmp/fhirTrustStore.p12 \
-    ${WORKSPACE}/fhir-server/liberty-config/resources/security/fhirTrustStore.p12
+    ${WORKSPACE}/fhir-server-webapp/src/main/liberty/config/resources/security/fhirTrustStore.p12
 
 # EOF

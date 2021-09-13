@@ -1,4 +1,0 @@
-<server description="fhir-server">
-    <ssl id="defaultSSLConfig" trustDefaultCerts="${SEC_TLS_TRUSTDEFAULTCERTS}"/>
-    <variable name="SEC_TLS_TRUSTDEFAULTCERTS" defaultValue="true"/>
-</server>

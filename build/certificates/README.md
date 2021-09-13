@@ -37,8 +37,8 @@ build/docker/minio/public.crt
 The following certificates are used with the IBM FHIR Server. 
 
 ```
-fhir-server/liberty-config/resources/security/fhirKeyStore.p12
-fhir-server/liberty-config/resources/security/fhirTrustStore.p12
+fhir-server-webapp/src/main/liberty/config/resources/security/fhirKeyStore.p12
+fhir-server-webapp/src/main/liberty/config/resources/security/fhirTrustStore.p12
 ```
 
 1. Set `export WORKSPACE=$(pwd)`
@@ -85,8 +85,8 @@ Note, the `tmp` folder should exist and be empty.
 The following certificates are used with the kafka-client. 
 
 ```
-fhir-server/liberty-config/resources/security/kafka.client.keystore.p12
-fhir-server/liberty-config/resources/security/kafka.client.truststore.p12
+fhir-server-webapp/src/main/liberty/config/resources/security/kafka.client.keystore.p12
+fhir-server-webapp/src/main/liberty/config/resources/security/kafka.client.truststore.p12
 ```
 
 1. Set `export WORKSPACE=$(pwd)`

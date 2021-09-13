@@ -1,5 +1,5 @@
 <server description="fhir-server">
-    <!-- 
+    <!--
         This configDropin work with the IBM Cloud hosted Db2 and securityMechanism 15 (apiKey)
     -->
     <featureManager>
@@ -51,5 +51,5 @@
     </dataSource>
 
     <batchPersistence jobStoreRef="BatchDatabaseStore"/>
-    <databaseStore dataSourceRef="fhirbatchDS" id="BatchDatabaseStore" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
+    <databaseStore id="BatchDatabaseStore" dataSourceRef="fhirbatchDS" schema="${BATCH_DB_SCHEMA}" tablePrefix="" createTables="false"/>
 </server>
