@@ -43,6 +43,7 @@
         <derby.version>10.14.2.0</derby.version>
         <db2.version>11.5.5.0</db2.version>
         <postgresql.version>42.2.18</postgresql.version>
+        <janusgraph.version>0.6.0</janusgraph.version>
         <!-- Updated per [CVE-2021-22696] CXF supports (via JwtRequestCodeFilter) -->
         <cxf.version>3.4.3</cxf.version>
         <surefire.plugin.version>3.0.0-M5</surefire.plugin.version>
@@ -524,32 +525,32 @@
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-core</artifactId>
-                <version>0.5.3</version>
+                <version>${janusgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-berkeleyje</artifactId>
-                <version>0.5.3</version>
+                <version>${janusgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-cql</artifactId>
-                <version>0.5.3</version>
+                <version>${janusgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-lucene</artifactId>
-                <version>0.5.3</version>
+                <version>${janusgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.janusgraph</groupId>
                 <artifactId>janusgraph-es</artifactId>
-                <version>0.5.3</version>
+                <version>${janusgraph.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.tinkerpop</groupId>
                 <artifactId>gremlin-driver</artifactId>
-                <version>3.4.6</version>
+                <version>3.5.1</version>
             </dependency>
             <dependency>
                 <groupId>javax.xml.bind</groupId>
