@@ -104,7 +104,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
         boolean caseSensitive = isCaseSensitive(codeSystem);
 
         GraphTraversal<Vertex, Vertex> g = whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
-            .union(__.identity(), whereCodeSystem(hasCode(vertices(), code.getValue(), caseSensitive), codeSystem)
+            .union(__.identity(), whereCodeSystem(hasCode(code.getValue(), caseSensitive), codeSystem)
                 .repeat(__.in(FHIRTermGraph.IS_A)
                     .simplePath()
                     .dedup())
@@ -363,7 +363,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
                 (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
                         codeSystem.getHierarchyMeaning() == null)) {
             return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(value.getValue(), caseSensitive), codeSystem)
                     .repeat(__.out(FHIRTermGraph.IS_A)
                         .simplePath()
                         .dedup())
@@ -391,7 +391,7 @@ public class GraphTermServiceProvider extends AbstractTermServiceProvider {
                 (CodeSystemHierarchyMeaning.IS_A.equals(codeSystem.getHierarchyMeaning()) ||
                         codeSystem.getHierarchyMeaning() == null)) {
             return whereCodeSystem(hasCode(g, value.getValue(), caseSensitive), codeSystem)
-                .union(__.identity(), whereCodeSystem(hasCode(vertices(), value.getValue(), caseSensitive), codeSystem)
+                .union(__.identity(), whereCodeSystem(hasCode(value.getValue(), caseSensitive), codeSystem)
                     .repeat(__.in(FHIRTermGraph.IS_A)
                         .simplePath()
                         .dedup())
