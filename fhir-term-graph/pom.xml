@@ -52,9 +52,11 @@
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-berkeleyje</artifactId>
         </dependency>
+        <!-- change to compile scope or manually package in userlib separately to enable cassandra as a backend graph store option -->
         <dependency>
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-cql</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.janusgraph</groupId>
@@ -66,9 +68,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- change to compile scope or manually package in userlib to enable elasticsearch as a search index option for graphs -->
         <dependency>
             <groupId>org.janusgraph</groupId>
             <artifactId>janusgraph-es</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
