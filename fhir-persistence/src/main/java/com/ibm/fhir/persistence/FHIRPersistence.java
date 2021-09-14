@@ -6,12 +6,12 @@
 
 package com.ibm.fhir.persistence;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.function.Function;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Instant;
 import com.ibm.fhir.persistence.context.FHIRPersistenceContext;
 import com.ibm.fhir.persistence.erase.EraseDTO;
 import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
@@ -25,15 +25,31 @@ import com.ibm.fhir.persistence.exception.FHIRPersistenceNotSupportedException;
 public interface FHIRPersistence {
 
     /**
-     * Stores a new FHIR Resource in the datastore.
-     *
+     * Stores a new FHIR Resource in the datastore. Id assignment handled by the implementation.
+     * This method has been deprecated. Instead, generate the logical id first and use the 
+     * create(context, resource, logicalId) call instead.
      * @param context the FHIRPersistenceContext instance associated with the current request
      * @param resource the FHIR Resource instance to be created in the datastore
      * @return a SingleResourceResult with a copy of resource with Meta fields updated by the persistence layer and/or
      *         an OperationOutcome with hints, warnings, or errors related to the interaction
      * @throws FHIRPersistenceException
      */
+    @Deprecated
     <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException;
+    
+    /**
+     * Stores a new FHIR Resource in the datastore. The resource is not modified before it is stored. It
+     * must therefore already include correct Meta fields.
+     *
+     * @param context the FHIRPersistenceContext instance associated with the current request
+     * @param resource the FHIR Resource instance to be created in the datastore
+     * @param logicalId the new logicalId to assign to the resource
+     * @return a SingleResourceResult with the unmodified resource and/or
+     *         an OperationOutcome with hints, warnings, or errors related to the interaction
+     * @throws FHIRPersistenceException
+     */
+    <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber, 
+        Instant lastUpdated) throws FHIRPersistenceException;
 
     /**
      * Retrieves the most recent version of a FHIR Resource from the datastore.
@@ -164,7 +180,7 @@ public interface FHIRPersistence {
      * @return count of the number of resources reindexed by this call
      * @throws FHIRPersistenceException
      */
-    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, Instant tstamp, List<Long> indexIds,
+    int reindex(FHIRPersistenceContext context, OperationOutcome.Builder operationOutcomeResult, java.time.Instant tstamp, List<Long> indexIds,
         String resourceLogicalId) throws FHIRPersistenceException;
 
     /**
@@ -182,7 +198,7 @@ public interface FHIRPersistence {
      * @throws FHIRPersistenceException
      */
     ResourcePayload fetchResourcePayloads(Class<? extends Resource> resourceType,
-        Instant fromLastModified, Instant toLastModified,
+        java.time.Instant fromLastModified, java.time.Instant toLastModified,
         Function<ResourcePayload,Boolean> process) throws FHIRPersistenceException;
 
     /**
@@ -201,7 +217,7 @@ public interface FHIRPersistence {
      * @param resourceTypeName filter records with record.resourceType = resourceTypeName. Optional.
      * @return a list containing up to resourceCount elements describing resources which have changed
      */
-    List<ResourceChangeLogRecord> changes(int resourceCount, Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
+    List<ResourceChangeLogRecord> changes(int resourceCount, java.time.Instant fromLastModified, Long afterResourceId, String resourceTypeName) throws FHIRPersistenceException;
 
     /**
      * Erases part or a whole of a resource in the data layer
@@ -222,6 +238,6 @@ public interface FHIRPersistence {
      * @return list of index IDs available for reindexing
      * @throws FHIRPersistenceException
      */
-    List<Long> retrieveIndex(int count, Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
+    List<Long> retrieveIndex(int count, java.time.Instant notModifiedAfter, Long afterIndexId, String resourceTypeName) throws FHIRPersistenceException;
 
 }

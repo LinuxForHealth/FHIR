@@ -64,6 +64,12 @@ public class MockPersistenceImpl implements FHIRPersistence {
     }
 
     @Override
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber,
+        com.ibm.fhir.model.type.Instant lastUpdated) throws FHIRPersistenceException {
+        return null;
+    }
+
+    @Override
     public <T extends Resource> SingleResourceResult<T> read(FHIRPersistenceContext context, Class<T> resourceType, String logicalId)
         throws FHIRPersistenceException, FHIRPersistenceResourceDeletedException {
 

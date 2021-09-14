@@ -8,6 +8,9 @@ package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+
 /**
  * Executes a VREAD (version read) operation on the visitor
  */
@@ -18,8 +21,8 @@ public class FHIRRestOperationVRead extends FHIRRestOperationBase {
     private final String versionId;
     private final MultivaluedMap<String, String> queryParameters;
     
-    public FHIRRestOperationVRead(int entryIndex, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex);
+    public FHIRRestOperationVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) {
+        super(entryIndex, requestDescription, initialTime);
         this.type = type;
         this.id = id;
         this.versionId = versionId;
@@ -27,7 +30,7 @@ public class FHIRRestOperationVRead extends FHIRRestOperationBase {
     }
     
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.doVRead(getEntryIndex(), type, id, versionId, queryParameters);
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.doVRead(getEntryIndex(), getRequestDescription(), getInitialTime(), type, id, versionId, queryParameters);
     }
 }

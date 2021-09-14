@@ -7,11 +7,13 @@
 package com.ibm.fhir.server.operation.spi;
 
 import java.net.URI;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.core.Response;
 
 import com.ibm.fhir.model.resource.OperationOutcome;
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.type.Instant;
 
 /**
  * This class is used to represent a response returned by the FHIR resource helper methods.
@@ -22,6 +24,14 @@ public class FHIRRestOperationResponse {
     private Resource resource;
     private Resource prevResource;
     private OperationOutcome operationOutcome;
+    private int versionNumber;
+    private Instant lastUpdated;
+    
+    // A nested response we may get when offloading payload storage (e.g. in COS, Cassandra)
+    private Future<FHIRRestOperationResponse> storePayloadResponse;
+    
+    // The id of the resource, which could be new in the case of create
+    private String resourceId;
     
     public FHIRRestOperationResponse() {
     }
@@ -36,6 +46,15 @@ public class FHIRRestOperationResponse {
         setLocationURI(locationURI);
         setOperationOutcome(operationOutcome);
     }
+    
+    public FHIRRestOperationResponse(Resource resource, String resourceId, int versionNumber, Instant lastUpdated, Future<FHIRRestOperationResponse> storePayloadResponse) {
+        this.resource = resource;
+        this.resourceId = resourceId;
+        this.versionNumber = versionNumber;
+        this.lastUpdated = lastUpdated;
+        this.storePayloadResponse = storePayloadResponse;
+    }
+    
     public Response.Status getStatus() {
         return status;
     }
@@ -69,5 +88,13 @@ public class FHIRRestOperationResponse {
 
     public void setOperationOutcome(OperationOutcome operationOutcome) {
         this.operationOutcome = operationOutcome;
+    }
+    
+    /**
+     * Getter for the resourceId
+     * @return
+     */
+    public String getResourceId() {
+        return this.resourceId;
     }
 }

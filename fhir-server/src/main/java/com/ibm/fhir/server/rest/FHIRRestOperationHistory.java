@@ -8,6 +8,9 @@ package com.ibm.fhir.server.rest;
 
 import javax.ws.rs.core.MultivaluedMap;
 
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+
 /**
  * Executes a history operation on the visitor
  */
@@ -18,8 +21,8 @@ public class FHIRRestOperationHistory extends FHIRRestOperationBase {
     private final MultivaluedMap<String, String> queryParameters;
     private final String requestUri;
     
-    public FHIRRestOperationHistory(int entryIndex, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
-        super(entryIndex);
+    public FHIRRestOperationHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) {
+        super(entryIndex, requestDescription, initialTime);
         this.type = type;
         this.id = id;
         this.queryParameters = queryParameters;
@@ -27,7 +30,7 @@ public class FHIRRestOperationHistory extends FHIRRestOperationBase {
     }
 
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.doHistory(getEntryIndex(), type, id, queryParameters, requestUri);
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.doHistory(getEntryIndex(), getRequestDescription(), getInitialTime(), type, id, queryParameters, requestUri);
     }
 }

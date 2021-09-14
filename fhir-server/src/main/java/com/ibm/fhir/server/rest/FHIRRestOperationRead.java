@@ -9,6 +9,8 @@ package com.ibm.fhir.server.rest;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.ibm.fhir.model.resource.Resource;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Executes a read operation on the visitor
@@ -23,9 +25,9 @@ public class FHIRRestOperationRead extends FHIRRestOperationBase {
     private final MultivaluedMap<String, String> queryParameters;
     private final boolean checkInteractionAllowed;
     
-    public FHIRRestOperationRead(int entryIndex, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    public FHIRRestOperationRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) {
-        super(entryIndex);
+        super(entryIndex, requestDescription, initialTime);
         this.type = type;
         this.id = id;
         this.throwExcOnNull = throwExcOnNull;
@@ -36,7 +38,7 @@ public class FHIRRestOperationRead extends FHIRRestOperationBase {
     }
     
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.doRead(getEntryIndex(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.doRead(getEntryIndex(), getRequestDescription(), getInitialTime(), type, id, throwExcOnNull, includeDeleted, contextResource, queryParameters, checkInteractionAllowed);
     }
 }

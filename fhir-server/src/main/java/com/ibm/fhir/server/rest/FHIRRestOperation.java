@@ -6,11 +6,12 @@
  
 package com.ibm.fhir.server.rest;
 
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Defines an operation the REST layer wants to perform against the
  * persistence layer
  */
 public interface FHIRRestOperation {
-    <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception;
+    FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception;
 }

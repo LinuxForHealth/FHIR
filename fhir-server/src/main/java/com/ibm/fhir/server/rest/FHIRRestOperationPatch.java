@@ -7,6 +7,8 @@
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.patch.FHIRPatch;
+import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Executes a patch operation on the visitor
@@ -20,9 +22,9 @@ public class FHIRRestOperationPatch extends FHIRRestOperationBase {
     private final String searchQueryString;
     private final boolean skippableUpdate;
     
-    public FHIRRestOperationPatch(int entryIndex, String type, String id, FHIRPatch patch, String ifMatchValue,
+    public FHIRRestOperationPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate) {
-        super(entryIndex);
+        super(entryIndex, requestDescription, initialTime);
         this.type = type;
         this.id = id;
         this.patch = patch;
@@ -32,7 +34,7 @@ public class FHIRRestOperationPatch extends FHIRRestOperationBase {
     }
     
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.doPatch(getEntryIndex(), type, id, patch, ifMatchValue, searchQueryString, skippableUpdate);
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.doPatch(getEntryIndex(), getRequestDescription(), getInitialTime(), type, id, patch, ifMatchValue, searchQueryString, skippableUpdate);
     }
 }

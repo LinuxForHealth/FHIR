@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
@@ -1604,19 +1605,20 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
     
     private List<Entry> processBundleOperations(List<FHIRRestOperation> bundleOps, Map<String, String> localRefMap, boolean transaction) throws Exception {
-        List<Entry> result = new ArrayList<>(bundleOps.size());
+        ArrayList<Entry> result = new ArrayList<>(bundleOps.size());
         
         // Run the prepare for all the bundle operations first. This allows us to perform
         // some async operations which we can fetch the results for later, which can
         // significantly reduce the overall request response time - especially important
         // for large bundles.
-        // TODO: handle exceptions/fast fail
         FHIRRestOperationVisitorPrepare prepare = new FHIRRestOperationVisitorPrepare(this, bundleRequestCorrelationId, localRefMap, transaction);
         for (FHIRRestOperation operation: bundleOps) {
             operation.accept(prepare);
         }
 
-        FHIRRestOperationVisitorImpl persist = new FHIRRestOperationVisitorImpl(this, bundleRequestCorrelationId, localRefMap);
+        // Now run all the persistence operations in the correct order, injecting each result into the
+        // appropriate position in the entry ArrayList. At the end of the loop, each slot will be filled.
+        FHIRRestOperationVisitorImpl persist = new FHIRRestOperationVisitorImpl(this, bundleRequestCorrelationId, localRefMap, result, transaction);
         for (FHIRRestOperation operation: bundleOps) {
             operation.accept(persist);
         }
@@ -2005,7 +2007,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * @param operationContext
      * @param method
      */
-    @Override
     public void updateOperationContext(FHIROperationContext operationContext, String method) {
         FHIRRequestContext requestContext = FHIRRequestContext.get();
         operationContext.setProperty(FHIROperationContext.PROPNAME_URI_INFO, requestContext.getExtendedOperationProperties(FHIROperationContext.PROPNAME_URI_INFO));
@@ -3644,7 +3645,6 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
      * This method will do a quick check of the {type} URL parameter. If the type is not a valid FHIR resource type, then
      * we'll throw an error to short-circuit the current in-progress REST API invocation.
      */
-    @Override 
     public void checkResourceType(String type) throws FHIROperationException {
         if (!ModelSupport.isResourceType(type)) {
             throw buildUnsupportedResourceTypeException(type);
@@ -3654,4 +3654,16 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
         }
     }
 
+    @Override
+    public String generateResourceId() {
+        return persistence.generateResourceId();
+    }
+
+    @Override
+    public Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber,
+        com.ibm.fhir.model.type.Instant lastUpdated) {
+        
+        // Delegate to the persistence layer
+        return null;
+    }
 }

@@ -368,13 +368,23 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
         return result;
     }
 
-
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException  {
+        // Provided for API stability. No longer used. 
+        final String logicalId = generateResourceId();
+        
+        // Set the resource id and meta fields.
+        int newVersionNumber = 1;
+        Instant lastUpdated = Instant.now(ZoneOffset.UTC);
+        T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
+        return create(context, updatedResource, logicalId, newVersionNumber, lastUpdated);
+    }
+
+    @Override
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T updatedResource, String logicalId, int newVersionNumber, 
+        Instant lastUpdated) throws FHIRPersistenceException  {
         final String METHODNAME = "create";
         log.entering(CLASSNAME, METHODNAME);
-
-        String logicalId;
 
         try (Connection connection = openConnection()) {
 
@@ -382,15 +392,9 @@ public class FHIRPersistenceJDBCImpl implements FHIRPersistence, SchemaNameSuppl
             // contains an id, then for R4 we need to ignore it and replace it with our
             // system-generated value. For the update-or-create scenario, see update().
             // Default version is 1 for a brand new FHIR Resource.
-            int newVersionNumber = 1;
-            logicalId = generateResourceId();
             if (log.isLoggable(Level.FINE)) {
-                log.fine("Creating new FHIR Resource of type '" + resource.getClass().getSimpleName() + "'");
+                log.fine("Creating new FHIR Resource of type '" + updatedResource.getClass().getSimpleName() + "'");
             }
-
-            // Set the resource id and meta fields.
-            Instant lastUpdated = Instant.now(ZoneOffset.UTC);
-            T updatedResource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
 
             // Create the new Resource DTO instance.
             com.ibm.fhir.persistence.jdbc.dto.Resource resourceDTO =

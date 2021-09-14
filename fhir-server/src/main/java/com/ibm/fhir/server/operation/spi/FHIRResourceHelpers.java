@@ -8,6 +8,7 @@ package com.ibm.fhir.server.operation.spi;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -371,7 +372,22 @@ public interface FHIRResourceHelpers {
      * @throws Exception
      */
     List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, Instant notModifiedAfter, Long afterIndexId) throws Exception;
-
-    void updateOperationContext(FHIROperationContext operationContext, String method);
-    void checkResourceType(String type) throws FHIROperationException;
+    
+    /**
+     * Generate a new resource id. This is typically delegated to the persistence layer, which
+     * may want to create FHIR-compliant ids optimized for a certain type of storage.
+     * @return
+     */
+    String generateResourceId();
+    
+    /**
+     * If the underlying persistence layer supports offloading payload storage, initiate the
+     * request here.
+     * @param resource the resource to store (with correct Meta fields)
+     * @param logicalId the logical id of the resource
+     * @param newVersionNumber the version number to use
+     * @param lastUpdated the last updated timestamp
+     * @return a Future response to the payload store operation, or null if it is not supported
+     */
+    Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, com.ibm.fhir.model.type.Instant lastUpdated);
 }

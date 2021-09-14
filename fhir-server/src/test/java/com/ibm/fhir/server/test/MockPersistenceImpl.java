@@ -33,12 +33,18 @@ import com.ibm.fhir.server.util.FHIRRestHelperTest;
 public class MockPersistenceImpl implements FHIRPersistence {
     int id = 0;
 
-    @SuppressWarnings("unchecked")
     @Override
     public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource) throws FHIRPersistenceException {
+        return create(context, resource, generateResourceId(), 1, Instant.now());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T extends Resource> SingleResourceResult<T> create(FHIRPersistenceContext context, T resource, String logicalId, int versionNumber,
+        Instant lastUpdated) throws FHIRPersistenceException {
         T updatedResource = (T) resource.toBuilder()
                 .id(generateResourceId())
-                .meta(Meta.builder().versionId(Id.of("1")).lastUpdated(Instant.now()).build())
+                .meta(Meta.builder().versionId(Id.of(Integer.toString(versionNumber))).lastUpdated(lastUpdated).build())
                 .build();
         SingleResourceResult.Builder<T> resultBuilder = new SingleResourceResult.Builder<T>()
                 .success(true)

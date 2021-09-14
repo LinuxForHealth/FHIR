@@ -8,9 +8,11 @@ package com.ibm.fhir.server.rest;
 
 import static com.ibm.fhir.model.type.String.string;
 
+import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,7 +22,11 @@ import javax.ws.rs.core.Response.Status;
 import com.ibm.fhir.exception.FHIROperationException;
 import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.model.resource.Resource.Builder;
 import com.ibm.fhir.model.type.CodeableConcept;
+import com.ibm.fhir.model.type.Id;
+import com.ibm.fhir.model.type.Instant;
+import com.ibm.fhir.model.type.Meta;
 import com.ibm.fhir.model.type.Reference;
 import com.ibm.fhir.model.type.code.IssueSeverity;
 import com.ibm.fhir.model.type.code.IssueType;
@@ -47,12 +53,12 @@ import com.ibm.fhir.server.util.FHIRUrlParser;
  * If the bundle type is a transaction, the persistence layer transaction must be started
  * before this visitor is used
  */
-public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor<FHIRRestOperationResponse> {
+public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor {
     private static final Logger log = Logger.getLogger(FHIRRestOperationVisitorImpl.class.getName());
     
     // the helper we use to do most of the heavy lifting
     private final FHIRResourceHelpers helpers;
-    
+        
     private final String bundleRequestCorrelationId;
 
     // Used to resolve local references
@@ -73,52 +79,70 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String type, String compartment, String compartmentId,
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
-        // NOP
+        // NOP. Nothing to do
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doVRead(int entryIndex, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
         throws Exception {
-        // NOP
+        // NOP for now. TODO: when offloading payload, start an async read of the id/version payload
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
         MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
-        // TODO Auto-generated method stub
+        // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doHistory(int entryIndex, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
+    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
         throws Exception {
-        // NOP
+        // NOP for now. TODO: optimistic async reads, if we can scope them properly
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier, String logicalId) throws Exception {
         if (transaction) {
             resolveConditionalReferences(resource, localRefMap);
+        }
+        
+        // Determine if we have a pre-generated resource ID
+        String resourceId = retrieveGeneratedIdentifier(localRefMap, localIdentifier);
+        if (resourceId == null) {
+            // A resource id hasn't yet been assigned, so create one now
+            resourceId = helpers.generateResourceId();
+            
+            if (localIdentifier != null) {
+                addLocalRefMapping(localRefMap, localIdentifier, resourceId, null);
+            }
         }
         
         // Convert any local references found within the resource to their corresponding external reference.
         ReferenceMappingVisitor<Resource> visitor = new ReferenceMappingVisitor<Resource>(localRefMap);
         resource.accept(visitor);
         resource = visitor.getResult();
+
+        // TODO: perhaps make this part of the above visitor so that we only rebuild the resource once.
+        final Instant lastUpdated = getCurrentInstant();
+        final int newVersionNumber = 1;
+        resource = copyAndSetResourceMetaFields(resource, logicalId, newVersionNumber, lastUpdated);
         
-        // Determine if we have a pre-generated resource ID
-        String resourceId = retrieveGeneratedIdentifier(localRefMap, localIdentifier);
+        // TODO: If the persistence layer supports offloading, we can store now. The offloadResponse
+        // will be null if offloading is not supported
+        Future<FHIRRestOperationResponse> offloadResponse = storePayload(resource, logicalId, newVersionNumber, lastUpdated);
         
-        return null;
+        // Pass back the updated resource so it can be used in the next phase
+        return new FHIRRestOperationResponse(resource, resourceId, newVersionNumber, lastUpdated, offloadResponse);
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate, boolean doValidation, String localIdentifier) throws Exception {
         
         if (transaction) {
@@ -135,25 +159,26 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
             addLocalRefMapping(localRefMap, localIdentifier, null, newResource);
         }
         
+        // Pass back the updated resource so it can be used in the next phase
         return new FHIRRestOperationResponse(null, null, newResource);
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate) throws Exception {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doInvoke(int entryIndex, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
+    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
         String versionId, String operationName, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
         // NOP
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doDelete(int entryIndex, String type, String id, String searchQueryString) throws Exception {
+    public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) throws Exception {
         // NOP
         return null;
     }
@@ -187,7 +212,7 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse issue(int entryIndex, Status status, Entry responseEntry) throws Exception {
+    public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception {
         // NOP
         return null;
     }
@@ -216,6 +241,13 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
         return conditionalReferences;
     }
     
+    /**
+     * Scan the resource for any conditional references. For each one we find, perform the search
+     * and add the result to the localRefMap.
+     * @param resource
+     * @param localRefMap
+     * @throws Exception
+     */
     private void resolveConditionalReferences(Resource resource, Map<String, String> localRefMap) throws Exception {
         for (String conditionalReference : getConditionalReferences(resource)) {
             if (localRefMap.containsKey(conditionalReference)) {
@@ -320,5 +352,54 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
             }
         }
         return generatedIdentifier;
+    }
+    
+    /**
+     * Creates and returns a copy of the passed resource with the {@code Resource.id}
+     * {@code Resource.meta.versionId}, and {@code Resource.meta.lastUpdated} elements replaced.
+     *
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return the updated resource
+     */
+    @SuppressWarnings("unchecked")
+    private <T extends Resource> T copyAndSetResourceMetaFields(T resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+        Meta meta = resource.getMeta();
+        Meta.Builder metaBuilder = meta == null ? Meta.builder() : meta.toBuilder();
+        metaBuilder.versionId(Id.of(Integer.toString(newVersionNumber)));
+        metaBuilder.lastUpdated(lastUpdated);
+
+        Builder resourceBuilder = resource.toBuilder();
+        resourceBuilder.setValidating(false);
+        return (T) resourceBuilder
+                .id(logicalId)
+                .meta(metaBuilder.build())
+                .build();
+    }
+
+    /**
+     * Get the current time which can be used for the lastUpdated field
+     * @return current time in UTC
+     */
+    protected Instant getCurrentInstant() {
+        return Instant.now(ZoneOffset.UTC);
+
+    }
+
+    /**
+     * If payload offloading is supported by the persistence layer, store the given resource. This
+     * can be an async operation which we resolve at the end just prior to the transaction being
+     * committed.
+     * TODO: use a dedicated class instead of FHIRRestOperationResponse
+     * @param resource
+     * @param logicalId
+     * @param newVersionNumber
+     * @param lastUpdated
+     * @return
+     */
+    protected Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
+       return helpers.storePayload(resource, logicalId, newVersionNumber, lastUpdated); 
     }
 }

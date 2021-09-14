@@ -9,6 +9,7 @@ package com.ibm.fhir.server.rest;
 import javax.ws.rs.core.Response.Status;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Captures the fact that an issue occurred while translating a bundle entry.
@@ -20,14 +21,14 @@ public class FHIRRestOperationIssue extends FHIRRestOperationBase {
     // The Entry capturing the response. Can be null.
     final Entry responseEntry;
     
-    public FHIRRestOperationIssue(int entryIndex, Status status, Entry responseEntry) {
-        super(entryIndex);
+    public FHIRRestOperationIssue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) {
+        super(entryIndex, requestDescription, initialTime);
         this.status = status;
         this.responseEntry = responseEntry;
     }
     
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.issue(getEntryIndex(), status, responseEntry);
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.issue(getEntryIndex(), getRequestDescription(), getInitialTime(), status, responseEntry);
     }
 }

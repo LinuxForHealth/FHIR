@@ -8,6 +8,8 @@ package com.ibm.fhir.operation.erase.mock;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Future;
 
 import javax.ws.rs.core.MultivaluedMap;
 
@@ -164,6 +166,23 @@ public class MockFHIRResourceHelpers implements FHIRResourceHelpers {
     @Override
     public List<Long> doRetrieveIndex(FHIROperationContext operationContext, String resourceTypeName, int count, java.time.Instant notModifiedAfter, Long afterIndexId) throws Exception {
 
+        return null;
+    }
+
+    @Override
+    public Bundle doSearch(String type, String compartment, String compartmentId, MultivaluedMap<String, String> queryParameters, String requestUri,
+        Resource contextResource, boolean checkIfInteractionAllowed) throws Exception {
+        return null;
+    }
+
+    @Override
+    public String generateResourceId() {
+        return UUID.randomUUID().toString();
+    }
+
+    @Override
+    public Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber,
+        com.ibm.fhir.model.type.Instant lastUpdated) {
         return null;
     }
 }

@@ -6,6 +6,7 @@
  
 package com.ibm.fhir.server.rest;
 
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Executes a delete operation on the visitor
@@ -16,15 +17,15 @@ public class FHIRRestOperationDelete extends FHIRRestOperationBase {
     final String id;
     final String searchQueryString;
     
-    public FHIRRestOperationDelete(int entryIndex, String type, String id, String searchQueryString) {
-        super(entryIndex);
+    public FHIRRestOperationDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) {
+        super(entryIndex, requestDescription, initialTime);
         this.type = type;
         this.id = id;
         this.searchQueryString = searchQueryString;
     }
 
     @Override
-    public <T> T accept(FHIRRestOperationVisitor<T> visitor) throws Exception {
-        return visitor.doDelete(getEntryIndex(), type, id, searchQueryString);        
+    public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
+        return visitor.doDelete(getEntryIndex(), getRequestDescription(), getInitialTime(), type, id, searchQueryString);        
     }
 }

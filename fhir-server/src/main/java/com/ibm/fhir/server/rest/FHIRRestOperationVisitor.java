@@ -13,38 +13,204 @@ import com.ibm.fhir.model.patch.FHIRPatch;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
+import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 
 /**
  * Defines operations which can be performed on the persistence layer
  */
-public interface FHIRRestOperationVisitor<T> {
+public interface FHIRRestOperationVisitor {
 
-    T doSearch(int entryIndex, String type, String compartment, String compartmentId,
+    /**
+     * Performs heavy lifting associated with a 'search' operation.
+     *
+     * @param type
+     *            the resource type associated with the search
+     * @param compartment
+     *            the compartment type to search in, or null if not a compartment search
+     * @param compartmentId
+     *            the specific compartment to search in, or null if not a compartment search
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     *            the request URI
+     * @param contextResource
+     *            the resource context
+     * @param checkIfInteractionAllowed
+     *            if true, check that the search interaction is permitted
+     * @return a FHIRRestOperationResponse containing the search result bundle
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Resource contextResource, boolean checkInteractionAllowed) throws Exception;
     
-    T doVRead(int entryIndex, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
+    /**
+     * Performs a 'vread' operation by retrieving the specified version of a Resource with no query parameters
+     *
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param versionId
+     *            the version id of the Resource to be retrieved
+     * @return the Resource
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
     
-    T doRead(int entryIndex, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    /**
+     * Performs a 'read' operation to retrieve a Resource.
+     *
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param throwExcOnNull
+     *            whether to throw an exception on null
+     * @param includeDeleted
+     *            allow the read, even if the resource has been deleted
+     * @param contextResource
+     *            the resource
+     * @param queryParameters
+     *            for supporting _elements and _summary for resource read
+     * @return a SingleResourceResult wrapping the resource and including its deletion status
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception;
     
-    T doHistory(int entryIndex, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
+    /**
+     * Performs the work of retrieving versions of a Resource.
+     *
+     * @param type
+     *            the resource type associated with the Resource to be retrieved
+     * @param id
+     *            the id of the Resource to be retrieved
+     * @param queryParameters
+     *            a Map containing the query parameters from the request URL
+     * @param requestUri
+     * @return a Bundle containing the history of the specified Resource
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
     
-    T doCreate(int entryIndex, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier) throws Exception;
+    /**
+     * Performs the heavy lifting associated with a 'create' interaction.
+     *
+     * @param type
+     *            the resource type specified as part of the request URL
+     * @param resource
+     *            the Resource to be stored.
+     * @param ifNoneExist
+     *            whether to create the resource if none exists
+     * @param doValidation
+     *            if true, validate the resource; if false, assume the resource has already been validated
+     * @return a FHIRRestOperationResponse object containing the results of the operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier, String logicalId) throws Exception;
     
-    T doUpdate(int entryIndex, String type, String id, Resource newResource, String ifMatchValue,
+    /**
+     * Performs an update operation (a new version of the Resource will be stored).
+     *
+     * @param type
+     *            the type of the resource to be updated
+     * @param id
+     *            the id of the Resource being updated
+     * @param newResource
+     *            the new resource to be stored
+     * @param ifMatchValue
+     *            an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString
+     *            an optional search query string to request a conditional update
+     * @param skippableUpdate
+     *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
+     * @param doValidation
+     *            if true, validate the resource; if false, assume the resource has already been validated
+     * @return a FHIRRestOperationResponse that contains the results of the operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, String id, Resource newResource, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate, boolean doValidation, String localIdentifier) throws Exception;
     
-    T doPatch(int entryIndex, String type, String id, FHIRPatch patch, String ifMatchValue,
+    /**
+     * Performs a patch operation (a new version of the Resource will be stored).
+     *
+     * @param type
+     *            the type of the resource to be updated
+     * @param id
+     *            the id of the Resource being updated
+     * @param patch
+     *            the patch to apply
+     * @param ifMatchValue
+     *            an optional "If-Match" header value to request a version-aware update
+     * @param searchQueryString
+     *            an optional search query string to request a conditional update
+     * @param skippableUpdate
+     *            if true, and the result of the patch matches the existing resource on the server, then skip the update;
+     *            if false, then always attempt the update
+     * @return a FHIRRestOperationResponse that contains the results of the operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate) throws Exception;
     
-    T doInvoke(int entryIndex, FHIROperationContext operationContext, String resourceTypeName,
+    /**
+     * Helper method which invokes a custom operation.
+     *
+     * @param operationContext
+     *            the FHIROperationContext associated with the request
+     * @param resourceTypeName
+     *            the resource type associated with the request
+     * @param logicalId
+     *            the resource logical id associated with the request
+     * @param versionId
+     *            the resource version id associated with the request
+     * @param operationName
+     *            the name of the custom operation to be invoked
+     * @param resource
+     *            the input resource associated with the custom operation to be invoked
+     * @param queryParameters
+     *            query parameters may be passed instead of a Parameters resource for certain custom operations invoked
+     *            via GET
+     * @return a Resource that represents the response to the custom operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String resourceTypeName,
             String logicalId, String versionId, String operationName,
             Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception;
     
-    T doDelete(int entryIndex, String type, String id, String searchQueryString) throws Exception;
-    
-    T validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception;
-    
-    T issue(int entryIndex, Status status, Entry responseEntry) throws Exception;
+    /**
+     * Performs a 'delete' operation on the specified resource.
+     *
+     * @param type
+     *            the resource type associated with the Resource to be deleted
+     * @param id
+     *            the id of the Resource to be deleted
+     * @return a FHIRRestOperationResponse that contains the results of the operation
+     * @throws Exception
+     */
+    FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) throws Exception;
+
+    /**
+     * Add the given validationResponseEntry to the result bundle
+     * @param entryIndex
+     * @param validationResponseEntry
+     * @return
+     * @throws Exception
+     */
+    FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception;
+
+    /**
+     * Add the issue to the result bundle
+     * @param entryIndex
+     * @param requestDescription
+     * @param initialTime
+     * @param status
+     * @param responseEntry
+     * @return
+     * @throws Exception
+     */
+    FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception;
 }
