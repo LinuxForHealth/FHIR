@@ -13,6 +13,7 @@ import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Executes an invoke (custom) operation on the visitor
@@ -38,11 +39,11 @@ public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
      * @param resource
      * @param queryParameters
      */
-    public FHIRRestOperationInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String method,
+    public FHIRRestOperationInvoke(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String method,
         String resourceTypeName,
         String logicalId, String versionId, String operationName,
         Resource resource, MultivaluedMap<String, String> queryParameters) {
-        super(entryIndex, validationResponseEntry, requestDescription, initialTime);
+        super(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.operationContext = operationContext;
         this.method = method;
         this.resourceTypeName = resourceTypeName;
@@ -65,6 +66,6 @@ public class FHIRRestOperationInvoke extends FHIRRestOperationResource {
         operationContext.setProperty(FHIROperationContext.PROPNAME_METHOD_TYPE, method);
         
         
-        return visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, resource, queryParameters);
+        return visitor.doInvoke(this.method, getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), operationContext, resourceTypeName, logicalId, versionId, operationName, resource, queryParameters);
     }
 }

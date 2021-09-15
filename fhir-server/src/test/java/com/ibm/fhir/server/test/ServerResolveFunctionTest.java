@@ -472,5 +472,11 @@ public class ServerResolveFunctionTest {
         public void setRollbackOnly() throws FHIRPersistenceException {
             // do nothing
         }
+
+        @Override
+        public boolean hasBegun() throws FHIRPersistenceException {
+            // We don't do anything if #begin() is called, so it's reasonable to return false here
+            return false;
+        }
     }
 }

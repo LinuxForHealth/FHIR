@@ -14,6 +14,7 @@ import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.server.operation.spi.FHIROperationContext;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Defines operations which can be performed on the persistence layer
@@ -40,7 +41,7 @@ public interface FHIRRestOperationVisitor {
      * @return a FHIRRestOperationResponse containing the search result bundle
      * @throws Exception
      */
-    FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, long initialTime, String type, String compartment, String compartmentId,
+    FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri,
         Resource contextResource, boolean checkInteractionAllowed) throws Exception;
     
@@ -56,7 +57,7 @@ public interface FHIRRestOperationVisitor {
      * @return the Resource
      * @throws Exception
      */
-    FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
+    FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters) throws Exception;
     
     /**
      * Performs a 'read' operation to retrieve a Resource.
@@ -76,7 +77,7 @@ public interface FHIRRestOperationVisitor {
      * @return a SingleResourceResult wrapping the resource and including its deletion status
      * @throws Exception
      */
-    FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
+    FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted,
         Resource contextResource, MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception;
     
     /**
@@ -92,7 +93,7 @@ public interface FHIRRestOperationVisitor {
      * @return a Bundle containing the history of the specified Resource
      * @throws Exception
      */
-    FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
+    FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri) throws Exception;
     
     /**
      * Performs the heavy lifting associated with a 'create' interaction.
@@ -103,12 +104,10 @@ public interface FHIRRestOperationVisitor {
      *            the Resource to be stored.
      * @param ifNoneExist
      *            whether to create the resource if none exists
-     * @param doValidation
-     *            if true, validate the resource; if false, assume the resource has already been validated
      * @return a FHIRRestOperationResponse object containing the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier, String logicalId) throws Exception;
+    FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, String logicalId) throws Exception;
     
     /**
      * Performs an update operation (a new version of the Resource will be stored).
@@ -126,13 +125,11 @@ public interface FHIRRestOperationVisitor {
      * @param skippableUpdate
      *            if true, and the resource content in the update matches the existing resource on the server, then skip the update;
      *            if false, then always attempt the update
-     * @param doValidation
-     *            if true, validate the resource; if false, assume the resource has already been validated
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, String id, Resource newResource, String ifMatchValue,
-        String searchQueryString, boolean skippableUpdate, boolean doValidation, String localIdentifier) throws Exception;
+    FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue,
+        String searchQueryString, boolean skippableUpdate, String localIdentifier) throws Exception;
     
     /**
      * Performs a patch operation (a new version of the Resource will be stored).
@@ -153,7 +150,7 @@ public interface FHIRRestOperationVisitor {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
+    FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue,
         String searchQueryString, boolean skippableUpdate) throws Exception;
     
     /**
@@ -177,7 +174,7 @@ public interface FHIRRestOperationVisitor {
      * @return a Resource that represents the response to the custom operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String resourceTypeName,
+    FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String resourceTypeName,
             String logicalId, String versionId, String operationName,
             Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception;
     
@@ -191,7 +188,7 @@ public interface FHIRRestOperationVisitor {
      * @return a FHIRRestOperationResponse that contains the results of the operation
      * @throws Exception
      */
-    FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) throws Exception;
+    FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String searchQueryString) throws Exception;
 
     /**
      * Add the given validationResponseEntry to the result bundle
@@ -212,5 +209,5 @@ public interface FHIRRestOperationVisitor {
      * @return
      * @throws Exception
      */
-    FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception;
+    FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception;
 }

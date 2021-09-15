@@ -15,7 +15,7 @@ import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
 public class FHIRRestOperationValidationResponse extends FHIRRestOperationResource {
 
     public FHIRRestOperationValidationResponse(int entryIndex, Entry validationResponseEntry) {
-        super(entryIndex, validationResponseEntry, null, -1L);
+        super(entryIndex, validationResponseEntry, null, null, -1L);
     }
     
     @Override

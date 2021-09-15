@@ -9,6 +9,7 @@ package com.ibm.fhir.server.rest;
 import com.ibm.fhir.model.resource.Resource;
 import com.ibm.fhir.model.resource.Bundle.Entry;
 import com.ibm.fhir.server.operation.spi.FHIRRestOperationResponse;
+import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Executes a create operation on the visitor
@@ -17,7 +18,6 @@ public class FHIRRestOperationCreate extends FHIRRestOperationResource {
     
     private final String type;
     private final String ifNoneExist;
-    private final boolean doValidation;
     private final String localIdentifier;
     
     // Resource can be updated by a visitor
@@ -26,18 +26,17 @@ public class FHIRRestOperationCreate extends FHIRRestOperationResource {
     // Logical id can be updated by a visitor
     private String logicalId;
     
-    public FHIRRestOperationCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier) {
-        super(entryIndex, validationResponseEntry, requestDescription, initialTime);
+    public FHIRRestOperationCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier) {
+        super(entryIndex, validationResponseEntry, requestDescription, requestURL, initialTime);
         this.type = type;
         this.resource = resource;
         this.ifNoneExist = ifNoneExist;
-        this.doValidation = doValidation;
         this.localIdentifier = localIdentifier;
     }
 
     @Override
     public FHIRRestOperationResponse accept(FHIRRestOperationVisitor visitor) throws Exception {
-        FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getInitialTime(), type, resource, ifNoneExist, doValidation, localIdentifier, logicalId);
+        FHIRRestOperationResponse result = visitor.doCreate(getEntryIndex(), getValidationResponseEntry(), getRequestDescription(), getRequestURL(), getInitialTime(), type, resource, ifNoneExist, localIdentifier, logicalId);
         
         // update the resource so we can use it the next time we're called
         if (result != null) {

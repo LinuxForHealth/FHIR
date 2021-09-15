@@ -1605,25 +1605,52 @@ public class FHIRRestHelper implements FHIRResourceHelpers {
     }
     
     private List<Entry> processBundleOperations(List<FHIRRestOperation> bundleOps, Map<String, String> localRefMap, boolean transaction) throws Exception {
-        ArrayList<Entry> result = new ArrayList<>(bundleOps.size());
+        assert(bundleOps.size() > 0);
+        Entry[] responseEntries = new Entry[bundleOps.size()];
         
         // Run the prepare for all the bundle operations first. This allows us to perform
         // some async operations which we can fetch the results for later, which can
         // significantly reduce the overall request response time - especially important
         // for large bundles.
-        FHIRRestOperationVisitorPrepare prepare = new FHIRRestOperationVisitorPrepare(this, bundleRequestCorrelationId, localRefMap, transaction);
-        for (FHIRRestOperation operation: bundleOps) {
-            operation.accept(prepare);
-        }
+        FHIRTransactionHelper txn = null;
+        try {
+            if (transaction) {
+                // Get ready for a bundle-level transaction. We don't call begin yet because we may
+                // not need to start the transaction during the prepare phase.
+                txn = new FHIRTransactionHelper(getTransaction());
+            }
+            FHIRRestOperationVisitorPrepare prepare = new FHIRRestOperationVisitorPrepare(txn, this, bundleRequestCorrelationId, localRefMap);
+            for (FHIRRestOperation operation: bundleOps) {
+                operation.accept(prepare);
+            }
 
-        // Now run all the persistence operations in the correct order, injecting each result into the
-        // appropriate position in the entry ArrayList. At the end of the loop, each slot will be filled.
-        FHIRRestOperationVisitorImpl persist = new FHIRRestOperationVisitorImpl(this, bundleRequestCorrelationId, localRefMap, result, transaction);
-        for (FHIRRestOperation operation: bundleOps) {
-            operation.accept(persist);
+            // If this is a transaction bundle, make sure we have started the transaction before we
+            // process the persistence phase. Note that the transaction may have been already started
+            // during the prepare phase above
+            if (txn != null && !txn.hasBegun()) {
+                txn.begin();
+            }
+            
+            // Now run all the persistence operations in the correct order, injecting each result into the
+            // appropriate position in the responseEntries array. At the end of the loop, each slot will be filled.
+            FHIRRestOperationVisitorImpl persist = new FHIRRestOperationVisitorImpl(this, bundleRequestCorrelationId, localRefMap, responseEntries, transaction);
+            for (FHIRRestOperation operation: bundleOps) {
+                operation.accept(persist);
+            }
+        } catch (Exception x) {
+            if (txn != null) {
+                txn.setRollbackOnly();
+            }
+            throw x;
+        } finally {
+            // close out the transaction if we need to
+            if (txn != null) {
+                txn.end();
+                txn = null;
+            }
         }
         
-        return result;
+        return Arrays.asList(responseEntries);
     }
 
     /**

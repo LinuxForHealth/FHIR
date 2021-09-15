@@ -15,7 +15,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -65,12 +64,15 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     private static final com.ibm.fhir.model.type.String SC_NOT_FOUND_STRING = string(Integer.toString(SC_NOT_FOUND));
     private static final com.ibm.fhir.model.type.String SC_ACCEPTED_STRING = string(Integer.toString(SC_ACCEPTED));
     private static final com.ibm.fhir.model.type.String SC_OK_STRING = string(Integer.toString(SC_OK));
+    
+    // Constant to make it clear when we're asking for validation
+    private static final boolean DO_VALIDATION = true;
 
     // Used to resolve local references
     final Map<String, String> localRefMap;
 
-    // Held as an ArrayList, so we can be sure of O(1) operations for random puts
-    final ArrayList<Entry> responseBundleEntries;
+    // Held as an array, so we can be sure of O(1) operations because entries are not processed in order
+    final Entry[] responseBundleEntries;
 
     // True if the bundle type is TRANSACTION
     final boolean transaction;
@@ -82,7 +84,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
      * @param localRefMap
      * @param responseBundleEntries
      */
-    public FHIRRestOperationVisitorImpl(FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, ArrayList<Entry> responseBundleEntries, boolean transaction) {
+    public FHIRRestOperationVisitorImpl(FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, Entry[] responseBundleEntries, boolean transaction) {
         this.helpers = helpers;
         this.bundleRequestCorrelationId = bundleRequestCorrelationId;
         this.localRefMap = localRefMap;
@@ -91,7 +93,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, long initialTime, String type, String compartment, String compartmentId,
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
         
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -109,7 +111,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
         throws Exception {
         
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -127,7 +129,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
         MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
 
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -144,7 +146,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
+    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
         throws Exception {
         
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -160,10 +162,10 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier, String logicalId) throws Exception {
+    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, String logicalId) throws Exception {
 
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
-            FHIRRestOperationResponse ior = helpers.doCreate(type, resource, ifNoneExist, doValidation);
+            FHIRRestOperationResponse ior = helpers.doCreate(type, resource, ifNoneExist, !DO_VALIDATION);
         
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
@@ -176,12 +178,11 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, boolean doValidation, String localIdentifier) throws Exception {
-        
+    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, String localIdentifier) throws Exception {
+                
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
-            FHIRRestOperationResponse ior = helpers.doUpdate(type, localIdentifier, newResource, ifMatchValue, searchQueryString, skippableUpdate, doValidation);
-            
+            FHIRRestOperationResponse ior = helpers.doUpdate(type, id, newResource, ifMatchValue, searchQueryString, skippableUpdate, !DO_VALIDATION);
             OperationOutcome validationOutcome = null;
             if (validationResponseEntry != null && validationResponseEntry.getResponse() != null) {
                 validationOutcome = validationResponseEntry.getResponse().getOutcome().as(OperationOutcome.class);
@@ -193,7 +194,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate) throws Exception {
 
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -205,7 +206,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
+    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
         String versionId, String operationName, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
         
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
@@ -222,7 +223,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) throws Exception {
+    public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String searchQueryString) throws Exception {
 
         doOperation(entryIndex, transaction, requestDescription, initialTime, () -> {
             FHIRRestOperationResponse ior = helpers.doDelete(type, id, searchQueryString);
@@ -243,7 +244,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
 
     @Override
     public FHIRRestOperationResponse validationResponse(int entryIndex, Entry validationResponseEntry) throws Exception {
-        responseBundleEntries.add(entryIndex, validationResponseEntry);
+        responseBundleEntries[entryIndex] = validationResponseEntry;
         return null;
     }
     
@@ -270,8 +271,8 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     }
 
     @Override
-    public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception {
-        responseBundleEntries.add(entryIndex, responseEntry);
+    public FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception {
+        responseBundleEntries[entryIndex] = responseEntry;
         return null;
     }
     
@@ -332,7 +333,8 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
     private void doOperation(int entryIndex, boolean failFast, String requestDescription, long initialTime, Callable<Entry> v) throws Exception {
         try {
             Entry entry = v.call();
-            responseBundleEntries.add(entryIndex, entry);
+            responseBundleEntries[entryIndex] = entry;
+            logBundledRequestCompletedMsg(requestDescription, initialTime, SC_OK);
         } catch (FHIRPersistenceResourceNotFoundException e) {
             if (failFast) {
                 String msg = "Error while processing request bundle.";
@@ -346,7 +348,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
                         .status(SC_NOT_FOUND_STRING)
                         .build())
                     .build();
-            responseBundleEntries.add(entryIndex, entry);
+            responseBundleEntries[entryIndex] = entry;
             logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_NOT_FOUND);
         } catch (FHIRPersistenceResourceDeletedException e) {
             if (failFast) {
@@ -360,7 +362,7 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
                         .status(SC_GONE_STRING)
                         .build())
                     .build();
-            responseBundleEntries.add(entryIndex, entry);
+            responseBundleEntries[entryIndex] = entry;
             logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, SC_GONE);
         } catch (FHIROperationException e) {
             if (failFast) {
@@ -381,9 +383,8 @@ public class FHIRRestOperationVisitorImpl implements FHIRRestOperationVisitor {
                         .status(string(Integer.toString(status.getStatusCode())))
                         .build())
                     .build();
-            responseBundleEntries.add(entryIndex, entry);
+            responseBundleEntries[entryIndex] = entry;
             logBundledRequestCompletedMsg(requestDescription.toString(), initialTime, status.getStatusCode());
         }
-
     }
 }

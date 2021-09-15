@@ -7,6 +7,7 @@
 package com.ibm.fhir.server.rest;
 
 import com.ibm.fhir.model.resource.Bundle.Entry;
+import com.ibm.fhir.server.util.FHIRUrlParser;
 
 /**
  * Base for resource-oriented {@link FHIRRestOperation} implementations which include a validationResponseEntry.
@@ -15,8 +16,8 @@ public abstract class FHIRRestOperationResource extends FHIRRestOperationBase {
     
     private final Entry validationResponseEntry;
     
-    public FHIRRestOperationResource(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime) {
-        super(entryIndex, requestDescription, initialTime);
+    public FHIRRestOperationResource(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
+        super(entryIndex, requestDescription, requestURL, initialTime);
         this.validationResponseEntry = validationResponseEntry;
     }
 

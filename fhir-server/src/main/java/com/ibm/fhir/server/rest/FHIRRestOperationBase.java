@@ -6,6 +6,8 @@
  
 package com.ibm.fhir.server.rest;
 
+import com.ibm.fhir.server.util.FHIRUrlParser;
+
 /**
  * Base for {@link FHIRRestOperation} implementations, providing
  * common functions
@@ -18,6 +20,9 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
     // Description of the request for logging
     private final String requestDescription;
 
+    // The requestURL
+    private final FHIRUrlParser requestURL;
+
     // The time we started processing this request
     private final long initialTime;
     
@@ -27,9 +32,10 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
      * @param requestDescription
      * @param initialTime
      */
-    protected FHIRRestOperationBase(int entryIndex, String requestDescription, long initialTime) {
+    protected FHIRRestOperationBase(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime) {
         this.entryIndex = entryIndex;
         this.requestDescription = requestDescription;
+        this.requestURL = requestURL;
         this.initialTime = initialTime;
     }
 
@@ -52,5 +58,12 @@ public abstract class FHIRRestOperationBase implements FHIRRestOperation {
      */
     public long getInitialTime() {
         return initialTime;
+    }
+
+    /**
+     * @return the requestURL
+     */
+    public FHIRUrlParser getRequestURL() {
+        return requestURL;
     }
 }

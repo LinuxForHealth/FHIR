@@ -242,4 +242,12 @@ public class FHIRUserTransactionAdapter implements FHIRPersistenceTransaction {
             end();
         }
     }
+
+    @Override
+    public boolean hasBegun() throws FHIRPersistenceException {
+        // doesn't matter who started it, just want to find out if we are currently
+        // inside a transaction
+        int status = getStatus();
+        return !isNoTransaction(status);
+    }
 }

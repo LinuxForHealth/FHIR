@@ -33,6 +33,8 @@ import com.ibm.fhir.model.type.code.IssueType;
 import com.ibm.fhir.model.util.CollectingVisitor;
 import com.ibm.fhir.model.util.ModelSupport;
 import com.ibm.fhir.model.util.ReferenceMappingVisitor;
+import com.ibm.fhir.persistence.exception.FHIRPersistenceException;
+import com.ibm.fhir.persistence.helper.FHIRTransactionHelper;
 import com.ibm.fhir.search.SearchConstants;
 import com.ibm.fhir.model.resource.Bundle;
 import com.ibm.fhir.model.resource.OperationOutcome;
@@ -64,51 +66,57 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     // Used to resolve local references
     final Map<String, String> localRefMap;
     
-    // Is the bundle being processed as a single transaction?
-    final boolean transaction;
+    // Set if there's a bundle-level transaction, null otherwise
+    final FHIRTransactionHelper txn;
     
     /**
      * Public constructor
      * @param helpers
      */
-    public FHIRRestOperationVisitorPrepare(FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap, boolean transaction) {
+    public FHIRRestOperationVisitorPrepare(FHIRTransactionHelper txn, FHIRResourceHelpers helpers, String bundleRequestCorrelationId, Map<String, String> localRefMap) {
+        this.txn = txn;
         this.helpers = helpers;
         this.bundleRequestCorrelationId = bundleRequestCorrelationId;
         this.localRefMap = localRefMap;
-        this.transaction = transaction;
     }
 
     @Override
-    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, long initialTime, String type, String compartment, String compartmentId,
+    public FHIRRestOperationResponse doSearch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String compartment, String compartmentId,
         MultivaluedMap<String, String> queryParameters, String requestUri, Resource contextResource, boolean checkInteractionAllowed) throws Exception {
         // NOP. Nothing to do
+        logStart(entryIndex, requestDescription, requestURL);
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
+    public FHIRRestOperationResponse doVRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String versionId, MultivaluedMap<String, String> queryParameters)
         throws Exception {
         // NOP for now. TODO: when offloading payload, start an async read of the id/version payload
+        logStart(entryIndex, requestDescription, requestURL);
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
+    public FHIRRestOperationResponse doRead(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, boolean throwExcOnNull, boolean includeDeleted, Resource contextResource,
         MultivaluedMap<String, String> queryParameters, boolean checkInteractionAllowed) throws Exception {
         // NOP for now. TODO: when offloading payload, try an optimistic async read of the latest payload
+        logStart(entryIndex, requestDescription, requestURL);
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
+    public FHIRRestOperationResponse doHistory(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, MultivaluedMap<String, String> queryParameters, String requestUri)
         throws Exception {
         // NOP for now. TODO: optimistic async reads, if we can scope them properly
+        logStart(entryIndex, requestDescription, requestURL);
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, Resource resource, String ifNoneExist, boolean doValidation, String localIdentifier, String logicalId) throws Exception {
-        if (transaction) {
+    public FHIRRestOperationResponse doCreate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, Resource resource, String ifNoneExist, String localIdentifier, String logicalId) throws Exception {
+        logStart(entryIndex, requestDescription, requestURL);
+        if (txn != null) {
+            beginTransactionIfRequired();
             resolveConditionalReferences(resource, localRefMap);
         }
         
@@ -142,10 +150,12 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
-        boolean skippableUpdate, boolean doValidation, String localIdentifier) throws Exception {
+    public FHIRRestOperationResponse doUpdate(int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, Resource newResource, String ifMatchValue, String searchQueryString,
+        boolean skippableUpdate, String localIdentifier) throws Exception {
+        logStart(entryIndex, requestDescription, requestURL);
         
-        if (transaction) {
+        if (txn != null) {
+            beginTransactionIfRequired();
             resolveConditionalReferences(newResource, localRefMap);
         }
         
@@ -164,21 +174,24 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
+    public FHIRRestOperationResponse doPatch(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, FHIRPatch patch, String ifMatchValue, String searchQueryString,
         boolean skippableUpdate) throws Exception {
+        logStart(entryIndex, requestDescription, requestURL);
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
+    public FHIRRestOperationResponse doInvoke(String method, int entryIndex, Entry validationResponseEntry, String requestDescription, FHIRUrlParser requestURL, long initialTime, FHIROperationContext operationContext, String resourceTypeName, String logicalId,
         String versionId, String operationName, Resource resource, MultivaluedMap<String, String> queryParameters) throws Exception {
+        logStart(entryIndex, requestDescription, requestURL);
         // NOP
         return null;
     }
 
     @Override
-    public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, long initialTime, String type, String id, String searchQueryString) throws Exception {
+    public FHIRRestOperationResponse doDelete(int entryIndex, String requestDescription, FHIRUrlParser requestURL, long initialTime, String type, String id, String searchQueryString) throws Exception {
+        logStart(entryIndex, requestDescription, requestURL);
         // NOP
         return null;
     }
@@ -189,18 +202,8 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
         return null;
     }
     
-    private void logStart(int entryIndex, String requestMethod, String url, FHIRUrlParser requestURL) {
+    private void logStart(int entryIndex, String requestDescription, FHIRUrlParser requestURL) {
         // Log our initial info message for this request.
-        final StringBuilder requestDescription = new StringBuilder();
-        requestDescription.append("entryIndex:[");
-        requestDescription.append(entryIndex);
-        requestDescription.append("] correlationId:[");
-        requestDescription.append(bundleRequestCorrelationId);
-        requestDescription.append("] method:[");
-        requestDescription.append(requestMethod);
-        requestDescription.append("] uri:[");
-        requestDescription.append(url);
-        requestDescription.append("]");
         if (log.isLoggable(Level.FINE)) {
             log.fine("Processing bundled request: " + requestDescription.toString());
             if (log.isLoggable(Level.FINER)) {
@@ -212,7 +215,7 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
     }
 
     @Override
-    public FHIRRestOperationResponse issue(int entryIndex, String requestDescription, long initialTime, Status status, Entry responseEntry) throws Exception {
+    public FHIRRestOperationResponse issue(int entryIndex, long initialTime, Status status, Entry responseEntry) throws Exception {
         // NOP
         return null;
     }
@@ -401,5 +404,15 @@ public class FHIRRestOperationVisitorPrepare implements FHIRRestOperationVisitor
      */
     protected Future<FHIRRestOperationResponse> storePayload(Resource resource, String logicalId, int newVersionNumber, Instant lastUpdated) {
        return helpers.storePayload(resource, logicalId, newVersionNumber, lastUpdated); 
+    }
+    
+    /**
+     * If we are transactional, start the transaction if it hasn't been started already
+     * @throws FHIRPersistenceException
+     */
+    private void beginTransactionIfRequired() throws FHIRPersistenceException {
+        if (txn != null && !txn.hasBegun()) {
+            txn.begin();
+        }
     }
 }
